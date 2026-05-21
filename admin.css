@@ -1,0 +1,250 @@
+/* Super Admin Panel Styles */
+#super-admin-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #111;
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 99999;
+    width: 300px;
+    display: none;
+    font-family: 'Poppins', sans-serif;
+    border: 1px solid #333;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+#super-admin-panel.active {
+    display: block;
+}
+
+#super-admin-panel h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #F4B400; /* Accent color */
+}
+
+#super-admin-panel .close-admin {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.admin-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.admin-btn {
+    background: #184C3A; /* Primary color */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.admin-btn:hover {
+    background: #0f3528;
+}
+
+.admin-btn.danger {
+    background: #dc3545;
+}
+.admin-btn.danger:hover {
+    background: #c82333;
+}
+
+/* Edit Mode Styles */
+body.edit-mode [contenteditable="true"] {
+    outline: 2px dashed #F4B400 !important;
+    outline-offset: 4px;
+    cursor: text;
+    transition: all 0.2s;
+    position: relative;
+    z-index: 1000;
+}
+
+body.edit-mode [contenteditable="true"]:hover {
+    background: rgba(244, 180, 0, 0.1);
+}
+
+body.edit-mode [contenteditable="true"]:focus {
+    outline: 2px solid #F4B400 !important;
+    background: #fff;
+    color: #000;
+}
+
+/* Hover Toolbar for Elements (Images, Links, Sections) */
+.admin-element-toolbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(0,0,0,0.8);
+    padding: 5px;
+    border-radius: 0 0 0 8px;
+    display: none;
+    gap: 5px;
+    z-index: 10001;
+}
+
+body.edit-mode .editable-container {
+    position: relative;
+}
+
+body.edit-mode .editable-container:hover {
+    outline: 2px solid #184C3A;
+}
+
+body.edit-mode .editable-container:hover > .admin-element-toolbar {
+    display: flex;
+}
+
+.admin-toolbar-btn {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+.admin-toolbar-btn.del { background: #dc3545; color: white; }
+.admin-toolbar-btn.edit-link { background: #007bff; color: white; }
+.admin-toolbar-btn.edit-img { background: #28a745; color: white; }
+
+body.edit-mode a {
+    pointer-events: none;
+}
+body.edit-mode a.admin-toolbar-btn,
+body.edit-mode a.editable-container {
+    pointer-events: auto;
+}
+
+/* ------------------------------------- */
+/* Image Crop Modal Styles               */
+/* ------------------------------------- */
+#admin-crop-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 100000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+}
+#admin-crop-modal.active {
+    display: flex;
+}
+.crop-modal-content {
+    background: #fff;
+    color: #333;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.crop-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+.crop-modal-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #184C3A;
+}
+.close-crop-modal {
+    background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #666;
+}
+.crop-input-area {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+.crop-input-area input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+.crop-input-area input[type="file"] {
+    flex: 1;
+}
+.crop-workspace {
+    width: 100%;
+    height: 400px;
+    background: #f5f5f5;
+    border: 1px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.crop-workspace img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+.crop-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+.crop-btn {
+    padding: 10px 24px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.crop-btn-cancel {
+    background: #eee;
+    color: #333;
+}
+.crop-btn-save {
+    background: #F4B400;
+    color: #111;
+}
+.hidden-section {
+    display: none !important;
+}
+
+/* ── Flipbook live-edit button: ONLY visible in admin edit mode ── */
+.flipbook-live-edit-btn {
+    display: none !important;
+}
+body.edit-mode .flipbook-live-edit-btn {
+    display: block !important;
+}
+

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hamid Raza | Professional Book Cover Designer & Amazon KDP Expert</title>
+<link rel="icon" type="image/png" href="favicon.png?v=1.0.3">
+<meta name="description" content="Premium book cover design, Amazon KDP formatting, and branding services by Hamid Raza.">
+<link rel="stylesheet" href="style.css?v=1.0.3">
+<link rel="stylesheet" href="admin.css?v=1.0.3">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+<div class="container">
+<a href="#" class="logo">HAMID <span>RAZA</span></a>
+<ul class="nav-links">
+<li><a href="#home">Home</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="portfolio.html" target="_blank">Portfolio</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#testimonials">Testimonials</a></li>
+<li><a href="#pricing">Pricing</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+<a href="#contact" class="btn btn-primary" style="padding:10px 24px;font-size:.85rem">Hire Me</a>
+<button class="hamburger"><span></span><span></span><span></span></button>
+</div>
+</nav>
+
+
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+<div class="container">
+<span class="section-tag">My Work</span>
+<h2 class="section-title">My Latest <span class="highlight">Projects</span></h2>
+<div class="portfolio-filters">
+<button class="filter-btn active" data-cat="all">All</button>
+<button class="filter-btn" data-cat="covers">Book Covers</button>
+<button class="filter-btn" data-cat="children">Children Books</button>
+<button class="filter-btn" data-cat="kdp">Amazon KDP</button>
+<button class="filter-btn" data-cat="branding">Branding</button>
+<button class="filter-btn" data-cat="social">Social Media</button>
+<button class="filter-btn" data-cat="formatting">Formatting</button>
+</div>
+<div class="portfolio-grid">
+<div class="portfolio-card reveal" data-cat="covers">
+<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop" alt="Fantasy Book Cover"></div>
+<div class="portfolio-info"><div class="tags"><span>Book Cover</span><span>Fantasy</span></div><h3>Fantasy Book Cover Design</h3></div>
+</div>
+
+<!-- CHILDREN'S BOOK FLIPBOOK – identical to homepage -->
+<div class="portfolio-card reveal" data-cat="children" data-flipbook="true">
+  <div class="portfolio-thumb" style="overflow:visible;">
+    <div class="book-scene" id="book-scene-1">
+      <div class="book-spread">
+        <div class="book-spine"></div>
+        <div class="book-page book-page-left">
+          <img class="book-page-img" src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop" alt="Left page">
+          <div class="page-shadow-left"></div>
+        </div>
+        <div class="book-page book-page-right">
+          <img class="book-page-img" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=800&fit=crop" alt="Right page">
+          <div class="page-shadow-right"></div>
+        </div>
+      </div>
+      <button class="book-btn book-btn-prev" id="book-prev-1"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="book-btn book-btn-next" id="book-next-1"><i class="fa-solid fa-chevron-right"></i></button>
+      <div class="book-page-counter" id="book-counter-1">Page 1 &ndash; 2 of 8</div>
+      <!-- Hidden pages store — single source of truth shared with localStorage -->
+      <div id="flipbook-1-pages" style="display:none">
+        <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop" alt="Page 1"></div>
+        <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=800&fit=crop" alt="Page 2"></div>
+        <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&h=800&fit=crop" alt="Page 3"></div>
+        <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop" alt="Page 4"></div>
+        <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=800&fit=crop" alt="Page 5"></div>
+        <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop" alt="Page 6"></div>
+        <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1474932430478-367dbb6832c1?w=600&h=800&fit=crop" alt="Page 7"></div>
+        <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop" alt="Page 8"></div>
+      </div>
+    </div>
+  </div>
+  <div class="portfolio-info"><div class="tags"><span>Children</span><span>Interior Preview</span></div><h3>Kids Story Book Design</h3></div>
+</div>
+
+<div class="portfolio-card reveal" data-cat="covers">
+<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&h=300&fit=crop" alt="Motivational Book"></div>
+<div class="portfolio-info"><div class="tags"><span>Book Cover</span><span>Non-Fiction</span></div><h3>Motivational Book Cover</h3></div>
+</div>
+<div class="portfolio-card reveal" data-cat="kdp">
+<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=300&fit=crop" alt="Amazon A+ Content"></div>
+<div class="portfolio-info"><div class="tags"><span>A+ Content</span><span>Amazon</span></div><h3>Amazon A+ Content Design</h3></div>
+</div>
+<div class="portfolio-card reveal" data-cat="branding">
+<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1636955816868-fcb4e89e2c5b?w=400&h=300&fit=crop" alt="Branding Kit"></div>
+<div class="portfolio-info"><div class="tags"><span>Branding</span><span>Identity</span></div><h3>Modern Branding Kit</h3></div>
+</div>
+<div class="portfolio-card reveal" data-cat="social">
+<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=300&fit=crop" alt="Social Media"></div>
+<div class="portfolio-info"><div class="tags"><span>Social Media</span><span>Campaign</span></div><h3>Social Media Campaign</h3></div>
+</div>
+<div class="portfolio-card reveal" data-cat="formatting">
+<div class="portfolio-thumb"><img src="kdp_formatting_showcase.png" alt="KDP Interior Formatting Showcase"></div>
+<div class="portfolio-info"><div class="tags"><span>KDP Interior</span><span>Book Formatting</span><span>Layout</span></div><h3>Professional KDP Interior Formatting & Layout</h3></div>
+</div>
+</div>
+</section>
+
+
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<a href="#" class="logo">HAMID <span>RAZA</span></a>
+<p>Professional Book Cover Designer & Amazon KDP Expert. Creating premium designs that help authors stand out and succeed.</p>
+<div class="social-icons" style="margin-top:16px">
+<a href="#" data-social="twitter" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-x-twitter"></i></a>
+<a href="#" data-social="instagram" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-instagram"></i></a>
+<a href="#" data-social="linkedin" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-linkedin-in"></i></a>
+<a href="#" data-social="behance" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-behance"></i></a>
+<a href="#" data-social="facebook" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-facebook-f"></i></a>
+</div>
+</div>
+<div class="footer-col"><h4>Quick Links</h4><a href="#home">Home</a><a href="#about">About</a><a href="portfolio.html" target="_blank">Portfolio</a><a href="#contact">Contact</a></div>
+<div class="footer-col"><h4>Services</h4><a href="#">Book Cover Design</a><a href="#">KDP Formatting</a><a href="#">A+ Content</a><a href="#">Branding</a></div>
+<div class="footer-col"><h4>Contact</h4><a href="mailto:razah3812@gmail.com">razah3812@gmail.com</a><a href="#">+92 300 1234567</a><a href="#">Pakistan</a></div>
+</div>
+<div class="footer-bottom">&copy; 2026 Hamid Raza. All Rights Reserved.</div>
+</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+<script src="db.js?v=1.0.3"></script>
+<script src="script.js?v=1.0.3"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<script src="admin.js?v=1.0.4"></script>
+</body>
+</html>
