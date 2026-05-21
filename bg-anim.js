@@ -295,7 +295,7 @@
   }
 
   /* ── Public API ───────────────────────────────────────────────── */
-  window.bgAnim = { enable: enable, disable: disable, isOn: isOn };
+  window.bgAnim = { enable: enable, disable: disable, isOn: isOn, init: init };
 
   /* ── Auto-init ────────────────────────────────────────────────── */
   function init() {
@@ -306,14 +306,16 @@
       hideHeroVideo();
     }
 
-    // Poll for admin panel to inject toggle (it renders dynamically)
-    var tries = 0;
-    var poll = setInterval(function () {
-      injectAdminToggle();
-      if (document.getElementById('bg-anim-admin-toggle') || tries++ > 40) {
-        clearInterval(poll);
-      }
-    }, 300);
+    if (!document.getElementById('bg-anim-admin-toggle')) {
+      // Poll for admin panel to inject toggle (it renders dynamically)
+      var tries = 0;
+      var poll = setInterval(function () {
+        injectAdminToggle();
+        if (document.getElementById('bg-anim-admin-toggle') || tries++ > 40) {
+          clearInterval(poll);
+        }
+      }, 300);
+    }
   }
 
   if (document.readyState === 'loading') {

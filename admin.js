@@ -1474,13 +1474,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 const modal   = document.getElementById('admin-crop-modal');
                 const rpOvlEl = document.getElementById('fp-rp-overlay');
                 const rpModEl = document.getElementById('fp-rp-modal');
+                
+                // Preserve background animation elements
+                const animWrap = document.getElementById('bg-anim-wrap');
+                const animCanvas = document.getElementById('bg-anim-canvas');
+                const heroGlow = document.getElementById('bg-hero-glow');
+
                 document.body.innerHTML = data.html_content;
+                
                 if(panel)   document.body.appendChild(panel);
                 if(modal)   document.body.appendChild(modal);
                 if(rpOvlEl) document.body.appendChild(rpOvlEl);
                 if(rpModEl) document.body.appendChild(rpModEl);
 
-
+                // Restore background animation elements
+                if(animWrap)   document.body.insertBefore(animWrap, document.body.firstChild);
+                if(animCanvas) document.body.insertBefore(animCanvas, document.body.firstChild);
+                if(heroGlow)   document.body.insertBefore(heroGlow, document.body.firstChild);
 
                 // Legacy Caches patch
                 document.querySelectorAll('.social-icons').forEach(container => {
@@ -1516,6 +1526,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 // Re-initialize site logic after replacing innerHTML
                 if (window.initSiteLogic) window.initSiteLogic();
+                
+                // Re-initialize background animation system if active
+                if (window.bgAnim && typeof window.bgAnim.init === 'function') {
+                    window.bgAnim.init();
+                }
+
                 // Re-initialize flipbooks — use generous delay so DOM is fully settled
                 setTimeout(() => { if (window.initFlipbooks) window.initFlipbooks(); }, 600);
                 setTimeout(() => {
