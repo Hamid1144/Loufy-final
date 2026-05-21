@@ -65,8 +65,8 @@ section{padding:100px 0}
 .hero-badge span{width:8px;height:8px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;transition:background 0.3s ease}
 .hero-badge:hover span{background:var(--white)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.hero h1{font-size:3.2rem;font-weight:800;line-height:1.15;margin-bottom:20px;color:var(--dark)}
-.hero p{color:#555;font-size:1.08rem;line-height:1.75;margin-bottom:32px;max-width:520px}
+.hero h1{font-size:3.2rem;font-weight:800;line-height:1.15;margin-bottom:20px;color:var(--dark);text-shadow:0 0 20px rgba(255,255,255,0.95), 0 0 8px rgba(255,255,255,0.8), 0 0 2px rgba(255,255,255,0.5)}
+.hero p{color:#555;font-size:1.08rem;line-height:1.75;margin-bottom:32px;max-width:520px;text-shadow:0 0 20px rgba(255,255,255,0.95), 0 0 8px rgba(255,255,255,0.8), 0 0 2px rgba(255,255,255,0.5)}
 .hero-btns{display:flex;gap:16px;flex-wrap:wrap}
 .hero-visual{position:relative;display:flex;justify-content:center;align-items:center;height:460px}
 .hero-shape{position:absolute;border-radius:50%;z-index:0}

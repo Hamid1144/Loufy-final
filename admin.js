@@ -1385,6 +1385,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clone.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
         clone.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
         clone.querySelectorAll('#fp-rp-overlay, #fp-rp-modal').forEach(el => el.remove()); // don't save replace modal
+        clone.querySelectorAll('#custom-toast').forEach(toast => toast.remove()); // don't save stuck toast messages
 
         
         const originalText = saveBtn.innerText;
