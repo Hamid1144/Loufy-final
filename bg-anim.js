@@ -225,27 +225,19 @@
   /* ── Hero Video Helpers ───────────────────────────────────────── */
   function showHeroVideo() {
     var video = document.getElementById('hero-bg-video');
-    var img = document.getElementById('hero-static-img');
     if (video) {
       video.style.display = 'block';
       video.play().catch(function (err) {
         console.log('Hero video play failed or interrupted', err);
       });
     }
-    if (img) {
-      img.style.display = 'none';
-    }
   }
 
   function hideHeroVideo() {
     var video = document.getElementById('hero-bg-video');
-    var img = document.getElementById('hero-static-img');
     if (video) {
       video.style.display = 'none';
       video.pause();
-    }
-    if (img) {
-      img.style.display = 'block';
     }
   }
 
