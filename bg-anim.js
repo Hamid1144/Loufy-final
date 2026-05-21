@@ -222,10 +222,38 @@
     }
   }
 
+  /* ── Hero Video Helpers ───────────────────────────────────────── */
+  function showHeroVideo() {
+    var video = document.getElementById('hero-bg-video');
+    var img = document.getElementById('hero-static-img');
+    if (video) {
+      video.style.display = 'block';
+      video.play().catch(function (err) {
+        console.log('Hero video play failed or interrupted', err);
+      });
+    }
+    if (img) {
+      img.style.display = 'none';
+    }
+  }
+
+  function hideHeroVideo() {
+    var video = document.getElementById('hero-bg-video');
+    var img = document.getElementById('hero-static-img');
+    if (video) {
+      video.style.display = 'none';
+      video.pause();
+    }
+    if (img) {
+      img.style.display = 'block';
+    }
+  }
+
   function enable() {
     localStorage.setItem(KEY, '1');
     if (!document.getElementById('bg-anim-wrap')) build();
     else show();
+    showHeroVideo();
     updateAdminToggle(true);
   }
 
@@ -235,6 +263,7 @@
       var el = document.getElementById(id);
       if (el) el.style.display = 'none';
     });
+    hideHeroVideo();
     updateAdminToggle(false);
   }
 
@@ -278,7 +307,12 @@
 
   /* ── Auto-init ────────────────────────────────────────────────── */
   function init() {
-    if (isOn()) build();
+    if (isOn()) {
+      build();
+      showHeroVideo();
+    } else {
+      hideHeroVideo();
+    }
 
     // Poll for admin panel to inject toggle (it renders dynamically)
     var tries = 0;
