@@ -915,3 +915,12 @@ body.edit-mode .reveal {
 .toast-icon {
     font-size: 1.2rem;
 }
+
+/* Background Animation Fallback Positioning */
+#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}

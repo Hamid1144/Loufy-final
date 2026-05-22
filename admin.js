@@ -1386,6 +1386,9 @@ document.addEventListener("DOMContentLoaded", () => {
         clone.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
         clone.querySelectorAll('#fp-rp-overlay, #fp-rp-modal').forEach(el => el.remove()); // don't save replace modal
         clone.querySelectorAll('#custom-toast').forEach(toast => toast.remove()); // don't save stuck toast messages
+        
+        // Ensure background animation elements are not serialized into database
+        clone.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
 
         
         const originalText = saveBtn.innerText;
@@ -1482,6 +1485,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 const heroGlow = document.getElementById('bg-hero-glow');
 
                 document.body.innerHTML = data.html_content;
+                
+                // Remove any stale background elements parsed from the cloud HTML to prevent duplicates
+                ['bg-anim-wrap', 'bg-anim-canvas', 'bg-hero-glow'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.remove();
+                });
                 
                 if(panel)   document.body.appendChild(panel);
                 if(modal)   document.body.appendChild(modal);

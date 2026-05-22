@@ -214,7 +214,12 @@
 
   /* ── Build everything ─────────────────────────────────────────── */
   function build() {
-    if (document.getElementById('bg-anim-wrap')) return;
+    // Clean up any stale, statically serialized background elements from previous saves
+    ['bg-anim-wrap', 'bg-anim-canvas', 'bg-hero-glow'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.parentNode.removeChild(el);
+    });
+
     injectStyles();
 
     // Hero glow overlay
