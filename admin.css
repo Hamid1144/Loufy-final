@@ -213,6 +213,38 @@ body.edit-mode a.editable-container {
     max-height: 100%;
     display: block;
 }
+.crop-aspect-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+.crop-aspect-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #555;
+}
+.crop-aspect-btn {
+    background: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.crop-aspect-btn:hover {
+    background: #e0e0e0;
+}
+.crop-aspect-btn.active {
+    background: #184C3A;
+    color: #fff;
+    border-color: #184C3A;
+}
+
 .crop-actions {
     display: flex;
     justify-content: flex-end;

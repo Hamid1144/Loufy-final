@@ -171,6 +171,13 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="crop-workspace">
                 <img id="crop-preview-image" src="" style="display:none;">
             </div>
+            <div class="crop-aspect-selector">
+                <span class="crop-aspect-label">Aspect Ratio:</span>
+                <button type="button" class="crop-aspect-btn active" data-ratio="NaN">Free (Original)</button>
+                <button type="button" class="crop-aspect-btn" data-ratio="1">Square (1:1)</button>
+                <button type="button" class="crop-aspect-btn" data-ratio="0.6667">Book Cover (2:3)</button>
+                <button type="button" class="crop-aspect-btn" data-ratio="1.7778">Landscape (16:9)</button>
+            </div>
             <div class="crop-actions">
                 <button class="crop-btn crop-btn-cancel">Cancel</button>
                 <button class="crop-btn crop-btn-save">Apply Image</button>
@@ -1268,6 +1275,34 @@ document.addEventListener("DOMContentLoaded", () => {
         if(cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
         previewImage.src = imgElement.src;
         previewImage.style.display = 'block';
+        
+        // Auto-select the default aspect ratio button
+        let defaultRatio = "NaN"; // Default to Free crop
+        if (imgElement) {
+            if (imgElement.closest('.portfolio-card')) {
+                const card = imgElement.closest('.portfolio-card');
+                const cat = card.getAttribute('data-cat');
+                if (cat === 'covers') {
+                    defaultRatio = "0.6667"; // Book cover 2:3
+                } else if (cat === 'formatting') {
+                    defaultRatio = "1.7778"; // Landscape 16:9
+                } else {
+                    defaultRatio = "1"; // Square for other standard portfolio items
+                }
+            } else if (imgElement.closest('.testimonial-img')) {
+                defaultRatio = "1"; // 1:1 for testimonial avatars
+            }
+        }
+        
+        const aspectButtons = cropModal.querySelectorAll('.crop-aspect-btn');
+        aspectButtons.forEach(btn => {
+            if (btn.getAttribute('data-ratio') === defaultRatio) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
         initCropper();
     }
 
@@ -1280,15 +1315,32 @@ document.addEventListener("DOMContentLoaded", () => {
     closeCropBtn.addEventListener('click', closeCropModalHandler);
     cancelCropBtn.addEventListener('click', closeCropModalHandler);
 
+    // Setup click handlers for the aspect ratio buttons in the crop modal
+    const aspectButtons = cropModal.querySelectorAll('.crop-aspect-btn');
+    aspectButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            aspectButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const rawRatio = btn.getAttribute('data-ratio');
+            const newRatio = rawRatio === 'NaN' ? NaN : parseFloat(rawRatio);
+            
+            if (cropperInstance) {
+                cropperInstance.setAspectRatio(newRatio);
+            }
+        });
+    });
+
     function initCropper() {
         if(cropperInstance) cropperInstance.destroy();
         
         let targetRatio = NaN;
-        if (currentImageTarget) {
-            if (currentImageTarget.closest('.portfolio-card')) {
-                targetRatio = 16 / 9;
-            } else if (currentImageTarget.closest('.testimonial-img')) {
-                targetRatio = 1; // 1:1 for circular testimonial avatars
+        const activeBtn = cropModal.querySelector('.crop-aspect-btn.active');
+        if (activeBtn) {
+            const rawRatio = activeBtn.getAttribute('data-ratio');
+            if (rawRatio !== 'NaN') {
+                targetRatio = parseFloat(rawRatio);
             }
         }
 
