@@ -1823,6 +1823,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 // If we loaded from cache and the fetched content matches the cache, do nothing!
                 if (window.contentLoadedFromCache && cachedHTML === data.html_content) {
+                    window.contentLoadedFromLive = true;
                     return;
                 }
 
@@ -1837,6 +1838,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const animCanvas = document.getElementById('bg-anim-canvas');
                 const heroGlow = document.getElementById('bg-hero-glow');
 
+                window.contentLoadedFromLive = true;
                 document.body.innerHTML = data.html_content;
                 
                 // Remove any stale background elements parsed from the cloud HTML to prevent duplicates
