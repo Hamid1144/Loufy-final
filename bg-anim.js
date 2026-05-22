@@ -37,9 +37,13 @@
       '#bg-anim-wrap{',
         'position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;',
       '}',
+      /* Outer wrapper for parallax positioning */
+      '.bg-orb-wrap{',
+        'position:absolute;pointer-events:none;will-change:transform;',
+      '}',
       /* Individual orbs */
       '.bg-orb{',
-        'position:absolute;border-radius:50%;pointer-events:none;',
+        'width:100%;height:100%;border-radius:50%;pointer-events:none;',
         'will-change:transform;',
       '}',
       /* Float keyframes — each orb uses inline animation-duration/delay */
@@ -71,26 +75,46 @@
     document.head.appendChild(s);
   }
 
+  /* Helper to convert solid rgba colors + blur to high performance radial gradients */
+  function makeRadialGradient(rgbaStr) {
+    var match = rgbaStr.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
+    if (match) {
+      var r = match[1];
+      var g = match[2];
+      var b = match[3];
+      var a = parseFloat(match[4]);
+      return 'radial-gradient(circle, rgba(' + r + ',' + g + ',' + b + ',' + a + ') 0%, rgba(' + r + ',' + g + ',' + b + ',' + (a * 0.5) + ') 40%, rgba(' + r + ',' + g + ',' + b + ',0) 100%)';
+    }
+    return rgbaStr;
+  }
+
   /* ── Build orb DOM ────────────────────────────────────────────── */
   function buildOrbs(wrap) {
     ORBS.forEach(function (o, i) {
+      var orbWrap = document.createElement('div');
+      orbWrap.className = 'bg-orb-wrap';
+      orbWrap.id = 'bg-orb-wrap-' + i;
+      orbWrap.style.cssText = [
+        'width:'      + o.w    + 'px',
+        'height:'     + o.h    + 'px',
+        'top:'        + o.top  + '%',
+        'left:'       + o.left + '%',
+      ].join(';');
+
       var el = document.createElement('div');
       el.className = 'bg-orb';
       el.id = 'bg-orb-' + i;
       var anim = reduced ? 'none'
         : ('bgOrbFloat ' + o.dur + 's ease-in-out ' + o.delay + 's infinite');
       el.style.cssText = [
-        'width:'      + o.w    + 'px',
-        'height:'     + o.h    + 'px',
-        'top:'        + o.top  + '%',
-        'left:'       + o.left + '%',
-        'background:' + o.c,
-        'filter:blur(' + o.blur + 'px)',
+        'background:' + makeRadialGradient(o.c),
         'animation:'  + anim,
         'opacity:1',
         'transform-origin:center center',
       ].join(';');
-      wrap.appendChild(el);
+
+      orbWrap.appendChild(el);
+      wrap.appendChild(orbWrap);
     });
   }
 
@@ -141,7 +165,7 @@
     draw();
   }
 
-  /* ── Mouse parallax ───────────────────────────────────────────── */
+  /* ── Integrated Parallax & Scroll (Smooth & Accelerate) ──────── */
   var _parallaxRaf = null;
   function initParallax(wrap) {
     if (reduced) return;
@@ -149,44 +173,43 @@
     var cx = window.innerWidth  / 2;
     var cy = window.innerHeight / 2;
     var strengths = [0.016, 0.011, 0.014, 0.009, 0.007, 0.013, 0.018];
+    var speeds = [0.12, 0.08, 0.10, 0.06, 0.05, 0.09, 0.14];
     var cur = ORBS.map(function () { return { x: 0, y: 0 }; });
-    var orbs = wrap.querySelectorAll('.bg-orb');
+    var orbWraps = wrap.querySelectorAll('.bg-orb-wrap');
+
+    var scrollY = window.scrollY;
+    var targetScrollY = window.scrollY;
 
     document.addEventListener('mousemove', function (e) {
       mx = e.clientX - cx; my = e.clientY - cy;
     });
+    window.addEventListener('scroll', function () {
+      targetScrollY = window.scrollY;
+    }, { passive: true });
     window.addEventListener('resize', function () {
       cx = window.innerWidth / 2; cy = window.innerHeight / 2;
     });
 
     function tick() {
-      orbs.forEach(function (el, i) {
+      // Smoothly interpolate scroll position for an ultra-fluid effect
+      scrollY += (targetScrollY - scrollY) * 0.1;
+
+      orbWraps.forEach(function (el, i) {
         var tx = mx * strengths[i] * 14;
         var ty = my * strengths[i] * 14;
         cur[i].x += (tx - cur[i].x) * 0.035;
         cur[i].y += (ty - cur[i].y) * 0.035;
-        el.style.marginLeft = cur[i].x.toFixed(2) + 'px';
-        el.style.marginTop  = cur[i].y.toFixed(2) + 'px';
+
+        var totalY = cur[i].y + (scrollY * speeds[i]);
+        el.style.transform = 'translate3d(' + cur[i].x.toFixed(1) + 'px, ' + totalY.toFixed(1) + 'px, 0)';
       });
       _parallaxRaf = requestAnimationFrame(tick);
     }
     tick();
   }
 
-  /* ── Scroll parallax (subtle vertical drift on orbs) ─────────── */
   function initScrollParallax(wrap) {
-    if (reduced) return;
-    var orbs = wrap.querySelectorAll('.bg-orb');
-    var speeds = [0.12, 0.08, 0.10, 0.06, 0.05, 0.09, 0.14];
-    window.addEventListener('scroll', function () {
-      var sy = window.scrollY;
-      orbs.forEach(function (el, i) {
-        el.style.transform = el.style.transform
-          ? el.style.transform.replace(/translateY\([^)]+\)\s?/, '')
-            + ' translateY(' + (sy * speeds[i]).toFixed(1) + 'px)'
-          : 'translateY(' + (sy * speeds[i]).toFixed(1) + 'px)';
-      });
-    }, { passive: true });
+    // Scroll parallax is merged directly into initParallax for performance
   }
 
   /* ── Build everything ─────────────────────────────────────────── */

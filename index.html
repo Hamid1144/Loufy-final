@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,7 @@
 <title>Hamid Raza | Professional Book Cover Designer & Amazon KDP Expert</title>
 <link rel="icon" type="image/png" href="favicon.png?v=1.0.3">
 <meta name="description" content="Premium book cover design, Amazon KDP formatting, and branding services by Hamid Raza.">
-<link rel="stylesheet" href="style.css?v=1.0.4">
+<link rel="stylesheet" href="style.css?v=1.0.5">
 <link rel="stylesheet" href="admin.css?v=1.0.3">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 </head>
 <body>
-<!-- NAVBAR -->
-<nav class="navbar">
+<div id="bg-hero-glow"></div><canvas id="bg-anim-canvas" width="1707" height="825"></canvas><div id="bg-anim-wrap"><div class="bg-orb" id="bg-orb-0" style="width: 720px; height: 600px; top: -10%; left: -8%; background: rgba(24, 76, 58, 0.08); filter: blur(110px); animation: 18s ease-in-out 0s infinite normal none running bgOrbFloat; opacity: 1; transform-origin: center center; margin-left: 144.01px; margin-top: 21.09px; transform: translateY(1362.9px);"></div><div class="bg-orb" id="bg-orb-1" style="width: 500px; height: 500px; top: 10%; left: 62%; background: rgba(240, 180, 41, 0.08); filter: blur(85px); animation: 14s ease-in-out 3s infinite normal none running bgOrbFloat; opacity: 1; transform-origin: center center; margin-left: 99.01px; margin-top: 14.5px; transform: translateY(908.6px);"></div><div class="bg-orb" id="bg-orb-2" style="width: 580px; height: 480px; top: 42%; left: -12%; background: rgba(180, 220, 195, 0.09); filter: blur(100px); animation: 22s ease-in-out 7s infinite normal none running bgOrbFloat; opacity: 1; transform-origin: center center; margin-left: 126.01px; margin-top: 18.45px; transform: translateY(1135.7px);"></div><div class="bg-orb" id="bg-orb-3" style="width: 420px; height: 420px; top: 68%; left: 72%; background: rgba(24, 76, 58, 0.06); filter: blur(70px); animation: 16s ease-in-out 2s infinite normal none running bgOrbFloat; opacity: 1; transform-origin: center center; margin-left: 81.01px; margin-top: 11.86px; transform: translateY(681.4px);"></div><div class="bg-orb" id="bg-orb-4" style="width: 540px; height: 380px; top: 28%; left: 38%; background: rgba(255, 238, 190, 0.1); filter: blur(115px); animation: 20s ease-in-out 9s infinite normal none running bgOrbFloat; opacity: 1; transform-origin: center center; margin-left: 63.01px; margin-top: 9.23px; transform: translateY(567.9px);"></div><div class="bg-orb" id="bg-orb-5" style="width: 360px; height: 360px; top: 82%; left: 18%; background: rgba(240, 180, 41, 0.06); filter: blur(65px); animation: 12s ease-in-out 5s infinite normal none running bgOrbFloat; opacity: 1; transform-origin: center center; margin-left: 117.01px; margin-top: 17.13px; transform: translateY(1022.2px);"></div><div class="bg-orb" id="bg-orb-6" style="width: 300px; height: 300px; top: 55%; left: 50%; background: rgba(255, 255, 255, 0.06); filter: blur(80px); animation: 25s ease-in-out 11s infinite normal none running bgOrbFloat; opacity: 1; transform-origin: center center; margin-left: 162.02px; margin-top: 23.72px; transform: translateY(1590px);"></div></div><!-- NAVBAR -->
+<nav class="navbar scrolled">
 <div class="container">
 <a href="#" class="logo">HAMID <span>RAZA</span></a>
 <ul class="nav-links">
@@ -35,17 +35,17 @@
 <!-- HERO -->
 <section class="hero" id="home">
 <!-- Hero Background Video -->
-<video id="hero-bg-video" loop muted playsinline preload="auto" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;mix-blend-mode:multiply;pointer-events:none">
+<video id="hero-bg-video" loop="" muted="" playsinline="" preload="auto" style="display: block; position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 0; mix-blend-mode: multiply; pointer-events: none;">
 <source src="https://res.cloudinary.com/dtr3yvjac/video/upload/v1779393707/Books_floating_on_motion_path_202605211115_bbbxwu.mp4" type="video/mp4">
 </video>
 <div class="container">
-<div class="hero-content">
+<div class="hero-content reveal active">
 <div class="hero-badge"><span></span> Hello There!</div>
 <h1>I'm <span class="highlight">Hamid Raza</span>, Professional <span class="highlight">Book Cover Designer</span> &amp; Amazon KDP Expert.</h1>
 <p>I create premium book covers, KDP formatting, A+ content, and branding designs that help authors stand out and increase sales.</p>
 <div class="hero-btns">
-<a href="portfolio.html" class="btn btn-primary">My Portfolio <span class="btn-arrow">&nearrow;</span></a>
-<a href="#contact" class="btn btn-accent">Hire Me <span class="btn-arrow">&rarr;</span></a>
+<a href="portfolio.html" class="btn btn-primary">My Portfolio <span class="btn-arrow">↗</span></a>
+<a href="#contact" class="btn btn-accent">Hire Me <span class="btn-arrow">→</span></a>
 </div>
 <div class="skill-tags">
 <span class="skill-tag"><i class="fa-solid fa-book-open"></i> Book Cover Design</span>
@@ -56,7 +56,7 @@
 <span class="skill-tag"><i class="fa-solid fa-gem"></i> Branding Design</span>
 </div>
 </div>
-<div class="hero-visual">
+<div class="hero-visual reveal active">
 <div class="float-badge exp"><span class="num">5+</span> Years Experience</div>
 <div class="float-badge proj"><span class="num">500+</span> Projects Done</div>
 </div>
@@ -74,45 +74,45 @@
 <!-- SERVICES -->
 <section class="services" id="services">
 <div class="container">
-<span class="section-tag">What I Do</span>
-<h2 class="section-title">Services I <span class="highlight">Provide</span></h2>
-<p class="section-sub" style="margin:0 auto">Comprehensive design solutions tailored for authors, publishers, and brands.</p>
+<span class="section-tag reveal active">What I Do</span>
+<h2 class="section-title reveal active">Services I <span class="highlight">Provide</span></h2>
+<p class="section-sub reveal active" style="margin:0 auto">Comprehensive design solutions tailored for authors, publishers, and brands.</p>
 <div class="services-grid">
-<div class="service-card reveal">
+<div class="service-card reveal active">
 <div class="service-icon"><i class="fa-solid fa-book-open"></i></div>
 <h3>Book Cover Design</h3>
 <p>Eye-catching covers for fiction, non-fiction, romance, thriller, and more that grab reader attention.</p>
-<a href="#" class="learn-more">Learn More &rarr;</a>
+<a href="#" class="learn-more">Learn More →</a>
 </div>
-<div class="service-card reveal">
+<div class="service-card reveal active">
 <div class="service-icon"><i class="fa-solid fa-box-open"></i></div>
 <h3>Amazon KDP Formatting</h3>
 <p>Professional interior formatting, manuscript layout, and KDP-ready files for seamless publishing.</p>
-<a href="#" class="learn-more">Learn More &rarr;</a>
+<a href="#" class="learn-more">Learn More →</a>
 </div>
-<div class="service-card reveal">
+<div class="service-card reveal active">
 <div class="service-icon"><i class="fa-solid fa-star"></i></div>
 <h3>A+ Content Design</h3>
 <p>Premium Amazon A+ content modules that boost conversions and enhance your product listing.</p>
-<a href="#" class="learn-more">Learn More &rarr;</a>
+<a href="#" class="learn-more">Learn More →</a>
 </div>
-<div class="service-card reveal">
+<div class="service-card reveal active">
 <div class="service-icon"><i class="fa-solid fa-palette"></i></div>
 <h3>Children Book Illustration</h3>
 <p>Colorful, engaging illustrations and layouts for children's books that captivate young readers.</p>
-<a href="#" class="learn-more">Learn More &rarr;</a>
+<a href="#" class="learn-more">Learn More →</a>
 </div>
-<div class="service-card reveal">
+<div class="service-card reveal active">
 <div class="service-icon"><i class="fa-solid fa-thumbs-up"></i></div>
 <h3>Social Media Design</h3>
 <p>Scroll-stopping social media graphics, banners, and promotional materials for your brand.</p>
-<a href="#" class="learn-more">Learn More &rarr;</a>
+<a href="#" class="learn-more">Learn More →</a>
 </div>
-<div class="service-card reveal">
+<div class="service-card reveal active">
 <div class="service-icon"><i class="fa-solid fa-gem"></i></div>
 <h3>Brand Identity Design</h3>
 <p>Complete branding packages including logos, color palettes, typography, and brand guidelines.</p>
-<a href="#" class="learn-more">Learn More &rarr;</a>
+<a href="#" class="learn-more">Learn More →</a>
 </div>
 </div>
 </div>
@@ -121,17 +121,17 @@
 <!-- ABOUT -->
 <section class="about" id="about">
 <div class="container">
-<div class="about-img-wrap reveal">
-<div class="about-img"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Hamid Raza"></div>
+<div class="about-img-wrap reveal active">
+<div class="about-img"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&amp;h=400&amp;fit=crop" alt="Hamid Raza"></div>
 <span class="about-float-tag">KDP Expert</span>
 <span class="about-float-tag">Book Designer</span>
 <span class="about-float-tag">Children Books</span>
 <span class="about-float-tag">Typography</span>
 <span class="about-float-tag">Branding</span>
 </div>
-<div class="about-content reveal">
-<span class="section-tag">About Me</span>
-<h2 class="section-title">Who is <span class="highlight">Hamid Raza</span>?</h2>
+<div class="about-content reveal active">
+<span class="section-tag reveal active">About Me</span>
+<h2 class="section-title reveal active">Who is <span class="highlight">Hamid Raza</span>?</h2>
 <p>Creative designer specializing in book cover design, KDP publishing solutions, and premium branding visuals. Helping authors, publishers, and businesses create professional designs that attract attention and drive engagement.</p>
 <div class="stats">
 <div class="stat"><div class="num">500+</div><span>Projects Completed</span></div>
@@ -140,7 +140,7 @@
 <div class="stat"><div class="num"><i class="fa-solid fa-globe"></i></div><span>Worldwide Clients</span></div>
 </div>
 <div class="about-btns">
-<a href="#" class="btn btn-accent">Download CV <span class="btn-arrow down">&darr;</span></a>
+<a href="#" class="btn btn-accent">Download CV <span class="btn-arrow down">↓</span></a>
 <a href="#contact" class="btn btn-outline" style="border-color:var(--white);color:var(--white)">Contact Me</a>
 </div>
 </div>
@@ -150,32 +150,32 @@
 <!-- TOOLS -->
 <section class="tools" id="tools">
 <div class="container">
-<span class="section-tag">My Arsenal</span>
-<h2 class="section-title">Tools Behind My <span class="highlight">Designs</span></h2>
-<p class="section-sub" style="margin:0 auto">Mastering industry-leading software to deliver exceptional results.</p>
+<span class="section-tag reveal active">My Arsenal</span>
+<h2 class="section-title reveal active">Tools Behind My <span class="highlight">Designs</span></h2>
+<p class="section-sub reveal active" style="margin:0 auto">Mastering industry-leading software to deliver exceptional results.</p>
 <div class="tools-grid">
-<div class="tool-card reveal">
-<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="prog" cx="50" cy="50" r="44" data-pct="95"/></svg><span class="tool-pct">95%</span></div>
-<h4>Photoshop</h4><p style="color:#999;font-size:.85rem">Photo Editing & Design</p>
+<div class="tool-card reveal active">
+<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"></circle><circle class="prog" cx="50" cy="50" r="44" data-pct="95" style="stroke-dasharray: 276.46; stroke-dashoffset: 13.823;"></circle></svg><span class="tool-pct">95%</span></div>
+<h4>Photoshop</h4><p style="color:#999;font-size:.85rem">Photo Editing &amp; Design</p>
 </div>
-<div class="tool-card reveal">
-<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="prog" cx="50" cy="50" r="44" data-pct="90"/></svg><span class="tool-pct">90%</span></div>
+<div class="tool-card reveal active">
+<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"></circle><circle class="prog" cx="50" cy="50" r="44" data-pct="90" style="stroke-dasharray: 276.46; stroke-dashoffset: 27.646;"></circle></svg><span class="tool-pct">90%</span></div>
 <h4>Illustrator</h4><p style="color:#999;font-size:.85rem">Vector Graphics</p>
 </div>
-<div class="tool-card reveal">
-<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="prog" cx="50" cy="50" r="44" data-pct="98"/></svg><span class="tool-pct">98%</span></div>
+<div class="tool-card reveal active">
+<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"></circle><circle class="prog" cx="50" cy="50" r="44" data-pct="98" style="stroke-dasharray: 276.46; stroke-dashoffset: 5.5292;"></circle></svg><span class="tool-pct">98%</span></div>
 <h4>Canva</h4><p style="color:#999;font-size:.85rem">Quick Design</p>
 </div>
-<div class="tool-card reveal">
-<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="prog" cx="50" cy="50" r="44" data-pct="85"/></svg><span class="tool-pct">85%</span></div>
+<div class="tool-card reveal active">
+<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"></circle><circle class="prog" cx="50" cy="50" r="44" data-pct="85" style="stroke-dasharray: 276.46; stroke-dashoffset: 41.469;"></circle></svg><span class="tool-pct">85%</span></div>
 <h4>Figma</h4><p style="color:#999;font-size:.85rem">UI/UX Design</p>
 </div>
-<div class="tool-card reveal">
-<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="prog" cx="50" cy="50" r="44" data-pct="88"/></svg><span class="tool-pct">88%</span></div>
-<h4>InDesign</h4><p style="color:#999;font-size:.85rem">Layout & Print</p>
+<div class="tool-card reveal active">
+<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"></circle><circle class="prog" cx="50" cy="50" r="44" data-pct="88" style="stroke-dasharray: 276.46; stroke-dashoffset: 33.1752;"></circle></svg><span class="tool-pct">88%</span></div>
+<h4>InDesign</h4><p style="color:#999;font-size:.85rem">Layout &amp; Print</p>
 </div>
-<div class="tool-card reveal">
-<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="prog" cx="50" cy="50" r="44" data-pct="96"/></svg><span class="tool-pct">96%</span></div>
+<div class="tool-card reveal active">
+<div class="tool-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"></circle><circle class="prog" cx="50" cy="50" r="44" data-pct="96" style="stroke-dasharray: 276.46; stroke-dashoffset: 11.0584;"></circle></svg><span class="tool-pct">96%</span></div>
 <h4>KDP Formatting</h4><p style="color:#999;font-size:.85rem">Publishing Expert</p>
 </div>
 </div>
@@ -185,9 +185,9 @@
 <!-- PORTFOLIO -->
 <section class="portfolio" id="portfolio">
 <div class="container">
-<span class="section-tag">My Work</span>
-<h2 class="section-title">My Latest <span class="highlight">Projects</span></h2>
-<p class="section-sub" style="margin:0 auto 28px;max-width:600px;">A curated preview of my work &mdash; <a href="portfolio.html" style="color:var(--primary);font-weight:600;">view the full portfolio &rarr;</a></p>
+<span class="section-tag reveal active">My Work</span>
+<h2 class="section-title reveal active">My Latest <span class="highlight">Projects</span></h2>
+<p class="section-sub reveal active" style="margin:0 auto 28px;max-width:600px;">A curated preview of my work — <a href="portfolio.html" style="color:var(--primary);font-weight:600;">view the full portfolio →</a></p>
 <div class="portfolio-filters">
 <button class="filter-btn active" data-cat="all">All</button>
 <button class="filter-btn" data-cat="covers">Book Covers</button>
@@ -198,64 +198,37 @@
 <button class="filter-btn" data-cat="formatting">Formatting</button>
 </div>
 <div class="portfolio-grid">
-<div class="portfolio-card reveal" data-cat="covers">
-<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop" alt="Fantasy Book Cover"></div>
+<div class="portfolio-card reveal active" data-cat="covers" style="display: block; opacity: 1;">
+<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&amp;h=300&amp;fit=crop" alt="Fantasy Book Cover"></div>
 <div class="portfolio-info"><div class="tags"><span>Book Cover</span><span>Fantasy</span></div><h3>Fantasy Book Cover Design</h3></div>
 </div>
-<div class="portfolio-card reveal" data-cat="children" data-flipbook="true">
-<div class="portfolio-thumb" style="overflow:visible;">
-  <div class="book-scene" id="book-scene-1">
-    <div class="book-spread">
-      <div class="book-spine"></div>
-      <div class="book-page book-page-left">
-        <img class="book-page-img" src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop" alt="Left page">
-        <div class="page-shadow-left"></div>
-      </div>
-      <div class="book-page book-page-right">
-        <img class="book-page-img" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=800&fit=crop" alt="Right page">
-        <div class="page-shadow-right"></div>
-      </div>
-    </div>
-    <button class="book-btn book-btn-prev" id="book-prev-1"><i class="fa-solid fa-chevron-left"></i></button>
-    <button class="book-btn book-btn-next" id="book-next-1"><i class="fa-solid fa-chevron-right"></i></button>
-    <div class="book-page-counter" id="book-counter-1">Page 1 &ndash; 2 of 8</div>
-    <div id="flipbook-1-pages" style="display:none">
-      <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop" alt="Page 1"></div>
-      <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=800&fit=crop" alt="Page 2"></div>
-      <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&h=800&fit=crop" alt="Page 3"></div>
-      <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop" alt="Page 4"></div>
-      <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=800&fit=crop" alt="Page 5"></div>
-      <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop" alt="Page 6"></div>
-      <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1474932430478-367dbb6832c1?w=600&h=800&fit=crop" alt="Page 7"></div>
-      <div class="flipbook-page"><img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop" alt="Page 8"></div>
-    </div>
-  </div>
-</div>
+<div class="portfolio-card reveal active" data-cat="children" data-flipbook="true" style="display: block; opacity: 1;">
+<div class="portfolio-thumb" style="overflow: visible; height: auto; min-height: 0px; position: relative; aspect-ratio: unset; background: none;"><div class="book-scene" id="book-scene-1" data-size="6x9" style="position: relative;"><div class="book-3d-wrap"><div class="book-body"><div class="bp-left"><img class="bp-img" id="book-scene-1-li" src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&amp;h=800&amp;fit=crop" alt="Left page"></div><div class="bp-right"><img class="bp-img" id="book-scene-1-ri" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&amp;h=800&amp;fit=crop" alt="Right page"></div><div class="flip-layer" id="book-scene-1-fl" style="--flip-dur: 700ms;"><div class="flip-face flip-face-f"><img class="bp-img" id="book-scene-1-ff" src="" alt=""></div><div class="flip-face flip-face-b"><img class="bp-img" id="book-scene-1-fb" src="" alt=""></div></div></div></div><div class="book-controls-row"><button class="bc-btn bc-prev" id="book-scene-1-prev">‹</button><span class="bc-counter" id="book-scene-1-cnt">Pages 1–2 of 8</span><button class="bc-btn bc-next" id="book-scene-1-next">›</button></div></div><div id="flipbook-1-pages" style="display: none;"><div class="flipbook-page"><img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&amp;h=800&amp;fit=crop" alt="Page 1" loading="lazy"></div><div class="flipbook-page"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&amp;h=800&amp;fit=crop" alt="Page 2" loading="lazy"></div><div class="flipbook-page"><img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&amp;h=800&amp;fit=crop" alt="Page 3" loading="lazy"></div><div class="flipbook-page"><img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&amp;h=800&amp;fit=crop" alt="Page 4" loading="lazy"></div><div class="flipbook-page"><img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&amp;h=800&amp;fit=crop" alt="Page 5" loading="lazy"></div><div class="flipbook-page"><img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&amp;h=800&amp;fit=crop" alt="Page 6" loading="lazy"></div><div class="flipbook-page"><img src="https://images.unsplash.com/photo-1474932430478-367dbb6832c1?w=600&amp;h=800&amp;fit=crop" alt="Page 7" loading="lazy"></div><div class="flipbook-page"><img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&amp;h=800&amp;fit=crop" alt="Page 8" loading="lazy"></div></div></div>
 <div class="portfolio-info"><div class="tags"><span>Children</span><span>Interior Preview</span></div><h3>Kids Story Book Design</h3></div>
 </div>
-<div class="portfolio-card reveal" data-cat="covers">
-<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&h=300&fit=crop" alt="Motivational Book"></div>
+<div class="portfolio-card reveal active" data-cat="covers" style="display: block; opacity: 1;">
+<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&amp;h=300&amp;fit=crop" alt="Motivational Book"></div>
 <div class="portfolio-info"><div class="tags"><span>Book Cover</span><span>Non-Fiction</span></div><h3>Motivational Book Cover</h3></div>
 </div>
-<div class="portfolio-card reveal" data-cat="kdp">
-<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=300&fit=crop" alt="Amazon A+ Content"></div>
+<div class="portfolio-card reveal active" data-cat="kdp" style="display: block; opacity: 1;">
+<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&amp;h=300&amp;fit=crop" alt="Amazon A+ Content"></div>
 <div class="portfolio-info"><div class="tags"><span>A+ Content</span><span>Amazon</span></div><h3>Amazon A+ Content Design</h3></div>
 </div>
-<div class="portfolio-card reveal" data-cat="branding">
-<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1636955816868-fcb4e89e2c5b?w=400&h=300&fit=crop" alt="Branding Kit"></div>
+<div class="portfolio-card reveal active" data-cat="branding" style="display: block; opacity: 1;">
+<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1636955816868-fcb4e89e2c5b?w=400&amp;h=300&amp;fit=crop" alt="Branding Kit"></div>
 <div class="portfolio-info"><div class="tags"><span>Branding</span><span>Identity</span></div><h3>Modern Branding Kit</h3></div>
 </div>
-<div class="portfolio-card reveal" data-cat="social">
-<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=300&fit=crop" alt="Social Media"></div>
+<div class="portfolio-card reveal active" data-cat="social" style="display: block; opacity: 1;">
+<div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&amp;h=300&amp;fit=crop" alt="Social Media"></div>
 <div class="portfolio-info"><div class="tags"><span>Social Media</span><span>Campaign</span></div><h3>Social Media Campaign</h3></div>
 </div>
-<div class="portfolio-card reveal" data-cat="formatting">
+<div class="portfolio-card reveal active" data-cat="formatting" style="display: block; opacity: 1;">
 <div class="portfolio-thumb"><img src="kdp_formatting_showcase.png" alt="KDP Interior Formatting Showcase"></div>
-<div class="portfolio-info"><div class="tags"><span>KDP Interior</span><span>Book Formatting</span><span>Layout</span></div><h3>Professional KDP Interior Formatting & Layout</h3></div>
+<div class="portfolio-info"><div class="tags"><span>KDP Interior</span><span>Book Formatting</span><span>Layout</span></div><h3>Professional KDP Interior Formatting &amp; Layout</h3></div>
 </div>
 </div>
 <div style="text-align:center; margin-top:40px;">
-<a href="portfolio.html" class="btn btn-primary" style="display:inline-flex; padding:14px 36px; font-size:1rem;">See Full Portfolio &rarr;</a>
+<a href="portfolio.html" class="btn btn-primary" style="display:inline-flex; padding:14px 36px; font-size:1rem;">See Full Portfolio →</a>
 </div>
 </div>
 </section>
@@ -263,17 +236,17 @@
 <!-- TIMELINE -->
 <section class="timeline">
 <div class="container">
-<span class="section-tag">My Journey</span>
-<h2 class="section-title">Experience & <span class="highlight">Education</span></h2>
+<span class="section-tag reveal active">My Journey</span>
+<h2 class="section-title reveal active">Experience &amp; <span class="highlight">Education</span></h2>
 <div class="timeline-grid">
-<div class="timeline-col reveal">
+<div class="timeline-col reveal active">
 <h3><i class="fa-solid fa-graduation-cap"></i> Education</h3>
 <div class="timeline-item"><span class="year">2018 - 2020</span><h4>Graphic Design</h4><p>Advanced visual design, layout, and composition techniques.</p></div>
 <div class="timeline-item"><span class="year">2020 - 2021</span><h4>UI/UX Design</h4><p>User interface and experience design principles.</p></div>
 <div class="timeline-item"><span class="year">2021 - 2022</span><h4>Typography Mastery</h4><p>Advanced typography and lettering for print and digital.</p></div>
 <div class="timeline-item"><span class="year">2022 - 2023</span><h4>Digital Branding</h4><p>Complete brand identity and digital marketing design.</p></div>
 </div>
-<div class="timeline-col reveal">
+<div class="timeline-col reveal active">
 <h3><i class="fa-solid fa-briefcase"></i> Experience</h3>
 <div class="timeline-item"><span class="year">2020 - Present</span><h4>Freelance Designer</h4><p>Serving global clients with premium design solutions.</p></div>
 <div class="timeline-item"><span class="year">2021 - Present</span><h4>Amazon KDP Expert</h4><p>Specializing in KDP formatting and publishing services.</p></div>
@@ -287,10 +260,10 @@
 <!-- PRICING -->
 <section class="pricing" id="pricing">
 <div class="container">
-<span class="section-tag" style="background:rgba(244,180,0,.15);color:var(--accent)">Packages</span>
-<h2 class="section-title" style="color:var(--white)">My Pricing <span class="highlight">Model</span></h2>
+<span class="section-tag reveal active" style="background:rgba(244,180,0,.15);color:var(--accent)">Packages</span>
+<h2 class="section-title reveal active" style="color:var(--white)">My Pricing <span class="highlight">Model</span></h2>
 <div class="pricing-grid">
-<div class="pricing-card reveal">
+<div class="pricing-card reveal active">
 <h3>Basic Package</h3>
 <div class="price">$49<small>/project</small></div>
 <ul>
@@ -302,7 +275,7 @@
 </ul>
 <a href="#contact" data-pricing="basic" class="btn btn-outline" style="width:100%;justify-content:center;border-color:rgba(255,255,255,.3);color:var(--white)">Get Started</a>
 </div>
-<div class="pricing-card featured reveal">
+<div class="pricing-card featured reveal active">
 <h3>Standard Package <i class="fa-solid fa-star" style="color:var(--accent)"></i></h3>
 <div class="price">$99<small>/project</small></div>
 <ul>
@@ -315,7 +288,7 @@
 </ul>
 <a href="#contact" data-pricing="standard" class="btn btn-primary" style="width:100%;justify-content:center">Get Started</a>
 </div>
-<div class="pricing-card reveal">
+<div class="pricing-card reveal active">
 <h3>Premium Package</h3>
 <div class="price">$199<small>/project</small></div>
 <ul>
@@ -336,36 +309,36 @@
 <!-- TESTIMONIALS -->
 <section class="testimonials" id="testimonials">
 <div class="container">
-<span class="section-tag">Reviews</span>
-<h2 class="section-title">The Impact of My <span class="highlight">Work</span></h2>
-<div class="testimonial-slider">
-<div class="testimonial-track">
-<div class="testimonial-card">
-<div class="testimonial-inner">
-<div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p>"Hamid designed the most stunning book cover I've ever seen. My book sales increased by 40% after the redesign. Absolutely incredible work!"</p>
-<div class="testimonial-author"><img src="https://i.pravatar.cc/60?img=1" alt="Client"><div><h4>Sarah Johnson</h4><span>Author, USA</span></div></div>
-</div>
-</div>
-<div class="testimonial-card">
+<span class="section-tag reveal active">Reviews</span>
+<h2 class="section-title reveal active">The Impact of My <span class="highlight">Work</span></h2>
+<div class="testimonial-slider reveal swiper swiper-coverflow swiper-3d swiper-initialized swiper-horizontal swiper-watch-progress active">
+<div class="testimonial-track swiper-wrapper" id="swiper-wrapper-51573aa3ed9fb14b" aria-live="off" style="cursor: grab; transition-duration: 0ms; transform: translate3d(-924px, 0px, 0px); transition-delay: 0ms;">
+
+
+
+<div class="testimonial-card swiper-slide swiper-slide-next" role="group" aria-label="2 / 3" data-swiper-slide-index="1" style="transition-duration: 0ms; transform: translate3d(0px, 0px, -500px) rotateX(0deg) rotateY(0deg) scale(1); z-index: -1;">
 <div class="testimonial-inner">
 <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
 <p>"Best KDP formatting expert I've worked with. Everything was pixel-perfect and ready to publish. Highly recommended for any author!"</p>
 <div class="testimonial-author"><img src="https://i.pravatar.cc/60?img=3" alt="Client"><div><h4>Michael Chen</h4><span>Publisher, Canada</span></div></div>
 </div>
-</div>
-<div class="testimonial-card">
+</div><div class="testimonial-card swiper-slide swiper-slide-visible swiper-slide-prev" role="group" aria-label="3 / 3" data-swiper-slide-index="2" style="transition-duration: 0ms; transform: translate3d(0px, 0px, -250px) rotateX(0deg) rotateY(0deg) scale(1); z-index: 0;">
 <div class="testimonial-inner">
 <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
 <p>"The children's book illustrations were magical! My kids absolutely loved them. Hamid captured the essence of every character perfectly."</p>
 <div class="testimonial-author"><img src="https://i.pravatar.cc/60?img=5" alt="Client"><div><h4>Emma Williams</h4><span>Children's Author, UK</span></div></div>
 </div>
+</div><div class="testimonial-card swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active" role="group" aria-label="1 / 3" data-swiper-slide-index="0" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px) rotateX(0deg) rotateY(0deg) scale(1); z-index: 1;">
+<div class="testimonial-inner">
+<div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+<p>"Hamid designed the most stunning book cover I've ever seen. My book sales increased by 40% after the redesign. Absolutely incredible work!"</p>
+<div class="testimonial-author"><img src="https://i.pravatar.cc/60?img=1" alt="Client"><div><h4>Sarah Johnson</h4><span>Author, USA</span></div></div>
 </div>
-</div>
-</div>
+</div></div>
+<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
 <div class="slider-controls">
-<button class="slider-btn slider-prev">&larr;</button>
-<button class="slider-btn slider-next">&rarr;</button>
+<button class="slider-btn slider-prev" tabindex="0" aria-label="Previous slide" aria-controls="swiper-wrapper-51573aa3ed9fb14b">←</button>
+<button class="slider-btn slider-next" tabindex="0" aria-label="Next slide" aria-controls="swiper-wrapper-51573aa3ed9fb14b">→</button>
 </div>
 </div>
 </section>
@@ -373,20 +346,20 @@
 <!-- BLOG -->
 <section class="blog" id="blog">
 <div class="container">
-<span class="section-tag">Insights</span>
-<h2 class="section-title">Latest News & <span class="highlight">Blogs</span></h2>
+<span class="section-tag reveal active">Insights</span>
+<h2 class="section-title reveal active">Latest News &amp; <span class="highlight">Blogs</span></h2>
 <div class="blog-grid">
-<div class="blog-card reveal">
-<div class="blog-thumb"><img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=250&fit=crop" alt="Blog"></div>
-<div class="blog-body"><span class="blog-tag">Design Tips</span><h3>How to Design Book Covers That Sell</h3><p>Learn the proven strategies and design principles behind bestselling book covers.</p><a href="#" class="read-more">Read More &rarr;</a></div>
+<div class="blog-card reveal active">
+<div class="blog-thumb"><img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&amp;h=250&amp;fit=crop" alt="Blog"></div>
+<div class="blog-body"><span class="blog-tag">Design Tips</span><h3>How to Design Book Covers That Sell</h3><p>Learn the proven strategies and design principles behind bestselling book covers.</p><a href="#" class="read-more">Read More →</a></div>
 </div>
-<div class="blog-card reveal">
-<div class="blog-thumb"><img src="https://images.unsplash.com/photo-1553729459-afe8f2e2882d?w=400&h=250&fit=crop" alt="Blog"></div>
-<div class="blog-body"><span class="blog-tag">Publishing</span><h3>Amazon KDP Tips for Authors</h3><p>Essential tips and tricks to maximize your success on Amazon's KDP platform.</p><a href="#" class="read-more">Read More &rarr;</a></div>
+<div class="blog-card reveal active">
+<div class="blog-thumb"><img src="https://images.unsplash.com/photo-1553729459-afe8f2e2882d?w=400&amp;h=250&amp;fit=crop" alt="Blog"></div>
+<div class="blog-body"><span class="blog-tag">Publishing</span><h3>Amazon KDP Tips for Authors</h3><p>Essential tips and tricks to maximize your success on Amazon's KDP platform.</p><a href="#" class="read-more">Read More →</a></div>
 </div>
-<div class="blog-card reveal">
-<div class="blog-thumb"><img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=250&fit=crop" alt="Blog"></div>
-<div class="blog-body"><span class="blog-tag">Typography</span><h3>Best Typography for Children Books</h3><p>Choosing the right fonts and typography styles for engaging children's books.</p><a href="#" class="read-more">Read More &rarr;</a></div>
+<div class="blog-card reveal active">
+<div class="blog-thumb"><img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&amp;h=250&amp;fit=crop" alt="Blog"></div>
+<div class="blog-body"><span class="blog-tag">Typography</span><h3>Best Typography for Children Books</h3><p>Choosing the right fonts and typography styles for engaging children's books.</p><a href="#" class="read-more">Read More →</a></div>
 </div>
 </div>
 </div>
@@ -395,9 +368,9 @@
 <!-- FAQ -->
 <section class="faq" id="faq">
 <div class="container">
-<span class="section-tag" style="background:rgba(244,180,0,.15);color:var(--accent)">FAQ</span>
-<h2 class="section-title" style="color:var(--white)">Frequently Asked <span class="highlight">Questions</span></h2>
-<div class="faq-list">
+<span class="section-tag reveal active" style="background:rgba(244,180,0,.15);color:var(--accent)">FAQ</span>
+<h2 class="section-title reveal active" style="color:var(--white)">Frequently Asked <span class="highlight">Questions</span></h2>
+<div class="faq-list reveal active">
 <div class="faq-item"><div class="faq-q">Do you provide full KDP publishing support? <span class="icon">+</span></div><div class="faq-a"><p>Yes! I offer complete KDP publishing support including manuscript formatting, cover design, interior layout, and publishing guidance to ensure your book is ready for Amazon.</p></div></div>
 <div class="faq-item"><div class="faq-q">Can you design children book covers? <span class="icon">+</span></div><div class="faq-a"><p>Absolutely! I specialize in colorful, engaging children's book covers and interior illustrations that captivate young readers and their parents.</p></div></div>
 <div class="faq-item"><div class="faq-q">Do you provide source files? <span class="icon">+</span></div><div class="faq-a"><p>Yes, all packages include source files in PSD, AI, or other editable formats so you have full ownership and flexibility with your designs.</p></div></div>
@@ -410,8 +383,8 @@
 <!-- CONTACT -->
 <section class="contact" id="contact">
 <div class="container">
-<div class="contact-info reveal">
-<span class="section-tag">Get In Touch</span>
+<div class="contact-info reveal active">
+<span class="section-tag reveal active">Get In Touch</span>
 <h2 class="contact-info-title" style="font-size:2.4rem;font-weight:800;margin-bottom:24px;line-height:1.2">Let's Talk About Your <span class="highlight">Next Project</span></h2>
 <p style="color:#666;margin-bottom:30px;line-height:1.7">Ready to create something amazing? Let's discuss your project and bring your vision to life.</p>
 <div class="contact-details">
@@ -419,15 +392,13 @@
 <div class="contact-detail"><div class="icon-wrap"><i class="fa-solid fa-phone"></i></div><span>+92 300 1234567</span></div>
 <div class="contact-detail"><div class="icon-wrap"><i class="fa-solid fa-location-dot"></i></div><span>Pakistan (Serving Worldwide)</span></div>
 </div>
-<div class="social-icons">
-<a href="#" data-social="twitter"><i class="fa-brands fa-x-twitter"></i></a><a href="#" data-social="instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" data-social="linkedin"><i class="fa-brands fa-linkedin-in"></i></a><a href="#" data-social="behance"><i class="fa-brands fa-behance"></i></a><a href="#" data-social="facebook"><i class="fa-brands fa-facebook-f"></i></a>
+<div class="social-icons"><a href="#" data-social="instagram" target="_blank"><i class="fa-brands fa-instagram"></i></a><a href="#" data-social="linkedin" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a><a href="#" data-social="tiktok" target="_blank"><i class="fa-brands fa-tiktok"></i></a></div>
 </div>
-</div>
-<div class="reveal">
+<div class="reveal active">
 <form class="contact-form">
 <div class="form-row">
-<div class="form-group"><input type="text" placeholder="Your Name" required></div>
-<div class="form-group"><input type="email" placeholder="Your Email" required></div>
+<div class="form-group"><input type="text" placeholder="Your Name" required=""></div>
+<div class="form-group"><input type="email" placeholder="Your Email" required=""></div>
 </div>
 <div class="form-row">
 <div class="form-group"><input type="tel" placeholder="Phone Number"></div>
@@ -435,7 +406,7 @@
 </div>
 <div class="form-group"><input type="text" placeholder="Budget Range"></div>
 <div class="form-group"><textarea placeholder="Tell me about your project..."></textarea></div>
-<button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send Message &rarr;</button>
+<button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send Message →</button>
 </form>
 </div>
 </div>
@@ -445,31 +416,25 @@
 <footer class="footer">
 <div class="container">
 <div class="footer-grid">
-<div class="footer-brand">
+<div class="footer-brand reveal active">
 <a href="#" class="logo">HAMID <span>RAZA</span></a>
-<p>Professional Book Cover Designer & Amazon KDP Expert. Creating premium designs that help authors stand out and succeed.</p>
-<div class="social-icons" style="margin-top:16px">
-<a href="#" data-social="twitter" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-x-twitter"></i></a>
-<a href="#" data-social="instagram" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-instagram"></i></a>
-<a href="#" data-social="linkedin" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-linkedin-in"></i></a>
-<a href="#" data-social="behance" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-behance"></i></a>
-<a href="#" data-social="facebook" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-facebook-f"></i></a>
+<p>Professional Book Cover Designer &amp; Amazon KDP Expert. Creating premium designs that help authors stand out and succeed.</p>
+<div class="social-icons" style="margin-top:16px"><a href="#" data-social="instagram" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-instagram"></i></a><a href="#" data-social="linkedin" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-linkedin-in"></i></a><a href="#" data-social="tiktok" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-tiktok"></i></a></div>
 </div>
+<div class="footer-col reveal active"><h4>Quick Links</h4><a href="#home">Home</a><a href="#about">About</a><a href="portfolio.html" target="_blank">Portfolio</a><a href="#contact">Contact</a></div>
+<div class="footer-col reveal active"><h4>Services</h4><a href="#">Book Cover Design</a><a href="#">KDP Formatting</a><a href="#">A+ Content</a><a href="#">Branding</a></div>
+<div class="footer-col reveal active"><h4>Contact</h4><a href="mailto:razah3812@gmail.com">razah3812@gmail.com</a><a href="#">+92 300 1234567</a><a href="#">Pakistan</a></div>
 </div>
-<div class="footer-col"><h4>Quick Links</h4><a href="#home">Home</a><a href="#about">About</a><a href="portfolio.html" target="_blank">Portfolio</a><a href="#contact">Contact</a></div>
-<div class="footer-col"><h4>Services</h4><a href="#">Book Cover Design</a><a href="#">KDP Formatting</a><a href="#">A+ Content</a><a href="#">Branding</a></div>
-<div class="footer-col"><h4>Contact</h4><a href="mailto:razah3812@gmail.com">razah3812@gmail.com</a><a href="#">+92 300 1234567</a><a href="#">Pakistan</a></div>
-</div>
-<div class="footer-bottom">&copy; 2026 Hamid Raza. All Rights Reserved.</div>
+<div class="footer-bottom">© 2026 Hamid Raza. All Rights Reserved.</div>
 </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="db.js?v=1.0.3"></script>
-<script src="script.js?v=1.0.3"></script>
+<script src="script.js?v=1.0.4"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script src="admin.js?v=1.0.5"></script>
-<script src="bg-anim.js?v=1.0.5"></script>
+<script src="bg-anim.js?v=1.0.6"></script>
 </body>
 </html>

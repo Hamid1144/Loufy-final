@@ -19,9 +19,13 @@ window.showToast = function (message, type = 'success') {
 
 window.initSiteLogic = function () {
   // Navbar scroll
-  const navScroll = () => document.querySelector('.navbar')?.classList.toggle('scrolled', window.scrollY > 50);
+  let navbarNode = document.querySelector('.navbar');
+  const navScroll = () => {
+    if (!navbarNode) navbarNode = document.querySelector('.navbar');
+    navbarNode?.classList.toggle('scrolled', window.scrollY > 50);
+  };
   window.removeEventListener('scroll', navScroll);
-  window.addEventListener('scroll', navScroll);
+  window.addEventListener('scroll', navScroll, { passive: true });
 
   // Hamburger
   const hamburger = document.querySelector('.hamburger');
@@ -205,15 +209,32 @@ window.initSiteLogic = function () {
 
 window.initSiteLogic();
 
-// Parallax on hero shapes
-window.addEventListener('mousemove', (e) => {
-  const x = (e.clientX / window.innerWidth - 0.5) * 20;
-  const y = (e.clientY / window.innerHeight - 0.5) * 20;
-  document.querySelectorAll('.hero-shape').forEach((s, i) => {
-    const f = i === 0 ? 1 : -1;
-    s.style.transform = `translate(${x * f}px,${y * f}px)`;
+// Parallax on hero shapes (optimized & throttled)
+(function () {
+  let heroShapes = null;
+  let mx = 0, my = 0;
+  let ticking = false;
+
+  window.addEventListener('mousemove', (e) => {
+    mx = (e.clientX / window.innerWidth - 0.5) * 20;
+    my = (e.clientY / window.innerHeight - 0.5) * 20;
+    if (!ticking) {
+      requestAnimationFrame(updateShapes);
+      ticking = true;
+    }
   });
-});
+
+  function updateShapes() {
+    if (!heroShapes) {
+      heroShapes = document.querySelectorAll('.hero-shape');
+    }
+    heroShapes.forEach((s, i) => {
+      const f = i === 0 ? 1 : -1;
+      s.style.transform = `translate3d(${(mx * f).toFixed(1)}px,${(my * f).toFixed(1)}px,0)`;
+    });
+    ticking = false;
+  }
+})();
 
 /* =============================================================
    REALISTIC FLIPBOOK ENGINE  – Single-Page CSS 3D Flip
