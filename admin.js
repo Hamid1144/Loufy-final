@@ -2046,7 +2046,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // Ensure background animation elements are not serialized into database
         clone.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
 
-        
+        // Ensure scroll reveal elements do not save with 'active' class
+        clone.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
         const originalText = saveBtn.innerText;
         saveBtn.innerText = "Saving to Cloud...";
         saveBtn.disabled = true;
@@ -2283,6 +2284,9 @@ document.addEventListener("DOMContentLoaded", () => {
         cloneDoc.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
         cloneDoc.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
         cloneDoc.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
+        
+        // Ensure scroll reveal elements do not export with 'active' class
+        cloneDoc.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
         
         // Remove admin assets
         cloneDoc.querySelectorAll('script[src*="admin.js"], link[href*="admin.css"], link[href*="cropper.min.css"], script[src*="cropper.min.js"]').forEach(el => el.remove());

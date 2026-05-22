@@ -48,11 +48,16 @@ window.initSiteLogic = function () {
   });
 
   // Scroll reveal with IntersectionObserver
-  document.querySelectorAll('.hero-content, .hero-visual, .section-tag, .section-title, .section-sub, .testimonial-slider, .faq-list, .footer-grid > div').forEach(el => {
+  document.querySelectorAll(
+    '.hero-content, .hero-visual, .section-tag, .section-title, .section-sub, ' +
+    '.service-card, .tool-card, .portfolio-card, .timeline-col, .pricing-card, ' +
+    '.testimonial-slider, .blog-card, .faq-list, .footer-grid > div, ' +
+    '.contact-info, .contact-form, .about-img-wrap, .about-content'
+  ).forEach(el => {
     if (!el.classList.contains('reveal')) el.classList.add('reveal');
   });
 
-  const revealObserver = new IntersectionObserver((entries) => {
+  const revealObserver = window.revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
@@ -531,7 +536,7 @@ window.syncPortfolioGrids = function () {
     // Skip if a card with this data-id already exists (avoid duplicates)
     if (item.id && grid.querySelector('[data-admin-id="' + item.id + '"]')) return;
     var card = document.createElement('div');
-    card.className = 'portfolio-card reveal active';
+    card.className = 'portfolio-card reveal';
     card.setAttribute('data-cat', item.cat || 'covers');
     if (item.id) card.setAttribute('data-admin-id', item.id);
     card.innerHTML =
@@ -541,6 +546,9 @@ window.syncPortfolioGrids = function () {
         '<h3>' + (item.title || 'Untitled') + '</h3>' +
       '</div>';
     grid.appendChild(card);
+    if (window.revealObserver) {
+      window.revealObserver.observe(card);
+    }
   });
 
   // 3. Re-run reveal so any new cards animate in
