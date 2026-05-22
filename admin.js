@@ -1777,6 +1777,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (data && data.html_content) {
                 const panel   = document.getElementById('super-admin-panel');
                 const modal   = document.getElementById('admin-crop-modal');
+                const addItemModalEl = document.getElementById('admin-add-item-modal');
                 const rpOvlEl = document.getElementById('fp-rp-overlay');
                 const rpModEl = document.getElementById('fp-rp-modal');
                 
@@ -1793,10 +1794,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (el) el.remove();
                 });
                 
-                if(panel)   document.body.appendChild(panel);
-                if(modal)   document.body.appendChild(modal);
-                if(rpOvlEl) document.body.appendChild(rpOvlEl);
-                if(rpModEl) document.body.appendChild(rpModEl);
+                if(panel)          document.body.appendChild(panel);
+                if(modal)          document.body.appendChild(modal);
+                if(addItemModalEl) document.body.appendChild(addItemModalEl);
+                if(rpOvlEl)        document.body.appendChild(rpOvlEl);
+                if(rpModEl)        document.body.appendChild(rpModEl);
 
                 // Restore background animation elements
                 if(animWrap)   document.body.insertBefore(animWrap, document.body.firstChild);
