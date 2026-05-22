@@ -1744,6 +1744,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 .upsert({ id: pageId, html_content: clone.innerHTML });
                 
             if (error) throw error;
+
+            // Update local cache
+            localStorage.setItem('supabase_cached_html_' + pageId, clone.innerHTML);
             
             // 2. Synchronize portfolio grid and filters to the other page in the background
             try {
@@ -1812,6 +1815,17 @@ document.addEventListener("DOMContentLoaded", () => {
             if (error && error.code !== 'PGRST116') throw error;
 
             if (data && data.html_content) {
+                const cacheKey = `supabase_cached_html_${pageId}`;
+                const cachedHTML = localStorage.getItem(cacheKey);
+                
+                // Always update the cache with the latest content
+                localStorage.setItem(cacheKey, data.html_content);
+                
+                // If we loaded from cache and the fetched content matches the cache, do nothing!
+                if (window.contentLoadedFromCache && cachedHTML === data.html_content) {
+                    return;
+                }
+
                 const panel   = document.getElementById('super-admin-panel');
                 const modal   = document.getElementById('admin-crop-modal');
                 const addItemModalEl = document.getElementById('admin-add-item-modal');
@@ -1907,6 +1921,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error(err);
             }
             localStorage.removeItem(storageKey); // Keep local removal just in case
+            localStorage.removeItem('supabase_cached_html_' + pageId);
             location.reload();
         }
     });
