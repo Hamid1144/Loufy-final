@@ -206,8 +206,11 @@ window.initSiteLogic = function () {
     });
   }
 };
-
-window.initSiteLogic();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', window.initSiteLogic);
+} else {
+  window.initSiteLogic();
+}
 
 // Parallax on hero shapes (optimized & throttled)
 (function () {

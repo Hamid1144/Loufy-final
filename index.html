@@ -12,6 +12,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<script src="db.js?v=1.0.4" defer></script>
+<script src="script.js?v=1.0.4" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
+<script src="admin.js?v=1.0.9" defer></script>
+<script src="bg-anim.js?v=1.0.6" defer></script>
 </head>
 <body>
 <!-- NAVBAR -->
@@ -434,46 +441,41 @@
     try {
       const cached = localStorage.getItem('supabase_cached_html_' + pageId);
       if (cached) {
-        // Save admin panel & modal elements if they exist
-        const panel = document.getElementById('super-admin-panel');
-        const modal = document.getElementById('admin-crop-modal');
-        const addItemModalEl = document.getElementById('admin-add-item-modal');
-        
-        const animWrap = document.getElementById('bg-anim-wrap');
-        const animCanvas = document.getElementById('bg-anim-canvas');
-        const heroGlow = document.getElementById('bg-hero-glow');
-        
-        document.body.innerHTML = cached;
-        
-        // Remove stale anim tags from cached html
-        ['bg-anim-wrap', 'bg-anim-canvas', 'bg-hero-glow'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.remove();
-        });
-        
-        if (panel) document.body.appendChild(panel);
-        if (modal) document.body.appendChild(modal);
-        if (addItemModalEl) document.body.appendChild(addItemModalEl);
-        
-        if (animWrap) document.body.insertBefore(animWrap, document.body.firstChild);
-        if (animCanvas) document.body.insertBefore(animCanvas, document.body.firstChild);
-        if (heroGlow) document.body.insertBefore(heroGlow, document.body.firstChild);
+        document.addEventListener('DOMContentLoaded', () => {
+          // Save admin panel & modal elements if they exist
+          const panel = document.getElementById('super-admin-panel');
+          const modal = document.getElementById('admin-crop-modal');
+          const addItemModalEl = document.getElementById('admin-add-item-modal');
+          
+          const animWrap = document.getElementById('bg-anim-wrap');
+          const animCanvas = document.getElementById('bg-anim-canvas');
+          const heroGlow = document.getElementById('bg-hero-glow');
+          
+          document.body.innerHTML = cached;
+          
+          // Remove stale anim tags from cached html
+          ['bg-anim-wrap', 'bg-anim-canvas', 'bg-hero-glow'].forEach(id => {
+              const el = document.getElementById(id);
+              if (el) el.remove();
+          });
+          
+          if (panel) document.body.appendChild(panel);
+          if (modal) document.body.appendChild(modal);
+          if (addItemModalEl) document.body.appendChild(addItemModalEl);
+          
+          if (animWrap) document.body.insertBefore(animWrap, document.body.firstChild);
+          if (animCanvas) document.body.insertBefore(animCanvas, document.body.firstChild);
+          if (heroGlow) document.body.insertBefore(heroGlow, document.body.firstChild);
 
-        // Mark body as loaded so it fades in immediately!
-        document.body.classList.add('loaded');
-        window.contentLoadedFromCache = true;
+          // Mark body as loaded so it fades in immediately!
+          document.body.classList.add('loaded');
+          window.contentLoadedFromCache = true;
+        });
       }
     } catch (e) {
       console.warn("Failed to load cached content: ", e);
     }
   })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="db.js?v=1.0.4"></script>
-<script src="script.js?v=1.0.4"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-<script src="admin.js?v=1.0.9"></script>
-<script src="bg-anim.js?v=1.0.6"></script>
 </body>
 </html>
