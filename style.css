@@ -229,7 +229,7 @@ section{padding:100px 0}
    STANDARD CARDS — hover popup overlay
    (all cards EXCEPT children and formatting)
    ════════════════════════════════════════════════════ */
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]) .portfolio-info{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]) .portfolio-info{
     position:absolute;
     bottom:0; left:0; right:0;
     background:linear-gradient(0deg,rgba(8,30,20,.92) 0%,rgba(8,30,20,.72) 60%,transparent 100%);
@@ -240,31 +240,32 @@ section{padding:100px 0}
     transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
     pointer-events:none;
 }
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):hover .portfolio-info{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]):hover .portfolio-info{
     transform:translateY(0);
     opacity:1;
     pointer-events:auto;
 }
 /* Tag colors inverted for dark overlay */
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]) .portfolio-info .tags span{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]) .portfolio-info .tags span{
     color:#fff;
     background:rgba(255,255,255,.15);
     border:1px solid rgba(255,255,255,.2);
 }
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]) .portfolio-info h3{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]) .portfolio-info h3{
     color:#fff;
     font-size:1.1rem;
     margin:0;
 }
 /* Scale image slightly on hover for standard cards */
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):hover{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]):hover{
     transform:translateY(-6px);
     box-shadow:0 20px 50px rgba(0,0,0,.15);
 }
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):hover .portfolio-thumb img{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]):hover .portfolio-thumb img{
     transform:scale(1.07);
     filter:brightness(0.75);
 }
+
 
 /* Base portfolio-info defaults (for children/formatting) */
 .portfolio-info{padding:20px;}
@@ -279,15 +280,18 @@ section{padding:100px 0}
 .portfolio-card[data-flipbook="true"]{overflow:visible;}
 
 .portfolio-card[data-cat="formatting"],
-.portfolio-card[data-cat="children"] {
+.portfolio-card[data-cat="children"],
+.portfolio-card[data-flipbook="true"],
+.portfolio-card[data-layout="full-width"] {
     grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
     background: var(--white);
 }
 
-/* ── Children card ── */
-.portfolio-card[data-cat="children"] .portfolio-thumb {
+/* ── Children card / Flipbook ── */
+.portfolio-card[data-cat="children"] .portfolio-thumb,
+.portfolio-card[data-flipbook="true"] .portfolio-thumb {
     overflow: visible;
     height: 560px;
     min-height: 560px;
@@ -297,7 +301,8 @@ section{padding:100px 0}
     background: linear-gradient(135deg,#f0ede8,#e8e4de); /* book scene bg */
 }
 /* Compact info strip below the flipbook */
-.portfolio-card[data-cat="children"] .portfolio-info {
+.portfolio-card[data-cat="children"] .portfolio-info,
+.portfolio-card[data-flipbook="true"] .portfolio-info {
     padding: 8px 16px;
     background: #fff;
     border-top: 1px solid #eee;
@@ -307,52 +312,63 @@ section{padding:100px 0}
     flex-wrap: wrap;
     min-height: unset;
 }
-.portfolio-card[data-cat="children"] .portfolio-info h3 {
+.portfolio-card[data-cat="children"] .portfolio-info h3,
+.portfolio-card[data-flipbook="true"] .portfolio-info h3 {
     font-size: 0.95rem;
     font-weight: 700;
     color: var(--dark);
     margin: 0;
 }
-.portfolio-card[data-cat="children"] .portfolio-info .tags {
+.portfolio-card[data-cat="children"] .portfolio-info .tags,
+.portfolio-card[data-flipbook="true"] .portfolio-info .tags {
     margin: 0;
     gap: 6px;
 }
-.portfolio-card[data-cat="children"] .portfolio-info .tags span {
+.portfolio-card[data-cat="children"] .portfolio-info .tags span,
+.portfolio-card[data-flipbook="true"] .portfolio-info .tags span {
     padding: 2px 10px;
     font-size: 0.7rem;
 }
 /* Don't darken/scale pages on hover */
-.portfolio-card[data-cat="children"]:hover .portfolio-thumb img {
+.portfolio-card[data-cat="children"]:hover .portfolio-thumb img,
+.portfolio-card[data-flipbook="true"]:hover .portfolio-thumb img {
     transform: none !important;
     filter: none !important;
 }
-.portfolio-card[data-cat="children"]:hover {
+.portfolio-card[data-cat="children"]:hover,
+.portfolio-card[data-flipbook="true"]:hover {
     transform: translateY(-4px);
     box-shadow: 0 16px 40px rgba(0,0,0,.12);
 }
 
-/* ── Formatting card ── (unchanged) */
-.portfolio-card[data-cat="formatting"] .portfolio-thumb {
+/* ── Formatting / Full-Width card ── */
+.portfolio-card[data-cat="formatting"] .portfolio-thumb,
+.portfolio-card[data-layout="full-width"] .portfolio-thumb {
     aspect-ratio: 16/9;
     overflow: visible;
     height: auto;
     min-height: 380px;
 }
-.portfolio-card[data-cat="formatting"] .portfolio-info {
+.portfolio-card[data-cat="formatting"] .portfolio-info,
+.portfolio-card[data-layout="full-width"] .portfolio-info {
     padding: 20px;
 }
-.portfolio-card[data-cat="formatting"] .portfolio-thumb img {
+.portfolio-card[data-cat="formatting"] .portfolio-thumb img,
+.portfolio-card[data-layout="full-width"] .portfolio-thumb img {
     object-position: center;
     transition: transform 0.5s;
 }
-.portfolio-card[data-cat="formatting"]:hover .portfolio-thumb img {
+.portfolio-card[data-cat="formatting"]:hover .portfolio-thumb img,
+.portfolio-card[data-layout="full-width"]:hover .portfolio-thumb img {
     transform: scale(1.02);
     filter: brightness(0.85);
 }
-.portfolio-card[data-cat="formatting"]:hover {
+.portfolio-card[data-cat="formatting"]:hover,
+.portfolio-card[data-layout="full-width"]:hover {
     transform: translateY(-6px);
     box-shadow: 0 20px 50px rgba(0,0,0,.12);
 }
+
 
 /* ── Book Scene (Children's flipbook) ── */
 .book-scene {

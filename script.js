@@ -253,7 +253,7 @@ var FLIPBOOK_DEFAULTS = [
 
 window.initFlipbooks = function () {
 
-  document.querySelectorAll('.portfolio-card[data-cat="children"]').forEach(function(card, idx) {
+  document.querySelectorAll('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"]').forEach(function(card, idx) {
     var n      = idx + 1;
     var sId    = 'book-scene-' + n;
     var storeId= 'flipbook-' + n + '-pages';

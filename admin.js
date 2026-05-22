@@ -184,6 +184,65 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         </div>
     </div>
+
+    <!-- Add Portfolio Item Modal -->
+    <div id="admin-add-item-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:199999; justify-content:center; align-items:center; font-family:\'Poppins\', sans-serif;">
+        <div style="background:#1e1e1e; border:1px solid #333; color:#fff; width:90%; max-width:500px; border-radius:12px; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,0.5); display:flex; flex-direction:column; gap:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:12px;">
+                <h3 style="margin:0; font-size:1.25rem; color:#20c997; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-circle-plus"></i> Add Portfolio Item</h3>
+                <button type="button" class="close-add-item-modal" style="background:none; border:none; color:#aaa; font-size:1.5rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <!-- Category Select -->
+                <div style="display:flex; flex-direction:column; gap:5px;">
+                    <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Category</label>
+                    <select id="add-item-category" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; cursor:pointer; width:100%;">
+                        <!-- Will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <!-- Layout/Type Choice -->
+                <div style="display:flex; flex-direction:column; gap:5px;">
+                    <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Item Type / Layout</label>
+                    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+                        <label style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:12px; border:1px solid #444; border-radius:6px; background:#111; cursor:pointer; text-align:center; font-size:0.75rem; transition:0.2s; min-height:85px;">
+                            <input type="radio" name="add-item-layout" value="standard" checked style="display:none;">
+                            <i class="fa-solid fa-image" style="font-size:1.2rem; color:#20c997;"></i>
+                            <span>Standard / Square</span>
+                        </label>
+                        <label style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:12px; border:1px solid #444; border-radius:6px; background:#111; cursor:pointer; text-align:center; font-size:0.75rem; transition:0.2s; min-height:85px;">
+                            <input type="radio" name="add-item-layout" value="full-width" style="display:none;">
+                            <i class="fa-solid fa-arrows-left-right" style="font-size:1.2rem; color:#F4B400;"></i>
+                            <span>Full-Width Layout</span>
+                        </label>
+                        <label style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:12px; border:1px solid #444; border-radius:6px; background:#111; cursor:pointer; text-align:center; font-size:0.75rem; transition:0.2s; min-height:85px;">
+                            <input type="radio" name="add-item-layout" value="flipbook" style="display:none;">
+                            <i class="fa-solid fa-book-open" style="font-size:1.2rem; color:#17a2b8;"></i>
+                            <span>3D Flipbook</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Title Input -->
+                <div style="display:flex; flex-direction:column; gap:5px;">
+                    <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Title</label>
+                    <input type="text" id="add-item-title" placeholder="e.g. Fantasy Book Cover Design" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                </div>
+                
+                <!-- Tags Input -->
+                <div style="display:flex; flex-direction:column; gap:5px;">
+                    <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Tags (comma separated)</label>
+                    <input type="text" id="add-item-tags" placeholder="e.g. Book Cover, Fantasy, Fiction" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                </div>
+            </div>
+            
+            <div style="display:flex; gap:10px; border-top:1px solid #333; padding-top:15px; margin-top:5px;">
+                <button type="button" class="cancel-add-item-modal" style="flex:1; padding:10px; border-radius:6px; border:1px solid #444; background:transparent; color:#ccc; cursor:pointer; font-weight:600; font-size:0.9rem;">Cancel</button>
+                <button type="button" id="confirm-add-item-btn" style="flex:2; padding:10px; border-radius:6px; border:none; background:#20c997; color:#fff; font-weight:700; cursor:pointer; font-size:0.9rem;"><i class="fa-solid fa-plus"></i> Add Item</button>
+            </div>
+        </div>
+    </div>
     `;
     document.body.insertAdjacentHTML('beforeend', adminHTML);
 
@@ -223,9 +282,86 @@ document.addEventListener("DOMContentLoaded", () => {
     const urlInput = document.getElementById("crop-url-input");
     const previewImage = document.getElementById("crop-preview-image");
     
+    // Add Portfolio Item Modal Elements
+    const addItemModal = document.getElementById("admin-add-item-modal");
+    const addItemCategory = document.getElementById("add-item-category");
+    const addItemTitle = document.getElementById("add-item-title");
+    const addItemTags = document.getElementById("add-item-tags");
+    const confirmAddItemBtn = document.getElementById("confirm-add-item-btn");
+    const closeAddItemModalBtn = addItemModal ? addItemModal.querySelector(".close-add-item-modal") : null;
+    const cancelAddItemModalBtn = addItemModal ? addItemModal.querySelector(".cancel-add-item-modal") : null;
+
     let isEditMode = false;
     let cropperInstance = null;
     let currentImageTarget = null; 
+
+    function updateAddItemLayoutHighlights() {
+        if (!addItemModal) return;
+        addItemModal.querySelectorAll('input[name="add-item-layout"]').forEach(radio => {
+            const label = radio.closest('label');
+            if (!label) return;
+            if (radio.checked) {
+                label.style.borderColor = '#20c997';
+                label.style.background = 'rgba(32, 201, 151, 0.1)';
+                label.style.boxShadow = '0 0 10px rgba(32, 201, 151, 0.2)';
+            } else {
+                label.style.borderColor = '#444';
+                label.style.background = '#111';
+                label.style.boxShadow = 'none';
+            }
+        });
+    }
+
+    if (addItemModal) {
+        addItemModal.querySelectorAll('input[name="add-item-layout"]').forEach(radio => {
+            radio.addEventListener('change', updateAddItemLayoutHighlights);
+        });
+    }
+
+    function populateAddItemCategories() {
+        if (!addItemCategory) return;
+        addItemCategory.innerHTML = '';
+        
+        const filterContainer = document.querySelector('.portfolio-filters');
+        const categories = [];
+        if (filterContainer) {
+            filterContainer.querySelectorAll('.filter-btn').forEach(btn => {
+                const cat = btn.getAttribute('data-cat');
+                if (cat && cat !== 'all') {
+                    categories.push({ id: cat, name: btn.innerText.trim() });
+                }
+            });
+        }
+        
+        if (categories.length === 0) {
+            categories.push(
+                { id: 'covers', name: 'Book Covers' },
+                { id: 'children', name: 'Children Books' },
+                { id: 'kdp', name: 'Amazon KDP' },
+                { id: 'branding', name: 'Branding' },
+                { id: 'social', name: 'Social Media' },
+                { id: 'formatting', name: 'Formatting' }
+            );
+        }
+        
+        categories.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = c.name;
+            addItemCategory.appendChild(opt);
+        });
+    }
+
+    if (closeAddItemModalBtn) {
+        closeAddItemModalBtn.addEventListener('click', () => {
+            if (addItemModal) addItemModal.style.display = 'none';
+        });
+    }
+    if (cancelAddItemModalBtn) {
+        cancelAddItemModalBtn.addEventListener('click', () => {
+            if (addItemModal) addItemModal.style.display = 'none';
+        });
+    }
 
     if (addPortfolioBtn && !document.querySelector('.portfolio-grid')) {
         addPortfolioBtn.style.display = 'none';
@@ -618,7 +754,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Remove any previously injected buttons (avoid duplicates on re-init)
         document.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
 
-        document.querySelectorAll('.portfolio-card[data-cat="children"]').forEach((card, idx) => {
+        document.querySelectorAll('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"]').forEach((card, idx) => {
             var scene = card.querySelector('.book-scene');
             if (!scene) return;
 
@@ -699,7 +835,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Populate the "which flipbook" dropdown based on current children cards
     function refreshFlipbookSelector(preferN) {
         if (!flipbookWhichSelect) return;
-        var count = document.querySelectorAll('.portfolio-card[data-cat="children"]').length || 1;
+        var count = document.querySelectorAll('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"]').length || 1;
         flipbookWhichSelect.innerHTML = '';
         for (var i = 1; i <= count; i++) {
             var opt = document.createElement('option');
@@ -1009,7 +1145,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!srcs.length) { window.showToast('Add pages before duplicating.', 'error'); return; }
         var curSize   = getCurrentSize(); // reads from active N
 
-        var existingCount = document.querySelectorAll('.portfolio-card[data-cat="children"]').length;
+        var existingCount = document.querySelectorAll('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"]').length;
         var newN = existingCount + 1;
 
         // Save to localStorage for the new flipbook
@@ -1023,7 +1159,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!grid) { window.showToast('Portfolio grid not found on this page.', 'error'); return; }
 
         // Get info from original card to copy title/description
-        var origCard = document.querySelector('.portfolio-card[data-cat="children"]');
+        var origCard = document.querySelector('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"]');
         var origTitle = origCard ? (origCard.querySelector('h3')?.innerText || 'Children\'s Book') : 'Children\'s Book';
         var origDesc  = origCard ? (origCard.querySelector('p')?.innerText  || 'Flipbook portfolio item') : 'Flipbook portfolio item';
 
@@ -1107,31 +1243,144 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     addPortfolioBtn.addEventListener("click", () => {
-        const grid = document.querySelector('.portfolio-grid');
-        if (grid) {
-            const cat = prompt("Enter the category ID for this item (e.g. covers, children, branding):", "covers");
-            if (!cat) return;
+        if (addItemModal) {
+            populateAddItemCategories();
+            if (addItemTitle) addItemTitle.value = '';
+            if (addItemTags) addItemTags.value = '';
             
+            // Default to standard layout
+            const standardRadio = addItemModal.querySelector('input[name="add-item-layout"][value="standard"]');
+            if (standardRadio) {
+                standardRadio.checked = true;
+            }
+            updateAddItemLayoutHighlights();
+            
+            addItemModal.style.display = 'flex';
+        }
+    });
+
+    if (confirmAddItemBtn) {
+        confirmAddItemBtn.addEventListener('click', () => {
+            const grid = document.querySelector('.portfolio-grid');
+            if (!grid) {
+                window.showToast('Portfolio grid not found on this page.', 'error');
+                if (addItemModal) addItemModal.style.display = 'none';
+                return;
+            }
+            
+            const cat = addItemCategory ? addItemCategory.value : 'covers';
+            const layoutRadio = addItemModal ? addItemModal.querySelector('input[name="add-item-layout"]:checked') : null;
+            const layout = layoutRadio ? layoutRadio.value : 'standard';
+            const title = addItemTitle ? addItemTitle.value.trim() : '';
+            const tagsStr = addItemTags ? addItemTags.value.trim() : '';
+            
+            if (!title) {
+                window.showToast("Please enter a title", "error");
+                return;
+            }
+            
+            // Build tags
+            let tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(Boolean) : [];
+            if (tags.length === 0) {
+                if (layout === 'flipbook') {
+                    tags.push('Children', 'Interior Preview');
+                } else if (layout === 'full-width') {
+                    tags.push('KDP Interior', 'Book Formatting', 'Layout');
+                } else {
+                    const capCat = cat.charAt(0).toUpperCase() + cat.slice(1);
+                    tags.push(capCat);
+                }
+            }
+            const tagsHTML = tags.map(t => `<span>${t}</span>`).join('');
+            
+            // Create the card element
             const newItem = document.createElement('div');
             newItem.className = 'portfolio-card reveal active';
             newItem.setAttribute('data-cat', cat.toLowerCase());
-            newItem.innerHTML = `
-                <div class="portfolio-thumb">
-                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop" alt="New Portfolio Item">
-                </div>
-                <div class="portfolio-info">
-                    <div class="tags"><span>${cat}</span></div>
-                    <h3>New Portfolio Title</h3>
-                </div>
-            `;
+            
+            if (layout === 'full-width') {
+                newItem.setAttribute('data-layout', 'full-width');
+                newItem.innerHTML = `
+                    <div class="portfolio-thumb">
+                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=1200&h=675&fit=crop" alt="${title}">
+                    </div>
+                    <div class="portfolio-info">
+                        <div class="tags">${tagsHTML}</div>
+                        <h3>${title}</h3>
+                    </div>
+                `;
+            } else if (layout === 'flipbook') {
+                newItem.setAttribute('data-flipbook', 'true');
+                
+                // Get next flipbook number
+                const existingCount = document.querySelectorAll('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"]').length;
+                const newN = existingCount + 1;
+                
+                const defaultFlipbookPages = [
+                    "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+                    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=800&fit=crop",
+                    "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&h=800&fit=crop",
+                    "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+                    "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=800&fit=crop",
+                    "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+                    "https://images.unsplash.com/photo-1474932430478-367dbb6832c1?w=600&h=800&fit=crop",
+                    "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop"
+                ];
+                
+                try {
+                    localStorage.setItem('flipbook_pages_' + newN, JSON.stringify(defaultFlipbookPages));
+                    localStorage.setItem('flipbook_size_' + newN, '6x9');
+                } catch(e) {}
+                
+                newItem.innerHTML = `
+                    <div class="portfolio-thumb"></div>
+                    <div id="flipbook-${newN}-pages" style="display: none;">
+                        ${defaultFlipbookPages.map((src, i) => `<div class="flipbook-page"><img src="${src}" alt="Page ${i+1}" loading="lazy"></div>`).join('')}
+                    </div>
+                    <div class="portfolio-info">
+                        <div class="tags">${tagsHTML}</div>
+                        <h3>${title}</h3>
+                    </div>
+                `;
+            } else {
+                newItem.innerHTML = `
+                    <div class="portfolio-thumb">
+                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop" alt="${title}">
+                    </div>
+                    <div class="portfolio-info">
+                        <div class="tags">${tagsHTML}</div>
+                        <h3>${title}</h3>
+                    </div>
+                `;
+            }
+            
+            // Prepend new item
             grid.insertBefore(newItem, grid.firstChild);
+            
             if (isEditMode) {
                 setupContainerToolbar(newItem);
-                newItem.querySelectorAll('h3, span').forEach(el => el.setAttribute("contenteditable", "true"));
+                newItem.querySelectorAll('h3, span').forEach(el => {
+                    el.setAttribute("data-admin-text", "true");
+                    el.setAttribute("contenteditable", "true");
+                });
             }
-            window.showToast("New portfolio item added! Hover to edit.", "success");
-        }
-    });
+            
+            // If it's a flipbook, initialize it
+            if (layout === 'flipbook') {
+                setTimeout(() => {
+                    if (window.initFlipbooks) window.initFlipbooks();
+                    setTimeout(() => {
+                        injectFlipbookLiveButton();
+                        window.showToast("New flipbook added! Click live edit button to customize pages.", "success");
+                    }, 150);
+                }, 80);
+            } else {
+                window.showToast("New portfolio item added! Hover to edit.", "success");
+            }
+            
+            if (addItemModal) addItemModal.style.display = 'none';
+        });
+    }
 
     // 5b. Add Review Logic
     addReviewBtn.addEventListener("click", () => {
@@ -1430,7 +1679,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pricingPanel.style.display !== 'none') managePricingBtn.click();
 
         const clone = document.body.cloneNode(true);
-        const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal');
+        const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal');
         adminElements.forEach(el => el.remove());
 
         clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
@@ -1628,15 +1877,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const wasEditMode = isEditMode;
         if (wasEditMode) toggleBtn.click(); 
 
-        const htmlContent = document.documentElement.outerHTML;
+        if (socialPanel && socialPanel.style.display !== 'none') manageSocialBtn.click();
+        if (pricingPanel && pricingPanel.style.display !== 'none') managePricingBtn.click();
+
+        const cloneDoc = document.documentElement.cloneNode(true);
         
-        let cleanHTML = htmlContent
-            .replace(/<div id="super-admin-panel"[\s\S]*?<\/div>/, '') 
-            .replace(/<div id="admin-crop-modal"[\s\S]*?<\/div>/, '')
-            .replace(/<script src="admin\.js"><\/script>/, '')         
-            .replace(/<link rel="stylesheet" href="admin\.css">/, '')
-            .replace(/<link rel="stylesheet" href="https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/cropperjs\/1\.5\.13\/cropper\.min\.css">/, '')
-            .replace(/<script src="https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/cropperjs\/1\.5\.13\/cropper\.min\.js"><\/script>/, ''); 
+        // Remove admin control panels and modals
+        cloneDoc.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-category-selector-modal, .admin-element-toolbar, #fp-rp-overlay, #fp-rp-modal, #custom-toast').forEach(el => el.remove());
+        cloneDoc.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
+        cloneDoc.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
+        cloneDoc.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
+        
+        // Remove admin assets
+        cloneDoc.querySelectorAll('script[src*="admin.js"], link[href*="admin.css"], link[href*="cropper.min.css"], script[src*="cropper.min.js"]').forEach(el => el.remove());
+
+        const cleanHTML = '<!DOCTYPE html>\n' + cloneDoc.outerHTML;
 
         const blob = new Blob([cleanHTML], { type: "text/html" });
         const a = document.createElement("a");
