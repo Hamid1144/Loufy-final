@@ -3,6 +3,120 @@ document.addEventListener("DOMContentLoaded", () => {
     const isPortfolioPage = window.location.pathname.includes("portfolio.html");
     const storageKey = isPortfolioPage ? "savedPortfolioPageContent" : "savedIndexPageContent";
 
+    // Theme Customizer Presets and Helpers
+    const THEME_PRESETS = {
+        'default': {
+            primary: '#184C3A',
+            accent: '#F4B400',
+            dark: '#111111',
+            light: '#f5f5f5',
+            cardBg: '#ffffff'
+        },
+        'midnight-amber': {
+            primary: '#0f172a',
+            accent: '#f59e0b',
+            dark: '#f8fafc',
+            light: '#020617',
+            cardBg: '#1e293b'
+        },
+        'burgundy-rose': {
+            primary: '#581c2f',
+            accent: '#e11d48',
+            dark: '#1e1b1c',
+            light: '#faf5f6',
+            cardBg: '#ffffff'
+        },
+        'sleek-slate': {
+            primary: '#14b8a6',
+            accent: '#f43f5e',
+            dark: '#f8fafc',
+            light: '#0f172a',
+            cardBg: '#1e293b'
+        },
+        'indigo-cyan': {
+            primary: '#4f46e5',
+            accent: '#06b6d4',
+            dark: '#0f172a',
+            light: '#f8fafc',
+            cardBg: '#ffffff'
+        }
+    };
+
+    function hexToRgb(hex) {
+        hex = hex.replace(/^#/, '');
+        if (hex.length === 3) {
+            hex = hex.split('').map(c => c + c).join('');
+        }
+        const num = parseInt(hex, 16);
+        return {
+            r: (num >> 16) & 255,
+            g: (num >> 8) & 255,
+            b: num & 255
+        };
+    }
+
+    function rgbToString(rgb) {
+        return `${rgb.r},${rgb.g},${rgb.b}`;
+    }
+
+    function adjustBrightness(hex, percent) {
+        const rgb = hexToRgb(hex);
+        const r = Math.min(255, Math.max(0, rgb.r + Math.round(percent * 255)));
+        const g = Math.min(255, Math.max(0, rgb.g + Math.round(percent * 255)));
+        const b = Math.min(255, Math.max(0, rgb.b + Math.round(percent * 255)));
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+
+    function generateThemeCSS(colors) {
+        const primaryRgb = hexToRgb(colors.primary);
+        const accentRgb = hexToRgb(colors.accent);
+        const darkRgb = hexToRgb(colors.dark);
+        const lightRgb = hexToRgb(colors.light);
+        const cardBgRgb = hexToRgb(colors.cardBg);
+
+        const primaryDark = adjustBrightness(colors.primary, -0.2);
+        const primaryDarkRgb = hexToRgb(primaryDark);
+        
+        const primaryLight = adjustBrightness(colors.primary, 0.15);
+        const primaryLightRgb = hexToRgb(primaryLight);
+
+        const accentDark = adjustBrightness(colors.accent, -0.2);
+        const accentDarkRgb = hexToRgb(accentDark);
+
+        const accentLight = adjustBrightness(colors.accent, 0.15);
+        const accentLightRgb = hexToRgb(accentLight);
+
+        return `:root {
+    --primary: ${colors.primary};
+    --primary-rgb: ${rgbToString(primaryRgb)};
+    --primary-dark: ${primaryDark};
+    --primary-dark-rgb: ${rgbToString(primaryDarkRgb)};
+    --primary-light: ${primaryLight};
+    --primary-light-rgb: ${rgbToString(primaryLightRgb)};
+    
+    --accent: ${colors.accent};
+    --accent-rgb: ${rgbToString(accentRgb)};
+    --accent-dark: ${accentDark};
+    --accent-dark-rgb: ${rgbToString(accentDarkRgb)};
+    --accent-light: ${colors.accent};
+    --accent-light-rgb: ${rgbToString(accentRgb)};
+
+    --dark: ${colors.dark};
+    --light: ${colors.light};
+    --card-bg: ${colors.cardBg};
+}`;
+    }
+
+    function applyCustomThemeColors(colors) {
+        let styleEl = document.getElementById('custom-theme-styles');
+        if (!styleEl) {
+            styleEl = document.createElement('style');
+            styleEl.id = 'custom-theme-styles';
+            document.body.insertBefore(styleEl, document.body.firstChild);
+        }
+        styleEl.innerHTML = generateThemeCSS(colors);
+    }
+
     // Predefined socials list
     const predefinedSocials = [
         { id: 'twitter', name: 'Twitter (X)', icon: '<i class="fa-brands fa-x-twitter"></i>' },
@@ -45,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="manage-pricing" class="admin-btn" style="background:#6f42c1;"><i class="fa-solid fa-dollar-sign"></i> Manage Pricing Links</button>
             <button id="manage-sections" class="admin-btn" style="background:#e83e8c;"><i class="fa-solid fa-layer-group"></i> Manage Sections</button>
             <button id="manage-filters" class="admin-btn" style="background:#fd7e14;"><i class="fa-solid fa-tags"></i> Manage Categories</button>
+            <button id="manage-theme" class="admin-btn" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-palette"></i> Customize Theme</button>
             <button id="save-changes" class="admin-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud (Supabase)</button>
             <button id="export-html" class="admin-btn" style="background:#F4B400; color:#111;"><i class="fa-solid fa-file-code"></i> Export Final HTML</button>
             <button id="clear-storage" class="admin-btn danger"><i class="fa-solid fa-rotate-left"></i> Reset Changes</button>
@@ -85,6 +200,49 @@ document.addEventListener("DOMContentLoaded", () => {
                 <input type="text" id="new-filter-id" placeholder="ID e.g. logos" style="width:80px; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem;">
                 <button id="add-filter-btn" class="admin-btn" style="background:#28a745; margin:0; padding:6px 12px; height:auto;"><i class="fa-solid fa-plus"></i> Add</button>
             </div>
+        </div>
+
+        <div id="theme-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+            <p style="font-size:0.75rem; color:#aaa; margin-bottom:10px;">Select a preset or customize colors below.</p>
+            
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333;">
+                <label style="font-size:0.72rem; color:#00bcd4; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:6px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Theme Presets</label>
+                <select id="theme-preset-select" style="width:100%; padding:7px 10px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.82rem; cursor:pointer;">
+                    <option value="default">Forest Green & Gold (Default)</option>
+                    <option value="midnight-amber">Midnight Amber (Dark Mode)</option>
+                    <option value="burgundy-rose">Burgundy Rose (Elegant)</option>
+                    <option value="sleek-slate">Sleek Dark Slate (Modern Dark)</option>
+                    <option value="indigo-cyan">Indigo Cyan (Vibrant)</option>
+                    <option value="custom" disabled>Custom Colors</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; flex-direction:column; gap:8px;">
+                <label style="font-size:0.72rem; color:#00bcd4; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block;"><i class="fa-solid fa-sliders"></i> Custom Colors</label>
+                
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <span style="font-size:0.78rem; color:#ccc;">Primary Color</span>
+                    <input type="color" id="theme-picker-primary" value="#184C3A" style="border:none; width:40px; height:24px; cursor:pointer; background:none;">
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <span style="font-size:0.78rem; color:#ccc;">Accent Color</span>
+                    <input type="color" id="theme-picker-accent" value="#F4B400" style="border:none; width:40px; height:24px; cursor:pointer; background:none;">
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <span style="font-size:0.78rem; color:#ccc;">Dark Text / Icons</span>
+                    <input type="color" id="theme-picker-dark" value="#111111" style="border:none; width:40px; height:24px; cursor:pointer; background:none;">
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <span style="font-size:0.78rem; color:#ccc;">Light Background</span>
+                    <input type="color" id="theme-picker-light" value="#f5f5f5" style="border:none; width:40px; height:24px; cursor:pointer; background:none;">
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <span style="font-size:0.78rem; color:#ccc;">Card Container BG</span>
+                    <input type="color" id="theme-picker-card-bg" value="#ffffff" style="border:none; width:40px; height:24px; cursor:pointer; background:none;">
+                </div>
+            </div>
+
+            <button id="reset-theme-btn" class="admin-btn danger" style="width:100%; margin:0;"><i class="fa-solid fa-rotate-left"></i> Revert to Default Preset</button>
         </div>
 
         <div id="flipbook-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
@@ -284,6 +442,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const urlInput = document.getElementById("crop-url-input");
     const previewImage = document.getElementById("crop-preview-image");
     
+    // Theme Customizer Elements
+    const manageThemeBtn = document.getElementById("manage-theme");
+    const themePanel = document.getElementById("theme-panel");
+    const themePresetSelect = document.getElementById("theme-preset-select");
+    const resetThemeBtn = document.getElementById("reset-theme-btn");
+    
+    const pickerPrimary = document.getElementById("theme-picker-primary");
+    const pickerAccent = document.getElementById("theme-picker-accent");
+    const pickerDark = document.getElementById("theme-picker-dark");
+    const pickerLight = document.getElementById("theme-picker-light");
+    const pickerCardBg = document.getElementById("theme-picker-card-bg");
+    
     // Add Portfolio Item Modal Elements
     const addItemModal = document.getElementById("admin-add-item-modal");
     const addItemCategory = document.getElementById("add-item-category");
@@ -425,11 +595,151 @@ document.addEventListener("DOMContentLoaded", () => {
         document.removeEventListener('mouseup', onStopDrag);
     }
 
+    // 2.5 Theme Customizer Logic
+
+    function initAdminThemePanelFromDOM() {
+        const styleEl = document.getElementById('custom-theme-styles');
+        if (!styleEl) {
+            // No custom styles, select default preset and set pickers to default colors
+            if (themePresetSelect) themePresetSelect.value = 'default';
+            const defaultColors = THEME_PRESETS['default'];
+            if (pickerPrimary) pickerPrimary.value = defaultColors.primary;
+            if (pickerAccent) pickerAccent.value = defaultColors.accent;
+            if (pickerDark) pickerDark.value = defaultColors.dark;
+            if (pickerLight) pickerLight.value = defaultColors.light;
+            if (pickerCardBg) pickerCardBg.value = defaultColors.cardBg;
+            return;
+        }
+
+        const css = styleEl.innerHTML;
+        const primary = (css.match(/--primary:\s*(#[a-fA-F0-9]{3,8})/i) || [, ''])[1];
+        const accent = (css.match(/--accent:\s*(#[a-fA-F0-9]{3,8})/i) || [, ''])[1];
+        const dark = (css.match(/--dark:\s*(#[a-fA-F0-9]{3,8})/i) || [, ''])[1];
+        const light = (css.match(/--light:\s*(#[a-fA-F0-9]{3,8})/i) || [, ''])[1];
+        const cardBg = (css.match(/--card-bg:\s*(#[a-fA-F0-9]{3,8})/i) || [, ''])[1];
+
+        // Update pickers
+        if (pickerPrimary && primary) pickerPrimary.value = primary;
+        if (pickerAccent && accent) pickerAccent.value = accent;
+        if (pickerDark && dark) pickerDark.value = dark;
+        if (pickerLight && light) pickerLight.value = light;
+        if (pickerCardBg && cardBg) pickerCardBg.value = cardBg;
+
+        // Try to match preset
+        let matchedPreset = 'custom';
+        for (const [key, preset] of Object.entries(THEME_PRESETS)) {
+            if (
+                preset.primary.toLowerCase() === (primary || '').toLowerCase() &&
+                preset.accent.toLowerCase() === (accent || '').toLowerCase() &&
+                preset.dark.toLowerCase() === (dark || '').toLowerCase() &&
+                preset.light.toLowerCase() === (light || '').toLowerCase() &&
+                preset.cardBg.toLowerCase() === (cardBg || '').toLowerCase()
+            ) {
+                matchedPreset = key;
+                break;
+            }
+        }
+
+        if (themePresetSelect) {
+            const customOpt = themePresetSelect.querySelector('option[value="custom"]');
+            if (matchedPreset === 'custom') {
+                if (customOpt) customOpt.removeAttribute('disabled');
+            } else {
+                if (customOpt) customOpt.setAttribute('disabled', 'true');
+            }
+            themePresetSelect.value = matchedPreset;
+        }
+    }
+
+    if (manageThemeBtn) {
+        manageThemeBtn.addEventListener("click", () => {
+            // Close other panels
+            document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #flipbook-panel').forEach(p => p.style.display = 'none');
+            
+            const isHidden = themePanel.style.display === 'none';
+            themePanel.style.display = isHidden ? 'block' : 'none';
+            
+            if (isHidden) {
+                initAdminThemePanelFromDOM();
+            }
+        });
+    }
+
+    function onPickerChange() {
+        const customColors = {
+            primary: pickerPrimary.value,
+            accent: pickerAccent.value,
+            dark: pickerDark.value,
+            light: pickerLight.value,
+            cardBg: pickerCardBg.value
+        };
+        
+        if (themePresetSelect) {
+            const customOpt = themePresetSelect.querySelector('option[value="custom"]');
+            if (customOpt) customOpt.removeAttribute('disabled');
+            themePresetSelect.value = 'custom';
+        }
+        
+        applyCustomThemeColors(customColors);
+    }
+
+    [pickerPrimary, pickerAccent, pickerDark, pickerLight, pickerCardBg].forEach(picker => {
+        if (picker) picker.addEventListener('input', onPickerChange);
+    });
+
+    if (themePresetSelect) {
+        themePresetSelect.addEventListener('change', function () {
+            const val = this.value;
+            if (val === 'custom') return;
+            
+            const preset = THEME_PRESETS[val];
+            if (preset) {
+                if (pickerPrimary) pickerPrimary.value = preset.primary;
+                if (pickerAccent) pickerAccent.value = preset.accent;
+                if (pickerDark) pickerDark.value = preset.dark;
+                if (pickerLight) pickerLight.value = preset.light;
+                if (pickerCardBg) pickerCardBg.value = preset.cardBg;
+                
+                applyCustomThemeColors(preset);
+                
+                const customOpt = themePresetSelect.querySelector('option[value="custom"]');
+                if (customOpt) customOpt.setAttribute('disabled', 'true');
+            }
+        });
+    }
+
+    if (resetThemeBtn) {
+        resetThemeBtn.addEventListener('click', () => {
+            if (confirm("Are you sure you want to revert to the default preset?")) {
+                const styleEl = document.getElementById('custom-theme-styles');
+                if (styleEl) styleEl.remove();
+                
+                const defaultColors = THEME_PRESETS['default'];
+                if (pickerPrimary) pickerPrimary.value = defaultColors.primary;
+                if (pickerAccent) pickerAccent.value = defaultColors.accent;
+                if (pickerDark) pickerDark.value = defaultColors.dark;
+                if (pickerLight) pickerLight.value = defaultColors.light;
+                if (pickerCardBg) pickerCardBg.value = defaultColors.cardBg;
+                
+                if (themePresetSelect) {
+                    themePresetSelect.value = 'default';
+                    const customOpt = themePresetSelect.querySelector('option[value="custom"]');
+                    if (customOpt) customOpt.setAttribute('disabled', 'true');
+                }
+                
+                window.showToast("Theme reverted to default preset.", "success");
+            }
+        });
+    }
+
     // 3. Social Icons Logic
 
     manageSocialBtn.addEventListener("click", () => {
         pricingPanel.style.display = 'none';
         sectionsPanel.style.display = 'none';
+        if (filtersPanel) filtersPanel.style.display = 'none';
+        if (flipbookPanel) flipbookPanel.style.display = 'none';
+        if (themePanel) themePanel.style.display = 'none';
         const isHidden = socialPanel.style.display === 'none';
         socialPanel.style.display = isHidden ? 'block' : 'none';
 
@@ -496,6 +806,9 @@ document.addEventListener("DOMContentLoaded", () => {
     managePricingBtn.addEventListener("click", () => {
         socialPanel.style.display = 'none';
         sectionsPanel.style.display = 'none';
+        if (filtersPanel) filtersPanel.style.display = 'none';
+        if (flipbookPanel) flipbookPanel.style.display = 'none';
+        if (themePanel) themePanel.style.display = 'none';
         const isHidden = pricingPanel.style.display === 'none';
         pricingPanel.style.display = isHidden ? 'block' : 'none';
         
@@ -534,6 +847,9 @@ document.addEventListener("DOMContentLoaded", () => {
     manageSectionsBtn.addEventListener("click", () => {
         socialPanel.style.display = 'none';
         pricingPanel.style.display = 'none';
+        if (filtersPanel) filtersPanel.style.display = 'none';
+        if (flipbookPanel) flipbookPanel.style.display = 'none';
+        if (themePanel) themePanel.style.display = 'none';
         const isHidden = sectionsPanel.style.display === 'none';
         sectionsPanel.style.display = isHidden ? 'block' : 'none';
 
@@ -704,6 +1020,8 @@ document.addEventListener("DOMContentLoaded", () => {
         socialPanel.style.display = 'none';
         pricingPanel.style.display = 'none';
         sectionsPanel.style.display = 'none';
+        if (flipbookPanel) flipbookPanel.style.display = 'none';
+        if (themePanel) themePanel.style.display = 'none';
         const isHidden = filtersPanel.style.display === 'none';
         filtersPanel.style.display = isHidden ? 'block' : 'none';
 
@@ -1134,7 +1452,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     manageFlipbookBtn.addEventListener('click', () => {
         const isHidden = flipbookPanel.style.display === 'none';
-        document.querySelectorAll('#social-links-panel,#pricing-links-panel,#sections-panel,#filters-panel').forEach(p => p.style.display = 'none');
+        document.querySelectorAll('#social-links-panel,#pricing-links-panel,#sections-panel,#filters-panel,#theme-panel').forEach(p => p.style.display = 'none');
         flipbookPanel.style.display = isHidden ? 'block' : 'none';
         if (isHidden) {
             refreshFlipbookSelector(); // populate dropdown with current book count
@@ -1775,6 +2093,25 @@ document.addEventListener("DOMContentLoaded", () => {
                         otherFilters.innerHTML = currentFilters.innerHTML;
                         needsUpdate = true;
                     }
+
+                    // Synchronize custom theme styles to the other page
+                    const otherThemeStyle = otherDoc.querySelector('#custom-theme-styles');
+                    const currentThemeStyle = clone.querySelector('#custom-theme-styles');
+                    
+                    if (currentThemeStyle) {
+                        if (otherThemeStyle) {
+                            otherThemeStyle.innerHTML = currentThemeStyle.innerHTML;
+                        } else {
+                            const newStyle = otherDoc.createElement('style');
+                            newStyle.id = 'custom-theme-styles';
+                            newStyle.innerHTML = currentThemeStyle.innerHTML;
+                            otherDoc.body.insertBefore(newStyle, otherDoc.body.firstChild);
+                        }
+                        needsUpdate = true;
+                    } else if (otherThemeStyle) {
+                        otherThemeStyle.remove();
+                        needsUpdate = true;
+                    }
                     
                     if (needsUpdate) {
                         const updatedOtherHtml = otherDoc.body.innerHTML;
@@ -1852,6 +2189,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if(addItemModalEl) document.body.appendChild(addItemModalEl);
                 if(rpOvlEl)        document.body.appendChild(rpOvlEl);
                 if(rpModEl)        document.body.appendChild(rpModEl);
+
+                // Initialize the admin theme panel inputs from loaded DOM
+                initAdminThemePanelFromDOM();
 
                 // Restore background animation elements
                 if(animWrap)   document.body.insertBefore(animWrap, document.body.firstChild);

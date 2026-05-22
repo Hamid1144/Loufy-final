@@ -2,6 +2,9 @@ param (
     [switch]$Force
 )
 
+Add-Type -AssemblyName System.Net.Http
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 $supabaseUrl = 'https://pgictinimttptsxbvngg.supabase.co'
 $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc'
 
@@ -101,20 +104,27 @@ foreach ($page in $pages) {
             }
             $bodyJson = ConvertTo-Json -InputObject $bodyObj -Compress
             
-            # Convert JSON string to UTF-8 bytes to ensure correct content-length and encoding
-            $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($bodyJson)
-            
             try {
-                $updateRes = Invoke-RestMethod -Uri $updateUri -Headers $headers -Method Patch -Body $bodyBytes
-                Write-Host "Successfully pushed '$id' body to Supabase!"
-            } catch {
-                if ($_.Exception.Response) {
-                    $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
-                    $responseBody = $reader.ReadToEnd()
-                    Write-Error "Failed to push '$id' body to Supabase. Response: $responseBody"
+                $httpClient = New-Object System.Net.Http.HttpClient
+                $httpClient.DefaultRequestHeaders.Add("apikey", $supabaseKey)
+                $httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer $supabaseKey")
+
+                $content = New-Object System.Net.Http.StringContent($bodyJson, [System.Text.Encoding]::UTF8, "application/json")
+                
+                $method = New-Object System.Net.Http.HttpMethod("PATCH")
+                $request = New-Object System.Net.Http.HttpRequestMessage($method, $updateUri)
+                $request.Content = $content
+
+                $response = $httpClient.SendAsync($request).Result
+                $responseContent = $response.Content.ReadAsStringAsync().Result
+
+                if ($response.IsSuccessStatusCode) {
+                    Write-Host "Successfully pushed '$id' body to Supabase!"
                 } else {
-                    Write-Error "Failed to push '$id' body to Supabase: $_"
+                    Write-Error "Failed to push '$id' body to Supabase. Status: $($response.StatusCode). Response: $responseContent"
                 }
+            } catch {
+                Write-Error "Failed to push '$id' body to Supabase: $_"
             }
         } else {
             Write-Warning "Could not find body tags in $filePath"

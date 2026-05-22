@@ -106,14 +106,48 @@ window.initSiteLogic = function () {
   });
 
   // Portfolio filter
+  const isMainPage = !window.location.pathname.includes('portfolio.html');
   document.querySelectorAll('.filter-btn').forEach(btn => {
     const oldBtn = btn.cloneNode(true); btn.parentNode.replaceChild(oldBtn, btn);
     oldBtn.addEventListener('click', function () {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
       const cat = this.dataset.cat;
+      
+      let coversCount = 0;
+      let childrenCount = 0;
+      let formattingCount = 0;
+
       document.querySelectorAll('.portfolio-card').forEach(card => {
-        if (cat === 'all' || card.dataset.cat === cat) {
+        const cardCat = card.dataset.cat;
+        let shouldShow = false;
+        
+        if (cat === 'all' || cardCat === cat) {
+          if (!isMainPage) {
+            shouldShow = true;
+          } else {
+            if (cardCat === 'covers') {
+              if (coversCount < 12) {
+                shouldShow = true;
+                coversCount++;
+              }
+            } else if (cardCat === 'children') {
+              if (childrenCount < 1) {
+                shouldShow = true;
+                childrenCount++;
+              }
+            } else if (cardCat === 'formatting') {
+              if (formattingCount < 1) {
+                shouldShow = true;
+                formattingCount++;
+              }
+            } else {
+              shouldShow = true;
+            }
+          }
+        }
+        
+        if (shouldShow) {
           card.style.display = 'block';
           setTimeout(() => card.style.opacity = '1', 10);
         } else {
@@ -127,12 +161,7 @@ window.initSiteLogic = function () {
   // Ensure "All" category is selected by default on load
   const defaultFilter = document.querySelector('.filter-btn[data-cat="all"]');
   if (defaultFilter) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    defaultFilter.classList.add('active');
-    document.querySelectorAll('.portfolio-card').forEach(card => {
-      card.style.display = 'block';
-      card.style.opacity = '1';
-    });
+    defaultFilter.click();
   }
 
   // Tool circle animation
