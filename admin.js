@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="toggle-edit-mode" class="admin-btn"><i class="fa-solid fa-pen-to-square"></i> Enable Edit Mode</button>
             <button id="add-portfolio-item" class="admin-btn" style="background:#17a2b8;"><i class="fa-solid fa-plus"></i> Add Portfolio Item</button>
             <button id="add-review" class="admin-btn" style="background:#28a745;"><i class="fa-solid fa-plus"></i> Add Review</button>
+            <button id="add-package" class="admin-btn" style="background:#b5179e;"><i class="fa-solid fa-plus"></i> Add Pricing Package</button>
             <button id="manage-flipbook" class="admin-btn" style="background:#20c997;"><i class="fa-solid fa-book-open"></i> Manage Flipbook Pages</button>
             <button id="manage-social" class="admin-btn" style="background:#007bff;"><i class="fa-solid fa-share-nodes"></i> Manage Social Icons</button>
             <button id="manage-pricing" class="admin-btn" style="background:#6f42c1;"><i class="fa-solid fa-dollar-sign"></i> Manage Pricing Links</button>
@@ -250,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleBtn = document.getElementById("toggle-edit-mode");
     const addPortfolioBtn = document.getElementById("add-portfolio-item");
     const addReviewBtn = document.getElementById("add-review");
+    const addPackageBtn = document.getElementById("add-package");
     const manageSocialBtn = document.getElementById("manage-social");
     const managePricingBtn = document.getElementById("manage-pricing");
     const manageSectionsBtn = document.getElementById("manage-sections");
@@ -368,6 +370,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (addReviewBtn && !document.querySelector('.testimonial-track')) {
         addReviewBtn.style.display = 'none';
+    }
+    if (addPackageBtn && !document.querySelector('.pricing')) {
+        addPackageBtn.style.display = 'none';
     }
     if (managePricingBtn && !document.querySelector('.pricing')) {
         managePricingBtn.style.display = 'none';
@@ -1422,9 +1427,41 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // 5c. Add Pricing Package Logic
+    if (addPackageBtn) {
+        addPackageBtn.addEventListener("click", () => {
+            const grid = document.querySelector('.pricing-grid');
+            if (grid) {
+                const newCard = document.createElement('div');
+                newCard.className = 'pricing-card reveal active';
+                newCard.innerHTML = `
+                    <h3>New Package</h3>
+                    <div class="price">$99<small>/project</small></div>
+                    <ul>
+                        <li>Feature 1</li>
+                        <li>Feature 2</li>
+                        <li>Feature 3</li>
+                    </ul>
+                    <a href="#contact" data-pricing="custom" class="btn btn-outline" style="width:100%;justify-content:center;border-color:rgba(255,255,255,.3);color:var(--white)">Get Started</a>
+                `;
+                grid.appendChild(newCard);
+                
+                if (isEditMode) {
+                    setupContainerToolbar(newCard);
+                    newCard.querySelectorAll('h3, .price, li, a.btn').forEach(el => {
+                        el.setAttribute("data-admin-text", "true");
+                        el.setAttribute("contenteditable", "true");
+                    });
+                }
+                
+                window.showToast("New package added! Hover to edit/delete, or click text to customize.", "success");
+            }
+        });
+    }
+
     // 6. Setup Editable Elements
     function setupEditableElements() {
-        const textSelectors = 'h1, h2, h3, h4, h5, h6, p, .hero-badge, .float-badge, .skill-tag, .about-float-tag, .stat .num, .stat span, .marquee-track span, .timeline-item span.year, .price, .faq-q, .contact-detail span, .footer-bottom, a.btn, a.learn-more, a.read-more, .tags span, .logo, .footer-col a';
+        const textSelectors = 'h1, h2, h3, h4, h5, h6, p, .hero-badge, .float-badge, .skill-tag, .about-float-tag, .stat .num, .stat span, .marquee-track span, .timeline-item span.year, .price, .faq-q, .contact-detail span, .footer-bottom, a.btn, a.learn-more, a.read-more, .tags span, .logo, .footer-col a, .pricing-card li';
         
         document.querySelectorAll(textSelectors).forEach(el => {
             if (!el.closest('#super-admin-panel') && !el.closest('#admin-crop-modal')) {
@@ -1481,7 +1518,7 @@ document.addEventListener("DOMContentLoaded", () => {
             delBtn.onclick = (e) => { e.preventDefault(); e.stopPropagation(); container.remove(); };
             toolbar.appendChild(delBtn);
 
-            const linkTarget = container.tagName === 'A' ? container : container.querySelector('a:not([data-pricing])');
+            const linkTarget = container.tagName === 'A' ? container : container.querySelector('a');
             if (linkTarget) {
                 const editLinkBtn = document.createElement('button');
                 editLinkBtn.className = 'admin-toolbar-btn edit-link';
