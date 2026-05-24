@@ -2,7 +2,6 @@ param (
     [switch]$Force
 )
 
-Add-Type -AssemblyName System.Net.Http
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 $supabaseUrl = 'https://pgictinimttptsxbvngg.supabase.co'
@@ -28,29 +27,26 @@ foreach ($page in $pages) {
         Write-Host "Reading local body content from $filePath..."
         $htmlContent = Get-Content -Path $filePath -Raw -Encoding UTF8
         
-        # Extract content between <body> and </body> tags
         $pattern = '(?s)<body[^>]*>(.*?)</body>'
         if ($htmlContent -match $pattern) {
             $bodyContent = $Matches[1].Trim()
             
-            # Double check to prevent pushing static background elements to the database
+            # Clean background elements
             if ($bodyContent -match 'bg-anim-wrap' -or $bodyContent -match 'bg-anim-canvas' -or $bodyContent -match 'bg-hero-glow') {
                 Write-Warning "Found serialized background elements in local $id body content. Cleaning before upload..."
                 $bodyContent = $bodyContent -replace '^(?s).*?(?=<!-- NAVBAR -->)', ''
-                
-                # Check for remaining parts
                 $bodyContent = $bodyContent -replace '(?s)<div id="bg-hero-glow"[^>]*>.*?</div>', ''
                 $bodyContent = $bodyContent -replace '(?s)<canvas id="bg-anim-canvas"[^>]*>.*?</canvas>', ''
                 $bodyContent = $bodyContent -replace '(?s)<div id="bg-anim-wrap"[^>]*>(?:\s*<div class="bg-orb"[^>]*></div>)*\s*</div>', ''
             }
 
-            # SMART MERGE LOGIC: If not using -Force, fetch live HTML and replace only the navbar and footer.
+            # Smart Merge Logic
             if (-not $Force) {
                 Write-Host "Checking for existing live content in Supabase to perform safe merge..."
                 $fetchUri = "$supabaseUrl/rest/v1/site_content?id=eq.$id&select=html_content"
                 $liveData = $null
                 try {
-                    $liveData = Invoke-RestMethod -Uri $fetchUri -Headers $headers -Method Get
+                    $liveData = Invoke-RestMethod -Uri $fetchUri -Headers $headers -Method Get -UseBasicParsing
                 } catch {
                     Write-Warning "Could not fetch live content for '$id': $_"
                 }
@@ -89,8 +85,6 @@ foreach ($page in $pages) {
                     } else {
                         Write-Warning "No matches for navbar/footer in live content. Pushing local version directly."
                     }
-                } else {
-                    Write-Host "No live content found to merge. Pushing local file completely."
                 }
             } else {
                 Write-Warning "Force flag enabled. Overwriting live '$id' database content completely with local file!"
@@ -105,29 +99,21 @@ foreach ($page in $pages) {
             $bodyJson = ConvertTo-Json -InputObject $bodyObj -Compress
             
             try {
-                $httpClient = New-Object System.Net.Http.HttpClient
-                $httpClient.DefaultRequestHeaders.Add("apikey", $supabaseKey)
-                $httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer $supabaseKey")
-
-                $content = New-Object System.Net.Http.StringContent($bodyJson, [System.Text.Encoding]::UTF8, "application/json")
+                $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($bodyJson)
+                $response = Invoke-WebRequest -Uri $updateUri -Headers $headers -Method Patch -Body $bodyBytes -UseBasicParsing
                 
-                $method = New-Object System.Net.Http.HttpMethod("PATCH")
-                $request = New-Object System.Net.Http.HttpRequestMessage($method, $updateUri)
-                $request.Content = $content
-
-                $response = $httpClient.SendAsync($request).Result
-                $responseContent = ""
-                if ($response.Content) {
-                    $responseContent = $response.Content.ReadAsStringAsync().Result
-                }
-
-                if ($response.IsSuccessStatusCode) {
+                if ($response.StatusCode -ge 200 -and $response.StatusCode -lt 300) {
                     Write-Host "Successfully pushed '$id' body to Supabase!"
                 } else {
-                    Write-Error "Failed to push '$id' body to Supabase. Status: $($response.StatusCode). Response: $responseContent"
+                    Write-Error "Failed to push '$id' body to Supabase. Status: $($response.StatusCode). Response: $($response.Content)"
                 }
             } catch {
                 Write-Error "Failed to push '$id' body to Supabase: $_"
+                if ($_.Exception.Response) {
+                    $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
+                    $responseBody = $reader.ReadToEnd()
+                    Write-Error "Response Details: $responseBody"
+                }
             }
         } else {
             Write-Warning "Could not find body tags in $filePath"
