@@ -1238,7 +1238,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 sx = 0;
                 sy = (img.naturalHeight - sh) / 2;
             }
-            var outH = 900, outW = Math.round(outH * ratio);
+            var outW = Math.round(sw);
+            var outH = Math.round(sh);
             var c = document.createElement('canvas');
             c.width = outW; c.height = outH;
             var ctx = c.getContext('2d');
@@ -1247,7 +1248,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!isPng) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, outW, outH); }
             ctx.drawImage(img, sx, sy, sw, sh, 0, 0, outW, outH);
             try {
-                callback(c.toDataURL(isPng ? 'image/png' : 'image/jpeg', isPng ? undefined : 0.92));
+                callback(c.toDataURL(isPng ? 'image/png' : 'image/jpeg', isPng ? undefined : 1.0));
             }
             catch(e) { callback(src); }
         };
@@ -2009,7 +2010,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (canvas) {
                 const isPng = /^data:image\/png/i.test(previewImage.src) || /\.png(\?|$)/i.test(previewImage.src);
                 const mimeType = isPng ? 'image/png' : 'image/jpeg';
-                const quality = isPng ? undefined : 0.8;
+                const quality = isPng ? undefined : 1.0;
                 const base64Data = canvas.toDataURL(mimeType, quality);
                 currentImageTarget.src = base64Data;
             }
