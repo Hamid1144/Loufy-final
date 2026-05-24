@@ -160,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="manage-sections" class="admin-btn" style="background:#e83e8c;"><i class="fa-solid fa-layer-group"></i> Manage Sections</button>
             <button id="manage-filters" class="admin-btn" style="background:#fd7e14;"><i class="fa-solid fa-tags"></i> Manage Categories</button>
             <button id="manage-theme" class="admin-btn" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-palette"></i> Customize Theme</button>
+            <button id="change-hero-bg" class="admin-btn" style="background:#7209b7;"><i class="fa-solid fa-image"></i> Change Hero Image</button>
             <button id="save-changes" class="admin-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud (Supabase)</button>
             <button id="export-html" class="admin-btn" style="background:#F4B400; color:#111;"><i class="fa-solid fa-file-code"></i> Export Final HTML</button>
             <button id="clear-storage" class="admin-btn danger"><i class="fa-solid fa-rotate-left"></i> Reset Changes</button>
@@ -419,6 +420,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const exportBtn = document.getElementById("export-html");
     const clearBtn = document.getElementById("clear-storage");
     const closeBtn = document.querySelector(".close-admin");
+    const changeHeroBgBtn = document.getElementById("change-hero-bg");
 
     // Social Links Elements
     const pricingPanel = document.getElementById("pricing-links-panel");
@@ -663,6 +665,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 initAdminThemePanelFromDOM();
             }
         });
+    }
+
+    if (changeHeroBgBtn) {
+        if (isPortfolioPage) {
+            changeHeroBgBtn.style.display = "none";
+        } else {
+            changeHeroBgBtn.addEventListener("click", () => {
+                const heroImg = document.getElementById("hero-bg-image");
+                if (heroImg) {
+                    openCropModal(heroImg);
+                } else {
+                    window.showToast("Hero image not found on this page.", "error");
+                }
+            });
+        }
     }
 
     function onPickerChange() {
