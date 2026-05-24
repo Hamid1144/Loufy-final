@@ -116,7 +116,10 @@ foreach ($page in $pages) {
                 $request.Content = $content
 
                 $response = $httpClient.SendAsync($request).Result
-                $responseContent = $response.Content.ReadAsStringAsync().Result
+                $responseContent = ""
+                if ($response.Content) {
+                    $responseContent = $response.Content.ReadAsStringAsync().Result
+                }
 
                 if ($response.IsSuccessStatusCode) {
                     Write-Host "Successfully pushed '$id' body to Supabase!"

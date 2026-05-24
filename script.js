@@ -50,13 +50,13 @@ window.initSiteLogic = function () {
   // Scroll reveal with IntersectionObserver
   document.querySelectorAll(
     '.hero-content, .hero-visual, .section-tag, .section-title, .section-sub, ' +
-    '.service-card, .tool-card, .portfolio-card, .timeline-col, .pricing-card, ' +
-    '.testimonial-slider, .blog-card, .faq-list, .footer-grid > div, ' +
+    '.service-card, .tool-card, .portfolio-card, .timeline-col, .timeline-item, .pricing-card, ' +
+    '.testimonial-slider, .blog-card, .faq-list, .faq-item, .footer-grid > div, ' +
     '.contact-info, .contact-form, .about-img-wrap, .about-content'
   ).forEach(el => {
     if (!el.classList.contains('reveal')) el.classList.add('reveal');
   });
-
+ 
   const revealObserver = window.revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -65,10 +65,10 @@ window.initSiteLogic = function () {
       }
     });
   }, {
-    threshold: 0.05,
-    rootMargin: '0px 0px -20px 0px'
+    threshold: 0.02,
+    rootMargin: '0px 0px -80px 0px'
   });
-
+ 
   document.querySelectorAll('.reveal').forEach(el => {
     revealObserver.observe(el);
   });
@@ -154,10 +154,18 @@ window.initSiteLogic = function () {
         
         if (shouldShow) {
           card.style.display = 'block';
-          setTimeout(() => card.style.opacity = '1', 10);
+          card.classList.remove('active');
+          card.style.opacity = '';
+          void card.offsetWidth; // Force reflow
+          if (window.revealObserver) {
+            window.revealObserver.observe(card);
+          } else {
+            card.classList.add('active');
+          }
         } else {
-          card.style.opacity = '0';
-          setTimeout(() => card.style.display = 'none', 300);
+          card.classList.remove('active');
+          card.style.opacity = '';
+          card.style.display = 'none';
         }
       });
     });
