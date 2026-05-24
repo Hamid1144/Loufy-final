@@ -50,6 +50,7 @@
 <script src="admin.js?v=3.5.0" defer></script>
 </head>
 <body>
+<!-- NAVBAR -->
 <nav class="navbar">
 <div class="container">
 <a href="#" class="logo">HAMID <span>RAZA</span></a>
@@ -293,6 +294,9 @@
 
           document.body.classList.add('loaded');
           window.contentLoadedFromCache = true;
+          if (window.initSiteLogic) window.initSiteLogic();
+          if (window.bgAnim && typeof window.bgAnim.init === 'function') window.bgAnim.init();
+          if (window.initFlipbooks) window.initFlipbooks();
         });
       }
     } catch (e) {
@@ -302,3 +306,5 @@
 </script>
 </body>
 </html>
+
+
