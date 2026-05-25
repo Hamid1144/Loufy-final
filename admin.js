@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    const isPortfolioPage = window.location.pathname.includes("portfolio.html");
+    const isPortfolioPage = window.location.pathname.split('/').pop().includes("portfolio.html") || !document.querySelector('.hero');
     const storageKey = isPortfolioPage ? "savedPortfolioPageContent" : "savedIndexPageContent";
 
     // Theme Customizer Presets and Helpers
@@ -160,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="manage-sections" class="admin-btn" style="background:#e83e8c;"><i class="fa-solid fa-layer-group"></i> Manage Sections</button>
             <button id="manage-filters" class="admin-btn" style="background:#fd7e14;"><i class="fa-solid fa-tags"></i> Manage Categories</button>
             <button id="manage-theme" class="admin-btn" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-palette"></i> Customize Theme</button>
+            <button id="manage-hero-card" class="admin-btn" style="background:#ff5722; color:#fff;"><i class="fa-solid fa-wand-magic-sparkles"></i> Edit Hero Content</button>
             <button id="change-hero-bg" class="admin-btn" style="background:#7209b7;"><i class="fa-solid fa-image"></i> Change Hero Image</button>
             <button id="save-changes" class="admin-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud (Supabase)</button>
             <button id="export-html" class="admin-btn" style="background:#F4B400; color:#111;"><i class="fa-solid fa-file-code"></i> Export Final HTML</button>
@@ -244,6 +245,98 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
 
             <button id="reset-theme-btn" class="admin-btn danger" style="width:100%; margin:0;"><i class="fa-solid fa-rotate-left"></i> Revert to Default Preset</button>
+        </div>
+
+        <div id="hero-card-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+            <p style="font-size:0.75rem; color:#aaa; margin-bottom:10px;">Customize layout and content of the hero glass card.</p>
+            
+            <!-- Positioning & Styles -->
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; flex-direction:column; gap:8px;">
+                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block;"><i class="fa-solid fa-sliders"></i> Layout & Style</label>
+                
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Horizontal Offset</span>
+                        <span id="hero-offset-x-val">-40px</span>
+                    </div>
+                    <input type="range" id="hero-offset-x" min="-150" max="150" value="-40" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Vertical Offset</span>
+                        <span id="hero-offset-y-val">0px</span>
+                    </div>
+                    <input type="range" id="hero-offset-y" min="-150" max="150" value="0" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Card Width (px)</span>
+                        <span id="hero-card-width-val">720px</span>
+                    </div>
+                    <input type="range" id="hero-card-width-slider" min="300" max="1000" value="720" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Border Radius</span>
+                        <span id="hero-card-radius-val">8px</span>
+                    </div>
+                    <input type="range" id="hero-card-radius-slider" min="0" max="50" value="8" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Backdrop Blur</span>
+                        <span id="hero-card-blur-val">16px</span>
+                    </div>
+                    <input type="range" id="hero-card-blur-slider" min="0" max="40" value="16" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Glass Opacity</span>
+                        <span id="hero-card-opacity-val">0.45</span>
+                    </div>
+                    <input type="range" id="hero-card-opacity-slider" min="10" max="95" value="45" style="width:100%;">
+                </div>
+            </div>
+
+            <!-- Content Settings -->
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; flex-direction:column; gap:8px;">
+                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block;"><i class="fa-solid fa-pen-to-square"></i> Hero Content</label>
+                
+                <div>
+                    <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Hello There Badge</label>
+                    <input type="text" id="hero-badge-text-input" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem;">
+                </div>
+                <div>
+                    <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Main Headline (H1)</label>
+                    <textarea id="hero-title-text-input" rows="3" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem; font-family:sans-serif; resize:vertical;"></textarea>
+                </div>
+                <div>
+                    <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Description Paragraph</label>
+                    <textarea id="hero-desc-text-input" rows="3" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem; font-family:sans-serif; resize:vertical;"></textarea>
+                </div>
+                <div>
+                    <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Experience Badge</label>
+                    <input type="text" id="hero-exp-text-input" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem;">
+                </div>
+                <div>
+                    <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Projects Badge</label>
+                    <input type="text" id="hero-proj-text-input" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem;">
+                </div>
+            </div>
+
+            <!-- Action Buttons Editor -->
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333;">
+                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:8px;"><i class="fa-solid fa-link"></i> Action Buttons</label>
+                <div id="hero-buttons-editor-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px;"></div>
+                <button id="hero-add-button-btn" class="admin-btn" style="width:100%; background:#28a745; font-size:0.75rem; padding:6px; margin:0;"><i class="fa-solid fa-plus"></i> Add New Button</button>
+            </div>
+
+            <!-- Skill Tags Editor -->
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333;">
+                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:8px;"><i class="fa-solid fa-tags"></i> Skill Tags</label>
+                <div id="hero-tags-editor-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px;"></div>
+                <button id="hero-add-tag-btn" class="admin-btn" style="width:100%; background:#28a745; font-size:0.75rem; padding:6px; margin:0;"><i class="fa-solid fa-plus"></i> Add New Tag</button>
+            </div>
         </div>
 
         <div id="flipbook-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
@@ -455,6 +548,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const pickerDark = document.getElementById("theme-picker-dark");
     const pickerLight = document.getElementById("theme-picker-light");
     const pickerCardBg = document.getElementById("theme-picker-card-bg");
+
+    // Hero Card Panel Elements
+    const manageHeroCardBtn = document.getElementById("manage-hero-card");
+    const heroCardPanel = document.getElementById("hero-card-panel");
+    const heroOffsetX = document.getElementById("hero-offset-x");
+    const heroOffsetY = document.getElementById("hero-offset-y");
+    const heroCardWidthSlider = document.getElementById("hero-card-width-slider");
+    const heroCardRadiusSlider = document.getElementById("hero-card-radius-slider");
+    const heroCardBlurSlider = document.getElementById("hero-card-blur-slider");
+    const heroCardOpacitySlider = document.getElementById("hero-card-opacity-slider");
+
+    const heroOffsetXVal = document.getElementById("hero-offset-x-val");
+    const heroOffsetYVal = document.getElementById("hero-offset-y-val");
+    const heroCardWidthVal = document.getElementById("hero-card-width-val");
+    const heroCardRadiusVal = document.getElementById("hero-card-radius-val");
+    const heroCardBlurVal = document.getElementById("hero-card-blur-val");
+    const heroCardOpacityVal = document.getElementById("hero-card-opacity-val");
+
+    const heroButtonsEditorList = document.getElementById("hero-buttons-editor-list");
+    const heroAddButtonBtn = document.getElementById("hero-add-button-btn");
+    const heroTagsEditorList = document.getElementById("hero-tags-editor-list");
+    const heroAddTagBtn = document.getElementById("hero-add-tag-btn");
+
+    const heroBadgeTextInput = document.getElementById("hero-badge-text-input");
+    const heroTitleTextInput = document.getElementById("hero-title-text-input");
+    const heroDescTextInput = document.getElementById("hero-desc-text-input");
+    const heroExpTextInput = document.getElementById("hero-exp-text-input");
+    const heroProjTextInput = document.getElementById("hero-proj-text-input");
     
     // Add Portfolio Item Modal Elements
     const addItemModal = document.getElementById("admin-add-item-modal");
@@ -656,7 +777,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (manageThemeBtn) {
         manageThemeBtn.addEventListener("click", () => {
             // Close other panels
-            document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #flipbook-panel').forEach(p => p.style.display = 'none');
+            document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #flipbook-panel, #hero-card-panel').forEach(p => p.style.display = 'none');
             
             const isHidden = themePanel.style.display === 'none';
             themePanel.style.display = isHidden ? 'block' : 'none';
@@ -757,6 +878,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (filtersPanel) filtersPanel.style.display = 'none';
         if (flipbookPanel) flipbookPanel.style.display = 'none';
         if (themePanel) themePanel.style.display = 'none';
+        if (heroCardPanel) heroCardPanel.style.display = 'none';
         const isHidden = socialPanel.style.display === 'none';
         socialPanel.style.display = isHidden ? 'block' : 'none';
 
@@ -826,6 +948,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (filtersPanel) filtersPanel.style.display = 'none';
         if (flipbookPanel) flipbookPanel.style.display = 'none';
         if (themePanel) themePanel.style.display = 'none';
+        if (heroCardPanel) heroCardPanel.style.display = 'none';
         const isHidden = pricingPanel.style.display === 'none';
         pricingPanel.style.display = isHidden ? 'block' : 'none';
         
@@ -867,6 +990,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (filtersPanel) filtersPanel.style.display = 'none';
         if (flipbookPanel) flipbookPanel.style.display = 'none';
         if (themePanel) themePanel.style.display = 'none';
+        if (heroCardPanel) heroCardPanel.style.display = 'none';
         const isHidden = sectionsPanel.style.display === 'none';
         sectionsPanel.style.display = isHidden ? 'block' : 'none';
 
@@ -1039,6 +1163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sectionsPanel.style.display = 'none';
         if (flipbookPanel) flipbookPanel.style.display = 'none';
         if (themePanel) themePanel.style.display = 'none';
+        if (heroCardPanel) heroCardPanel.style.display = 'none';
         const isHidden = filtersPanel.style.display === 'none';
         filtersPanel.style.display = isHidden ? 'block' : 'none';
 
@@ -1137,7 +1262,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 var panel = document.getElementById('super-admin-panel');
                 if (panel) panel.classList.add('active');
                 // Close other sub-panels, open flipbook panel
-                document.querySelectorAll('#social-links-panel,#pricing-links-panel,#sections-panel,#filters-panel').forEach(p => p.style.display = 'none');
+                document.querySelectorAll('#social-links-panel,#pricing-links-panel,#sections-panel,#filters-panel,#theme-panel,#hero-card-panel').forEach(p => p.style.display = 'none');
                 if (flipbookPanel) {
                     flipbookPanel.style.display = 'block';
                     refreshFlipbookSelector(idx + 1); // pre-select this book
@@ -1470,7 +1595,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     manageFlipbookBtn.addEventListener('click', () => {
         const isHidden = flipbookPanel.style.display === 'none';
-        document.querySelectorAll('#social-links-panel,#pricing-links-panel,#sections-panel,#filters-panel,#theme-panel').forEach(p => p.style.display = 'none');
+        document.querySelectorAll('#social-links-panel,#pricing-links-panel,#sections-panel,#filters-panel,#theme-panel,#hero-card-panel').forEach(p => p.style.display = 'none');
         flipbookPanel.style.display = isHidden ? 'block' : 'none';
         if (isHidden) {
             refreshFlipbookSelector(); // populate dropdown with current book count
@@ -2050,6 +2175,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (socialPanel.style.display !== 'none') manageSocialBtn.click();
         if (pricingPanel.style.display !== 'none') managePricingBtn.click();
+        if (heroCardPanel && heroCardPanel.style.display !== 'none') manageHeroCardBtn.click();
 
         const clone = document.body.cloneNode(true);
         const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal');
@@ -2153,6 +2279,387 @@ document.addEventListener("DOMContentLoaded", () => {
             if (wasEditMode) toggleBtn.click(); 
         }
     });
+
+    // ── Hero Card Settings Logic ──────────────────────────────────────────────
+    function initHeroCardPanelFromDOM() {
+        const heroContent = document.querySelector('.hero-content');
+        if (!heroContent) return;
+
+        const style = heroContent.style;
+        const offsetX = parseInt(style.getPropertyValue('--hero-card-offset-x') || '-40');
+        const offsetY = parseInt(style.getPropertyValue('--hero-card-offset-y') || '0');
+        const cardWidthStr = style.getPropertyValue('--hero-card-width') || '720px';
+        const cardWidth = parseInt(cardWidthStr) || 720;
+        const cardRadius = parseInt(style.getPropertyValue('--hero-card-radius') || '8');
+        const cardBlur = parseInt(style.getPropertyValue('--hero-card-blur') || '16');
+        const cardOpacity = parseFloat(style.getPropertyValue('--hero-card-opacity') || '0.45');
+
+        if (heroOffsetX) {
+            heroOffsetX.value = offsetX;
+            heroOffsetXVal.innerText = offsetX + 'px';
+        }
+        if (heroOffsetY) {
+            heroOffsetY.value = offsetY;
+            heroOffsetYVal.innerText = offsetY + 'px';
+        }
+        if (heroCardWidthSlider) {
+            heroCardWidthSlider.value = cardWidth;
+            heroCardWidthVal.innerText = cardWidth + 'px';
+        }
+        if (heroCardRadiusSlider) {
+            heroCardRadiusSlider.value = cardRadius;
+            heroCardRadiusVal.innerText = cardRadius + 'px';
+        }
+        if (heroCardBlurSlider) {
+            heroCardBlurSlider.value = cardBlur;
+            heroCardBlurVal.innerText = cardBlur + 'px';
+        }
+        if (heroCardOpacitySlider) {
+            heroCardOpacitySlider.value = Math.round(cardOpacity * 100);
+            heroCardOpacityVal.innerText = cardOpacity;
+        }
+
+        // Update content inputs
+        const badgeEl = document.querySelector('.hero-badge');
+        if (badgeEl && heroBadgeTextInput) {
+            const clone = badgeEl.cloneNode(true);
+            const span = clone.querySelector('span');
+            if (span) span.remove();
+            heroBadgeTextInput.value = clone.innerText.trim();
+        }
+        const titleEl = document.querySelector('.hero-content h1');
+        if (titleEl && heroTitleTextInput) {
+            heroTitleTextInput.value = titleEl.innerHTML.trim();
+        }
+        const descEl = document.querySelector('.hero-content p');
+        if (descEl && heroDescTextInput) {
+            heroDescTextInput.value = descEl.innerHTML.trim();
+        }
+        const expEl = document.querySelector('.float-badge.exp');
+        if (expEl && heroExpTextInput) {
+            heroExpTextInput.value = expEl.innerHTML.trim();
+        }
+        const projEl = document.querySelector('.float-badge.proj');
+        if (projEl && heroProjTextInput) {
+            heroProjTextInput.value = projEl.innerHTML.trim();
+        }
+
+        renderHeroButtonsList();
+        renderHeroTagsList();
+    }
+
+    function updateHeroCardStyle(prop, val) {
+        const heroContent = document.querySelector('.hero-content');
+        if (heroContent) {
+            heroContent.style.setProperty(prop, val);
+        }
+    }
+
+    if (heroOffsetX) {
+        heroOffsetX.addEventListener('input', (e) => {
+            const val = e.target.value;
+            heroOffsetXVal.innerText = val + 'px';
+            updateHeroCardStyle('--hero-card-offset-x', val + 'px');
+        });
+    }
+    if (heroOffsetY) {
+        heroOffsetY.addEventListener('input', (e) => {
+            const val = e.target.value;
+            heroOffsetYVal.innerText = val + 'px';
+            updateHeroCardStyle('--hero-card-offset-y', val + 'px');
+        });
+    }
+    if (heroCardWidthSlider) {
+        heroCardWidthSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            heroCardWidthVal.innerText = val + 'px';
+            updateHeroCardStyle('--hero-card-width', val + 'px');
+        });
+    }
+    if (heroCardRadiusSlider) {
+        heroCardRadiusSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            heroCardRadiusVal.innerText = val + 'px';
+            updateHeroCardStyle('--hero-card-radius', val + 'px');
+        });
+    }
+    if (heroCardBlurSlider) {
+        heroCardBlurSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            heroCardBlurVal.innerText = val + 'px';
+            updateHeroCardStyle('--hero-card-blur', val + 'px');
+        });
+    }
+    if (heroCardOpacitySlider) {
+        heroCardOpacitySlider.addEventListener('input', (e) => {
+            const val = e.target.value / 100;
+            heroCardOpacityVal.innerText = val;
+            updateHeroCardStyle('--hero-card-opacity', val);
+        });
+    }
+
+    if (heroBadgeTextInput) {
+        heroBadgeTextInput.addEventListener('input', (e) => {
+            const badgeEl = document.querySelector('.hero-badge');
+            if (badgeEl) {
+                const span = badgeEl.querySelector('span');
+                badgeEl.innerHTML = '';
+                if (span) badgeEl.appendChild(span);
+                badgeEl.appendChild(document.createTextNode(' ' + e.target.value));
+            }
+        });
+    }
+    if (heroTitleTextInput) {
+        heroTitleTextInput.addEventListener('input', (e) => {
+            const titleEl = document.querySelector('.hero-content h1');
+            if (titleEl) {
+                titleEl.innerHTML = e.target.value;
+            }
+        });
+    }
+    if (heroDescTextInput) {
+        heroDescTextInput.addEventListener('input', (e) => {
+            const descEl = document.querySelector('.hero-content p');
+            if (descEl) {
+                descEl.innerHTML = e.target.value;
+            }
+        });
+    }
+    if (heroExpTextInput) {
+        heroExpTextInput.addEventListener('input', (e) => {
+            const expEl = document.querySelector('.float-badge.exp');
+            if (expEl) {
+                expEl.innerHTML = e.target.value;
+            }
+        });
+    }
+    if (heroProjTextInput) {
+        heroProjTextInput.addEventListener('input', (e) => {
+            const projEl = document.querySelector('.float-badge.proj');
+            if (projEl) {
+                projEl.innerHTML = e.target.value;
+            }
+        });
+    }
+
+    function renderHeroButtonsList() {
+        if (!heroButtonsEditorList) return;
+        heroButtonsEditorList.innerHTML = '';
+        
+        const heroBtnsContainer = document.querySelector('.hero-btns');
+        if (!heroBtnsContainer) {
+            heroButtonsEditorList.innerHTML = '<p style="font-size:0.75rem; color:#f44336;">.hero-btns container not found</p>';
+            return;
+        }
+
+        const buttons = heroBtnsContainer.querySelectorAll('a');
+        buttons.forEach((btn, idx) => {
+            const labelText = btn.innerText.replace(/↗|→/g, '').trim();
+            const hrefVal = btn.getAttribute('href') || '';
+            const btnClass = btn.className || '';
+
+            const itemDiv = document.createElement('div');
+            itemDiv.style.cssText = 'border:1px solid #444; padding:8px; border-radius:6px; background:#222; display:flex; flex-direction:column; gap:6px; margin-bottom:4px;';
+            itemDiv.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:0.72rem; color:#888; font-weight:bold;">Button #${idx + 1}</span>
+                    <button class="admin-btn danger btn-delete-hero-btn" data-index="${idx}" style="padding:2px 6px; font-size:0.7rem; margin:0;"><i class="fa-solid fa-trash"></i></button>
+                </div>
+                <input type="text" class="btn-text-input" data-index="${idx}" value="${labelText}" placeholder="Button Text" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
+                <input type="text" class="btn-href-input" data-index="${idx}" value="${hrefVal}" placeholder="Link / Href" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
+                <select class="btn-class-input" data-index="${idx}" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
+                    <option value="btn btn-primary" ${btnClass.includes('btn-primary') ? 'selected' : ''}>Primary (Dark Green)</option>
+                    <option value="btn btn-accent" ${btnClass.includes('btn-accent') ? 'selected' : ''}>Accent (Gold)</option>
+                    <option value="btn btn-outline" ${btnClass.includes('btn-outline') ? 'selected' : ''}>Outline</option>
+                </select>
+            `;
+            heroButtonsEditorList.appendChild(itemDiv);
+        });
+
+        // Add event listeners
+        heroButtonsEditorList.querySelectorAll('.btn-text-input').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const idx = parseInt(e.target.dataset.index);
+                const val = e.target.value;
+                const targetBtn = heroBtnsContainer.querySelectorAll('a')[idx];
+                if (targetBtn) {
+                    const arrow = targetBtn.querySelector('.btn-arrow') ? targetBtn.querySelector('.btn-arrow').outerHTML : '';
+                    targetBtn.innerHTML = val + (arrow ? ' ' + arrow : '');
+                }
+            });
+        });
+
+        heroButtonsEditorList.querySelectorAll('.btn-href-input').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const idx = parseInt(e.target.dataset.index);
+                const val = e.target.value;
+                const targetBtn = heroBtnsContainer.querySelectorAll('a')[idx];
+                if (targetBtn) {
+                    targetBtn.setAttribute('href', val);
+                }
+            });
+        });
+
+        heroButtonsEditorList.querySelectorAll('.btn-class-input').forEach(select => {
+            select.addEventListener('change', (e) => {
+                const idx = parseInt(e.target.dataset.index);
+                const val = e.target.value;
+                const targetBtn = heroBtnsContainer.querySelectorAll('a')[idx];
+                if (targetBtn) {
+                    targetBtn.className = val + ' editable-container';
+                }
+            });
+        });
+
+        heroButtonsEditorList.querySelectorAll('.btn-delete-hero-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.currentTarget.dataset.index);
+                const targetBtn = heroBtnsContainer.querySelectorAll('a')[idx];
+                if (targetBtn) {
+                    targetBtn.remove();
+                    renderHeroButtonsList();
+                }
+            });
+        });
+    }
+
+    if (heroAddButtonBtn) {
+        heroAddButtonBtn.addEventListener('click', () => {
+            const heroBtnsContainer = document.querySelector('.hero-btns');
+            if (!heroBtnsContainer) {
+                window.showToast("Hero buttons container not found.", "error");
+                return;
+            }
+            
+            const newBtn = document.createElement('a');
+            newBtn.setAttribute('href', '#contact');
+            newBtn.className = 'btn btn-primary editable-container';
+            newBtn.setAttribute('data-admin-text', 'true');
+            newBtn.innerHTML = 'New Button <span class="btn-arrow">→</span>';
+            
+            heroBtnsContainer.appendChild(newBtn);
+            
+            renderHeroButtonsList();
+            
+            if (isEditMode) {
+                setupEditableElements();
+                document.querySelectorAll('[data-admin-text="true"]').forEach(el => el.setAttribute("contenteditable", "true"));
+            }
+        });
+    }
+
+    function renderHeroTagsList() {
+        if (!heroTagsEditorList) return;
+        heroTagsEditorList.innerHTML = '';
+
+        const skillTagsContainer = document.querySelector('.skill-tags');
+        if (!skillTagsContainer) {
+            heroTagsEditorList.innerHTML = '<p style="font-size:0.75rem; color:#f44336;">.skill-tags container not found</p>';
+            return;
+        }
+
+        const tags = skillTagsContainer.querySelectorAll('.skill-tag');
+        tags.forEach((tag, idx) => {
+            const iconEl = tag.querySelector('i');
+            const iconClass = iconEl ? iconEl.className : '';
+            const labelText = tag.innerText.trim();
+
+            const itemDiv = document.createElement('div');
+            itemDiv.style.cssText = 'border:1px solid #444; padding:8px; border-radius:6px; background:#222; display:flex; flex-direction:column; gap:6px; margin-bottom:4px;';
+            itemDiv.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:0.72rem; color:#888; font-weight:bold;">Tag #${idx + 1}</span>
+                    <button class="admin-btn danger btn-delete-hero-tag" data-index="${idx}" style="padding:2px 6px; font-size:0.7rem; margin:0;"><i class="fa-solid fa-trash"></i></button>
+                </div>
+                <input type="text" class="tag-text-input" data-index="${idx}" value="${labelText}" placeholder="Tag Text" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
+                <input type="text" class="tag-icon-input" data-index="${idx}" value="${iconClass}" placeholder="Icon CSS e.g. fa-solid fa-star" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
+            `;
+            heroTagsEditorList.appendChild(itemDiv);
+        });
+
+        // Add event listeners
+        heroTagsEditorList.querySelectorAll('.tag-text-input').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const idx = parseInt(e.target.dataset.index);
+                const val = e.target.value;
+                const targetTag = skillTagsContainer.querySelectorAll('.skill-tag')[idx];
+                if (targetTag) {
+                    const iconHTML = targetTag.querySelector('i') ? targetTag.querySelector('i').outerHTML : '';
+                    targetTag.innerHTML = iconHTML + ' ' + val;
+                }
+            });
+        });
+
+        heroTagsEditorList.querySelectorAll('.tag-icon-input').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const idx = parseInt(e.target.dataset.index);
+                const val = e.target.value;
+                const targetTag = skillTagsContainer.querySelectorAll('.skill-tag')[idx];
+                if (targetTag) {
+                    const iconEl = targetTag.querySelector('i');
+                    if (iconEl) {
+                        iconEl.className = val;
+                    } else if (val) {
+                        const newIcon = document.createElement('i');
+                        newIcon.className = val;
+                        targetTag.insertBefore(newIcon, targetTag.firstChild);
+                    }
+                }
+            });
+        });
+
+        heroTagsEditorList.querySelectorAll('.btn-delete-hero-tag').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.currentTarget.dataset.index);
+                const targetTag = skillTagsContainer.querySelectorAll('.skill-tag')[idx];
+                if (targetTag) {
+                    targetTag.remove();
+                    renderHeroTagsList();
+                }
+            });
+        });
+    }
+
+    if (heroAddTagBtn) {
+        heroAddTagBtn.addEventListener('click', () => {
+            const skillTagsContainer = document.querySelector('.skill-tags');
+            if (!skillTagsContainer) {
+                window.showToast("Skill tags container not found.", "error");
+                return;
+            }
+
+            const newTag = document.createElement('span');
+            newTag.className = 'skill-tag editable-container';
+            newTag.setAttribute('data-admin-text', 'true');
+            newTag.innerHTML = '<i class="fa-solid fa-circle-check"></i> New Skill';
+
+            skillTagsContainer.appendChild(newTag);
+
+            renderHeroTagsList();
+
+            if (isEditMode) {
+                setupEditableElements();
+                document.querySelectorAll('[data-admin-text="true"]').forEach(el => el.setAttribute("contenteditable", "true"));
+            }
+        });
+    }
+
+    if (manageHeroCardBtn) {
+        if (isPortfolioPage) {
+            manageHeroCardBtn.style.display = 'none';
+        } else {
+            manageHeroCardBtn.addEventListener("click", () => {
+                document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #theme-panel, #flipbook-panel').forEach(p => p.style.display = 'none');
+                
+                const isHidden = heroCardPanel.style.display === 'none';
+                heroCardPanel.style.display = isHidden ? 'block' : 'none';
+                
+                if (isHidden) {
+                    initHeroCardPanelFromDOM();
+                }
+            });
+        }
+    }
 
     async function loadSavedContent() {
         if (!window.supabaseClient) {
@@ -2294,6 +2801,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (socialPanel && socialPanel.style.display !== 'none') manageSocialBtn.click();
         if (pricingPanel && pricingPanel.style.display !== 'none') managePricingBtn.click();
+        if (heroCardPanel && heroCardPanel.style.display !== 'none') manageHeroCardBtn.click();
 
         const cloneDoc = document.documentElement.cloneNode(true);
         
