@@ -2203,6 +2203,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Floating Text Formatting Toolbar Logic
     let currentTextTarget = null;
+    let savedRange = null;
+
+    function saveSelection() {
+        if (!currentTextTarget) return;
+        const sel = window.getSelection();
+        if (sel.rangeCount > 0) {
+            const range = sel.getRangeAt(0);
+            if (currentTextTarget.contains(range.commonAncestorContainer)) {
+                savedRange = range.cloneRange();
+            }
+        }
+    }
+
+    function restoreSelection() {
+        if (savedRange) {
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(savedRange);
+        }
+    }
+
+    // Save selection whenever selection changes in the document
+    document.addEventListener('selectionchange', () => {
+        if (isEditMode && currentTextTarget) {
+            saveSelection();
+        }
+    });
 
     function initTextToolbarEvents() {
         if (!textToolbar) return;
@@ -2213,6 +2240,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const target = e.target;
             if (target.hasAttribute('contenteditable') && target.getAttribute('contenteditable') === 'true') {
                 currentTextTarget = target;
+                savedRange = null; // Clear previous saved selection
                 showTextToolbar(target);
             }
         });
@@ -2241,9 +2269,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }, { passive: true });
 
-        // Handle color preset click
+        // Handle color preset click (using mousedown to prevent blur)
         textToolbar.querySelectorAll('.text-color-preset').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 if (!currentTextTarget) return;
@@ -2254,7 +2282,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Handle custom color picker input
         if (textColorPicker) {
+            textColorPicker.parentElement.addEventListener('mousedown', (e) => {
+                saveSelection();
+            });
+
             textColorPicker.addEventListener('input', (e) => {
+                if (!currentTextTarget) return;
+                applyTextColor(e.target.value);
+            });
+            
+            textColorPicker.addEventListener('change', (e) => {
                 if (!currentTextTarget) return;
                 applyTextColor(e.target.value);
             });
@@ -2263,11 +2300,12 @@ document.addEventListener("DOMContentLoaded", () => {
         // Handle style buttons
         const boldBtn = textToolbar.querySelector('.bold-btn');
         if (boldBtn) {
-            boldBtn.addEventListener('click', (e) => {
+            boldBtn.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 if (!currentTextTarget) return;
                 
+                restoreSelection();
                 const selection = window.getSelection();
                 if (selection && selection.toString().length > 0 && currentTextTarget.contains(selection.anchorNode)) {
                     document.execCommand('bold', false, null);
@@ -2275,16 +2313,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     const currentWeight = currentTextTarget.style.fontWeight;
                     currentTextTarget.style.fontWeight = (currentWeight === 'bold' || currentWeight === '700') ? 'normal' : 'bold';
                 }
+                saveSelection();
             });
         }
 
         const italicBtn = textToolbar.querySelector('.italic-btn');
         if (italicBtn) {
-            italicBtn.addEventListener('click', (e) => {
+            italicBtn.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 if (!currentTextTarget) return;
                 
+                restoreSelection();
                 const selection = window.getSelection();
                 if (selection && selection.toString().length > 0 && currentTextTarget.contains(selection.anchorNode)) {
                     document.execCommand('italic', false, null);
@@ -2292,13 +2332,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     const currentStyle = currentTextTarget.style.fontStyle;
                     currentTextTarget.style.fontStyle = (currentStyle === 'italic') ? 'normal' : 'italic';
                 }
+                saveSelection();
             });
         }
 
         // Handle Font Size buttons
         const fsIncBtn = textToolbar.querySelector('.fs-inc-btn');
         if (fsIncBtn) {
-            fsIncBtn.addEventListener('click', (e) => {
+            fsIncBtn.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 if (!currentTextTarget) return;
@@ -2306,12 +2347,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 const currentSize = window.getComputedStyle(currentTextTarget).fontSize;
                 const sizeVal = parseFloat(currentSize);
                 currentTextTarget.style.fontSize = (sizeVal + 2) + 'px';
+                
+                currentTextTarget.querySelectorAll('*').forEach(child => {
+                    const childSize = window.getComputedStyle(child).fontSize;
+                    const childVal = parseFloat(childSize);
+                    child.style.fontSize = (childVal + 2) + 'px';
+                });
             });
         }
 
         const fsDecBtn = textToolbar.querySelector('.fs-dec-btn');
         if (fsDecBtn) {
-            fsDecBtn.addEventListener('click', (e) => {
+            fsDecBtn.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 if (!currentTextTarget) return;
@@ -2319,30 +2366,47 @@ document.addEventListener("DOMContentLoaded", () => {
                 const currentSize = window.getComputedStyle(currentTextTarget).fontSize;
                 const sizeVal = parseFloat(currentSize);
                 currentTextTarget.style.fontSize = Math.max(8, sizeVal - 2) + 'px';
+                
+                currentTextTarget.querySelectorAll('*').forEach(child => {
+                    const childSize = window.getComputedStyle(child).fontSize;
+                    const childVal = parseFloat(childSize);
+                    child.style.fontSize = Math.max(8, childVal - 2) + 'px';
+                });
             });
         }
 
         // Handle Reset styles button
         const resetTextBtn = textToolbar.querySelector('.reset-text-btn');
         if (resetTextBtn) {
-            resetTextBtn.addEventListener('click', (e) => {
+            resetTextBtn.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 if (!currentTextTarget) return;
                 
                 // Clear inline style overrides
                 currentTextTarget.style.color = '';
+                currentTextTarget.style.webkitTextFillColor = '';
                 currentTextTarget.style.fontSize = '';
                 currentTextTarget.style.fontWeight = '';
                 currentTextTarget.style.fontStyle = '';
                 
-                // Clean internal spans/fonts if selection exists
+                // Clear children styles
+                currentTextTarget.querySelectorAll('*').forEach(child => {
+                    child.style.color = '';
+                    child.style.webkitTextFillColor = '';
+                    child.style.fontSize = '';
+                    child.style.fontWeight = '';
+                    child.style.fontStyle = '';
+                });
+                
+                restoreSelection();
                 const selection = window.getSelection();
                 if (selection && selection.toString().length > 0 && currentTextTarget.contains(selection.anchorNode)) {
                     document.execCommand('removeFormat', false, null);
                 }
                 
                 updateToolbarState(currentTextTarget);
+                saveSelection();
                 window.showToast("Text styles reset to defaults.", "info");
             });
         }
@@ -2382,17 +2446,36 @@ document.addEventListener("DOMContentLoaded", () => {
             textToolbar.style.display = 'none';
         }
         currentTextTarget = null;
+        savedRange = null;
     }
 
     function applyTextColor(color) {
         if (!currentTextTarget) return;
         
+        restoreSelection();
+        
         const selection = window.getSelection();
         if (selection && selection.toString().length > 0 && currentTextTarget.contains(selection.anchorNode)) {
+            // Apply to selected text only
             document.execCommand('foreColor', false, color);
+            
+            // Clean webkitTextFillColor inside selected nodes to ensure custom color applies
+            currentTextTarget.querySelectorAll('font, span').forEach(el => {
+                el.style.webkitTextFillColor = 'inherit';
+            });
         } else {
+            // Apply to whole element and WebkitTextFill override (for gradients)
             currentTextTarget.style.color = color;
+            currentTextTarget.style.webkitTextFillColor = color;
+            
+            // Clean nested children's custom colors to cascade nicely
+            currentTextTarget.querySelectorAll('*').forEach(child => {
+                child.style.color = color;
+                child.style.webkitTextFillColor = 'inherit';
+            });
         }
+        
+        saveSelection();
     }
 
     function updateToolbarState(el) {
