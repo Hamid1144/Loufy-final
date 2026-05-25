@@ -2200,7 +2200,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!currentImageTarget) return;
 
         if (cropperInstance) {
-            const canvas = cropperInstance.getCroppedCanvas();
+            const canvas = cropperInstance.getCroppedCanvas({
+                maxWidth: 800,
+                maxHeight: 1000,
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high'
+            });
             if (canvas) {
                 const isPng = /^data:image\/png/i.test(previewImage.src) || /\.png(\?|$)/i.test(previewImage.src);
                 const mimeType = isPng ? 'image/png' : 'image/jpeg';
