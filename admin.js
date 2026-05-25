@@ -1405,6 +1405,19 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             var outW = Math.round(sw);
             var outH = Math.round(sh);
+            
+            // Performance optimization: downscale massive page images to max 1000px dimension
+            var maxDim = 1000;
+            if (outW > maxDim || outH > maxDim) {
+                if (outW > outH) {
+                    outH = Math.round(maxDim / ratio);
+                    outW = maxDim;
+                } else {
+                    outW = Math.round(maxDim * ratio);
+                    outH = maxDim;
+                }
+            }
+            
             var c = document.createElement('canvas');
             c.width = outW; c.height = outH;
             var ctx = c.getContext('2d');
@@ -1413,7 +1426,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!isPng) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, outW, outH); }
             ctx.drawImage(img, sx, sy, sw, sh, 0, 0, outW, outH);
             try {
-                callback(c.toDataURL(isPng ? 'image/png' : 'image/jpeg', isPng ? undefined : 1.0));
+                // Compress JPEGs to 0.8 quality to reduce base64 size by 80%+
+                callback(c.toDataURL(isPng ? 'image/png' : 'image/jpeg', isPng ? undefined : 0.8));
             }
             catch(e) { callback(src); }
         };
@@ -2190,7 +2204,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (canvas) {
                 const isPng = /^data:image\/png/i.test(previewImage.src) || /\.png(\?|$)/i.test(previewImage.src);
                 const mimeType = isPng ? 'image/png' : 'image/jpeg';
-                const quality = isPng ? undefined : 1.0;
+                const quality = isPng ? undefined : 0.82;
                 const base64Data = canvas.toDataURL(mimeType, quality);
                 currentImageTarget.src = base64Data;
             }
@@ -2553,7 +2567,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const pageId = isPortfolioPage ? 'portfolio' : 'index';
             const otherPageId = isPortfolioPage ? 'index' : 'portfolio';
             
-            // 1. Save current page content
+            // 1. Save current page content (primary upload)
             const { error } = await window.supabaseClient
                 .from('site_content')
                 .upsert({ id: pageId, html_content: clone.innerHTML });
@@ -2567,65 +2581,69 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.warn("Local storage cache quota exceeded on save:", cacheErr);
             }
             
-            // 2. Synchronize portfolio grid and filters to the other page in the background
-            try {
-                const { data: otherData, error: otherFetchError } = await window.supabaseClient
-                    .from('site_content')
-                    .select('html_content')
-                    .eq('id', otherPageId)
-                    .single();
-
-                if (!otherFetchError && otherData && otherData.html_content) {
-                    const parser = new DOMParser();
-                    const otherDoc = parser.parseFromString(otherData.html_content, 'text/html');
-                    
-                    const otherGrid = otherDoc.querySelector('.portfolio-grid');
-                    const otherFilters = otherDoc.querySelector('.portfolio-filters');
-                    
-                    const currentGrid = clone.querySelector('.portfolio-grid');
-                    const currentFilters = clone.querySelector('.portfolio-filters');
-                    
-                    let needsUpdate = false;
-                    if (otherGrid && currentGrid) {
-                        otherGrid.innerHTML = currentGrid.innerHTML;
-                        needsUpdate = true;
-                    }
-                    if (otherFilters && currentFilters) {
-                        otherFilters.innerHTML = currentFilters.innerHTML;
-                        needsUpdate = true;
-                    }
-
-                    // Synchronize custom theme styles to the other page
-                    const otherThemeStyle = otherDoc.querySelector('#custom-theme-styles');
-                    const currentThemeStyle = clone.querySelector('#custom-theme-styles');
-                    
-                    if (currentThemeStyle) {
-                        if (otherThemeStyle) {
-                            otherThemeStyle.innerHTML = currentThemeStyle.innerHTML;
-                        } else {
-                            const newStyle = otherDoc.createElement('style');
-                            newStyle.id = 'custom-theme-styles';
-                            newStyle.innerHTML = currentThemeStyle.innerHTML;
-                            otherDoc.body.insertBefore(newStyle, otherDoc.body.firstChild);
-                        }
-                        needsUpdate = true;
-                    } else if (otherThemeStyle) {
-                        otherThemeStyle.remove();
-                        needsUpdate = true;
-                    }
-                    
-                    if (needsUpdate) {
-                        const updatedOtherHtml = otherDoc.body.innerHTML;
-                        await window.supabaseClient
-                            .from('site_content')
-                            .upsert({ id: otherPageId, html_content: updatedOtherHtml });
-                    }
-                }
-            } catch (syncErr) {
-                console.error("Failed to synchronize portfolio to other page:", syncErr);
-            }
+            // Notify user immediately that the save succeeded! No waiting for background sync.
+            window.showToast("Changes saved successfully!", "success");
             
-            window.showToast("Changes saved & portfolio synced across pages!", "success");
+            // 2. Synchronize portfolio grid and filters to the other page in the background (ASYNCHRONOUS)
+            (async () => {
+                try {
+                    const { data: otherData, error: otherFetchError } = await window.supabaseClient
+                        .from('site_content')
+                        .select('html_content')
+                        .eq('id', otherPageId)
+                        .single();
+
+                    if (!otherFetchError && otherData && otherData.html_content) {
+                        const parser = new DOMParser();
+                        const otherDoc = parser.parseFromString(otherData.html_content, 'text/html');
+                        
+                        const otherGrid = otherDoc.querySelector('.portfolio-grid');
+                        const otherFilters = otherDoc.querySelector('.portfolio-filters');
+                        
+                        const currentGrid = clone.querySelector('.portfolio-grid');
+                        const currentFilters = clone.querySelector('.portfolio-filters');
+                        
+                        let needsUpdate = false;
+                        if (otherGrid && currentGrid) {
+                            otherGrid.innerHTML = currentGrid.innerHTML;
+                            needsUpdate = true;
+                        }
+                        if (otherFilters && currentFilters) {
+                            otherFilters.innerHTML = currentFilters.innerHTML;
+                            needsUpdate = true;
+                        }
+
+                        // Synchronize custom theme styles to the other page
+                        const otherThemeStyle = otherDoc.querySelector('#custom-theme-styles');
+                        const currentThemeStyle = clone.querySelector('#custom-theme-styles');
+                        
+                        if (currentThemeStyle) {
+                            if (otherThemeStyle) {
+                                otherThemeStyle.innerHTML = currentThemeStyle.innerHTML;
+                            } else {
+                                const newStyle = otherDoc.createElement('style');
+                                newStyle.id = 'custom-theme-styles';
+                                newStyle.innerHTML = currentThemeStyle.innerHTML;
+                                otherDoc.body.insertBefore(newStyle, otherDoc.body.firstChild);
+                            }
+                            needsUpdate = true;
+                        } else if (otherThemeStyle) {
+                            otherThemeStyle.remove();
+                            needsUpdate = true;
+                        }
+                        
+                        if (needsUpdate) {
+                            const updatedOtherHtml = otherDoc.body.innerHTML;
+                            await window.supabaseClient
+                                .from('site_content')
+                                .upsert({ id: otherPageId, html_content: updatedOtherHtml });
+                        }
+                    }
+                } catch (syncErr) {
+                    console.error("Background portfolio sync failed:", syncErr);
+                }
+            })();
+
         } catch (err) {
             console.error(err);
             window.showToast("Failed to save to cloud: " + err.message, "error");
