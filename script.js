@@ -326,7 +326,12 @@ window.initFlipbooks = function () {
 
     /* ── 2. Resolve size ──────────────────────────────────────── */
     var size = '6x9';
-    try { size = localStorage.getItem('flipbook_size_' + n) || '6x9'; } catch(e) {}
+    var sceneEl = document.getElementById(sId) || card.querySelector('.book-scene');
+    if (sceneEl && sceneEl.getAttribute('data-size')) {
+      size = sceneEl.getAttribute('data-size');
+    } else {
+      try { size = localStorage.getItem('flipbook_size_' + n) || '6x9'; } catch(e) {}
+    }
 
     /* ── 3. Build DOM ─────────────────────────────────────────── */
     var thumb = card.querySelector('.portfolio-thumb');
@@ -527,10 +532,14 @@ window.syncPortfolioGrids = function () {
   // 1. Sync flipbook size data-attributes so CSS presets apply correctly
   document.querySelectorAll('.portfolio-card[data-cat="children"]').forEach(function(card, idx) {
     var n = idx + 1;
-    var size = '6x9';
-    try { size = localStorage.getItem('flipbook_size_' + n) || '6x9'; } catch(e) {}
     var scene = card.querySelector('.book-scene');
-    if (scene) scene.setAttribute('data-size', size);
+    if (scene) {
+      var size = scene.getAttribute('data-size');
+      if (!size) {
+        try { size = localStorage.getItem('flipbook_size_' + n) || '6x9'; } catch(e) { size = '6x9'; }
+      }
+      scene.setAttribute('data-size', size);
+    }
   });
 
   // 2. Sync admin-added non-flipbook portfolio cards

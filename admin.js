@@ -1353,9 +1353,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function getCurrentSize() {
+        var scene = document.getElementById('book-scene-' + _activeFlipbookN);
+        if (scene && scene.getAttribute('data-size')) {
+            return scene.getAttribute('data-size');
+        }
         try { return localStorage.getItem('flipbook_size_' + _activeFlipbookN) || '6x9'; } catch(e) { return '6x9'; }
     }
     function saveBookSize(size) {
+        var scene = document.getElementById('book-scene-' + _activeFlipbookN);
+        if (scene) {
+            scene.setAttribute('data-size', size);
+        }
         try { localStorage.setItem('flipbook_size_' + _activeFlipbookN, size); } catch(e) {}
         applyBookSizeToScene(size);
     }
