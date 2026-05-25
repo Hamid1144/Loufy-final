@@ -1406,8 +1406,8 @@ document.addEventListener("DOMContentLoaded", () => {
             var outW = Math.round(sw);
             var outH = Math.round(sh);
             
-            // Performance optimization: downscale massive page images to max 1000px dimension
-            var maxDim = 1000;
+            // Performance optimization: downscale massive page images to max 3000px dimension
+            var maxDim = 3000;
             if (outW > maxDim || outH > maxDim) {
                 if (outW > outH) {
                     outH = Math.round(maxDim / ratio);
@@ -1426,8 +1426,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!isPng) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, outW, outH); }
             ctx.drawImage(img, sx, sy, sw, sh, 0, 0, outW, outH);
             try {
-                // Compress JPEGs to 0.8 quality to reduce base64 size by 80%+
-                callback(c.toDataURL(isPng ? 'image/png' : 'image/jpeg', isPng ? undefined : 0.8));
+                // Compress JPEGs to 1.0 quality to preserve original quality
+                callback(c.toDataURL(isPng ? 'image/png' : 'image/jpeg', isPng ? undefined : 1.0));
             }
             catch(e) { callback(src); }
         };
@@ -2201,15 +2201,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (cropperInstance) {
             const canvas = cropperInstance.getCroppedCanvas({
-                maxWidth: 800,
-                maxHeight: 1000,
                 imageSmoothingEnabled: true,
                 imageSmoothingQuality: 'high'
             });
             if (canvas) {
                 const isPng = /^data:image\/png/i.test(previewImage.src) || /\.png(\?|$)/i.test(previewImage.src);
                 const mimeType = isPng ? 'image/png' : 'image/jpeg';
-                const quality = isPng ? undefined : 0.82;
+                const quality = isPng ? undefined : 1.0;
                 const base64Data = canvas.toDataURL(mimeType, quality);
                 currentImageTarget.src = base64Data;
             }
