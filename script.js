@@ -307,18 +307,19 @@ window.initFlipbooks = function () {
 
     /* ── 1. Resolve pages ─────────────────────────────────────── */
     var pages = null;
-    try {
-      var ls = JSON.parse(localStorage.getItem('flipbook_pages_' + n) || 'null');
-      if (ls && ls.length) pages = ls;
-    } catch(e) {}
+    var htmlStore = document.getElementById(storeId) || card.querySelector('[id$="-pages"]');
+    if (htmlStore) {
+      var h = Array.from(htmlStore.querySelectorAll('.flipbook-page img')).map(function(i){return i.src;}).filter(function(s){return s && !s.endsWith('/');});
+      if (h.length) pages = h;
+    }
 
     if (!pages) {
-      var htmlStore = document.getElementById(storeId) || card.querySelector('[id$="-pages"]');
-      if (htmlStore) {
-        var h = Array.from(htmlStore.querySelectorAll('.flipbook-page img')).map(function(i){return i.src;}).filter(function(s){return s && !s.endsWith('/');});
-        if (h.length) pages = h;
-      }
+      try {
+        var ls = JSON.parse(localStorage.getItem('flipbook_pages_' + n) || 'null');
+        if (ls && ls.length) pages = ls;
+      } catch(e) {}
     }
+    
     if (!pages || !pages.length) pages = FLIPBOOK_DEFAULTS.slice();
     if (pages.length % 2 !== 0) pages.push(pages[pages.length - 1]);
     try { localStorage.setItem('flipbook_pages_' + n, JSON.stringify(pages)); } catch(e) {}
@@ -379,6 +380,7 @@ window.initFlipbooks = function () {
     flipLayer.style.setProperty('--flip-dur', FLIP_MS + 'ms');
 
     function getPages() {
+      if (pages && pages.length) return pages;
       try {
         var r = JSON.parse(localStorage.getItem('flipbook_pages_' + n));
         if (r && r.length) { if (r.length % 2 !== 0) r.push(r[r.length-1]); return r; }

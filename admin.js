@@ -1422,15 +1422,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // localStorage helpers — SINGLE SOURCE OF TRUTH
     function getFlipbookPagesLS(n) {
+        // Read DOM store first (master source of truth)
+        var s = document.getElementById('flipbook-' + n + '-pages');
+        if (s) {
+            var imgs = Array.from(s.querySelectorAll('.flipbook-page img')).map(i => i.src).filter(src => src && !src.endsWith('/'));
+            if (imgs.length) return imgs;
+        }
+        // Fallback to localStorage cache
         try {
             var raw = localStorage.getItem('flipbook_pages_' + n);
             if (raw) { var a = JSON.parse(raw); if (Array.isArray(a) && a.length) return a; }
         } catch(e) {}
-        // fallback: read DOM store for this specific flipbook
-        var s = document.getElementById('flipbook-' + n + '-pages');
-        return s ? Array.from(s.querySelectorAll('.flipbook-page img')).map(i => i.src) : [];
+        return [];
     }
     function setFlipbookPagesLS(n, arr) {
+        // Update DOM store first
+        var s = document.getElementById('flipbook-' + n + '-pages');
+        if (s) {
+            s.innerHTML = arr.map((src, i) => `<div class="flipbook-page"><img src="${src}" alt="Page ${i+1}" loading="lazy"></div>`).join('');
+        }
+        // Sync with localStorage cache safely
         try { localStorage.setItem('flipbook_pages_' + n, JSON.stringify(arr)); } catch(e) {}
     }
     function getFlipbookN() { return _activeFlipbookN; }
@@ -1665,7 +1676,11 @@ document.addEventListener("DOMContentLoaded", () => {
         newCard.className = 'portfolio-card reveal active';
         newCard.setAttribute('data-cat', 'children');
         newCard.innerHTML = `
-            <div class="portfolio-thumb"></div>
+            <div class="portfolio-thumb">
+                <div id="flipbook-${newN}-pages" style="display:none;">
+                    ${srcs.map((src, i) => `<div class="flipbook-page"><img src="${src}" alt="Page ${i+1}" loading="lazy"></div>`).join('')}
+                </div>
+            </div>
             <div class="portfolio-info">
                 <span class="portfolio-badge children">Children Books</span>
                 <h3>${origTitle} (Copy)</h3>
@@ -2537,8 +2552,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 
             if (error) throw error;
 
-            // Update local cache
-            localStorage.setItem('supabase_cached_html_' + pageId, clone.innerHTML);
+            // Update local cache safely (ignore quota errors)
+            try {
+                localStorage.setItem('supabase_cached_html_' + pageId, clone.innerHTML);
+            } catch (cacheErr) {
+                console.warn("Local storage cache quota exceeded on save:", cacheErr);
+            }
             
             // 2. Synchronize portfolio grid and filters to the other page in the background
             try {
@@ -3010,8 +3029,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 const cacheKey = `supabase_cached_html_${pageId}`;
                 const cachedHTML = localStorage.getItem(cacheKey);
                 
-                // Always update the cache with the latest content
-                localStorage.setItem(cacheKey, data.html_content);
+                // Always update the cache with the latest content safely
+                try {
+                    localStorage.setItem(cacheKey, data.html_content);
+                } catch (cacheErr) {
+                    console.warn("Local storage cache quota exceeded on load:", cacheErr);
+                }
                 
                 // If we loaded from cache and the fetched content matches the cache, do nothing!
                 if (window.contentLoadedFromCache && cachedHTML === data.html_content) {
