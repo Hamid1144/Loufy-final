@@ -86,8 +86,33 @@ body.edit-mode [contenteditable="true"]:hover {
 
 body.edit-mode [contenteditable="true"]:focus {
     outline: 2px solid #F4B400 !important;
-    background: #fff;
-    color: #000;
+    outline-offset: 4px;
+    background: rgba(244, 180, 0, 0.05);
+}
+
+/* Floating Text Styling Toolbar */
+#admin-text-toolbar {
+    display: none;
+    position: absolute;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 6px 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    z-index: 100002;
+    gap: 8px;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
+    pointer-events: auto;
+}
+
+.text-color-preset {
+    transition: transform 0.2s;
+}
+
+.text-color-preset:hover {
+    transform: scale(1.2);
 }
 
 /* Hover Toolbar for Elements (Images, Links, Sections) */

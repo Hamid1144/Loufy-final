@@ -496,10 +496,42 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         </div>
     </div>
+
+    <!-- Floating Text Styling & Color Toolbar -->
+    <div id="admin-text-toolbar" style="display:none; position:absolute; background:#111; border:1px solid #333; border-radius:8px; padding:6px 10px; box-shadow:0 8px 30px rgba(0,0,0,0.6); z-index:100002; gap:8px; align-items:center; font-family:\'Poppins\', sans-serif; user-select:none; pointer-events:auto;">
+        <div style="font-size:0.75rem; color:#888; font-weight:600; padding:0 4px; display:flex; align-items:center; gap:4px; border-right:1px solid #333; margin-right:4px; padding-right:8px;">
+            <i class="fa-solid fa-font"></i> Text
+        </div>
+        <!-- Presets -->
+        <div style="display:flex; gap:6px; align-items:center;">
+            <button class="text-color-preset" data-color="#ffffff" title="White" style="width:20px; height:20px; border-radius:50%; border:1px solid #555; background:#ffffff; cursor:pointer; padding:0; box-sizing:border-box;"></button>
+            <button class="text-color-preset" data-color="#184C3A" title="Primary Green" style="width:20px; height:20px; border-radius:50%; border:1px solid #555; background:#184C3A; cursor:pointer; padding:0; box-sizing:border-box;"></button>
+            <button class="text-color-preset" data-color="#F4B400" title="Accent Gold" style="width:20px; height:20px; border-radius:50%; border:1px solid #555; background:#F4B400; cursor:pointer; padding:0; box-sizing:border-box;"></button>
+            <button class="text-color-preset" data-color="#FFE066" title="Light Yellow" style="width:20px; height:20px; border-radius:50%; border:1px solid #555; background:#FFE066; cursor:pointer; padding:0; box-sizing:border-box;"></button>
+            <button class="text-color-preset" data-color="#333333" title="Dark Gray" style="width:20px; height:20px; border-radius:50%; border:1px solid #555; background:#333333; cursor:pointer; padding:0; box-sizing:border-box;"></button>
+        </div>
+        <!-- Custom Color Droplet -->
+        <label title="Custom Color" style="display:inline-flex; align-items:center; justify-content:center; cursor:pointer; width:22px; height:22px; border-radius:50%; background:linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); border:1px solid #555; position:relative; overflow:hidden; margin-left:2px; box-sizing:border-box;">
+            <input type="color" id="text-toolbar-color-picker" style="position:absolute; top:-10px; left:-10px; width:40px; height:40px; border:none; padding:0; cursor:pointer; opacity:0;">
+            <i class="fa-solid fa-droplet" style="font-size:0.6rem; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,0.8); pointer-events:none;"></i>
+        </label>
+        <div style="width:1px; height:18px; background:#333; margin:0 4px;"></div>
+        <!-- Style Controls -->
+        <button class="admin-toolbar-btn bold-btn" title="Toggle Bold" style="padding:4px 8px; font-size:0.75rem; background:#222; color:#fff; border:1px solid #333; border-radius:4px; cursor:pointer; font-weight:bold; height:24px; display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box;"><i class="fa-solid fa-bold"></i></button>
+        <button class="admin-toolbar-btn italic-btn" title="Toggle Italic" style="padding:4px 8px; font-size:0.75rem; background:#222; color:#fff; border:1px solid #333; border-radius:4px; cursor:pointer; font-style:italic; height:24px; display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box;"><i class="fa-solid fa-italic"></i></button>
+        <!-- Size Controls -->
+        <button class="admin-toolbar-btn fs-inc-btn" title="Increase Size" style="padding:4px 8px; font-size:0.75rem; background:#222; color:#fff; border:1px solid #333; border-radius:4px; cursor:pointer; height:24px; display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box;"><i class="fa-solid fa-plus" style="font-size:0.65rem; margin-right:2px;"></i> A</button>
+        <button class="admin-toolbar-btn fs-dec-btn" title="Decrease Size" style="padding:4px 8px; font-size:0.75rem; background:#222; color:#fff; border:1px solid #333; border-radius:4px; cursor:pointer; height:24px; display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box;"><i class="fa-solid fa-minus" style="font-size:0.65rem; margin-right:2px;"></i> A</button>
+        <div style="width:1px; height:18px; background:#333; margin:0 4px;"></div>
+        <!-- Reset -->
+        <button class="admin-toolbar-btn reset-text-btn" title="Reset Styles" style="padding:4px 8px; font-size:0.75rem; background:#dc3545; color:#fff; border:none; border-radius:4px; cursor:pointer; height:24px; display:inline-flex; align-items:center; justify-content:center; font-weight:600; box-sizing:border-box;"><i class="fa-solid fa-rotate-left" style="font-size:0.7rem; margin-right:3px;"></i> Reset</button>
+    </div>
     `;
     document.body.insertAdjacentHTML('beforeend', adminHTML);
 
     const adminPanel = document.getElementById("super-admin-panel");
+    const textToolbar = document.getElementById("admin-text-toolbar");
+    const textColorPicker = document.getElementById("text-toolbar-color-picker");
     const toggleBtn = document.getElementById("toggle-edit-mode");
     const addPortfolioBtn = document.getElementById("add-portfolio-item");
     const addReviewBtn = document.getElementById("add-review");
@@ -2159,14 +2191,228 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleBtn.innerText = "Enable Edit Mode";
             toggleBtn.style.background = "#184C3A";
             document.querySelectorAll('[contenteditable="true"]').forEach(el => el.removeAttribute("contenteditable"));
+            hideTextToolbar();
         }
     });
 
     document.body.addEventListener('click', (e) => {
-        if (isEditMode && e.target.tagName === 'A' && !e.target.classList.contains('admin-toolbar-btn')) {
+        if (isEditMode && e.target.tagName === 'A' && !e.target.classList.contains('admin-toolbar-btn') && !e.target.closest('#admin-text-toolbar')) {
             e.preventDefault();
         }
     });
+
+    // Floating Text Formatting Toolbar Logic
+    let currentTextTarget = null;
+
+    function initTextToolbarEvents() {
+        if (!textToolbar) return;
+
+        // Position & Show Toolbar when focused/clicked on editable text
+        document.body.addEventListener('focusin', (e) => {
+            if (!isEditMode) return;
+            const target = e.target;
+            if (target.hasAttribute('contenteditable') && target.getAttribute('contenteditable') === 'true') {
+                currentTextTarget = target;
+                showTextToolbar(target);
+            }
+        });
+
+        document.body.addEventListener('click', (e) => {
+            if (!isEditMode) return;
+            
+            // Check if clicking inside an editable element
+            const target = e.target.closest('[contenteditable="true"]');
+            if (target) {
+                currentTextTarget = target;
+                showTextToolbar(target);
+                return;
+            }
+
+            // Hide if clicking outside toolbar and not editing
+            if (!e.target.closest('#admin-text-toolbar')) {
+                hideTextToolbar();
+            }
+        });
+
+        // Reposition toolbar when scrolling
+        window.addEventListener('scroll', () => {
+            if (isEditMode && currentTextTarget) {
+                showTextToolbar(currentTextTarget);
+            }
+        }, { passive: true });
+
+        // Handle color preset click
+        textToolbar.querySelectorAll('.text-color-preset').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!currentTextTarget) return;
+                const color = btn.getAttribute('data-color');
+                applyTextColor(color);
+            });
+        });
+
+        // Handle custom color picker input
+        if (textColorPicker) {
+            textColorPicker.addEventListener('input', (e) => {
+                if (!currentTextTarget) return;
+                applyTextColor(e.target.value);
+            });
+        }
+
+        // Handle style buttons
+        const boldBtn = textToolbar.querySelector('.bold-btn');
+        if (boldBtn) {
+            boldBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!currentTextTarget) return;
+                
+                const selection = window.getSelection();
+                if (selection && selection.toString().length > 0 && currentTextTarget.contains(selection.anchorNode)) {
+                    document.execCommand('bold', false, null);
+                } else {
+                    const currentWeight = currentTextTarget.style.fontWeight;
+                    currentTextTarget.style.fontWeight = (currentWeight === 'bold' || currentWeight === '700') ? 'normal' : 'bold';
+                }
+            });
+        }
+
+        const italicBtn = textToolbar.querySelector('.italic-btn');
+        if (italicBtn) {
+            italicBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!currentTextTarget) return;
+                
+                const selection = window.getSelection();
+                if (selection && selection.toString().length > 0 && currentTextTarget.contains(selection.anchorNode)) {
+                    document.execCommand('italic', false, null);
+                } else {
+                    const currentStyle = currentTextTarget.style.fontStyle;
+                    currentTextTarget.style.fontStyle = (currentStyle === 'italic') ? 'normal' : 'italic';
+                }
+            });
+        }
+
+        // Handle Font Size buttons
+        const fsIncBtn = textToolbar.querySelector('.fs-inc-btn');
+        if (fsIncBtn) {
+            fsIncBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!currentTextTarget) return;
+                
+                const currentSize = window.getComputedStyle(currentTextTarget).fontSize;
+                const sizeVal = parseFloat(currentSize);
+                currentTextTarget.style.fontSize = (sizeVal + 2) + 'px';
+            });
+        }
+
+        const fsDecBtn = textToolbar.querySelector('.fs-dec-btn');
+        if (fsDecBtn) {
+            fsDecBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!currentTextTarget) return;
+                
+                const currentSize = window.getComputedStyle(currentTextTarget).fontSize;
+                const sizeVal = parseFloat(currentSize);
+                currentTextTarget.style.fontSize = Math.max(8, sizeVal - 2) + 'px';
+            });
+        }
+
+        // Handle Reset styles button
+        const resetTextBtn = textToolbar.querySelector('.reset-text-btn');
+        if (resetTextBtn) {
+            resetTextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!currentTextTarget) return;
+                
+                // Clear inline style overrides
+                currentTextTarget.style.color = '';
+                currentTextTarget.style.fontSize = '';
+                currentTextTarget.style.fontWeight = '';
+                currentTextTarget.style.fontStyle = '';
+                
+                // Clean internal spans/fonts if selection exists
+                const selection = window.getSelection();
+                if (selection && selection.toString().length > 0 && currentTextTarget.contains(selection.anchorNode)) {
+                    document.execCommand('removeFormat', false, null);
+                }
+                
+                updateToolbarState(currentTextTarget);
+                window.showToast("Text styles reset to defaults.", "info");
+            });
+        }
+    }
+
+    function showTextToolbar(el) {
+        if (!textToolbar) return;
+        
+        textToolbar.style.display = 'flex';
+        
+        // Calculate position
+        const rect = el.getBoundingClientRect();
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+        
+        const toolbarHeight = textToolbar.offsetHeight || 42;
+        const toolbarWidth = textToolbar.offsetWidth || 340;
+        
+        let top = rect.top + scrollTop - toolbarHeight - 12;
+        let left = rect.left + scrollLeft + (rect.width - toolbarWidth) / 2;
+        
+        if (top < scrollTop + 10) {
+            top = rect.bottom + scrollTop + 12; // place below if not enough room above
+        }
+        if (left < 10) left = 10;
+        const maxLeft = window.innerWidth - toolbarWidth - 10;
+        if (left > maxLeft) left = maxLeft;
+        
+        textToolbar.style.top = top + 'px';
+        textToolbar.style.left = left + 'px';
+        
+        updateToolbarState(el);
+    }
+
+    function hideTextToolbar() {
+        if (textToolbar) {
+            textToolbar.style.display = 'none';
+        }
+        currentTextTarget = null;
+    }
+
+    function applyTextColor(color) {
+        if (!currentTextTarget) return;
+        
+        const selection = window.getSelection();
+        if (selection && selection.toString().length > 0 && currentTextTarget.contains(selection.anchorNode)) {
+            document.execCommand('foreColor', false, color);
+        } else {
+            currentTextTarget.style.color = color;
+        }
+    }
+
+    function updateToolbarState(el) {
+        if (!textColorPicker) return;
+        const computedStyle = window.getComputedStyle(el);
+        const currentColor = el.style.color || computedStyle.color;
+        textColorPicker.value = rgbToHex(currentColor) || '#ffffff';
+    }
+
+    function rgbToHex(rgb) {
+        if (!rgb) return null;
+        if (rgb.startsWith('#')) return rgb;
+        const match = rgb.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i);
+        if (match) {
+            return "#" + ("0" + parseInt(match[1], 10).toString(16)).slice(-2) +
+                         ("0" + parseInt(match[2], 10).toString(16)).slice(-2) +
+                         ("0" + parseInt(match[3], 10).toString(16)).slice(-2);
+        }
+        return null;
+    }
 
     // 9. Saving and Loading via Supabase
     saveBtn.addEventListener("click", async () => {
@@ -2178,7 +2424,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (heroCardPanel && heroCardPanel.style.display !== 'none') manageHeroCardBtn.click();
 
         const clone = document.body.cloneNode(true);
-        const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal');
+        const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar');
         adminElements.forEach(el => el.remove());
 
         clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
@@ -2693,6 +2939,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const panel   = document.getElementById('super-admin-panel');
                 const modal   = document.getElementById('admin-crop-modal');
                 const addItemModalEl = document.getElementById('admin-add-item-modal');
+                const textToolbarEl = document.getElementById('admin-text-toolbar');
                 const rpOvlEl = document.getElementById('fp-rp-overlay');
                 const rpModEl = document.getElementById('fp-rp-modal');
                 
@@ -2705,7 +2952,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.body.innerHTML = data.html_content;
                 
                 // Remove any stale background elements parsed from the cloud HTML to prevent duplicates
-                ['bg-anim-wrap', 'bg-anim-canvas', 'bg-hero-glow'].forEach(id => {
+                ['bg-anim-wrap', 'bg-anim-canvas', 'bg-hero-glow', 'admin-text-toolbar'].forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.remove();
                 });
@@ -2713,6 +2960,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if(panel)          document.body.appendChild(panel);
                 if(modal)          document.body.appendChild(modal);
                 if(addItemModalEl) document.body.appendChild(addItemModalEl);
+                if(textToolbarEl)  document.body.appendChild(textToolbarEl);
                 if(rpOvlEl)        document.body.appendChild(rpOvlEl);
                 if(rpModEl)        document.body.appendChild(rpModEl);
 
@@ -2806,7 +3054,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const cloneDoc = document.documentElement.cloneNode(true);
         
         // Remove admin control panels and modals
-        cloneDoc.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-category-selector-modal, .admin-element-toolbar, #fp-rp-overlay, #fp-rp-modal, #custom-toast').forEach(el => el.remove());
+        cloneDoc.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-category-selector-modal, #admin-text-toolbar, .admin-element-toolbar, #fp-rp-overlay, #fp-rp-modal, #custom-toast').forEach(el => el.remove());
         cloneDoc.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
         cloneDoc.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
         cloneDoc.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
@@ -2828,5 +3076,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (wasEditMode) toggleBtn.click(); 
     });
 
+    initTextToolbarEvents();
     loadSavedContent();
 });
