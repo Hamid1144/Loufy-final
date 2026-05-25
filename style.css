@@ -230,7 +230,7 @@ section{padding:100px 0}
 .learn-more:hover{color:var(--accent);gap:12px}
 
 /* ABOUT */
-.about{background:var(--primary);color:var(--white);position:relative;overflow:hidden}
+.about{background:rgba(var(--primary-rgb),0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--white);position:relative;overflow:hidden}
 .about .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
 .about-img-wrap{position:relative;display:flex;justify-content:center}
 .about-img{width:350px;height:350px;border-radius:50%;overflow:hidden;border:6px solid rgba(var(--accent-rgb),.3);box-shadow:0 20px 60px rgba(0,0,0,.2)}
@@ -841,7 +841,7 @@ section{padding:100px 0}
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 /* TIMELINE */
-.timeline{background:var(--light)}
+.timeline{background:rgba(245,245,245,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .timeline .container{text-align:center}
 .timeline-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:50px;text-align:left}
 .timeline-col h3{font-size:1.3rem;font-weight:700;margin-bottom:24px;color:var(--primary);display:flex;align-items:center;gap:8px}
@@ -853,7 +853,7 @@ section{padding:100px 0}
 .timeline-item p{font-size:.9rem;color:#666;margin-top:6px}
 
 /* PRICING */
-.pricing{background:var(--primary);color:var(--white)}
+.pricing{background:rgba(var(--primary-rgb),0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--white)}
 .pricing .container{text-align:center}
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:50px}
 .pricing-card{background:rgba(255,255,255,.06);border-radius:var(--radius);padding:45px 35px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);transition:.4s}
@@ -891,7 +891,7 @@ section{padding:100px 0}
 .slider-btn:hover{background:var(--primary);color:var(--white);transform:translateY(-3px) scale(1.1);box-shadow:0 10px 20px rgba(var(--primary-rgb),.2)}
 
 /* BLOG */
-.blog{background:var(--light)}
+.blog{background:rgba(245,245,245,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .blog .container{text-align:center}
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:50px}
 .blog-card{background:var(--card-bg);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:.4s}
@@ -907,7 +907,7 @@ section{padding:100px 0}
 .read-more:hover{color:var(--accent);gap:10px}
 
 /* FAQ */
-.faq{background:var(--primary);color:var(--white)}
+.faq{background:rgba(var(--primary-rgb),0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--white)}
 .faq .container{text-align:center}
 .faq-list{max-width:750px;margin:50px auto 0;text-align:left}
 .faq-item{background:rgba(255,255,255,.08);border-radius:12px;margin-bottom:14px;overflow:hidden;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);transition:all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);will-change:transform, background-color, border-color, box-shadow}
@@ -940,7 +940,7 @@ section{padding:100px 0}
 .form-group textarea{height:120px;resize:vertical}
 
 /* FOOTER */
-.footer{background:#0b1f17;color:var(--white);padding:60px 0 0}
+.footer{background:rgba(11,31,23,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--white);padding:60px 0 0}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
 .footer-brand p{color:rgba(255,255,255,.6);margin:16px 0;font-size:.92rem;line-height:1.7}
 .footer-col h4{font-weight:700;margin-bottom:16px;font-size:1rem}
