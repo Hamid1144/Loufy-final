@@ -283,15 +283,15 @@ section{padding:100px 0}
 
 /* Clean lift + green glow on hover — no background fill */
 .tool-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px) scale(1.04);
     box-shadow:
-        0 24px 60px rgba(var(--primary-rgb),0.16),
-        0 0 0 1.5px rgba(var(--primary-rgb),0.12);
+        0 28px 70px rgba(var(--primary-rgb),0.2),
+        0 0 0 1.5px rgba(var(--primary-rgb),0.15);
 }
 
 /* Circle ring */
 .tool-circle{width:80px;height:80px;border-radius:50%;margin:0 auto 12px;position:relative;display:flex;align-items:center;justify-content:center;transition:.4s}
-.tool-card:hover .tool-circle{transform:scale(1.1)}
+.tool-card:hover .tool-circle{transform:scale(1.05)}
 .tool-circle svg{width:80px;height:80px;transform:rotate(-90deg)}
 .tool-circle .bg{fill:none;stroke:#eee;stroke-width:6;transition:.4s}
 
@@ -301,19 +301,20 @@ section{padding:100px 0}
     stroke: var(--primary);
     stroke-width: 6;
     stroke-linecap: round;
-    /* Smooth fill: goes from current dashoffset → 0 (full ring) */
+    stroke-dasharray: 276.46;
+    stroke-dashoffset: 276.46; /* Initially empty */
     transition:
-        stroke-dashoffset 0.8s cubic-bezier(0.45, 0.05, 0.55, 0.95),
-        stroke 0.4s ease;
+        stroke 0.4s ease,
+        filter 0.4s ease;
 }
-/* On hover: ring fills completely clockwise like liquid — turns gold */
+/* On hover: turns gold and glows */
 .tool-card:hover .tool-circle .prog {
-    stroke-dashoffset: 0 !important;
     stroke: var(--accent);
+    filter: drop-shadow(0 0 6px rgba(var(--accent-rgb), 0.8));
 }
 
 .tool-pct{position:absolute;font-size:1rem;font-weight:700;color:var(--primary);transition:.4s}
-.tool-card:hover .tool-pct{color:var(--accent);transform:scale(1.1)}
+.tool-card:hover .tool-pct{color:var(--accent);transform:scale(1.15)}
 .tool-card h4{font-size:1rem;font-weight:700;margin-bottom:4px;transition:.4s}
 .tool-card:hover h4{color:var(--primary)}
 .tool-card p{font-size:0.76rem !important;margin:0}

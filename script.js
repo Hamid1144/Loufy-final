@@ -177,22 +177,51 @@ window.initSiteLogic = function () {
     defaultFilter.click();
   }
 
-  // Tool circle animation
-  const animateTools = () => {
-    document.querySelectorAll('.tool-circle .prog').forEach(el => {
-      const pct = el.dataset.pct;
-      const circ = 2 * Math.PI * 44;
-      el.style.strokeDasharray = circ;
-      el.style.strokeDashoffset = circ - (pct / 100) * circ;
+  // Tool circle animation - smooth premium hover interactive system
+  const initToolAnimations = () => {
+    document.querySelectorAll('.tool-card').forEach(card => {
+      const prog = card.querySelector('.tool-circle .prog');
+      const pctText = card.querySelector('.tool-pct');
+      if (!prog || !pctText) return;
+
+      const targetPct = parseFloat(prog.dataset.pct) || 0;
+      const circ = 2 * Math.PI * 44; // 276.46
+
+      // Initialize state to 0% immediately on load
+      prog.style.strokeDasharray = circ;
+      prog.style.strokeDashoffset = circ;
+      pctText.textContent = '0%';
+
+      let currentPct = 0;
+      let animId = null;
+
+      const animate = (target) => {
+        if (animId) cancelAnimationFrame(animId);
+
+        const step = () => {
+          const diff = target - currentPct;
+          if (Math.abs(diff) < 0.05) {
+            currentPct = target;
+            prog.style.strokeDashoffset = circ - (currentPct / 100) * circ;
+            pctText.textContent = Math.round(currentPct) + '%';
+            animId = null;
+          } else {
+            currentPct += diff * 0.12; // Premium smooth easing
+            prog.style.strokeDashoffset = circ - (currentPct / 100) * circ;
+            pctText.textContent = Math.round(currentPct) + '%';
+            animId = requestAnimationFrame(step);
+          }
+        };
+
+        animId = requestAnimationFrame(step);
+      };
+
+      // Wire up hover event listeners
+      card.addEventListener('mouseenter', () => animate(targetPct));
+      card.addEventListener('mouseleave', () => animate(0));
     });
   };
-  const toolsSec = document.querySelector('.tools');
-  if (toolsSec) {
-    const toolsObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { animateTools(); toolsObs.disconnect(); } });
-    }, { threshold: 0.3 });
-    toolsObs.observe(toolsSec);
-  }
+  initToolAnimations();
 
   // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
