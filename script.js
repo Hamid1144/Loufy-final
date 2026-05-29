@@ -52,7 +52,7 @@ window.initSiteLogic = function () {
     '.hero-content, .hero-visual, .section-tag, .section-title, .section-sub, ' +
     '.service-card, .tool-card, .portfolio-card, .timeline-col, .timeline-item, .pricing-card, ' +
     '.testimonial-slider, .blog-card, .faq-list, .faq-item, .footer-grid > div, ' +
-    '.contact-info, .contact-form, .about-img-wrap, .about-content'
+    '.contact-info, .about-img-wrap, .about-content'
   ).forEach(el => {
     if (!el.classList.contains('reveal')) el.classList.add('reveal');
   });
