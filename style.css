@@ -1161,3 +1161,99 @@ body > section.portfolio {
         padding: 30px 20px;
     }
 }
+
+/* ── Covers Marquee Showcase ── */
+.covers-marquee-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: transparent;
+    margin-bottom: 40px;
+}
+
+.covers-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+/* Row 1 and 3: Left to Right (scroll-ltr) */
+.covers-marquee.row-ltr .covers-marquee-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: scroll-ltr 30s linear infinite;
+}
+
+/* Row 2: Right to Left (scroll-rtl) */
+.covers-marquee.row-rtl .covers-marquee-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: scroll-rtl 30s linear infinite;
+}
+
+/* Pause on hover to allow detailed viewing */
+.covers-marquee:hover .covers-marquee-track {
+    animation-play-state: paused;
+}
+
+/* Individual cover in the marquee */
+.covers-marquee-item {
+    width: 200px;
+    height: 300px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s;
+    cursor: pointer;
+}
+
+.covers-marquee-item:hover {
+    transform: translateY(-8px) scale(1.03) rotate(1deg);
+    box-shadow: 0 15px 35px rgba(24, 76, 58, 0.25);
+}
+
+.covers-marquee-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Keyframes for seamless looping */
+@keyframes scroll-ltr {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes scroll-rtl {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Mobile responsive sizing for covers marquee */
+@media (max-width: 768px) {
+    .covers-marquee-item {
+        width: 140px;
+        height: 210px;
+    }
+    .covers-marquee-container {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+}

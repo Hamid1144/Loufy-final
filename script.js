@@ -119,7 +119,25 @@ window.initSiteLogic = function () {
       this.classList.add('active');
       const cat = this.dataset.cat;
       
-      let coversCount = 0;
+      const marquee = document.querySelector('.covers-marquee-container');
+      const grid = document.querySelector('.portfolio-grid');
+      
+      if (marquee) {
+        if (cat === 'all' || cat === 'covers') {
+          marquee.style.display = 'flex';
+        } else {
+          marquee.style.display = 'none';
+        }
+      }
+      
+      if (grid) {
+        if (cat === 'covers') {
+          grid.style.display = 'none';
+        } else {
+          grid.style.display = 'grid';
+        }
+      }
+      
       let childrenCount = 0;
       let formattingCount = 0;
 
@@ -128,26 +146,25 @@ window.initSiteLogic = function () {
         let shouldShow = false;
         
         if (cat === 'all' || cardCat === cat) {
-          if (!isMainPage) {
-            shouldShow = true;
+          if (cardCat === 'covers') {
+            shouldShow = false;
           } else {
-            if (cardCat === 'covers') {
-              if (coversCount < 12) {
-                shouldShow = true;
-                coversCount++;
-              }
-            } else if (cardCat === 'children') {
-              if (childrenCount < 1) {
-                shouldShow = true;
-                childrenCount++;
-              }
-            } else if (cardCat === 'formatting') {
-              if (formattingCount < 1) {
-                shouldShow = true;
-                formattingCount++;
-              }
-            } else {
+            if (!isMainPage) {
               shouldShow = true;
+            } else {
+              if (cardCat === 'children') {
+                if (childrenCount < 1) {
+                  shouldShow = true;
+                  childrenCount++;
+                }
+              } else if (cardCat === 'formatting') {
+                if (formattingCount < 1) {
+                  shouldShow = true;
+                  formattingCount++;
+                }
+              } else {
+                shouldShow = true;
+              }
             }
           }
         }
@@ -613,6 +630,85 @@ window.syncPortfolioGrids = function () {
   document.querySelectorAll('.reveal').forEach(function(el) {
     if (el.getBoundingClientRect().top < window.innerHeight - 80) el.classList.add('active');
   });
+
+  if (window.initCoversMarquee) window.initCoversMarquee();
+};
+
+// 4. Implement covers marquee (headline style)
+window.initCoversMarquee = function() {
+  const coversCards = Array.from(document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="covers"]'));
+  if (!coversCards.length) return;
+  
+  const coverImages = coversCards.map(card => {
+    const img = card.querySelector('.portfolio-thumb img');
+    return img ? img.getAttribute('src') : null;
+  }).filter(src => src !== null);
+  
+  if (!coverImages.length) return;
+  
+  // Group covers into 3 rows
+  const rowCount = 3;
+  const rows = [[], [], []];
+  coverImages.forEach((src, idx) => {
+    rows[idx % rowCount].push(src);
+  });
+  
+  const grid = document.querySelector('.portfolio-grid');
+  if (!grid) return;
+  
+  let marqueeContainer = document.querySelector('.covers-marquee-container');
+  if (!marqueeContainer) {
+    marqueeContainer = document.createElement('div');
+    marqueeContainer.className = 'covers-marquee-container';
+    grid.parentNode.insertBefore(marqueeContainer, grid);
+  }
+  
+  let html = '';
+  for (let r = 0; r < rowCount; r++) {
+    const rowImages = rows[r];
+    if (!rowImages.length) continue;
+    
+    // Duplicate items to ensure seamless marquee scrolling
+    const doubleImages = [...rowImages, ...rowImages];
+    while (doubleImages.length < 12) {
+      doubleImages.push(...rowImages);
+    }
+    
+    const rowClass = r % 2 === 0 ? 'row-ltr' : 'row-rtl';
+    html += `
+      <div class="covers-marquee ${rowClass}">
+        <div class="covers-marquee-track">
+          ${doubleImages.map(src => `
+            <div class="covers-marquee-item">
+              <img src="${src}" alt="Book Cover" loading="lazy">
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+  
+  marqueeContainer.innerHTML = html;
+
+  // Make sure we trigger correct display rules based on the active filter button
+  const activeFilter = document.querySelector('.filter-btn.active');
+  if (activeFilter) {
+    const cat = activeFilter.dataset.cat;
+    if (marqueeContainer) {
+      if (cat === 'all' || cat === 'covers') {
+        marqueeContainer.style.display = 'flex';
+      } else {
+        marqueeContainer.style.display = 'none';
+      }
+    }
+    if (grid) {
+      if (cat === 'covers') {
+        grid.style.display = 'none';
+      } else {
+        grid.style.display = 'grid';
+      }
+    }
+  }
 };
 
 // Run sync after flipbooks are built
