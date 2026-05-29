@@ -1913,6 +1913,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.showToast("New portfolio item added! Hover to edit.", "success");
             }
             
+            // Rebuild covers marquee
+            if (window.initCoversMarquee) window.initCoversMarquee();
+            
+            // Re-trigger the active filter so display visibility rules are reapplied
+            const activeFilter = document.querySelector('.filter-btn.active');
+            if (activeFilter) activeFilter.click();
+            
             if (addItemModal) addItemModal.style.display = 'none';
         });
     }
@@ -2226,12 +2233,23 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleBtn.style.background = "#dc3545";
             setupEditableElements();
             document.querySelectorAll('[data-admin-text="true"]').forEach(el => el.setAttribute("contenteditable", "true"));
+            
+            // Re-trigger active filter to hide marquee and show covers in standard grid
+            const activeFilter = document.querySelector('.filter-btn.active');
+            if (activeFilter) activeFilter.click();
         } else {
             document.body.classList.remove("edit-mode");
             toggleBtn.innerText = "Enable Edit Mode";
             toggleBtn.style.background = "#184C3A";
             document.querySelectorAll('[contenteditable="true"]').forEach(el => el.removeAttribute("contenteditable"));
             hideTextToolbar();
+            
+            // Rebuild covers marquee from the current state of grid covers
+            if (window.initCoversMarquee) window.initCoversMarquee();
+            
+            // Re-trigger active filter to restore marquee display
+            const activeFilter = document.querySelector('.filter-btn.active');
+            if (activeFilter) activeFilter.click();
         }
     });
 
@@ -2558,6 +2576,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Ensure background animation elements are not serialized into database
         clone.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
+
+        // Clean up marquee container from clone so it's not serialized
+        clone.querySelectorAll('.covers-marquee-container').forEach(el => el.remove());
 
         // Ensure scroll reveal elements do not save with 'active' class
         clone.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));

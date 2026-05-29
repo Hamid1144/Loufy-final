@@ -121,9 +121,10 @@ window.initSiteLogic = function () {
       
       const marquee = document.querySelector('.covers-marquee-container');
       const grid = document.querySelector('.portfolio-grid');
+      const isEdit = document.body.classList.contains('edit-mode');
       
       if (marquee) {
-        if (cat === 'all' || cat === 'covers') {
+        if (!isEdit && (cat === 'all' || cat === 'covers')) {
           marquee.style.display = 'flex';
         } else {
           marquee.style.display = 'none';
@@ -131,7 +132,7 @@ window.initSiteLogic = function () {
       }
       
       if (grid) {
-        if (cat === 'covers') {
+        if (!isEdit && cat === 'covers') {
           grid.style.display = 'none';
         } else {
           grid.style.display = 'grid';
@@ -146,10 +147,10 @@ window.initSiteLogic = function () {
         let shouldShow = false;
         
         if (cat === 'all' || cardCat === cat) {
-          if (cardCat === 'covers') {
+          if (cardCat === 'covers' && !isEdit) {
             shouldShow = false;
           } else {
-            if (!isMainPage) {
+            if (!isMainPage || isEdit) {
               shouldShow = true;
             } else {
               if (cardCat === 'children') {
@@ -292,6 +293,11 @@ window.initSiteLogic = function () {
         btn.disabled = false;
       }
     });
+  }
+
+  // Sync grids initially or on page updates
+  if (window.syncPortfolioGrids) {
+    window.syncPortfolioGrids();
   }
 };
 if (document.readyState === 'loading') {
