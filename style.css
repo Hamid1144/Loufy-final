@@ -540,11 +540,12 @@ section{padding:100px 0}
         0 6px 12px rgba(0,0,0,.12);
     /* NO border-radius here — it triggers implicit overflow:hidden that clips 3D */
     --pw: min(290px, 36vw);
-    --ph: calc(var(--pw) * 1.333);
+    --ph: calc(var(--pw) * var(--book-ratio, 1.333));
 }
-.book-scene[data-size="6x9"]     .book-body { --pw: min(400px, 44vw); --ph: calc(var(--pw) * 1.5);  }
-.book-scene[data-size="8.5x8.5"] .book-body { --pw: min(420px, 45vw); --ph: var(--pw);               }
-.book-scene[data-size="8.5x11"]  .book-body { --pw: min(380px, 42vw); --ph: calc(var(--pw) * 1.294); }
+.book-scene[data-size="6x9"]     .book-body { --book-ratio: 1.5;   --pw: min(400px, 44vw); }
+.book-scene[data-size="8.5x8.5"] .book-body { --book-ratio: 1.0;   --pw: min(420px, 45vw); }
+.book-scene[data-size="8.5x11"]  .book-body { --book-ratio: 1.294; --pw: min(380px, 42vw); }
+
 
 /* ── Page Halves ── */
 .bp-left, .bp-right {
@@ -1104,4 +1105,59 @@ body.edit-mode .reveal {
 /* Specific styling for portfolio page */
 body > section.portfolio {
     padding-top: 60px;
+}
+
+/* Responsive adjustments for section padding, container, about float tags, and flipbooks */
+@media (max-width: 768px) {
+    section {
+        padding: 50px 0;
+    }
+    .about-float-tag {
+        font-size: 0.72rem;
+        padding: 5px 12px;
+    }
+    .about-float-tag:nth-child(2) { left: 5%; }
+    .about-float-tag:nth-child(4) { left: 2%; }
+    .about-float-tag:nth-child(3) { right: 5%; }
+    
+    .portfolio-card[data-cat="children"] .portfolio-thumb,
+    .portfolio-card[data-flipbook="true"] .portfolio-thumb {
+        height: 380px;
+        min-height: 380px;
+    }
+    .book-scene {
+        min-height: 340px;
+        padding-top: 10px;
+    }
+    .book-scene[data-size] .book-body, .book-body {
+        --pw: min(160px, 44vw) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 16px;
+    }
+    .logo {
+        font-size: 1.35rem;
+    }
+    .navbar .btn {
+        padding: 8px 16px !important;
+        font-size: 0.75rem !important;
+    }
+    .portfolio-card[data-cat="children"] .portfolio-thumb,
+    .portfolio-card[data-flipbook="true"] .portfolio-thumb {
+        height: 280px;
+        min-height: 280px;
+    }
+    .book-scene {
+        min-height: 250px;
+        padding-top: 5px;
+    }
+    .book-scene[data-size] .book-body, .book-body {
+        --pw: min(140px, 46vw) !important;
+    }
+    .pricing-card {
+        padding: 30px 20px;
+    }
 }
