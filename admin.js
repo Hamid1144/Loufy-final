@@ -3065,9 +3065,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.warn("Local storage cache quota exceeded on load:", cacheErr);
                 }
                 
-                // If we loaded from cache and the fetched content matches the cache, do nothing!
-                if (window.contentLoadedFromCache && cachedHTML === data.html_content) {
+                // Helper to clean a DOM body for comparison
+                const getCleanBodyHTML = (bodyEl) => {
+                    const clone = bodyEl.cloneNode(true);
+                    clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar').forEach(el => el.remove());
+                    clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
+                    clone.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
+                    clone.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
+                    clone.querySelectorAll('#fp-rp-overlay, #fp-rp-modal').forEach(el => el.remove());
+                    clone.querySelectorAll('#custom-toast').forEach(toast => toast.remove());
+                    clone.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
+                    clone.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
+                    return clone.innerHTML.trim();
+                };
+
+                const currentCleanHTML = getCleanBodyHTML(document.body);
+                const fetchedCleanHTML = data.html_content.trim();
+
+                // If we loaded from cache and the fetched content matches the cache, or currently loaded static HTML matches exactly, do nothing!
+                if ((window.contentLoadedFromCache && cachedHTML === data.html_content) || currentCleanHTML === fetchedCleanHTML) {
                     window.contentLoadedFromLive = true;
+                    initAdminThemePanelFromDOM();
+                    repairSocialIcons();
+                    
+                    const pricingCards = document.querySelectorAll('.pricing-card');
+                    if (pricingCards.length === 3) {
+                        const basicBtn = pricingCards[0].querySelector('a.btn');
+                        const standardBtn = pricingCards[1].querySelector('a.btn');
+                        const premiumBtn = pricingCards[2].querySelector('a.btn');
+                        
+                        if (basicBtn && !basicBtn.hasAttribute('data-pricing')) basicBtn.setAttribute('data-pricing', 'basic');
+                        if (standardBtn && !standardBtn.hasAttribute('data-pricing')) standardBtn.setAttribute('data-pricing', 'standard');
+                        if (premiumBtn && !premiumBtn.hasAttribute('data-pricing')) premiumBtn.setAttribute('data-pricing', 'premium');
+                    }
+                    injectFlipbookLiveButton();
                     return;
                 }
 
