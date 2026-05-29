@@ -543,8 +543,18 @@ window.initFlipbooks = function () {
 
 
 
-// Body always becomes visible within 1.5 s (fallback if Supabase is slow)
-setTimeout(() => { document.body.classList.add('loaded'); }, 1500);
+// Body always becomes visible within 4.5 s (fallback if Supabase is slow)
+setTimeout(() => {
+  if (!document.body.classList.contains('loaded')) {
+    document.body.classList.add('loaded');
+    const loader = document.getElementById('loading-screen');
+    if (loader) {
+      loader.style.opacity = '0';
+      loader.style.visibility = 'hidden';
+      setTimeout(() => loader.remove(), 500);
+    }
+  }
+}, 4500);
 
 // Auto-run
 if (document.readyState === 'loading') {

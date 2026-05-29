@@ -3039,18 +3039,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function loadSavedContent() {
+        const hideLoader = () => {
+            const loader = document.getElementById('loading-screen');
+            if (loader) {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+                setTimeout(() => loader.remove(), 500);
+            }
+        };
+
         if (!window.supabaseClient) {
             document.body.classList.add('loaded');
+            hideLoader();
             return;
         }
         
         try {
             const pageId = isPortfolioPage ? 'portfolio' : 'index';
-            const { data, error } = await window.supabaseClient
+            const fetchPromise = window.supabaseFetchPromise || window.supabaseClient
                 .from('site_content')
                 .select('html_content')
                 .eq('id', pageId)
                 .single();
+            const { data, error } = await fetchPromise;
                 
             if (error && error.code !== 'PGRST116') throw error;
 
@@ -3189,6 +3200,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error loading cloud content:", err);
         } finally {
             document.body.classList.add('loaded');
+            hideLoader();
         }
     }
 
