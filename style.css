@@ -415,6 +415,13 @@ section{padding:100px 0}
     display: flex;
     flex-direction: column;
     background: var(--card-bg);
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    border-radius: 0;
 }
 
 /* ── Children card / Flipbook ── */
@@ -431,7 +438,7 @@ section{padding:100px 0}
 /* Compact info strip below the flipbook */
 .portfolio-card[data-cat="children"] .portfolio-info,
 .portfolio-card[data-flipbook="true"] .portfolio-info {
-    padding: 8px 16px;
+    padding: 12px 24px;
     background: #fff;
     border-top: 1px solid #eee;
     display: flex;
@@ -439,6 +446,9 @@ section{padding:100px 0}
     gap: 12px;
     flex-wrap: wrap;
     min-height: unset;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 .portfolio-card[data-cat="children"] .portfolio-info h3,
 .portfolio-card[data-flipbook="true"] .portfolio-info h3 {
