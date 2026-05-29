@@ -639,18 +639,18 @@ window.initCoversMarquee = function() {
   const coversCards = Array.from(document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="covers"]'));
   if (!coversCards.length) return;
   
-  const coverImages = coversCards.map(card => {
-    const img = card.querySelector('.portfolio-thumb img');
-    return img ? img.getAttribute('src') : null;
-  }).filter(src => src !== null);
+  // Extract the entire inner HTML of each card so they retain their titles, tags, and structure
+  const coverCardsHTML = coversCards.map(card => {
+    return card.innerHTML;
+  });
   
-  if (!coverImages.length) return;
+  if (!coverCardsHTML.length) return;
   
   // Group covers into 3 rows
   const rowCount = 3;
   const rows = [[], [], []];
-  coverImages.forEach((src, idx) => {
-    rows[idx % rowCount].push(src);
+  coverCardsHTML.forEach((htmlContent, idx) => {
+    rows[idx % rowCount].push(htmlContent);
   });
   
   const grid = document.querySelector('.portfolio-grid');
@@ -665,22 +665,22 @@ window.initCoversMarquee = function() {
   
   let html = '';
   for (let r = 0; r < rowCount; r++) {
-    const rowImages = rows[r];
-    if (!rowImages.length) continue;
+    const rowHTMLs = rows[r];
+    if (!rowHTMLs.length) continue;
     
     // Duplicate items to ensure seamless marquee scrolling
-    const doubleImages = [...rowImages, ...rowImages];
-    while (doubleImages.length < 12) {
-      doubleImages.push(...rowImages);
+    const doubleHTMLs = [...rowHTMLs, ...rowHTMLs];
+    while (doubleHTMLs.length < 12) {
+      doubleHTMLs.push(...rowHTMLs);
     }
     
     const rowClass = r % 2 === 0 ? 'row-ltr' : 'row-rtl';
     html += `
       <div class="covers-marquee ${rowClass}">
         <div class="covers-marquee-track">
-          ${doubleImages.map(src => `
-            <div class="covers-marquee-item">
-              <img src="${src}" alt="Book Cover" loading="lazy">
+          ${doubleHTMLs.map(innerHtml => `
+            <div class="covers-marquee-item portfolio-card" data-cat="covers">
+              ${innerHtml}
             </div>
           `).join('')}
         </div>

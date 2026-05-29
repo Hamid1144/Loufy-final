@@ -1202,29 +1202,25 @@ body > section.portfolio {
     animation-play-state: paused;
 }
 
-/* Individual cover in the marquee */
+/* Individual cover card in the marquee */
 .covers-marquee-item {
-    width: 200px;
-    height: 300px;
+    width: 280px;
     flex-shrink: 0;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s;
-    cursor: pointer;
+    margin: 0;
+    transition: transform .35s ease, box-shadow .35s ease;
 }
 
-.covers-marquee-item:hover {
-    transform: translateY(-8px) scale(1.03) rotate(1deg);
-    box-shadow: 0 15px 35px rgba(24, 76, 58, 0.25);
+/* Ensure marquee items keep their square aspect ratios */
+.covers-marquee-item .portfolio-thumb {
+    aspect-ratio: 1/1 !important;
+    height: auto !important;
+    width: 100% !important;
 }
 
-.covers-marquee-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+/* Specific hover effect for marquee cards to overlay standard styles nicely */
+.covers-marquee-item.portfolio-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
 }
 
 /* Keyframes for seamless looping */
@@ -1249,8 +1245,7 @@ body > section.portfolio {
 /* Mobile responsive sizing for covers marquee */
 @media (max-width: 768px) {
     .covers-marquee-item {
-        width: 140px;
-        height: 210px;
+        width: 180px;
     }
     .covers-marquee-container {
         gap: 12px;
