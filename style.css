@@ -580,19 +580,11 @@ section{padding:100px 0}
 
 /* Left page — deep shadow at spine edge for fold tension */
 .bp-left::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to left,
-        rgba(0,0,0,.32) 0%, rgba(0,0,0,.14) 12%, rgba(0,0,0,.03) 30%, transparent 55%);
-    pointer-events: none; z-index: 3;
+    display: none;
 }
 /* Right page — deep shadow at spine edge for fold tension */
 .bp-right::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to right,
-        rgba(0,0,0,.32) 0%, rgba(0,0,0,.14) 12%, rgba(0,0,0,.03) 30%, transparent 55%);
-    pointer-events: none; z-index: 3;
+    display: none;
 }
 /* Natural center fold — thin highlight line + no hard spine object */
 .book-body::after {
