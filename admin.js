@@ -1406,8 +1406,8 @@ document.addEventListener("DOMContentLoaded", () => {
             var outW = Math.round(sw);
             var outH = Math.round(sh);
             
-            // Performance optimization: downscale massive page images to max 3000px dimension
-            var maxDim = 3000;
+            // Performance optimization: downscale massive page images to max 800px dimension
+            var maxDim = 800;
             if (outW > maxDim || outH > maxDim) {
                 if (outW > outH) {
                     outH = Math.round(maxDim / ratio);
@@ -1426,8 +1426,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!isPng) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, outW, outH); }
             ctx.drawImage(img, sx, sy, sw, sh, 0, 0, outW, outH);
             try {
-                // Compress JPEGs to 1.0 quality to preserve original quality
-                callback(c.toDataURL(isPng ? 'image/png' : 'image/jpeg', isPng ? undefined : 1.0));
+                // Compress JPEGs to 0.80 quality to preserve space/speed
+                callback(c.toDataURL(isPng ? 'image/png' : 'image/jpeg', isPng ? undefined : 0.8));
             }
             catch(e) { callback(src); }
         };
@@ -2207,19 +2207,82 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!currentImageTarget) return;
 
         if (cropperInstance) {
-            const canvas = cropperInstance.getCroppedCanvas({
+            let canvas = cropperInstance.getCroppedCanvas({
                 imageSmoothingEnabled: true,
                 imageSmoothingQuality: 'high'
             });
             if (canvas) {
+                // Determine target parameters based on the currentImageTarget
+                let maxDim = 800;
+                let quality = 0.8;
+                if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
+                    maxDim = 600;
+                    quality = 0.75;
+                } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
+                    maxDim = 800;
+                    quality = 0.8;
+                } else if (currentImageTarget.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
+                    maxDim = 150;
+                    quality = 0.8;
+                }
+                
+                // Downscale if canvas dimensions exceed maxDim
+                let w = canvas.width;
+                let h = canvas.height;
+                if (w > maxDim || h > maxDim) {
+                    const ratio = w / h;
+                    if (w > h) {
+                        w = maxDim;
+                        h = Math.round(maxDim / ratio);
+                    } else {
+                        h = maxDim;
+                        w = Math.round(maxDim * ratio);
+                    }
+                    
+                    const resizedCanvas = document.createElement('canvas');
+                    resizedCanvas.width = w;
+                    resizedCanvas.height = h;
+                    const resizedCtx = resizedCanvas.getContext('2d');
+                    resizedCtx.imageSmoothingEnabled = true;
+                    resizedCtx.imageSmoothingQuality = 'high';
+                    
+                    const isPng = /^data:image\/png/i.test(previewImage.src) || /\.png(\?|$)/i.test(previewImage.src);
+                    if (!isPng) {
+                        resizedCtx.fillStyle = '#ffffff';
+                        resizedCtx.fillRect(0, 0, w, h);
+                    }
+                    resizedCtx.drawImage(canvas, 0, 0, w, h);
+                    canvas = resizedCanvas;
+                }
+                
                 const isPng = /^data:image\/png/i.test(previewImage.src) || /\.png(\?|$)/i.test(previewImage.src);
                 const mimeType = isPng ? 'image/png' : 'image/jpeg';
-                const quality = isPng ? undefined : 1.0;
-                const base64Data = canvas.toDataURL(mimeType, quality);
+                const outQuality = isPng ? undefined : quality;
+                const base64Data = canvas.toDataURL(mimeType, outQuality);
                 currentImageTarget.src = base64Data;
             }
         } else {
-            currentImageTarget.src = previewImage.src;
+            // Bypass cropper, but still compress!
+            const src = previewImage.src;
+            if (src && src.startsWith('data:image/')) {
+                let maxDim = 800;
+                let quality = 0.8;
+                if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
+                    maxDim = 600;
+                    quality = 0.75;
+                } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
+                    maxDim = 800;
+                    quality = 0.8;
+                } else if (currentImageTarget.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
+                    maxDim = 150;
+                    quality = 0.8;
+                }
+                compressBase64Image(src, maxDim, quality).then(compressed => {
+                    currentImageTarget.src = compressed;
+                });
+            } else {
+                currentImageTarget.src = src;
+            }
         }
         closeCropModalHandler();
     });
@@ -2555,6 +2618,74 @@ document.addEventListener("DOMContentLoaded", () => {
         return null;
     }
 
+    // Helper to asynchronously compress base64 images
+    function compressBase64Image(base64Str, maxDim, quality) {
+        return new Promise((resolve) => {
+            if (!base64Str || !base64Str.startsWith('data:image/')) {
+                return resolve(base64Str);
+            }
+            // Ignore very small images (e.g. spacer or loading gif)
+            if (base64Str.length < 10000) {
+                return resolve(base64Str);
+            }
+            const img = new Image();
+            img.onload = function() {
+                let w = img.naturalWidth;
+                let h = img.naturalHeight;
+                if (w === 0 || h === 0) {
+                    return resolve(base64Str);
+                }
+                const ratio = w / h;
+                if (w > maxDim || h > maxDim) {
+                    if (w > h) {
+                        w = maxDim;
+                        h = Math.round(maxDim / ratio);
+                    } else {
+                        h = maxDim;
+                        w = Math.round(maxDim * ratio);
+                    }
+                } else if (!base64Str.startsWith('data:image/png')) {
+                    // Even if within bounds, we want to run through compression if not PNG
+                    // to optimize quality from 1.0 down to target quality (e.g. 0.8)
+                } else {
+                    // For PNGs that are within bounds, just keep them as-is
+                    return resolve(base64Str);
+                }
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                
+                const isPng = base64Str.startsWith('data:image/png');
+                if (!isPng) {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, w, h);
+                }
+                
+                ctx.drawImage(img, 0, 0, w, h);
+                
+                try {
+                    const mimeType = isPng ? 'image/png' : 'image/jpeg';
+                    const outQuality = isPng ? undefined : quality;
+                    const compressedData = canvas.toDataURL(mimeType, outQuality);
+                    if (compressedData.length < base64Str.length) {
+                        resolve(compressedData);
+                    } else {
+                        resolve(base64Str);
+                    }
+                } catch (e) {
+                    console.error("Compression error:", e);
+                    resolve(base64Str);
+                }
+            };
+            img.onerror = function() {
+                resolve(base64Str);
+            };
+            img.src = base64Str;
+        });
+    }
+
     // 9. Saving and Loading via Supabase
     saveBtn.addEventListener("click", async () => {
         const wasEditMode = isEditMode;
@@ -2564,35 +2695,63 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pricingPanel.style.display !== 'none') managePricingBtn.click();
         if (heroCardPanel && heroCardPanel.style.display !== 'none') manageHeroCardBtn.click();
 
-        const clone = document.body.cloneNode(true);
-        const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar');
-        adminElements.forEach(el => el.remove());
-
-        clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
-        clone.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
-        clone.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
-        clone.querySelectorAll('#fp-rp-overlay, #fp-rp-modal').forEach(el => el.remove()); // don't save replace modal
-        clone.querySelectorAll('#custom-toast').forEach(toast => toast.remove()); // don't save stuck toast messages
-        
-        // Ensure background animation elements are not serialized into database
-        clone.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
-
-        // Clean up marquee container from clone so it's not serialized
-        clone.querySelectorAll('.covers-marquee-container').forEach(el => el.remove());
-        
-        // Reset inline display style on covers grid cards so they save in a neutral state
-        // (they may have display:none from the marquee mode — this ensures fresh load always works)
-        clone.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="covers"]').forEach(card => {
-            card.style.display = '';
-        });
-
-        // Ensure scroll reveal elements do not save with 'active' class
-        clone.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
         const originalText = saveBtn.innerText;
-        saveBtn.innerText = "Saving to Cloud...";
+        saveBtn.innerText = "Optimizing Images...";
         saveBtn.disabled = true;
 
         try {
+            // Compress all base64 images in the live DOM
+            const allImgs = Array.from(document.querySelectorAll('img'));
+            const compressionPromises = allImgs.map(async (img) => {
+                const src = img.src;
+                if (src && src.startsWith('data:image/')) {
+                    let maxDim = 800;
+                    let quality = 0.8;
+                    if (img.closest('.portfolio-card[data-cat="covers"]')) {
+                        maxDim = 600;
+                        quality = 0.75;
+                    } else if (img.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
+                        maxDim = 800;
+                        quality = 0.8;
+                    } else if (img.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
+                        maxDim = 150;
+                        quality = 0.8;
+                    }
+                    const compressed = await compressBase64Image(src, maxDim, quality);
+                    if (compressed !== src) {
+                        img.src = compressed;
+                    }
+                }
+            });
+            await Promise.all(compressionPromises);
+
+            saveBtn.innerText = "Saving to Cloud...";
+
+            const clone = document.body.cloneNode(true);
+            const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar');
+            adminElements.forEach(el => el.remove());
+
+            clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
+            clone.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
+            clone.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
+            clone.querySelectorAll('#fp-rp-overlay, #fp-rp-modal').forEach(el => el.remove()); // don't save replace modal
+            clone.querySelectorAll('#custom-toast').forEach(toast => toast.remove()); // don't save stuck toast messages
+            
+            // Ensure background animation elements are not serialized into database
+            clone.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
+
+            // Clean up marquee container from clone so it's not serialized
+            clone.querySelectorAll('.covers-marquee-container').forEach(el => el.remove());
+            
+            // Reset inline display style on covers grid cards so they save in a neutral state
+            // (they may have display:none from the marquee mode — this ensures fresh load always works)
+            clone.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="covers"]').forEach(card => {
+                card.style.display = '';
+            });
+
+            // Ensure scroll reveal elements do not save with 'active' class
+            clone.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
+
             if (!window.supabaseClient) throw new Error("Database not connected");
             const pageId = isPortfolioPage ? 'portfolio' : 'index';
             const otherPageId = isPortfolioPage ? 'index' : 'portfolio';
