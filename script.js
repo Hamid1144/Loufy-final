@@ -124,7 +124,7 @@ window.initSiteLogic = function () {
       const isEdit = document.body.classList.contains('edit-mode');
       
       if (marquee) {
-        if (!isEdit && (cat === 'all' || cat === 'covers')) {
+        if (isMainPage && !isEdit && (cat === 'all' || cat === 'covers')) {
           marquee.style.display = 'flex';
         } else {
           marquee.style.display = 'none';
@@ -132,7 +132,7 @@ window.initSiteLogic = function () {
       }
       
       if (grid) {
-        if (!isEdit && cat === 'covers') {
+        if (isMainPage && !isEdit && cat === 'covers') {
           grid.style.display = 'none';
         } else {
           grid.style.display = 'grid';
@@ -142,12 +142,12 @@ window.initSiteLogic = function () {
       let childrenCount = 0;
       let formattingCount = 0;
 
-      document.querySelectorAll('.portfolio-card').forEach(card => {
+      document.querySelectorAll('.portfolio-grid > .portfolio-card').forEach(card => {
         const cardCat = card.dataset.cat;
         let shouldShow = false;
         
         if (cat === 'all' || cardCat === cat) {
-          if (cardCat === 'covers' && !isEdit) {
+          if (cardCat === 'covers' && isMainPage && !isEdit) {
             shouldShow = false;
           } else {
             if (!isMainPage || isEdit) {
@@ -642,6 +642,9 @@ window.syncPortfolioGrids = function () {
 
 // 4. Implement covers marquee (headline style)
 window.initCoversMarquee = function() {
+  const isMainPage = !window.location.pathname.includes('portfolio.html');
+  if (!isMainPage) return;
+
   const grid = document.querySelector('.portfolio-grid');
   if (!grid) return;
 
