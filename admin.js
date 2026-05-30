@@ -2628,44 +2628,52 @@ document.addEventListener("DOMContentLoaded", () => {
             if (base64Str.length < 10000) {
                 return resolve(base64Str);
             }
+
+            // Safety fallback: if compression doesn't complete in 1 second, proceed with original image
+            const timeoutId = setTimeout(() => {
+                console.warn("Image compression timed out, proceeding with original source.");
+                resolve(base64Str);
+            }, 1000);
+
             const img = new Image();
             img.onload = function() {
-                let w = img.naturalWidth;
-                let h = img.naturalHeight;
-                if (w === 0 || h === 0) {
-                    return resolve(base64Str);
-                }
-                const ratio = w / h;
-                if (w > maxDim || h > maxDim) {
-                    if (w > h) {
-                        w = maxDim;
-                        h = Math.round(maxDim / ratio);
-                    } else {
-                        h = maxDim;
-                        w = Math.round(maxDim * ratio);
-                    }
-                } else if (!base64Str.startsWith('data:image/png')) {
-                    // Even if within bounds, we want to run through compression if not PNG
-                    // to optimize quality from 1.0 down to target quality (e.g. 0.8)
-                } else {
-                    // For PNGs that are within bounds, just keep them as-is
-                    return resolve(base64Str);
-                }
-                
-                const canvas = document.createElement('canvas');
-                canvas.width = w;
-                canvas.height = h;
-                const ctx = canvas.getContext('2d');
-                
-                const isPng = base64Str.startsWith('data:image/png');
-                if (!isPng) {
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(0, 0, w, h);
-                }
-                
-                ctx.drawImage(img, 0, 0, w, h);
-                
+                clearTimeout(timeoutId);
                 try {
+                    let w = img.naturalWidth;
+                    let h = img.naturalHeight;
+                    if (w === 0 || h === 0) {
+                        return resolve(base64Str);
+                    }
+                    const ratio = w / h;
+                    if (w > maxDim || h > maxDim) {
+                        if (w > h) {
+                            w = maxDim;
+                            h = Math.round(maxDim / ratio);
+                        } else {
+                            h = maxDim;
+                            w = Math.round(maxDim * ratio);
+                        }
+                    } else if (!base64Str.startsWith('data:image/png')) {
+                        // Even if within bounds, we want to run through compression if not PNG
+                        // to optimize quality from 1.0 down to target quality (e.g. 0.8)
+                    } else {
+                        // For PNGs that are within bounds, just keep them as-is
+                        return resolve(base64Str);
+                    }
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    
+                    const isPng = base64Str.startsWith('data:image/png');
+                    if (!isPng) {
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, w, h);
+                    }
+                    
+                    ctx.drawImage(img, 0, 0, w, h);
+                    
                     const mimeType = isPng ? 'image/png' : 'image/jpeg';
                     const outQuality = isPng ? undefined : quality;
                     const compressedData = canvas.toDataURL(mimeType, outQuality);
@@ -2680,6 +2688,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             };
             img.onerror = function() {
+                clearTimeout(timeoutId);
                 resolve(base64Str);
             };
             img.src = base64Str;
@@ -2703,24 +2712,28 @@ document.addEventListener("DOMContentLoaded", () => {
             // Compress all base64 images in the live DOM
             const allImgs = Array.from(document.querySelectorAll('img'));
             const compressionPromises = allImgs.map(async (img) => {
-                const src = img.src;
-                if (src && src.startsWith('data:image/')) {
-                    let maxDim = 800;
-                    let quality = 0.8;
-                    if (img.closest('.portfolio-card[data-cat="covers"]')) {
-                        maxDim = 600;
-                        quality = 0.75;
-                    } else if (img.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
-                        maxDim = 800;
-                        quality = 0.8;
-                    } else if (img.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
-                        maxDim = 150;
-                        quality = 0.8;
+                try {
+                    const src = img.src;
+                    if (src && src.startsWith('data:image/')) {
+                        let maxDim = 800;
+                        let quality = 0.8;
+                        if (img.closest('.portfolio-card[data-cat="covers"]')) {
+                            maxDim = 600;
+                            quality = 0.75;
+                        } else if (img.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
+                            maxDim = 800;
+                            quality = 0.8;
+                        } else if (img.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
+                            maxDim = 150;
+                            quality = 0.8;
+                        }
+                        const compressed = await compressBase64Image(src, maxDim, quality);
+                        if (compressed !== src) {
+                            img.src = compressed;
+                        }
                     }
-                    const compressed = await compressBase64Image(src, maxDim, quality);
-                    if (compressed !== src) {
-                        img.src = compressed;
-                    }
+                } catch (innerErr) {
+                    console.error("Failed to compress image in save sweep:", innerErr);
                 }
             });
             await Promise.all(compressionPromises);
