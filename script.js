@@ -642,13 +642,20 @@ window.syncPortfolioGrids = function () {
 
 // 4. Implement covers marquee (headline style)
 window.initCoversMarquee = function() {
+  const grid = document.querySelector('.portfolio-grid');
+  if (!grid) return;
+
+  // Reset any inline display:none on covers grid cards so we always capture all of them
+  // (they may have been saved with display:none from a previous filter state)
+  document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="covers"]').forEach(card => {
+    card.style.display = '';
+  });
+
   const coversCards = Array.from(document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="covers"]'));
   if (!coversCards.length) return;
   
   // Extract the entire inner HTML of each card so they retain their titles, tags, and structure
-  const coverCardsHTML = coversCards.map(card => {
-    return card.innerHTML;
-  });
+  const coverCardsHTML = coversCards.map(card => card.innerHTML);
   
   if (!coverCardsHTML.length) return;
   
@@ -658,9 +665,6 @@ window.initCoversMarquee = function() {
   coverCardsHTML.forEach((htmlContent, idx) => {
     rows[idx % rowCount].push(htmlContent);
   });
-  
-  const grid = document.querySelector('.portfolio-grid');
-  if (!grid) return;
   
   let marqueeContainer = document.querySelector('.covers-marquee-container');
   if (!marqueeContainer) {
@@ -696,11 +700,22 @@ window.initCoversMarquee = function() {
   
   marqueeContainer.innerHTML = html;
 
-  // Make sure we trigger correct display rules based on the active filter button
+  // Now hide the grid covers cards (they show only in marquee, not the grid)
+  document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="covers"]').forEach(card => {
+    card.style.display = 'none';
+  });
+
+  // Apply correct display rules based on the active filter button
+  const isEdit = document.body.classList.contains('edit-mode');
   const activeFilter = document.querySelector('.filter-btn.active');
   if (activeFilter) {
     const cat = activeFilter.dataset.cat;
-    if (marqueeContainer) {
+    if (isEdit) {
+      marqueeContainer.style.display = 'none';
+      document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="covers"]').forEach(card => {
+        card.style.display = 'block';
+      });
+    } else {
       if (cat === 'all' || cat === 'covers') {
         marqueeContainer.style.display = 'flex';
       } else {
@@ -708,7 +723,7 @@ window.initCoversMarquee = function() {
       }
     }
     if (grid) {
-      if (cat === 'covers') {
+      if (!isEdit && cat === 'covers') {
         grid.style.display = 'none';
       } else {
         grid.style.display = 'grid';
@@ -717,5 +732,9 @@ window.initCoversMarquee = function() {
   }
 };
 
-// Run sync after flipbooks are built
+// Run sync after flipbooks are built (initial run)
 setTimeout(window.syncPortfolioGrids, 200);
+// Run again after flipbooks fully settle to ensure marquee is built correctly
+setTimeout(function() {
+  if (window.initCoversMarquee) window.initCoversMarquee();
+}, 800);

@@ -1,18 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+  window.jsErrors = [];
+  window.onerror = function(message, source, lineno, colno, error) {
+    var errStr = 'ERROR: ' + message + ' at ' + source + ':' + lineno + ':' + colno;
+    window.jsErrors.push(errStr);
+    console.warn(errStr);
+    if (window.location.search.indexOf('debug=true') !== -1) {
+      var div = document.getElementById('debug-errors');
+      if (!div) {
+        div = document.createElement('div');
+        div.id = 'debug-errors';
+        div.style.cssText = 'position:fixed; top:10px; left:10px; z-index:9999999; background:red; color:white; padding:10px; font-family:monospace; font-size:12px; max-height:200px; overflow:auto;';
+        document.documentElement.appendChild(div);
+      }
+      var p = document.createElement('p');
+      p.textContent = errStr;
+      div.appendChild(p);
+    }
+    return false;
+  };
+  var oldConsoleError = console.error;
+  console.error = function() {
+    var args = Array.prototype.slice.call(arguments).map(String).join(' ');
+    window.jsErrors.push('CONSOLE.ERROR: ' + args);
+    if (window.location.search.indexOf('debug=true') !== -1) {
+      var div = document.getElementById('debug-errors');
+      if (!div) {
+        div = document.createElement('div');
+        div.id = 'debug-errors';
+        div.style.cssText = 'position:fixed; top:10px; left:10px; z-index:9999999; background:red; color:white; padding:10px; font-family:monospace; font-size:12px; max-height:200px; overflow:auto;';
+        document.documentElement.appendChild(div);
+      }
+      var p = document.createElement('p');
+      p.textContent = 'CONSOLE.ERROR: ' + args;
+      div.appendChild(p);
+    }
+    oldConsoleError.apply(console, arguments);
+  };
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Hamid Raza | Professional Book Cover Designer & Amazon KDP Expert</title>
-<link rel="icon" type="image/png" href="favicon.png?v=3.22.0">
+<link rel="icon" type="image/png" href="favicon.png?v=3.23.0">
 <meta name="description" content="Premium book cover design, Amazon KDP formatting, and branding services by Hamid Raza.">
-<link rel="stylesheet" href="style.css?v=3.22.0">
-<link rel="stylesheet" href="admin.css?v=3.22.0">
+<link rel="stylesheet" href="style.css?v=3.23.0">
+<link rel="stylesheet" href="admin.css?v=3.23.0">
 <script>
   (function() {
     try {
       const pageId = window.location.pathname.includes("portfolio.html") ? 'portfolio' : 'index';
-      const CURRENT_VERSION = '3.22.0';
+      const CURRENT_VERSION = '3.23.0';
       const cachedVersion = localStorage.getItem('supabase_cached_version');
       let cached = localStorage.getItem('supabase_cached_html_' + pageId);
       
@@ -44,11 +83,11 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js" defer></script>
-<script src="db.js?v=3.22.0" defer></script>
-<script src="script.js?v=3.22.0" defer></script>
+<script src="db.js?v=3.23.0" defer></script>
+<script src="script.js?v=3.23.0" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
-<script src="admin.js?v=3.22.0" defer></script>
-<script src="bg-anim.js?v=3.22.0" defer></script>
+<script src="admin.js?v=3.23.0" defer></script>
+<script src="bg-anim.js?v=3.23.0" defer></script>
 </head>
 <body>
 <div id="loading-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#111111; z-index:999999; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity 0.4s ease, visibility 0.4s;">
@@ -56,6 +95,18 @@
   <style>
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
+  <script>
+    // Inline self-healing fallback: hide loader after 4 seconds if scripts/CDNs hang
+    setTimeout(function() {
+      var loader = document.getElementById('loading-screen');
+      if (loader && loader.style.opacity !== '0') {
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+        document.body.classList.add('loaded');
+        setTimeout(function() { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 500);
+      }
+    }, 4000);
+  </script>
 </div>
 <!-- NAVBAR -->
 <nav class="navbar">
@@ -629,6 +680,14 @@
           if (window.initSiteLogic) window.initSiteLogic();
           if (window.bgAnim && typeof window.bgAnim.init === 'function') window.bgAnim.init();
           if (window.initFlipbooks) window.initFlipbooks();
+
+          // Hide loader immediately for cache load to make page load instant
+          document.body.classList.add('loaded');
+          if (loader) {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+            setTimeout(function() { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 500);
+          }
         });
       }
     } catch (e) {
