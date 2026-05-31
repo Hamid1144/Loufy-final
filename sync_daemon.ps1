@@ -1,0 +1,75 @@
+# sync_daemon.ps1
+# Background synchronization daemon for Hamid Raza Portfolio.
+# Periodically pulls live edits from Supabase, optimizes new Base64 images, and pushes commits to GitHub.
+
+$sleepSeconds = 30
+$supabaseUrl = 'https://pgictinimttptsxbvngg.supabase.co'
+$supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc'
+
+$headers = @{
+    "apikey" = $supabaseKey
+    "Authorization" = "Bearer $supabaseKey"
+    "Content-Type" = "application/json; charset=utf-8"
+}
+
+Write-Host "=============================================" -ForegroundColor Green
+Write-Host "  HAMID RAZA PORTFOLIO - GITHUB SYNC DAEMON  " -ForegroundColor Green
+Write-Host "=============================================" -ForegroundColor Green
+Write-Host "Polling Supabase every $sleepSeconds seconds for live edits..." -ForegroundColor Yellow
+Write-Host "Press Ctrl+C to stop the sync daemon." -ForegroundColor Red
+Write-Host ""
+
+$lastHash = ""
+
+while ($true) {
+    try {
+        # 1. Fetch site content from Supabase
+        $fetchUri = "$supabaseUrl/rest/v1/site_content?select=id,html_content"
+        $res = Invoke-RestMethod -Uri $fetchUri -Headers $headers -Method Get -UseBasicParsing
+        
+        if ($res -and $res.Count -gt 0) {
+            # 2. Build a composite content string to hash
+            $compositeContent = ""
+            foreach ($row in $res) {
+                $compositeContent += $row.html_content
+            }
+            
+            # Compute hash of the database content
+            $bytes = [System.Text.Encoding]::UTF8.GetBytes($compositeContent)
+            $sha = [System.Security.Cryptography.SHA256]::Create()
+            $hashBytes = $sha.ComputeHash($bytes)
+            $currentHash = [System.BitConverter]::ToString($hashBytes) -replace '-'
+            
+            # If database hash changed since last check, sync!
+            if ($lastHash -ne "" -and $currentHash -ne $lastHash) {
+                Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Change detected in Supabase! Syncing..." -ForegroundColor Cyan
+                
+                # Run pull script to pull Supabase changes to local HTML files
+                Write-Host "Running pull_supabase.ps1..."
+                powershell -ExecutionPolicy Bypass -File .\pull_supabase.ps1
+                
+                # Run image optimizer to compress any heavy Base64 data URLs
+                Write-Host "Running optimize_html_images.ps1..."
+                powershell -ExecutionPolicy Bypass -File .\optimize_html_images.ps1
+                
+                # Check if there are any git changes to push
+                $gitStatus = git status --porcelain
+                if ($gitStatus) {
+                    Write-Host "Local changes detected. Committing and pushing to GitHub..." -ForegroundColor Yellow
+                    git add .
+                    git commit -m "Auto-sync from live website"
+                    git push
+                    Write-Host "Successfully committed and pushed changes to GitHub!" -ForegroundColor Green
+                } else {
+                    Write-Host "No local file changes detected after pull (in sync)." -ForegroundColor Gray
+                }
+            }
+            
+            $lastHash = $currentHash
+        }
+    } catch {
+        Write-Warning "Sync iteration failed: $_"
+    }
+    
+    Start-Sleep -Seconds $sleepSeconds
+}

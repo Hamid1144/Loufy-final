@@ -2629,11 +2629,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 return resolve(base64Str);
             }
 
-            // Safety fallback: if compression doesn't complete in 1 second, proceed with original image
+            // Safety fallback: if compression doesn't complete in 8 seconds, proceed with original image
             const timeoutId = setTimeout(() => {
                 console.warn("Image compression timed out, proceeding with original source.");
                 resolve(base64Str);
-            }, 1000);
+            }, 8000);
 
             const img = new Image();
             img.onload = function() {
