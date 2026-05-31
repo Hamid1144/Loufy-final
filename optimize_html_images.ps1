@@ -3,8 +3,8 @@ Add-Type -AssemblyName System.Drawing
 function Optimize-Base64Image {
     param (
         [string]$dataUri,
-        [int]$maxDim = 3840,
-        [int]$quality = 98
+        [int]$maxDim = 2560,
+        [int]$quality = 90
     )
 
     if (-not $dataUri.StartsWith("data:image/")) {
@@ -122,7 +122,7 @@ foreach ($file in $files) {
             # Only compress large ones
             if ($dataUri.Length -gt 15000) {
                 Write-Host "Compressing image of length $($dataUri.Length) chars..."
-                $optUri = Optimize-Base64Image -dataUri $dataUri -maxDim 3840 -quality 98
+                $optUri = Optimize-Base64Image -dataUri $dataUri -maxDim 2560 -quality 90
                 Write-Host "New length: $($optUri.Length) chars (Saved $([Math]::Round((1 - ($optUri.Length / $dataUri.Length)) * 100))%)"
                 
                 # Replace dataUri and add data-optimized="true" attribute inside the tag

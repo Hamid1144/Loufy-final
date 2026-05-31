@@ -165,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="save-changes" class="admin-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud (Supabase)</button>
             <button id="export-html" class="admin-btn" style="background:#F4B400; color:#111;"><i class="fa-solid fa-file-code"></i> Export Final HTML</button>
             <button id="clear-storage" class="admin-btn danger"><i class="fa-solid fa-rotate-left"></i> Reset Changes</button>
+            <button id="exit-admin-mode" class="admin-btn" style="background:#6c757d; color:#fff;"><i class="fa-solid fa-right-from-bracket"></i> Exit Admin Mode</button>
         </div>
 
         <div id="social-links-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
@@ -544,6 +545,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveBtn = document.getElementById("save-changes");
     const exportBtn = document.getElementById("export-html");
     const clearBtn = document.getElementById("clear-storage");
+    const exitAdminBtn = document.getElementById("exit-admin-mode");
     const closeBtn = document.querySelector(".close-admin");
     const changeHeroBgBtn = document.getElementById("change-hero-bg");
 
@@ -2213,13 +2215,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             if (canvas) {
                 // Determine target parameters based on the currentImageTarget
-                let maxDim = 3840;
-                let quality = 0.98;
+                let maxDim = 2560;
+                let quality = 0.90;
                 if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
-                    maxDim = 3840;
+                    maxDim = 2560;
                     quality = 0.98;
                 } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
-                    maxDim = 3840;
+                    maxDim = 2560;
                     quality = 0.98;
                 } else if (currentImageTarget.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
                     maxDim = 800;
@@ -2260,19 +2262,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 const outQuality = isPng ? undefined : quality;
                 const base64Data = canvas.toDataURL(mimeType, outQuality);
                 currentImageTarget.src = base64Data;
-                currentImageTarget.setAttribute('data-optimized', 'true');
+                currentImageTarget.setAttribute('data-optimized', 'webp');
             }
         } else {
             // Bypass cropper, but still compress!
             const src = previewImage.src;
             if (src && src.startsWith('data:image/')) {
-                let maxDim = 3840;
-                let quality = 0.98;
+                let maxDim = 2560;
+                let quality = 0.90;
                 if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
-                    maxDim = 3840;
+                    maxDim = 2560;
                     quality = 0.98;
                 } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
-                    maxDim = 3840;
+                    maxDim = 2560;
                     quality = 0.98;
                 } else if (currentImageTarget.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
                     maxDim = 800;
@@ -2280,7 +2282,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 compressBase64Image(src, maxDim, quality).then(compressed => {
                     currentImageTarget.src = compressed;
-                    currentImageTarget.setAttribute('data-optimized', 'true');
+                    currentImageTarget.setAttribute('data-optimized', 'webp');
                 });
             } else {
                 currentImageTarget.src = src;
@@ -2647,21 +2649,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (w === 0 || h === 0) {
                         return resolve(base64Str);
                     }
-                    const ratio = w / h;
-                    if (w > maxDim || h > maxDim) {
-                        if (w > h) {
-                            w = maxDim;
-                            h = Math.round(maxDim / ratio);
-                        } else {
-                            h = maxDim;
-                            w = Math.round(maxDim * ratio);
-                        }
-                    } else if (!base64Str.startsWith('data:image/png')) {
-                        // Even if within bounds, we want to run through compression if not PNG
-                        // to optimize quality from 1.0 down to target quality (e.g. 0.8)
-                    } else {
-                        // For PNGs that are within bounds, just keep them as-is
+                    
+                    // If within bounds, do NOT compress or redraw, return original
+                    if (w <= maxDim && h <= maxDim) {
                         return resolve(base64Str);
+                    }
+                    
+                    const ratio = w / h;
+                    if (w > h) {
+                        w = maxDim;
+                        h = Math.round(maxDim / ratio);
+                    } else {
+                        h = maxDim;
+                        w = Math.round(maxDim * ratio);
                     }
                     
                     const canvas = document.createElement('canvas');
@@ -2678,7 +2678,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ctx.drawImage(img, 0, 0, w, h);
                     
                     const mimeType = isPng ? 'image/png' : 'image/jpeg';
-                    const outQuality = isPng ? undefined : quality;
+                    const outQuality = isPng ? undefined : 0.98;
                     const compressedData = canvas.toDataURL(mimeType, outQuality);
                     if (compressedData.length < base64Str.length) {
                         resolve(compressedData);
@@ -2718,16 +2718,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     const src = img.src;
                     if (src && src.startsWith('data:image/')) {
-                        if (img.hasAttribute('data-optimized')) {
+                        if (img.getAttribute('data-optimized') === 'webp') {
                             return; // Already optimized, bypass!
                         }
-                        let maxDim = 3840;
+                        let maxDim = 2560;
                         let quality = 0.98;
                         if (img.closest('.portfolio-card[data-cat="covers"]')) {
-                            maxDim = 3840;
+                            maxDim = 2560;
                             quality = 0.98;
                         } else if (img.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
-                            maxDim = 3840;
+                            maxDim = 2560;
                             quality = 0.98;
                         } else if (img.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
                             maxDim = 800;
@@ -2790,6 +2790,12 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // Notify user immediately that the save succeeded! No waiting for background sync.
             window.showToast("Changes saved successfully!", "success");
+            
+            window.hasUnsavedChanges = false;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) {
+                saveBtnEl.style.boxShadow = ''; // Clear highlight
+            }
             
             // 2. Synchronize portfolio grid and filters to the other page in the background (ASYNCHRONOUS)
             (async () => {
@@ -3252,7 +3258,17 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        if (!window.supabaseClient) {
+        const isAdmin = localStorage.getItem('admin_mode') === 'true' || 
+                        window.location.search.includes('admin=true') || 
+                        window.location.search.includes('edit=true') || 
+                        window.location.hash === '#admin';
+
+        if (!isAdmin || !window.supabaseClient) {
+            const panel = document.getElementById('super-admin-panel');
+            if (panel) panel.remove();
+            const textToolbar = document.getElementById('admin-text-toolbar');
+            if (textToolbar) textToolbar.remove();
+            
             document.body.classList.add('loaded');
             hideLoader();
             return;
@@ -3407,6 +3423,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } finally {
             document.body.classList.add('loaded');
             hideLoader();
+            initChangeObserver();
         }
     }
 
@@ -3459,6 +3476,65 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (wasEditMode) toggleBtn.click(); 
     });
+
+    // Unsaved changes tracking
+    window.hasUnsavedChanges = false;
+
+    // MutationObserver to detect edits to actual site content
+    function initChangeObserver() {
+        const observer = new MutationObserver((mutations) => {
+            if (!window.contentLoadedFromLive) return; // Ignore mutations during initial load
+            
+            let relevantChange = false;
+            for (let mutation of mutations) {
+                const target = mutation.target;
+                if (target && target.closest && (
+                    target.closest('#super-admin-panel') ||
+                    target.closest('#admin-crop-modal') ||
+                    target.closest('#admin-add-item-modal') ||
+                    target.closest('#admin-text-toolbar') ||
+                    target.closest('#custom-toast') ||
+                    target.closest('.admin-element-toolbar')
+                )) {
+                    continue;
+                }
+                relevantChange = true;
+                break;
+            }
+            if (relevantChange) {
+                window.hasUnsavedChanges = true;
+                const saveBtnEl = document.getElementById('save-changes');
+                if (saveBtnEl) {
+                    saveBtnEl.style.boxShadow = '0 0 15px #20c997'; // Highlight save button
+                }
+            }
+        });
+        
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+            attributes: true
+        });
+    }
+
+    window.addEventListener('beforeunload', (e) => {
+        if (window.hasUnsavedChanges) {
+            e.preventDefault();
+            e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+            return e.returnValue;
+        }
+    });
+
+    if (exitAdminBtn) {
+        exitAdminBtn.addEventListener("click", () => {
+            localStorage.removeItem('admin_mode');
+            const url = new URL(window.location.href);
+            url.searchParams.delete('admin');
+            url.searchParams.delete('edit');
+            window.location.href = url.pathname + url.search;
+        });
+    }
 
     initTextToolbarEvents();
     loadSavedContent();

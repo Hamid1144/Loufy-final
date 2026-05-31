@@ -11,7 +11,7 @@ Write-Host ""
 
 # 1. Stop any existing daemon processes
 Write-Host "Checking for existing sync daemon processes..." -ForegroundColor Yellow
-$proc = Get-CimInstance Win32_Process -Filter "Name = 'powershell.exe'" | Where-Object { $_.CommandLine -like "*sync_daemon.ps1*" -and $_.CommandLine -notlike "*install_sync_daemon.ps1*" -and $_.CommandLine -notlike "*-Command*" }
+$proc = Get-CimInstance Win32_Process -Filter "Name = 'powershell.exe'" | Where-Object { $_.CommandLine -like "*sync_daemon.ps1*" -and $_.CommandLine -notlike "*install_sync_daemon*" -and $_.CommandLine -notlike "*status_sync_daemon*" -and $_.CommandLine -notlike "*stop_sync_daemon*" -and $_.CommandLine -notlike "*-Command*" }
 if ($proc) {
     Write-Host "Found existing sync daemon process(es). Stopping them..." -ForegroundColor Cyan
     $proc | ForEach-Object {
@@ -63,7 +63,7 @@ try {
     Start-Sleep -Seconds 2
     
     # Check if the process is now running
-    $newProc = Get-CimInstance Win32_Process -Filter "Name = 'powershell.exe'" | Where-Object { $_.CommandLine -like "*sync_daemon.ps1*" -and $_.CommandLine -notlike "*install_sync_daemon.ps1*" -and $_.CommandLine -notlike "*-Command*" }
+    $newProc = Get-CimInstance Win32_Process -Filter "Name = 'powershell.exe'" | Where-Object { $_.CommandLine -like "*sync_daemon.ps1*" -and $_.CommandLine -notlike "*install_sync_daemon*" -and $_.CommandLine -notlike "*status_sync_daemon*" -and $_.CommandLine -notlike "*stop_sync_daemon*" -and $_.CommandLine -notlike "*-Command*" }
     if ($newProc) {
         Write-Host "Sync daemon has been successfully started and is running silently!" -ForegroundColor Green
         Write-Host "Process ID(s): $(($newProc | Select-Object -ExpandProperty ProcessId) -join ', ')" -ForegroundColor Gray

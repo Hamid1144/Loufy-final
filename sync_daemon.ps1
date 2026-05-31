@@ -2,7 +2,30 @@
 # Background synchronization daemon for Hamid Raza Portfolio.
 # Periodically pulls live edits from Supabase, optimizes new Base64 images, and pushes commits to GitHub.
 
+if ($PSScriptRoot) {
+    Set-Location $PSScriptRoot
+}
+
 $sleepSeconds = 15
+
+# Initial sync on startup to guarantee local files are in sync immediately
+Write-Host "Performing initial sync on startup..." -ForegroundColor Yellow
+try {
+    powershell -ExecutionPolicy Bypass -File .\pull_supabase.ps1
+    powershell -ExecutionPolicy Bypass -File .\optimize_html_images.ps1
+    $gitStatus = git status --porcelain
+    if ($gitStatus) {
+        Write-Host "Local changes detected on startup. Committing and pushing to GitHub..." -ForegroundColor Yellow
+        git add .
+        git commit -m "Auto-sync from live website (daemon startup)"
+        git push
+        Write-Host "Successfully committed and pushed startup changes to GitHub!" -ForegroundColor Green
+    } else {
+        Write-Host "Startup check complete. Local files and GitHub are in sync." -ForegroundColor Gray
+    }
+} catch {
+    Write-Warning "Initial startup sync failed: $_"
+}
 $supabaseUrl = 'https://pgictinimttptsxbvngg.supabase.co'
 $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc'
 
