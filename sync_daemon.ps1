@@ -11,8 +11,24 @@ $sleepSeconds = 15
 # Initial sync on startup to guarantee local files are in sync immediately
 Write-Host "Performing initial sync on startup..." -ForegroundColor Yellow
 try {
-    powershell -ExecutionPolicy Bypass -File .\pull_supabase.ps1
-    powershell -ExecutionPolicy Bypass -File .\optimize_html_images.ps1
+    Write-Host "Invoking pull_supabase.ps1..." -ForegroundColor Yellow
+    $pullOutput = powershell -ExecutionPolicy Bypass -File .\pull_supabase.ps1 2>&1
+    Write-Host "pull_supabase.ps1 Output: $pullOutput"
+    Write-Host "pull_supabase.ps1 Exit Code: $LASTEXITCODE"
+    
+    if ($LASTEXITCODE -ne 0) {
+        throw "pull_supabase.ps1 failed with exit code $LASTEXITCODE"
+    }
+
+    Write-Host "Invoking optimize_html_images.ps1..." -ForegroundColor Yellow
+    $optOutput = powershell -ExecutionPolicy Bypass -File .\optimize_html_images.ps1 2>&1
+    Write-Host "optimize_html_images.ps1 Output: $optOutput"
+    Write-Host "optimize_html_images.ps1 Exit Code: $LASTEXITCODE"
+    
+    if ($LASTEXITCODE -ne 0) {
+        throw "optimize_html_images.ps1 failed with exit code $LASTEXITCODE"
+    }
+
     $gitStatus = git status --porcelain
     if ($gitStatus) {
         Write-Host "Local changes detected on startup. Committing and pushing to GitHub..." -ForegroundColor Yellow
