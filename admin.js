@@ -713,7 +713,17 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.ctrlKey && e.shiftKey && (e.key === 'y' || e.key === 'Y')) {
             e.preventDefault();
             const p = document.getElementById('super-admin-panel');
-            if (p) p.classList.toggle("active");
+            if (p) {
+                p.classList.toggle("active");
+            } else {
+                localStorage.setItem('admin_mode', 'true');
+                try {
+                    sessionStorage.setItem('open_admin_panel', 'true');
+                } catch (err) {}
+                const url = new URL(window.location.href);
+                url.searchParams.set('admin', 'true');
+                window.location.href = url.toString();
+            }
         }
     });
     closeBtn.addEventListener("click", () => {
@@ -3424,6 +3434,14 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.add('loaded');
             hideLoader();
             initChangeObserver();
+            
+            try {
+                if (sessionStorage.getItem('open_admin_panel') === 'true') {
+                    sessionStorage.removeItem('open_admin_panel');
+                    const p = document.getElementById('super-admin-panel');
+                    if (p) p.classList.add('active');
+                }
+            } catch (e) {}
         }
     }
 
