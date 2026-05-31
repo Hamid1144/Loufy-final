@@ -2258,7 +2258,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     resizedCtx.imageSmoothingEnabled = true;
                     resizedCtx.imageSmoothingQuality = 'high';
                     
-                    const isPng = /^data:image\/png/i.test(previewImage.src) || /\.png(\?|$)/i.test(previewImage.src);
+                    const isPng = false; // Always use JPEG for cropped images to save space
                     if (!isPng) {
                         resizedCtx.fillStyle = '#ffffff';
                         resizedCtx.fillRect(0, 0, w, h);
@@ -2267,7 +2267,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     canvas = resizedCanvas;
                 }
                 
-                const isPng = /^data:image\/png/i.test(previewImage.src) || /\.png(\?|$)/i.test(previewImage.src);
+                const isPng = false; // Always use JPEG for cropped images to save space
                 const mimeType = isPng ? 'image/png' : 'image/jpeg';
                 const outQuality = isPng ? undefined : quality;
                 const base64Data = canvas.toDataURL(mimeType, outQuality);
@@ -2661,7 +2661,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     
                     // If within bounds, do NOT compress or redraw, return original
-                    if (w <= maxDim && h <= maxDim) {
+                    // EXCEPT if it is a large PNG (over ~750KB) where we want to convert to JPEG to save space
+                    const isPng = base64Str.startsWith('data:image/png');
+                    const isLargePng = isPng && base64Str.length > 1000000;
+                    
+                    if (w <= maxDim && h <= maxDim && !isLargePng) {
                         return resolve(base64Str);
                     }
                     
@@ -2679,17 +2683,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     canvas.height = h;
                     const ctx = canvas.getContext('2d');
                     
-                    const isPng = base64Str.startsWith('data:image/png');
-                    if (!isPng) {
+                    let outMime = isPng ? 'image/png' : 'image/jpeg';
+                    let outQuality = isPng ? undefined : 0.98;
+                    
+                    if (isLargePng) {
+                        outMime = 'image/jpeg';
+                        outQuality = 0.98;
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, w, h);
+                    } else if (!isPng) {
                         ctx.fillStyle = '#ffffff';
                         ctx.fillRect(0, 0, w, h);
                     }
                     
                     ctx.drawImage(img, 0, 0, w, h);
                     
-                    const mimeType = isPng ? 'image/png' : 'image/jpeg';
-                    const outQuality = isPng ? undefined : 0.98;
-                    const compressedData = canvas.toDataURL(mimeType, outQuality);
+                    const compressedData = canvas.toDataURL(outMime, outQuality);
                     if (compressedData.length < base64Str.length) {
                         resolve(compressedData);
                     } else {

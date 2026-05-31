@@ -56,6 +56,10 @@ function Optimize-Base64Image {
         $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
         
         $isPng = $dataUri.StartsWith("data:image/png")
+        # Convert to JPEG if the PNG is large to save space (portfolio/covers do not need transparency)
+        if ($isPng -and $base64Data.Length -gt 50000) {
+            $isPng = $false
+        }
         if (-not $isPng) {
             $g.Clear([System.Drawing.Color]::White)
         }
@@ -114,8 +118,8 @@ foreach ($file in $files) {
             $imgTag = $match.Value
             $dataUri = $match.Groups[1].Value
             
-            # Skip if already optimized
-            if ($imgTag -match 'data-optimized') {
+            # Skip if already optimized and small
+            if ($imgTag -match 'data-optimized' -and $dataUri.Length -lt 50000) {
                 continue
             }
             
