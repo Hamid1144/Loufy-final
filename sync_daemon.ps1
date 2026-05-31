@@ -2,7 +2,7 @@
 # Background synchronization daemon for Hamid Raza Portfolio.
 # Periodically pulls live edits from Supabase, optimizes new Base64 images, and pushes commits to GitHub.
 
-$sleepSeconds = 30
+$sleepSeconds = 15
 $supabaseUrl = 'https://pgictinimttptsxbvngg.supabase.co'
 $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc'
 
