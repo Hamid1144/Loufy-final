@@ -3,8 +3,8 @@ Add-Type -AssemblyName System.Drawing
 function Optimize-Base64Image {
     param (
         [string]$dataUri,
-        [int]$maxDim = 1600,
-        [int]$quality = 85
+        [int]$maxDim = 3840,
+        [int]$quality = 98
     )
 
     if (-not $dataUri.StartsWith("data:image/")) {
@@ -74,7 +74,12 @@ function Optimize-Base64Image {
         $ms.Dispose()
         $outMs.Dispose()
         
-        return "data:image/jpeg;base64,$newBase64"
+        $newUri = "data:image/jpeg;base64,$newBase64"
+        if ($newUri.Length -lt $dataUri.Length) {
+            return $newUri
+        } else {
+            return $dataUri
+        }
     } catch {
         Write-Warning "Failed to optimize image: $_"
         return $dataUri
@@ -87,23 +92,36 @@ foreach ($file in $files) {
         Write-Host "Optimizing Base64 images in $file..."
         $html = [System.IO.File]::ReadAllText($file, [System.Text.Encoding]::UTF8)
         
-        # Regex to find src="data:image/..."
-        $matches = [regex]::Matches($html, 'src="(data:image/[^"]+)"')
+        # Regex to find <img ... src="data:image/..." ...> tags
+        $matches = [regex]::Matches($html, '(?i)<img\s+[^>]*src="(data:image/[^"]+)"[^>]*>')
         Write-Host "Found $($matches.Count) base64 images in $file."
         
         $optimizedCount = 0
         $replacedHtml = $html
         
         foreach ($match in $matches) {
+            $imgTag = $match.Value
             $dataUri = $match.Groups[1].Value
+            
+            # Skip if already optimized
+            if ($imgTag -match 'data-optimized') {
+                continue
+            }
+            
             # Only compress large ones
             if ($dataUri.Length -gt 15000) {
                 Write-Host "Compressing image of length $($dataUri.Length) chars..."
-                $optUri = Optimize-Base64Image -dataUri $dataUri -maxDim 1600 -quality 85
+                $optUri = Optimize-Base64Image -dataUri $dataUri -maxDim 3840 -quality 98
                 Write-Host "New length: $($optUri.Length) chars (Saved $([Math]::Round((1 - ($optUri.Length / $dataUri.Length)) * 100))%)"
                 
-                # Replace in HTML string
-                $replacedHtml = $replacedHtml.Replace($dataUri, $optUri)
+                # Replace dataUri and add data-optimized="true" attribute inside the tag
+                $newTag = $imgTag.Replace($dataUri, $optUri)
+                if ($newTag -match '(?i)<img\s+') {
+                    $newTag = $newTag -replace '(?i)<img', '<img data-optimized="true"'
+                }
+                
+                # Replace original tag in HTML
+                $replacedHtml = $replacedHtml.Replace($imgTag, $newTag)
                 $optimizedCount++
             }
         }

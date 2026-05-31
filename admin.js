@@ -1406,8 +1406,8 @@ document.addEventListener("DOMContentLoaded", () => {
             var outW = Math.round(sw);
             var outH = Math.round(sh);
             
-            // Performance optimization: downscale massive page images to max 1600px dimension
-            var maxDim = 1600;
+            // Performance optimization: downscale massive page images to max 3840px dimension
+            var maxDim = 3840;
             if (outW > maxDim || outH > maxDim) {
                 if (outW > outH) {
                     outH = Math.round(maxDim / ratio);
@@ -1426,8 +1426,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!isPng) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, outW, outH); }
             ctx.drawImage(img, sx, sy, sw, sh, 0, 0, outW, outH);
             try {
-                // Compress JPEGs to 0.85 quality to preserve space/speed
-                callback(c.toDataURL(isPng ? 'image/png' : 'image/jpeg', isPng ? undefined : 0.85));
+                // Compress JPEGs to 0.98 quality to preserve original high resolution
+                callback(c.toDataURL(isPng ? 'image/png' : 'image/jpeg', isPng ? undefined : 0.98));
             }
             catch(e) { callback(src); }
         };
@@ -2213,17 +2213,17 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             if (canvas) {
                 // Determine target parameters based on the currentImageTarget
-                let maxDim = 1600;
-                let quality = 0.85;
+                let maxDim = 3840;
+                let quality = 0.98;
                 if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
-                    maxDim = 1200;
-                    quality = 0.85;
+                    maxDim = 3840;
+                    quality = 0.98;
                 } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
-                    maxDim = 1600;
-                    quality = 0.85;
+                    maxDim = 3840;
+                    quality = 0.98;
                 } else if (currentImageTarget.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
-                    maxDim = 300;
-                    quality = 0.85;
+                    maxDim = 800;
+                    quality = 0.98;
                 }
                 
                 // Downscale if canvas dimensions exceed maxDim
@@ -2260,28 +2260,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 const outQuality = isPng ? undefined : quality;
                 const base64Data = canvas.toDataURL(mimeType, outQuality);
                 currentImageTarget.src = base64Data;
+                currentImageTarget.setAttribute('data-optimized', 'true');
             }
         } else {
             // Bypass cropper, but still compress!
             const src = previewImage.src;
             if (src && src.startsWith('data:image/')) {
-                let maxDim = 1600;
-                let quality = 0.85;
+                let maxDim = 3840;
+                let quality = 0.98;
                 if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
-                    maxDim = 1200;
-                    quality = 0.85;
+                    maxDim = 3840;
+                    quality = 0.98;
                 } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
-                    maxDim = 1600;
-                    quality = 0.85;
+                    maxDim = 3840;
+                    quality = 0.98;
                 } else if (currentImageTarget.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
-                    maxDim = 300;
-                    quality = 0.85;
+                    maxDim = 800;
+                    quality = 0.98;
                 }
                 compressBase64Image(src, maxDim, quality).then(compressed => {
                     currentImageTarget.src = compressed;
+                    currentImageTarget.setAttribute('data-optimized', 'true');
                 });
             } else {
                 currentImageTarget.src = src;
+                currentImageTarget.removeAttribute('data-optimized');
             }
         }
         closeCropModalHandler();
@@ -2715,22 +2718,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     const src = img.src;
                     if (src && src.startsWith('data:image/')) {
-                        let maxDim = 1600;
-                        let quality = 0.85;
+                        if (img.hasAttribute('data-optimized')) {
+                            return; // Already optimized, bypass!
+                        }
+                        let maxDim = 3840;
+                        let quality = 0.98;
                         if (img.closest('.portfolio-card[data-cat="covers"]')) {
-                            maxDim = 1200;
-                            quality = 0.85;
+                            maxDim = 3840;
+                            quality = 0.98;
                         } else if (img.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
-                            maxDim = 1600;
-                            quality = 0.85;
+                            maxDim = 3840;
+                            quality = 0.98;
                         } else if (img.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
-                            maxDim = 300;
-                            quality = 0.85;
+                            maxDim = 800;
+                            quality = 0.98;
                         }
                         const compressed = await compressBase64Image(src, maxDim, quality);
-                        if (compressed !== src) {
-                            img.src = compressed;
-                        }
+                        img.src = compressed;
+                        img.setAttribute('data-optimized', 'true');
                     }
                 } catch (innerErr) {
                     console.error("Failed to compress image in save sweep:", innerErr);

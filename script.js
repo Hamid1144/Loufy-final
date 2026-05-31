@@ -394,15 +394,20 @@ window.initFlipbooks = function () {
     // Hidden store for admin compatibility
     var store = document.createElement('div');
     store.id = storeId; store.style.display = 'none';
-    store.innerHTML = pages.map(function(src,i){ return '<div class="flipbook-page"><img src="'+src+'" alt="Page '+(i+1)+'" loading="lazy"></div>'; }).join('');
+    store.innerHTML = pages.map(function(src,i){
+      var opt = (src && src.indexOf('data:image/') === 0) ? ' data-optimized="true"' : '';
+      return '<div class="flipbook-page"><img src="'+src+'" alt="Page '+(i+1)+'" loading="lazy"' + opt + '></div>';
+    }).join('');
 
     // Book HTML — flip-face divs are DIRECT children of flip-layer (no flip-card wrapper)
+    var opt0 = (pages[0] && pages[0].indexOf('data:image/') === 0) ? ' data-optimized="true"' : '';
+    var opt1 = (pages[1] && pages[1].indexOf('data:image/') === 0) ? ' data-optimized="true"' : '';
     thumb.innerHTML =
       '<div class="book-scene" id="'+sId+'" data-size="'+size+'">' +
         '<div class="book-3d-wrap">' +
           '<div class="book-body">' +
-            '<div class="bp-left"><img class="bp-img" id="'+sId+'-li" src="'+pages[0]+'" alt="Left page"></div>' +
-            '<div class="bp-right"><img class="bp-img" id="'+sId+'-ri" src="'+pages[1]+'" alt="Right page"></div>' +
+            '<div class="bp-left"><img class="bp-img" id="'+sId+'-li" src="'+pages[0]+'" alt="Left page"' + opt0 + '></div>' +
+            '<div class="bp-right"><img class="bp-img" id="'+sId+'-ri" src="'+pages[1]+'" alt="Right page"' + opt1 + '></div>' +
 
             '<div class="flip-layer" id="'+sId+'-fl">' +
               '<div class="flip-face flip-face-f"><img class="bp-img" id="'+sId+'-ff" src="" alt=""></div>' +
