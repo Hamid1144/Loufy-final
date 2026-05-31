@@ -54,15 +54,26 @@ function Optimize-Base64Image {
         $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
         $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
         $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+        
+        $isPng = $dataUri.StartsWith("data:image/png")
+        if (-not $isPng) {
+            $g.Clear([System.Drawing.Color]::White)
+        }
         $g.DrawImage($originalBmp, 0, 0, $newW, $newH)
         
-        # Setup JPEG compression
-        $jpegCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq "image/jpeg" }
-        $encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)
-        $encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, $quality)
-        
         $outMs = New-Object System.IO.MemoryStream
-        $newBmp.Save($outMs, $jpegCodec, $encoderParams)
+        $mimeTypeOut = "image/jpeg"
+        
+        if ($isPng) {
+            $pngCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq "image/png" }
+            $newBmp.Save($outMs, $pngCodec, $null)
+            $mimeTypeOut = "image/png"
+        } else {
+            $jpegCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq "image/jpeg" }
+            $encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)
+            $encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, $quality)
+            $newBmp.Save($outMs, $jpegCodec, $encoderParams)
+        }
         
         $outBytes = $outMs.ToArray()
         $newBase64 = [System.Convert]::ToBase64String($outBytes)
@@ -74,7 +85,7 @@ function Optimize-Base64Image {
         $ms.Dispose()
         $outMs.Dispose()
         
-        $newUri = "data:image/jpeg;base64,$newBase64"
+        $newUri = "data:$mimeTypeOut;base64,$newBase64"
         if ($newUri.Length -lt $dataUri.Length) {
             return $newUri
         } else {
