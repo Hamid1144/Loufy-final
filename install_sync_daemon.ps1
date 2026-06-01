@@ -27,24 +27,17 @@ $scriptDir = $PSScriptRoot
 if (-not $scriptDir) {
     $scriptDir = Get-Location
 }
-$vbsPath = Join-Path $scriptDir "silent_sync_daemon.vbs"
 $startupFolder = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 $shortcutPath = Join-Path $startupFolder "HamidRazaSyncDaemon.lnk"
 
-# Ensure the VBS wrapper exists
-if (-not (Test-Path $vbsPath)) {
-    Write-Error "silent_sync_daemon.vbs not found at $vbsPath! Please ensure it is in the same directory."
-    exit 1
-}
-
-# 3. Create Windows Startup shortcut
+# 3. Create Windows Startup shortcut (Directly pointing to PowerShell hidden)
 Write-Host "Creating startup shortcut..." -ForegroundColor Yellow
 try {
     $WshShell = New-Object -ComObject WScript.Shell
     $Shortcut = $WshShell.CreateShortcut($shortcutPath)
-    $cscriptPath = Join-Path $env:SystemRoot "System32\cscript.exe"
-    $Shortcut.TargetPath = $cscriptPath
-    $Shortcut.Arguments = "//B //Nologo ""$vbsPath"""
+    $powershellPath = Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe"
+    $Shortcut.TargetPath = $powershellPath
+    $Shortcut.Arguments = "-WindowStyle Hidden -ExecutionPolicy Bypass -File ""$scriptDir\sync_daemon.ps1"""
     $Shortcut.WorkingDirectory = "$scriptDir"
     $Shortcut.Description = "Hamid Raza Portfolio GitHub Sync Daemon"
     $Shortcut.Save()
@@ -58,8 +51,8 @@ try {
 # 4. Start the silent daemon immediately
 Write-Host "Launching sync daemon in background..." -ForegroundColor Yellow
 try {
-    $cscriptPath = Join-Path $env:SystemRoot "System32\cscript.exe"
-    Start-Process $cscriptPath -ArgumentList "//B //Nologo ""$vbsPath""" -WindowStyle Hidden
+    $powershellPath = Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe"
+    Start-Process $powershellPath -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -File ""$scriptDir\sync_daemon.ps1"""
     Start-Sleep -Seconds 2
     
     # Check if the process is now running
@@ -68,7 +61,7 @@ try {
         Write-Host "Sync daemon has been successfully started and is running silently!" -ForegroundColor Green
         Write-Host "Process ID(s): $(($newProc | Select-Object -ExpandProperty ProcessId) -join ', ')" -ForegroundColor Gray
     } else {
-        Write-Warning "Sync daemon launched, but could not verify running process. Please run status_sync_daemon.bat to check."
+        Write-Warning "Sync daemon launched, but could not verify running process. Please run status_sync_daemon.ps1 to check."
     }
 } catch {
     Write-Error "Failed to launch sync daemon: $_"
