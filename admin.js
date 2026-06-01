@@ -3510,6 +3510,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // MutationObserver to detect edits to actual site content
     function initChangeObserver() {
         const observer = new MutationObserver((mutations) => {
+            if (!isEditMode) return; // Ignore mutations when not in edit mode
             if (!window.contentLoadedFromLive) return; // Ignore mutations during initial load
             
             let relevantChange = false;
