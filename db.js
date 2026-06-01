@@ -7,4 +7,4 @@ window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // Web3Forms Access Key for automatic email notifications on contact form submission.
 // Get a free key instantly from https://web3forms.com and paste it here!
-window.web3formsAccessKey = 'YOUR_WEB3FORMS_ACCESS_KEY';
+window.web3formsAccessKey = '70aec444-7db9-467f-9739-68deb0c1385f';
