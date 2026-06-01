@@ -44,6 +44,7 @@ window.initSiteLogic = function () {
     a.parentNode.replaceChild(oldA, a);
     oldA.addEventListener('click', () => {
       document.querySelector('.nav-links')?.classList.remove('open');
+      document.querySelector('.hamburger')?.classList.remove('active');
     });
   });
 
@@ -255,6 +256,9 @@ window.initSiteLogic = function () {
       } else {
         window.location.href = 'index.html' + targetId;
       }
+      // Close mobile menu and reset hamburger state
+      document.querySelector('.nav-links')?.classList.remove('open');
+      document.querySelector('.hamburger')?.classList.remove('active');
     });
   });
 
