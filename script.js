@@ -287,6 +287,37 @@ window.initSiteLogic = function () {
           .from('contact_messages')
           .insert([{ name, email, phone, project_type, budget, message }]);
         if (error) throw error;
+
+        // Send email notification using Web3Forms if key is set
+        if (window.web3formsAccessKey && window.web3formsAccessKey !== 'YOUR_WEB3FORMS_ACCESS_KEY') {
+          try {
+            await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify({
+                access_key: window.web3formsAccessKey,
+                name: name,
+                email: email,
+                phone: phone,
+                subject: `New Message from ${name} - ${project_type}`,
+                message: `You have received a new contact message from your portfolio website:\n\n` +
+                         `Name: ${name}\n` +
+                         `Email: ${email}\n` +
+                         `Phone: ${phone}\n` +
+                         `Project Type: ${project_type}\n` +
+                         `Budget Range: ${budget}\n\n` +
+                         `Message:\n${message}\n\n` +
+                         `--- \nThis message has also been saved to your Supabase database.`
+              })
+            });
+          } catch (emailErr) {
+            console.warn("Database save succeeded, but email notification failed: ", emailErr);
+          }
+        }
+
         window.showToast('Thank you! Your message has been sent directly to the database.', 'success');
         this.reset();
       } catch (error) {
