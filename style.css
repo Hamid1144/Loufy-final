@@ -1046,7 +1046,8 @@ body.edit-mode .reveal {
 .hero-content{padding:24px !important;border-radius:8px !important;margin-left:0 !important;margin-top:0 !important;width:100% !important}
 .hero p,.section-sub{margin:0 auto 32px}
 .hero-btns,.about-btns{justify-content:center}
-.hero-visual{margin-top:40px;height:340px}
+.hero-visual{margin-top:20px;height:auto;display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap}
+.hero-visual .float-badge.exp, .hero-visual .float-badge.proj{position:static !important;animation:none !important}
 .services-grid,.tools-grid,.portfolio-grid,.pricing-grid,.blog-grid{grid-template-columns:1fr 1fr}
 .timeline-grid{grid-template-columns:1fr}
 .footer-grid{grid-template-columns:1fr 1fr}
@@ -1122,6 +1123,14 @@ body > section.portfolio {
     .about-float-tag:nth-child(4) { left: 2%; }
     .about-float-tag:nth-child(3) { right: 5%; }
     
+    .hero h1, .hero h1 span {
+        font-size: 1.8rem !important;
+    }
+    .portfolio-card[data-cat="formatting"] .portfolio-thumb,
+    .portfolio-card[data-layout="full-width"] .portfolio-thumb {
+        height: auto !important;
+        min-height: 220px !important;
+    }
     .portfolio-card[data-cat="children"] .portfolio-thumb,
     .portfolio-card[data-flipbook="true"] .portfolio-thumb {
         height: 380px;
@@ -1146,6 +1155,14 @@ body > section.portfolio {
     .navbar .btn {
         padding: 8px 16px !important;
         font-size: 0.75rem !important;
+    }
+    .hero h1, .hero h1 span {
+        font-size: 1.45rem !important;
+    }
+    .portfolio-card[data-cat="formatting"] .portfolio-thumb,
+    .portfolio-card[data-layout="full-width"] .portfolio-thumb {
+        height: auto !important;
+        min-height: 160px !important;
     }
     .portfolio-card[data-cat="children"] .portfolio-thumb,
     .portfolio-card[data-flipbook="true"] .portfolio-thumb {
