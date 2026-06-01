@@ -98,21 +98,35 @@ foreach ($page in $pages) {
             }
             $bodyJson = ConvertTo-Json -InputObject $bodyObj -Compress
             
-            try {
-                $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($bodyJson)
-                $response = Invoke-WebRequest -Uri $updateUri -Headers $headers -Method Patch -Body $bodyBytes -UseBasicParsing
-                
-                if ($response.StatusCode -ge 200 -and $response.StatusCode -lt 300) {
-                    Write-Host "Successfully pushed '$id' body to Supabase!"
-                } else {
-                    Write-Error "Failed to push '$id' body to Supabase. Status: $($response.StatusCode). Response: $($response.Content)"
-                }
-            } catch {
-                Write-Error "Failed to push '$id' body to Supabase: $_"
-                if ($_.Exception.Response) {
-                    $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
-                    $responseBody = $reader.ReadToEnd()
-                    Write-Error "Response Details: $responseBody"
+            $maxRetries = 3
+            $retryCount = 0
+            $success = $false
+            
+            while (-not $success -and $retryCount -lt $maxRetries) {
+                $retryCount++
+                try {
+                    $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($bodyJson)
+                    $response = Invoke-WebRequest -Uri $updateUri -Headers $headers -Method Patch -Body $bodyBytes -UseBasicParsing
+                    
+                    if ($response.StatusCode -ge 200 -and $response.StatusCode -lt 300) {
+                        Write-Host "Successfully pushed '$id' body to Supabase!"
+                        $success = $true
+                    } else {
+                        Write-Error "Failed to push '$id' body to Supabase. Status: $($response.StatusCode). Response: $($response.Content)"
+                    }
+                } catch {
+                    Write-Warning "Attempt $retryCount of $maxRetries failed: $_"
+                    if ($retryCount -lt $maxRetries) {
+                        Write-Host "Waiting 2 seconds before retrying..."
+                        Start-Sleep -Seconds 2
+                    } else {
+                        Write-Error "Failed to push '$id' body to Supabase after $maxRetries attempts: $_"
+                        if ($_.Exception.Response) {
+                            $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
+                            $responseBody = $reader.ReadToEnd()
+                            Write-Error "Response Details: $responseBody"
+                        }
+                    }
                 }
             }
         } else {
