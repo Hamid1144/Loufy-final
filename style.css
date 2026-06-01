@@ -120,6 +120,10 @@ section{padding:100px 0}
     display: flex;
     gap: 16px;
     align-items: center;
+    list-style: none;
+}
+.nav-links li {
+    list-style: none;
 }
 .nav-links a {
     font-weight: 600;
@@ -1040,16 +1044,29 @@ body.edit-mode .reveal {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 24px;
+    gap: 20px;
     z-index: 999;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 .nav-links.open{display:flex}
+.nav-links li {
+    width: 100%;
+    text-align: center;
+    list-style: none;
+}
+.nav-links a {
+    display: block !important;
+    font-size: 1.3rem !important;
+    color: var(--dark) !important;
+    padding: 12px 0 !important;
+}
 .hamburger{display:flex;z-index:1001}
 .hero .container,.about .container,.contact .container{grid-template-columns:1fr;text-align:center}
 .hero-content{padding:24px !important;border-radius:8px !important;margin-left:0 !important;margin-top:0 !important;width:100% !important}
