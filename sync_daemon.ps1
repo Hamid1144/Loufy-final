@@ -2,6 +2,8 @@
 # Background synchronization daemon for Hamid Raza Portfolio.
 # Periodically pulls live edits from Supabase, optimizes new Base64 images, and pushes commits to GitHub.
 
+$ProgressPreference = 'SilentlyContinue'
+
 if ($PSScriptRoot) {
     Set-Location $PSScriptRoot
 }
@@ -14,16 +16,22 @@ try {
     Write-Host "Invoking pull_supabase.ps1..." -ForegroundColor Yellow
     $pullOutput = powershell -ExecutionPolicy Bypass -File .\pull_supabase.ps1 2>&1
     Write-Host "pull_supabase.ps1 Output: $pullOutput"
-    Write-Host "pull_supabase.ps1 Exit Code: $LASTEXITCODE"
     
     if ($LASTEXITCODE -ne 0) {
         throw "pull_supabase.ps1 failed with exit code $LASTEXITCODE"
     }
 
+    Write-Host "Invoking merge_grids.ps1..." -ForegroundColor Yellow
+    $mergeOutput = powershell -ExecutionPolicy Bypass -File .\merge_grids.ps1 2>&1
+    Write-Host "merge_grids.ps1 Output: $mergeOutput"
+    
+    if ($LASTEXITCODE -ne 0) {
+        throw "merge_grids.ps1 failed with exit code $LASTEXITCODE"
+    }
+
     Write-Host "Invoking optimize_html_images.ps1..." -ForegroundColor Yellow
     $optOutput = powershell -ExecutionPolicy Bypass -File .\optimize_html_images.ps1 2>&1
     Write-Host "optimize_html_images.ps1 Output: $optOutput"
-    Write-Host "optimize_html_images.ps1 Exit Code: $LASTEXITCODE"
     
     if ($LASTEXITCODE -ne 0) {
         throw "optimize_html_images.ps1 failed with exit code $LASTEXITCODE"
@@ -36,6 +44,10 @@ try {
         git commit -m "Auto-sync from live website (daemon startup)"
         git push
         Write-Host "Successfully committed and pushed startup changes to GitHub!" -ForegroundColor Green
+        
+        Write-Host "Invoking push_supabase.ps1 -Force to push unified/optimized content back to Supabase..." -ForegroundColor Yellow
+        $pushOutput = powershell -ExecutionPolicy Bypass -File .\push_supabase.ps1 -Force 2>&1
+        Write-Host "push_supabase.ps1 Output: $pushOutput"
     } else {
         Write-Host "Startup check complete. Local files and GitHub are in sync." -ForegroundColor Gray
     }
@@ -87,6 +99,10 @@ while ($true) {
                 Write-Host "Running pull_supabase.ps1..."
                 powershell -ExecutionPolicy Bypass -File .\pull_supabase.ps1
                 
+                # Run merge script to link/unify both grids
+                Write-Host "Running merge_grids.ps1..."
+                powershell -ExecutionPolicy Bypass -File .\merge_grids.ps1
+                
                 # Run image optimizer to compress any heavy Base64 data URLs
                 Write-Host "Running optimize_html_images.ps1..."
                 powershell -ExecutionPolicy Bypass -File .\optimize_html_images.ps1
@@ -99,6 +115,10 @@ while ($true) {
                     git commit -m "Auto-sync from live website"
                     git push
                     Write-Host "Successfully committed and pushed changes to GitHub!" -ForegroundColor Green
+                    
+                    # Self-heal back to Supabase since local merge modified files
+                    Write-Host "Pushing unified grids back to Supabase..." -ForegroundColor Yellow
+                    powershell -ExecutionPolicy Bypass -File .\push_supabase.ps1 -Force
                 } else {
                     Write-Host "No local file changes detected after pull (in sync)." -ForegroundColor Gray
                 }

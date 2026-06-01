@@ -2,6 +2,7 @@ param (
     [switch]$Force
 )
 
+$ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 $supabaseUrl = 'https://pgictinimttptsxbvngg.supabase.co'

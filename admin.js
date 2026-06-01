@@ -2807,74 +2807,77 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.warn("Local storage cache quota exceeded on save:", cacheErr);
             }
             
-            // Notify user immediately that the save succeeded! No waiting for background sync.
-            window.showToast("Changes saved successfully!", "success");
+            // 2. Synchronize portfolio grid and filters to the other page (AWAITED)
+            saveBtn.innerText = "Syncing other page...";
+            try {
+                const { data: otherData, error: otherFetchError } = await window.supabaseClient
+                    .from('site_content')
+                    .select('html_content')
+                    .eq('id', otherPageId)
+                    .single();
+
+                if (otherFetchError) {
+                    console.error("Failed to fetch other page for sync:", otherFetchError);
+                } else if (otherData && otherData.html_content) {
+                    const parser = new DOMParser();
+                    const otherDoc = parser.parseFromString(otherData.html_content, 'text/html');
+                    
+                    const otherGrid = otherDoc.querySelector('.portfolio-grid');
+                    const otherFilters = otherDoc.querySelector('.portfolio-filters');
+                    
+                    const currentGrid = clone.querySelector('.portfolio-grid');
+                    const currentFilters = clone.querySelector('.portfolio-filters');
+                    
+                    let needsUpdate = false;
+                    if (otherGrid && currentGrid) {
+                        otherGrid.innerHTML = currentGrid.innerHTML;
+                        needsUpdate = true;
+                    }
+                    if (otherFilters && currentFilters) {
+                        otherFilters.innerHTML = currentFilters.innerHTML;
+                        needsUpdate = true;
+                    }
+
+                    // Synchronize custom theme styles to the other page
+                    const otherThemeStyle = otherDoc.querySelector('#custom-theme-styles');
+                    const currentThemeStyle = clone.querySelector('#custom-theme-styles');
+                    
+                    if (currentThemeStyle) {
+                        if (otherThemeStyle) {
+                            otherThemeStyle.innerHTML = currentThemeStyle.innerHTML;
+                        } else {
+                            const newStyle = otherDoc.createElement('style');
+                            newStyle.id = 'custom-theme-styles';
+                            newStyle.innerHTML = currentThemeStyle.innerHTML;
+                            otherDoc.body.insertBefore(newStyle, otherDoc.body.firstChild);
+                        }
+                        needsUpdate = true;
+                    } else if (otherThemeStyle) {
+                        otherThemeStyle.remove();
+                        needsUpdate = true;
+                    }
+                    
+                    if (needsUpdate) {
+                        const updatedOtherHtml = otherDoc.body.innerHTML;
+                        const { error: otherUpdateError } = await window.supabaseClient
+                            .from('site_content')
+                            .upsert({ id: otherPageId, html_content: updatedOtherHtml });
+                        if (otherUpdateError) throw otherUpdateError;
+                    }
+                }
+            } catch (syncErr) {
+                console.error("Background portfolio sync failed:", syncErr);
+                window.showToast("Warning: Changes saved, but sync to other page failed.", "warning");
+            }
+
+            // Notify user that the save succeeded across both pages!
+            window.showToast("Changes saved successfully across both pages!", "success");
             
             window.hasUnsavedChanges = false;
             const saveBtnEl = document.getElementById('save-changes');
             if (saveBtnEl) {
                 saveBtnEl.style.boxShadow = ''; // Clear highlight
             }
-            
-            // 2. Synchronize portfolio grid and filters to the other page in the background (ASYNCHRONOUS)
-            (async () => {
-                try {
-                    const { data: otherData, error: otherFetchError } = await window.supabaseClient
-                        .from('site_content')
-                        .select('html_content')
-                        .eq('id', otherPageId)
-                        .single();
-
-                    if (!otherFetchError && otherData && otherData.html_content) {
-                        const parser = new DOMParser();
-                        const otherDoc = parser.parseFromString(otherData.html_content, 'text/html');
-                        
-                        const otherGrid = otherDoc.querySelector('.portfolio-grid');
-                        const otherFilters = otherDoc.querySelector('.portfolio-filters');
-                        
-                        const currentGrid = clone.querySelector('.portfolio-grid');
-                        const currentFilters = clone.querySelector('.portfolio-filters');
-                        
-                        let needsUpdate = false;
-                        if (otherGrid && currentGrid) {
-                            otherGrid.innerHTML = currentGrid.innerHTML;
-                            needsUpdate = true;
-                        }
-                        if (otherFilters && currentFilters) {
-                            otherFilters.innerHTML = currentFilters.innerHTML;
-                            needsUpdate = true;
-                        }
-
-                        // Synchronize custom theme styles to the other page
-                        const otherThemeStyle = otherDoc.querySelector('#custom-theme-styles');
-                        const currentThemeStyle = clone.querySelector('#custom-theme-styles');
-                        
-                        if (currentThemeStyle) {
-                            if (otherThemeStyle) {
-                                otherThemeStyle.innerHTML = currentThemeStyle.innerHTML;
-                            } else {
-                                const newStyle = otherDoc.createElement('style');
-                                newStyle.id = 'custom-theme-styles';
-                                newStyle.innerHTML = currentThemeStyle.innerHTML;
-                                otherDoc.body.insertBefore(newStyle, otherDoc.body.firstChild);
-                            }
-                            needsUpdate = true;
-                        } else if (otherThemeStyle) {
-                            otherThemeStyle.remove();
-                            needsUpdate = true;
-                        }
-                        
-                        if (needsUpdate) {
-                            const updatedOtherHtml = otherDoc.body.innerHTML;
-                            await window.supabaseClient
-                                .from('site_content')
-                                .upsert({ id: otherPageId, html_content: updatedOtherHtml });
-                        }
-                    }
-                } catch (syncErr) {
-                    console.error("Background portfolio sync failed:", syncErr);
-                }
-            })();
 
         } catch (err) {
             console.error(err);
