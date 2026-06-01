@@ -4,3 +4,7 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 // We store the client instance on the window object so other scripts can access it
 window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+// Web3Forms Access Key for automatic email notifications on contact form submission.
+// Get a free key instantly from https://web3forms.com and paste it here!
+window.web3formsAccessKey = 'YOUR_WEB3FORMS_ACCESS_KEY';
