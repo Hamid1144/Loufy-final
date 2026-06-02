@@ -2780,9 +2780,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // Clean up marquee container from clone so it's not serialized
             clone.querySelectorAll('.covers-marquee-container').forEach(el => el.remove());
             
-            // Reset inline display style on covers grid cards so they save in a neutral state
-            // (they may have display:none from the marquee mode — this ensures fresh load always works)
-            clone.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="covers"]').forEach(card => {
+            // Reset inline display style on all grid cards so they save in a neutral state
+            clone.querySelectorAll('.portfolio-grid .portfolio-card').forEach(card => {
                 card.style.display = '';
             });
 

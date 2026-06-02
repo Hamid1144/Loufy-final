@@ -140,8 +140,7 @@ window.initSiteLogic = function () {
         }
       }
       
-      let childrenCount = 0;
-      let formattingCount = 0;
+      const categoryShowCounts = {};
 
       document.querySelectorAll('.portfolio-grid > .portfolio-card').forEach(card => {
         const cardCat = card.dataset.cat;
@@ -154,15 +153,13 @@ window.initSiteLogic = function () {
             if (!isMainPage || isEdit) {
               shouldShow = true;
             } else {
-              if (cardCat === 'children') {
-                if (childrenCount < 1) {
-                  shouldShow = true;
-                  childrenCount++;
+              if (cardCat !== 'covers') {
+                if (!categoryShowCounts[cardCat]) {
+                  categoryShowCounts[cardCat] = 0;
                 }
-              } else if (cardCat === 'formatting') {
-                if (formattingCount < 1) {
+                if (categoryShowCounts[cardCat] < 1) {
                   shouldShow = true;
-                  formattingCount++;
+                  categoryShowCounts[cardCat]++;
                 }
               } else {
                 shouldShow = true;

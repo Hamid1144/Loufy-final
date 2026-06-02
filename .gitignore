@@ -1,2 +1,3 @@
 *.log
 wscript_test.txt
+backup_live/
