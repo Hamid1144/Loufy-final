@@ -12,4 +12,5 @@ function Count-Cards($filePath) {
 }
 
 Count-Cards "index.html"
+Count-Cards "portfolio.html"
 
