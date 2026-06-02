@@ -49,9 +49,12 @@ Write-Host "Local portfolio.html has $($portfolioCards.Count) cards."
 # We'll normalize the cards by removing style, bis_skin_checked, and whitespace to compare them.
 function Get-NormalizedCard($card) {
     $normalized = [regex]::Replace($card, '\s+', ' ')
-    $normalized = [regex]::Replace($normalized, '\s*bis_skin_checked="[^"]*"', '')
-    $normalized = [regex]::Replace($normalized, '\s*style="[^"]*"', '')
-    $normalized = [regex]::Replace($normalized, '\s*class="[^"]*"', '') # remove classes for matching
+    $normalized = [regex]::Replace($normalized, '(?i)\s*bis_skin_checked="[^"]*"', '')
+    $normalized = [regex]::Replace($normalized, '(?i)\s*style="[^"]*"', '')
+    $normalized = [regex]::Replace($normalized, '(?i)\s*class="[^"]*"', '')
+    $normalized = [regex]::Replace($normalized, '(?i)\s*data-optimized="[^"]*"', '')
+    $normalized = [regex]::Replace($normalized, '(?i)\s*data-admin-text="[^"]*"', '')
+    $normalized = [regex]::Replace($normalized, '(?i)\s*contenteditable="[^"]*"', '')
     $normalized = $normalized.Trim()
     return $normalized
 }

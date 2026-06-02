@@ -131,7 +131,7 @@ foreach ($file in $files) {
                 
                 # Replace dataUri and add data-optimized="true" attribute inside the tag
                 $newTag = $imgTag.Replace($dataUri, $optUri)
-                if ($newTag -match '(?i)<img\s+') {
+                if ($newTag -match '(?i)<img\s+' -and $newTag -notlike '*data-optimized=*') {
                     $newTag = $newTag -replace '(?i)<img', '<img data-optimized="true"'
                 }
                 
