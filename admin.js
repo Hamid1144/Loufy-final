@@ -931,19 +931,35 @@ document.addEventListener("DOMContentLoaded", () => {
             predefinedSocials.forEach(soc => {
                 const existingBtn = document.querySelector(`a[data-social="${soc.id}"]`);
                 const isEnabled = !!existingBtn;
-                const linkVal = existingBtn && existingBtn.getAttribute('href') !== '#' ? existingBtn.getAttribute('href') : '';
+                let linkVal = existingBtn && existingBtn.getAttribute('href') !== '#' ? existingBtn.getAttribute('href') : '';
+
+                if (soc.id === 'whatsapp' && linkVal) {
+                    const waMatch = linkVal.match(/(?:wa\.me\/|phone=)([\d\+\-\s]+)/);
+                    if (waMatch) {
+                        linkVal = waMatch[1].replace(/[^\d]/g, '').trim();
+                    } else if (linkVal.includes('whatsapp.com')) {
+                        linkVal = linkVal.replace(/[^\d]/g, '').trim();
+                    } else {
+                        linkVal = linkVal.replace(/[^\d]/g, '').trim();
+                    }
+                }
 
                 const div = document.createElement('div');
                 div.style.background = '#222';
                 div.style.padding = '8px';
                 div.style.borderRadius = '4px';
                 
+                let placeholderText = "URL...";
+                if (soc.id === 'whatsapp') {
+                    placeholderText = "WhatsApp Number (with country code, e.g., 923001234567)...";
+                }
+                
                 div.innerHTML = `
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
                         <span style="font-size:0.85rem;">${soc.icon} ${soc.name}</span>
                         <input type="checkbox" id="check-${soc.id}" ${isEnabled ? 'checked' : ''}>
                     </div>
-                    <input type="text" id="input-${soc.id}" value="${linkVal}" placeholder="URL..." style="width:100%; padding:4px; border-radius:4px; border:1px solid #555; background:#111; color:#fff; font-size:0.75rem;">
+                    <input type="text" id="input-${soc.id}" value="${linkVal}" placeholder="${placeholderText}" style="width:100%; padding:4px; border-radius:4px; border:1px solid #555; background:#111; color:#fff; font-size:0.75rem;">
                 `;
                 socialList.appendChild(div);
             });
@@ -963,7 +979,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     if (checkbox && checkbox.checked) {
                         const newIcon = document.createElement('a');
-                        newIcon.href = input.value.trim() || "#";
+                        let hrefVal = input.value.trim() || "#";
+                        
+                        if (soc.id === 'whatsapp' && hrefVal !== '#') {
+                            const digits = hrefVal.replace(/[^\d]/g, '');
+                            if (digits) {
+                                hrefVal = `https://wa.me/${digits}`;
+                            } else {
+                                hrefVal = '#';
+                            }
+                        }
+                        
+                        newIcon.href = hrefVal;
                         newIcon.innerHTML = soc.icon;
                         newIcon.setAttribute("data-social", soc.id);
                         
@@ -984,6 +1011,7 @@ document.addEventListener("DOMContentLoaded", () => {
             socialPanel.style.display = 'none';
         }
     });
+
 
     // 4. Pricing Links Logic
     managePricingBtn.addEventListener("click", () => {
