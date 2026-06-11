@@ -1,151 +1,193 @@
-Add-Type -AssemblyName System.Drawing
+# optimize_html_images.ps1
+# Shorthand Cloudinary optimizer run by the background sync daemon.
+# Detects base64 or new local images, uploads them to Cloudinary, and updates HTML references.
 
-function Optimize-Base64Image {
-    param (
-        [string]$dataUri,
-        [int]$maxDim = 2560,
-        [int]$quality = 90
-    )
+$ProgressPreference = 'SilentlyContinue'
+$cloudName = "dtr3yvjac"
+$apiKey = "453843776219872"
+$apiSecret = "WDP5Pmku01sVxQJ2pD_npSNL5wA"
+$folder = "portfolio"
 
-    if (-not $dataUri.StartsWith("data:image/")) {
-        return $dataUri
-    }
+$cacheFile = "cloudinary_cache.json"
+$cache = @{}
 
-    # Extract format and base64 string
-    $pattern = '^data:image/([^;]+);base64,(.+)$'
-    if ($dataUri -match $pattern) {
-        $mime = $Matches[1]
-        $base64Data = $Matches[2]
-    } else {
-        return $dataUri
-    }
-
-    # If it's already tiny (e.g. less than 5KB), don't compress
-    if ($base64Data.Length -lt 8000) {
-        return $dataUri
-    }
-
-    try {
-        $bytes = [System.Convert]::FromBase64String($base64Data)
-        $ms = New-Object System.IO.MemoryStream(,$bytes)
-        $originalBmp = New-Object System.Drawing.Bitmap($ms)
-        
-        $w = $originalBmp.Width
-        $h = $originalBmp.Height
-        
-        # Calculate new dimensions
-        if ($w -gt $maxDim -or $h -gt $maxDim) {
-            $ratio = $w / $h
-            if ($w -gt $h) {
-                $newW = [int]$maxDim
-                $newH = [int][Math]::Round($maxDim / $ratio)
-            } else {
-                $newH = [int]$maxDim
-                $newW = [int][Math]::Round($maxDim * $ratio)
+# Load cache if exists
+if (Test-Path $cacheFile) {
+    $cacheJson = Get-Content $cacheFile -Raw -ErrorAction SilentlyContinue
+    if ($cacheJson) {
+        $obj = ConvertFrom-Json $cacheJson
+        if ($obj) {
+            foreach ($prop in $obj.psobject.Properties) {
+                $cache[$prop.Name] = $prop.Value
             }
-        } else {
-            $newW = [int]$w
-            $newH = [int]$h
         }
-
-        # Create new resized bitmap with explicit [int] types
-        $newBmp = New-Object System.Drawing.Bitmap([int]$newW, [int]$newH)
-        $g = [System.Drawing.Graphics]::FromImage($newBmp)
-        $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
-        $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
-        $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
-        
-        $isPng = $dataUri.StartsWith("data:image/png")
-        # Convert to JPEG if the PNG is large to save space (portfolio/covers do not need transparency)
-        if ($isPng -and $base64Data.Length -gt 50000) {
-            $isPng = $false
-        }
-        if (-not $isPng) {
-            $g.Clear([System.Drawing.Color]::White)
-        }
-        $g.DrawImage($originalBmp, 0, 0, $newW, $newH)
-        
-        $outMs = New-Object System.IO.MemoryStream
-        $mimeTypeOut = "image/jpeg"
-        
-        if ($isPng) {
-            $pngCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq "image/png" }
-            $newBmp.Save($outMs, $pngCodec, $null)
-            $mimeTypeOut = "image/png"
-        } else {
-            $jpegCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq "image/jpeg" }
-            $encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)
-            $encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, $quality)
-            $newBmp.Save($outMs, $jpegCodec, $encoderParams)
-        }
-        
-        $outBytes = $outMs.ToArray()
-        $newBase64 = [System.Convert]::ToBase64String($outBytes)
-        
-        # Cleanup
-        $g.Dispose()
-        $newBmp.Dispose()
-        $originalBmp.Dispose()
-        $ms.Dispose()
-        $outMs.Dispose()
-        
-        $newUri = "data:$mimeTypeOut;base64,$newBase64"
-        if ($newUri.Length -lt $dataUri.Length) {
-            return $newUri
-        } else {
-            return $dataUri
-        }
-    } catch {
-        Write-Warning "Failed to optimize image: $_"
-        return $dataUri
     }
 }
 
+function Get-SHA256Hash($string) {
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($string)
+    $hashBytes = $sha.ComputeHash($bytes)
+    return ($hashBytes | ForEach-Object { $_.ToString("x2") }) -join ""
+}
+
+function Upload-ToCloudinary($base64Data, $publicId) {
+    $timestamp = [int][datetimeoffset]::Now.ToUnixTimeSeconds()
+    $stringToSign = "folder=$folder&public_id=$publicId&timestamp=$timestamp$apiSecret"
+    $sha1 = [System.Security.Cryptography.SHA1]::Create()
+    $stringBytes = [System.Text.Encoding]::UTF8.GetBytes($stringToSign)
+    $hashBytes = $sha1.ComputeHash($stringBytes)
+    $signature = ($hashBytes | ForEach-Object { $_.ToString("x2") }) -join ""
+    
+    $uri = "https://api.cloudinary.com/v1_1/$cloudName/image/upload"
+    $body = @{
+        api_key   = $apiKey
+        timestamp = $timestamp
+        folder    = $folder
+        public_id = $publicId
+        signature = $signature
+        file      = $base64Data
+    }
+    $bodyJson = ConvertTo-Json -InputObject $body -Compress
+    
+    for ($i = 1; $i -le 3; $i++) {
+        try {
+            $response = Invoke-RestMethod -Uri $uri -Method Post -Body $bodyJson -ContentType "application/json; charset=utf-8"
+            if ($response -and $response.secure_url) {
+                return $response.secure_url
+            }
+        } catch {
+            Write-Warning "Cloudinary upload attempt $i failed for $($publicId): $_"
+            Start-Sleep -Seconds 2
+        }
+    }
+    throw "Failed to upload $publicId to Cloudinary."
+}
+
 $files = @("index.html", "portfolio.html")
+$hasChanges = $false
+
 foreach ($file in $files) {
     if (Test-Path $file) {
-        Write-Host "Optimizing Base64 images in $file..."
         $html = [System.IO.File]::ReadAllText($file, [System.Text.Encoding]::UTF8)
         
-        # Regex to find <img ... src="data:image/..." ...> tags
-        $matches = [regex]::Matches($html, '(?i)<img\s+[^>]*src="(data:image/[^"]+)"[^>]*>')
-        Write-Host "Found $($matches.Count) base64 images in $file."
+        $localImages = @()
+        $base64Images = @()
         
-        $optimizedCount = 0
-        $replacedHtml = $html
-        
-        foreach ($match in $matches) {
-            $imgTag = $match.Value
-            $dataUri = $match.Groups[1].Value
-            
-            # Skip if already optimized and small
-            if ($imgTag -match 'data-optimized' -and $dataUri.Length -lt 50000) {
-                continue
+        $srcMatches = [regex]::Matches($html, '(?i)\bsrc="([^"]+)"')
+        foreach ($m in $srcMatches) {
+            $val = $m.Groups[1].Value
+            if ($val.StartsWith("data:")) {
+                if ($base64Images -notcontains $val) { $base64Images += $val }
+            } elseif ($val.StartsWith("images/")) {
+                if ($localImages -notcontains $val) { $localImages += $val }
             }
-            
-            # Only compress large ones
-            if ($dataUri.Length -gt 15000) {
-                Write-Host "Compressing image of length $($dataUri.Length) chars..."
-                $optUri = Optimize-Base64Image -dataUri $dataUri -maxDim 2560 -quality 90
-                Write-Host "New length: $($optUri.Length) chars (Saved $([Math]::Round((1 - ($optUri.Length / $dataUri.Length)) * 100))%)"
-                
-                # Replace dataUri and add data-optimized="true" attribute inside the tag
-                $newTag = $imgTag.Replace($dataUri, $optUri)
-                if ($newTag -match '(?i)<img\s+' -and $newTag -notlike '*data-optimized=*') {
-                    $newTag = $newTag -replace '(?i)<img', '<img data-optimized="true"'
+        }
+        
+        $srcsetMatches = [regex]::Matches($html, '(?i)\bsrcset="([^"]+)"')
+        foreach ($m in $srcsetMatches) {
+            $val = $m.Groups[1].Value
+            $parts = $val -split ','
+            foreach ($part in $parts) {
+                $urlPart = ($part.Trim() -split '\s+')[0]
+                if ($urlPart.StartsWith("images/")) {
+                    if ($localImages -notcontains $urlPart) { $localImages += $urlPart }
                 }
-                
-                # Replace original tag in HTML
-                $replacedHtml = $replacedHtml.Replace($imgTag, $newTag)
-                $optimizedCount++
             }
         }
         
-        if ($optimizedCount -gt 0) {
-            [System.IO.File]::WriteAllText($file, $replacedHtml, [System.Text.Encoding]::UTF8)
-            Write-Host "Successfully optimized $optimizedCount images in $file!"
-        } else {
-            Write-Host "No large images to optimize in $file."
+        if ($base64Images.Count -eq 0 -and $localImages.Count -eq 0) {
+            continue
         }
+        
+        Write-Host "Sync Daemon Optimizer: Found $($base64Images.Count) base64 and $($localImages.Count) local images in $file. Optimizing..." -ForegroundColor Cyan
+        
+        # Upload base64
+        foreach ($b64 in $base64Images) {
+            $hash = Get-SHA256Hash -string $b64
+            $cacheKey = "base64:$hash"
+            if (-not $cache.ContainsKey($cacheKey)) {
+                $pid = "base64_" + $hash.Substring(0, 16)
+                $url = Upload-ToCloudinary -base64Data $b64 -publicId $pid
+                $cache[$cacheKey] = $url
+                $hasChanges = $true
+            }
+        }
+        
+        # Upload local
+        foreach ($localPath in $localImages) {
+            $cacheKey = "local:$localPath"
+            if (-not $cache.ContainsKey($cacheKey)) {
+                $isResized = $localPath -match '_(mobile|tablet)\.webp$'
+                $basePath = $localPath
+                $resizedType = $null
+                if ($isResized) {
+                    $resizedType = $Matches[1]
+                    $basePath = $localPath -replace '_(mobile|tablet)\.webp$', '.webp'
+                }
+                $baseKey = "local:$basePath"
+                
+                if ($isResized -and (Test-Path $basePath)) {
+                    if (-not $cache.ContainsKey($baseKey)) {
+                        $baseBytes = [System.IO.File]::ReadAllBytes($basePath)
+                        $baseB64 = "data:image/webp;base64," + [System.Convert]::ToBase64String($baseBytes)
+                        $basePid = [System.IO.Path]::GetFileNameWithoutExtension($basePath)
+                        $baseUrl = Upload-ToCloudinary -base64Data $baseB64 -publicId $basePid
+                        $cache[$baseKey] = $baseUrl
+                    }
+                    $width = if ($resizedType -eq "mobile") { 480 } else { 800 }
+                    $cache[$cacheKey] = $cache[$baseKey] -replace '/image/upload/', "/image/upload/f_auto,q_auto,w_$width/"
+                } else {
+                    if (Test-Path $localPath) {
+                        $bytes = [System.IO.File]::ReadAllBytes($localPath)
+                        $ext = [System.IO.Path]::GetExtension($localPath).Replace(".", "")
+                        if ($ext -eq "jpg") { $ext = "jpeg" }
+                        $mime = "image/$ext"
+                        $b64 = "data:$mime;base64," + [System.Convert]::ToBase64String($bytes)
+                        $pid = [System.IO.Path]::GetFileNameWithoutExtension($localPath)
+                        $url = Upload-ToCloudinary -base64Data $b64 -publicId $pid
+                        $cache[$cacheKey] = $url -replace '/image/upload/', '/image/upload/f_auto,q_auto/'
+                    }
+                }
+                $hasChanges = $true
+            }
+        }
+        
+        # Save cache
+        $cache | ConvertTo-Json | Out-File $cacheFile -Encoding utf8
+        
+        # Replace refs
+        $sortedKeys = $cache.Keys | Sort-Object -Property Length -Descending
+        foreach ($key in $sortedKeys) {
+            $oldRef = ""
+            if ($key.StartsWith("base64:")) {
+                $found = $base64Images | Where-Object { (Get-SHA256Hash -string $_) -eq $key.Substring(7) }
+                if ($found) { $oldRef = $found }
+            } elseif ($key.StartsWith("local:")) {
+                $oldRef = $key.Substring(6)
+            }
+            if ($oldRef -and $html.Contains($oldRef)) {
+                $newUrl = $cache[$key]
+                if ($key.StartsWith("local:") -and -not $key.Contains("_mobile") -and -not $key.Contains("_tablet")) {
+                    if ($newUrl -notlike "*/f_auto,q_auto/*") {
+                        $newUrl = $newUrl -replace '/image/upload/', '/image/upload/f_auto,q_auto/'
+                    }
+                }
+                $html = $html.Replace($oldRef, $newUrl)
+            }
+        }
+        
+        # Add loading="lazy" safely
+        $imgMatches = [regex]::Matches($html, '(?i)<img\s+[^>]+>')
+        foreach ($m in $imgMatches) {
+            $tag = $m.Value
+            if ($tag -notlike '*loading=*') {
+                $newTag = $tag -replace '(?i)<img', '<img loading="lazy"'
+                $html = $html.Replace($tag, $newTag)
+            }
+        }
+        
+        [System.IO.File]::WriteAllText($file, $html, [System.Text.Encoding]::UTF8)
+        Write-Host "Sync Daemon Optimizer: Successfully optimized $file and saved changes!" -ForegroundColor Green
     }
 }

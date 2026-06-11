@@ -117,6 +117,52 @@ document.addEventListener("DOMContentLoaded", () => {
         styleEl.innerHTML = generateThemeCSS(colors);
     }
 
+    async function generateSignature(params, apiSecret) {
+        const sortedKeys = Object.keys(params).sort();
+        const paramString = sortedKeys.map(key => `${key}=${params[key]}`).join('&');
+        const signatureString = paramString + apiSecret;
+        const encoder = new TextEncoder();
+        const data = encoder.encode(signatureString);
+        const hashBuffer = await crypto.subtle.digest('SHA-1', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function uploadToCloudinary(fileData) {
+        const cloudName = "dtr3yvjac";
+        const apiKey = "453843776219872";
+        const apiSecret = "WDP5Pmku01sVxQJ2pD_npSNL5wA";
+        const folder = "portfolio";
+        
+        const timestamp = Math.round(Date.now() / 1000);
+        const params = {
+            folder: folder,
+            timestamp: timestamp
+        };
+        
+        const signature = await generateSignature(params, apiSecret);
+        
+        const formData = new FormData();
+        formData.append("api_key", apiKey);
+        formData.append("timestamp", timestamp);
+        formData.append("folder", folder);
+        formData.append("signature", signature);
+        formData.append("file", fileData);
+        
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+            method: "POST",
+            body: formData
+        });
+        
+        if (!response.ok) {
+            const errText = await response.text();
+            throw new Error("Cloudinary upload failed: " + errText);
+        }
+        
+        const result = await response.json();
+        return result.secure_url;
+    }
+
     // Predefined socials list
     const predefinedSocials = [
         { id: 'twitter', name: 'Twitter (X)', icon: '<i class="fa-brands fa-x-twitter"></i>' },
@@ -1616,15 +1662,39 @@ document.addEventListener("DOMContentLoaded", () => {
             img.src = cropped;
         });
     }
-    function applyReplacement() {
+    async function applyReplacement() {
         if (!_rpUrl) return;
-        var latest = getFlipbookPagesLS(_rpN);
-        if (_rpIdx < 0 || _rpIdx >= latest.length) { window.showToast('Page not found.','error'); return; }
-        latest[_rpIdx] = _rpUrl;
-        setFlipbookPagesLS(_rpN, latest);
-        closeReplaceModal();
-        refreshFlipbook();
-        window.showToast('Page ' + (_rpIdx+1) + ' replaced!', 'success');
+        
+        const applyBtn = document.getElementById('fp-rp-apply');
+        const originalText = applyBtn ? applyBtn.innerHTML : 'Apply';
+        if (applyBtn) {
+            applyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
+            applyBtn.disabled = true;
+        }
+        
+        try {
+            let finalUrl = _rpUrl;
+            if (_rpUrl.startsWith('data:image/')) {
+                const cloudinaryUrl = await uploadToCloudinary(_rpUrl);
+                finalUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+            }
+            
+            var latest = getFlipbookPagesLS(_rpN);
+            if (_rpIdx < 0 || _rpIdx >= latest.length) { window.showToast('Page not found.','error'); return; }
+            latest[_rpIdx] = finalUrl;
+            setFlipbookPagesLS(_rpN, latest);
+            closeReplaceModal();
+            refreshFlipbook();
+            window.showToast('Page ' + (_rpIdx+1) + ' replaced!', 'success');
+        } catch (err) {
+            console.error("Flipbook page upload failed:", err);
+            window.showToast('Failed to upload page to Cloudinary: ' + err.message, 'error');
+        } finally {
+            if (applyBtn) {
+                applyBtn.innerHTML = originalText;
+                applyBtn.disabled = false;
+            }
+        }
     }
     // Modal events
     if (rpApply)  rpApply.addEventListener('click',  applyReplacement);
@@ -1653,25 +1723,41 @@ document.addEventListener("DOMContentLoaded", () => {
     function replaceFlipbookPage(idx, src) {
         var n = getFlipbookN();
         var size = getCurrentSize();
-        cropToBookRatio(src, size, function(cropped) {
-            var latest = getFlipbookPagesLS(n);
-            if (idx < 0 || idx >= latest.length) return;
-            latest[idx] = cropped;
-            setFlipbookPagesLS(n, latest);
-            refreshFlipbook();
-            window.showToast('Page ' + (idx+1) + ' replaced!', 'success');
+        window.showToast('Uploading page to Cloudinary...', 'info');
+        cropToBookRatio(src, size, async function(cropped) {
+            try {
+                const cloudinaryUrl = await uploadToCloudinary(cropped);
+                const optimizedUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+                var latest = getFlipbookPagesLS(n);
+                if (idx < 0 || idx >= latest.length) return;
+                latest[idx] = optimizedUrl;
+                setFlipbookPagesLS(n, latest);
+                refreshFlipbook();
+                window.showToast('Page ' + (idx+1) + ' replaced!', 'success');
+            } catch (err) {
+                console.error("Failed to replace flipbook page:", err);
+                window.showToast('Failed to upload page: ' + err.message, 'error');
+            }
         });
     }
 
     function addFlipbookPage(src) {
         var n    = getFlipbookN();
         var size = getCurrentSize();
-        cropToBookRatio(src, size, function(cropped) {
-            var latest = getFlipbookPagesLS(n);
-            latest.push(cropped);
-            setFlipbookPagesLS(n, latest);
-            refreshFlipbook();
-            window.showToast('Page added & auto-fitted to ' + SIZE_PRESETS[size].label + '!', 'success');
+        window.showToast('Uploading page to Cloudinary...', 'info');
+        cropToBookRatio(src, size, async function(cropped) {
+            try {
+                const cloudinaryUrl = await uploadToCloudinary(cropped);
+                const optimizedUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+                var latest = getFlipbookPagesLS(n);
+                latest.push(optimizedUrl);
+                setFlipbookPagesLS(n, latest);
+                refreshFlipbook();
+                window.showToast('Page added & auto-fitted to ' + SIZE_PRESETS[size].label + '!', 'success');
+            } catch (err) {
+                console.error("Failed to add flipbook page:", err);
+                window.showToast('Failed to upload page: ' + err.message, 'error');
+            }
         });
     }
 
@@ -2243,91 +2329,110 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    saveCropBtn.addEventListener('click', () => {
+    saveCropBtn.addEventListener('click', async () => {
         if (!currentImageTarget) return;
 
-        if (cropperInstance) {
-            let canvas = cropperInstance.getCroppedCanvas({
-                imageSmoothingEnabled: true,
-                imageSmoothingQuality: 'high'
-            });
-            if (canvas) {
-                // Determine target parameters based on the currentImageTarget
-                let maxDim = 2560;
-                let quality = 0.90;
-                if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
-                    maxDim = 2560;
-                    quality = 0.98;
-                } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
-                    maxDim = 2560;
-                    quality = 0.98;
-                } else if (currentImageTarget.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
-                    maxDim = 800;
-                    quality = 0.98;
-                }
-                
-                // Downscale if canvas dimensions exceed maxDim
-                let w = canvas.width;
-                let h = canvas.height;
-                if (w > maxDim || h > maxDim) {
-                    const ratio = w / h;
-                    if (w > h) {
-                        w = maxDim;
-                        h = Math.round(maxDim / ratio);
-                    } else {
-                        h = maxDim;
-                        w = Math.round(maxDim * ratio);
+        const originalText = saveCropBtn.innerHTML;
+        saveCropBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
+        saveCropBtn.disabled = true;
+
+        try {
+            if (cropperInstance) {
+                let canvas = cropperInstance.getCroppedCanvas({
+                    imageSmoothingEnabled: true,
+                    imageSmoothingQuality: 'high'
+                });
+                if (canvas) {
+                    // Determine target parameters based on the currentImageTarget
+                    let maxDim = 2560;
+                    let quality = 0.90;
+                    if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
+                        maxDim = 2560;
+                        quality = 0.98;
+                    } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
+                        maxDim = 2560;
+                        quality = 0.98;
+                    } else if (currentImageTarget.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
+                        maxDim = 800;
+                        quality = 0.98;
                     }
                     
-                    const resizedCanvas = document.createElement('canvas');
-                    resizedCanvas.width = w;
-                    resizedCanvas.height = h;
-                    const resizedCtx = resizedCanvas.getContext('2d');
-                    resizedCtx.imageSmoothingEnabled = true;
-                    resizedCtx.imageSmoothingQuality = 'high';
+                    // Downscale if canvas dimensions exceed maxDim
+                    let w = canvas.width;
+                    let h = canvas.height;
+                    if (w > maxDim || h > maxDim) {
+                        const ratio = w / h;
+                        if (w > h) {
+                            w = maxDim;
+                            h = Math.round(maxDim / ratio);
+                        } else {
+                            h = maxDim;
+                            w = Math.round(maxDim * ratio);
+                        }
+                        
+                        const resizedCanvas = document.createElement('canvas');
+                        resizedCanvas.width = w;
+                        resizedCanvas.height = h;
+                        const resizedCtx = resizedCanvas.getContext('2d');
+                        resizedCtx.imageSmoothingEnabled = true;
+                        resizedCtx.imageSmoothingQuality = 'high';
+                        
+                        const isPng = false; // Always use JPEG for cropped images to save space
+                        if (!isPng) {
+                            resizedCtx.fillStyle = '#ffffff';
+                            resizedCtx.fillRect(0, 0, w, h);
+                        }
+                        resizedCtx.drawImage(canvas, 0, 0, w, h);
+                        canvas = resizedCanvas;
+                    }
                     
                     const isPng = false; // Always use JPEG for cropped images to save space
-                    if (!isPng) {
-                        resizedCtx.fillStyle = '#ffffff';
-                        resizedCtx.fillRect(0, 0, w, h);
-                    }
-                    resizedCtx.drawImage(canvas, 0, 0, w, h);
-                    canvas = resizedCanvas;
+                    const mimeType = isPng ? 'image/png' : 'image/jpeg';
+                    const outQuality = isPng ? undefined : quality;
+                    const base64Data = canvas.toDataURL(mimeType, outQuality);
+                    
+                    const cloudinaryUrl = await uploadToCloudinary(base64Data);
+                    const optimizedUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+                    
+                    currentImageTarget.src = optimizedUrl;
+                    currentImageTarget.setAttribute('data-optimized', 'true');
                 }
-                
-                const isPng = false; // Always use JPEG for cropped images to save space
-                const mimeType = isPng ? 'image/png' : 'image/jpeg';
-                const outQuality = isPng ? undefined : quality;
-                const base64Data = canvas.toDataURL(mimeType, outQuality);
-                currentImageTarget.src = base64Data;
-                currentImageTarget.setAttribute('data-optimized', 'webp');
-            }
-        } else {
-            // Bypass cropper, but still compress!
-            const src = previewImage.src;
-            if (src && src.startsWith('data:image/')) {
-                let maxDim = 2560;
-                let quality = 0.90;
-                if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
-                    maxDim = 2560;
-                    quality = 0.98;
-                } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
-                    maxDim = 2560;
-                    quality = 0.98;
-                } else if (currentImageTarget.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
-                    maxDim = 800;
-                    quality = 0.98;
-                }
-                compressBase64Image(src, maxDim, quality).then(compressed => {
-                    currentImageTarget.src = compressed;
-                    currentImageTarget.setAttribute('data-optimized', 'webp');
-                });
             } else {
-                currentImageTarget.src = src;
-                currentImageTarget.removeAttribute('data-optimized');
+                // Bypass cropper, but still compress!
+                const src = previewImage.src;
+                if (src && src.startsWith('data:image/')) {
+                    let maxDim = 2560;
+                    let quality = 0.90;
+                    if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
+                        maxDim = 2560;
+                        quality = 0.98;
+                    } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
+                        maxDim = 2560;
+                        quality = 0.98;
+                    } else if (currentImageTarget.closest('.testimonial-card, .testimonial-author, .testimonial-img')) {
+                        maxDim = 800;
+                        quality = 0.98;
+                    }
+                    const compressed = await compressBase64Image(src, maxDim, quality);
+                    const cloudinaryUrl = await uploadToCloudinary(compressed);
+                    const optimizedUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+                    
+                    currentImageTarget.src = optimizedUrl;
+                    currentImageTarget.setAttribute('data-optimized', 'true');
+                } else {
+                    currentImageTarget.src = src;
+                    currentImageTarget.removeAttribute('data-optimized');
+                }
             }
+            window.showToast('Image uploaded and optimized!', 'success');
+            closeCropModalHandler();
+        } catch (err) {
+            console.error("Failed to save crop:", err);
+            window.showToast('Failed to upload image: ' + err.message, 'error');
+        } finally {
+            saveCropBtn.innerHTML = originalText;
+            saveCropBtn.disabled = false;
         }
-        closeCropModalHandler();
     });
 
     // 8. Edit Mode Toggle
@@ -2759,15 +2864,12 @@ document.addEventListener("DOMContentLoaded", () => {
         saveBtn.disabled = true;
 
         try {
-            // Compress all base64 images in the live DOM
+            // Upload all base64 images in the live DOM to Cloudinary
             const allImgs = Array.from(document.querySelectorAll('img'));
-            const compressionPromises = allImgs.map(async (img) => {
+            const uploadPromises = allImgs.map(async (img) => {
                 try {
                     const src = img.src;
                     if (src && src.startsWith('data:image/')) {
-                        if (img.getAttribute('data-optimized') === 'webp') {
-                            return; // Already optimized, bypass!
-                        }
                         let maxDim = 2560;
                         let quality = 0.98;
                         if (img.closest('.portfolio-card[data-cat="covers"]')) {
@@ -2781,14 +2883,17 @@ document.addEventListener("DOMContentLoaded", () => {
                             quality = 0.98;
                         }
                         const compressed = await compressBase64Image(src, maxDim, quality);
-                        img.src = compressed;
+                        const cloudinaryUrl = await uploadToCloudinary(compressed);
+                        const optimizedUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+                        
+                        img.src = optimizedUrl;
                         img.setAttribute('data-optimized', 'true');
                     }
                 } catch (innerErr) {
-                    console.error("Failed to compress image in save sweep:", innerErr);
+                    console.error("Failed to upload image in save sweep:", innerErr);
                 }
             });
-            await Promise.all(compressionPromises);
+            await Promise.all(uploadPromises);
 
             saveBtn.innerText = "Saving to Cloud...";
 
