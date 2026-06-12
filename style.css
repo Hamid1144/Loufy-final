@@ -532,6 +532,19 @@ section{padding:100px 0}
     box-shadow: 0 20px 50px rgba(0,0,0,.12);
 }
 
+/* ── A Plus Content card ── */
+.portfolio-card[data-cat="a-plus-content"] .portfolio-thumb {
+    height: auto !important;
+    min-height: unset !important;
+    aspect-ratio: unset !important;
+    background: transparent !important;
+}
+.portfolio-card[data-cat="a-plus-content"] .portfolio-thumb img {
+    object-fit: contain !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
 
 /* ── Book Scene (Children's flipbook) ── */
 .book-scene {
@@ -1253,6 +1266,7 @@ body > section.portfolio {
     gap: 20px;
     width: max-content;
     animation: scroll-ltr 16s linear infinite;
+    padding-right: 20px; /* match the gap */
 }
 
 /* Row 2: Right to Left (scroll-rtl) */
@@ -1261,6 +1275,7 @@ body > section.portfolio {
     gap: 20px;
     width: max-content;
     animation: scroll-rtl 16s linear infinite;
+    padding-right: 20px; /* match the gap */
 }
 
 /* Pause on hover to allow detailed viewing */
@@ -1292,7 +1307,7 @@ body > section.portfolio {
 /* Keyframes for seamless looping */
 @keyframes scroll-ltr {
     0% {
-        transform: translateX(-50%);
+        transform: translateX(-100%);
     }
     100% {
         transform: translateX(0);
@@ -1304,7 +1319,7 @@ body > section.portfolio {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-50%);
+        transform: translateX(-100%);
     }
 }
 
@@ -1347,6 +1362,7 @@ body > section.portfolio {
     gap: 24px;
     width: max-content;
     animation: scroll-ltr 16s linear infinite;
+    padding-right: 24px; /* match the gap */
 }
 
 .formatting-marquee:hover .formatting-marquee-track {

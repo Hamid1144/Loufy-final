@@ -727,17 +727,24 @@ window.initCoversMarquee = function() {
     const rowHTMLs = rows[r];
     if (!rowHTMLs.length) continue;
     
-    // Duplicate items to ensure seamless marquee scrolling
-    const doubleHTMLs = [...rowHTMLs, ...rowHTMLs];
-    while (doubleHTMLs.length < 12) {
-      doubleHTMLs.push(...rowHTMLs);
+    // Fill the track to ensure it spans at least the width of the screen
+    const singleHTMLs = [...rowHTMLs];
+    while (singleHTMLs.length < 6) {
+      singleHTMLs.push(...rowHTMLs);
     }
     
     const rowClass = r % 2 === 0 ? 'row-ltr' : 'row-rtl';
     html += `
       <div class="covers-marquee ${rowClass}">
         <div class="covers-marquee-track">
-          ${doubleHTMLs.map(innerHtml => `
+          ${singleHTMLs.map(innerHtml => `
+            <div class="covers-marquee-item portfolio-card" data-cat="covers">
+              ${innerHtml}
+            </div>
+          `).join('')}
+        </div>
+        <div class="covers-marquee-track" aria-hidden="true">
+          ${singleHTMLs.map(innerHtml => `
             <div class="covers-marquee-item portfolio-card" data-cat="covers">
               ${innerHtml}
             </div>
@@ -822,16 +829,23 @@ window.initFormattingMarquee = function() {
     }
   }
   
-  // Duplicate items to ensure seamless marquee scrolling (since there are usually 4 items)
-  const doubleHTMLs = [...formattingCardsHTML, ...formattingCardsHTML];
-  while (doubleHTMLs.length < 8) {
-    doubleHTMLs.push(...formattingCardsHTML);
+  // Fill the track to ensure it spans at least the width of the screen
+  const singleHTMLs = [...formattingCardsHTML];
+  while (singleHTMLs.length < 4) {
+    singleHTMLs.push(...formattingCardsHTML);
   }
   
   marqueeContainer.innerHTML = `
     <div class="formatting-marquee row-ltr">
       <div class="formatting-marquee-track">
-        ${doubleHTMLs.map(innerHtml => `
+        ${singleHTMLs.map(innerHtml => `
+          <div class="formatting-marquee-item portfolio-card" data-cat="formatting">
+            ${innerHtml}
+          </div>
+        `).join('')}
+      </div>
+      <div class="formatting-marquee-track" aria-hidden="true">
+        ${singleHTMLs.map(innerHtml => `
           <div class="formatting-marquee-item portfolio-card" data-cat="formatting">
             ${innerHtml}
           </div>
