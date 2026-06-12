@@ -73,10 +73,18 @@ function Add-IfUnique($card) {
         $uniqueNormalized[$key] = $true
         # Make sure the card style is displayed block and clean classes
         # Set style to style="display: block;" or clear hidden styles
-        $clean_card = [regex]::Replace($card, 'style="display:\s*none;"', 'style="display: block;"')
-        $clean_card = [regex]::Replace($clean_card, 'style="display:none;"', 'style="display: block;"')
-        if ($clean_card -notlike '*style=*') {
-            $clean_card = $clean_card.Replace('class="portfolio-card reveal"', 'class="portfolio-card reveal" style="display: block;"')
+        $endOfFirstTag = $card.IndexOf('>')
+        if ($endOfFirstTag -gt 0) {
+            $firstTag = $card.Substring(0, $endOfFirstTag + 1)
+            $restOfCard = $card.Substring($endOfFirstTag + 1)
+            $firstTag = $firstTag -replace 'style="display:\s*none;"', 'style="display: block;"'
+            $firstTag = $firstTag -replace 'style="display:none;"', 'style="display: block;"'
+            if ($firstTag -notlike '*style=*') {
+                $firstTag = $firstTag.Replace('class="portfolio-card reveal"', 'class="portfolio-card reveal" style="display: block;"')
+            }
+            $clean_card = $firstTag + $restOfCard
+        } else {
+            $clean_card = $card
         }
         $global:uniqueCards += $clean_card
     }

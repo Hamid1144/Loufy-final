@@ -404,6 +404,7 @@ window.initFlipbooks = function () {
     if (htmlStore) {
       var h = Array.from(htmlStore.querySelectorAll('.flipbook-page img')).map(function(i){return i.src;}).filter(function(s){return s && !s.endsWith('/');});
       if (h.length) pages = h;
+      htmlStore.remove(); // Clean up old store so it doesn't duplicate
     }
 
     if (!pages) {
