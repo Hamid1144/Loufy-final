@@ -121,6 +121,7 @@ window.initSiteLogic = function () {
       const cat = this.dataset.cat;
       
       const marquee = document.querySelector('.covers-marquee-container');
+      const fmtMarquee = document.querySelector('.formatting-marquee-container');
       const grid = document.querySelector('.portfolio-grid');
       const isEdit = document.body.classList.contains('edit-mode');
       
@@ -132,8 +133,16 @@ window.initSiteLogic = function () {
         }
       }
       
+      if (fmtMarquee) {
+        if (isMainPage && !isEdit && (cat === 'all' || cat === 'formatting')) {
+          fmtMarquee.style.display = 'flex';
+        } else {
+          fmtMarquee.style.display = 'none';
+        }
+      }
+      
       if (grid) {
-        if (isMainPage && !isEdit && cat === 'covers') {
+        if (isMainPage && !isEdit && (cat === 'covers' || cat === 'formatting')) {
           grid.style.display = 'none';
         } else {
           grid.style.display = 'grid';
@@ -147,13 +156,13 @@ window.initSiteLogic = function () {
         let shouldShow = false;
         
         if (cat === 'all' || cardCat === cat) {
-          if (cardCat === 'covers' && isMainPage && !isEdit) {
+          if ((cardCat === 'covers' || cardCat === 'formatting') && isMainPage && !isEdit) {
             shouldShow = false;
           } else {
             if (!isMainPage || isEdit) {
               shouldShow = true;
             } else {
-              if (cardCat !== 'covers') {
+              if (cardCat !== 'covers' && cardCat !== 'formatting') {
                 if (!categoryShowCounts[cardCat]) {
                   categoryShowCounts[cardCat] = 0;
                 }
@@ -777,4 +786,81 @@ setTimeout(window.syncPortfolioGrids, 200);
 // Run again after flipbooks fully settle to ensure marquee is built correctly
 setTimeout(function() {
   if (window.initCoversMarquee) window.initCoversMarquee();
+  if (window.initFormattingMarquee) window.initFormattingMarquee();
 }, 800);
+
+// 5. Implement formatting marquee (headline style)
+window.initFormattingMarquee = function() {
+  const isMainPage = !window.location.pathname.includes('portfolio.html');
+  if (!isMainPage) return;
+
+  const grid = document.querySelector('.portfolio-grid');
+  if (!grid) return;
+
+  // Reset any inline display:none on formatting grid cards so we always capture all of them
+  document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="formatting"]').forEach(card => {
+    card.style.display = '';
+  });
+
+  const formattingCards = Array.from(document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="formatting"]'));
+  if (!formattingCards.length) return;
+  
+  const formattingCardsHTML = formattingCards.map(card => card.innerHTML);
+  if (!formattingCardsHTML.length) return;
+  
+  let marqueeContainer = document.querySelector('.formatting-marquee-container');
+  if (!marqueeContainer) {
+    marqueeContainer = document.createElement('div');
+    marqueeContainer.className = 'formatting-marquee-container';
+    
+    // Insert after covers marquee container if it exists, otherwise before the grid
+    const coversMarquee = document.querySelector('.covers-marquee-container');
+    if (coversMarquee) {
+      coversMarquee.parentNode.insertBefore(marqueeContainer, coversMarquee.nextSibling);
+    } else {
+      grid.parentNode.insertBefore(marqueeContainer, grid);
+    }
+  }
+  
+  // Duplicate items to ensure seamless marquee scrolling (since there are usually 4 items)
+  const doubleHTMLs = [...formattingCardsHTML, ...formattingCardsHTML];
+  while (doubleHTMLs.length < 8) {
+    doubleHTMLs.push(...formattingCardsHTML);
+  }
+  
+  marqueeContainer.innerHTML = `
+    <div class="formatting-marquee row-ltr">
+      <div class="formatting-marquee-track">
+        ${doubleHTMLs.map(innerHtml => `
+          <div class="formatting-marquee-item portfolio-card" data-cat="formatting">
+            ${innerHtml}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  // Hide the original grid formatting cards (they show only in marquee, not the grid)
+  document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="formatting"]').forEach(card => {
+    card.style.display = 'none';
+  });
+
+  // Apply correct display rules based on the active filter button
+  const isEdit = document.body.classList.contains('edit-mode');
+  const activeFilter = document.querySelector('.filter-btn.active');
+  if (activeFilter) {
+    const cat = activeFilter.dataset.cat;
+    if (isEdit) {
+      marqueeContainer.style.display = 'none';
+      document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="formatting"]').forEach(card => {
+        card.style.display = 'block';
+      });
+    } else {
+      if (cat === 'all' || cat === 'formatting') {
+        marqueeContainer.style.display = 'flex';
+      } else {
+        marqueeContainer.style.display = 'none';
+      }
+    }
+  }
+};

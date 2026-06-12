@@ -428,13 +428,13 @@ section{padding:100px 0}
     display: flex;
     flex-direction: column;
     background: var(--card-bg);
-    width: 100vw;
+    width: 100%;
     position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    border-radius: 0;
+    left: 0;
+    right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: var(--radius);
 }
 
 /* ── Children card / Flipbook ── */
@@ -496,9 +496,10 @@ section{padding:100px 0}
 .portfolio-card[data-cat="formatting"] .portfolio-thumb,
 .portfolio-card[data-layout="full-width"] .portfolio-thumb {
     aspect-ratio: 16/9;
-    overflow: visible;
+    overflow: hidden;
     height: auto;
     min-height: 380px;
+    max-height: 480px;
 }
 .portfolio-card[data-cat="formatting"] .portfolio-info,
 .portfolio-card[data-layout="full-width"] .portfolio-info {
@@ -1299,6 +1300,67 @@ body > section.portfolio {
     }
     .covers-marquee-container {
         gap: 12px;
+        margin-bottom: 20px;
+    }
+}
+
+/* ── Formatting Marquee Showcase ── */
+.formatting-marquee-container {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    margin-bottom: 40px;
+}
+
+.formatting-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+.formatting-marquee.row-ltr .formatting-marquee-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    animation: scroll-ltr 35s linear infinite;
+}
+
+.formatting-marquee:hover .formatting-marquee-track {
+    animation-play-state: paused;
+}
+
+.formatting-marquee-item {
+    width: 440px;
+    flex-shrink: 0;
+    margin: 0;
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.formatting-marquee-item .portfolio-thumb {
+    aspect-ratio: 16/9 !important;
+    height: auto !important;
+    width: 100% !important;
+}
+
+.formatting-marquee-item.portfolio-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 768px) {
+    .formatting-marquee-item {
+        width: 280px;
+    }
+    .formatting-marquee-container {
         margin-bottom: 20px;
     }
 }
