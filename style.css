@@ -501,7 +501,7 @@ section{padding:100px 0}
     aspect-ratio: unset;
     position: relative;
     padding-bottom: 0;
-    background: linear-gradient(135deg, #fbfbfa, #f5f4ef); /* clean paper-like background */
+    background: #ffffff; /* pure white background to merge seamlessly */
 }
 .portfolio-card[data-cat="formatting"] .portfolio-info,
 .portfolio-card[data-layout="full-width"] .portfolio-info {
@@ -1238,7 +1238,7 @@ body > section.portfolio {
     display: flex;
     gap: 20px;
     width: max-content;
-    animation: scroll-ltr 30s linear infinite;
+    animation: scroll-ltr 16s linear infinite;
 }
 
 /* Row 2: Right to Left (scroll-rtl) */
@@ -1246,7 +1246,7 @@ body > section.portfolio {
     display: flex;
     gap: 20px;
     width: max-content;
-    animation: scroll-rtl 30s linear infinite;
+    animation: scroll-rtl 16s linear infinite;
 }
 
 /* Pause on hover to allow detailed viewing */
@@ -1332,7 +1332,7 @@ body > section.portfolio {
     display: flex;
     gap: 24px;
     width: max-content;
-    animation: scroll-ltr 35s linear infinite;
+    animation: scroll-ltr 16s linear infinite;
 }
 
 .formatting-marquee:hover .formatting-marquee-track {
@@ -1351,14 +1351,14 @@ body > section.portfolio {
     height: 680px !important;
     min-height: 680px !important;
     width: 100% !important;
-    background: linear-gradient(135deg, #fbfbfa, #f5f4ef) !important;
+    background: #ffffff !important;
 }
 
 .formatting-marquee-item .portfolio-thumb img {
     object-fit: contain !important;
     width: 100% !important;
     height: 100% !important;
-    padding: 10px;
+    padding: 0 !important;
 }
 
 .formatting-marquee-item.portfolio-card:hover {
