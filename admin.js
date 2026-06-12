@@ -2928,7 +2928,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // 1. Save current page content (primary upload)
             const { error } = await window.supabaseClient
                 .from('site_content')
-                .upsert({ id: pageId, html_content: clone.innerHTML });
+                .update({ html_content: clone.innerHTML })
+                .eq('id', pageId);
                 
             if (error) throw error;
 
@@ -2993,7 +2994,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         const updatedOtherHtml = otherDoc.body.innerHTML;
                         const { error: otherUpdateError } = await window.supabaseClient
                             .from('site_content')
-                            .upsert({ id: otherPageId, html_content: updatedOtherHtml });
+                            .update({ html_content: updatedOtherHtml })
+                            .eq('id', otherPageId);
                         if (otherUpdateError) throw otherUpdateError;
                     }
                 }
