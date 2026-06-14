@@ -91,13 +91,13 @@ function Add-IfUnique($card) {
     }
 }
 
-# Add all index cards first
-foreach ($c in $indexCards) {
+# Add portfolio cards first (master catalog)
+foreach ($c in $portfolioCards) {
     Add-IfUnique $c
 }
 
-# Add portfolio cards
-foreach ($c in $portfolioCards) {
+# Add all index cards
+foreach ($c in $indexCards) {
     Add-IfUnique $c
 }
 

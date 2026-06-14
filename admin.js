@@ -2224,6 +2224,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 };
                 toolbar.appendChild(homeToggleBtn);
+
+                // Move to Top Button (Make Latest)
+                const moveTopBtn = document.createElement('button');
+                moveTopBtn.className = 'admin-toolbar-btn move-top';
+                moveTopBtn.innerHTML = '<i class="fa-solid fa-circle-arrow-up"></i>';
+                moveTopBtn.title = 'Move to Top (Make Latest)';
+                moveTopBtn.style.color = '#F4B400';
+                
+                moveTopBtn.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const grid = portCard.parentElement;
+                    if (grid) {
+                        grid.insertBefore(portCard, grid.firstChild);
+                        window.showToast("Moved item to the top. Save changes to make it live.", "success");
+                    }
+                };
+                toolbar.appendChild(moveTopBtn);
             }
 
             const linkTarget = container.tagName === 'A' ? container : container.querySelector('a');

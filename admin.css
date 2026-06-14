@@ -331,11 +331,13 @@ body.edit-mode .portfolio-card[data-show-on-home="false"]::after {
     pointer-events: none;
 }
 
-.admin-element-toolbar .admin-toolbar-btn.home-toggle {
+.admin-element-toolbar .admin-toolbar-btn.home-toggle,
+.admin-element-toolbar .admin-toolbar-btn.move-top {
     background: #343a40 !important;
     border: 1px solid #495057;
 }
-.admin-element-toolbar .admin-toolbar-btn.home-toggle:hover {
+.admin-element-toolbar .admin-toolbar-btn.home-toggle:hover,
+.admin-element-toolbar .admin-toolbar-btn.move-top:hover {
     background: #495057 !important;
 }
 
