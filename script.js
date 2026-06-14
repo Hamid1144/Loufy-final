@@ -400,7 +400,7 @@ window.initFlipbooks = function () {
 
     /* ── 1. Resolve pages ─────────────────────────────────────── */
     var pages = null;
-    var htmlStore = document.getElementById(storeId) || card.querySelector('[id$="-pages"]');
+    var htmlStore = card.querySelector('[id$="-pages"]');
     if (htmlStore) {
       var h = Array.from(htmlStore.querySelectorAll('.flipbook-page img')).map(function(i){return i.src;}).filter(function(s){return s && !s.endsWith('/');});
       if (h.length) pages = h;
@@ -420,7 +420,7 @@ window.initFlipbooks = function () {
 
     /* ── 2. Resolve size ──────────────────────────────────────── */
     var size = '6x9';
-    var sceneEl = document.getElementById(sId) || card.querySelector('.book-scene');
+    var sceneEl = card.querySelector('.book-scene');
     if (sceneEl && sceneEl.getAttribute('data-size')) {
       size = sceneEl.getAttribute('data-size');
     } else {
@@ -466,15 +466,16 @@ window.initFlipbooks = function () {
     thumb.appendChild(store);
 
     /* ── 4. Wire interaction ──────────────────────────────────── */
-    var scene    = document.getElementById(sId);
-    var leftImg  = document.getElementById(sId+'-li');
-    var rightImg = document.getElementById(sId+'-ri');
-    var flipLayer= document.getElementById(sId+'-fl');   // This element has transform-origin at spine
-    var flipFront= document.getElementById(sId+'-ff');
-    var flipBack = document.getElementById(sId+'-fb');
-    var counter  = document.getElementById(sId+'-cnt');
-    var prevBtn  = document.getElementById(sId+'-prev');
-    var nextBtn  = document.getElementById(sId+'-next');
+    var scene    = card.querySelector('.book-scene');
+    var leftImg  = card.querySelector('.bp-left img');
+    var rightImg = card.querySelector('.bp-right img');
+    var flipLayer= card.querySelector('.flip-layer');   // This element has transform-origin at spine
+    var flipFront= card.querySelector('.flip-face-f img');
+    var flipBack = card.querySelector('.flip-face-b img');
+    var counter  = card.querySelector('.bc-counter');
+    var prevBtn  = card.querySelector('.bc-prev');
+    var nextBtn  = card.querySelector('.bc-next');
+
 
     var spread  = 0;    // index of left page of current spread (always even)
     var busy    = false;

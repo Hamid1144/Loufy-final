@@ -1,0 +1,77 @@
+﻿commit d1aabe9e36dddf329f4eb78198559c2e77d09f8b
+Author: Hamid Raza <razah3812@gmail.com>
+Date:   Mon Jun 15 01:30:58 2026 +0500
+
+    feat: prioritize portfolio grid order and add move-to-top feature for latest items
+
+diff --git a/admin.css b/admin.css
+index 6d4b797..755b3ed 100644
+--- a/admin.css
++++ b/admin.css
+@@ -331,11 +331,13 @@ body.edit-mode .portfolio-card[data-show-on-home="false"]::after {
+     pointer-events: none;
+ }
+ 
+-.admin-element-toolbar .admin-toolbar-btn.home-toggle {
++.admin-element-toolbar .admin-toolbar-btn.home-toggle,
++.admin-element-toolbar .admin-toolbar-btn.move-top {
+     background: #343a40 !important;
+     border: 1px solid #495057;
+ }
+-.admin-element-toolbar .admin-toolbar-btn.home-toggle:hover {
++.admin-element-toolbar .admin-toolbar-btn.home-toggle:hover,
++.admin-element-toolbar .admin-toolbar-btn.move-top:hover {
+     background: #495057 !important;
+ }
+ 
+diff --git a/admin.js b/admin.js
+index d4d0d7d..8128498 100644
+--- a/admin.js
++++ b/admin.js
+@@ -2224,6 +2224,24 @@ document.addEventListener("DOMContentLoaded", () => {
+                     }
+                 };
+                 toolbar.appendChild(homeToggleBtn);
++
++                // Move to Top Button (Make Latest)
++                const moveTopBtn = document.createElement('button');
++                moveTopBtn.className = 'admin-toolbar-btn move-top';
++                moveTopBtn.innerHTML = '<i class="fa-solid fa-circle-arrow-up"></i>';
++                moveTopBtn.title = 'Move to Top (Make Latest)';
++                moveTopBtn.style.color = '#F4B400';
++                
++                moveTopBtn.onclick = (e) => {
++                    e.preventDefault();
++                    e.stopPropagation();
++                    const grid = portCard.parentElement;
++                    if (grid) {
++                        grid.insertBefore(portCard, grid.firstChild);
++                        window.showToast("Moved item to the top. Save changes to make it live.", "success");
++                    }
++                };
++                toolbar.appendChild(moveTopBtn);
+             }
+ 
+             const linkTarget = container.tagName === 'A' ? container : container.querySelector('a');
+diff --git a/merge_grids.ps1 b/merge_grids.ps1
+index 799c615..af0f954 100644
+--- a/merge_grids.ps1
++++ b/merge_grids.ps1
+@@ -91,13 +91,13 @@ function Add-IfUnique($card) {
+     }
+ }
+ 
+-# Add all index cards first
+-foreach ($c in $indexCards) {
++# Add portfolio cards first (master catalog)
++foreach ($c in $portfolioCards) {
+     Add-IfUnique $c
+ }
+ 
+-# Add portfolio cards
+-foreach ($c in $portfolioCards) {
++# Add all index cards
++foreach ($c in $indexCards) {
+     Add-IfUnique $c
+ }
+ 
