@@ -1,3 +1,7 @@
+param (
+    [string]$OrderSource = "portfolio"
+)
+
 # merge_grids.ps1
 # Helper to extract card contents
 function Get-Cards($filePath) {
@@ -91,14 +95,22 @@ function Add-IfUnique($card) {
     }
 }
 
-# Add portfolio cards first (master catalog)
-foreach ($c in $portfolioCards) {
-    Add-IfUnique $c
-}
-
-# Add all index cards
-foreach ($c in $indexCards) {
-    Add-IfUnique $c
+if ($OrderSource -eq "index") {
+    # Prioritize index.html card order
+    foreach ($c in $indexCards) {
+        Add-IfUnique $c
+    }
+    foreach ($c in $portfolioCards) {
+        Add-IfUnique $c
+    }
+} else {
+    # Prioritize portfolio.html card order (default)
+    foreach ($c in $portfolioCards) {
+        Add-IfUnique $c
+    }
+    foreach ($c in $indexCards) {
+        Add-IfUnique $c
+    }
 }
 
 Write-Host "Total unique merged cards: $($uniqueCards.Count)"

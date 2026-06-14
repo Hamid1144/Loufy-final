@@ -70,7 +70,8 @@ Write-Host "Polling Supabase every $sleepSeconds seconds for live edits..." -For
 Write-Host "Press Ctrl+C to stop the sync daemon." -ForegroundColor Red
 Write-Host ""
 
-$lastHash = ""
+$lastIndexHash = ""
+$lastPortfolioHash = ""
 
 while ($true) {
     try {
@@ -79,29 +80,47 @@ while ($true) {
         $res = Invoke-RestMethod -Uri $fetchUri -Headers $headers -Method Get -UseBasicParsing
         
         if ($res -and $res.Count -gt 0) {
-            # 2. Build a composite content string to hash
-            $compositeContent = ""
+            $currentIndexHash = ""
+            $currentPortfolioHash = ""
+            
             foreach ($row in $res) {
-                $compositeContent += $row.html_content
+                $bytes = [System.Text.Encoding]::UTF8.GetBytes($row.html_content)
+                $sha = [System.Security.Cryptography.SHA256]::Create()
+                $hashBytes = $sha.ComputeHash($bytes)
+                $hashStr = [System.BitConverter]::ToString($hashBytes) -replace '-'
+                
+                if ($row.id -eq "index") {
+                    $currentIndexHash = $hashStr
+                } elseif ($row.id -eq "portfolio") {
+                    $currentPortfolioHash = $hashStr
+                }
             }
             
-            # Compute hash of the database content
-            $bytes = [System.Text.Encoding]::UTF8.GetBytes($compositeContent)
-            $sha = [System.Security.Cryptography.SHA256]::Create()
-            $hashBytes = $sha.ComputeHash($bytes)
-            $currentHash = [System.BitConverter]::ToString($hashBytes) -replace '-'
+            $indexChanged = ($lastIndexHash -ne "" -and $currentIndexHash -ne $lastIndexHash)
+            $portfolioChanged = ($lastPortfolioHash -ne "" -and $currentPortfolioHash -ne $lastPortfolioHash)
             
-            # If database hash changed since last check, sync!
-            if ($lastHash -ne "" -and $currentHash -ne $lastHash) {
+            if ($indexChanged -or $portfolioChanged) {
                 Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Change detected in Supabase! Syncing..." -ForegroundColor Cyan
+                
+                # Determine ordering master
+                $orderSource = "portfolio"
+                if ($indexChanged -and -not $portfolioChanged) {
+                    $orderSource = "index"
+                    Write-Host "Homepage 'index' changed. Using 'index' as merge order source." -ForegroundColor Yellow
+                } elseif ($portfolioChanged -and -not $indexChanged) {
+                    $orderSource = "portfolio"
+                    Write-Host "Portfolio page changed. Using 'portfolio' as merge order source." -ForegroundColor Yellow
+                } else {
+                    Write-Host "Both pages changed or startup check. Using 'portfolio' as default merge order source." -ForegroundColor Gray
+                }
                 
                 # Run pull script to pull Supabase changes to local HTML files
                 Write-Host "Running pull_supabase.ps1..."
                 powershell -ExecutionPolicy Bypass -File .\pull_supabase.ps1
                 
-                # Run merge script to link/unify both grids
-                Write-Host "Running merge_grids.ps1..."
-                powershell -ExecutionPolicy Bypass -File .\merge_grids.ps1
+                # Run merge script with specified OrderSource
+                Write-Host "Running merge_grids.ps1 -OrderSource $orderSource..."
+                powershell -ExecutionPolicy Bypass -File .\merge_grids.ps1 -OrderSource $orderSource
                 
                 # Run image optimizer to compress any heavy Base64 data URLs
                 Write-Host "Running optimize_html_images.ps1..."
@@ -124,7 +143,8 @@ while ($true) {
                 }
             }
             
-            $lastHash = $currentHash
+            $lastIndexHash = $currentIndexHash
+            $lastPortfolioHash = $currentPortfolioHash
         }
     } catch {
         Write-Warning "Sync iteration failed: $_"

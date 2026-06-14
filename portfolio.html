@@ -51,61 +51,23 @@
 <script>
   (function() {
     try {
-      const pageId = window.location.pathname.includes("portfolio.html") ? 'portfolio' : 'index';
-      const CURRENT_VERSION = '3.28.5';
-      const cachedVersion = localStorage.getItem('supabase_cached_version');
-      let cached = localStorage.getItem('supabase_cached_html_' + pageId);
+      // Clear old HTML cache keys to free local storage space
+      localStorage.removeItem('supabase_cached_html_index');
+      localStorage.removeItem('supabase_cached_html_portfolio');
       
-      if (cachedVersion !== CURRENT_VERSION || (cached && (cached.includes('reveal active') || cached.includes('active reveal')))) {
-        localStorage.removeItem('supabase_cached_html_index');
-        localStorage.removeItem('supabase_cached_html_portfolio');
-        localStorage.setItem('supabase_cached_version', CURRENT_VERSION);
-        cached = null;
-      }
-      
-      if (cached) {
-        const match = cached.match(/<style[^>]*id="custom-theme-styles"[^>]*>([\s\S]*?)<\/style>/);
-        if (match && match[1]) {
-          const style = document.createElement('style');
-          style.id = 'custom-theme-styles-preload';
-          style.innerHTML = match[1];
-          document.head.appendChild(style);
-        }
-        if (pageId === 'portfolio' && typeof initCoversMarquee === 'function') {
-          initCoversMarquee();
-        }
+      const cachedTheme = localStorage.getItem('supabase_cached_theme');
+      if (cachedTheme) {
+        const style = document.createElement('style');
+        style.id = 'custom-theme-styles-preload';
+        style.innerHTML = cachedTheme;
+        document.head.appendChild(style);
       }
     } catch (e) {
       console.warn("Failed to pre-inject custom theme: ", e);
     }
   })();
 </script>
-<script>
-  // Hotfix for swiper-container display issue in page cache load
-  (function() {
-    try {
-      const pageId = window.location.pathname.includes("portfolio.html") ? 'portfolio' : 'index';
-      let cached = localStorage.getItem('supabase_cached_html_' + pageId);
-      if (cached && (cached.includes('swiper-container') || cached.includes('swiper-wrapper'))) {
-        const temp = document.createElement('div');
-        temp.innerHTML = cached;
-        const swipers = temp.querySelectorAll('.swiper-container');
-        let modified = false;
-        swipers.forEach(s => {
-          if (s.style.display !== 'none') {
-            s.style.display = 'none';
-            modified = true;
-          }
-        });
-        if (modified) {
-          localStorage.setItem('supabase_cached_html_' + pageId, temp.innerHTML);
-        }
-      }
-    } catch(e) {
-      console.warn("Swiper display hotfix failed:", e);
-    }
-  })();
-</script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">

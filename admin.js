@@ -2995,11 +2995,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 
             if (error) throw error;
 
-            // Update local cache safely (ignore quota errors)
+            // Save custom theme style cache
             try {
-                localStorage.setItem('supabase_cached_html_' + pageId, clone.innerHTML);
+                const styleEl = document.getElementById('custom-theme-styles');
+                if (styleEl) {
+                    localStorage.setItem('supabase_cached_theme', styleEl.innerHTML);
+                }
             } catch (cacheErr) {
-                console.warn("Local storage cache quota exceeded on save:", cacheErr);
+                console.warn("Local storage cache quota exceeded on save theme:", cacheErr);
             }
             
             // 2. Synchronize portfolio grid and filters to the other page (AWAITED)
@@ -3582,14 +3585,16 @@ document.addEventListener("DOMContentLoaded", () => {
             if (error && error.code !== 'PGRST116') throw error;
 
             if (data && data.html_content) {
-                const cacheKey = `supabase_cached_html_${pageId}`;
-                const cachedHTML = localStorage.getItem(cacheKey);
-                
-                // Always update the cache with the latest content safely
+                // Save custom theme style cache if present in the loaded HTML
                 try {
-                    localStorage.setItem(cacheKey, data.html_content);
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data.html_content, 'text/html');
+                    const styleEl = doc.querySelector('#custom-theme-styles');
+                    if (styleEl) {
+                        localStorage.setItem('supabase_cached_theme', styleEl.innerHTML);
+                    }
                 } catch (cacheErr) {
-                    console.warn("Local storage cache quota exceeded on load:", cacheErr);
+                    console.warn("Local storage cache quota exceeded on load theme:", cacheErr);
                 }
                 
                 // Helper to clean a DOM body for comparison
@@ -3609,8 +3614,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const currentCleanHTML = getCleanBodyHTML(document.body);
                 const fetchedCleanHTML = data.html_content.trim();
 
-                // If we loaded from cache and the fetched content matches the cache, or currently loaded static HTML matches exactly, do nothing!
-                if ((window.contentLoadedFromCache && cachedHTML === data.html_content) || currentCleanHTML === fetchedCleanHTML) {
+                // If currently loaded static HTML matches exactly, do nothing!
+                if (currentCleanHTML === fetchedCleanHTML) {
                     window.contentLoadedFromLive = true;
                     initAdminThemePanelFromDOM();
                     repairSocialIcons();
