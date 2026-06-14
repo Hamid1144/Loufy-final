@@ -168,10 +168,8 @@ foreach ($file in $files) {
             }
             if ($oldRef -and $html.Contains($oldRef)) {
                 $newUrl = $cache[$key]
-                if ($key.StartsWith("local:") -and -not $key.Contains("_mobile") -and -not $key.Contains("_tablet")) {
-                    if ($newUrl -notlike "*/f_auto,q_auto/*") {
-                        $newUrl = $newUrl -replace '/image/upload/', '/image/upload/f_auto,q_auto/'
-                    }
+                if ($newUrl -like "*cloudinary.com*" -and $newUrl -notlike "*/f_auto,q_auto/*" -and $newUrl -notlike "*/f_auto,q_auto,*") {
+                    $newUrl = $newUrl -replace '/image/upload/', '/image/upload/f_auto,q_auto/'
                 }
                 $html = $html.Replace($oldRef, $newUrl)
             }
