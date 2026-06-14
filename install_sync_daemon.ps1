@@ -52,7 +52,7 @@ try {
 Write-Host "Launching sync daemon in background..." -ForegroundColor Yellow
 try {
     $powershellPath = Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe"
-    Start-Process $powershellPath -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -File ""$scriptDir\sync_daemon.ps1"""
+    Start-Process $powershellPath -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -File ""$scriptDir\sync_daemon.ps1""" -WorkingDirectory "$scriptDir"
     Start-Sleep -Seconds 2
     
     # Check if the process is now running
