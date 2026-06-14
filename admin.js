@@ -3,6 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const isPortfolioPage = window.location.pathname.split('/').pop().includes("portfolio.html") || !document.querySelector('.hero');
     const storageKey = isPortfolioPage ? "savedPortfolioPageContent" : "savedIndexPageContent";
 
+    // Set page indicator body class
+    if (isPortfolioPage) {
+        document.body.classList.add("portfolio-page");
+    } else {
+        document.body.classList.add("home-page");
+    }
+
     // Theme Customizer Presets and Helpers
     const THEME_PRESETS = {
         'default': {
@@ -2181,6 +2188,44 @@ document.addEventListener("DOMContentLoaded", () => {
             delBtn.onclick = (e) => { e.preventDefault(); e.stopPropagation(); container.remove(); };
             toolbar.appendChild(delBtn);
 
+            // Toggle show on home page button for portfolio cards
+            const portCard = container.closest('.portfolio-card') || (container.classList.contains('portfolio-card') ? container : null);
+            if (portCard) {
+                const homeToggleBtn = document.createElement('button');
+                homeToggleBtn.className = 'admin-toolbar-btn home-toggle';
+                
+                const isHiddenOnHome = portCard.getAttribute('data-show-on-home') === 'false';
+                if (isHiddenOnHome) {
+                    homeToggleBtn.innerHTML = '<i class="fa-solid fa-house-chimney-crack"></i>';
+                    homeToggleBtn.title = 'Show on Home Page';
+                    homeToggleBtn.style.color = '#ff4a4a';
+                } else {
+                    homeToggleBtn.innerHTML = '<i class="fa-solid fa-house"></i>';
+                    homeToggleBtn.title = 'Hide from Home Page';
+                    homeToggleBtn.style.color = '#28a745';
+                }
+                
+                homeToggleBtn.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentState = portCard.getAttribute('data-show-on-home') === 'false';
+                    if (currentState) {
+                        portCard.removeAttribute('data-show-on-home');
+                        homeToggleBtn.innerHTML = '<i class="fa-solid fa-house"></i>';
+                        homeToggleBtn.title = 'Hide from Home Page';
+                        homeToggleBtn.style.color = '#28a745';
+                        window.showToast("Visible on Home Page. Save changes to make it live.", "success");
+                    } else {
+                        portCard.setAttribute('data-show-on-home', 'false');
+                        homeToggleBtn.innerHTML = '<i class="fa-solid fa-house-chimney-crack"></i>';
+                        homeToggleBtn.title = 'Show on Home Page';
+                        homeToggleBtn.style.color = '#ff4a4a';
+                        window.showToast("Hidden from Home Page. Save changes to make it live.", "success");
+                    }
+                };
+                toolbar.appendChild(homeToggleBtn);
+            }
+
             const linkTarget = container.tagName === 'A' ? container : container.querySelector('a');
             if (linkTarget) {
                 const editLinkBtn = document.createElement('button');
@@ -3412,6 +3457,82 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
+        const checkAuthentication = () => {
+            return new Promise((resolve) => {
+                if (sessionStorage.getItem('admin_authenticated') === 'true') {
+                    resolve(true);
+                    return;
+                }
+
+                // Inject password overlay
+                const overlayHTML = `
+                <div id="admin-password-overlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(10,15,10,0.96); backdrop-filter:blur(10px); z-index:999999; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; font-family:'Outfit', 'Inter', sans-serif;">
+                    <div style="background:#184C3A; padding:40px; border-radius:16px; border:1px solid rgba(255,255,255,0.1); width:90%; max-width:400px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.6); transition: all 0.3s ease;">
+                        <div style="font-size:2.5rem; margin-bottom:15px; color:#F4B400;"><i class="fa-solid fa-lock"></i></div>
+                        <h2 style="font-weight:700; margin-bottom:10px; font-size:1.5rem; color:#fff; font-family:'Outfit', sans-serif;">Admin Access</h2>
+                        <p style="font-size:0.85rem; color:#ccc; margin-bottom:25px; font-family:'Inter', sans-serif;">Enter password to unlock the admin panel.</p>
+                        
+                        <input type="password" id="admin-pass-input" placeholder="Password" style="width:100%; padding:12px 16px; border-radius:8px; border:1px solid #333; background:#222; color:#fff; font-size:1rem; margin-bottom:20px; box-sizing:border-box; outline:none; text-align:center; font-family:'Inter', sans-serif; transition: border-color 0.2s;" />
+                        
+                        <div id="admin-pass-error" style="color:#ff4a4a; font-size:0.85rem; margin-top:-15px; margin-bottom:15px; display:none; font-family:'Inter', sans-serif;">Incorrect password!</div>
+                        
+                        <button id="admin-pass-submit" style="width:100%; padding:12px; border-radius:8px; border:none; background:#F4B400; color:#111; font-weight:700; font-size:1rem; cursor:pointer; font-family:'Outfit', sans-serif; transition: transform 0.1s, background-color 0.2s;">Unlock Panel</button>
+                        
+                        <button id="admin-pass-cancel" style="background:none; border:none; color:#aaa; margin-top:20px; font-size:0.85rem; cursor:pointer; text-decoration:underline; font-family:'Inter', sans-serif;">Cancel & Exit</button>
+                    </div>
+                </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', overlayHTML);
+                
+                const overlay = document.getElementById('admin-password-overlay');
+                const input = document.getElementById('admin-pass-input');
+                const error = document.getElementById('admin-pass-error');
+                const submit = document.getElementById('admin-pass-submit');
+                const cancel = document.getElementById('admin-pass-cancel');
+                
+                input.focus();
+                
+                const trySubmit = () => {
+                    if (input.value === 'Hamidraza1144@') {
+                        sessionStorage.setItem('admin_authenticated', 'true');
+                        overlay.remove();
+                        resolve(true);
+                    } else {
+                        error.style.display = 'block';
+                        input.value = '';
+                        input.focus();
+                        
+                        const container = overlay.querySelector('div');
+                        container.style.transform = 'translateX(-10px)';
+                        setTimeout(() => container.style.transform = 'translateX(10px)', 50);
+                        setTimeout(() => container.style.transform = 'translateX(-10px)', 100);
+                        setTimeout(() => container.style.transform = 'translateX(10px)', 150);
+                        setTimeout(() => container.style.transform = 'translateX(0)', 200);
+                    }
+                };
+                
+                submit.addEventListener('click', trySubmit);
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') trySubmit();
+                });
+                
+                const exitAdmin = () => {
+                    localStorage.removeItem('admin_mode');
+                    try {
+                        sessionStorage.removeItem('open_admin_panel');
+                    } catch(err) {}
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('admin');
+                    url.searchParams.delete('edit');
+                    url.hash = '';
+                    window.location.href = url.toString();
+                    resolve(false);
+                };
+                
+                cancel.addEventListener('click', exitAdmin);
+            });
+        };
+
         const isAdmin = localStorage.getItem('admin_mode') === 'true' || 
                         window.location.search.includes('admin=true') || 
                         window.location.search.includes('edit=true') || 
@@ -3427,6 +3548,9 @@ document.addEventListener("DOMContentLoaded", () => {
             hideLoader();
             return;
         }
+
+        const authenticated = await checkAuthentication();
+        if (!authenticated) return;
         
         try {
             const pageId = isPortfolioPage ? 'portfolio' : 'index';

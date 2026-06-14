@@ -55,6 +55,7 @@ function Get-NormalizedCard($card) {
     $normalized = [regex]::Replace($normalized, '(?i)\s*data-optimized="[^"]*"', '')
     $normalized = [regex]::Replace($normalized, '(?i)\s*data-admin-text="[^"]*"', '')
     $normalized = [regex]::Replace($normalized, '(?i)\s*contenteditable="[^"]*"', '')
+    $normalized = [regex]::Replace($normalized, '(?i)\s*data-show-on-home="[^"]*"', '')
     $normalized = $normalized.Trim()
     return $normalized
 }

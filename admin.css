@@ -1,4 +1,4 @@
-﻿/* Super Admin Panel Styles */
+/* Super Admin Panel Styles */
 #super-admin-panel {
     position: fixed;
     top: 20px;
@@ -304,4 +304,39 @@ body.edit-mode a.editable-container {
 body.edit-mode .flipbook-live-edit-btn {
     display: block !important;
 }
+
+/* Home Page Card Visibility Controls */
+body.home-page:not(.edit-mode) .portfolio-card[data-show-on-home="false"] {
+    display: none !important;
+}
+
+/* Edit Mode styling for cards hidden from home */
+body.edit-mode .portfolio-card[data-show-on-home="false"] {
+    opacity: 0.6;
+    border: 2px dashed #ff4a4a !important;
+    position: relative;
+}
+body.edit-mode .portfolio-card[data-show-on-home="false"]::after {
+    content: "Hidden on Home";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 74, 74, 0.9);
+    color: white;
+    padding: 3px 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 4px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.admin-element-toolbar .admin-toolbar-btn.home-toggle {
+    background: #343a40 !important;
+    border: 1px solid #495057;
+}
+.admin-element-toolbar .admin-toolbar-btn.home-toggle:hover {
+    background: #495057 !important;
+}
+
 
