@@ -162,7 +162,7 @@ window.initSiteLogic = function () {
             if (!isMainPage || isEdit) {
               shouldShow = true;
             } else {
-              if (cardCat !== 'covers' && cardCat !== 'formatting') {
+              if (cat === 'all' && cardCat !== 'covers' && cardCat !== 'formatting') {
                 if (!categoryShowCounts[cardCat]) {
                   categoryShowCounts[cardCat] = 0;
                 }
