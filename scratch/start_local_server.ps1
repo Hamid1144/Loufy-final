@@ -1,63 +1,88 @@
-# Native PowerShell Simple Web Server for Hamid Raza Portfolio
+# start_local_server.ps1
+# Simple static web server using pure PowerShell .NET HttpListener.
 
-$port = 8080
+$port = 8000
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:$port/")
+
+$projectRoot = Split-Path $PSScriptRoot -Parent
+if (-not $projectRoot) { $projectRoot = Get-Location }
+
 try {
     $listener.Start()
-    Write-Host "Local server successfully started at http://localhost:$port/" -ForegroundColor Green
-    Write-Host "Press Ctrl+C in terminal (or kill the task) to stop the server." -ForegroundColor Yellow
-    
-    # Open the browser automatically
-    Start-Process "http://localhost:$port/"
-    
+    Write-Host "==================================================" -ForegroundColor Green
+    Write-Host "     LOCAL WEB SERVER STARTED SUCCESSFULLY" -ForegroundColor Green
+    Write-Host "==================================================" -ForegroundColor Green
+    Write-Host "Url: http://localhost:$port/" -ForegroundColor Cyan
+    Write-Host "Serving files from: $projectRoot" -ForegroundColor Gray
+    Write-Host "Press Ctrl+C to stop the server." -ForegroundColor Yellow
+    Write-Host "==================================================" -ForegroundColor Green
+} catch {
+    Write-Error "Failed to start HttpListener: $_"
+    exit 1
+}
+
+# Keep track of active listener to close on exit/sigint
+$sysCleanup = {
+    if ($listener.IsListening) {
+        $listener.Stop()
+        $listener.Close()
+        Write-Host "Server stopped." -ForegroundColor Red
+    }
+}
+
+try {
     while ($listener.IsListening) {
         $context = $listener.GetContext()
         $request = $context.Request
         $response = $context.Response
         
-        # Determine the request path
+        # Log request
+        Write-Host "[$(Get-Date -Format 'HH:mm:ss')] $($request.HttpMethod) $($request.Url.LocalPath)" -ForegroundColor Gray
+        
+        # Path resolution
         $rawPath = $request.Url.LocalPath
         if ($rawPath -eq "/") {
-            $localPath = Join-Path $PSScriptRoot "..\index.html"
-        } else {
-            $localPath = Join-Path $PSScriptRoot "..$rawPath"
+            $rawPath = "/index.html"
         }
         
-        if (Test-Path $localPath -PathType Leaf) {
-            # Set content-type
-            $ext = [System.IO.Path]::GetExtension($localPath).ToLower()
-            $contentType = switch ($ext) {
-                ".html" { "text/html; charset=utf-8" }
-                ".css" { "text/css; charset=utf-8" }
-                ".js" { "application/javascript; charset=utf-8" }
-                ".png" { "image/png" }
-                ".jpg" { "image/jpeg" }
-                ".jpeg" { "image/jpeg" }
-                ".webp" { "image/webp" }
-                ".svg" { "image/svg+xml" }
-                ".json" { "application/json; charset=utf-8" }
-                default { "application/octet-stream" }
+        $filePath = Join-Path $projectRoot $rawPath.TrimStart('/')
+        
+        if (Test-Path $filePath -PathType Leaf) {
+            try {
+                $bytes = [System.IO.File]::ReadAllBytes($filePath)
+                
+                # Content type mapping
+                $ext = [System.IO.Path]::GetExtension($filePath).ToLower()
+                $contentType = switch ($ext) {
+                    ".html" { "text/html; charset=utf-8" }
+                    ".css"  { "text/css" }
+                    ".js"   { "application/javascript" }
+                    ".png"  { "image/png" }
+                    ".jpg"  { "image/jpeg" }
+                    ".jpeg" { "image/jpeg" }
+                    ".webp" { "image/webp" }
+                    ".svg"  { "image/svg+xml" }
+                    ".ico"  { "image/x-icon" }
+                    default { "application/octet-stream" }
+                }
+                
+                $response.ContentType = $contentType
+                $response.ContentLength64 = $bytes.Length
+                $response.OutputStream.Write($bytes, 0, $bytes.Length)
+            } catch {
+                $response.StatusCode = 500
+                $msg = [System.Text.Encoding]::UTF8.GetBytes("500 Internal Server Error: $_")
+                $response.OutputStream.Write($msg, 0, $msg.Length)
             }
-            
-            $response.ContentType = $contentType
-            $response.StatusCode = 200
-            
-            # Read and send file bytes
-            $bytes = [System.IO.File]::ReadAllBytes($localPath)
-            $response.ContentLength64 = $bytes.Length
-            $response.OutputStream.Write($bytes, 0, $bytes.Length)
         } else {
-            # 404 Not Found
             $response.StatusCode = 404
-            $errBytes = [System.Text.Encoding]::UTF8.GetBytes("404 Not Found: $rawPath")
-            $response.ContentType = "text/plain"
-            $response.OutputStream.Write($errBytes, 0, $errBytes.Length)
+            $msg = [System.Text.Encoding]::UTF8.GetBytes("404 Not Found")
+            $response.OutputStream.Write($msg, 0, $msg.Length)
         }
-        $response.OutputStream.Close()
+        
+        $response.Close()
     }
-} catch {
-    Write-Error "Server error: $_"
 } finally {
-    $listener.Stop()
+    & $sysCleanup
 }
