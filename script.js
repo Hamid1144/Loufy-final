@@ -730,7 +730,7 @@ window.initCoversMarquee = function() {
     
     // Fill the track to ensure it spans at least the width of the screen
     const singleHTMLs = [...rowHTMLs];
-    while (singleHTMLs.length < 6) {
+    while (singleHTMLs.length < 24) {
       singleHTMLs.push(...rowHTMLs);
     }
     
@@ -832,7 +832,7 @@ window.initFormattingMarquee = function() {
   
   // Fill the track to ensure it spans at least the width of the screen
   const singleHTMLs = [...formattingCardsHTML];
-  while (singleHTMLs.length < 4) {
+  while (singleHTMLs.length < 12) {
     singleHTMLs.push(...formattingCardsHTML);
   }
   
