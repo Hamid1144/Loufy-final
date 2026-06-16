@@ -25,7 +25,7 @@
     --card-bg:var(--white);
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--font);color:var(--dark);background:var(--white);overflow-x:hidden;opacity:0;transition:opacity 0.4s ease}
+body{font-family:var(--font);color:var(--dark);background:var(--white);overflow-x:hidden;padding-top:72px;opacity:0;transition:opacity 0.4s ease}
 body.loaded{opacity:1}
 /* Ensure all main sections stack above the z-index:0 background animation layers */
 /* NOTE: #super-admin-panel excluded — it uses position:fixed in admin.css */
@@ -66,7 +66,7 @@ section{padding:100px 0}
 
 
 .navbar {
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -1205,6 +1205,9 @@ body > section.portfolio {
 }
 
 @media (max-width: 480px) {
+    body {
+        padding-top: 58px;
+    }
     .container {
         padding: 0 16px;
     }
