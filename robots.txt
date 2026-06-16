@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hamid1144.github.io/Loufy-final/sitemap.xml
+Sitemap: https://loufypublish.vercel.app/sitemap.xml

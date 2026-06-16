@@ -1,7 +1,7 @@
 # PowerShell script to automatically generate sitemap.xml
 $ErrorActionPreference = 'Stop'
 
-$baseUrl = "https://hamid1144.github.io/Loufy-final"
+$baseUrl = "https://loufypublish.vercel.app"
 
 # Determine the last modification dates in YYYY-MM-DD format
 $indexLastMod = (Get-Item "index.html").LastWriteTime.ToString("yyyy-MM-dd")
