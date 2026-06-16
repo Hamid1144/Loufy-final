@@ -98,6 +98,12 @@ section{padding:100px 0}
     align-items: center;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
+.logo img {
+    height: 38px;
+    width: auto;
+    display: block;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
 .logo span {
     color: var(--accent);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -1204,6 +1210,9 @@ body > section.portfolio {
     }
     .logo {
         font-size: 1.35rem;
+    }
+    .logo img {
+        height: 30px;
     }
     .navbar .btn {
         padding: 8px 16px !important;
