@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    window.jsErrors = [];
+    window.onerror = function(message, source, lineno, colno, error) {
+      var errStr = 'ERROR: ' + message + ' at ' + source + ':' + lineno + ':' + colno;
+      window.jsErrors.push(errStr);
+      try {
+        var arr = JSON.parse(localStorage.getItem('supabase_cached_errors') || '[]');
+        arr.push('[blog.html] ' + errStr);
+        localStorage.setItem('supabase_cached_errors', JSON.stringify(arr));
+      } catch(e) {}
+      console.warn(errStr);
+      return false;
+    };
+    var oldConsoleError = console.error;
+    console.error = function() {
+      var args = Array.prototype.slice.call(arguments).map(String).join(' ');
+      window.jsErrors.push('CONSOLE.ERROR: ' + args);
+      try {
+        var arr = JSON.parse(localStorage.getItem('supabase_cached_errors') || '[]');
+        arr.push('[blog.html] CONSOLE.ERROR: ' + args);
+        localStorage.setItem('supabase_cached_errors', JSON.stringify(arr));
+      } catch(e) {}
+      oldConsoleError.apply(console, arguments);
+    };
+  </script>
   <!-- SEO & Meta Tags will be dynamically injected by JS -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
