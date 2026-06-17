@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    const isPortfolioPage = window.location.pathname.split('/').pop().includes("portfolio.html") || !document.querySelector('.hero');
+    const isPortfolioPage = window.location.pathname.split('/').pop().includes("portfolio.html") || window.location.pathname.endsWith("/portfolio");
+    const isBlogPage = window.location.pathname.includes("blog.html") || window.location.pathname.includes("/blog/");
+    const isBlogsPage = window.location.pathname.includes("blogs.html") || window.location.pathname.includes("/blogs");
+    const isBlogSystem = isBlogPage || isBlogsPage;
     const storageKey = isPortfolioPage ? "savedPortfolioPageContent" : "savedIndexPageContent";
 
     // Set page indicator body class
@@ -3731,7 +3734,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         window.location.search.includes('edit=true') || 
                         window.location.hash === '#admin';
 
-        if (!isAdmin || !window.supabaseClient) {
+        if (!isAdmin) {
             const panel = document.getElementById('super-admin-panel');
             if (panel) panel.remove();
             const textToolbar = document.getElementById('admin-text-toolbar');
@@ -3742,56 +3745,164 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // Wait for Supabase client to be ready (up to 5 seconds)
+        const waitForSupabase = () => {
+            return new Promise((resolve) => {
+                if (window.supabaseClient) {
+                    resolve(true);
+                    return;
+                }
+                let elapsed = 0;
+                const interval = setInterval(() => {
+                    elapsed += 50;
+                    if (window.supabaseClient) {
+                        clearInterval(interval);
+                        resolve(true);
+                    } else if (elapsed >= 5000) {
+                        clearInterval(interval);
+                        resolve(false);
+                    }
+                }, 50);
+            });
+        };
+
+        const supabaseReady = await waitForSupabase();
+        if (!supabaseReady) {
+            console.error("Supabase client failed to load in time.");
+            document.body.classList.add('loaded');
+            hideLoader();
+            return;
+        }
+
         const authenticated = await checkAuthentication();
         if (!authenticated) return;
+
+        if (isBlogSystem) {
+            // Hide non-blog buttons on blog pages
+            document.querySelectorAll('#toggle-edit-mode, #add-portfolio-item, #add-review, #add-package, #manage-flipbook, #manage-social, #manage-pricing, #manage-sections, #manage-filters, #manage-theme, #manage-hero-card, #change-hero-bg, #save-changes, #export-html, #clear-storage').forEach(el => {
+                if (el) el.style.display = 'none';
+            });
+        }
         
         try {
-            const pageId = isPortfolioPage ? 'portfolio' : 'index';
-            const fetchPromise = window.supabaseFetchPromise || window.supabaseClient
-                .from('site_content')
-                .select('html_content')
-                .eq('id', pageId)
-                .single();
-            const { data, error } = await fetchPromise;
-                
-            if (error && error.code !== 'PGRST116') throw error;
-
-            if (data && data.html_content) {
-                // Save custom theme style cache if present in the loaded HTML
-                try {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(data.html_content, 'text/html');
-                    const styleEl = doc.querySelector('#custom-theme-styles');
-                    if (styleEl) {
-                        localStorage.setItem('supabase_cached_theme', styleEl.innerHTML);
-                    }
-                } catch (cacheErr) {
-                    console.warn("Local storage cache quota exceeded on load theme:", cacheErr);
-                }
-                
-                // Helper to clean a DOM body for comparison
-                const getCleanBodyHTML = (bodyEl) => {
-                    const clone = bodyEl.cloneNode(true);
-                    clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar, #admin-blog-modal').forEach(el => el.remove());
-                    clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
-                    clone.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
-                    clone.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
-                    clone.querySelectorAll('#fp-rp-overlay, #fp-rp-modal').forEach(el => el.remove());
-                    clone.querySelectorAll('#custom-toast').forEach(toast => toast.remove());
-                    clone.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
-                    clone.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
-                    return clone.innerHTML.trim();
-                };
-
-                const currentCleanHTML = getCleanBodyHTML(document.body);
-                const fetchedCleanHTML = data.html_content.trim();
-
-                // If currently loaded static HTML matches exactly, do nothing!
-                if (currentCleanHTML === fetchedCleanHTML) {
-                    window.contentLoadedFromLive = true;
-                    initAdminThemePanelFromDOM();
-                    repairSocialIcons();
+            if (!isBlogSystem) {
+                const pageId = isPortfolioPage ? 'portfolio' : 'index';
+                const fetchPromise = window.supabaseFetchPromise || window.supabaseClient
+                    .from('site_content')
+                    .select('html_content')
+                    .eq('id', pageId)
+                    .single();
+                const { data, error } = await fetchPromise;
                     
+                if (error && error.code !== 'PGRST116') throw error;
+
+                if (data && data.html_content) {
+                    // Save custom theme style cache if present in the loaded HTML
+                    try {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(data.html_content, 'text/html');
+                        const styleEl = doc.querySelector('#custom-theme-styles');
+                        if (styleEl) {
+                            localStorage.setItem('supabase_cached_theme', styleEl.innerHTML);
+                        }
+                    } catch (cacheErr) {
+                        console.warn("Local storage cache quota exceeded on load theme:", cacheErr);
+                    }
+                    
+                    // Helper to clean a DOM body for comparison
+                    const getCleanBodyHTML = (bodyEl) => {
+                        const clone = bodyEl.cloneNode(true);
+                        clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar, #admin-blog-modal').forEach(el => el.remove());
+                        clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
+                        clone.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
+                        clone.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
+                        clone.querySelectorAll('#fp-rp-overlay, #fp-rp-modal').forEach(el => el.remove());
+                        clone.querySelectorAll('#custom-toast').forEach(toast => toast.remove());
+                        clone.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
+                        clone.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
+                        return clone.innerHTML.trim();
+                    };
+
+                    const currentCleanHTML = getCleanBodyHTML(document.body);
+                    const fetchedCleanHTML = data.html_content.trim();
+
+                    // If currently loaded static HTML matches exactly, do nothing!
+                    if (currentCleanHTML === fetchedCleanHTML) {
+                        window.contentLoadedFromLive = true;
+                        initAdminThemePanelFromDOM();
+                        repairSocialIcons();
+                        
+                        const pricingCards = document.querySelectorAll('.pricing-card');
+                        if (pricingCards.length === 3) {
+                            const basicBtn = pricingCards[0].querySelector('a.btn');
+                            const standardBtn = pricingCards[1].querySelector('a.btn');
+                            const premiumBtn = pricingCards[2].querySelector('a.btn');
+                            
+                            if (basicBtn && !basicBtn.hasAttribute('data-pricing')) basicBtn.setAttribute('data-pricing', 'basic');
+                            if (standardBtn && !standardBtn.hasAttribute('data-pricing')) standardBtn.setAttribute('data-pricing', 'standard');
+                            if (premiumBtn && !premiumBtn.hasAttribute('data-pricing')) premiumBtn.setAttribute('data-pricing', 'premium');
+                        }
+                        injectFlipbookLiveButton();
+                        return;
+                    }
+
+                    const panel   = document.getElementById('super-admin-panel');
+                    const modal   = document.getElementById('admin-crop-modal');
+                    const addItemModalEl = document.getElementById('admin-add-item-modal');
+                    const textToolbarEl = document.getElementById('admin-text-toolbar');
+                    const rpOvlEl = document.getElementById('fp-rp-overlay');
+                    const rpModEl = document.getElementById('fp-rp-modal');
+                    
+                    // Preserve background animation elements
+                    const animWrap = document.getElementById('bg-anim-wrap');
+                    const animCanvas = document.getElementById('bg-anim-canvas');
+                    const heroGlow = document.getElementById('bg-hero-glow');
+
+                    window.contentLoadedFromLive = true;
+                    document.body.innerHTML = data.html_content;
+                    
+                    // Remove any stale background elements parsed from the cloud HTML to prevent duplicates
+                    ['bg-anim-wrap', 'bg-anim-canvas', 'bg-hero-glow', 'admin-text-toolbar'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.remove();
+                    });
+                    
+                    if(panel)          document.body.appendChild(panel);
+                    if(modal)          document.body.appendChild(modal);
+                    if(addItemModalEl) document.body.appendChild(addItemModalEl);
+                    if(textToolbarEl)  document.body.appendChild(textToolbarEl);
+                    if(rpOvlEl)        document.body.appendChild(rpOvlEl);
+                    if(rpModEl)        document.body.appendChild(rpModEl);
+
+                    // Initialize the admin theme panel inputs from loaded DOM
+                    initAdminThemePanelFromDOM();
+
+                    // Restore background animation elements
+                    if(animWrap)   document.body.insertBefore(animWrap, document.body.firstChild);
+                    if(animCanvas) document.body.insertBefore(animCanvas, document.body.firstChild);
+                    if(heroGlow)   document.body.insertBefore(heroGlow, document.body.firstChild);
+
+                    // Legacy Caches patch
+                    document.querySelectorAll('.social-icons').forEach(container => {
+                        const links = container.querySelectorAll('a');
+                        if (links.length === 4 && !links[0].hasAttribute('data-social')) {
+                            links[0].setAttribute('data-social', 'twitter');
+                            links[1].setAttribute('data-social', 'linkedin');
+                            links[2].setAttribute('data-social', 'behance');
+                            links[3].setAttribute('data-social', 'facebook');
+                            
+                            const insta = document.createElement('a');
+                            insta.setAttribute('href', '#');
+                            insta.setAttribute('data-social', 'instagram');
+                            insta.innerHTML = '<i class="fa-brands fa-instagram"></i>';
+                            if (links[0].hasAttribute('style')) insta.setAttribute('style', links[0].getAttribute('style'));
+                            container.insertBefore(insta, links[1]);
+                        }
+                    });
+
+                    // Repair any loaded social icons to use their correct Font Awesome vector icons
+                    repairSocialIcons();
+
                     const pricingCards = document.querySelectorAll('.pricing-card');
                     if (pricingCards.length === 3) {
                         const basicBtn = pricingCards[0].querySelector('a.btn');
@@ -3802,101 +3913,35 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (standardBtn && !standardBtn.hasAttribute('data-pricing')) standardBtn.setAttribute('data-pricing', 'standard');
                         if (premiumBtn && !premiumBtn.hasAttribute('data-pricing')) premiumBtn.setAttribute('data-pricing', 'premium');
                     }
-                    injectFlipbookLiveButton();
-                    return;
-                }
-
-                const panel   = document.getElementById('super-admin-panel');
-                const modal   = document.getElementById('admin-crop-modal');
-                const addItemModalEl = document.getElementById('admin-add-item-modal');
-                const textToolbarEl = document.getElementById('admin-text-toolbar');
-                const rpOvlEl = document.getElementById('fp-rp-overlay');
-                const rpModEl = document.getElementById('fp-rp-modal');
-                
-                // Preserve background animation elements
-                const animWrap = document.getElementById('bg-anim-wrap');
-                const animCanvas = document.getElementById('bg-anim-canvas');
-                const heroGlow = document.getElementById('bg-hero-glow');
-
-                window.contentLoadedFromLive = true;
-                document.body.innerHTML = data.html_content;
-                
-                // Remove any stale background elements parsed from the cloud HTML to prevent duplicates
-                ['bg-anim-wrap', 'bg-anim-canvas', 'bg-hero-glow', 'admin-text-toolbar'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.remove();
-                });
-                
-                if(panel)          document.body.appendChild(panel);
-                if(modal)          document.body.appendChild(modal);
-                if(addItemModalEl) document.body.appendChild(addItemModalEl);
-                if(textToolbarEl)  document.body.appendChild(textToolbarEl);
-                if(rpOvlEl)        document.body.appendChild(rpOvlEl);
-                if(rpModEl)        document.body.appendChild(rpModEl);
-
-                // Initialize the admin theme panel inputs from loaded DOM
-                initAdminThemePanelFromDOM();
-
-                // Restore background animation elements
-                if(animWrap)   document.body.insertBefore(animWrap, document.body.firstChild);
-                if(animCanvas) document.body.insertBefore(animCanvas, document.body.firstChild);
-                if(heroGlow)   document.body.insertBefore(heroGlow, document.body.firstChild);
-
-                // Legacy Caches patch
-                document.querySelectorAll('.social-icons').forEach(container => {
-                    const links = container.querySelectorAll('a');
-                    if (links.length === 4 && !links[0].hasAttribute('data-social')) {
-                        links[0].setAttribute('data-social', 'twitter');
-                        links[1].setAttribute('data-social', 'linkedin');
-                        links[2].setAttribute('data-social', 'behance');
-                        links[3].setAttribute('data-social', 'facebook');
-                        
-                        const insta = document.createElement('a');
-                        insta.setAttribute('href', '#');
-                        insta.setAttribute('data-social', 'instagram');
-                        insta.innerHTML = '<i class="fa-brands fa-instagram"></i>';
-                        if (links[0].hasAttribute('style')) insta.setAttribute('style', links[0].getAttribute('style'));
-                        container.insertBefore(insta, links[1]);
-                    }
-                });
-
-                // Repair any loaded social icons to use their correct Font Awesome vector icons
-                repairSocialIcons();
-
-                const pricingCards = document.querySelectorAll('.pricing-card');
-                if (pricingCards.length === 3) {
-                    const basicBtn = pricingCards[0].querySelector('a.btn');
-                    const standardBtn = pricingCards[1].querySelector('a.btn');
-                    const premiumBtn = pricingCards[2].querySelector('a.btn');
                     
-                    if (basicBtn && !basicBtn.hasAttribute('data-pricing')) basicBtn.setAttribute('data-pricing', 'basic');
-                    if (standardBtn && !standardBtn.hasAttribute('data-pricing')) standardBtn.setAttribute('data-pricing', 'standard');
-                    if (premiumBtn && !premiumBtn.hasAttribute('data-pricing')) premiumBtn.setAttribute('data-pricing', 'premium');
-                }
-                
-                // Re-initialize site logic after replacing innerHTML
-                if (window.initSiteLogic) window.initSiteLogic();
-                
-                // Re-initialize background animation system if active
-                if (window.bgAnim && typeof window.bgAnim.init === 'function') {
-                    window.bgAnim.init();
-                }
+                    // Re-initialize site logic after replacing innerHTML
+                    if (window.initSiteLogic) window.initSiteLogic();
+                    
+                    // Re-initialize background animation system if active
+                    if (window.bgAnim && typeof window.bgAnim.init === 'function') {
+                        window.bgAnim.init();
+                    }
 
-                // Re-initialize flipbooks — use generous delay so DOM is fully settled
-                setTimeout(() => { if (window.initFlipbooks) window.initFlipbooks(); }, 600);
-                setTimeout(() => {
-                    if (window.initFlipbooks) window.initFlipbooks();
-                    injectFlipbookLiveButton();   // re-inject edit button after cloud rebuild
-                    // Re-build covers marquee after flipbooks settle (covers grid cards are loaded fresh from cloud)
-                    if (window.initCoversMarquee) window.initCoversMarquee();
-                }, 1200);
+                    // Re-initialize flipbooks — use generous delay so DOM is fully settled
+                    setTimeout(() => { if (window.initFlipbooks) window.initFlipbooks(); }, 600);
+                    setTimeout(() => {
+                        if (window.initFlipbooks) window.initFlipbooks();
+                        injectFlipbookLiveButton();   // re-inject edit button after cloud rebuild
+                        // Re-build covers marquee after flipbooks settle (covers grid cards are loaded fresh from cloud)
+                        if (window.initCoversMarquee) window.initCoversMarquee();
+                    }, 1200);
+                }
+            } else {
+                repairSocialIcons();
             }
         } catch (err) {
             console.error("Error loading cloud content:", err);
         } finally {
             document.body.classList.add('loaded');
             hideLoader();
-            initChangeObserver();
+            if (!isBlogSystem) {
+                initChangeObserver();
+            }
             
             try {
                 if (sessionStorage.getItem('open_admin_panel') === 'true') {
