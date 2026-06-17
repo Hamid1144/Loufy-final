@@ -896,9 +896,14 @@ window.initBlogSection = async function () {
   const paginationContainer = document.getElementById('blog-pagination-container');
   const loadMoreBtn = document.getElementById('blog-load-more-btn');
 
+  if (window.diagLog) {
+    window.diagLog(`initBlogSection called. previewGrid: ${!!previewGrid}, blogGrid: ${!!blogGrid}, URL: ${window.location.href}`);
+  }
+
   if (!blogGrid && !previewGrid) return; // Only run on pages containing a blog section
 
   if (!window.supabaseClient) {
+    if (window.diagLog) window.diagLog("supabaseClient not available, scheduling retry in 50ms...");
     setTimeout(window.initBlogSection, 50);
     return;
   }
@@ -907,6 +912,7 @@ window.initBlogSection = async function () {
 
   // 1. Fetch from Supabase
   try {
+    if (window.diagLog) window.diagLog("Starting fetch for blogs_json from Supabase...");
     const { data, error } = await window.supabaseClient
       .from('site_content')
       .select('html_content')
@@ -916,8 +922,12 @@ window.initBlogSection = async function () {
     if (error) throw error;
     if (data && data.html_content) {
       blogPosts = JSON.parse(data.html_content);
+      if (window.diagLog) window.diagLog(`Supabase fetch success. Loaded ${blogPosts.length} posts.`);
+    } else {
+      if (window.diagLog) window.diagLog("Supabase fetch success, but data.html_content is empty!");
     }
   } catch (err) {
+    if (window.diagLog) window.diagLog(`Supabase fetch failed: ${err.message || err}`);
     console.error('Failed to load blog posts from cloud:', err);
     blogPosts = [];
   }
@@ -926,11 +936,13 @@ window.initBlogSection = async function () {
 
   // Case 1: Homepage Preview (only latest 3 posts)
   if (previewGrid) {
+    if (window.diagLog) window.diagLog(`Executing Homepage Preview layout. blogPosts list size: ${blogPosts.length}`);
     // Sort by publication date descending
     const sortedPosts = [...blogPosts].sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
     const latestPosts = sortedPosts.slice(0, 3);
 
     if (latestPosts.length === 0) {
+      if (window.diagLog) window.diagLog("latestPosts is empty, rendering 'No articles published yet.'");
       previewGrid.innerHTML = `
         <div style="grid-column: 1/-1; text-align:center; padding: 40px; color:#aaa;">
           <h3>No articles published yet.</h3>
@@ -964,6 +976,7 @@ window.initBlogSection = async function () {
           </div>
         `;
       }).join('');
+      if (window.diagLog) window.diagLog(`previewGrid.innerHTML set successfully! Number of rendered cards: ${latestPosts.length}`);
     }
     return;
   }

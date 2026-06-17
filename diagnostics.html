@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>System Diagnostics | Loufy Publisher</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #111;
+      color: #eee;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #F4B400;
+      border-bottom: 2px solid #333;
+      padding-bottom: 10px;
+    }
+    .card {
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .success {
+      background: #2e7d32;
+      color: #fff;
+    }
+    .warning {
+      background: #f57f17;
+      color: #fff;
+    }
+    .danger {
+      background: #c62828;
+      color: #fff;
+    }
+    pre {
+      background: #000;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      border: 1px solid #222;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .test-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+    }
+    .test-row:last-child {
+      border-bottom: none;
+    }
+    .btn {
+      background: #F4B400;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: #ffca28;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="db.js?v=3.30.0"></script>
+</head>
+<body>
+
+  <h1>Loufy Publisher System Diagnostics</h1>
+  <p>Use this utility to check database connectivity, script initialization status, and locate any runtime errors.</p>
+
+  <div class="card">
+    <h2>Environment Info</h2>
+    <div class="test-row">
+      <span>Current URL:</span>
+      <span id="env-url">Loading...</span>
+    </div>
+    <div class="test-row">
+      <span>Protocol:</span>
+      <span id="env-protocol">Loading...</span>
+    </div>
+    <div class="test-row">
+      <span>Hostname:</span>
+      <span id="env-hostname">Loading...</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>JavaScript & Library Status</h2>
+    
+    <div class="test-row">
+      <span>Supabase Global Library (window.supabase):</span>
+      <span id="lib-supabase" class="status-badge danger">Not Loaded</span>
+    </div>
+    
+    <div class="test-row">
+      <span>Supabase Client (window.supabaseClient):</span>
+      <span id="lib-client" class="status-badge danger">Not Initialized</span>
+    </div>
+    
+    <div class="test-row">
+      <span>Routing Helper (window.getBlogLink):</span>
+      <span id="lib-routing" class="status-badge danger">Not Defined</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Supabase Cloud Database Connectivity Test</h2>
+    <p>Testing fetch request from <code>site_content</code> for <code>blogs_json</code> row:</p>
+    <div id="db-test-status">
+      <span class="status-badge warning">Test Pending...</span>
+    </div>
+    <div style="margin-top: 15px;">
+      <strong>Fetched Blog Slugs & Titles:</strong>
+      <pre id="db-test-output">Waiting for test to complete...</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Blog Section Execution Logs</h2>
+    <p>Step-by-step logs of the blog rendering logic:</p>
+    <pre id="diag-logs-output">No execution logs found. Open index.html, refresh it, and then check this diagnostics tool.</pre>
+  </div>
+
+  <div class="card">
+    <h2>Runtime Error Logger</h2>
+    <p>Displays any errors captured on the homepage during execution:</p>
+    <pre id="error-output">No errors recorded yet. Open index.html, refresh it, and then check this diagnostics tool.</pre>
+  </div>
+
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="index.html" class="btn">Go to Homepage</a>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      // 1. Env info
+      document.getElementById("env-url").innerText = window.location.href;
+      document.getElementById("env-protocol").innerText = window.location.protocol;
+      document.getElementById("env-hostname").innerText = window.location.hostname || "localhost (local file)";
+
+      // 2. Library checks
+      const libSupabase = document.getElementById("lib-supabase");
+      if (window.supabase) {
+        libSupabase.innerText = "Loaded Successfully";
+        libSupabase.className = "status-badge success";
+      } else {
+        libSupabase.innerText = "Failed to Load";
+        libSupabase.className = "status-badge danger";
+      }
+
+      const libClient = document.getElementById("lib-client");
+      if (window.supabaseClient) {
+        libClient.innerText = "Initialized Successfully";
+        libClient.className = "status-badge success";
+      } else {
+        libClient.innerText = "Missing / Error";
+        libClient.className = "status-badge danger";
+      }
+
+      const libRouting = document.getElementById("lib-routing");
+      if (typeof window.getBlogLink === 'function') {
+        libRouting.innerText = `Functional (returns: ${window.getBlogLink('test-slug')})`;
+        libRouting.className = "status-badge success";
+      } else {
+        libRouting.innerText = "Undefined";
+        libRouting.className = "status-badge danger";
+      }
+
+      // 3. Database test
+      const dbStatus = document.getElementById("db-test-status");
+      const dbOutput = document.getElementById("db-test-output");
+
+      if (!window.supabaseClient) {
+        dbStatus.innerHTML = '<span class="status-badge danger">Failed: Supabase Client not available</span>';
+        dbOutput.innerText = "Cannot test connectivity because the Supabase client failed to initialize.";
+        return;
+      }
+
+      try {
+        dbStatus.innerHTML = '<span class="status-badge warning">Fetching...</span>';
+        const { data, error } = await window.supabaseClient
+          .from('site_content')
+          .select('html_content')
+          .eq('id', 'blogs_json')
+          .single();
+
+        if (error) throw error;
+        if (data && data.html_content) {
+          const posts = JSON.parse(data.html_content);
+          dbStatus.innerHTML = '<span class="status-badge success">Connected Successfully</span>';
+          
+          let list = `Total posts found in database: ${posts.length}\n\n`;
+          posts.forEach(p => {
+            list += `[${p.category}] - ${p.title}\n  Slug: ${p.slug}  |  Link: ${window.getBlogLink(p.slug)}\n\n`;
+          });
+          dbOutput.innerText = list;
+        } else {
+          dbStatus.innerHTML = '<span class="status-badge danger">Failed: Row blogs_json is empty</span>';
+          dbOutput.innerText = "The query returned successfully, but no content was found in 'blogs_json'.";
+        }
+      } catch (err) {
+        dbStatus.innerHTML = '<span class="status-badge danger">Failed with Error</span>';
+        dbOutput.innerText = `Error Description:\n${err.message || err}\n\nStack Trace:\n${err.stack || 'N/A'}`;
+      }
+
+      // 4. Retrieve execution logs
+      try {
+        const diagLogs = localStorage.getItem('supabase_diag_logs');
+        if (diagLogs) {
+          const logArray = JSON.parse(diagLogs);
+          document.getElementById("diag-logs-output").innerText = logArray.join('\n');
+        }
+      } catch(e) {}
+
+      // 5. Retrieve any errors from LocalStorage (if any page updates it)
+      // Check if page errors exist
+      try {
+        const errors = localStorage.getItem('supabase_cached_errors');
+        if (errors) {
+          const errArray = JSON.parse(errors);
+          document.getElementById("error-output").innerText = errArray.join('\n');
+        }
+      } catch(e) {}
+    });
+  </script>
+</body>
+</html>

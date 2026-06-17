@@ -6,6 +6,7 @@
   try {
     // Clear old errors on fresh load
     localStorage.removeItem('supabase_cached_errors');
+    localStorage.removeItem('supabase_diag_logs');
   } catch(e) {}
   window.onerror = function(message, source, lineno, colno, error) {
     var errStr = 'ERROR: ' + message + ' at ' + source + ':' + lineno + ':' + colno;

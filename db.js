@@ -1,6 +1,17 @@
+// Diag log helper
+window.diagLog = function(msg) {
+  try {
+    const arr = JSON.parse(localStorage.getItem('supabase_diag_logs') || '[]');
+    arr.push(`[${new Date().toLocaleTimeString()}] ${msg}`);
+    localStorage.setItem('supabase_diag_logs', JSON.stringify(arr));
+    console.log("[DIAG] " + msg);
+  } catch(e) {}
+};
+
 // Routing helper for dynamic blog posts link
 window.getBlogLink = function(slug) {
-  if (window.location.protocol === 'file:' || window.location.hostname.includes('github.io')) {
+  const hn = window.location.hostname;
+  if (window.location.protocol === 'file:' || hn.includes('github.io') || hn === 'localhost' || hn === '127.0.0.1' || hn.startsWith('192.168.')) {
     return `blog.html?slug=${slug}`;
   }
   return `/blog/${slug}`;
