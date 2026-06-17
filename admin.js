@@ -1100,11 +1100,49 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             changeHeroBgBtn.addEventListener("click", () => {
                 const heroImg = document.getElementById("hero-bg-image");
-                if (heroImg) {
-                    openCropModal(heroImg);
-                } else {
+                if (!heroImg) {
                     window.showToast("Hero image not found on this page.", "error");
+                    return;
                 }
+                
+                // Create a temporary file input to upload the original image
+                const tempInput = document.createElement('input');
+                tempInput.type = 'file';
+                tempInput.accept = 'image/*';
+                tempInput.onchange = async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    
+                    const originalText = changeHeroBgBtn.innerHTML;
+                    changeHeroBgBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
+                    changeHeroBgBtn.disabled = true;
+                    
+                    window.showToast("Uploading original image...", "info");
+                    
+                    try {
+                        // Upload the File object directly to Cloudinary (no canvas, no crop, preserves original size and quality)
+                        const cloudinaryUrl = await uploadToCloudinary(file);
+                        const optimizedUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+                        
+                        updateImageSource(heroImg, optimizedUrl);
+                        
+                        window.showToast("Hero image updated in original size and quality!", "success");
+                        
+                        // Highlight save changes button
+                        window.hasUnsavedChanges = true;
+                        const saveBtnEl = document.getElementById('save-changes');
+                        if (saveBtnEl) {
+                            saveBtnEl.style.boxShadow = '0 0 15px var(--primary-color)';
+                        }
+                    } catch (err) {
+                        console.error("Failed to upload hero background:", err);
+                        window.showToast("Failed to upload image: " + err.message, "error");
+                    } finally {
+                        changeHeroBgBtn.innerHTML = originalText;
+                        changeHeroBgBtn.disabled = false;
+                    }
+                };
+                tempInput.click();
             });
         }
     }
