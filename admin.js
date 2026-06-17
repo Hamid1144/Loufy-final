@@ -674,7 +674,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:15px; align-items: center;">
                         <div style="display:flex; flex-direction:column; gap:6px;">
                             <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Featured Image URL</label>
-                            <input type="text" id="blog-edit-image" placeholder="https://images.unsplash.com/... or /images/..." style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                            <div style="display:flex; gap:8px; align-items: center;">
+                                <input type="text" id="blog-edit-image" placeholder="https://images.unsplash.com/... or /images/..." style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; flex:1; box-sizing:border-box; min-width: 0;">
+                                <button type="button" id="blog-image-upload-trigger" style="padding:10px 14px; border-radius:6px; border:none; background:#ff9f43; color:#fff; font-weight:700; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:6px; white-space:nowrap; height:38px; box-sizing:border-box;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+                                <input type="file" id="blog-edit-image-file" accept="image/*" style="display:none;">
+                            </div>
+                            <img id="blog-edit-image-preview" src="" style="display:none; max-width:120px; max-height:80px; border-radius:6px; border:1px solid #333; margin-top:8px; object-fit:cover;">
                         </div>
                         <div style="display:flex; flex-direction:column; gap:6px;">
                             <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Reading Time (mins)</label>
@@ -4109,6 +4114,68 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let autoSlug = true;
 
+    // Image Preview & Upload Helper for Blog CRUD
+    const imagePreviewEl = document.getElementById("blog-edit-image-preview");
+    function updateImagePreview() {
+        if (imagePreviewEl && blogEditImage) {
+            const val = blogEditImage.value.trim();
+            if (val) {
+                imagePreviewEl.src = val;
+                imagePreviewEl.style.display = 'block';
+            } else {
+                imagePreviewEl.style.display = 'none';
+                imagePreviewEl.src = '';
+            }
+        }
+    }
+    if (blogEditImage) {
+        blogEditImage.addEventListener("input", updateImagePreview);
+        blogEditImage.addEventListener("change", updateImagePreview);
+    }
+
+    const imageUploadTrigger = document.getElementById("blog-image-upload-trigger");
+    const imageFileInput = document.getElementById("blog-edit-image-file");
+
+    if (imageUploadTrigger && imageFileInput) {
+        imageUploadTrigger.addEventListener("click", () => {
+            imageFileInput.click();
+        });
+
+        imageFileInput.addEventListener("change", async () => {
+            const file = imageFileInput.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                window.showToast("Please select an image file", "error");
+                return;
+            }
+
+            try {
+                window.showToast("Uploading image to Cloudinary...", "info");
+                
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    try {
+                        const base64Data = e.target.result;
+                        const cloudinaryUrl = await uploadToCloudinary(base64Data);
+                        const optimizedUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+                        
+                        blogEditImage.value = optimizedUrl;
+                        updateImagePreview();
+                        window.showToast("Image uploaded successfully!", "success");
+                    } catch (uploadErr) {
+                        console.error("Cloudinary upload failed:", uploadErr);
+                        window.showToast("Upload failed: " + uploadErr.message, "error");
+                    }
+                };
+                reader.readAsDataURL(file);
+            } catch (err) {
+                console.error("Error reading file:", err);
+                window.showToast("Error reading file: " + err.message, "error");
+            }
+        });
+    }
+
     // Helper functions
     function escapeHtml(str) {
         if (!str) return '';
@@ -4452,6 +4519,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             autoSlug = true;
         }
+        updateImagePreview();
     }
 
     // Delete Blog Post
