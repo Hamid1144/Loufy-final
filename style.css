@@ -1669,6 +1669,9 @@ body.edit-mode .reveal {
 .hero-content{padding:24px !important;border-radius:8px !important;margin-left:0 !important;margin-top:0 !important;width:100% !important}
 .hero p,.section-sub{margin:0 auto 32px}
 .hero-btns,.about-btns{justify-content:center}
+.skill-tags{justify-content:center}
+.contact-detail{justify-content:center}
+.social-icons{justify-content:center}
 .hero-visual{margin-top:20px;height:auto;display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap}
 .hero-visual .float-badge.exp, .hero-visual .float-badge.proj{position:static !important;animation:none !important}
 .services-grid,.tools-grid,.portfolio-grid,.pricing-grid,.blog-grid{grid-template-columns:1fr 1fr}
@@ -1684,6 +1687,7 @@ body.edit-mode .reveal {
 .form-row{grid-template-columns:1fr}
 .hero h1{font-size:1.8rem}
 .section-title{font-size:1.6rem}
+.about-float-tag{display:none !important}
 }
 
 /* TOAST NOTIFICATION */
@@ -1786,6 +1790,13 @@ body > section.portfolio {
     }
     .hero h1, .hero h1 span {
         font-size: 1.45rem !important;
+    }
+    .about-img-wrap, .about-img {
+        width: 280px !important;
+        height: 280px !important;
+    }
+    .testimonial-inner {
+        padding: 24px 16px !important;
     }
     .portfolio-card[data-cat="children"] .portfolio-thumb,
     .portfolio-card[data-flipbook="true"] .portfolio-thumb {
