@@ -3,9 +3,18 @@
 <head>
 <script>
   window.jsErrors = [];
+  try {
+    // Clear old errors on fresh load
+    localStorage.removeItem('supabase_cached_errors');
+  } catch(e) {}
   window.onerror = function(message, source, lineno, colno, error) {
     var errStr = 'ERROR: ' + message + ' at ' + source + ':' + lineno + ':' + colno;
     window.jsErrors.push(errStr);
+    try {
+      var arr = JSON.parse(localStorage.getItem('supabase_cached_errors') || '[]');
+      arr.push(errStr);
+      localStorage.setItem('supabase_cached_errors', JSON.stringify(arr));
+    } catch(e) {}
     console.warn(errStr);
     if (window.location.search.indexOf('debug=true') !== -1) {
       var div = document.getElementById('debug-errors');
@@ -25,6 +34,11 @@
   console.error = function() {
     var args = Array.prototype.slice.call(arguments).map(String).join(' ');
     window.jsErrors.push('CONSOLE.ERROR: ' + args);
+    try {
+      var arr = JSON.parse(localStorage.getItem('supabase_cached_errors') || '[]');
+      arr.push('CONSOLE.ERROR: ' + args);
+      localStorage.setItem('supabase_cached_errors', JSON.stringify(arr));
+    } catch(e) {}
     if (window.location.search.indexOf('debug=true') !== -1) {
       var div = document.getElementById('debug-errors');
       if (!div) {
