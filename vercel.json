@@ -4,11 +4,11 @@
   "rewrites": [
     {
       "source": "/blogs",
-      "destination": "/blogs.html"
+      "destination": "/blogs"
     },
     {
       "source": "/blog/:slug",
-      "destination": "/blog.html?slug=:slug"
+      "destination": "/blog?slug=:slug"
     }
   ]
 }
