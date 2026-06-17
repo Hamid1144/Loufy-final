@@ -177,11 +177,13 @@ document.addEventListener("DOMContentLoaded", () => {
         imgElement.src = newUrl;
         imgElement.setAttribute('data-optimized', 'true');
         
-        // Handle responsive srcset if present
-        if (imgElement.hasAttribute('srcset')) {
+        // Handle responsive srcset if it's a Cloudinary URL
+        if (newUrl.includes('/image/upload/')) {
             const baseUrl = newUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/');
             const newSrcset = [480, 800, 1200].map(w => `${baseUrl.replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${w}/`)} ${w}w`).join(', ');
             imgElement.setAttribute('srcset', newSrcset);
+        } else if (imgElement.hasAttribute('srcset')) {
+            imgElement.removeAttribute('srcset');
         }
         
         // Handle hero background image specific LCP preload link
@@ -189,10 +191,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const preloadLink = document.getElementById('hero-preload');
             if (preloadLink) {
                 preloadLink.setAttribute('href', newUrl);
-                if (preloadLink.hasAttribute('imagesrcset')) {
+                if (newUrl.includes('/image/upload/')) {
                     const baseUrl = newUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/');
                     const newImagesrcset = [480, 800, 1200].map(w => `${baseUrl.replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${w}/`)} ${w}w`).join(', ');
                     preloadLink.setAttribute('imagesrcset', newImagesrcset);
+                } else if (preloadLink.hasAttribute('imagesrcset')) {
+                    preloadLink.removeAttribute('imagesrcset');
                 }
             }
         }
