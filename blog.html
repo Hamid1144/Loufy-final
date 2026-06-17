@@ -408,7 +408,7 @@
                       <p>${post.summary}</p>
                       <div class="blog-footer-line">
                         <span class="blog-author-tag"><i class="fa-regular fa-user"></i> ${post.author_name || 'Loufy Publisher'}</span>
-                        <a href="/blog/${post.slug}" class="read-more">Read More →</a>
+                        <a href="${window.getBlogLink(post.slug)}" class="read-more">Read More →</a>
                       </div>
                     </div>
                   </div>
@@ -431,7 +431,7 @@
           let hasNav = false;
           if (currentIndex > 0 && prevBtn && prevTitle) {
             const prevPost = sortedPosts[currentIndex - 1];
-            prevBtn.setAttribute('href', `/blog/${prevPost.slug}`);
+            prevBtn.setAttribute('href', window.getBlogLink(prevPost.slug));
             prevTitle.innerText = prevPost.title;
             prevBtn.style.display = 'flex';
             hasNav = true;
@@ -441,7 +441,7 @@
 
           if (currentIndex < sortedPosts.length - 1 && nextBtn && nextTitle) {
             const nextPost = sortedPosts[currentIndex + 1];
-            nextBtn.setAttribute('href', `/blog/${nextPost.slug}`);
+            nextBtn.setAttribute('href', window.getBlogLink(nextPost.slug));
             nextTitle.innerText = nextPost.title;
             nextBtn.style.display = 'flex';
             hasNav = true;

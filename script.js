@@ -958,7 +958,7 @@ window.initBlogSection = async function () {
               <p>${post.summary}</p>
               <div class="blog-footer-line">
                 <span class="blog-author-tag"><i class="fa-regular fa-user"></i> ${post.author_name || 'Loufy Publisher'}</span>
-                <a href="/blog/${post.slug}" class="read-more">See More →</a>
+                <a href="${window.getBlogLink(post.slug)}" class="read-more">See More →</a>
               </div>
             </div>
           </div>
@@ -1074,7 +1074,7 @@ window.initBlogSection = async function () {
                     <span class="author-name"><i class="fa-regular fa-user"></i> ${featuredPost.author_name || 'Loufy Publisher'}</span>
                     <span class="publish-date"><i class="fa-regular fa-calendar-days"></i> ${dateStr}</span>
                   </div>
-                  <a href="/blog/${featuredPost.slug}" class="read-more-btn">See More <i class="fa-solid fa-arrow-right"></i></a>
+                  <a href="${window.getBlogLink(featuredPost.slug)}" class="read-more-btn">See More <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
               </div>
             </div>
@@ -1119,7 +1119,7 @@ window.initBlogSection = async function () {
                 <p>${post.summary}</p>
                 <div class="blog-footer-line">
                   <span class="blog-author-tag"><i class="fa-regular fa-user"></i> ${post.author_name || 'Loufy Publisher'}</span>
-                  <a href="/blog/${post.slug}" class="read-more">See More →</a>
+                  <a href="${window.getBlogLink(post.slug)}" class="read-more">See More →</a>
                 </div>
               </div>
             </div>
