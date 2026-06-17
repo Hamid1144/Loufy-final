@@ -112,7 +112,7 @@ window.initSiteLogic = function () {
   });
 
   // Portfolio filter
-  const isMainPage = !window.location.pathname.includes('portfolio.html');
+  const isMainPage = !window.location.pathname.includes('portfolio');
   document.querySelectorAll('.filter-btn').forEach(btn => {
     const oldBtn = btn.cloneNode(true); btn.parentNode.replaceChild(oldBtn, btn);
     oldBtn.addEventListener('click', function () {
@@ -691,7 +691,7 @@ window.syncPortfolioGrids = function () {
 
 // 4. Implement covers marquee (headline style)
 window.initCoversMarquee = function() {
-  const isMainPage = !window.location.pathname.includes('portfolio.html');
+  const isMainPage = !window.location.pathname.includes('portfolio');
   if (!isMainPage) return;
 
   const grid = document.querySelector('.portfolio-grid');
@@ -801,7 +801,7 @@ setTimeout(function() {
 
 // 5. Implement formatting marquee (headline style)
 window.initFormattingMarquee = function() {
-  const isMainPage = !window.location.pathname.includes('portfolio.html');
+  const isMainPage = !window.location.pathname.includes('portfolio');
   if (!isMainPage) return;
 
   const grid = document.querySelector('.portfolio-grid');
