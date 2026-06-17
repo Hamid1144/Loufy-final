@@ -173,6 +173,31 @@ document.addEventListener("DOMContentLoaded", () => {
         return result.secure_url;
     }
 
+    function updateImageSource(imgElement, newUrl) {
+        imgElement.src = newUrl;
+        imgElement.setAttribute('data-optimized', 'true');
+        
+        // Handle responsive srcset if present
+        if (imgElement.hasAttribute('srcset')) {
+            const baseUrl = newUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/');
+            const newSrcset = [480, 800, 1200].map(w => `${baseUrl.replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${w}/`)} ${w}w`).join(', ');
+            imgElement.setAttribute('srcset', newSrcset);
+        }
+        
+        // Handle hero background image specific LCP preload link
+        if (imgElement.id === 'hero-bg-image') {
+            const preloadLink = document.getElementById('hero-preload');
+            if (preloadLink) {
+                preloadLink.setAttribute('href', newUrl);
+                if (preloadLink.hasAttribute('imagesrcset')) {
+                    const baseUrl = newUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/');
+                    const newImagesrcset = [480, 800, 1200].map(w => `${baseUrl.replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${w}/`)} ${w}w`).join(', ');
+                    preloadLink.setAttribute('imagesrcset', newImagesrcset);
+                }
+            }
+        }
+    }
+
     // Predefined socials list
     const predefinedSocials = [
         { id: 'twitter', name: 'Twitter (X)', icon: '<i class="fa-brands fa-x-twitter"></i>' },
@@ -2637,8 +2662,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const cloudinaryUrl = await uploadToCloudinary(base64Data);
                     const optimizedUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
                     
-                    currentImageTarget.src = optimizedUrl;
-                    currentImageTarget.setAttribute('data-optimized', 'true');
+                    updateImageSource(currentImageTarget, optimizedUrl);
                 }
             } else {
                 // Bypass cropper, but still compress!
@@ -2660,11 +2684,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     const cloudinaryUrl = await uploadToCloudinary(compressed);
                     const optimizedUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
                     
-                    currentImageTarget.src = optimizedUrl;
-                    currentImageTarget.setAttribute('data-optimized', 'true');
+                    updateImageSource(currentImageTarget, optimizedUrl);
                 } else {
                     currentImageTarget.src = src;
                     currentImageTarget.removeAttribute('data-optimized');
+                    if (currentImageTarget.hasAttribute('srcset')) {
+                        currentImageTarget.removeAttribute('srcset');
+                    }
                 }
             }
             window.showToast('Image uploaded and optimized!', 'success');
