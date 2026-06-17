@@ -48,11 +48,10 @@ function Upload-ToCloudinary($base64Data, $publicId) {
         signature = $signature
         file      = $base64Data
     }
-    $bodyJson = ConvertTo-Json -InputObject $body -Compress
     
     for ($i = 1; $i -le 3; $i++) {
         try {
-            $response = Invoke-RestMethod -Uri $uri -Method Post -Body $bodyJson -ContentType "application/json; charset=utf-8"
+            $response = Invoke-RestMethod -Uri $uri -Method Post -Body $body
             if ($response -and $response.secure_url) {
                 return $response.secure_url
             }
