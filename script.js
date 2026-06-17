@@ -1137,5 +1137,4 @@ window.initBlogSection = async function () {
     render();
   }
 };
-};
 
