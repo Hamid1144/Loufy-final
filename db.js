@@ -10,8 +10,7 @@ window.diagLog = function(msg) {
 
 // Routing helper for dynamic blog posts link
 window.getBlogLink = function(slug) {
-  const hn = window.location.hostname;
-  if (window.location.protocol === 'file:' || hn.includes('github.io') || hn === 'localhost' || hn === '127.0.0.1' || hn.startsWith('192.168.')) {
+  if (window.location.protocol === 'file:') {
     return `blog.html?slug=${slug}`;
   }
   return `/blog/${slug}`;

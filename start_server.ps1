@@ -25,6 +25,10 @@ try {
         $urlPath = $request.Url.LocalPath
         if ($urlPath -eq "/") {
             $urlPath = "/index.html"
+        } elseif ($urlPath -eq "/blogs" -or $urlPath -eq "/blogs/") {
+            $urlPath = "/blogs.html"
+        } elseif ($urlPath.StartsWith("/blog/")) {
+            $urlPath = "/blog.html"
         }
 
         # Resolve local file path
