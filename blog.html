@@ -190,6 +190,9 @@
   <!-- DYNAMIC BLOG RENDERER SCRIPT -->
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
+      // Transition page opacity from 0 to 1
+      document.body.classList.add('loaded');
+
       // 1. Determine active blog slug from URL (e.g. ?slug=my-post or rewritten slug path)
       const params = new URLSearchParams(window.location.search);
       let slug = params.get('slug');
