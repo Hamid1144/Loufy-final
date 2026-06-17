@@ -354,6 +354,7 @@ section{padding:100px 0}
     cursor:pointer;
     transition:transform .35s ease,box-shadow .35s ease;
     background:var(--card-bg);
+    will-change: transform, box-shadow;
 }
 
 /* ── Thumbnail (default square for ALL standard categories) ── */
@@ -588,6 +589,7 @@ section{padding:100px 0}
     overflow: visible;                  /* CRITICAL: don't clip the 3D flip layer */
     transform: rotateX(5deg) rotateZ(-0.3deg);
     transform-style: preserve-3d;
+    will-change: transform;
     box-shadow:
         0 60px 120px rgba(0,0,0,.32),
         0 20px 40px rgba(0,0,0,.18),

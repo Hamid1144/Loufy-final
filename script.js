@@ -399,11 +399,23 @@ window.initFlipbooks = function () {
 
     card.setAttribute('data-flipbook', 'true');
 
+    /* ── Helper to optimize Cloudinary widths ── */
+    function optUrl(src) {
+      if (src && src.indexOf('res.cloudinary.com') !== -1 && src.indexOf('/image/upload/') !== -1 && src.indexOf(',w_') === -1 && src.indexOf('/w_') === -1) {
+        if (src.indexOf('f_auto,q_auto') !== -1) {
+          return src.replace('f_auto,q_auto', 'f_auto,q_auto,w_600');
+        } else {
+          return src.replace('/image/upload/', '/image/upload/f_auto,q_auto,w_600/');
+        }
+      }
+      return src;
+    }
+
     /* ── 1. Resolve pages ─────────────────────────────────────── */
     var pages = null;
     var htmlStore = card.querySelector('[id$="-pages"]');
     if (htmlStore) {
-      var h = Array.from(htmlStore.querySelectorAll('.flipbook-page img')).map(function(i){return i.src;}).filter(function(s){return s && !s.endsWith('/');});
+      var h = Array.from(htmlStore.querySelectorAll('.flipbook-page img')).map(function(i){return optUrl(i.src);}).filter(function(s){return s && !s.endsWith('/');});
       if (h.length) pages = h;
       htmlStore.remove(); // Clean up old store so it doesn't duplicate
     }
@@ -411,11 +423,11 @@ window.initFlipbooks = function () {
     if (!pages) {
       try {
         var ls = JSON.parse(localStorage.getItem('flipbook_pages_' + n) || 'null');
-        if (ls && ls.length) pages = ls;
+        if (ls && ls.length) pages = ls.map(optUrl);
       } catch(e) {}
     }
     
-    if (!pages || !pages.length) pages = FLIPBOOK_DEFAULTS.slice();
+    if (!pages || !pages.length) pages = FLIPBOOK_DEFAULTS.map(optUrl);
     if (pages.length % 2 !== 0) pages.push(pages[pages.length - 1]);
     try { localStorage.setItem('flipbook_pages_' + n, JSON.stringify(pages)); } catch(e) {}
 
