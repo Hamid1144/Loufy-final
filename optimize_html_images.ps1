@@ -107,8 +107,8 @@ foreach ($file in $files) {
             $hash = Get-SHA256Hash -string $b64
             $cacheKey = "base64:$hash"
             if (-not $cache.ContainsKey($cacheKey)) {
-                $pid = "base64_" + $hash.Substring(0, 16)
-                $url = Upload-ToCloudinary -base64Data $b64 -publicId $pid
+                $cloudinaryPublicId = "base64_" + $hash.Substring(0, 16)
+                $url = Upload-ToCloudinary -base64Data $b64 -publicId $cloudinaryPublicId
                 $cache[$cacheKey] = $url
                 $hasChanges = $true
             }
@@ -144,8 +144,8 @@ foreach ($file in $files) {
                         if ($ext -eq "jpg") { $ext = "jpeg" }
                         $mime = "image/$ext"
                         $b64 = "data:$mime;base64," + [System.Convert]::ToBase64String($bytes)
-                        $pid = [System.IO.Path]::GetFileNameWithoutExtension($localPath)
-                        $url = Upload-ToCloudinary -base64Data $b64 -publicId $pid
+                        $cloudinaryPublicId = [System.IO.Path]::GetFileNameWithoutExtension($localPath)
+                        $url = Upload-ToCloudinary -base64Data $b64 -publicId $cloudinaryPublicId
                         $cache[$cacheKey] = $url -replace '/image/upload/', '/image/upload/f_auto,q_auto/'
                     }
                 }
