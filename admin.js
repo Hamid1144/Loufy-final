@@ -212,6 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="manage-pricing" class="admin-btn" style="background:#6f42c1;"><i class="fa-solid fa-dollar-sign"></i> Manage Pricing Links</button>
             <button id="manage-sections" class="admin-btn" style="background:#e83e8c;"><i class="fa-solid fa-layer-group"></i> Manage Sections</button>
             <button id="manage-filters" class="admin-btn" style="background:#fd7e14;"><i class="fa-solid fa-tags"></i> Manage Categories</button>
+            <button id="manage-blogs-btn" class="admin-btn" style="background:#ff9f43; color:#fff;"><i class="fa-solid fa-blog"></i> Manage Blog Posts</button>
             <button id="manage-theme" class="admin-btn" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-palette"></i> Customize Theme</button>
             <button id="manage-hero-card" class="admin-btn" style="background:#ff5722; color:#fff;"><i class="fa-solid fa-wand-magic-sparkles"></i> Edit Hero Content</button>
             <button id="change-hero-bg" class="admin-btn" style="background:#7209b7;"><i class="fa-solid fa-image"></i> Change Hero Image</button>
@@ -579,6 +580,177 @@ document.addEventListener("DOMContentLoaded", () => {
         <div style="width:1px; height:18px; background:#333; margin:0 4px;"></div>
         <!-- Reset -->
         <button class="admin-toolbar-btn reset-text-btn" title="Reset Styles" style="padding:4px 8px; font-size:0.75rem; background:#dc3545; color:#fff; border:none; border-radius:4px; cursor:pointer; height:24px; display:inline-flex; align-items:center; justify-content:center; font-weight:600; box-sizing:border-box;"><i class="fa-solid fa-rotate-left" style="font-size:0.7rem; margin-right:3px;"></i> Reset</button>
+    </div>
+
+    <!-- Blog Manager Modal -->
+    <div id="admin-blog-modal" style="display:none; position:fixed; inset:0; background:rgba(10,15,10,0.85); backdrop-filter:blur(10px); z-index:199999; justify-content:center; align-items:center; font-family:'Poppins', sans-serif;">
+        <div style="background:#1e1e1e; border:1px solid #333; color:#fff; width:95%; max-width:900px; height:85vh; border-radius:16px; padding:28px; box-shadow:0 20px 60px rgba(0,0,0,0.6); display:flex; flex-direction:column; gap:20px; box-sizing:border-box; overflow:hidden;">
+            <!-- Modal Header -->
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:15px; flex-shrink:0;">
+                <h3 style="margin:0; font-size:1.4rem; color:#ff9f43; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-blog"></i> Blog Posts Manager</h3>
+                <button type="button" class="close-blog-modal" style="background:none; border:none; color:#aaa; font-size:1.8rem; cursor:pointer; transition:color 0.2s;" onmouseover="this.style.color='#ff4a4a'" onmouseout="this.style.color='#aaa'"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <!-- List View -->
+            <div id="blog-list-view" style="display:flex; flex-direction:column; gap:15px; height:100%; overflow:hidden;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
+                    <span style="font-size:0.9rem; color:#aaa;">Manage articles in the blog section</span>
+                    <button type="button" id="admin-add-blog-btn" style="padding:10px 16px; border-radius:6px; border:none; background:#28a745; color:#fff; font-weight:700; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:6px; transition:0.2s;"><i class="fa-solid fa-plus"></i> Add New Post</button>
+                </div>
+                
+                <div style="flex:1; overflow-y:auto; border:1px solid #333; border-radius:8px; background:#111; padding:10px;">
+                    <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.85rem; color:#eee;">
+                        <thead>
+                            <tr style="border-bottom:2px solid #333; color:#aaa; font-weight:600;">
+                                <th style="padding:12px 10px;">Title</th>
+                                <th style="padding:12px 10px; width:140px;">Category</th>
+                                <th style="padding:12px 10px; width:120px;">Publish Date</th>
+                                <th style="padding:12px 10px; width:80px; text-align:center;">Featured</th>
+                                <th style="padding:12px 10px; width:120px; text-align:right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="blog-posts-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Editor View -->
+            <div id="blog-editor-view" style="display:none; flex-direction:column; gap:15px; height:100%; overflow:hidden;">
+                <!-- Editor Header -->
+                <div style="display:flex; align-items:center; gap:12px; flex-shrink:0; border-bottom:1px solid #333; padding-bottom:10px;">
+                    <button type="button" id="blog-editor-back" style="background:none; border:none; color:#ccc; cursor:pointer; font-size:1rem; display:flex; align-items:center; gap:6px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#ccc'"><i class="fa-solid fa-arrow-left"></i> Back to List</button>
+                    <span style="color:#666;">|</span>
+                    <h4 id="blog-editor-title" style="margin:0; font-size:1.1rem; color:#ff9f43;">Add New Blog Post</h4>
+                </div>
+                
+                <!-- Editor Scrollable Body -->
+                <div style="flex:1; overflow-y:auto; padding-right:10px; display:flex; flex-direction:column; gap:18px;">
+                    <input type="hidden" id="blog-edit-id">
+                    
+                    <!-- Basic Information Row -->
+                    <div style="display:grid; grid-template-columns: 2fr 1fr; gap:15px;">
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Post Title <span style="color:#ff4a4a;">*</span></label>
+                            <input type="text" id="blog-edit-title" placeholder="e.g. Amazon KDP Publishing Guide for Self-Publishers" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Slug (SEO URL path) <span style="color:#ff4a4a;">*</span></label>
+                            <input type="text" id="blog-edit-slug" placeholder="e.g. amazon-kdp-publishing-guide" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                        </div>
+                    </div>
+                    
+                    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:15px;">
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Category <span style="color:#ff4a4a;">*</span></label>
+                            <select id="blog-edit-category" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; cursor:pointer;">
+                                <option value="Book Formatting">Book Formatting</option>
+                                <option value="Book Cover Design">Book Cover Design</option>
+                                <option value="KDP Publishing">KDP Publishing</option>
+                                <option value="Self-Publishing">Self-Publishing</option>
+                                <option value="Other">Other (Type below)</option>
+                            </select>
+                            <input type="text" id="blog-edit-category-custom" placeholder="Or enter custom category" style="padding:8px 10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.8rem; margin-top:5px; display:none;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Author Name</label>
+                            <select id="blog-edit-author" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; cursor:pointer;">
+                                <option value="Hamid Raza (KDP Expert)">Hamid Raza (KDP Expert)</option>
+                                <option value="Loufy Publisher">Loufy Publisher</option>
+                                <option value="Loufy Book Formatting">Loufy Book Formatting</option>
+                                <option value="Loufy Publishing Services">Loufy Publishing Services</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Publish Date <span style="color:#ff4a4a;">*</span></label>
+                            <input type="datetime-local" id="blog-edit-date" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; box-sizing:border-box; width:100%;">
+                        </div>
+                    </div>
+                    
+                    <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:15px; align-items: center;">
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Featured Image URL</label>
+                            <input type="text" id="blog-edit-image" placeholder="https://images.unsplash.com/... or /images/..." style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Reading Time (mins)</label>
+                            <input type="number" id="blog-edit-readtime" min="1" max="60" value="5" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px; margin-top:20px; cursor:pointer; user-select:none;">
+                            <input type="checkbox" id="blog-edit-featured" style="width:18px; height:18px; cursor:pointer;">
+                            <label for="blog-edit-featured" style="font-size:0.85rem; color:#fff; cursor:pointer; font-weight:600;">Featured Post</label>
+                        </div>
+                    </div>
+                    
+                    <div style="display:flex; flex-direction:column; gap:6px;">
+                        <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Tags (comma-separated)</label>
+                        <input type="text" id="blog-edit-tags" placeholder="Amazon KDP Publishing, Book Formatting, Kindle Formatting" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                    </div>
+                    
+                    <div style="display:flex; flex-direction:column; gap:6px;">
+                        <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Summary / Excerpt (shown on cards) <span style="color:#ff4a4a;">*</span></label>
+                        <textarea id="blog-edit-summary" rows="2" placeholder="Brief 2-sentence description of the article..." style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; font-family:inherit; resize:vertical; width:100%; box-sizing:border-box;"></textarea>
+                    </div>
+                    
+                    <!-- Content (HTML Editor textarea) -->
+                    <div style="display:flex; flex-direction:column; gap:6px;">
+                        <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Article Body Content (HTML allowed) <span style="color:#ff4a4a;">*</span></label>
+                        <div style="display:flex; gap:8px; margin-bottom:5px; flex-wrap:wrap;">
+                            <button type="button" class="blog-tool-btn" data-tag="h2" style="padding:4px 8px; font-size:0.75rem; background:#333; color:#fff; border:1px solid #444; border-radius:4px; cursor:pointer;">H2</button>
+                            <button type="button" class="blog-tool-btn" data-tag="h3" style="padding:4px 8px; font-size:0.75rem; background:#333; color:#fff; border:1px solid #444; border-radius:4px; cursor:pointer;">H3</button>
+                            <button type="button" class="blog-tool-btn" data-tag="p" style="padding:4px 8px; font-size:0.75rem; background:#333; color:#fff; border:1px solid #444; border-radius:4px; cursor:pointer;">Paragraph</button>
+                            <button type="button" class="blog-tool-btn" data-tag="bold" style="padding:4px 8px; font-size:0.75rem; background:#333; color:#fff; border:1px solid #444; border-radius:4px; cursor:pointer; font-weight:bold;">B</button>
+                            <button type="button" class="blog-tool-btn" data-tag="italic" style="padding:4px 8px; font-size:0.75rem; background:#333; color:#fff; border:1px solid #444; border-radius:4px; cursor:pointer; font-style:italic;">I</button>
+                            <button type="button" class="blog-tool-btn" data-tag="link" style="padding:4px 8px; font-size:0.75rem; background:#333; color:#fff; border:1px solid #444; border-radius:4px; cursor:pointer; text-decoration:underline;">Link</button>
+                            <button type="button" class="blog-tool-btn" data-tag="ul" style="padding:4px 8px; font-size:0.75rem; background:#333; color:#fff; border:1px solid #444; border-radius:4px; cursor:pointer;">Bullet List</button>
+                        </div>
+                        <textarea id="blog-edit-content" rows="12" placeholder="<h2>Your Heading</h2><p>Write your blog post body content here using paragraphs, lists, and headings.</p>" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; font-family:monospace; resize:vertical; width:100%; box-sizing:border-box; line-height:1.4;"></textarea>
+                    </div>
+                    
+                    <!-- SEO Fields Accordion -->
+                    <div style="border:1px solid #333; border-radius:8px; overflow:hidden;">
+                        <button type="button" id="blog-seo-accordion-toggle" style="width:100%; padding:12px; background:#222; border:none; color:#fff; font-weight:600; text-align:left; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-size:0.85rem;">
+                            <span><i class="fa-solid fa-search"></i> SEO Configuration (Meta Tags & Title)</span>
+                            <i class="fa-solid fa-chevron-down" id="blog-seo-chevron"></i>
+                        </button>
+                        <div id="blog-seo-accordion-content" style="display:none; padding:15px; background:#1a1a1a; border-top:1px solid #333; flex-direction:column; gap:12px;">
+                            <div style="display:flex; flex-direction:column; gap:6px;">
+                                <label style="font-size:0.8rem; color:#aaa; font-weight:600;">SEO Meta Title</label>
+                                <input type="text" id="blog-edit-seo-title" placeholder="Meta title for Google search results (recommended < 60 chars)" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                            </div>
+                            <div style="display:flex; flex-direction:column; gap:6px;">
+                                <label style="font-size:0.8rem; color:#aaa; font-weight:600;">SEO Meta Description</label>
+                                <textarea id="blog-edit-seo-description" rows="3" placeholder="Meta description snippet for search results (recommended < 160 chars)" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; font-family:inherit; resize:vertical; width:100%; box-sizing:border-box;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Builder Section -->
+                    <div style="border:1px solid #333; border-radius:8px; overflow:hidden;">
+                        <button type="button" id="blog-faq-accordion-toggle" style="width:100%; padding:12px; background:#222; border:none; color:#fff; font-weight:600; text-align:left; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-size:0.85rem;">
+                            <span><i class="fa-solid fa-circle-question"></i> Collapsible FAQ Accordions (FAQ Schema)</span>
+                            <i class="fa-solid fa-chevron-down" id="blog-faq-chevron"></i>
+                        </button>
+                        <div id="blog-faq-accordion-content" style="display:none; padding:15px; background:#1a1a1a; border-top:1px solid #333; flex-direction:column; gap:15px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:0.8rem; color:#aaa;">Add questions and answers that will appear at the bottom of the article.</span>
+                                <button type="button" id="blog-add-faq-row" style="padding:6px 12px; border-radius:4px; border:none; background:#ff9f43; color:#111; font-weight:700; cursor:pointer; font-size:0.75rem; display:flex; align-items:center; gap:4px;"><i class="fa-solid fa-plus"></i> Add Q&A</button>
+                            </div>
+                            <div id="blog-faq-list-container" style="display:flex; flex-direction:column; gap:12px;">
+                                <!-- FAQ Rows loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Editor Footer Controls -->
+                <div style="display:flex; gap:12px; border-top:1px solid #333; padding-top:15px; margin-top:5px; flex-shrink:0;">
+                    <button type="button" id="blog-editor-cancel" style="flex:1; padding:12px; border-radius:6px; border:1px solid #444; background:transparent; color:#ccc; cursor:pointer; font-weight:600; font-size:0.9rem; transition:0.2s;" onmouseover="this.style.background='#2a2a2a'" onmouseout="this.style.background='transparent'">Cancel</button>
+                    <button type="button" id="blog-editor-save-btn" style="flex:2; padding:12px; border-radius:6px; border:none; background:#28a745; color:#fff; font-weight:700; cursor:pointer; font-size:0.9rem; display:flex; align-items:center; justify-content:center; gap:8px; transition:0.2s;"><i class="fa-solid fa-check"></i> Save & Sync to Supabase</button>
+                </div>
+            </div>
+        </div>
     </div>
     `;
     document.body.insertAdjacentHTML('beforeend', adminHTML);
@@ -2134,7 +2306,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const textSelectors = 'h1, h2, h3, h4, h5, h6, p, .hero-badge, .float-badge, .skill-tag, .about-float-tag, .stat .num, .stat span, .marquee-track span, .timeline-item span.year, .price, .faq-q, .contact-detail span, .footer-bottom, a.btn, a.learn-more, a.read-more, .tags span, .logo, .footer-col a, .pricing-card li';
         
         document.querySelectorAll(textSelectors).forEach(el => {
-            if (!el.closest('#super-admin-panel') && !el.closest('#admin-crop-modal')) {
+            if (!el.closest('#super-admin-panel') && !el.closest('#admin-crop-modal') && !el.closest('#admin-blog-modal')) {
                 // If it's a link, setup the toolbar so they can edit the URL too
                 if (el.tagName === 'A' && !el.hasAttribute('data-pricing')) {
                     setupContainerToolbar(el);
@@ -2146,7 +2318,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         document.querySelectorAll('.service-card, .portfolio-card, .pricing-card, .faq-item, .testimonial-card, img:not(.portfolio-thumb img)').forEach(el => {
-            if (!el.closest('.editable-container') && !el.closest('#super-admin-panel') && !el.closest('#admin-crop-modal')) {
+            if (!el.closest('.editable-container') && !el.closest('#super-admin-panel') && !el.closest('#admin-crop-modal') && !el.closest('#admin-blog-modal')) {
                 setupContainerToolbar(el);
             }
         });
@@ -2961,7 +3133,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveBtn.innerText = "Saving to Cloud...";
 
             const clone = document.body.cloneNode(true);
-            const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar');
+            const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar, #admin-blog-modal');
             adminElements.forEach(el => el.remove());
 
             clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
@@ -3600,7 +3772,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Helper to clean a DOM body for comparison
                 const getCleanBodyHTML = (bodyEl) => {
                     const clone = bodyEl.cloneNode(true);
-                    clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar').forEach(el => el.remove());
+                    clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar, #admin-blog-modal').forEach(el => el.remove());
                     clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
                     clone.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
                     clone.querySelectorAll('.flipbook-live-edit-btn').forEach(b => b.remove());
@@ -3764,7 +3936,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const cloneDoc = document.documentElement.cloneNode(true);
         
         // Remove admin control panels, modals, and dynamic marquee containers
-        cloneDoc.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-category-selector-modal, #admin-text-toolbar, .admin-element-toolbar, #fp-rp-overlay, #fp-rp-modal, #custom-toast, .covers-marquee-container, .formatting-marquee-container').forEach(el => el.remove());
+        cloneDoc.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-category-selector-modal, #admin-text-toolbar, .admin-element-toolbar, #fp-rp-overlay, #fp-rp-modal, #custom-toast, .covers-marquee-container, .formatting-marquee-container, #admin-blog-modal').forEach(el => el.remove());
         cloneDoc.querySelectorAll('.portfolio-grid .portfolio-card').forEach(card => {
             card.style.display = '';
         });
@@ -3807,7 +3979,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     target.closest('#admin-add-item-modal') ||
                     target.closest('#admin-text-toolbar') ||
                     target.closest('#custom-toast') ||
-                    target.closest('.admin-element-toolbar')
+                    target.closest('.admin-element-toolbar') ||
+                    target.closest('#admin-blog-modal')
                 )) {
                     continue;
                 }
@@ -3846,6 +4019,576 @@ document.addEventListener("DOMContentLoaded", () => {
             url.searchParams.delete('admin');
             url.searchParams.delete('edit');
             window.location.href = url.pathname + url.search;
+        });
+    }
+
+    // ==========================================
+    // 11. BLOG POSTS MANAGER CRUD
+    // ==========================================
+    const manageBlogsBtn = document.getElementById("manage-blogs-btn");
+    const blogModal = document.getElementById("admin-blog-modal");
+    const closeBlogModalBtn = blogModal ? blogModal.querySelector(".close-blog-modal") : null;
+    const addBlogBtn = document.getElementById("admin-add-blog-btn");
+    const blogListView = document.getElementById("blog-list-view");
+    const blogEditorView = document.getElementById("blog-editor-view");
+    const blogEditorBackBtn = document.getElementById("blog-editor-back");
+    const blogEditorCancelBtn = document.getElementById("blog-editor-cancel");
+    const blogEditorSaveBtn = document.getElementById("blog-editor-save-btn");
+    
+    // Blog Form Inputs
+    const blogEditId = document.getElementById("blog-edit-id");
+    const blogEditTitle = document.getElementById("blog-edit-title");
+    const blogEditSlug = document.getElementById("blog-edit-slug");
+    const blogEditCategory = document.getElementById("blog-edit-category");
+    const blogEditCategoryCustom = document.getElementById("blog-edit-category-custom");
+    const blogEditAuthor = document.getElementById("blog-edit-author");
+    const blogEditDate = document.getElementById("blog-edit-date");
+    const blogEditImage = document.getElementById("blog-edit-image");
+    const blogEditReadtime = document.getElementById("blog-edit-readtime");
+    const blogEditFeatured = document.getElementById("blog-edit-featured");
+    const blogEditTags = document.getElementById("blog-edit-tags");
+    const blogEditSummary = document.getElementById("blog-edit-summary");
+    const blogEditContent = document.getElementById("blog-edit-content");
+    const blogEditSeoTitle = document.getElementById("blog-edit-seo-title");
+    const blogEditSeoDescription = document.getElementById("blog-edit-seo-description");
+    
+    // Accordion elements
+    const blogSeoAccordionToggle = document.getElementById("blog-seo-accordion-toggle");
+    const blogSeoAccordionContent = document.getElementById("blog-seo-accordion-content");
+    const blogSeoChevron = document.getElementById("blog-seo-chevron");
+    const blogFaqAccordionToggle = document.getElementById("blog-faq-accordion-toggle");
+    const blogFaqAccordionContent = document.getElementById("blog-faq-accordion-content");
+    const blogFaqChevron = document.getElementById("blog-faq-chevron");
+    const blogAddFaqRowBtn = document.getElementById("blog-add-faq-row");
+    const blogFaqListContainer = document.getElementById("blog-faq-list-container");
+
+    let autoSlug = true;
+
+    // Helper functions
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function slugify(text) {
+        return text
+            .toString()
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, '-')           // Replace spaces with -
+            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+            .replace(/^-+/, '')             // Trim - from start
+            .replace(/-+$/, '');            // Trim - from end
+    }
+
+    // Toggle custom category input based on select value
+    if (blogEditCategory) {
+        blogEditCategory.addEventListener("change", () => {
+            if (blogEditCategory.value === "Other") {
+                blogEditCategoryCustom.style.display = "block";
+            } else {
+                blogEditCategoryCustom.style.display = "none";
+            }
+        });
+    }
+
+    // Auto slug generation from title
+    if (blogEditTitle && blogEditSlug) {
+        blogEditTitle.addEventListener("input", () => {
+            if (autoSlug) {
+                blogEditSlug.value = slugify(blogEditTitle.value);
+            }
+        });
+        blogEditSlug.addEventListener("input", () => {
+            autoSlug = (blogEditSlug.value.trim() === '');
+        });
+    }
+
+    // Accordions
+    if (blogSeoAccordionToggle) {
+        blogSeoAccordionToggle.addEventListener("click", () => {
+            const isHidden = blogSeoAccordionContent.style.display === "none" || !blogSeoAccordionContent.style.display;
+            blogSeoAccordionContent.style.display = isHidden ? "flex" : "none";
+            blogSeoChevron.className = isHidden ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down";
+        });
+    }
+    if (blogFaqAccordionToggle) {
+        blogFaqAccordionToggle.addEventListener("click", () => {
+            const isHidden = blogFaqAccordionContent.style.display === "none" || !blogFaqAccordionContent.style.display;
+            blogFaqAccordionContent.style.display = isHidden ? "flex" : "none";
+            blogFaqChevron.className = isHidden ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down";
+        });
+    }
+
+    // HTML editor buttons
+    document.querySelectorAll(".blog-tool-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const tag = btn.getAttribute("data-tag");
+            if (blogEditContent) {
+                insertHtmlTag(blogEditContent, tag);
+            }
+        });
+    });
+
+    function insertHtmlTag(textarea, tagType) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        const selected = text.substring(start, end);
+        
+        let replacement = '';
+        if (tagType === 'h2') {
+            replacement = `<h2>${selected || 'Heading 2'}</h2>`;
+        } else if (tagType === 'h3') {
+            replacement = `<h3>${selected || 'Heading 3'}</h3>`;
+        } else if (tagType === 'p') {
+            replacement = `<p>${selected || 'Paragraph text'}</p>`;
+        } else if (tagType === 'bold') {
+            replacement = `<strong>${selected || 'Bold text'}</strong>`;
+        } else if (tagType === 'italic') {
+            replacement = `<em>${selected || 'Italic text'}</em>`;
+        } else if (tagType === 'link') {
+            const url = prompt("Enter URL:", "https://");
+            if (url === null) return;
+            replacement = `<a href="${url}">${selected || 'Link text'}</a>`;
+        } else if (tagType === 'ul') {
+            replacement = `<ul>\n  <li>${selected || 'Item 1'}</li>\n  <li>Item 2</li>\n</ul>`;
+        }
+        
+        textarea.value = text.substring(0, start) + replacement + text.substring(end);
+        textarea.focus();
+        textarea.selectionStart = start + replacement.length;
+        textarea.selectionEnd = start + replacement.length;
+    }
+
+    // FAQ builders
+    function createFaqRow(question = "", answer = "") {
+        const div = document.createElement("div");
+        div.className = "blog-faq-row";
+        div.style = "display:flex; flex-direction:column; gap:6px; padding:12px; background:#111; border:1px solid #2a2a2a; border-radius:6px; position:relative;";
+        div.innerHTML = `
+            <button type="button" class="remove-faq-row-btn" style="position:absolute; top:8px; right:8px; background:none; border:none; color:#ff4a4a; cursor:pointer; font-size:1rem;" title="Remove"><i class="fa-solid fa-trash-can"></i></button>
+            <div style="display:flex; flex-direction:column; gap:4px; margin-right:24px;">
+                <label style="font-size:0.75rem; color:#888; font-weight:600;">Question</label>
+                <input type="text" class="faq-row-q" placeholder="e.g. Can you format interior files for KDP bleed?" value="${escapeHtml(question)}" style="padding:8px; border-radius:4px; border:1px solid #444; background:#222; color:#fff; font-size:0.8rem; width:100%; box-sizing:border-box;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:4px; margin-right:24px;">
+                <label style="font-size:0.75rem; color:#888; font-weight:600;">Answer</label>
+                <textarea class="faq-row-a" rows="2" placeholder="e.g. Yes, we format books to support bleed parameters..." style="padding:8px; border-radius:4px; border:1px solid #444; background:#222; color:#fff; font-size:0.8rem; font-family:inherit; resize:vertical; width:100%; box-sizing:border-box;">${escapeHtml(answer)}</textarea>
+            </div>
+        `;
+        div.querySelector(".remove-faq-row-btn").addEventListener("click", () => {
+            div.remove();
+        });
+        return div;
+    }
+
+    if (blogAddFaqRowBtn) {
+        blogAddFaqRowBtn.addEventListener("click", () => {
+            const row = createFaqRow();
+            blogFaqListContainer.appendChild(row);
+        });
+    }
+
+    // Modal view toggles
+    if (manageBlogsBtn) {
+        manageBlogsBtn.addEventListener("click", () => {
+            // Close other panels
+            document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #flipbook-panel, #hero-card-panel, #theme-panel').forEach(p => p.style.display = 'none');
+            
+            blogModal.style.display = 'flex';
+            showListView();
+            loadBlogsIntoTable();
+        });
+    }
+
+    if (closeBlogModalBtn) {
+        closeBlogModalBtn.addEventListener("click", () => {
+            blogModal.style.display = 'none';
+        });
+    }
+
+    if (addBlogBtn) {
+        addBlogBtn.addEventListener("click", () => {
+            openBlogEditor();
+        });
+    }
+
+    if (blogEditorBackBtn) {
+        blogEditorBackBtn.addEventListener("click", () => {
+            showListView();
+        });
+    }
+
+    if (blogEditorCancelBtn) {
+        blogEditorCancelBtn.addEventListener("click", () => {
+            showListView();
+        });
+    }
+
+    function showListView() {
+        blogListView.style.display = 'flex';
+        blogEditorView.style.display = 'none';
+    }
+
+    function showEditorView() {
+        blogListView.style.display = 'none';
+        blogEditorView.style.display = 'flex';
+    }
+
+    // Load blogs for listing
+    async function loadBlogsIntoTable() {
+        const tbody = document.getElementById("blog-posts-table-body");
+        if (!tbody) return;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:#aaa;"><i class="fa-solid fa-spinner fa-spin"></i> Loading posts...</td></tr>`;
+        
+        let posts = [];
+        try {
+            if (window.supabaseClient) {
+                const { data, error } = await window.supabaseClient
+                    .from('site_content')
+                    .select('html_content')
+                    .eq('id', 'blogs_json')
+                    .single();
+                if (error) throw error;
+                if (data && data.html_content) {
+                    posts = JSON.parse(data.html_content);
+                }
+            } else {
+                throw new Error("Supabase client not connected");
+            }
+        } catch (err) {
+            console.error("Error fetching blogs for table:", err);
+            posts = window.blogPostsList || [];
+        }
+        
+        // Cache globally
+        window.blogPostsList = posts;
+        
+        if (posts.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:#666;">No blog posts found. Click "Add New Post" to create one.</td></tr>`;
+            return;
+        }
+        
+        tbody.innerHTML = posts.map(post => {
+            const dateStr = post.published_at ? new Date(post.published_at).toLocaleDateString() : 'Draft';
+            const featText = post.is_featured ? '<span style="color:#28a745;"><i class="fa-solid fa-circle-check"></i> Yes</span>' : '<span style="color:#666;">No</span>';
+            return `
+                <tr style="border-bottom:1px solid #2a2a2a; transition:background 0.2s;" onmouseover="this.style.background='#1a1a1a'" onmouseout="this.style.background='transparent'">
+                    <td style="padding:12px 10px; font-weight:600; color:#fff; max-width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(post.title)}</td>
+                    <td style="padding:12px 10px; color:#aaa;">${escapeHtml(post.category)}</td>
+                    <td style="padding:12px 10px; color:#888;">${dateStr}</td>
+                    <td style="padding:12px 10px; text-align:center;">${featText}</td>
+                    <td style="padding:12px 10px; text-align:right;">
+                        <button type="button" class="admin-blog-edit-btn" data-id="${post.id}" style="padding:4px 8px; border:1px solid #444; border-radius:4px; background:#222; color:#fff; cursor:pointer; font-size:0.75rem; margin-right:4px;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                        <button type="button" class="admin-blog-delete-btn" data-id="${post.id}" style="padding:4px 8px; border:none; border-radius:4px; background:#dc3545; color:#fff; cursor:pointer; font-size:0.75rem;"><i class="fa-solid fa-trash"></i> Delete</button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+        
+        // Add events
+        tbody.querySelectorAll(".admin-blog-edit-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const id = btn.getAttribute("data-id");
+                openBlogEditor(id);
+            });
+        });
+        
+        tbody.querySelectorAll(".admin-blog-delete-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const id = btn.getAttribute("data-id");
+                deleteBlogPost(id);
+            });
+        });
+    }
+
+    // Open editor to edit or create a post
+    function openBlogEditor(id = null) {
+        showEditorView();
+        
+        // Reset Accordions
+        if (blogSeoAccordionContent) blogSeoAccordionContent.style.display = 'none';
+        if (blogSeoChevron) blogSeoChevron.className = 'fa-solid fa-chevron-down';
+        if (blogFaqAccordionContent) blogFaqAccordionContent.style.display = 'none';
+        if (blogFaqChevron) blogFaqChevron.className = 'fa-solid fa-chevron-down';
+        
+        // Clear FAQ container
+        if (blogFaqListContainer) blogFaqListContainer.innerHTML = '';
+        
+        if (id) {
+            // Edit mode
+            document.getElementById("blog-editor-title").innerText = "Edit Blog Post";
+            const post = (window.blogPostsList || []).find(p => p.id === id);
+            if (!post) {
+                window.showToast("Post details not found", "error");
+                showListView();
+                return;
+            }
+            
+            blogEditId.value = post.id;
+            blogEditTitle.value = post.title || '';
+            blogEditSlug.value = post.slug || '';
+            
+            // Category setup
+            const knownCategories = ["Book Formatting", "Book Cover Design", "KDP Publishing", "Self-Publishing"];
+            if (knownCategories.includes(post.category)) {
+                blogEditCategory.value = post.category;
+                blogEditCategoryCustom.style.display = "none";
+                blogEditCategoryCustom.value = "";
+            } else {
+                blogEditCategory.value = "Other";
+                blogEditCategoryCustom.value = post.category || '';
+                blogEditCategoryCustom.style.display = "block";
+            }
+            
+            blogEditAuthor.value = post.author_name || 'Loufy Publisher';
+            
+            // Format ISO date to datetime-local value (YYYY-MM-DDTHH:MM)
+            if (post.published_at) {
+                const dateObj = new Date(post.published_at);
+                const offsetMs = dateObj.getTimezoneOffset() * 60 * 1000;
+                const localISO = (new Date(dateObj.getTime() - offsetMs)).toISOString().slice(0, 16);
+                blogEditDate.value = localISO;
+            } else {
+                blogEditDate.value = '';
+            }
+            
+            blogEditImage.value = post.image_url || '';
+            blogEditReadtime.value = post.read_time || 5;
+            blogEditFeatured.checked = !!post.is_featured;
+            blogEditTags.value = (post.tags || []).join(', ');
+            blogEditSummary.value = post.summary || '';
+            blogEditContent.value = post.content || '';
+            blogEditSeoTitle.value = post.seo_title || '';
+            blogEditSeoDescription.value = post.seo_description || '';
+            
+            // Load FAQs
+            if (post.faqs && Array.isArray(post.faqs)) {
+                post.faqs.forEach(faq => {
+                    const row = createFaqRow(faq.question, faq.answer);
+                    blogFaqListContainer.appendChild(row);
+                });
+            }
+            
+            autoSlug = false;
+        } else {
+            // Create mode
+            document.getElementById("blog-editor-title").innerText = "Add New Blog Post";
+            
+            blogEditId.value = '';
+            blogEditTitle.value = '';
+            blogEditSlug.value = '';
+            blogEditCategory.value = 'Book Formatting';
+            blogEditCategoryCustom.value = '';
+            blogEditCategoryCustom.style.display = 'none';
+            blogEditAuthor.value = 'Loufy Publisher';
+            
+            // Set current time local
+            const now = new Date();
+            const offsetMs = now.getTimezoneOffset() * 60 * 1000;
+            const localISO = (new Date(now.getTime() - offsetMs)).toISOString().slice(0, 16);
+            blogEditDate.value = localISO;
+            
+            blogEditImage.value = 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&fit=crop';
+            blogEditReadtime.value = 5;
+            blogEditFeatured.checked = false;
+            blogEditTags.value = '';
+            blogEditSummary.value = '';
+            blogEditContent.value = '';
+            blogEditSeoTitle.value = '';
+            blogEditSeoDescription.value = '';
+            
+            autoSlug = true;
+        }
+    }
+
+    // Delete Blog Post
+    async function deleteBlogPost(id) {
+        if (!confirm("Are you sure you want to delete this blog post? This action is permanent.")) return;
+        
+        try {
+            window.showToast("Deleting blog post...", "info");
+            const posts = (window.blogPostsList || []).filter(p => p.id !== id);
+            const updatedJson = JSON.stringify(posts);
+            
+            if (!window.supabaseClient) throw new Error("Database not connected");
+            const { error } = await window.supabaseClient
+                .from('site_content')
+                .upsert({ id: 'blogs_json', html_content: updatedJson });
+                
+            if (error) throw error;
+            
+            window.showToast("Post deleted successfully!", "success");
+            await loadBlogsIntoTable();
+            if (typeof window.initBlogSection === 'function') {
+                window.initBlogSection();
+            }
+        } catch (err) {
+            console.error("Failed to delete blog post:", err);
+            window.showToast("Error deleting post: " + err.message, "error");
+        }
+    }
+
+    // Save Blog Post
+    if (blogEditorSaveBtn) {
+        blogEditorSaveBtn.addEventListener("click", async () => {
+            const editId = blogEditId.value;
+            const titleVal = blogEditTitle.value.trim();
+            const rawSlug = blogEditSlug.value.trim();
+            const catSelectVal = blogEditCategory.value;
+            const catCustomVal = blogEditCategoryCustom.value.trim();
+            const authorVal = blogEditAuthor.value;
+            const dateVal = blogEditDate.value;
+            const imageVal = blogEditImage.value.trim();
+            const readTimeVal = blogEditReadtime.value;
+            const featuredVal = blogEditFeatured.checked;
+            const tagsVal = blogEditTags.value.trim();
+            const summaryVal = blogEditSummary.value.trim();
+            const contentVal = blogEditContent.value.trim();
+            const seoTitleVal = blogEditSeoTitle.value.trim();
+            const seoDescriptionVal = blogEditSeoDescription.value.trim();
+            
+            if (!titleVal) {
+                window.showToast("Please enter a title", "error");
+                blogEditTitle.focus();
+                return;
+            }
+            if (!rawSlug) {
+                window.showToast("Please enter a slug", "error");
+                blogEditSlug.focus();
+                return;
+            }
+            
+            const cleanSlug = slugify(rawSlug);
+            if (!cleanSlug) {
+                window.showToast("Invalid slug. It should contain lowercase letters, numbers, and dashes.", "error");
+                blogEditSlug.focus();
+                return;
+            }
+            
+            // Check for slug duplicates (excluding the post being edited itself)
+            const slugExists = (window.blogPostsList || []).some(p => p.slug === cleanSlug && p.id !== editId);
+            if (slugExists) {
+                window.showToast("A blog post with this slug already exists. Slugs must be unique.", "error");
+                blogEditSlug.focus();
+                return;
+            }
+            
+            const categoryVal = catSelectVal === "Other" ? catCustomVal : catSelectVal;
+            if (!categoryVal) {
+                window.showToast("Please select or enter a category", "error");
+                if (catSelectVal === "Other") {
+                    blogEditCategoryCustom.focus();
+                } else {
+                    blogEditCategory.focus();
+                }
+                return;
+            }
+            
+            if (!dateVal) {
+                window.showToast("Please select a publish date", "error");
+                blogEditDate.focus();
+                return;
+            }
+            
+            if (!summaryVal) {
+                window.showToast("Please enter a summary/excerpt", "error");
+                blogEditSummary.focus();
+                return;
+            }
+            
+            if (!contentVal) {
+                window.showToast("Please enter body content", "error");
+                blogEditContent.focus();
+                return;
+            }
+            
+            // Build FAQ array
+            const faqsArray = [];
+            const faqRows = blogFaqListContainer ? blogFaqListContainer.querySelectorAll(".blog-faq-row") : [];
+            faqRows.forEach(row => {
+                const q = row.querySelector(".faq-row-q").value.trim();
+                const a = row.querySelector(".faq-row-a").value.trim();
+                if (q && a) {
+                    faqsArray.push({ question: q, answer: a });
+                }
+            });
+            
+            // Construct post object
+            const blogPost = {
+                id: editId || Date.now().toString(),
+                slug: cleanSlug,
+                title: titleVal,
+                summary: summaryVal,
+                content: contentVal,
+                image_url: imageVal || 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&fit=crop',
+                category: categoryVal,
+                tags: tagsVal ? tagsVal.split(',').map(t => t.trim()).filter(Boolean) : [],
+                author_name: authorVal,
+                published_at: new Date(dateVal).toISOString(),
+                read_time: parseInt(readTimeVal) || 5,
+                is_featured: featuredVal,
+                seo_title: seoTitleVal || `${titleVal} | Loufy Publisher`,
+                seo_description: seoDescriptionVal || summaryVal,
+                faqs: faqsArray
+            };
+            
+            blogEditorSaveBtn.disabled = true;
+            blogEditorSaveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
+            
+            try {
+                const posts = [...(window.blogPostsList || [])];
+                const existingIndex = posts.findIndex(p => p.id === blogPost.id);
+                
+                if (existingIndex > -1) {
+                    posts[existingIndex] = blogPost;
+                } else {
+                    posts.push(blogPost);
+                }
+                
+                if (featuredVal) {
+                    // Reset is_featured on other posts
+                    posts.forEach(p => {
+                        if (p.id !== blogPost.id) p.is_featured = false;
+                    });
+                }
+                
+                const updatedJson = JSON.stringify(posts);
+                
+                if (!window.supabaseClient) throw new Error("Database not connected");
+                const { error } = await window.supabaseClient
+                    .from('site_content')
+                    .upsert({ id: 'blogs_json', html_content: updatedJson });
+                    
+                if (error) throw error;
+                
+                window.showToast("Blog post saved and synced to Supabase successfully!", "success");
+                
+                // Update local memory cache
+                window.blogPostsList = posts;
+                
+                // Go back to list view and reload table
+                showListView();
+                await loadBlogsIntoTable();
+                
+                // Trigger dynamic reload on home page if the function is active
+                if (typeof window.initBlogSection === 'function') {
+                    window.initBlogSection();
+                }
+            } catch (err) {
+                console.error("Failed to save blog post:", err);
+                window.showToast("Error saving post: " + err.message, "error");
+            } finally {
+                blogEditorSaveBtn.disabled = false;
+                blogEditorSaveBtn.innerHTML = `<i class="fa-solid fa-check"></i> Save & Sync to Supabase`;
+            }
         });
     }
 

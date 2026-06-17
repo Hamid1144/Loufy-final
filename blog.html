@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- SEO & Meta Tags will be dynamically injected by JS -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Loufy Publisher</title>
+  
+  <!-- CSS Styling -->
+  <link rel="stylesheet" href="style.css?v=3.29.0">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Supabase & Clients -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="db.js?v=3.29.0" defer></script>
+  <script src="bg-anim.js?v=3.29.0" defer></script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png?v=3.29.0">
+</head>
+<body class="blog-detail-page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar scrolled">
+    <div class="container">
+      <a href="index.html" class="logo"><img src="images/logo.png" alt="Loufy Publisher" class="logo-img"></a>
+      <ul class="nav-links">
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="portfolio.html" target="_blank">Portfolio</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#testimonials">Testimonials</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a href="index.html#contact" class="btn btn-primary" style="padding:10px 24px;font-size:.85rem">Hire Me</a>
+      <button class="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- BLOG HERO -->
+  <header class="blog-hero" id="blog-hero-header">
+    <div class="container">
+      <div class="blog-hero-content">
+        <span class="blog-hero-category" id="post-hero-category">Category</span>
+        <h1 id="post-hero-title">Loading Article...</h1>
+        <div class="blog-hero-meta">
+          <span><i class="fa-regular fa-user"></i> <span id="post-hero-author">Author</span></span>
+          <span><i class="fa-regular fa-calendar-days"></i> <span id="post-hero-date">Date</span></span>
+          <span><i class="fa-regular fa-clock"></i> <span id="post-hero-read-time">X</span> min read</span>
+        </div>
+      </div>
+    </div>
+    <div class="blog-hero-overlay"></div>
+    <div class="blog-hero-bg" id="post-hero-bg-img" style="background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1200');"></div>
+  </header>
+
+  <!-- MAIN BLOG SECTION -->
+  <section class="blog-main-content">
+    <div class="container">
+      <div class="blog-layout-grid">
+        
+        <!-- Left Sidebar: Sharing & Table of Contents -->
+        <aside class="blog-sidebar">
+          <div class="sidebar-sticky-box">
+            <!-- Share Widget -->
+            <div class="share-widget">
+              <h4>Share Article</h4>
+              <div class="share-buttons">
+                <a href="#" id="share-facebook" target="_blank" aria-label="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" id="share-twitter" target="_blank" aria-label="Share on Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" id="share-linkedin" target="_blank" aria-label="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" id="share-whatsapp" target="_blank" aria-label="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+              </div>
+            </div>
+            
+            <!-- Table of Contents -->
+            <div class="toc-widget">
+              <h4>Table of Contents</h4>
+              <ul id="toc-list">
+                <!-- TOC list items will be generated dynamically -->
+              </ul>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Right Side: Article Body Content -->
+        <article class="blog-article">
+          <div class="blog-body-text" id="post-body-content">
+            <!-- Article main text will be injected dynamically -->
+          </div>
+          
+          <!-- FAQ Section -->
+          <div class="blog-faq-section" id="post-faq-wrapper" style="display:none;">
+            <h3>Frequently Asked Questions</h3>
+            <div class="blog-faq-list" id="post-faq-list">
+              <!-- FAQs will be generated dynamically -->
+            </div>
+          </div>
+
+          <!-- Navigation: Prev & Next Articles -->
+          <div class="blog-nav-row" id="post-nav-navigation" style="display:none;">
+            <a href="#" class="blog-nav-btn prev" id="blog-nav-prev-btn">
+              <span class="nav-label">← Previous Article</span>
+              <span class="nav-title" id="blog-nav-prev-title">Article Title</span>
+            </a>
+            <a href="#" class="blog-nav-btn next" id="blog-nav-next-btn">
+              <span class="nav-label">Next Article →</span>
+              <span class="nav-title" id="blog-nav-next-title">Article Title</span>
+            </a>
+          </div>
+
+          <!-- Call to Action Banner -->
+          <div class="blog-cta-banner">
+            <div class="blog-cta-content">
+              <h3>Need Bestselling Designs or Pro KDP Formatting?</h3>
+              <p>Work with Hamid Raza (Loufy Publisher) to launch premium book covers, coloring books, and interior layouts that stand out and sell. High quality files, fast turnaround.</p>
+              <a href="index.html#contact" class="btn btn-primary">Get Free Consultation <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- RELATED ARTICLES SECTION -->
+  <section class="blog-related-section" id="blog-related-articles" style="display:none;">
+    <div class="container">
+      <h2 class="section-title">Related <span class="highlight">Articles</span></h2>
+      <div class="blog-grid" id="blog-related-grid">
+        <!-- Related cards injected dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><img src="images/logo-light.png" alt="Loufy Publisher" class="logo-img"></a>
+          <p>Professional Book Cover Designer &amp; Amazon KDP Expert. Creating premium designs that help authors stand out and succeed.</p>
+          <div class="social-icons" style="margin-top:16px">
+            <a href="https://www.facebook.com/share/1KPQAXoL8Y/" data-social="facebook" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/loufy_publisher?igsh=ZXkybnpuNzE5NGl5" data-social="instagram" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/hamid-r-753208282" data-social="linkedin" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://www.tiktok.com/@loufy_publisher" data-social="tiktok" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://wa.me/923268706259" data-social="whatsapp" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4 data-admin-text="true">Quick Links</h4><a href="index.html#home">Home</a><a href="index.html#about">About</a><a href="portfolio.html" target="_blank">Portfolio</a><a href="index.html#contact">Contact</a></div>
+        <div class="footer-col"><h4 data-admin-text="true">Services</h4><a href="index.html#services">Book Cover Design</a><a href="index.html#services">KDP Formatting</a><a href="index.html#services">A+ Content</a><a href="index.html#services">Branding</a></div>
+        <div class="footer-col"><h4 data-admin-text="true">Contact</h4><a href="mailto:razah3812@gmail.com">razah3812@gmail.com</a><a href="index.html#contact">Pakistan</a></div>
+      </div>
+      <div class="footer-bottom">© 2026 Hamid Raza. All Rights Reserved.</div>
+    </div>
+  </footer>
+
+  <!-- DYNAMIC BLOG RENDERER SCRIPT -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      // 1. Determine active blog slug from URL (e.g. ?slug=my-post or rewritten slug path)
+      const params = new URLSearchParams(window.location.search);
+      let slug = params.get('slug');
+      
+      // If Vercel rewrites don't run in local, we check the pathname
+      // path matching /blog/slug-name
+      if (!slug) {
+        const pathParts = window.location.pathname.split('/');
+        const blogIdx = pathParts.indexOf('blog');
+        if (blogIdx !== -1 && pathParts[blogIdx + 1]) {
+          slug = pathParts[blogIdx + 1];
+        }
+      }
+
+      // Check loader/error states
+      const postTitleEl = document.getElementById("post-hero-title");
+      const postAuthorEl = document.getElementById("post-hero-author");
+      const postDateEl = document.getElementById("post-hero-date");
+      const postReadTimeEl = document.getElementById("post-hero-read-time");
+      const postCategoryEl = document.getElementById("post-hero-category");
+      const postBgEl = document.getElementById("post-hero-bg-img");
+      const postBodyEl = document.getElementById("post-body-content");
+      
+      const showError = () => {
+        postTitleEl.innerText = "Article Not Found";
+        postCategoryEl.innerText = "Error 404";
+        postAuthorEl.innerText = "System";
+        postDateEl.innerText = "N/A";
+        postReadTimeEl.innerText = "0";
+        postBodyEl.innerHTML = `
+          <div style="text-align:center; padding: 60px 0;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size:4rem; color:#F4B400; margin-bottom:20px;"></i>
+            <h2>Oops! The requested article does not exist.</h2>
+            <p style="color:#666; margin-bottom:30px;">It may have been moved or deleted. Please check the homepage to read other articles.</p>
+            <a href="index.html#blog" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px;">Back to Homepage <i class="fa-solid fa-house"></i></a>
+          </div>
+        `;
+      };
+
+      if (!slug) {
+        showError();
+        return;
+      }
+
+      // 2. Fetch all posts from Supabase blogs_json row
+      // Wait for supabaseClient to be initialized
+      const checkClient = setInterval(async () => {
+        if (window.supabaseClient) {
+          clearInterval(checkClient);
+          loadPost();
+        }
+      }, 50);
+
+      const loadPost = async () => {
+        try {
+          const { data, error } = await window.supabaseClient
+            .from('site_content')
+            .select('html_content')
+            .eq('id', 'blogs_json')
+            .single();
+            
+          if (error) throw error;
+          if (!data || !data.html_content) {
+            showError();
+            return;
+          }
+
+          const postsList = JSON.parse(data.html_content);
+          const currentPost = postsList.find(p => p.slug === slug);
+
+          if (!currentPost) {
+            showError();
+            return;
+          }
+
+          // Render Post Content
+          const pubDate = new Date(currentPost.published_at);
+          const dateFormatted = pubDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+
+          // Meta Tags & Title
+          document.title = currentPost.seo_title || `${currentPost.title} | Loufy Publisher`;
+          
+          const setMeta = (name, value, isProperty = false) => {
+            const attr = isProperty ? 'property' : 'name';
+            let el = document.querySelector(`meta[${attr}="${name}"]`);
+            if (!el) {
+              el = document.createElement('meta');
+              el.setAttribute(attr, name);
+              document.head.appendChild(el);
+            }
+            el.setAttribute('content', value);
+          };
+
+          setMeta('description', currentPost.seo_description || currentPost.summary);
+          setMeta('og:title', currentPost.title, true);
+          setMeta('og:description', currentPost.summary, true);
+          setMeta('og:image', currentPost.image_url, true);
+          setMeta('og:type', 'article', true);
+          setMeta('og:url', window.location.href, true);
+          setMeta('twitter:card', 'summary_large_image');
+          setMeta('twitter:title', currentPost.title);
+          setMeta('twitter:description', currentPost.summary);
+          setMeta('twitter:image', currentPost.image_url);
+
+          // Add Canonical
+          let canonicalLink = document.querySelector('link[rel="canonical"]');
+          if (!canonicalLink) {
+            canonicalLink = document.createElement('link');
+            canonicalLink.setAttribute('rel', 'canonical');
+            document.head.appendChild(canonicalLink);
+          }
+          canonicalLink.setAttribute('href', `https://loufypublish.vercel.app/blog/${currentPost.slug}`);
+
+          // Render fields
+          postTitleEl.innerText = currentPost.title;
+          postCategoryEl.innerText = currentPost.category;
+          postAuthorEl.innerText = currentPost.author_name || "Loufy Publisher";
+          postDateEl.innerText = dateFormatted;
+          postReadTimeEl.innerText = currentPost.read_time;
+          if (currentPost.image_url) {
+            postBgEl.style.backgroundImage = `url('${currentPost.image_url}')`;
+          }
+          postBodyEl.innerHTML = currentPost.content;
+
+          // Add Alt Attribute to body images if not present
+          postBodyEl.querySelectorAll('img').forEach(img => {
+            if (!img.getAttribute('alt')) {
+              img.setAttribute('alt', currentPost.title);
+            }
+            img.setAttribute('loading', 'lazy');
+          });
+
+          // Generate Table of Contents (TOC)
+          const tocList = document.getElementById("toc-list");
+          const headings = postBodyEl.querySelectorAll("h2, h3");
+          
+          if (headings.length > 0 && tocList) {
+            tocList.innerHTML = Array.from(headings).map((h, index) => {
+              const id = `heading-${index}`;
+              h.setAttribute('id', id);
+              const isSub = h.tagName === 'H3';
+              return `
+                <li style="${isSub ? 'padding-left:15px; font-size:0.85rem;' : ''}">
+                  <a href="#${id}">${h.innerText}</a>
+                </li>
+              `;
+            }).join('');
+            
+            // ToC smooth scroll listener
+            tocList.querySelectorAll('a').forEach(link => {
+              link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                  const yOffset = -100; // Offset for sticky navbar
+                  const y = targetEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+              });
+            });
+          } else {
+            // Remove TOC widget if no headings exist
+            const tocWidget = document.querySelector('.toc-widget');
+            if (tocWidget) tocWidget.remove();
+          }
+
+          // Render FAQs
+          const faqWrapper = document.getElementById("post-faq-wrapper");
+          const faqList = document.getElementById("post-faq-list");
+          if (currentPost.faqs && currentPost.faqs.length > 0 && faqWrapper && faqList) {
+            faqList.innerHTML = currentPost.faqs.map(faq => `
+              <div class="faq-item">
+                <div class="faq-q">${faq.question} <span class="icon">+</span></div>
+                <div class="faq-a" style="max-height:0; overflow:hidden; padding:0 24px; transition:all 0.4s ease;"><p>${faq.answer}</p></div>
+              </div>
+            `).join('');
+            faqWrapper.style.display = 'block';
+
+            // FAQ accordion click toggles
+            faqList.querySelectorAll('.faq-item').forEach(item => {
+              const q = item.querySelector('.faq-q');
+              const a = item.querySelector('.faq-a');
+              const icon = item.querySelector('.icon');
+              
+              q.addEventListener('click', () => {
+                const isOpen = a.style.maxHeight !== '0px' && a.style.maxHeight !== '';
+                
+                // Close all other FAQs
+                faqList.querySelectorAll('.faq-a').forEach(ans => ans.style.maxHeight = '0px');
+                faqList.querySelectorAll('.icon').forEach(ic => ic.innerText = '+');
+                faqList.querySelectorAll('.faq-item').forEach(it => it.classList.remove('active'));
+
+                if (!isOpen) {
+                  a.style.maxHeight = a.scrollHeight + 'px';
+                  icon.innerText = '-';
+                  item.classList.add('active');
+                }
+              });
+            });
+          }
+
+          // Social Share URLs
+          const shareUrl = encodeURIComponent(window.location.href);
+          const shareTitle = encodeURIComponent(currentPost.title);
+          
+          document.getElementById("share-facebook").setAttribute('href', `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`);
+          document.getElementById("share-twitter").setAttribute('href', `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`);
+          document.getElementById("share-linkedin").setAttribute('href', `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`);
+          document.getElementById("share-whatsapp").setAttribute('href', `https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`);
+
+          // Related Articles (same category or tags, max 3)
+          const relatedGrid = document.getElementById("blog-related-grid");
+          const relatedSection = document.getElementById("blog-related-articles");
+          
+          if (relatedGrid && relatedSection) {
+            const related = postsList.filter(p => p.id !== currentPost.id && (p.category === currentPost.category || p.tags.some(t => currentPost.tags.includes(t)))).slice(0, 3);
+            if (related.length > 0) {
+              relatedGrid.innerHTML = related.map(post => {
+                const dateStr = new Date(post.published_at).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                });
+                return `
+                  <div class="blog-card reveal active">
+                    <div class="blog-thumb">
+                      <img src="${post.image_url}" alt="${post.title}" loading="lazy">
+                      <span class="blog-category-badge">${post.category}</span>
+                    </div>
+                    <div class="blog-body">
+                      <div class="blog-meta-line">
+                        <span><i class="fa-regular fa-calendar-days"></i> ${dateStr}</span>
+                        <span><i class="fa-regular fa-clock"></i> ${post.read_time} min read</span>
+                      </div>
+                      <h3>${post.title}</h3>
+                      <p>${post.summary}</p>
+                      <div class="blog-footer-line">
+                        <span class="blog-author-tag"><i class="fa-regular fa-user"></i> ${post.author_name || 'Loufy Publisher'}</span>
+                        <a href="/blog/${post.slug}" class="read-more">Read More →</a>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('');
+              relatedSection.style.display = 'block';
+            }
+          }
+
+          // Prev & Next Nav
+          const sortedPosts = [...postsList].sort((a, b) => new Date(a.published_at) - new Date(b.published_at));
+          const currentIndex = sortedPosts.findIndex(p => p.id === currentPost.id);
+          
+          const prevBtn = document.getElementById("blog-nav-prev-btn");
+          const nextBtn = document.getElementById("blog-nav-next-btn");
+          const prevTitle = document.getElementById("blog-nav-prev-title");
+          const nextTitle = document.getElementById("blog-nav-next-title");
+          const navRow = document.getElementById("post-nav-navigation");
+
+          let hasNav = false;
+          if (currentIndex > 0 && prevBtn && prevTitle) {
+            const prevPost = sortedPosts[currentIndex - 1];
+            prevBtn.setAttribute('href', `/blog/${prevPost.slug}`);
+            prevTitle.innerText = prevPost.title;
+            prevBtn.style.display = 'flex';
+            hasNav = true;
+          } else if (prevBtn) {
+            prevBtn.style.display = 'none';
+          }
+
+          if (currentIndex < sortedPosts.length - 1 && nextBtn && nextTitle) {
+            const nextPost = sortedPosts[currentIndex + 1];
+            nextBtn.setAttribute('href', `/blog/${nextPost.slug}`);
+            nextTitle.innerText = nextPost.title;
+            nextBtn.style.display = 'flex';
+            hasNav = true;
+          } else if (nextBtn) {
+            nextBtn.style.display = 'none';
+          }
+
+          if (hasNav && navRow) {
+            navRow.style.display = 'grid';
+          }
+
+          // Injections of JSON-LD Schema
+          // 1. BlogPosting
+          const blogPostingSchema = {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": currentPost.title,
+            "image": currentPost.image_url,
+            "datePublished": currentPost.published_at,
+            "dateModified": currentPost.published_at,
+            "author": {
+              "@type": "Person",
+              "name": currentPost.author_name || "Hamid Raza"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Loufy Publisher",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://loufypublish.vercel.app/favicon.png"
+              }
+            },
+            "description": currentPost.summary,
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://loufypublish.vercel.app/blog/${currentPost.slug}`
+            }
+          };
+
+          const s1 = document.createElement('script');
+          s1.type = 'application/ld+json';
+          s1.text = JSON.stringify(blogPostingSchema);
+          document.head.appendChild(s1);
+
+          // 2. FAQ Schema
+          if (currentPost.faqs && currentPost.faqs.length > 0) {
+            const faqSchema = {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": currentPost.faqs.map(f => ({
+                "@type": "Question",
+                "name": f.question,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": f.answer
+                }
+              }))
+            };
+            const s2 = document.createElement('script');
+            s2.type = 'application/ld+json';
+            s2.text = JSON.stringify(faqSchema);
+            document.head.appendChild(s2);
+          }
+
+        } catch (ex) {
+          console.error("Failed to render blog details:", ex);
+          showError();
+        }
+      };
+
+      // Hamburger Menu Toggles for mobile
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+          hamburger.classList.toggle('active');
+          navLinks.classList.toggle('active');
+        });
+        
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
