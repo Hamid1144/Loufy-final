@@ -888,6 +888,7 @@ window.initFormattingMarquee = function() {
 
 // Blog Dynamic Loader & Search/Filters Implementation
 window.initBlogSection = async function () {
+  const previewGrid = document.getElementById('blog-preview-grid');
   const blogGrid = document.getElementById('blog-posts-grid');
   const featuredContainer = document.getElementById('featured-blog-container');
   const categoriesContainer = document.getElementById('blog-categories-filters');
@@ -895,12 +896,9 @@ window.initBlogSection = async function () {
   const paginationContainer = document.getElementById('blog-pagination-container');
   const loadMoreBtn = document.getElementById('blog-load-more-btn');
 
-  if (!blogGrid) return; // Only run on pages containing the blog section (homepage)
+  if (!blogGrid && !previewGrid) return; // Only run on pages containing a blog section
 
   let blogPosts = [];
-  let visibleCount = 6;
-  let activeCategory = 'All';
-  let activeSearch = '';
 
   // 1. Fetch from Supabase
   try {
@@ -921,131 +919,20 @@ window.initBlogSection = async function () {
 
   window.blogPostsList = blogPosts; // Cache globally for admin reference
 
-  // 2. Extract and Render Category Filters
-  const updateCategories = () => {
-    if (!categoriesContainer) return;
-    const categories = new Set(blogPosts.map(p => p.category).filter(Boolean));
-    const catArray = ['All', ...Array.from(categories)];
-    
-    categoriesContainer.innerHTML = catArray.map(cat => `
-      <button class="blog-cat-btn ${cat === activeCategory ? 'active' : ''}" data-category="${cat}">
-        ${cat}
-      </button>
-    `).join('');
-
-    // Add category click events
-    categoriesContainer.querySelectorAll('.blog-cat-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        categoriesContainer.querySelectorAll('.blog-cat-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeCategory = btn.dataset.category;
-        visibleCount = 6; // Reset pagination
-        render();
-      });
-    });
-  };
-
-  // 3. Search Bar Event
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      activeSearch = e.target.value.toLowerCase().trim();
-      visibleCount = 6; // Reset pagination
-      render();
-    });
-  }
-
-  // 4. Load More Event
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', () => {
-      visibleCount += 6;
-      render();
-    });
-  }
-
-  // 5. Render Function
-  const render = () => {
-    // Filter posts
-    let filtered = blogPosts.filter(post => {
-      // Category filter
-      if (activeCategory !== 'All' && post.category !== activeCategory) {
-        return false;
-      }
-      // Search query filter
-      if (activeSearch) {
-        const matchesTitle = post.title?.toLowerCase().includes(activeSearch);
-        const matchesSummary = post.summary?.toLowerCase().includes(activeSearch);
-        const matchesTags = post.tags?.some(tag => tag.toLowerCase().includes(activeSearch));
-        return matchesTitle || matchesSummary || matchesTags;
-      }
-      return true;
-    });
-
+  // Case 1: Homepage Preview (only latest 3 posts)
+  if (previewGrid) {
     // Sort by publication date descending
-    filtered.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+    const sortedPosts = [...blogPosts].sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+    const latestPosts = sortedPosts.slice(0, 3);
 
-    // Handle Featured Post (Only show on homepage when search/filter is not active)
-    let featuredPost = null;
-    let regularPosts = [...filtered];
-
-    if (activeCategory === 'All' && !activeSearch) {
-      featuredPost = filtered.find(p => p.is_featured) || filtered[0];
-      if (featuredPost) {
-        // Exclude featured post from the main grid
-        regularPosts = filtered.filter(p => p.id !== featuredPost.id);
-      }
-    }
-
-    // Render Featured Post
-    if (featuredContainer) {
-      if (featuredPost) {
-        const dateStr = new Date(featuredPost.published_at).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-        
-        featuredContainer.innerHTML = `
-          <div class="featured-blog-card">
-            <div class="featured-blog-thumb">
-              <img src="${featuredPost.image_url || 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800'}" alt="${featuredPost.title}" loading="lazy">
-            </div>
-            <div class="featured-blog-body">
-              <div class="blog-meta-row">
-                <span class="blog-tag">${featuredPost.category}</span>
-                <span class="blog-read-time"><i class="fa-regular fa-clock"></i> ${featuredPost.read_time} min read</span>
-              </div>
-              <h3>${featuredPost.title}</h3>
-              <p>${featuredPost.summary}</p>
-              <div class="blog-author-row">
-                <div class="blog-author-info">
-                  <span class="author-name"><i class="fa-regular fa-user"></i> ${featuredPost.author_name || 'Loufy Publisher'}</span>
-                  <span class="publish-date"><i class="fa-regular fa-calendar-days"></i> ${dateStr}</span>
-                </div>
-                <a href="/blog/${featuredPost.slug}" class="read-more-btn">Read Featured Article <i class="fa-solid fa-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-        `;
-        featuredContainer.style.display = 'block';
-      } else {
-        featuredContainer.innerHTML = '';
-        featuredContainer.style.display = 'none';
-      }
-    }
-
-    // Render Grid
-    const displayedPosts = regularPosts.slice(0, visibleCount);
-    
-    if (displayedPosts.length === 0) {
-      blogGrid.innerHTML = `
-        <div class="blog-empty-state" style="grid-column: 1/-1; text-align:center; padding: 40px; color:#aaa;">
-          <i class="fa-solid fa-folder-open" style="font-size:3rem; margin-bottom:15px; color:var(--accent);"></i>
-          <h3>No articles found</h3>
-          <p>Try refining your search query or choosing another category.</p>
+    if (latestPosts.length === 0) {
+      previewGrid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align:center; padding: 40px; color:#aaa;">
+          <h3>No articles published yet.</h3>
         </div>
       `;
     } else {
-      blogGrid.innerHTML = displayedPosts.map(post => {
+      previewGrid.innerHTML = latestPosts.map(post => {
         const dateStr = new Date(post.published_at).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
@@ -1073,19 +960,182 @@ window.initBlogSection = async function () {
         `;
       }).join('');
     }
+    return;
+  }
 
-    // Handle Load More visibility
-    if (paginationContainer) {
-      if (regularPosts.length > visibleCount) {
-        paginationContainer.style.display = 'block';
-      } else {
-        paginationContainer.style.display = 'none';
-      }
+  // Case 2: Full Directory Page
+  if (blogGrid) {
+    let visibleCount = 6;
+    let activeCategory = 'All';
+    let activeSearch = '';
+
+    // 2. Extract and Render Category Filters
+    const updateCategories = () => {
+      if (!categoriesContainer) return;
+      const categories = new Set(blogPosts.map(p => p.category).filter(Boolean));
+      const catArray = ['All', ...Array.from(categories)];
+      
+      categoriesContainer.innerHTML = catArray.map(cat => `
+        <button class="blog-cat-btn ${cat === activeCategory ? 'active' : ''}" data-category="${cat}">
+          ${cat}
+        </button>
+      `).join('');
+
+      // Add category click events
+      categoriesContainer.querySelectorAll('.blog-cat-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          categoriesContainer.querySelectorAll('.blog-cat-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeCategory = btn.dataset.category;
+          visibleCount = 6; // Reset pagination
+          render();
+        });
+      });
+    };
+
+    // 3. Search Bar Event
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        activeSearch = e.target.value.toLowerCase().trim();
+        visibleCount = 6; // Reset pagination
+        render();
+      });
     }
-  };
 
-  // Run initial state
-  updateCategories();
-  render();
+    // 4. Load More Event
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        visibleCount += 6;
+        render();
+      });
+    }
+
+    // 5. Render Function
+    const render = () => {
+      // Filter posts
+      let filtered = blogPosts.filter(post => {
+        // Category filter
+        if (activeCategory !== 'All' && post.category !== activeCategory) {
+          return false;
+        }
+        // Search query filter
+        if (activeSearch) {
+          const matchesTitle = post.title?.toLowerCase().includes(activeSearch);
+          const matchesSummary = post.summary?.toLowerCase().includes(activeSearch);
+          const matchesTags = post.tags?.some(tag => tag.toLowerCase().includes(activeSearch));
+          return matchesTitle || matchesSummary || matchesTags;
+        }
+        return true;
+      });
+
+      // Sort by publication date descending
+      filtered.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+
+      // Handle Featured Post (Only show on homepage when search/filter is not active)
+      let featuredPost = null;
+      let regularPosts = [...filtered];
+
+      if (activeCategory === 'All' && !activeSearch) {
+        featuredPost = filtered.find(p => p.is_featured) || filtered[0];
+        if (featuredPost) {
+          // Exclude featured post from the main grid
+          regularPosts = filtered.filter(p => p.id !== featuredPost.id);
+        }
+      }
+
+      // Render Featured Post
+      if (featuredContainer) {
+        if (featuredPost) {
+          const dateStr = new Date(featuredPost.published_at).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          
+          featuredContainer.innerHTML = `
+            <div class="featured-blog-card">
+              <div class="featured-blog-thumb">
+                <img src="${featuredPost.image_url || 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800'}" alt="${featuredPost.title}" loading="lazy">
+              </div>
+              <div class="featured-blog-body">
+                <div class="blog-meta-row">
+                  <span class="blog-tag">${featuredPost.category}</span>
+                  <span class="blog-read-time"><i class="fa-regular fa-clock"></i> ${featuredPost.read_time} min read</span>
+                </div>
+                <h3>${featuredPost.title}</h3>
+                <p>${featuredPost.summary}</p>
+                <div class="blog-author-row">
+                  <div class="blog-author-info">
+                    <span class="author-name"><i class="fa-regular fa-user"></i> ${featuredPost.author_name || 'Loufy Publisher'}</span>
+                    <span class="publish-date"><i class="fa-regular fa-calendar-days"></i> ${dateStr}</span>
+                  </div>
+                  <a href="/blog/${featuredPost.slug}" class="read-more-btn">Read Featured Article <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+              </div>
+            </div>
+          `;
+          featuredContainer.style.display = 'block';
+        } else {
+          featuredContainer.innerHTML = '';
+          featuredContainer.style.display = 'none';
+        }
+      }
+
+      // Render Grid
+      const displayedPosts = regularPosts.slice(0, visibleCount);
+      
+      if (displayedPosts.length === 0) {
+        blogGrid.innerHTML = `
+          <div class="blog-empty-state" style="grid-column: 1/-1; text-align:center; padding: 40px; color:#aaa;">
+            <i class="fa-solid fa-folder-open" style="font-size:3rem; margin-bottom:15px; color:var(--accent);"></i>
+            <h3>No articles found</h3>
+            <p>Try refining your search query or choosing another category.</p>
+          </div>
+        `;
+      } else {
+        blogGrid.innerHTML = displayedPosts.map(post => {
+          const dateStr = new Date(post.published_at).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          return `
+            <div class="blog-card reveal active">
+              <div class="blog-thumb">
+                <img src="${post.image_url || 'https://images.unsplash.com/photo-1553729459-afe8f2e2882d?w=500'}" alt="${post.title}" loading="lazy">
+                <span class="blog-category-badge">${post.category}</span>
+              </div>
+              <div class="blog-body">
+                <div class="blog-meta-line">
+                  <span><i class="fa-regular fa-calendar-days"></i> ${dateStr}</span>
+                  <span><i class="fa-regular fa-clock"></i> ${post.read_time} min read</span>
+                </div>
+                <h3>${post.title}</h3>
+                <p>${post.summary}</p>
+                <div class="blog-footer-line">
+                  <span class="blog-author-tag"><i class="fa-regular fa-user"></i> ${post.author_name || 'Loufy Publisher'}</span>
+                  <a href="/blog/${post.slug}" class="read-more">Read More →</a>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Handle Load More visibility
+      if (paginationContainer) {
+        if (regularPosts.length > visibleCount) {
+          paginationContainer.style.display = 'block';
+        } else {
+          paginationContainer.style.display = 'none';
+        }
+      }
+    };
+
+    // Run initial state
+    updateCategories();
+    render();
+  }
+};
 };
 

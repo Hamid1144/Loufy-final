@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loufy Publisher Blog | Self-Publishing, Formatting & Cover Design Tips</title>
+  
+  <meta name="description" content="Read expert self-publishing guides, book cover design tips, Kindle formatting tutorials, and paperback layout advice from Hamid Raza, a leading KDP expert.">
+  <link rel="canonical" href="https://loufypublish.vercel.app/blogs">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://loufypublish.vercel.app/blogs">
+  <meta property="og:title" content="Loufy Publisher Blog | Self-Publishing & KDP Expert Insights">
+  <meta property="og:description" content="Discover professional self-publishing guides, Kindle formatting tutorials, and book cover design tips from Loufy Book Formatting services.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=1200&fit=crop">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://loufypublish.vercel.app/blogs">
+  <meta property="twitter:title" content="Loufy Publisher Blog | Self-Publishing & KDP Expert Insights">
+  <meta property="twitter:description" content="Discover professional self-publishing guides, Kindle formatting tutorials, and book cover design tips from Loufy Book Formatting services.">
+  <meta property="twitter:image" content="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=1200&fit=crop">
+
+  <!-- CSS Styling -->
+  <link rel="stylesheet" href="style.css?v=3.29.0">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Supabase & Clients -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="db.js?v=3.29.0" defer></script>
+  <script src="bg-anim.js?v=3.29.0" defer></script>
+  <script src="script.js?v=3.29.0" defer></script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png?v=3.29.0">
+</head>
+<body class="blog-directory-page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar scrolled">
+    <div class="container">
+      <a href="index.html" class="logo"><img src="images/logo.png" alt="Loufy Publisher" class="logo-img"></a>
+      <ul class="nav-links">
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="portfolio.html" target="_blank">Portfolio</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#testimonials">Testimonials</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a href="index.html#contact" class="btn btn-primary" style="padding:10px 24px;font-size:.85rem">Hire Me</a>
+      <button class="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- BLOG HERO -->
+  <header class="blog-hero" style="min-height: 45vh; display: flex; align-items: center; padding-top: 120px; position: relative; overflow: hidden; background: #0b1f17; color: #fff;">
+    <div class="container" style="position: relative; z-index: 10; text-align: center;">
+      <div class="blog-hero-content" style="max-width: 800px; margin: 0 auto;">
+        <span class="blog-hero-category" style="background: rgba(244, 180, 0, 0.15); color: var(--accent); padding: 6px 16px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; display: inline-block;">Insights &amp; Guides</span>
+        <h1 style="font-size: 3.2rem; font-weight: 800; margin-top: 15px; font-family: 'Outfit', sans-serif;">Loufy Publisher <span class="highlight">Blog</span></h1>
+        <p style="color: #ccc; font-size: 1.1rem; margin-top: 15px; font-family: 'Poppins', sans-serif; line-height: 1.6;">Your ultimate resource for self-publishing secrets, Kindle &amp; paperback book formatting guides, bestselling book cover design, and author success strategies.</p>
+      </div>
+    </div>
+    <div class="blog-hero-overlay" style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(11,31,23,0.7), #0b1f17); z-index: 2;"></div>
+    <div class="blog-hero-bg" style="background-image: url('https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=1600&fit=crop'); position: absolute; inset: 0; background-size: cover; background-position: center; filter: brightness(0.65); z-index: 1;"></div>
+  </header>
+
+  <!-- MAIN BLOG SECTION -->
+  <section class="blog" style="background: var(--dark); padding: 80px 0; min-height: 50vh;">
+    <div class="container">
+      
+      <!-- Blog Filters & Search Bar -->
+      <div class="blog-header-controls reveal" style="display: flex; flex-direction: column; gap: 20px; margin-bottom: 40px; align-items: center;">
+        <div class="blog-search-bar" style="width: 100%; max-width: 600px;">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="blog-search-input" placeholder="Search articles by title, tags...">
+        </div>
+        <div class="blog-categories" id="blog-categories-filters" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+          <!-- Categories will be rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Featured Blog Section -->
+      <div id="featured-blog-container" class="reveal" style="margin-bottom: 50px;">
+        <!-- Featured blog card will be rendered dynamically -->
+      </div>
+
+      <!-- Blog Grid -->
+      <div class="blog-grid" id="blog-posts-grid">
+        <!-- Regular blog cards will be rendered dynamically -->
+      </div>
+
+      <!-- Pagination / Load More -->
+      <div class="blog-pagination reveal" id="blog-pagination-container" style="display:none; text-align:center; margin-top:40px;">
+        <button id="blog-load-more-btn" class="btn btn-outline">Load More Articles <i class="fa-solid fa-arrow-rotate-right"></i></button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="blog-cta-banner-section" style="background: #0b1f17; padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.05);">
+    <div class="container">
+      <div class="blog-cta-banner" style="background: linear-gradient(135deg, rgba(24,76,58,0.9), rgba(11,31,23,0.95)); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 50px 40px; text-align: center; max-width: 800px; margin: 0 auto; box-shadow: 0 15px 30px rgba(0,0,0,0.3);">
+        <div class="blog-cta-content">
+          <h3 style="font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 15px; font-family: 'Outfit', sans-serif;">Ready to Publish Your Book?</h3>
+          <p style="color: #ccc; font-size: 1rem; margin-bottom: 25px; font-family: 'Poppins', sans-serif; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">Let Loufy Publishing Services handle your book cover design, interior formatting, and self-publishing launch. Get professional, bestselling results today.</p>
+          <a href="index.html#contact" class="btn btn-accent" style="padding: 14px 30px; font-weight: 700; font-family: 'Outfit', sans-serif; display: inline-flex; align-items: center; gap: 8px;">Get Started Now <i class="fa-solid fa-paper-plane"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><img src="images/logo-light.png" alt="Loufy Publisher" class="logo-img"></a>
+          <p>Professional Book Cover Designer &amp; Amazon KDP Expert. Creating premium designs that help authors stand out and succeed.</p>
+          <div class="social-icons" style="margin-top:16px">
+            <a href="https://www.facebook.com/share/1KPQAXoL8Y/" data-social="facebook" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/loufy_publisher?igsh=ZXkybnpuNzE5NGl5" data-social="instagram" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/hamid-r-753208282" data-social="linkedin" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://www.tiktok.com/@loufy_publisher" data-social="tiktok" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://wa.me/923268706259" data-social="whatsapp" target="_blank" style="background: rgba(255, 255, 255, 0.1); color: var(--white);"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4 data-admin-text="true">Quick Links</h4><a href="index.html#home">Home</a><a href="index.html#about">About</a><a href="portfolio.html" target="_blank">Portfolio</a><a href="index.html#contact">Contact</a></div>
+        <div class="footer-col"><h4 data-admin-text="true">Services</h4><a href="index.html#services">Book Cover Design</a><a href="index.html#services">KDP Formatting</a><a href="index.html#services">A+ Content</a><a href="index.html#services">Branding</a></div>
+        <div class="footer-col"><h4 data-admin-text="true">Contact</h4><a href="mailto:razah3812@gmail.com">razah3812@gmail.com</a><a href="index.html#contact">Pakistan</a></div>
+      </div>
+      <div class="footer-bottom">© 2026 Hamid Raza. All Rights Reserved.</div>
+    </div>
+  </footer>
+
+</body>
+</html>

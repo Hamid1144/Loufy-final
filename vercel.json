@@ -3,6 +3,10 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/blogs",
+      "destination": "/blogs.html"
+    },
+    {
       "source": "/blog/:slug",
       "destination": "/blog.html?slug=:slug"
     }
