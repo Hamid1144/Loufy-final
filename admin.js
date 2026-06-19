@@ -943,6 +943,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    if (addItemCategory) {
+        addItemCategory.addEventListener('change', (e) => {
+            const val = e.target.value;
+            const fullRadio = document.querySelector('input[name="add-item-layout"][value="full-width"]');
+            const stdRadio = document.querySelector('input[name="add-item-layout"][value="standard"]');
+            const flipRadio = document.querySelector('input[name="add-item-layout"][value="flipbook"]');
+            
+            if (val === 'formatting' || val === 'a-plus-content') {
+                if (fullRadio) fullRadio.checked = true;
+            } else if (val === 'children') {
+                if (flipRadio) flipRadio.checked = true;
+            } else {
+                if (stdRadio) stdRadio.checked = true;
+            }
+            if (typeof updateAddItemLayoutHighlights === 'function') {
+                updateAddItemLayoutHighlights();
+            }
+        });
+    }
+
     if (closeAddItemModalBtn) {
         closeAddItemModalBtn.addEventListener('click', () => {
             if (addItemModal) addItemModal.style.display = 'none';
