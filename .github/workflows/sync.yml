@@ -1,0 +1,44 @@
+name: Supabase Sync
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' # Run every 5 minutes
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  sync:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run pull_supabase.ps1
+        run: powershell -ExecutionPolicy Bypass -File .\pull_supabase.ps1
+
+      - name: Run merge_grids.ps1
+        run: powershell -ExecutionPolicy Bypass -File .\merge_grids.ps1
+
+      - name: Run optimize_html_images.ps1
+        run: powershell -ExecutionPolicy Bypass -File .\optimize_html_images.ps1
+
+      - name: Check for changes and commit
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          # Check if there are changes to commit
+          if (git status --porcelain) {
+            git commit -m "Auto-sync from live website (GitHub Actions)"
+            git push
+            
+            # Push the optimized/merged grids back to Supabase
+            powershell -ExecutionPolicy Bypass -File .\push_supabase.ps1 -Force
+          } else {
+            Write-Host "No changes to commit."
+          }
+        shell: powershell

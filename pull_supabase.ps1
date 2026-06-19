@@ -24,9 +24,9 @@ foreach ($row in $res) {
     
     $filePath = ""
     if ($id -eq "index") {
-        $filePath = "c:\Users\razah\.gemini\antigravity\scratch\hamid-raza-portfolio\index.html"
+        $filePath = ".\index.html"
     } elseif ($id -eq "portfolio") {
-        $filePath = "c:\Users\razah\.gemini\antigravity\scratch\hamid-raza-portfolio\portfolio.html"
+        $filePath = ".\portfolio.html"
     }
     
     if ($filePath -and (Test-Path $filePath)) {

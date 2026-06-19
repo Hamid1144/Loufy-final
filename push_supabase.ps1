@@ -16,8 +16,8 @@ $headers = @{
 }
 
 $pages = @(
-    @{ id = "index"; path = "c:\Users\razah\.gemini\antigravity\scratch\hamid-raza-portfolio\index.html" },
-    @{ id = "portfolio"; path = "c:\Users\razah\.gemini\antigravity\scratch\hamid-raza-portfolio\portfolio.html" }
+    @{ id = "index"; path = ".\index.html" },
+    @{ id = "portfolio"; path = ".\portfolio.html" }
 )
 
 foreach ($page in $pages) {
