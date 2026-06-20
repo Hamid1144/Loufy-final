@@ -467,6 +467,16 @@ document.addEventListener("DOMContentLoaded", () => {
                             <span style="font-size:0.7rem; color:#aaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:120px;" id="float-card-img-filename"></span>
                         </div>
                     </div>
+                    <div style="display:flex; gap:8px;">
+                        <div style="flex:1;">
+                            <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Left Position (%)</label>
+                            <input type="number" id="float-card-left" min="0" max="100" value="50" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Top Position (%)</label>
+                            <input type="number" id="float-card-top" min="0" max="100" value="50" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                        </div>
+                    </div>
                     <div style="display:flex; gap:6px; margin-top:4px;">
                         <button type="button" id="float-card-save-btn" class="admin-btn" style="margin:0; padding:6px; font-size:0.75rem; background:#28a745; flex:1; color:#fff;">Save Card</button>
                         <button type="button" id="float-card-cancel-btn" class="admin-btn danger" style="margin:0; padding:6px; font-size:0.75rem; flex:1; color:#fff;">Cancel</button>
@@ -3872,6 +3882,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const floatCardSaveBtn = document.getElementById('float-card-save-btn');
         const floatCardCancelBtn = document.getElementById('float-card-cancel-btn');
         const floatCardAddBtn = document.getElementById('float-card-add-btn');
+        const floatCardLeft = document.getElementById('float-card-left');
+        const floatCardTop = document.getElementById('float-card-top');
 
         if (!floatCardsList) return;
 
@@ -3897,17 +3909,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 const textEl = card.querySelector('span');
                 const imgUrl = imgEl ? imgEl.src : '';
                 const labelText = textEl ? textEl.innerText : '';
+                
+                const styleLeft = card.style.left || '';
+                const styleTop = card.style.top || '';
+                const currentLeft = styleLeft ? parseFloat(styleLeft) : 50;
+                const currentTop = styleTop ? parseFloat(styleTop) : 50;
 
                 const itemDiv = document.createElement('div');
                 itemDiv.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:8px; background:#222; border-radius:6px; border:1px solid #444; margin-bottom:4px;';
                 itemDiv.innerHTML = `
                     <div style="display:flex; align-items:center; gap:8px; overflow:hidden; flex:1;">
-                        \${imgUrl ? `<img src="\${imgUrl}" style="height:24px; max-width:40px; object-fit:contain; background:#333; padding:2px; border-radius:3px;" onerror="this.style.display='none'">` : '<div style="width:24px; height:24px; background:#333; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:0.6rem; color:#888;"><i class="fa-solid fa-image"></i></div>'}
-                        <span style="font-size:0.75rem; color:#fff; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">\${labelText || '(No label)'}</span>
+                        ${imgUrl ? `<img src="${imgUrl}" style="height:24px; max-width:40px; object-fit:contain; background:#333; padding:2px; border-radius:3px;" onerror="this.style.display='none'">` : '<div style="width:24px; height:24px; background:#333; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:0.6rem; color:#888;"><i class="fa-solid fa-image"></i></div>'}
+                        <span style="font-size:0.75rem; color:#fff; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${labelText || '(No label)'}</span>
                     </div>
                     <div style="display:flex; gap:4px;">
-                        <button type="button" class="btn-edit-float-card admin-btn" data-id="\${cardId}" style="padding:4px 8px; font-size:0.7rem; margin:0; background:#ffc107; color:#111;"><i class="fa-solid fa-pencil"></i></button>
-                        <button type="button" class="btn-delete-float-card admin-btn danger" data-id="\${cardId}" style="padding:4px 8px; font-size:0.7rem; margin:0;"><i class="fa-solid fa-trash"></i></button>
+                        <button type="button" class="btn-edit-float-card admin-btn" data-id="${cardId}" style="padding:4px 8px; font-size:0.7rem; margin:0; background:#ffc107; color:#111;"><i class="fa-solid fa-pencil"></i></button>
+                        <button type="button" class="btn-delete-float-card admin-btn danger" data-id="${cardId}" style="padding:4px 8px; font-size:0.7rem; margin:0;"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `;
                 
@@ -3920,6 +3937,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     floatCardText.value = labelText;
                     floatCardImgUrl.value = imgUrl;
+                    floatCardLeft.value = Math.round(currentLeft);
+                    floatCardTop.value = Math.round(currentTop);
                     
                     if (imgUrl) {
                         floatCardImgPreview.src = imgUrl;
@@ -3931,7 +3950,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 itemDiv.querySelector('.btn-delete-float-card').addEventListener('click', () => {
-                    if (confirm(`Are you sure you want to delete "\&quot;\${labelText || 'this card'}\&quot;"?`)) {
+                    if (confirm(`Are you sure you want to delete "${labelText || 'this card'}"?`)) {
                         card.remove();
                         renderList();
                         window.showToast('Floating card deleted locally. Save to Cloud to persist.', 'info');
@@ -3969,6 +3988,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 floatCardFile.value = '';
                 floatCardFile.dataset.base64 = '';
                 floatCardImgPreviewContainer.style.display = 'none';
+                floatCardLeft.value = '50';
+                floatCardTop.value = '50';
             };
         }
 
@@ -3978,6 +3999,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 let imgUrl = floatCardImgUrl.value.trim();
                 const mode = floatCardForm.dataset.mode || 'add';
                 const targetId = floatCardForm.dataset.targetId;
+                const leftVal = floatCardLeft.value || '50';
+                const topVal = floatCardTop.value || '50';
 
                 if (!text && !imgUrl && floatCardImgUrl.value !== 'base64_pending') {
                     window.showToast('Please enter text or choose an image.', 'warning');
@@ -4002,30 +4025,32 @@ document.addEventListener("DOMContentLoaded", () => {
                         const newCard = document.createElement('div');
                         newCard.className = 'hero-float-card';
                         newCard.setAttribute('data-card-id', newId);
-                        newCard.style.cssText = `left: 45%; top: 40%; animation-delay: \${delay};`;
+                        newCard.style.cssText = `left: ${leftVal}%; top: ${topVal}%; animation-delay: ${delay};`;
                         
                         let cardHTML = '';
                         if (imgUrl) {
-                            cardHTML += `<img src="\${imgUrl}" alt="\${text || 'Logo'}" onerror="this.style.display='none'">`;
+                            cardHTML += `<img src="${imgUrl}" alt="${text || 'Logo'}" onerror="this.style.display='none'">`;
                         }
                         if (text) {
-                            cardHTML += `<span>\${text}</span>`;
+                            cardHTML += `<span>${text}</span>`;
                         }
                         
                         newCard.innerHTML = cardHTML;
                         heroFloatingCardsContainer.appendChild(newCard);
                         window.showToast('Card added. Enable Edit Mode and drag it to position!', 'success');
                     } else {
-                        const card = heroFloatingCardsContainer.querySelector(`[data-card-id="\${targetId}"]`);
+                        const card = heroFloatingCardsContainer.querySelector(`[data-card-id="${targetId}"]`);
                         if (card) {
                             let cardHTML = '';
                             if (imgUrl) {
-                                cardHTML += `<img src="\${imgUrl}" alt="\${text || 'Logo'}" onerror="this.style.display='none'">`;
+                                cardHTML += `<img src="${imgUrl}" alt="${text || 'Logo'}" onerror="this.style.display='none'">`;
                             }
                             if (text) {
-                                cardHTML += `<span>\${text}</span>`;
+                                cardHTML += `<span>${text}</span>`;
                             }
                             card.innerHTML = cardHTML;
+                            card.style.left = leftVal + '%';
+                            card.style.top = topVal + '%';
                             window.showToast('Card updated successfully.', 'success');
                         }
                     }
@@ -4054,6 +4079,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 floatCardFile.value = '';
                 floatCardFile.dataset.base64 = '';
                 floatCardImgPreviewContainer.style.display = 'none';
+                floatCardLeft.value = '50';
+                floatCardTop.value = '50';
             };
         }
 
