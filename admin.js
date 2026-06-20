@@ -355,14 +355,28 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span>Horizontal Offset</span>
                         <span id="hero-offset-x-val">-40px</span>
                     </div>
-                    <input type="range" id="hero-offset-x" min="-150" max="150" value="-40" style="width:100%;">
+                    <input type="range" id="hero-offset-x" min="-800" max="800" value="-40" style="width:100%;">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
                         <span>Vertical Offset</span>
                         <span id="hero-offset-y-val">0px</span>
                     </div>
-                    <input type="range" id="hero-offset-y" min="-150" max="150" value="0" style="width:100%;">
+                    <input type="range" id="hero-offset-y" min="-400" max="400" value="0" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Hero Section Height (px)</span>
+                        <span id="hero-height-val">650px</span>
+                    </div>
+                    <input type="range" id="hero-height-slider" min="300" max="1200" value="650" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Hero Vertical Padding (px)</span>
+                        <span id="hero-padding-val">60px</span>
+                    </div>
+                    <input type="range" id="hero-padding-slider" min="0" max="250" value="60" style="width:100%;">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
@@ -921,6 +935,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const heroOffsetXVal = document.getElementById("hero-offset-x-val");
     const heroOffsetYVal = document.getElementById("hero-offset-y-val");
+    const heroHeightSlider = document.getElementById("hero-height-slider");
+    const heroHeightVal = document.getElementById("hero-height-val");
+    const heroPaddingSlider = document.getElementById("hero-padding-slider");
+    const heroPaddingVal = document.getElementById("hero-padding-val");
     const heroCardWidthVal = document.getElementById("hero-card-width-val");
     const heroCardRadiusVal = document.getElementById("hero-card-radius-val");
     const heroCardBlurVal = document.getElementById("hero-card-blur-val");
@@ -3393,6 +3411,35 @@ document.addEventListener("DOMContentLoaded", () => {
             visToggle.checked = !heroSection.classList.contains('hero-card-hidden');
         }
 
+        let heroHeight = 650;
+        let heroPadding = 60;
+        if (heroSection) {
+            const hStyle = heroSection.style;
+            const heightStr = hStyle.getPropertyValue('--hero-min-height');
+            if (heightStr && heightStr !== 'auto') {
+                heroHeight = parseInt(heightStr) || 650;
+            } else {
+                const computed = window.getComputedStyle(heroSection);
+                heroHeight = parseInt(computed.minHeight || computed.height) || 650;
+            }
+            const paddingStr = hStyle.getPropertyValue('--hero-padding-y');
+            if (paddingStr) {
+                heroPadding = parseInt(paddingStr) || 60;
+            } else {
+                const computed = window.getComputedStyle(heroSection);
+                heroPadding = parseInt(computed.paddingTop) || 60;
+            }
+        }
+
+        if (heroHeightSlider) {
+            heroHeightSlider.value = heroHeight;
+            if (heroHeightVal) heroHeightVal.innerText = heroHeight + 'px';
+        }
+        if (heroPaddingSlider) {
+            heroPaddingSlider.value = heroPadding;
+            if (heroPaddingVal) heroPaddingVal.innerText = heroPadding + 'px';
+        }
+
         const style = heroContent.style;
         const offsetX = parseInt(style.getPropertyValue('--hero-card-offset-x') || '-40');
         const offsetY = parseInt(style.getPropertyValue('--hero-card-offset-y') || '0');
@@ -3513,6 +3560,39 @@ document.addEventListener("DOMContentLoaded", () => {
             const val = e.target.value / 100;
             heroCardOpacityVal.innerText = val;
             updateHeroCardStyle('--hero-card-opacity', val);
+        });
+    }
+
+    if (heroHeightSlider) {
+        heroHeightSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (heroHeightVal) heroHeightVal.innerText = val + 'px';
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                heroSection.style.setProperty('--hero-min-height', val + 'px');
+            }
+            window.dispatchEvent(new Event('resize'));
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) {
+                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+            }
+        });
+    }
+    if (heroPaddingSlider) {
+        heroPaddingSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (heroPaddingVal) heroPaddingVal.innerText = val + 'px';
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                heroSection.style.setProperty('--hero-padding-y', val + 'px');
+            }
+            window.dispatchEvent(new Event('resize'));
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) {
+                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+            }
         });
     }
 
@@ -3794,78 +3874,153 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Drag-and-drop repositioning logic for hero float cards in edit mode
+    // Drag-and-drop repositioning logic for hero float cards and main card in edit mode
     let activeDragCard = null;
+    let activeDragMainCard = null;
     let dragStartX = 0, dragStartY = 0;
     let initialLeftPercent = 0, initialTopPercent = 0;
+    let initialOffsetX = 0, initialOffsetY = 0;
 
     document.addEventListener('mousedown', (e) => {
         if (!isEditMode) return;
-        const card = e.target.closest('.hero-float-card');
-        if (!card) return;
 
-        // Skip if clicked inside form/buttons of admin panel
-        if (e.target.closest('#super-admin-panel') || e.target.closest('#float-card-form')) return;
-
-        activeDragCard = card;
-        dragStartX = e.clientX;
-        dragStartY = e.clientY;
-
-        const parent = card.offsetParent || document.querySelector('.hero');
-        const parentWidth = parent.clientWidth || window.innerWidth;
-        const parentHeight = parent.clientHeight || window.innerHeight;
-
-        const styleLeft = card.style.left;
-        const styleTop = card.style.top;
-
-        if (styleLeft && styleLeft.endsWith('%')) {
-            initialLeftPercent = parseFloat(styleLeft);
-        } else {
-            initialLeftPercent = (card.offsetLeft / parentWidth) * 100;
+        // Skip if clicked inside any admin panel/modals/forms
+        if (e.target.closest('#super-admin-panel') || 
+            e.target.closest('#admin-crop-modal') || 
+            e.target.closest('#admin-add-item-modal') || 
+            e.target.closest('#admin-text-toolbar') || 
+            e.target.closest('#admin-blog-modal') || 
+            e.target.closest('#admin-hero-bg-modal') ||
+            e.target.closest('#float-card-form')) {
+            return;
         }
 
-        if (styleTop && styleTop.endsWith('%')) {
-            initialTopPercent = parseFloat(styleTop);
-        } else {
-            initialTopPercent = (card.offsetTop / parentHeight) * 100;
+        // 1. Check for floating card first
+        const floatCard = e.target.closest('.hero-float-card');
+        if (floatCard) {
+            activeDragCard = floatCard;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+
+            const parent = floatCard.offsetParent || document.querySelector('.hero');
+            const parentWidth = parent.clientWidth || window.innerWidth;
+            const parentHeight = parent.clientHeight || window.innerHeight;
+
+            const styleLeft = floatCard.style.left;
+            const styleTop = floatCard.style.top;
+
+            if (styleLeft && styleLeft.endsWith('%')) {
+                initialLeftPercent = parseFloat(styleLeft);
+            } else {
+                initialLeftPercent = (floatCard.offsetLeft / parentWidth) * 100;
+            }
+
+            if (styleTop && styleTop.endsWith('%')) {
+                initialTopPercent = parseFloat(styleTop);
+            } else {
+                initialTopPercent = (floatCard.offsetTop / parentHeight) * 100;
+            }
+
+            floatCard.style.right = 'auto';
+            floatCard.style.bottom = 'auto';
+            floatCard.style.left = initialLeftPercent + '%';
+            floatCard.style.top = initialTopPercent + '%';
+            floatCard.style.cursor = 'grabbing';
+
+            e.preventDefault();
+            return;
         }
 
-        card.style.right = 'auto';
-        card.style.bottom = 'auto';
-        card.style.left = initialLeftPercent + '%';
-        card.style.top = initialTopPercent + '%';
-        card.style.cursor = 'grabbing';
+        // 2. Check for main hero card
+        const heroContent = e.target.closest('.hero-content');
+        if (heroContent) {
+            // Avoid dragging if clicking on links, buttons, inputs, edit/delete buttons, or anything clickable
+            if (e.target.closest('a') || 
+                e.target.closest('button') || 
+                e.target.closest('input') || 
+                e.target.closest('textarea') || 
+                e.target.closest('select') || 
+                e.target.closest('.admin-element-toolbar') ||
+                e.target.closest('[contenteditable="true"]')) {
+                return;
+            }
 
-        e.preventDefault();
+            activeDragMainCard = heroContent;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+
+            const style = heroContent.style;
+            initialOffsetX = parseInt(style.getPropertyValue('--hero-card-offset-x') || '-40');
+            initialOffsetY = parseInt(style.getPropertyValue('--hero-card-offset-y') || '0');
+
+            heroContent.style.cursor = 'grabbing';
+            e.preventDefault();
+        }
     });
 
     document.addEventListener('mousemove', (e) => {
-        if (!activeDragCard) return;
-        const parent = activeDragCard.offsetParent || document.querySelector('.hero');
-        const parentWidth = parent.clientWidth || window.innerWidth;
-        const parentHeight = parent.clientHeight || window.innerHeight;
+        if (activeDragCard) {
+            const parent = activeDragCard.offsetParent || document.querySelector('.hero');
+            const parentWidth = parent.clientWidth || window.innerWidth;
+            const parentHeight = parent.clientHeight || window.innerHeight;
 
-        const dx = e.clientX - dragStartX;
-        const dy = e.clientY - dragStartY;
+            const dx = e.clientX - dragStartX;
+            const dy = e.clientY - dragStartY;
 
-        const deltaLeftPercent = (dx / parentWidth) * 100;
-        const deltaTopPercent = (dy / parentHeight) * 100;
+            const deltaLeftPercent = (dx / parentWidth) * 100;
+            const deltaTopPercent = (dy / parentHeight) * 100;
 
-        let newLeft = initialLeftPercent + deltaLeftPercent;
-        let newTop = initialTopPercent + deltaTopPercent;
+            let newLeft = initialLeftPercent + deltaLeftPercent;
+            let newTop = initialTopPercent + deltaTopPercent;
 
-        // Keep inside bounds (0% to 95%)
-        newLeft = Math.max(0, Math.min(95, newLeft));
-        newTop = Math.max(0, Math.min(95, newTop));
+            // Keep inside bounds (0% to 95%)
+            newLeft = Math.max(0, Math.min(95, newLeft));
+            newTop = Math.max(0, Math.min(95, newTop));
 
-        activeDragCard.style.left = newLeft.toFixed(2) + '%';
-        activeDragCard.style.top = newTop.toFixed(2) + '%';
+            activeDragCard.style.left = newLeft.toFixed(2) + '%';
+            activeDragCard.style.top = newTop.toFixed(2) + '%';
+            return;
+        }
+
+        if (activeDragMainCard) {
+            const dx = e.clientX - dragStartX;
+            const dy = e.clientY - dragStartY;
+
+            const newOffsetX = initialOffsetX + dx;
+            const newOffsetY = initialOffsetY + dy;
+
+            // Restrict to slider bounds
+            const boundedX = Math.max(-800, Math.min(800, newOffsetX));
+            const boundedY = Math.max(-400, Math.min(400, newOffsetY));
+
+            activeDragMainCard.style.setProperty('--hero-card-offset-x', boundedX + 'px');
+            activeDragMainCard.style.setProperty('--hero-card-offset-y', boundedY + 'px');
+
+            if (heroOffsetX) {
+                heroOffsetX.value = boundedX;
+                heroOffsetXVal.innerText = boundedX + 'px';
+            }
+            if (heroOffsetY) {
+                heroOffsetY.value = boundedY;
+                heroOffsetYVal.innerText = boundedY + 'px';
+            }
+
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) {
+                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+            }
+        }
     });
 
     document.addEventListener('mouseup', () => {
         if (activeDragCard) {
             activeDragCard.style.cursor = '';
             activeDragCard = null;
+        }
+        if (activeDragMainCard) {
+            activeDragMainCard.style.cursor = '';
+            activeDragMainCard = null;
         }
     });
 

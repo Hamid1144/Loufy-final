@@ -191,7 +191,7 @@ section{padding:100px 0}
 }
 
 /* HERO */
-.hero{padding:60px 0 50px;background:linear-gradient(135deg,rgba(248,250,249,0.55) 0%,rgba(238,245,240,0.5) 50%,rgba(250,248,240,0.55) 100%);position:relative;overflow:hidden;isolation:isolate}
+.hero{padding:var(--hero-padding-y, 60px) 0;min-height:var(--hero-min-height, auto);display:flex;align-items:center;background:linear-gradient(135deg,rgba(248,250,249,0.55) 0%,rgba(238,245,240,0.5) 50%,rgba(250,248,240,0.55) 100%);position:relative;overflow:hidden;isolation:isolate}
 #hero-bg-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
 #hero-bg-image{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none}
 .hero .container{display:grid;grid-template-columns:1.35fr 0.65fr;gap:40px;align-items:center;position:relative;z-index:1}
@@ -2244,11 +2244,22 @@ body > section.portfolio {
 
 /* HERO CARD VISIBILITY & FLOATING CARDS */
 .hero.hero-card-hidden {
-    min-height: 550px;
-    height: 75vh;
+    min-height: var(--hero-min-height, 550px);
 }
 .hero.hero-card-hidden .container {
     display: none !important;
+}
+
+body.edit-mode .hero-content {
+    transition: none !important;
+    cursor: grab;
+}
+body.edit-mode .hero-content:active {
+    cursor: grabbing;
+}
+body.edit-mode .hero-float-card {
+    animation-play-state: paused !important;
+    transition: none !important;
 }
 
 #hero-floating-cards {
