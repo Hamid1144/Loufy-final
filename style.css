@@ -1784,30 +1784,29 @@ body > section.portfolio {
     }
     
     .services-grid {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        gap: 16px;
-        padding-bottom: 16px;
-        -webkit-overflow-scrolling: touch;
-        margin-left: -16px;
-        margin-right: -16px;
-        padding-left: 16px;
-        padding-right: 16px;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px;
+        padding-bottom: 0;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
     }
-    .services-grid::-webkit-scrollbar { height: 4px; }
-    .services-grid::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
-    .services-grid::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
     
     .service-card {
-        min-width: 260px;
-        flex: 0 0 auto;
-        scroll-snap-align: center;
-        padding: 24px 16px !important; /* desktop style */
+        min-width: unset;
+        padding: 16px 12px !important;
     }
-    .service-card h3 { font-size: 1.05rem !important; }
-    .service-card p { font-size: 0.84rem !important; margin-bottom: 16px !important; }
+    .service-card .service-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+    .service-card h3 { font-size: 0.85rem !important; margin-bottom: 8px; }
+    .service-card p { font-size: 0.72rem !important; margin-bottom: 10px !important; line-height: 1.4; }
+    .service-card .learn-more { font-size: 0.75rem; }
 
     .about-float-tag {
         font-size: 0.72rem;
@@ -1868,8 +1867,16 @@ body > section.portfolio {
         font-size: 0.65rem !important;
     }
     .service-card {
-        min-width: 240px;
+        padding: 12px 10px !important;
     }
+    .service-card .service-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+    .service-card h3 { font-size: 0.8rem !important; margin-bottom: 6px; }
+    .service-card p { font-size: 0.7rem !important; margin-bottom: 8px !important; }
     .about-img-wrap, .about-img {
         width: 280px !important;
         height: 280px !important;
