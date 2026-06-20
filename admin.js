@@ -562,6 +562,41 @@ document.addEventListener("DOMContentLoaded", () => {
                             <input type="number" id="float-card-top" min="0" max="100" value="50" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
                         </div>
                     </div>
+                    <!-- Sizing and styling per card -->
+                    <div style="border-top:1px solid #444; padding-top:8px; display:flex; flex-direction:column; gap:6px;">
+                        <label style="font-size:0.65rem; color:#ff5722; font-weight:700; text-transform:uppercase; display:block;">Card Sizing & Style</label>
+                        
+                        <div style="display:flex; gap:8px;">
+                            <div style="flex:1;">
+                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Width (px/auto)</label>
+                                <input type="text" id="float-card-width-input" placeholder="e.g. 150px or auto" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                            </div>
+                            <div style="flex:1;">
+                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Height (px/auto)</label>
+                                <input type="text" id="float-card-height-input" placeholder="e.g. 50px or auto" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <div style="flex:1;">
+                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Padding (px)</label>
+                                <input type="number" id="float-card-padding-input" placeholder="e.g. 10" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                            </div>
+                            <div style="flex:1;">
+                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Radius (px)</label>
+                                <input type="number" id="float-card-radius-input" placeholder="e.g. 12" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <div style="flex:1;">
+                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Blur (px)</label>
+                                <input type="number" id="float-card-blur-input" placeholder="e.g. 12" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                            </div>
+                            <div style="flex:1;">
+                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Opacity (0-1)</label>
+                                <input type="number" id="float-card-opacity-input" step="0.05" min="0.1" max="1" placeholder="e.g. 0.45" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                            </div>
+                        </div>
+                    </div>
                     <div style="display:flex; gap:6px; margin-top:4px;">
                         <button type="button" id="float-card-save-btn" class="admin-btn" style="margin:0; padding:6px; font-size:0.75rem; background:#28a745; flex:1; color:#fff;">Save Card</button>
                         <button type="button" id="float-card-cancel-btn" class="admin-btn danger" style="margin:0; padding:6px; font-size:0.75rem; flex:1; color:#fff;">Cancel</button>
@@ -4366,6 +4401,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const floatCardAddBtn = document.getElementById('float-card-add-btn');
         const floatCardLeft = document.getElementById('float-card-left');
         const floatCardTop = document.getElementById('float-card-top');
+        const floatCardWidthInput = document.getElementById('float-card-width-input');
+        const floatCardHeightInput = document.getElementById('float-card-height-input');
+        const floatCardPaddingInput = document.getElementById('float-card-padding-input');
+        const floatCardRadiusInput = document.getElementById('float-card-radius-input');
+        const floatCardBlurInput = document.getElementById('float-card-blur-input');
+        const floatCardOpacityInput = document.getElementById('float-card-opacity-input');
 
         if (!floatCardsList) return;
 
@@ -4421,6 +4462,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     floatCardImgUrl.value = imgUrl;
                     floatCardLeft.value = Math.round(currentLeft);
                     floatCardTop.value = Math.round(currentTop);
+
+                    const cardStyle = card.style;
+                    floatCardWidthInput.value = cardStyle.getPropertyValue('--hero-float-card-width') || 'auto';
+                    floatCardHeightInput.value = cardStyle.getPropertyValue('--hero-float-card-height') || 'auto';
+                    
+                    const cPadding = cardStyle.getPropertyValue('--hero-float-card-padding') || '10px 16px';
+                    floatCardPaddingInput.value = parseInt(cPadding) || 10;
+                    
+                    const cRadius = cardStyle.getPropertyValue('--hero-float-card-radius') || '12px';
+                    floatCardRadiusInput.value = parseInt(cRadius) || 12;
+                    
+                    const cBlur = cardStyle.getPropertyValue('--hero-float-card-blur') || '12px';
+                    floatCardBlurInput.value = parseInt(cBlur) || 12;
+                    
+                    const cOpacity = cardStyle.getPropertyValue('--hero-float-card-opacity') || '0.45';
+                    floatCardOpacityInput.value = parseFloat(cOpacity) || 0.45;
                     
                     if (imgUrl) {
                         floatCardImgPreview.src = imgUrl;
@@ -4472,6 +4529,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 floatCardImgPreviewContainer.style.display = 'none';
                 floatCardLeft.value = '50';
                 floatCardTop.value = '50';
+                
+                if (floatCardWidthInput) floatCardWidthInput.value = 'auto';
+                if (floatCardHeightInput) floatCardHeightInput.value = 'auto';
+                if (floatCardPaddingInput) floatCardPaddingInput.value = '10';
+                if (floatCardRadiusInput) floatCardRadiusInput.value = '12';
+                if (floatCardBlurInput) floatCardBlurInput.value = '12';
+                if (floatCardOpacityInput) floatCardOpacityInput.value = '0.45';
             };
         }
 
