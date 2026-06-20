@@ -2290,6 +2290,7 @@ body.edit-mode .hero-float-card {
     pointer-events: auto;
     cursor: grab;
     user-select: none;
+    transform: scale(var(--hero-float-card-scale, 1));
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     animation: floatCard 6s ease-in-out infinite;
 }
@@ -2297,13 +2298,13 @@ body.edit-mode .hero-float-card {
     cursor: grabbing;
 }
 .hero-float-card:hover {
-    transform: scale(1.05) translateY(-5px);
+    transform: scale(calc(var(--hero-float-card-scale, 1) * 1.05)) translateY(-5px);
     background: rgba(255, 255, 255, 0.7);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     animation-play-state: paused;
 }
 .hero-float-card img {
-    height: 24px;
+    height: var(--hero-float-card-img-size, 24px);
     width: auto;
     object-fit: contain;
 }

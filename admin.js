@@ -572,6 +572,22 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <input type="range" id="float-card-opacity-input" min="10" max="95" value="45" style="width:100%;">
                             </div>
                         </div>
+                        <div style="display:flex; gap:8px; margin-top:4px;">
+                            <div style="flex:1;">
+                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
+                                    <span>Card Scale</span>
+                                    <span id="float-card-scale-val">1x</span>
+                                </div>
+                                <input type="range" id="float-card-scale-input" min="50" max="250" value="100" style="width:100%;">
+                            </div>
+                            <div style="flex:1;">
+                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
+                                    <span>Image Size</span>
+                                    <span id="float-card-imgsize-val">24px</span>
+                                </div>
+                                <input type="range" id="float-card-imgsize-input" min="14" max="80" value="24" style="width:100%;">
+                            </div>
+                        </div>
                     </div>
                     <div style="display:flex; gap:6px; margin-top:4px;">
                         <button type="button" id="float-card-save-btn" class="admin-btn" style="margin:0; padding:6px; font-size:0.75rem; background:#28a745; flex:1; color:#fff;">Save Card</button>
