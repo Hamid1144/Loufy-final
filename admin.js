@@ -3404,7 +3404,7 @@ document.addEventListener("DOMContentLoaded", () => {
             clone.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
 
             // Clean up marquee container from clone so it's not serialized
-            clone.querySelectorAll('.covers-marquee-container, .formatting-marquee-container').forEach(el => el.remove());
+            clone.querySelectorAll('.covers-marquee-container, .paperback-covers-marquee-container, .formatting-marquee-container').forEach(el => el.remove());
             
             // Reset inline display style on all grid cards so they save in a neutral state
             clone.querySelectorAll('.portfolio-grid .portfolio-card').forEach(card => {
@@ -5094,7 +5094,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const cloneDoc = document.documentElement.cloneNode(true);
         
         // Remove admin control panels, modals, and dynamic marquee containers
-        cloneDoc.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-category-selector-modal, #admin-text-toolbar, .admin-element-toolbar, #fp-rp-overlay, #fp-rp-modal, #custom-toast, .covers-marquee-container, .formatting-marquee-container, #admin-blog-modal, #admin-hero-bg-modal').forEach(el => el.remove());
+        cloneDoc.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-category-selector-modal, #admin-text-toolbar, .admin-element-toolbar, #fp-rp-overlay, #fp-rp-modal, #custom-toast, .covers-marquee-container, .paperback-covers-marquee-container, .formatting-marquee-container, #admin-blog-modal, #admin-hero-bg-modal').forEach(el => el.remove());
         cloneDoc.querySelectorAll('.portfolio-grid .portfolio-card').forEach(card => {
             card.style.display = '';
         });
