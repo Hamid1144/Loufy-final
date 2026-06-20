@@ -2274,15 +2274,18 @@ body.edit-mode .hero-float-card {
 }
 .hero-float-card {
     position: absolute;
-    background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(12px) saturate(120%);
-    -webkit-backdrop-filter: blur(12px) saturate(120%);
+    background: rgba(255, 255, 255, var(--hero-float-card-opacity, 0.45));
+    backdrop-filter: blur(var(--hero-float-card-blur, 12px)) saturate(120%);
+    -webkit-backdrop-filter: blur(var(--hero-float-card-blur, 12px)) saturate(120%);
     border: 1px solid rgba(255, 255, 255, 0.5);
-    padding: 10px 16px;
-    border-radius: 12px;
+    padding: var(--hero-float-card-padding, 10px 16px);
+    border-radius: var(--hero-float-card-radius, 12px);
+    width: var(--hero-float-card-width, auto);
+    height: var(--hero-float-card-height, auto);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.5);
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     pointer-events: auto;
     cursor: grab;

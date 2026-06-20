@@ -425,6 +425,60 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             </div>
 
+            <!-- Floating Logo Cards Layout & Style -->
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; flex-direction:column; gap:8px;">
+                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block;"><i class="fa-solid fa-sliders"></i> Floating Cards Appearance</label>
+                
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Card Width (px)</span>
+                        <span id="float-card-width-val">auto</span>
+                    </div>
+                    <input type="range" id="float-card-width-slider" min="80" max="400" value="150" style="width:100%;">
+                    <label style="font-size:0.65rem; color:#aaa; display:flex; align-items:center; gap:4px; margin-top:2px; cursor:pointer;">
+                        <input type="checkbox" id="float-card-width-auto" checked style="width:12px; height:12px; cursor:pointer;"> Use Auto Width
+                    </label>
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Card Height (px)</span>
+                        <span id="float-card-height-val">auto</span>
+                    </div>
+                    <input type="range" id="float-card-height-slider" min="30" max="250" value="50" style="width:100%;">
+                    <label style="font-size:0.65rem; color:#aaa; display:flex; align-items:center; gap:4px; margin-top:2px; cursor:pointer;">
+                        <input type="checkbox" id="float-card-height-auto" checked style="width:12px; height:12px; cursor:pointer;"> Use Auto Height
+                    </label>
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Card Padding (px)</span>
+                        <span id="float-card-padding-val">10px</span>
+                    </div>
+                    <input type="range" id="float-card-padding-slider" min="2" max="30" value="10" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Border Radius</span>
+                        <span id="float-card-radius-val">12px</span>
+                    </div>
+                    <input type="range" id="float-card-radius-slider" min="0" max="40" value="12" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Backdrop Blur</span>
+                        <span id="float-card-blur-val">12px</span>
+                    </div>
+                    <input type="range" id="float-card-blur-slider" min="0" max="40" value="12" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Glass Opacity</span>
+                        <span id="float-card-opacity-val">0.45</span>
+                    </div>
+                    <input type="range" id="float-card-opacity-slider" min="10" max="95" value="45" style="width:100%;">
+                </div>
+            </div>
+
             <!-- Content Settings -->
             <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; flex-direction:column; gap:8px;">
                 <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block;"><i class="fa-solid fa-pen-to-square"></i> Hero Content</label>
@@ -965,6 +1019,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroCardRadiusVal = document.getElementById("hero-card-radius-val");
     const heroCardBlurVal = document.getElementById("hero-card-blur-val");
     const heroCardOpacityVal = document.getElementById("hero-card-opacity-val");
+
+    // Floating Logo Cards Appearance Elements
+    const floatCardWidthSlider = document.getElementById("float-card-width-slider");
+    const floatCardWidthVal = document.getElementById("float-card-width-val");
+    const floatCardWidthAuto = document.getElementById("float-card-width-auto");
+    const floatCardHeightSlider = document.getElementById("float-card-height-slider");
+    const floatCardHeightVal = document.getElementById("float-card-height-val");
+    const floatCardHeightAuto = document.getElementById("float-card-height-auto");
+    const floatCardPaddingSlider = document.getElementById("float-card-padding-slider");
+    const floatCardPaddingVal = document.getElementById("float-card-padding-val");
+    const floatCardRadiusSlider = document.getElementById("float-card-radius-slider");
+    const floatCardRadiusVal = document.getElementById("float-card-radius-val");
+    const floatCardBlurSlider = document.getElementById("float-card-blur-slider");
+    const floatCardBlurVal = document.getElementById("float-card-blur-val");
+    const floatCardOpacitySlider = document.getElementById("float-card-opacity-slider");
+    const floatCardOpacityVal = document.getElementById("float-card-opacity-val");
 
     const heroButtonsEditorList = document.getElementById("hero-buttons-editor-list");
     const heroAddButtonBtn = document.getElementById("hero-add-button-btn");
@@ -3515,6 +3585,66 @@ document.addEventListener("DOMContentLoaded", () => {
             heroCardOpacityVal.innerText = cardOpacity;
         }
 
+        // Initialize floating cards styles
+        const floatCardsContainer = document.getElementById('hero-floating-cards');
+        if (floatCardsContainer) {
+            const fStyle = floatCardsContainer.style;
+            
+            // Width
+            const fWidthStr = fStyle.getPropertyValue('--hero-float-card-width') || 'auto';
+            const isFWidthAuto = fWidthStr === 'auto' || !fWidthStr;
+            const fWidth = isFWidthAuto ? 150 : (parseInt(fWidthStr) || 150);
+            if (floatCardWidthSlider) {
+                floatCardWidthSlider.value = fWidth;
+                floatCardWidthVal.innerText = isFWidthAuto ? 'auto' : fWidth + 'px';
+                floatCardWidthSlider.disabled = isFWidthAuto;
+            }
+            if (floatCardWidthAuto) floatCardWidthAuto.checked = isFWidthAuto;
+
+            // Height
+            const fHeightStr = fStyle.getPropertyValue('--hero-float-card-height') || 'auto';
+            const isFHeightAuto = fHeightStr === 'auto' || !fHeightStr;
+            const fHeight = isFHeightAuto ? 50 : (parseInt(fHeightStr) || 50);
+            if (floatCardHeightSlider) {
+                floatCardHeightSlider.value = fHeight;
+                floatCardHeightVal.innerText = isFHeightAuto ? 'auto' : fHeight + 'px';
+                floatCardHeightSlider.disabled = isFHeightAuto;
+            }
+            if (floatCardHeightAuto) floatCardHeightAuto.checked = isFHeightAuto;
+
+            // Padding
+            const fPaddingStr = fStyle.getPropertyValue('--hero-float-card-padding') || '10px 16px';
+            const fPadding = parseInt(fPaddingStr) || 10;
+            if (floatCardPaddingSlider) {
+                floatCardPaddingSlider.value = fPadding;
+                floatCardPaddingVal.innerText = fPadding + 'px';
+            }
+
+            // Radius
+            const fRadiusStr = fStyle.getPropertyValue('--hero-float-card-radius') || '12px';
+            const fRadius = parseInt(fRadiusStr) || 12;
+            if (floatCardRadiusSlider) {
+                floatCardRadiusSlider.value = fRadius;
+                floatCardRadiusVal.innerText = fRadius + 'px';
+            }
+
+            // Blur
+            const fBlurStr = fStyle.getPropertyValue('--hero-float-card-blur') || '12px';
+            const fBlur = parseInt(fBlurStr) || 12;
+            if (floatCardBlurSlider) {
+                floatCardBlurSlider.value = fBlur;
+                floatCardBlurVal.innerText = fBlur + 'px';
+            }
+
+            // Opacity
+            const fOpacityStr = fStyle.getPropertyValue('--hero-float-card-opacity') || '0.45';
+            const fOpacity = parseFloat(fOpacityStr) || 0.45;
+            if (floatCardOpacitySlider) {
+                floatCardOpacitySlider.value = Math.round(fOpacity * 100);
+                floatCardOpacityVal.innerText = fOpacity;
+            }
+        }
+
         // Update content inputs
         const badgeEl = document.querySelector('.hero-badge');
         if (badgeEl && heroBadgeTextInput) {
@@ -3559,6 +3689,116 @@ document.addEventListener("DOMContentLoaded", () => {
         if (heroContent) {
             heroContent.style.setProperty(prop, val);
         }
+    }
+
+    function updateFloatCardsStyle(prop, val) {
+        const floatCardsContainer = document.getElementById('hero-floating-cards');
+        if (floatCardsContainer) {
+            floatCardsContainer.style.setProperty(prop, val);
+        }
+    }
+
+    if (floatCardWidthSlider) {
+        floatCardWidthSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (floatCardWidthVal) floatCardWidthVal.innerText = val + 'px';
+            updateFloatCardsStyle('--hero-float-card-width', val + 'px');
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+        });
+    }
+    if (floatCardWidthAuto) {
+        floatCardWidthAuto.addEventListener('change', (e) => {
+            const checked = e.target.checked;
+            if (checked) {
+                if (floatCardWidthSlider) floatCardWidthSlider.disabled = true;
+                if (floatCardWidthVal) floatCardWidthVal.innerText = 'auto';
+                updateFloatCardsStyle('--hero-float-card-width', 'auto');
+            } else {
+                if (floatCardWidthSlider) {
+                    floatCardWidthSlider.disabled = false;
+                    const val = floatCardWidthSlider.value;
+                    if (floatCardWidthVal) floatCardWidthVal.innerText = val + 'px';
+                    updateFloatCardsStyle('--hero-float-card-width', val + 'px');
+                }
+            }
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+        });
+    }
+    if (floatCardHeightSlider) {
+        floatCardHeightSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (floatCardHeightVal) floatCardHeightVal.innerText = val + 'px';
+            updateFloatCardsStyle('--hero-float-card-height', val + 'px');
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+        });
+    }
+    if (floatCardHeightAuto) {
+        floatCardHeightAuto.addEventListener('change', (e) => {
+            const checked = e.target.checked;
+            if (checked) {
+                if (floatCardHeightSlider) floatCardHeightSlider.disabled = true;
+                if (floatCardHeightVal) floatCardHeightVal.innerText = 'auto';
+                updateFloatCardsStyle('--hero-float-card-height', 'auto');
+            } else {
+                if (floatCardHeightSlider) {
+                    floatCardHeightSlider.disabled = false;
+                    const val = floatCardHeightSlider.value;
+                    if (floatCardHeightVal) floatCardHeightVal.innerText = val + 'px';
+                    updateFloatCardsStyle('--hero-float-card-height', val + 'px');
+                }
+            }
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+        });
+    }
+    if (floatCardPaddingSlider) {
+        floatCardPaddingSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            const verticalPadding = val;
+            const horizontalPadding = Math.round(val * 1.6);
+            if (floatCardPaddingVal) floatCardPaddingVal.innerText = verticalPadding + 'px';
+            updateFloatCardsStyle('--hero-float-card-padding', verticalPadding + 'px ' + horizontalPadding + 'px');
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+        });
+    }
+    if (floatCardRadiusSlider) {
+        floatCardRadiusSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (floatCardRadiusVal) floatCardRadiusVal.innerText = val + 'px';
+            updateFloatCardsStyle('--hero-float-card-radius', val + 'px');
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+        });
+    }
+    if (floatCardBlurSlider) {
+        floatCardBlurSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (floatCardBlurVal) floatCardBlurVal.innerText = val + 'px';
+            updateFloatCardsStyle('--hero-float-card-blur', val + 'px');
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+        });
+    }
+    if (floatCardOpacitySlider) {
+        floatCardOpacitySlider.addEventListener('input', (e) => {
+            const val = e.target.value / 100;
+            if (floatCardOpacityVal) floatCardOpacityVal.innerText = val;
+            updateFloatCardsStyle('--hero-float-card-opacity', val);
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+        });
     }
 
     if (heroOffsetX) {
