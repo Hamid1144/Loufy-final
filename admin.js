@@ -4168,11 +4168,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const floatCardLeft = document.getElementById('float-card-left');
         const floatCardTop = document.getElementById('float-card-top');
         const floatCardWidthInput = document.getElementById('float-card-width-input');
+        const floatCardWidthVal = document.getElementById('float-card-width-val');
+        const floatCardWidthAuto = document.getElementById('float-card-width-auto');
         const floatCardHeightInput = document.getElementById('float-card-height-input');
+        const floatCardHeightVal = document.getElementById('float-card-height-val');
+        const floatCardHeightAuto = document.getElementById('float-card-height-auto');
         const floatCardPaddingInput = document.getElementById('float-card-padding-input');
+        const floatCardPaddingVal = document.getElementById('float-card-padding-val');
         const floatCardRadiusInput = document.getElementById('float-card-radius-input');
+        const floatCardRadiusVal = document.getElementById('float-card-radius-val');
         const floatCardBlurInput = document.getElementById('float-card-blur-input');
+        const floatCardBlurVal = document.getElementById('float-card-blur-val');
         const floatCardOpacityInput = document.getElementById('float-card-opacity-input');
+        const floatCardOpacityVal = document.getElementById('float-card-opacity-val');
 
         if (!floatCardsList) return;
 
@@ -4230,20 +4238,52 @@ document.addEventListener("DOMContentLoaded", () => {
                     floatCardTop.value = Math.round(currentTop);
 
                     const cardStyle = card.style;
-                    floatCardWidthInput.value = cardStyle.getPropertyValue('--hero-float-card-width') || 'auto';
-                    floatCardHeightInput.value = cardStyle.getPropertyValue('--hero-float-card-height') || 'auto';
                     
+                    // Width
+                    const cWidth = cardStyle.getPropertyValue('--hero-float-card-width') || 'auto';
+                    const isWAuto = cWidth === 'auto' || !cWidth;
+                    const wVal = isWAuto ? 150 : (parseInt(cWidth) || 150);
+                    if (floatCardWidthInput) {
+                        floatCardWidthInput.value = wVal;
+                        floatCardWidthInput.disabled = isWAuto;
+                    }
+                    if (floatCardWidthVal) floatCardWidthVal.innerText = isWAuto ? 'auto' : wVal + 'px';
+                    if (floatCardWidthAuto) floatCardWidthAuto.checked = isWAuto;
+
+                    // Height
+                    const cHeight = cardStyle.getPropertyValue('--hero-float-card-height') || 'auto';
+                    const isHAuto = cHeight === 'auto' || !cHeight;
+                    const hVal = isHAuto ? 50 : (parseInt(cHeight) || 50);
+                    if (floatCardHeightInput) {
+                        floatCardHeightInput.value = hVal;
+                        floatCardHeightInput.disabled = isHAuto;
+                    }
+                    if (floatCardHeightVal) floatCardHeightVal.innerText = isHAuto ? 'auto' : hVal + 'px';
+                    if (floatCardHeightAuto) floatCardHeightAuto.checked = isHAuto;
+                    
+                    // Padding
                     const cPadding = cardStyle.getPropertyValue('--hero-float-card-padding') || '10px 16px';
-                    floatCardPaddingInput.value = parseInt(cPadding) || 10;
+                    const pVal = parseInt(cPadding) || 10;
+                    if (floatCardPaddingInput) floatCardPaddingInput.value = pVal;
+                    if (floatCardPaddingVal) floatCardPaddingVal.innerText = pVal + 'px';
                     
+                    // Radius
                     const cRadius = cardStyle.getPropertyValue('--hero-float-card-radius') || '12px';
-                    floatCardRadiusInput.value = parseInt(cRadius) || 12;
+                    const rVal = parseInt(cRadius) || 12;
+                    if (floatCardRadiusInput) floatCardRadiusInput.value = rVal;
+                    if (floatCardRadiusVal) floatCardRadiusVal.innerText = rVal + 'px';
                     
+                    // Blur
                     const cBlur = cardStyle.getPropertyValue('--hero-float-card-blur') || '12px';
-                    floatCardBlurInput.value = parseInt(cBlur) || 12;
+                    const bVal = parseInt(cBlur) || 12;
+                    if (floatCardBlurInput) floatCardBlurInput.value = bVal;
+                    if (floatCardBlurVal) floatCardBlurVal.innerText = bVal + 'px';
                     
+                    // Opacity
                     const cOpacity = cardStyle.getPropertyValue('--hero-float-card-opacity') || '0.45';
-                    floatCardOpacityInput.value = parseFloat(cOpacity) || 0.45;
+                    const oVal = parseFloat(cOpacity) || 0.45;
+                    if (floatCardOpacityInput) floatCardOpacityInput.value = Math.round(oVal * 100);
+                    if (floatCardOpacityVal) floatCardOpacityVal.innerText = oVal;
                     
                     if (imgUrl) {
                         floatCardImgPreview.src = imgUrl;
@@ -4296,12 +4336,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 floatCardLeft.value = '50';
                 floatCardTop.value = '50';
                 
-                if (floatCardWidthInput) floatCardWidthInput.value = 'auto';
-                if (floatCardHeightInput) floatCardHeightInput.value = 'auto';
+                if (floatCardWidthInput) {
+                    floatCardWidthInput.value = '150';
+                    floatCardWidthInput.disabled = true;
+                }
+                if (floatCardWidthVal) floatCardWidthVal.innerText = 'auto';
+                if (floatCardWidthAuto) floatCardWidthAuto.checked = true;
+                
+                if (floatCardHeightInput) {
+                    floatCardHeightInput.value = '50';
+                    floatCardHeightInput.disabled = true;
+                }
+                if (floatCardHeightVal) floatCardHeightVal.innerText = 'auto';
+                if (floatCardHeightAuto) floatCardHeightAuto.checked = true;
+                
                 if (floatCardPaddingInput) floatCardPaddingInput.value = '10';
+                if (floatCardPaddingVal) floatCardPaddingVal.innerText = '10px';
+                
                 if (floatCardRadiusInput) floatCardRadiusInput.value = '12';
+                if (floatCardRadiusVal) floatCardRadiusVal.innerText = '12px';
+                
                 if (floatCardBlurInput) floatCardBlurInput.value = '12';
-                if (floatCardOpacityInput) floatCardOpacityInput.value = '0.45';
+                if (floatCardBlurVal) floatCardBlurVal.innerText = '12px';
+                
+                if (floatCardOpacityInput) floatCardOpacityInput.value = '45';
+                if (floatCardOpacityVal) floatCardOpacityVal.innerText = '0.45';
             };
         }
 
@@ -4330,12 +4389,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         imgUrl = uploadedUrl;
                     }
 
-                    const wVal = floatCardWidthInput ? (floatCardWidthInput.value.trim() || 'auto') : 'auto';
-                    const hVal = floatCardHeightInput ? (floatCardHeightInput.value.trim() || 'auto') : 'auto';
+                    const isWAuto = floatCardWidthAuto ? floatCardWidthAuto.checked : true;
+                    const wVal = isWAuto ? 'auto' : (floatCardWidthInput.value + 'px');
+
+                    const isHAuto = floatCardHeightAuto ? floatCardHeightAuto.checked : true;
+                    const hVal = isHAuto ? 'auto' : (floatCardHeightInput.value + 'px');
+
                     const pVal = floatCardPaddingInput ? (parseInt(floatCardPaddingInput.value) || 10) : 10;
                     const rVal = floatCardRadiusInput ? (parseInt(floatCardRadiusInput.value) || 12) : 12;
                     const bVal = floatCardBlurInput ? (parseInt(floatCardBlurInput.value) || 12) : 12;
-                    const oVal = floatCardOpacityInput ? (parseFloat(floatCardOpacityInput.value) || 0.45) : 0.45;
+                    const oVal = floatCardOpacityInput ? (parseFloat(floatCardOpacityInput.value / 100) || 0.45) : 0.45;
 
                     if (mode === 'add') {
                         const newId = 'card_' + Date.now();
@@ -4413,12 +4476,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 floatCardLeft.value = '50';
                 floatCardTop.value = '50';
                 
-                if (floatCardWidthInput) floatCardWidthInput.value = 'auto';
-                if (floatCardHeightInput) floatCardHeightInput.value = 'auto';
+                if (floatCardWidthInput) {
+                    floatCardWidthInput.value = '150';
+                    floatCardWidthInput.disabled = true;
+                }
+                if (floatCardWidthVal) floatCardWidthVal.innerText = 'auto';
+                if (floatCardWidthAuto) floatCardWidthAuto.checked = true;
+                
+                if (floatCardHeightInput) {
+                    floatCardHeightInput.value = '50';
+                    floatCardHeightInput.disabled = true;
+                }
+                if (floatCardHeightVal) floatCardHeightVal.innerText = 'auto';
+                if (floatCardHeightAuto) floatCardHeightAuto.checked = true;
+                
                 if (floatCardPaddingInput) floatCardPaddingInput.value = '10';
+                if (floatCardPaddingVal) floatCardPaddingVal.innerText = '10px';
+                
                 if (floatCardRadiusInput) floatCardRadiusInput.value = '12';
+                if (floatCardRadiusVal) floatCardRadiusVal.innerText = '12px';
+                
                 if (floatCardBlurInput) floatCardBlurInput.value = '12';
-                if (floatCardOpacityInput) floatCardOpacityInput.value = '0.45';
+                if (floatCardBlurVal) floatCardBlurVal.innerText = '12px';
+                
+                if (floatCardOpacityInput) floatCardOpacityInput.value = '45';
+                if (floatCardOpacityVal) floatCardOpacityVal.innerText = '0.45';
             };
         }
 
@@ -4435,35 +4517,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (floatCardWidthInput) {
             floatCardWidthInput.addEventListener('input', (e) => {
-                updateLiveCardStyle('--hero-float-card-width', e.target.value.trim() || 'auto');
+                const val = e.target.value;
+                if (floatCardWidthVal) floatCardWidthVal.innerText = val + 'px';
+                updateLiveCardStyle('--hero-float-card-width', val + 'px');
             });
         }
+        if (floatCardWidthAuto) {
+            floatCardWidthAuto.addEventListener('change', (e) => {
+                const checked = e.target.checked;
+                if (floatCardWidthInput) floatCardWidthInput.disabled = checked;
+                if (floatCardWidthVal) floatCardWidthVal.innerText = checked ? 'auto' : floatCardWidthInput.value + 'px';
+                updateLiveCardStyle('--hero-float-card-width', checked ? 'auto' : floatCardWidthInput.value + 'px');
+            });
+        }
+
         if (floatCardHeightInput) {
             floatCardHeightInput.addEventListener('input', (e) => {
-                updateLiveCardStyle('--hero-float-card-height', e.target.value.trim() || 'auto');
+                const val = e.target.value;
+                if (floatCardHeightVal) floatCardHeightVal.innerText = val + 'px';
+                updateLiveCardStyle('--hero-float-card-height', val + 'px');
             });
         }
+        if (floatCardHeightAuto) {
+            floatCardHeightAuto.addEventListener('change', (e) => {
+                const checked = e.target.checked;
+                if (floatCardHeightInput) floatCardHeightInput.disabled = checked;
+                if (floatCardHeightVal) floatCardHeightVal.innerText = checked ? 'auto' : floatCardHeightInput.value + 'px';
+                updateLiveCardStyle('--hero-float-card-height', checked ? 'auto' : floatCardHeightInput.value + 'px');
+            });
+        }
+
         if (floatCardPaddingInput) {
             floatCardPaddingInput.addEventListener('input', (e) => {
                 const val = parseInt(e.target.value) || 10;
+                if (floatCardPaddingVal) floatCardPaddingVal.innerText = val + 'px';
                 updateLiveCardStyle('--hero-float-card-padding', val + 'px ' + Math.round(val * 1.6) + 'px');
             });
         }
         if (floatCardRadiusInput) {
             floatCardRadiusInput.addEventListener('input', (e) => {
                 const val = parseInt(e.target.value) || 12;
+                if (floatCardRadiusVal) floatCardRadiusVal.innerText = val + 'px';
                 updateLiveCardStyle('--hero-float-card-radius', val + 'px');
             });
         }
         if (floatCardBlurInput) {
             floatCardBlurInput.addEventListener('input', (e) => {
                 const val = parseInt(e.target.value) || 12;
+                if (floatCardBlurVal) floatCardBlurVal.innerText = val + 'px';
                 updateLiveCardStyle('--hero-float-card-blur', val + 'px');
             });
         }
         if (floatCardOpacityInput) {
             floatCardOpacityInput.addEventListener('input', (e) => {
-                const val = parseFloat(e.target.value) || 0.45;
+                const val = e.target.value / 100;
+                if (floatCardOpacityVal) floatCardOpacityVal.innerText = val;
                 updateLiveCardStyle('--hero-float-card-opacity', val);
             });
         }
