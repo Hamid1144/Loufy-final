@@ -444,6 +444,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Projects Badge</label>
                     <input type="text" id="hero-proj-text-input" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem;">
                 </div>
+                <div style="display:flex; gap:15px; margin-top:5px; padding-top:5px; border-top:1px solid #333;">
+                    <label style="font-size:0.75rem; color:#ccc; display:flex; align-items:center; gap:6px; cursor:pointer;">
+                        <input type="checkbox" id="hero-show-exp" checked style="cursor:pointer;"> Show Experience Badge
+                    </label>
+                    <label style="font-size:0.75rem; color:#ccc; display:flex; align-items:center; gap:6px; cursor:pointer;">
+                        <input type="checkbox" id="hero-show-proj" checked style="cursor:pointer;"> Show Projects Badge
+                    </label>
+                </div>
             </div>
 
             <!-- Action Buttons Editor -->
@@ -1009,6 +1017,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroDescTextInput = document.getElementById("hero-desc-text-input");
     const heroExpTextInput = document.getElementById("hero-exp-text-input");
     const heroProjTextInput = document.getElementById("hero-proj-text-input");
+    const heroShowExpCheckbox = document.getElementById("hero-show-exp");
+    const heroShowProjCheckbox = document.getElementById("hero-show-proj");
     
     // Add Portfolio Item Modal Elements
     const addItemModal = document.getElementById("admin-add-item-modal");
@@ -3695,6 +3705,13 @@ document.addEventListener("DOMContentLoaded", () => {
             heroProjTextInput.value = projEl.innerHTML.trim();
         }
 
+        if (expEl && heroShowExpCheckbox) {
+            heroShowExpCheckbox.checked = expEl.style.display !== 'none';
+        }
+        if (projEl && heroShowProjCheckbox) {
+            heroShowProjCheckbox.checked = projEl.style.display !== 'none';
+        }
+
         renderHeroButtonsList();
         renderHeroTagsList();
     }
@@ -3789,6 +3806,23 @@ document.addEventListener("DOMContentLoaded", () => {
             const projEl = document.querySelector('.float-badge.proj');
             if (projEl) {
                 projEl.innerHTML = e.target.value;
+            }
+        });
+    }
+
+    if (heroShowExpCheckbox) {
+        heroShowExpCheckbox.addEventListener('change', (e) => {
+            const expEl = document.querySelector('.float-badge.exp');
+            if (expEl) {
+                expEl.style.display = e.target.checked ? '' : 'none';
+            }
+        });
+    }
+    if (heroShowProjCheckbox) {
+        heroShowProjCheckbox.addEventListener('change', (e) => {
+            const projEl = document.querySelector('.float-badge.proj');
+            if (projEl) {
+                projEl.style.display = e.target.checked ? '' : 'none';
             }
         });
     }
