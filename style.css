@@ -2151,3 +2151,88 @@ body > section.portfolio {
         min-height: 230px !important;
     }
 }
+
+/* ── Paperback Covers Marquee Showcase ── */
+.paperback-covers-marquee-container {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    margin-bottom: 40px;
+}
+
+.paperback-covers-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+.paperback-covers-marquee.row-ltr .paperback-covers-marquee-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    animation: scroll-ltr 90s linear infinite;
+    padding-right: 24px;
+}
+
+.paperback-covers-marquee:hover .paperback-covers-marquee-track {
+    animation-play-state: paused;
+}
+
+.paperback-covers-marquee-item {
+    width: 850px !important;
+    flex-shrink: 0 !important;
+    margin: 0;
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.paperback-covers-marquee-item .portfolio-thumb {
+    aspect-ratio: unset !important;
+    height: 510px !important;
+    min-height: 510px !important;
+    width: 100% !important;
+    background: #ffffff !important;
+}
+
+.paperback-covers-marquee-item .portfolio-thumb img {
+    object-fit: contain !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+}
+
+.paperback-covers-marquee-item.portfolio-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 768px) {
+    .paperback-covers-marquee-item {
+        width: 580px !important;
+    }
+    .paperback-covers-marquee-item .portfolio-thumb {
+        height: 350px !important;
+        min-height: 350px !important;
+    }
+    .paperback-covers-marquee-container {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .paperback-covers-marquee-item {
+        width: 380px !important;
+    }
+    .paperback-covers-marquee-item .portfolio-thumb {
+        height: 230px !important;
+        min-height: 230px !important;
+    }
+}

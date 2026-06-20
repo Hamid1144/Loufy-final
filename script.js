@@ -121,6 +121,7 @@ window.initSiteLogic = function () {
       const cat = this.dataset.cat;
       
       const marquee = document.querySelector('.covers-marquee-container');
+      const pbMarquee = document.querySelector('.paperback-covers-marquee-container');
       const fmtMarquee = document.querySelector('.formatting-marquee-container');
       const grid = document.querySelector('.portfolio-grid');
       const isEdit = document.body.classList.contains('edit-mode');
@@ -130,6 +131,14 @@ window.initSiteLogic = function () {
           marquee.style.display = 'flex';
         } else {
           marquee.style.display = 'none';
+        }
+      }
+
+      if (pbMarquee) {
+        if (isMainPage && !isEdit && (cat === 'all' || cat === 'paperback-covers')) {
+          pbMarquee.style.display = 'flex';
+        } else {
+          pbMarquee.style.display = 'none';
         }
       }
       
@@ -142,7 +151,7 @@ window.initSiteLogic = function () {
       }
       
       if (grid) {
-        if (isMainPage && !isEdit && (cat === 'covers' || cat === 'formatting')) {
+        if (isMainPage && !isEdit && (cat === 'covers' || cat === 'formatting' || cat === 'paperback-covers')) {
           grid.style.display = 'none';
         } else {
           grid.style.display = 'grid';
@@ -156,13 +165,13 @@ window.initSiteLogic = function () {
         let shouldShow = false;
         
         if (cat === 'all' || cardCat === cat) {
-          if ((cardCat === 'covers' || cardCat === 'formatting') && isMainPage && !isEdit) {
+          if ((cardCat === 'covers' || cardCat === 'formatting' || cardCat === 'paperback-covers') && isMainPage && !isEdit) {
             shouldShow = false;
           } else {
             if (!isMainPage || isEdit) {
               shouldShow = true;
             } else {
-              if (cat === 'all' && cardCat !== 'covers' && cardCat !== 'formatting') {
+              if (cat === 'all' && cardCat !== 'covers' && cardCat !== 'formatting' && cardCat !== 'paperback-covers') {
                 if (!categoryShowCounts[cardCat]) {
                   categoryShowCounts[cardCat] = 0;
                 }
@@ -699,6 +708,8 @@ window.syncPortfolioGrids = function () {
   });
 
   if (window.initCoversMarquee) window.initCoversMarquee();
+  if (window.initPaperbackCoversMarquee) window.initPaperbackCoversMarquee();
+  if (window.initFormattingMarquee) window.initFormattingMarquee();
 };
 
 // 4. Implement covers marquee (headline style)
@@ -808,8 +819,92 @@ setTimeout(window.syncPortfolioGrids, 200);
 // Run again after flipbooks fully settle to ensure marquee is built correctly
 setTimeout(function() {
   if (window.initCoversMarquee) window.initCoversMarquee();
+  if (window.initPaperbackCoversMarquee) window.initPaperbackCoversMarquee();
   if (window.initFormattingMarquee) window.initFormattingMarquee();
 }, 800);
+
+// 4.5 Implement paperback covers marquee (headline style)
+window.initPaperbackCoversMarquee = function() {
+  const isMainPage = !window.location.pathname.includes('portfolio');
+  if (!isMainPage) return;
+
+  const grid = document.querySelector('.portfolio-grid');
+  if (!grid) return;
+
+  // Reset any inline display:none on paperback-covers grid cards so we always capture all of them
+  document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="paperback-covers"]').forEach(card => {
+    card.style.display = '';
+  });
+
+  const paperbackCards = Array.from(document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="paperback-covers"]'));
+  if (!paperbackCards.length) return;
+  
+  const paperbackCardsHTML = paperbackCards.map(card => card.innerHTML);
+  if (!paperbackCardsHTML.length) return;
+  
+  let marqueeContainer = document.querySelector('.paperback-covers-marquee-container');
+  if (!marqueeContainer) {
+    marqueeContainer = document.createElement('div');
+    marqueeContainer.className = 'paperback-covers-marquee-container';
+    
+    // Insert after covers marquee container if it exists, otherwise before the grid
+    const coversMarquee = document.querySelector('.covers-marquee-container');
+    if (coversMarquee) {
+      coversMarquee.parentNode.insertBefore(marqueeContainer, coversMarquee.nextSibling);
+    } else {
+      grid.parentNode.insertBefore(marqueeContainer, grid);
+    }
+  }
+  
+  // Fill the track to ensure it spans at least the width of the screen
+  const singleHTMLs = [...paperbackCardsHTML];
+  while (singleHTMLs.length < 12) {
+    singleHTMLs.push(...paperbackCardsHTML);
+  }
+  
+  marqueeContainer.innerHTML = `
+    <div class="paperback-covers-marquee row-ltr">
+      <div class="paperback-covers-marquee-track">
+        ${singleHTMLs.map(innerHtml => `
+          <div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">
+            ${innerHtml}
+          </div>
+        `).join('')}
+      </div>
+      <div class="paperback-covers-marquee-track" aria-hidden="true">
+        ${singleHTMLs.map(innerHtml => `
+          <div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">
+            ${innerHtml}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  // Hide the original grid paperback-covers cards (they show only in marquee, not the grid)
+  document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="paperback-covers"]').forEach(card => {
+    card.style.display = 'none';
+  });
+
+  // Apply correct display rules based on the active filter button
+  const isEdit = document.body.classList.contains('edit-mode');
+  const activeFilter = document.querySelector('.filter-btn.active');
+  if (activeFilter) {
+    const cat = activeFilter.dataset.cat;
+    if (isEdit) {
+      marqueeContainer.style.display = 'none';
+      document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="paperback-covers"]').forEach(card => {
+        card.style.display = 'block';
+      });
+    } else {
+      if (cat === 'all' || cat === 'paperback-covers') {
+        marqueeContainer.style.display = 'flex';
+      } else {
+        marqueeContainer.style.display = 'none';
+      }
+    }
+  }
+};
 
 // 5. Implement formatting marquee (headline style)
 window.initFormattingMarquee = function() {
@@ -836,8 +931,11 @@ window.initFormattingMarquee = function() {
     marqueeContainer.className = 'formatting-marquee-container';
     
     // Insert after covers marquee container if it exists, otherwise before the grid
+    const paperbackMarquee = document.querySelector('.paperback-covers-marquee-container');
     const coversMarquee = document.querySelector('.covers-marquee-container');
-    if (coversMarquee) {
+    if (paperbackMarquee) {
+      paperbackMarquee.parentNode.insertBefore(marqueeContainer, paperbackMarquee.nextSibling);
+    } else if (coversMarquee) {
       coversMarquee.parentNode.insertBefore(marqueeContainer, coversMarquee.nextSibling);
     } else {
       grid.parentNode.insertBefore(marqueeContainer, grid);
