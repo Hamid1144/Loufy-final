@@ -454,9 +454,8 @@ section{padding:100px 0}
     border-radius: var(--radius);
 }
 
-/* Hide titles and tags below book covers (both square and paperback covers) */
-.portfolio-card[data-cat="covers"] .portfolio-info,
-.portfolio-card[data-cat="paperback-covers"] .portfolio-info {
+/* Hide titles and tags below book covers (only square covers) */
+.portfolio-card[data-cat="covers"] .portfolio-info {
     display: none !important;
 }
 
