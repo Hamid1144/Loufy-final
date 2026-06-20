@@ -3791,6 +3791,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveBtnEl.style.boxShadow = '0 0 15px #20c997';
             }
         });
+    }
     if (heroVideoZoomSlider) {
         heroVideoZoomSlider.addEventListener('input', (e) => {
             const zoomVal = e.target.value / 100;
