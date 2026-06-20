@@ -1748,9 +1748,9 @@ body > section.portfolio {
         padding: 15px 0 10px !important;
     }
     .hero .container {
-        grid-template-columns: 1.3fr 0.7fr !important;
-        text-align: left !important;
-        gap: 8px !important;
+        grid-template-columns: 1fr !important;
+        text-align: center !important;
+        gap: 16px !important;
     }
     .hero-content {
         padding: 12px 10px !important;
@@ -1780,12 +1780,7 @@ body > section.portfolio {
         padding: 4px 8px !important;
     }
     .hero-visual {
-        margin-top: 10px !important;
-        gap: 8px !important;
-    }
-    .float-badge {
-        font-size: 0.75rem !important;
-        padding: 6px 12px !important;
+        display: none !important; /* Hide visual badges on mobile to make hero much shorter */
     }
     
     .services-grid {
@@ -1863,8 +1858,8 @@ body > section.portfolio {
         padding: 10px 0 5px !important;
     }
     .hero .container {
-        grid-template-columns: 1.4fr 0.6fr !important;
-        gap: 6px !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
     }
     .hero-content {
         padding: 10px 8px !important;
