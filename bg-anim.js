@@ -836,57 +836,44 @@
     var controls = adminPanel.querySelector('.admin-controls');
     if (!controls) return;
 
-    // Toggle button (exists)
-    if (!document.getElementById('bg-anim-admin-toggle')) {
-      var btnToggle = document.createElement('button');
-      btnToggle.id = 'bg-anim-admin-toggle';
-      btnToggle.className = 'admin-btn';
-      btnToggle.style.cssText = 'background:' + (isOn() ? '#20c997' : '#555') + ';';
-      btnToggle.innerHTML = isOn() ? '<i class="fa-solid fa-wand-magic-sparkles"></i> Antigravity BG: ON' : '<i class="fa-solid fa-ban"></i> Antigravity BG: OFF';
-      
-      btnToggle.addEventListener('click', function () {
-        if (isOn()) disable(); else enable();
-      });
-      var danger = controls.querySelector('.danger');
-      controls.insertBefore(btnToggle, danger || null);
+    var btnToggle = document.getElementById('bg-anim-admin-toggle');
+    if (btnToggle) {
+      if (!btnToggle.dataset.bound) {
+        btnToggle.dataset.bound = 'true';
+        btnToggle.addEventListener('click', function () {
+          if (isOn()) disable(); else enable();
+        });
+      }
     }
 
-    // Customization config button (NEW)
-    if (document.getElementById('manage-particles')) return;
-    var btnConfig = document.createElement('button');
-    btnConfig.id = 'manage-particles';
-    btnConfig.className = 'admin-btn';
-    btnConfig.style.cssText = 'background:#4c566a; color:#fff;';
-    btnConfig.innerHTML = '<i class="fa-solid fa-circle-nodes"></i> Particles Config';
-    
-    var panel = document.createElement('div');
-    panel.id = 'particle-panel';
-    panel.style.cssText = 'display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;';
-    panel.innerHTML = buildPanelHTML();
+    var btnConfig = document.getElementById('manage-particles');
+    var panel = document.getElementById('particle-panel');
+    if (btnConfig && panel) {
+      if (!btnConfig.dataset.bound) {
+        btnConfig.dataset.bound = 'true';
+        panel.innerHTML = buildPanelHTML();
+        wirePanelEvents(panel);
 
-    var clearBtn = controls.querySelector('#clear-storage') || controls.querySelector('.danger');
-    controls.insertBefore(btnConfig, clearBtn || null);
-    controls.parentNode.insertBefore(panel, controls.nextSibling);
+        btnConfig.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var isHidden = panel.style.display === 'none';
+          document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #theme-panel, #flipbook-panel, #hero-card-panel').forEach(function(p) {
+            p.style.display = 'none';
+          });
+          panel.style.display = isHidden ? 'block' : 'none';
+        });
 
-    // Toggle sub-panel visibility
-    btnConfig.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var isHidden = panel.style.display === 'none';
-      document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #theme-panel, #flipbook-panel, #hero-card-panel').forEach(function(p) {
-        p.style.display = 'none';
-      });
-      panel.style.display = isHidden ? 'block' : 'none';
-    });
-
-    // Automatically close panel if other control buttons are pressed
-    document.addEventListener('click', function (e) {
-      var btnClick = e.target.closest('.admin-btn');
-      if (btnClick && btnClick.id !== 'manage-particles') {
-        panel.style.display = 'none';
+        // Automatically close panel if other control buttons are pressed
+        document.addEventListener('click', function (e) {
+          var btnClick = e.target.closest('.admin-btn');
+          if (btnClick && btnClick.id !== 'manage-particles') {
+            panel.style.display = 'none';
+          }
+        });
       }
-    });
+    }
 
-    wirePanelEvents(panel);
+    updateAdminToggle(isOn());
   }
 
   /* ── Public API ───────────────────────────────────────────────── */

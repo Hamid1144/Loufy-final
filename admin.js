@@ -250,6 +250,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="manage-theme" class="admin-btn" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-palette"></i> Customize Theme</button>
             <button id="manage-hero-card" class="admin-btn" style="background:#ff5722; color:#fff;"><i class="fa-solid fa-wand-magic-sparkles"></i> Edit Hero Content</button>
             <button id="change-hero-bg" class="admin-btn" style="background:#7209b7;"><i class="fa-solid fa-image"></i> Change Hero Image</button>
+            <button id="bg-anim-admin-toggle" class="admin-btn" style="background:#20c997;"><i class="fa-solid fa-wand-magic-sparkles"></i> Antigravity BG: ON</button>
+            <button id="manage-particles" class="admin-btn" style="background:#4c566a; color:#fff;"><i class="fa-solid fa-circle-nodes"></i> Particles Config</button>
             <button id="save-changes" class="admin-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud (Supabase)</button>
             <button id="export-html" class="admin-btn" style="background:#F4B400; color:#111;"><i class="fa-solid fa-file-code"></i> Export Final HTML</button>
             <button id="clear-storage" class="admin-btn danger"><i class="fa-solid fa-rotate-left"></i> Reset Changes</button>
@@ -636,6 +638,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <!-- hidden file input for per-page replacement -->
             <input type="file" id="flipbook-replace-input" accept="image/*" style="display:none;">
         </div>
+
+        <div id="particle-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;"></div>
     </div>
 
     <!-- Flipbook Replace Page Modal -->
@@ -1292,7 +1296,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (manageThemeBtn) {
         manageThemeBtn.addEventListener("click", () => {
             // Close other panels
-            document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #flipbook-panel, #hero-card-panel').forEach(p => p.style.display = 'none');
+            document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #flipbook-panel, #hero-card-panel, #particle-panel').forEach(p => p.style.display = 'none');
             
             const isHidden = themePanel.style.display === 'none';
             themePanel.style.display = isHidden ? 'block' : 'none';
@@ -1803,7 +1807,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 var panel = document.getElementById('super-admin-panel');
                 if (panel) panel.classList.add('active');
                 // Close other sub-panels, open flipbook panel
-                document.querySelectorAll('#social-links-panel,#pricing-links-panel,#sections-panel,#filters-panel,#theme-panel,#hero-card-panel').forEach(p => p.style.display = 'none');
+                document.querySelectorAll('#social-links-panel,#pricing-links-panel,#sections-panel,#filters-panel,#theme-panel,#hero-card-panel,#particle-panel').forEach(p => p.style.display = 'none');
                 if (flipbookPanel) {
                     flipbookPanel.style.display = 'block';
                     refreshFlipbookSelector(idx + 1); // pre-select this book
@@ -2209,7 +2213,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     manageFlipbookBtn.addEventListener('click', () => {
         const isHidden = flipbookPanel.style.display === 'none';
-        document.querySelectorAll('#social-links-panel,#pricing-links-panel,#sections-panel,#filters-panel,#theme-panel,#hero-card-panel').forEach(p => p.style.display = 'none');
+        document.querySelectorAll('#social-links-panel,#pricing-links-panel,#sections-panel,#filters-panel,#theme-panel,#hero-card-panel,#particle-panel').forEach(p => p.style.display = 'none');
         flipbookPanel.style.display = isHidden ? 'block' : 'none';
         if (isHidden) {
             refreshFlipbookSelector(); // populate dropdown with current book count
@@ -4697,7 +4701,7 @@ document.addEventListener("DOMContentLoaded", () => {
             manageHeroCardBtn.style.display = 'none';
         } else {
             manageHeroCardBtn.addEventListener("click", () => {
-                document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #theme-panel, #flipbook-panel').forEach(p => p.style.display = 'none');
+                document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #theme-panel, #flipbook-panel, #particle-panel').forEach(p => p.style.display = 'none');
                 
                 const isHidden = heroCardPanel.style.display === 'none';
                 heroCardPanel.style.display = isHidden ? 'block' : 'none';
@@ -5378,7 +5382,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (manageBlogsBtn) {
         manageBlogsBtn.addEventListener("click", () => {
             // Close other panels
-            document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #flipbook-panel, #hero-card-panel, #theme-panel').forEach(p => p.style.display = 'none');
+            document.querySelectorAll('#social-links-panel, #pricing-links-panel, #sections-panel, #filters-panel, #flipbook-panel, #hero-card-panel, #theme-panel, #particle-panel').forEach(p => p.style.display = 'none');
             
             blogModal.style.display = 'flex';
             showListView();
