@@ -25,6 +25,7 @@
     blendMode: 'adaptive', // 'adaptive', 'light', 'dark'
     opacity: 0.22,        // Slider: 0.05 to 1.0
     randomness: 4.0,      // Slider: 0.0 to 10.0
+    zoom: 1.0,            // Slider: 0.5 to 2.0
   };
 
   var pConfig = Object.assign({}, DEFAULT_CONFIG);
@@ -327,14 +328,16 @@
   /* ── Canvas Loop & Drawing ─────────────────────────────────────── */
   function resize() {
     if (!canvas || !ctx) return;
-    var dpr = window.devicePixelRatio || 1;
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-    ctx.scale(dpr, dpr);
+    // Enhanced HD/Supersampling: use devicePixelRatio, but force at least 2.0 on lower resolution screens for crisp quality!
+    var dpr = Math.max(window.devicePixelRatio || 1, 2.0);
+    var zoom = pConfig.zoom || 1.0;
+    width = window.innerWidth / zoom;
+    height = window.innerHeight / zoom;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.scale(dpr * zoom, dpr * zoom);
   }
 
   function initCanvas() {
@@ -355,8 +358,9 @@
     }
 
     document.addEventListener('mousemove', function (e) {
-      mouse.targetX = e.clientX;
-      mouse.targetY = e.clientY;
+      var zoom = pConfig.zoom || 1.0;
+      mouse.targetX = e.clientX / zoom;
+      mouse.targetY = e.clientY / zoom;
       mouse.active = true;
     });
 
@@ -507,6 +511,9 @@
       return;
     }
     show();
+
+    // Recalculate zoom and resolution bounds dynamically
+    resize();
 
     // Adjust particle array density length dynamically (no flickering)
     var targetCount = c.density;
@@ -671,6 +678,11 @@
               '<label style="display:flex; justify-content:space-between; font-size:0.72rem; color:#aaa; margin-bottom:2px; font-weight:600;"><span>Base Opacity</span><span id="lbl-part-opac">' + c.opacity + '</span></label>',
               '<input type="range" id="val-part-opac" min="0.05" max="1" step="0.05" value="' + c.opacity + '" style="width:100%; cursor:pointer;">',
             '</div>',
+            
+            '<div style="margin-bottom:8px;">',
+              '<label style="display:flex; justify-content:space-between; font-size:0.72rem; color:#aaa; margin-bottom:2px; font-weight:600;"><span>Viewport Zoom</span><span id="lbl-part-zoom">' + c.zoom + 'x</span></label>',
+              '<input type="range" id="val-part-zoom" min="0.5" max="2.0" step="0.1" value="' + c.zoom + '" style="width:100%; cursor:pointer;">',
+            '</div>',
           '</div>',
 
           // Column 3
@@ -720,6 +732,7 @@
       density: panel.querySelector('#val-part-dens'),
       speed: panel.querySelector('#val-part-speed'),
       opacity: panel.querySelector('#val-part-opac'),
+      zoom: panel.querySelector('#val-part-zoom'),
       glowIntensity: panel.querySelector('#val-part-glow'),
       randomness: panel.querySelector('#val-part-rand'),
       color3: panel.querySelector('#col-part-base'),
@@ -732,6 +745,7 @@
       density: panel.querySelector('#lbl-part-dens'),
       speed: panel.querySelector('#lbl-part-speed'),
       opacity: panel.querySelector('#lbl-part-opac'),
+      zoom: panel.querySelector('#lbl-part-zoom'),
       glowIntensity: panel.querySelector('#lbl-part-glow'),
       randomness: panel.querySelector('#lbl-part-rand')
     };
@@ -745,6 +759,7 @@
       pConfig.density = parseInt(inputs.density.value);
       pConfig.speed = parseFloat(inputs.speed.value);
       pConfig.opacity = parseFloat(inputs.opacity.value);
+      pConfig.zoom = parseFloat(inputs.zoom.value);
       pConfig.glowIntensity = parseInt(inputs.glowIntensity.value);
       pConfig.randomness = parseFloat(inputs.randomness.value);
       pConfig.color3 = inputs.color3.value;
@@ -756,6 +771,7 @@
       labels.density.textContent = pConfig.density;
       labels.speed.textContent = pConfig.speed + 'x';
       labels.opacity.textContent = pConfig.opacity;
+      labels.zoom.textContent = pConfig.zoom + 'x';
       labels.glowIntensity.textContent = pConfig.glowIntensity;
       labels.randomness.textContent = pConfig.randomness;
 
@@ -790,6 +806,7 @@
         inputs.density.value = pConfig.density;
         inputs.speed.value = pConfig.speed;
         inputs.opacity.value = pConfig.opacity;
+        inputs.zoom.value = pConfig.zoom;
         inputs.glowIntensity.value = pConfig.glowIntensity;
         inputs.randomness.value = pConfig.randomness;
         inputs.color3.value = pConfig.color3;
