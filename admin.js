@@ -2638,7 +2638,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Determine target parameters based on the currentImageTarget
                     let maxDim = 2560;
                     let quality = 0.90;
-                    if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
+                    if (currentImageTarget.closest('.portfolio-card[data-cat="covers"], .portfolio-card[data-cat="paperback-covers"]')) {
                         maxDim = 2560;
                         quality = 0.98;
                     } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
@@ -2694,7 +2694,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (src && src.startsWith('data:image/')) {
                     let maxDim = 2560;
                     let quality = 0.90;
-                    if (currentImageTarget.closest('.portfolio-card[data-cat="covers"]')) {
+                    if (currentImageTarget.closest('.portfolio-card[data-cat="covers"], .portfolio-card[data-cat="paperback-covers"]')) {
                         maxDim = 2560;
                         quality = 0.98;
                     } else if (currentImageTarget.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {
@@ -3165,7 +3165,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (src && src.startsWith('data:image/')) {
                         let maxDim = 2560;
                         let quality = 0.98;
-                        if (img.closest('.portfolio-card[data-cat="covers"]')) {
+                        if (img.closest('.portfolio-card[data-cat="covers"], .portfolio-card[data-cat="paperback-covers"]')) {
                             maxDim = 2560;
                             quality = 0.98;
                         } else if (img.closest('.portfolio-card[data-cat="children"], .portfolio-card[data-flipbook="true"], .flipbook-page')) {

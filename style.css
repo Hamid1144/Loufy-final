@@ -377,7 +377,7 @@ section{padding:100px 0}
    STANDARD CARDS — hover popup overlay
    (all cards EXCEPT children and formatting)
    ════════════════════════════════════════════════════ */
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]) .portfolio-info{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-cat="covers"]):not([data-cat="paperback-covers"]):not([data-flipbook="true"]):not([data-layout="full-width"]) .portfolio-info{
     position:absolute;
     bottom:0; left:0; right:0;
     background:linear-gradient(0deg,rgba(var(--primary-dark-rgb),.92) 0%,rgba(var(--primary-dark-rgb),.72) 60%,transparent 100%);
@@ -388,28 +388,28 @@ section{padding:100px 0}
     transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
     pointer-events:none;
 }
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]):hover .portfolio-info{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-cat="covers"]):not([data-cat="paperback-covers"]):not([data-flipbook="true"]):not([data-layout="full-width"]):hover .portfolio-info{
     transform:translateY(0);
     opacity:1;
     pointer-events:auto;
 }
 /* Tag colors inverted for dark overlay */
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]) .portfolio-info .tags span{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-cat="covers"]):not([data-cat="paperback-covers"]):not([data-flipbook="true"]):not([data-layout="full-width"]) .portfolio-info .tags span{
     color:#fff;
     background:rgba(255,255,255,.15);
     border:1px solid rgba(255,255,255,.2);
 }
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]) .portfolio-info h3{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-cat="covers"]):not([data-cat="paperback-covers"]):not([data-flipbook="true"]):not([data-layout="full-width"]) .portfolio-info h3{
     color:#fff;
     font-size:1.1rem;
     margin:0;
 }
 /* Scale image slightly on hover for standard cards */
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]):hover{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-cat="covers"]):not([data-cat="paperback-covers"]):not([data-flipbook="true"]):not([data-layout="full-width"]):hover{
     transform:translateY(-6px);
     box-shadow:0 20px 50px rgba(0,0,0,.15);
 }
-.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-flipbook="true"]):not([data-layout="full-width"]):hover .portfolio-thumb img{
+.portfolio-card:not([data-cat="children"]):not([data-cat="formatting"]):not([data-cat="covers"]):not([data-cat="paperback-covers"]):not([data-flipbook="true"]):not([data-layout="full-width"]):hover .portfolio-thumb img{
     transform:scale(1.07);
     filter:brightness(0.75);
 }
@@ -427,20 +427,30 @@ section{padding:100px 0}
 /* Children book card must not clip the book spread */
 .portfolio-card[data-flipbook="true"]{overflow:visible;}
 
+/* Full-width grid columns */
 .portfolio-card[data-cat="formatting"],
 .portfolio-card[data-cat="children"],
 .portfolio-card[data-flipbook="true"],
 .portfolio-card[data-layout="full-width"] {
     grid-column: 1 / -1;
-    display: flex;
-    flex-direction: column;
-    background: var(--card-bg);
     width: 100%;
     position: relative;
     left: 0;
     right: 0;
     margin-left: 0;
     margin-right: 0;
+}
+
+/* Static info cards (flex column layout) */
+.portfolio-card[data-cat="formatting"],
+.portfolio-card[data-cat="children"],
+.portfolio-card[data-flipbook="true"],
+.portfolio-card[data-layout="full-width"],
+.portfolio-card[data-cat="covers"],
+.portfolio-card[data-cat="paperback-covers"] {
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
     border-radius: var(--radius);
 }
 
@@ -517,6 +527,8 @@ section{padding:100px 0}
     background: #ffffff; /* pure white background to merge seamlessly */
 }
 .portfolio-card[data-cat="formatting"] .portfolio-info,
+.portfolio-card[data-cat="covers"] .portfolio-info,
+.portfolio-card[data-cat="paperback-covers"] .portfolio-info,
 .portfolio-card[data-layout="full-width"] .portfolio-info {
     padding: 20px;
 }
@@ -533,7 +545,14 @@ section{padding:100px 0}
     transform: scale(1.02);
     filter: brightness(0.85);
 }
+.portfolio-card[data-cat="covers"]:hover .portfolio-thumb img,
+.portfolio-card[data-cat="paperback-covers"]:hover .portfolio-thumb img {
+    transform: scale(1.05);
+    filter: brightness(0.9);
+}
 .portfolio-card[data-cat="formatting"]:hover,
+.portfolio-card[data-cat="covers"]:hover,
+.portfolio-card[data-cat="paperback-covers"]:hover,
 .portfolio-card[data-layout="full-width"]:hover {
     transform: translateY(-6px);
     box-shadow: 0 20px 50px rgba(0,0,0,.12);
