@@ -337,6 +337,13 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div id="hero-card-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+            <!-- Visibility Toggle -->
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; align-items:center; justify-content:space-between;">
+                <label style="font-size:0.75rem; color:#ccc; display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600;">
+                    <input type="checkbox" id="hero-card-visible-toggle" checked style="cursor:pointer; width:16px; height:16px; accent-color:#20c997;">
+                    <i class="fa-solid fa-eye" style="color:#20c997;"></i> Show Hero Card on Page
+                </label>
+            </div>
             <p style="font-size:0.75rem; color:#aaa; margin-bottom:10px;">Customize layout and content of the hero glass card.</p>
             
             <!-- Positioning & Styles -->
@@ -3336,6 +3343,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const heroContent = document.querySelector('.hero-content');
         if (!heroContent) return;
 
+        // Sync hero card visibility toggle
+        const visToggle = document.getElementById('hero-card-visible-toggle');
+        const heroContainer = document.querySelector('.hero .container');
+        if (visToggle && heroContainer) {
+            visToggle.checked = heroContainer.style.display !== 'none';
+        }
+
         const style = heroContent.style;
         const offsetX = parseInt(style.getPropertyValue('--hero-card-offset-x') || '-40');
         const offsetY = parseInt(style.getPropertyValue('--hero-card-offset-y') || '0');
@@ -3453,6 +3467,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const val = e.target.value / 100;
             heroCardOpacityVal.innerText = val;
             updateHeroCardStyle('--hero-card-opacity', val);
+        });
+    }
+
+    // Hero Card Visibility Toggle
+    const heroCardVisibleToggle = document.getElementById('hero-card-visible-toggle');
+    if (heroCardVisibleToggle) {
+        heroCardVisibleToggle.addEventListener('change', (e) => {
+            const heroContainer = document.querySelector('.hero .container');
+            if (heroContainer) {
+                heroContainer.style.display = e.target.checked ? '' : 'none';
+            }
         });
     }
 
