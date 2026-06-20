@@ -173,40 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return result.secure_url;
     }
 
-    async function uploadVideoToCloudinary(fileData) {
-        const cloudName = "dtr3yvjac";
-        const apiKey = "453843776219872";
-        const apiSecret = "WDP5Pmku01sVxQJ2pD_npSNL5wA";
-        const folder = "portfolio";
-        
-        const timestamp = Math.round(Date.now() / 1000);
-        const params = {
-            folder: folder,
-            timestamp: timestamp
-        };
-        
-        const signature = await generateSignature(params, apiSecret);
-        
-        const formData = new FormData();
-        formData.append("api_key", apiKey);
-        formData.append("timestamp", timestamp);
-        formData.append("folder", folder);
-        formData.append("signature", signature);
-        formData.append("file", fileData);
-        
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/video/upload`, {
-            method: "POST",
-            body: formData
-        });
-        
-        if (!response.ok) {
-            const errText = await response.text();
-            throw new Error("Cloudinary video upload failed: " + errText);
-        }
-        
-        const result = await response.json();
-        return result.secure_url;
-    }
+
 
     function updateImageSource(imgElement, newUrl) {
         imgElement.src = newUrl;
@@ -282,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="manage-blogs-btn" class="admin-btn" style="background:#ff9f43; color:#fff;"><i class="fa-solid fa-blog"></i> Manage Blog Posts</button>
             <button id="manage-theme" class="admin-btn" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-palette"></i> Customize Theme</button>
             <button id="manage-hero-card" class="admin-btn" style="background:#ff5722; color:#fff;"><i class="fa-solid fa-wand-magic-sparkles"></i> Edit Hero Content</button>
-            <button id="change-hero-bg" class="admin-btn" style="background:#7209b7;"><i class="fa-solid fa-image"></i> Change Hero Background</button>
+            <button id="change-hero-bg" class="admin-btn" style="background:#7209b7;"><i class="fa-solid fa-image"></i> Change Hero Image</button>
             <button id="save-changes" class="admin-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud (Supabase)</button>
             <button id="export-html" class="admin-btn" style="background:#F4B400; color:#111;"><i class="fa-solid fa-file-code"></i> Export Final HTML</button>
             <button id="clear-storage" class="admin-btn danger"><i class="fa-solid fa-rotate-left"></i> Reset Changes</button>
@@ -833,89 +800,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
     </div>
 
-    <!-- Hero Background (Image vs Video) Settings Modal -->
-    <div id="admin-hero-bg-modal" style="display:none; position:fixed; inset:0; background:rgba(10,15,10,0.85); backdrop-filter:blur(10px); z-index:199999; justify-content:center; align-items:center; font-family:\'Poppins\', sans-serif;">
-        <!-- Content Card -->
-        <div style="background:#1e1e1e; border:1px solid #333; color:#fff; width:90%; max-width:550px; border-radius:12px; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,0.5); display:flex; flex-direction:column; gap:20px;">
-            <!-- Header -->
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:12px;">
-                <h3 style="margin:0; font-size:1.25rem; color:#20c997; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Hero Background Settings</h3>
-                <button type="button" class="close-hero-bg-modal" style="background:none; border:none; color:#aaa; font-size:1.5rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            
-            <!-- Selection Tabs -->
-            <div style="display:flex; gap:10px; background:#111; padding:4px; border-radius:8px;">
-                <button type="button" id="hero-bg-tab-image" style="flex:1; padding:8px; border:none; border-radius:6px; background:#20c997; color:#fff; font-weight:600; cursor:pointer; outline:none; transition:0.2s;">Image Background</button>
-                <button type="button" id="hero-bg-tab-video" style="flex:1; padding:8px; border:none; border-radius:6px; background:transparent; color:#aaa; font-weight:600; cursor:pointer; outline:none; transition:0.2s;">Video Background</button>
-            </div>
 
-            <!-- Content Area: Image -->
-            <div id="hero-bg-image-sec" style="display:flex; flex-direction:column; gap:12px;">
-                <p style="font-size:0.85rem; color:#aaa; margin:0;">Crop and set a high-resolution cover image for your Hero section.</p>
-                <div style="display:flex; align-items:center; gap:12px; background:#2a2a2a; padding:12px; border-radius:8px;">
-                    <img id="hero-bg-image-preview" src="" style="width:80px; height:50px; object-fit:cover; border-radius:4px; border:1px solid #444;">
-                    <div style="flex:1;">
-                        <div style="font-size:0.85rem; font-weight:600; color:#fff;">Current Background Image</div>
-                        <div id="hero-bg-image-dimensions" style="font-size:0.75rem; color:#888;">Dimensions and ratio</div>
-                    </div>
-                    <button type="button" id="hero-bg-open-cropper" class="admin-btn" style="background:#20c997; margin:0; padding:8px 12px; font-size:0.8rem; border-radius:6px; border:none; color:#fff; font-weight:700; cursor:pointer;"><i class="fa-solid fa-crop"></i> Open Crop Tool</button>
-                </div>
-            </div>
-
-            <!-- Content Area: Video -->
-            <div id="hero-bg-video-sec" style="display:none; flex-direction:column; gap:12px;">
-                <p style="font-size:0.85rem; color:#aaa; margin:0;">Upload a video (MP4/WebM) or provide a Cloudinary/direct video URL. Autoplay, loop, and muted controls are pre-configured.</p>
-                
-                <div style="display:flex; flex-direction:column; gap:6px;">
-                    <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Video URL</label>
-                    <input type="text" id="hero-bg-video-url" placeholder="Paste direct video URL (e.g. https://...video.mp4)" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
-                </div>
-
-                <div style="display:flex; align-items:center; gap:8px; margin: 5px 0;">
-                    <span style="flex:1; height:1px; background:#333;"></span>
-                    <span style="font-size:0.8rem; color:#666; font-weight:600;">OR UPLOAD FILE</span>
-                    <span style="flex:1; height:1px; background:#333;"></span>
-                </div>
-
-                <div style="display:flex; flex-direction:column; gap:6px;">
-                    <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Upload Video File</label>
-                    <input type="file" id="hero-bg-video-file" accept="video/mp4, video/webm" style="font-size:0.85rem; color:#ccc;">
-                    <div style="font-size:0.75rem; color:#888; margin-top:2px;">Cloudinary processes videos in the background. Please wait for the upload to complete.</div>
-                </div>
-
-                <div style="display:flex; align-items:center; gap:8px; margin: 5px 0;">
-                    <span style="flex:1; height:1px; background:#333;"></span>
-                    <span style="font-size:0.8rem; color:#666; font-weight:600;">VIDEO CROP & POSITION</span>
-                    <span style="flex:1; height:1px; background:#333;"></span>
-                </div>
-
-                <div style="display:flex; gap:12px;">
-                    <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
-                        <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Vertical Align (Focus)</label>
-                        <select id="hero-bg-video-position" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; cursor:pointer; width:100%;">
-                            <option value="center">Center (Darmian)</option>
-                            <option value="top">Top (Uper)</option>
-                            <option value="bottom">Bottom (Neeche)</option>
-                        </select>
-                    </div>
-                    <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
-                        <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Start Time (Secs)</label>
-                        <input type="number" id="hero-bg-video-start" placeholder="e.g. 0" min="0" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
-                    </div>
-                    <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
-                        <label style="font-size:0.8rem; color:#aaa; font-weight:600;">End Time (Secs)</label>
-                        <input type="number" id="hero-bg-video-end" placeholder="e.g. 15" min="0" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Actions -->
-            <div style="display:flex; gap:8px; border-top:1px solid #333; padding-top:15px;">
-                <button type="button" id="hero-bg-close-btn" style="flex:1; padding:9px; border-radius:6px; border:1px solid #444; background:transparent; color:#ccc; cursor:pointer; font-weight:600;">Cancel</button>
-                <button type="button" id="hero-bg-apply-btn" style="flex:2; padding:9px; border-radius:6px; border:none; background:#20c997; color:#fff; font-weight:700; cursor:pointer;"><i class="fa-solid fa-check"></i> Apply Background</button>
-            </div>
-        </div>
-    </div>
     `;
     document.body.insertAdjacentHTML('beforeend', adminHTML);
 
@@ -957,23 +842,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelCropBtn = document.querySelector(".crop-btn-cancel");
     const saveCropBtn = document.querySelector(".crop-btn-save");
 
-    // Hero Background Modal Elements
-    const heroBgModal = document.getElementById("admin-hero-bg-modal");
-    const closeHeroBgBtn = document.querySelector(".close-hero-bg-modal");
-    const heroBgTabImage = document.getElementById("hero-bg-tab-image");
-    const heroBgTabVideo = document.getElementById("hero-bg-tab-video");
-    const heroBgImageSec = document.getElementById("hero-bg-image-sec");
-    const heroBgVideoSec = document.getElementById("hero-bg-video-sec");
-    const heroBgImagePreview = document.getElementById("hero-bg-image-preview");
-    const heroBgImageDimensions = document.getElementById("hero-bg-image-dimensions");
-    const heroBgOpenCropper = document.getElementById("hero-bg-open-cropper");
-    const heroBgVideoUrl = document.getElementById("hero-bg-video-url");
-    const heroBgVideoFile = document.getElementById("hero-bg-video-file");
-    const heroBgVideoPosition = document.getElementById("hero-bg-video-position");
-    const heroBgVideoStart = document.getElementById("hero-bg-video-start");
-    const heroBgVideoEnd = document.getElementById("hero-bg-video-end");
-    const heroBgCloseBtn = document.getElementById("hero-bg-close-btn");
-    const heroBgApplyBtn = document.getElementById("hero-bg-apply-btn");
+
     const fileInput = document.getElementById("crop-file-input");
     const urlInput = document.getElementById("crop-url-input");
     const previewImage = document.getElementById("crop-preview-image");
@@ -1261,194 +1130,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    let currentHeroBgType = "image";
-
-    function openHeroBgModal() {
-        const heroImg = document.getElementById("hero-bg-image");
-        const heroVid = document.getElementById("hero-bg-video");
-        if (!heroImg || !heroVid) {
-            window.showToast("Hero background elements not found on this page.", "error");
-            return;
-        }
-
-        heroBgModal.style.display = "flex";
-        
-        const imgUrl = heroImg.src || "";
-        const vidUrl = heroVid.getAttribute("src") || "";
-
-        heroBgImagePreview.src = imgUrl;
-        heroBgImageDimensions.innerText = `${heroImg.naturalWidth || 3680} x ${heroImg.naturalHeight || 2260}px`;
-        heroBgVideoUrl.value = vidUrl;
-        heroBgVideoFile.value = ""; 
-
-        // Populate position align
-        const currentPos = heroVid.style.objectPosition || "center";
-        heroBgVideoPosition.value = currentPos;
-
-        // Parse Start and End offsets from Cloudinary URL
-        let startVal = "";
-        let endVal = "";
-        if (vidUrl.includes('/video/upload/')) {
-            const startMatch = vidUrl.match(/so_([^,/]+)/);
-            const endMatch = vidUrl.match(/eo_([^,/]+)/);
-            if (startMatch) startVal = startMatch[1];
-            if (endMatch) endVal = endMatch[1];
-        }
-        heroBgVideoStart.value = startVal;
-        heroBgVideoEnd.value = endVal;
-
-        if (vidUrl.trim() !== "") {
-            switchHeroBgTab("video");
-        } else {
-            switchHeroBgTab("image");
-        }
-    }
-
-    function switchHeroBgTab(type) {
-        currentHeroBgType = type;
-        if (type === "video") {
-            heroBgTabVideo.style.background = "#20c997";
-            heroBgTabVideo.style.color = "#fff";
-            heroBgTabImage.style.background = "transparent";
-            heroBgTabImage.style.color = "#aaa";
-            
-            heroBgVideoSec.style.display = "flex";
-            heroBgImageSec.style.display = "none";
-        } else {
-            heroBgTabImage.style.background = "#20c997";
-            heroBgTabImage.style.color = "#fff";
-            heroBgTabVideo.style.background = "transparent";
-            heroBgTabVideo.style.color = "#aaa";
-            
-            heroBgImageSec.style.display = "flex";
-            heroBgVideoSec.style.display = "none";
-        }
-    }
-
-    function closeHeroBgModalHandler() {
-        if (heroBgModal) heroBgModal.style.display = "none";
-    }
-
-    if (heroBgTabImage) heroBgTabImage.addEventListener("click", () => switchHeroBgTab("image"));
-    if (heroBgTabVideo) heroBgTabVideo.addEventListener("click", () => switchHeroBgTab("video"));
-    if (closeHeroBgBtn) closeHeroBgBtn.addEventListener("click", closeHeroBgModalHandler);
-    if (heroBgCloseBtn) heroBgCloseBtn.addEventListener("click", closeHeroBgModalHandler);
-
-    if (heroBgOpenCropper) {
-        heroBgOpenCropper.addEventListener("click", () => {
-            closeHeroBgModalHandler();
-            const heroImg = document.getElementById("hero-bg-image");
-            if (heroImg) {
-                openCropModal(heroImg);
-            }
-        });
-    }
-
-    if (heroBgApplyBtn) {
-        heroBgApplyBtn.addEventListener("click", async () => {
-            const heroImg = document.getElementById("hero-bg-image");
-            const heroVid = document.getElementById("hero-bg-video");
-            if (!heroImg || !heroVid) return;
-
-            if (currentHeroBgType === "video") {
-                let vidUrl = heroBgVideoUrl.value.trim();
-                if (vidUrl === "") {
-                    window.showToast("Please provide a video URL or upload a file.", "warning");
-                    return;
-                }
-
-                const startSec = heroBgVideoStart.value.trim();
-                const endSec = heroBgVideoEnd.value.trim();
-
-                // Format Cloudinary Video Url with duration cropping
-                if (vidUrl.includes('/video/upload/')) {
-                    const parts = vidUrl.split('/video/upload/');
-                    const prefix = parts[0] + '/video/upload/';
-                    let remaining = parts[1];
-
-                    // Remove existing transformation block if present
-                    const segments = remaining.split('/');
-                    if (segments.length > 1 && !segments[0].match(/^v\d+$/) && !segments[0].includes('.')) {
-                        segments.shift();
-                        remaining = segments.join('/');
-                    }
-
-                    // Build new parameters
-                    let tx = "f_auto,q_auto";
-                    if (startSec !== "") {
-                        tx += `,so_${startSec}`;
-                    }
-                    if (endSec !== "") {
-                        tx += `,eo_${endSec}`;
-                    }
-
-                    vidUrl = prefix + tx + '/' + remaining;
-                }
-
-                // Apply object position alignment
-                const positionVal = heroBgVideoPosition.value;
-                heroVid.style.objectPosition = positionVal;
-
-                heroVid.setAttribute("src", vidUrl);
-                heroVid.style.display = "block";
-                heroVid.load(); // reload source buffer
-                heroVid.play().catch(e => console.log(e));
-                heroImg.style.display = "none";
-            } else {
-                heroVid.removeAttribute("src");
-                heroVid.style.display = "none";
-                heroImg.style.display = "block";
-            }
-
-            window.showToast("Hero background applied. Save changes to persist.", "success");
-            closeHeroBgModalHandler();
-        });
-    }
-
-    if (heroBgVideoFile) {
-        heroBgVideoFile.addEventListener("change", async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            window.showToast("Uploading video to Cloudinary...", "info");
-            heroBgApplyBtn.disabled = true;
-            const originalText = heroBgApplyBtn.innerHTML;
-            heroBgApplyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
-
-            try {
-                const reader = new FileReader();
-                const uploadPromise = new Promise((resolve, reject) => {
-                    reader.onload = async () => {
-                        try {
-                            const secureUrl = await uploadVideoToCloudinary(reader.result);
-                            resolve(secureUrl);
-                        } catch (err) {
-                            reject(err);
-                        }
-                    };
-                    reader.onerror = () => reject(new Error("File reading failed"));
-                });
-                reader.readAsDataURL(file);
-
-                const uploadedUrl = await uploadPromise;
-                heroBgVideoUrl.value = uploadedUrl;
-                window.showToast("Video uploaded successfully!", "success");
-            } catch (err) {
-                console.error("Video upload failed:", err);
-                window.showToast("Video upload failed: " + err.message, "error");
-            } finally {
-                heroBgApplyBtn.disabled = false;
-                heroBgApplyBtn.innerHTML = originalText;
-            }
-        });
-    }
-
     if (changeHeroBgBtn) {
         if (isPortfolioPage) {
             changeHeroBgBtn.style.display = "none";
         } else {
             changeHeroBgBtn.addEventListener("click", () => {
-                openHeroBgModal();
+                const heroImg = document.getElementById("hero-bg-image");
+                if (heroImg) {
+                    openCropModal(heroImg);
+                }
             });
         }
     }
@@ -4255,7 +3945,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const textToolbarEl = document.getElementById('admin-text-toolbar');
                     const rpOvlEl = document.getElementById('fp-rp-overlay');
                     const rpModEl = document.getElementById('fp-rp-modal');
-                    const heroBgModalEl = document.getElementById('admin-hero-bg-modal');
+
                     const blogModalEl = document.getElementById('admin-blog-modal');
                     
                     // Preserve background animation elements
@@ -4278,7 +3968,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if(textToolbarEl)  document.body.appendChild(textToolbarEl);
                     if(rpOvlEl)        document.body.appendChild(rpOvlEl);
                     if(rpModEl)        document.body.appendChild(rpModEl);
-                    if(heroBgModalEl)  document.body.appendChild(heroBgModalEl);
+
                     if(blogModalEl)    document.body.appendChild(blogModalEl);
 
                     // Initialize the admin theme panel inputs from loaded DOM
