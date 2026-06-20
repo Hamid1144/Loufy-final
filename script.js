@@ -19,6 +19,130 @@ window.showToast = function (message, type = 'success') {
 
 window.initSiteLogic = function () {
 
+  // ── Hero Frame-by-Frame Animation ──────────────────────────
+  (function initHeroFrameAnimation() {
+    const canvas = document.getElementById('hero-bg-canvas');
+    const fallbackImg = document.getElementById('hero-bg-image');
+    if (!canvas || !fallbackImg) return;
+
+    const ctx = canvas.getContext('2d');
+    const TOTAL_FRAMES = 150;
+    const TARGET_FPS = 30;
+    const FRAME_INTERVAL = 1000 / TARGET_FPS;
+    const BASE_URL = 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_1400/portfolio/hero_frames/frame_';
+
+    const frames = [];
+    let loadedCount = 0;
+    let currentFrame = 0;
+    let animationRunning = false;
+    let lastFrameTime = 0;
+
+    // Generate all frame URLs
+    const frameUrls = [];
+    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+      frameUrls.push(BASE_URL + String(i).padStart(3, '0'));
+    }
+
+    // Draw an image on canvas with "cover" fit
+    function drawCover(img) {
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = img.naturalWidth || img.width;
+      const ih = img.naturalHeight || img.height;
+      const imgRatio = iw / ih;
+      const canvasRatio = cw / ch;
+      let dw, dh, dx, dy;
+      if (canvasRatio > imgRatio) {
+        dw = cw; dh = cw / imgRatio;
+        dx = 0; dy = (ch - dh) / 2;
+      } else {
+        dh = ch; dw = ch * imgRatio;
+        dx = (cw - dw) / 2; dy = 0;
+      }
+      ctx.drawImage(img, dx, dy, dw, dh);
+    }
+
+    // Resize canvas to match hero container
+    function resizeCanvas() {
+      const hero = canvas.closest('.hero');
+      if (!hero) return;
+      const rect = hero.getBoundingClientRect();
+      canvas.width = Math.round(rect.width * (window.devicePixelRatio > 1.5 ? 1.5 : window.devicePixelRatio || 1));
+      canvas.height = Math.round(rect.height * (window.devicePixelRatio > 1.5 ? 1.5 : window.devicePixelRatio || 1));
+    }
+
+    // Animation loop using requestAnimationFrame for smooth playback
+    function animate(timestamp) {
+      if (!animationRunning) return;
+      if (timestamp - lastFrameTime >= FRAME_INTERVAL) {
+        lastFrameTime = timestamp - ((timestamp - lastFrameTime) % FRAME_INTERVAL);
+        if (frames[currentFrame]) {
+          drawCover(frames[currentFrame]);
+        }
+        currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
+      }
+      requestAnimationFrame(animate);
+    }
+
+    // Start animation once all frames are loaded
+    function startAnimation() {
+      if (animationRunning) return;
+      resizeCanvas();
+      canvas.style.display = 'block';
+      fallbackImg.style.display = 'none';
+      animationRunning = true;
+      lastFrameTime = 0;
+      requestAnimationFrame(animate);
+    }
+
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (animationRunning) {
+          resizeCanvas();
+          if (frames[currentFrame]) drawCover(frames[currentFrame]);
+        }
+      }, 150);
+    }, { passive: true });
+
+    // Preload frames progressively (batch loading for speed)
+    const BATCH_SIZE = 10;
+    let batchIndex = 0;
+
+    function loadBatch() {
+      const start = batchIndex * BATCH_SIZE;
+      const end = Math.min(start + BATCH_SIZE, TOTAL_FRAMES);
+      if (start >= TOTAL_FRAMES) return;
+
+      for (let i = start; i < end; i++) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          loadedCount++;
+          if (loadedCount === TOTAL_FRAMES) {
+            startAnimation();
+          }
+        };
+        img.onerror = () => {
+          loadedCount++;
+          if (loadedCount === TOTAL_FRAMES) startAnimation();
+        };
+        img.src = frameUrls[i];
+        frames[i] = img;
+      }
+
+      batchIndex++;
+      if (end < TOTAL_FRAMES) {
+        setTimeout(loadBatch, 50);
+      }
+    }
+
+    // Kick off preloading
+    loadBatch();
+  })();
+
   // Navbar scroll
   let navbarNode = document.querySelector('.navbar');
   const navScroll = () => {
