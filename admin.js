@@ -1297,10 +1297,13 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!heroImg || !heroVid) return;
 
             if (currentHeroBgType === "video") {
-                const vidUrl = heroBgVideoUrl.value.trim();
+                let vidUrl = heroBgVideoUrl.value.trim();
                 if (vidUrl === "") {
                     window.showToast("Please provide a video URL or upload a file.", "warning");
                     return;
+                }
+                if (vidUrl.includes('/video/upload/') && !vidUrl.includes('/f_auto,q_auto/')) {
+                    vidUrl = vidUrl.replace('/video/upload/', '/video/upload/f_auto,q_auto/');
                 }
                 heroVid.setAttribute("src", vidUrl);
                 heroVid.style.display = "block";
