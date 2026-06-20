@@ -1846,21 +1846,19 @@ body > section.portfolio {
         min-width: unset;
         padding: 8px 6px !important;
     }
-    .pricing-card .package-name { font-size: 0.7rem !important; margin-bottom: 4px; }
-    .pricing-card .price { font-size: 0.9rem !important; margin-bottom: 8px; }
+    .pricing-card .package-name { font-size: 0.7rem !important; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pricing-card .price { font-size: 0.85rem !important; margin-bottom: 8px; }
     .pricing-card .price span { font-size: 0.55rem !important; }
-    .pricing-card ul { margin-bottom: 10px; }
-    .pricing-card ul li { font-size: 0.55rem !important; margin-bottom: 4px; }
-    .pricing-card ul li i { font-size: 0.55rem; margin-right: 4px; }
-    .pricing-card .btn { padding: 6px 10px !important; font-size: 0.6rem !important; }
+    .pricing-card ul { display: none !important; } /* Hide features to save height */
+    .pricing-card .btn { padding: 4px 6px !important; font-size: 0.55rem !important; width: 100% !important; margin-top: auto; }
 
-    .blog-card { padding: 0 !important; }
-    .blog-card img { height: 100px !important; }
-    .blog-content { padding: 8px 6px !important; }
-    .blog-category-badge { font-size: 0.55rem !important; padding: 2px 6px !important; margin-bottom: 6px; }
-    .blog-card h3 { font-size: 0.65rem !important; margin-bottom: 4px; line-height: 1.2; }
-    .blog-card p { font-size: 0.55rem !important; margin-bottom: 8px; line-height: 1.3; }
-    .blog-meta { font-size: 0.55rem !important; }
+    .blog-card { padding: 0 !important; display: flex; flex-direction: column; }
+    .blog-card img { height: 70px !important; }
+    .blog-content { padding: 6px 4px !important; flex: 1; display: flex; flex-direction: column; }
+    .blog-category-badge { font-size: 0.5rem !important; padding: 2px 4px !important; margin-bottom: 4px; align-self: flex-start; }
+    .blog-card h3 { font-size: 0.6rem !important; margin-bottom: 4px; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .blog-card p { display: none !important; } /* Hide excerpt to save height */
+    .blog-meta { font-size: 0.5rem !important; margin-top: auto; }
 
 
     .about-float-tag {
