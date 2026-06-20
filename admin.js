@@ -4627,6 +4627,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 floatCardImgPreviewContainer.style.display = 'none';
                 floatCardLeft.value = '50';
                 floatCardTop.value = '50';
+                
+                if (floatCardWidthInput) floatCardWidthInput.value = 'auto';
+                if (floatCardHeightInput) floatCardHeightInput.value = 'auto';
+                if (floatCardPaddingInput) floatCardPaddingInput.value = '10';
+                if (floatCardRadiusInput) floatCardRadiusInput.value = '12';
+                if (floatCardBlurInput) floatCardBlurInput.value = '12';
+                if (floatCardOpacityInput) floatCardOpacityInput.value = '0.45';
             };
         }
 
