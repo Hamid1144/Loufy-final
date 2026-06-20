@@ -326,9 +326,15 @@
 
   /* ── Canvas Loop & Drawing ─────────────────────────────────────── */
   function resize() {
-    if (!canvas) return;
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+    if (!canvas || !ctx) return;
+    var dpr = window.devicePixelRatio || 1;
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.scale(dpr, dpr);
   }
 
   function initCanvas() {
