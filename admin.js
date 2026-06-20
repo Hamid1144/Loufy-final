@@ -425,6 +425,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <input type="range" id="hero-card-opacity-slider" min="10" max="95" value="45" style="width:100%;">
                 </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Video BG Zoom</span>
+                        <span id="hero-video-zoom-val">1.0x</span>
+                    </div>
+                    <input type="range" id="hero-video-zoom-slider" min="50" max="250" value="100" style="width:100%;">
+                </div>
             </div>
 
             <!-- Content Settings -->
@@ -1050,6 +1057,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroCardRadiusVal = document.getElementById("hero-card-radius-val");
     const heroCardBlurVal = document.getElementById("hero-card-blur-val");
     const heroCardOpacityVal = document.getElementById("hero-card-opacity-val");
+    const heroVideoZoomSlider = document.getElementById("hero-video-zoom-slider");
+    const heroVideoZoomVal = document.getElementById("hero-video-zoom-val");
 
 
 
@@ -3602,6 +3611,16 @@ document.addEventListener("DOMContentLoaded", () => {
             heroCardOpacityVal.innerText = cardOpacity;
         }
 
+        const canvasEl = document.getElementById('hero-bg-canvas');
+        let videoZoom = 1.0;
+        if (canvasEl) {
+            videoZoom = parseFloat(canvasEl.getAttribute('data-zoom')) || 1.0;
+        }
+        if (heroVideoZoomSlider) {
+            heroVideoZoomSlider.value = Math.round(videoZoom * 100);
+            if (heroVideoZoomVal) heroVideoZoomVal.innerText = videoZoom.toFixed(1) + 'x';
+        }
+
 
 
         // Update content inputs
@@ -3766,6 +3785,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 heroSection.style.setProperty('--hero-padding-y', val + 'px');
             }
             window.dispatchEvent(new Event('resize'));
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) {
+                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+            }
+        });
+    if (heroVideoZoomSlider) {
+        heroVideoZoomSlider.addEventListener('input', (e) => {
+            const zoomVal = e.target.value / 100;
+            if (heroVideoZoomVal) heroVideoZoomVal.innerText = zoomVal.toFixed(1) + 'x';
+            
+            const canvasEl = document.getElementById('hero-bg-canvas');
+            if (canvasEl) {
+                canvasEl.setAttribute('data-zoom', zoomVal);
+            }
+            const fallbackImg = document.getElementById('hero-bg-image');
+            if (fallbackImg) {
+                fallbackImg.style.transform = `scale(${zoomVal})`;
+            }
             window.hasUnsavedChanges = true;
             const saveBtnEl = document.getElementById('save-changes');
             if (saveBtnEl) {

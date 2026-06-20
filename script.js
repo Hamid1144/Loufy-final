@@ -45,6 +45,7 @@ window.initSiteLogic = function () {
 
     // Draw an image on canvas with "cover" fit
     function drawCover(img) {
+      const zoom = parseFloat(canvas.getAttribute('data-zoom')) || 1.0;
       const cw = canvas.width;
       const ch = canvas.height;
       const iw = img.naturalWidth || img.width;
@@ -54,11 +55,13 @@ window.initSiteLogic = function () {
       let dw, dh, dx, dy;
       if (canvasRatio > imgRatio) {
         dw = cw; dh = cw / imgRatio;
-        dx = 0; dy = (ch - dh) / 2;
       } else {
         dh = ch; dw = ch * imgRatio;
-        dx = (cw - dw) / 2; dy = 0;
       }
+      dw *= zoom;
+      dh *= zoom;
+      dx = (cw - dw) / 2;
+      dy = (ch - dh) / 2;
       ctx.drawImage(img, dx, dy, dw, dh);
     }
 
