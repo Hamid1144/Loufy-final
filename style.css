@@ -193,7 +193,7 @@ section{padding:100px 0}
 /* HERO */
 .hero{padding:60px 0 50px;background:linear-gradient(135deg,rgba(248,250,249,0.55) 0%,rgba(238,245,240,0.5) 50%,rgba(250,248,240,0.55) 100%);position:relative;overflow:hidden;isolation:isolate}
 #hero-bg-image{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none;transform:scale(1.08);transform-origin:center center;animation:heroBgFloat 16s ease-in-out infinite}
-#hero-bg-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none;opacity:0.25}
+#hero-bg-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none;opacity:1}
 @keyframes heroBgFloat{0%,100%{transform:scale(1.08) translate(0px,0px)}25%{transform:scale(1.08) translate(-6px,-10px)}50%{transform:scale(1.08) translate(0px,-15px)}75%{transform:scale(1.08) translate(6px,-10px)}}
 .hero .container{display:grid;grid-template-columns:1.35fr 0.65fr;gap:40px;align-items:center;position:relative;z-index:1}
 .hero-content{background:rgba(255,255,255,var(--hero-card-opacity, 0.45));backdrop-filter:blur(var(--hero-card-blur, 16px)) saturate(120%);-webkit-backdrop-filter:blur(var(--hero-card-blur, 16px)) saturate(120%);border:1px solid rgba(255,255,255,0.5);padding:30px;border-radius:var(--hero-card-radius, 8px);box-shadow:0 20px 50px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -8px 24px rgba(255,255,255,0.15);position:relative;z-index:2;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);margin-left:var(--hero-card-offset-x, -40px);margin-top:var(--hero-card-offset-y, 0px);width:var(--hero-card-width, calc(100% + 40px))}
