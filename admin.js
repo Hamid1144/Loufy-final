@@ -441,6 +441,39 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div id="hero-tags-editor-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px;"></div>
                 <button id="hero-add-tag-btn" class="admin-btn" style="width:100%; background:#28a745; font-size:0.75rem; padding:6px; margin:0;"><i class="fa-solid fa-plus"></i> Add New Tag</button>
             </div>
+
+            <!-- Floating Logo Cards Editor -->
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333;">
+                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:8px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Floating Logo Cards</label>
+                <p style="font-size:0.7rem; color:#aaa; margin-bottom:8px;">Add/delete floating cards. Drag cards on the page in Edit Mode to place them.</p>
+                <div id="hero-floating-cards-list" style="display:flex; flex-direction:column; gap:6px; margin-bottom:10px;"></div>
+                
+                <!-- Inline form for adding/editing card -->
+                <div id="float-card-form" style="display:none; padding:10px; background:#222; border:1px solid #444; border-radius:6px; margin-top:10px; flex-direction:column; gap:8px;">
+                    <h4 style="font-size:0.75rem; color:#ffc107; margin:0;" id="float-card-form-title">Add New Floating Card</h4>
+                    <div>
+                        <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Card Text</label>
+                        <input type="text" id="float-card-text" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Logo Image</label>
+                        <div style="display:flex; gap:6px; margin-bottom:4px;">
+                            <input type="file" id="float-card-file" accept="image/*" style="display:none;">
+                            <button type="button" id="float-card-file-btn" class="admin-btn" style="margin:0; padding:6px; font-size:0.7rem; flex:1; background:#333; color:#fff;"><i class="fa-solid fa-upload"></i> Upload</button>
+                            <input type="text" id="float-card-img-url" placeholder="or Image URL" style="flex:1.5; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                        </div>
+                        <div id="float-card-img-preview-container" style="display:none; align-items:center; gap:8px;">
+                            <img id="float-card-img-preview" src="" style="height:32px; max-width:60px; object-fit:contain; background:#333; padding:2px; border-radius:2px;" />
+                            <span style="font-size:0.7rem; color:#aaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:120px;" id="float-card-img-filename"></span>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:6px; margin-top:4px;">
+                        <button type="button" id="float-card-save-btn" class="admin-btn" style="margin:0; padding:6px; font-size:0.75rem; background:#28a745; flex:1; color:#fff;">Save Card</button>
+                        <button type="button" id="float-card-cancel-btn" class="admin-btn danger" style="margin:0; padding:6px; font-size:0.75rem; flex:1; color:#fff;">Cancel</button>
+                    </div>
+                </div>
+                <button id="float-card-add-btn" class="admin-btn" style="width:100%; background:#28a745; font-size:0.75rem; padding:6px; margin:0;"><i class="fa-solid fa-plus"></i> Add New Card</button>
+            </div>
         </div>
 
         <div id="flipbook-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
@@ -3345,9 +3378,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Sync hero card visibility toggle
         const visToggle = document.getElementById('hero-card-visible-toggle');
-        const heroContainer = document.querySelector('.hero .container');
-        if (visToggle && heroContainer) {
-            visToggle.checked = heroContainer.style.display !== 'none';
+        const heroSection = document.querySelector('.hero');
+        if (visToggle && heroSection) {
+            visToggle.checked = !heroSection.classList.contains('hero-card-hidden');
         }
 
         const style = heroContent.style;
@@ -3418,6 +3451,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderHeroButtonsList();
         renderHeroTagsList();
+        if (typeof initFloatingCardsPanelLogic === 'function') {
+            initFloatingCardsPanelLogic();
+        }
     }
 
     function updateHeroCardStyle(prop, val) {
@@ -3474,9 +3510,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroCardVisibleToggle = document.getElementById('hero-card-visible-toggle');
     if (heroCardVisibleToggle) {
         heroCardVisibleToggle.addEventListener('change', (e) => {
-            const heroContainer = document.querySelector('.hero .container');
-            if (heroContainer) {
-                heroContainer.style.display = e.target.checked ? '' : 'none';
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                if (e.target.checked) {
+                    heroSection.classList.remove('hero-card-hidden');
+                } else {
+                    heroSection.classList.add('hero-card-hidden');
+                }
             }
         });
     }
@@ -3742,6 +3782,282 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelectorAll('[data-admin-text="true"]').forEach(el => el.setAttribute("contenteditable", "true"));
             }
         });
+    }
+
+    // Drag-and-drop repositioning logic for hero float cards in edit mode
+    let activeDragCard = null;
+    let dragStartX = 0, dragStartY = 0;
+    let initialLeftPercent = 0, initialTopPercent = 0;
+
+    document.addEventListener('mousedown', (e) => {
+        if (!isEditMode) return;
+        const card = e.target.closest('.hero-float-card');
+        if (!card) return;
+
+        // Skip if clicked inside form/buttons of admin panel
+        if (e.target.closest('#super-admin-panel') || e.target.closest('#float-card-form')) return;
+
+        activeDragCard = card;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+
+        const parent = card.offsetParent || document.querySelector('.hero');
+        const parentWidth = parent.clientWidth || window.innerWidth;
+        const parentHeight = parent.clientHeight || window.innerHeight;
+
+        const styleLeft = card.style.left;
+        const styleTop = card.style.top;
+
+        if (styleLeft && styleLeft.endsWith('%')) {
+            initialLeftPercent = parseFloat(styleLeft);
+        } else {
+            initialLeftPercent = (card.offsetLeft / parentWidth) * 100;
+        }
+
+        if (styleTop && styleTop.endsWith('%')) {
+            initialTopPercent = parseFloat(styleTop);
+        } else {
+            initialTopPercent = (card.offsetTop / parentHeight) * 100;
+        }
+
+        card.style.right = 'auto';
+        card.style.bottom = 'auto';
+        card.style.left = initialLeftPercent + '%';
+        card.style.top = initialTopPercent + '%';
+        card.style.cursor = 'grabbing';
+
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!activeDragCard) return;
+        const parent = activeDragCard.offsetParent || document.querySelector('.hero');
+        const parentWidth = parent.clientWidth || window.innerWidth;
+        const parentHeight = parent.clientHeight || window.innerHeight;
+
+        const dx = e.clientX - dragStartX;
+        const dy = e.clientY - dragStartY;
+
+        const deltaLeftPercent = (dx / parentWidth) * 100;
+        const deltaTopPercent = (dy / parentHeight) * 100;
+
+        let newLeft = initialLeftPercent + deltaLeftPercent;
+        let newTop = initialTopPercent + deltaTopPercent;
+
+        // Keep inside bounds (0% to 95%)
+        newLeft = Math.max(0, Math.min(95, newLeft));
+        newTop = Math.max(0, Math.min(95, newTop));
+
+        activeDragCard.style.left = newLeft.toFixed(2) + '%';
+        activeDragCard.style.top = newTop.toFixed(2) + '%';
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (activeDragCard) {
+            activeDragCard.style.cursor = '';
+            activeDragCard = null;
+        }
+    });
+
+    function initFloatingCardsPanelLogic() {
+        const floatCardsList = document.getElementById('hero-floating-cards-list');
+        const floatCardForm = document.getElementById('float-card-form');
+        const floatCardText = document.getElementById('float-card-text');
+        const floatCardFile = document.getElementById('float-card-file');
+        const floatCardFileBtn = document.getElementById('float-card-file-btn');
+        const floatCardImgUrl = document.getElementById('float-card-img-url');
+        const floatCardImgPreview = document.getElementById('float-card-img-preview');
+        const floatCardImgPreviewContainer = document.getElementById('float-card-img-preview-container');
+        const floatCardImgFilename = document.getElementById('float-card-img-filename');
+        const floatCardSaveBtn = document.getElementById('float-card-save-btn');
+        const floatCardCancelBtn = document.getElementById('float-card-cancel-btn');
+        const floatCardAddBtn = document.getElementById('float-card-add-btn');
+
+        if (!floatCardsList) return;
+
+        const heroFloatingCardsContainer = document.getElementById('hero-floating-cards');
+        if (!heroFloatingCardsContainer) return;
+
+        const renderList = () => {
+            floatCardsList.innerHTML = '';
+            const cards = heroFloatingCardsContainer.querySelectorAll('.hero-float-card');
+            
+            if (cards.length === 0) {
+                floatCardsList.innerHTML = '<p style="font-size:0.75rem; color:#888; text-align:center; padding:10px; margin:0;">No floating cards found.</p>';
+            }
+
+            cards.forEach((card, index) => {
+                let cardId = card.getAttribute('data-card-id');
+                if (!cardId) {
+                    cardId = 'card_' + Date.now() + '_' + index;
+                    card.setAttribute('data-card-id', cardId);
+                }
+
+                const imgEl = card.querySelector('img');
+                const textEl = card.querySelector('span');
+                const imgUrl = imgEl ? imgEl.src : '';
+                const labelText = textEl ? textEl.innerText : '';
+
+                const itemDiv = document.createElement('div');
+                itemDiv.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:8px; background:#222; border-radius:6px; border:1px solid #444; margin-bottom:4px;';
+                itemDiv.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:8px; overflow:hidden; flex:1;">
+                        \${imgUrl ? `<img src="\${imgUrl}" style="height:24px; max-width:40px; object-fit:contain; background:#333; padding:2px; border-radius:3px;" onerror="this.style.display='none'">` : '<div style="width:24px; height:24px; background:#333; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:0.6rem; color:#888;"><i class="fa-solid fa-image"></i></div>'}
+                        <span style="font-size:0.75rem; color:#fff; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">\${labelText || '(No label)'}</span>
+                    </div>
+                    <div style="display:flex; gap:4px;">
+                        <button type="button" class="btn-edit-float-card admin-btn" data-id="\${cardId}" style="padding:4px 8px; font-size:0.7rem; margin:0; background:#ffc107; color:#111;"><i class="fa-solid fa-pencil"></i></button>
+                        <button type="button" class="btn-delete-float-card admin-btn danger" data-id="\${cardId}" style="padding:4px 8px; font-size:0.7rem; margin:0;"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+                
+                itemDiv.querySelector('.btn-edit-float-card').addEventListener('click', () => {
+                    floatCardForm.style.display = 'flex';
+                    floatCardAddBtn.style.display = 'none';
+                    floatCardForm.dataset.mode = 'edit';
+                    floatCardForm.dataset.targetId = cardId;
+                    document.getElementById('float-card-form-title').innerText = 'Edit Floating Card';
+                    
+                    floatCardText.value = labelText;
+                    floatCardImgUrl.value = imgUrl;
+                    
+                    if (imgUrl) {
+                        floatCardImgPreview.src = imgUrl;
+                        floatCardImgPreviewContainer.style.display = 'flex';
+                        floatCardImgFilename.innerText = 'Logo Image';
+                    } else {
+                        floatCardImgPreviewContainer.style.display = 'none';
+                    }
+                });
+
+                itemDiv.querySelector('.btn-delete-float-card').addEventListener('click', () => {
+                    if (confirm(`Are you sure you want to delete "\&quot;\${labelText || 'this card'}\&quot;"?`)) {
+                        card.remove();
+                        renderList();
+                        window.showToast('Floating card deleted locally. Save to Cloud to persist.', 'info');
+                    }
+                });
+
+                floatCardsList.appendChild(itemDiv);
+            });
+        };
+
+        if (floatCardFile && floatCardFileBtn) {
+            floatCardFileBtn.onclick = () => floatCardFile.click();
+            floatCardFile.onchange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    floatCardImgPreview.src = reader.result;
+                    floatCardImgPreviewContainer.style.display = 'flex';
+                    floatCardImgFilename.innerText = file.name;
+                    floatCardImgUrl.value = 'base64_pending';
+                    floatCardFile.dataset.base64 = reader.result;
+                };
+            };
+        }
+
+        if (floatCardCancelBtn) {
+            floatCardCancelBtn.onclick = () => {
+                floatCardForm.style.display = 'none';
+                floatCardAddBtn.style.display = 'block';
+                floatCardText.value = '';
+                floatCardImgUrl.value = '';
+                floatCardFile.value = '';
+                floatCardFile.dataset.base64 = '';
+                floatCardImgPreviewContainer.style.display = 'none';
+            };
+        }
+
+        if (floatCardSaveBtn) {
+            floatCardSaveBtn.onclick = async () => {
+                const text = floatCardText.value.trim();
+                let imgUrl = floatCardImgUrl.value.trim();
+                const mode = floatCardForm.dataset.mode || 'add';
+                const targetId = floatCardForm.dataset.targetId;
+
+                if (!text && !imgUrl && floatCardImgUrl.value !== 'base64_pending') {
+                    window.showToast('Please enter text or choose an image.', 'warning');
+                    return;
+                }
+
+                const originalBtnText = floatCardSaveBtn.innerText;
+                floatCardSaveBtn.innerText = 'Saving...';
+                floatCardSaveBtn.disabled = true;
+
+                try {
+                    if (imgUrl === 'base64_pending' && floatCardFile.dataset.base64) {
+                        window.showToast('Uploading logo to Cloudinary...', 'info');
+                        const uploadedUrl = await uploadToCloudinary(floatCardFile.dataset.base64);
+                        imgUrl = uploadedUrl;
+                    }
+
+                    if (mode === 'add') {
+                        const newId = 'card_' + Date.now();
+                        const delay = (heroFloatingCardsContainer.querySelectorAll('.hero-float-card').length * 1.5) + 's';
+                        
+                        const newCard = document.createElement('div');
+                        newCard.className = 'hero-float-card';
+                        newCard.setAttribute('data-card-id', newId);
+                        newCard.style.cssText = `left: 45%; top: 40%; animation-delay: \${delay};`;
+                        
+                        let cardHTML = '';
+                        if (imgUrl) {
+                            cardHTML += `<img src="\${imgUrl}" alt="\${text || 'Logo'}" onerror="this.style.display='none'">`;
+                        }
+                        if (text) {
+                            cardHTML += `<span>\${text}</span>`;
+                        }
+                        
+                        newCard.innerHTML = cardHTML;
+                        heroFloatingCardsContainer.appendChild(newCard);
+                        window.showToast('Card added. Enable Edit Mode and drag it to position!', 'success');
+                    } else {
+                        const card = heroFloatingCardsContainer.querySelector(`[data-card-id="\${targetId}"]`);
+                        if (card) {
+                            let cardHTML = '';
+                            if (imgUrl) {
+                                cardHTML += `<img src="\${imgUrl}" alt="\${text || 'Logo'}" onerror="this.style.display='none'">`;
+                            }
+                            if (text) {
+                                cardHTML += `<span>\${text}</span>`;
+                            }
+                            card.innerHTML = cardHTML;
+                            window.showToast('Card updated successfully.', 'success');
+                        }
+                    }
+
+                    floatCardCancelBtn.click();
+                    renderList();
+                } catch (err) {
+                    console.error(err);
+                    window.showToast('Failed to save card: ' + err.message, 'error');
+                } finally {
+                    floatCardSaveBtn.innerText = originalBtnText;
+                    floatCardSaveBtn.disabled = false;
+                }
+            };
+        }
+
+        if (floatCardAddBtn) {
+            floatCardAddBtn.onclick = () => {
+                floatCardForm.style.display = 'flex';
+                floatCardAddBtn.style.display = 'none';
+                floatCardForm.dataset.mode = 'add';
+                document.getElementById('float-card-form-title').innerText = 'Add New Floating Card';
+                
+                floatCardText.value = '';
+                floatCardImgUrl.value = '';
+                floatCardFile.value = '';
+                floatCardFile.dataset.base64 = '';
+                floatCardImgPreviewContainer.style.display = 'none';
+            };
+        }
+
+        renderList();
     }
 
     if (manageHeroCardBtn) {
