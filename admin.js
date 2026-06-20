@@ -4229,6 +4229,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const floatCardBlurVal = document.getElementById('float-card-blur-val');
         const floatCardOpacityInput = document.getElementById('float-card-opacity-input');
         const floatCardOpacityVal = document.getElementById('float-card-opacity-val');
+        const floatCardScaleInput = document.getElementById('float-card-scale-input');
+        const floatCardScaleVal = document.getElementById('float-card-scale-val');
+        const floatCardImgsizeInput = document.getElementById('float-card-imgsize-input');
+        const floatCardImgsizeVal = document.getElementById('float-card-imgsize-val');
 
         if (!floatCardsList) return;
 
@@ -4335,6 +4339,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (floatCardOpacityInput) floatCardOpacityInput.value = Math.round(oVal * 100);
                     if (floatCardOpacityVal) floatCardOpacityVal.innerText = oVal;
                     
+                    // Scale
+                    const cScale = cardStyle.getPropertyValue('--hero-float-card-scale') || '1';
+                    const scaleVal = Math.round(parseFloat(cScale) * 100) || 100;
+                    if (floatCardScaleInput) floatCardScaleInput.value = scaleVal;
+                    if (floatCardScaleVal) floatCardScaleVal.innerText = (scaleVal / 100) + 'x';
+                    
+                    // Image Size
+                    const cImgSize = cardStyle.getPropertyValue('--hero-float-card-img-size') || '24px';
+                    const imgSizeVal = parseInt(cImgSize) || 24;
+                    if (floatCardImgsizeInput) floatCardImgsizeInput.value = imgSizeVal;
+                    if (floatCardImgsizeVal) floatCardImgsizeVal.innerText = imgSizeVal + 'px';
+                    
                     if (imgUrl) {
                         floatCardImgPreview.src = imgUrl;
                         floatCardImgPreviewContainer.style.display = 'flex';
@@ -4413,6 +4429,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 if (floatCardOpacityInput) floatCardOpacityInput.value = '45';
                 if (floatCardOpacityVal) floatCardOpacityVal.innerText = '0.45';
+                if (floatCardScaleInput) floatCardScaleInput.value = '100';
+                if (floatCardScaleVal) floatCardScaleVal.innerText = '1x';
+                if (floatCardImgsizeInput) floatCardImgsizeInput.value = '24';
+                if (floatCardImgsizeVal) floatCardImgsizeVal.innerText = '24px';
             };
         }
 
@@ -4451,6 +4471,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     const rVal = floatCardRadiusInput ? (parseInt(floatCardRadiusInput.value) || 12) : 12;
                     const bVal = floatCardBlurInput ? (parseInt(floatCardBlurInput.value) || 12) : 12;
                     const oVal = floatCardOpacityInput ? (parseFloat(floatCardOpacityInput.value / 100) || 0.45) : 0.45;
+                    const scaleVal = floatCardScaleInput ? (parseFloat(floatCardScaleInput.value) / 100 || 1) : 1;
+                    const imgSizeVal = floatCardImgsizeInput ? (parseInt(floatCardImgsizeInput.value) || 24) : 24;
 
                     if (mode === 'add') {
                         const newId = 'card_' + Date.now();
@@ -4466,6 +4488,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         newCard.style.setProperty('--hero-float-card-radius', rVal + 'px');
                         newCard.style.setProperty('--hero-float-card-blur', bVal + 'px');
                         newCard.style.setProperty('--hero-float-card-opacity', oVal);
+                        newCard.style.setProperty('--hero-float-card-scale', scaleVal);
+                        newCard.style.setProperty('--hero-float-card-img-size', imgSizeVal + 'px');
                         
                         let cardHTML = '';
                         if (imgUrl) {
@@ -4497,6 +4521,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             card.style.setProperty('--hero-float-card-radius', rVal + 'px');
                             card.style.setProperty('--hero-float-card-blur', bVal + 'px');
                             card.style.setProperty('--hero-float-card-opacity', oVal);
+                            card.style.setProperty('--hero-float-card-scale', scaleVal);
+                            card.style.setProperty('--hero-float-card-img-size', imgSizeVal + 'px');
                             window.showToast('Card updated successfully.', 'success');
                         }
                     }
@@ -4555,6 +4581,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 if (floatCardOpacityInput) floatCardOpacityInput.value = '45';
                 if (floatCardOpacityVal) floatCardOpacityVal.innerText = '0.45';
+                if (floatCardScaleInput) floatCardScaleInput.value = '100';
+                if (floatCardScaleVal) floatCardScaleVal.innerText = '1x';
+                if (floatCardImgsizeInput) floatCardImgsizeInput.value = '24';
+                if (floatCardImgsizeVal) floatCardImgsizeVal.innerText = '24px';
             };
         }
 
@@ -4642,6 +4672,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 const val = e.target.value / 100;
                 if (floatCardOpacityVal) floatCardOpacityVal.innerText = val;
                 updateLiveCardStyle('--hero-float-card-opacity', val);
+            });
+        }
+        if (floatCardScaleInput) {
+            floatCardScaleInput.addEventListener('input', (e) => {
+                const val = e.target.value / 100;
+                if (floatCardScaleVal) floatCardScaleVal.innerText = val + 'x';
+                updateLiveCardStyle('--hero-float-card-scale', val);
+            });
+        }
+        if (floatCardImgsizeInput) {
+            floatCardImgsizeInput.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (floatCardImgsizeVal) floatCardImgsizeVal.innerText = val + 'px';
+                updateLiveCardStyle('--hero-float-card-img-size', val + 'px');
             });
         }
 
