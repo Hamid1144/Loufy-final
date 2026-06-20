@@ -863,7 +863,7 @@ window.initPaperbackCoversMarquee = function() {
   }
   
   marqueeContainer.innerHTML = `
-    <div class="paperback-covers-marquee row-ltr">
+    <div class="paperback-covers-marquee row-rtl">
       <div class="paperback-covers-marquee-track">
         ${singleHTMLs.map(innerHtml => `
           <div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">

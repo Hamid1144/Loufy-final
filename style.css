@@ -2175,11 +2175,11 @@ body > section.portfolio {
     display: flex;
 }
 
-.paperback-covers-marquee.row-ltr .paperback-covers-marquee-track {
+.paperback-covers-marquee.row-rtl .paperback-covers-marquee-track {
     display: flex;
     gap: 24px;
     width: max-content;
-    animation: scroll-ltr 90s linear infinite;
+    animation: scroll-rtl 90s linear infinite;
     padding-right: 24px;
 }
 
