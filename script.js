@@ -18,6 +18,21 @@ window.showToast = function (message, type = 'success') {
 };
 
 window.initSiteLogic = function () {
+  // Hero Background Video vs Image handling
+  const heroBgImg = document.getElementById('hero-bg-image');
+  const heroBgVid = document.getElementById('hero-bg-video');
+  if (heroBgVid && heroBgImg) {
+    const videoSrc = heroBgVid.getAttribute('src');
+    if (videoSrc && videoSrc.trim() !== '') {
+      heroBgVid.style.display = 'block';
+      heroBgImg.style.display = 'none';
+      heroBgVid.play().catch(err => console.log('Video autoplay blocked or failed:', err));
+    } else {
+      heroBgVid.style.display = 'none';
+      heroBgImg.style.display = 'block';
+    }
+  }
+
   // Navbar scroll
   let navbarNode = document.querySelector('.navbar');
   const navScroll = () => {
