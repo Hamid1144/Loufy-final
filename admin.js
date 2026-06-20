@@ -500,46 +500,76 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div style="display:flex; gap:8px;">
                         <div style="flex:1;">
-                            <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Left Position (%)</label>
-                            <input type="number" id="float-card-left" min="0" max="100" value="50" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
+                                <span>Left Position</span>
+                                <span id="float-card-left-val">50%</span>
+                            </div>
+                            <input type="range" id="float-card-left" min="0" max="100" value="50" style="width:100%;">
                         </div>
                         <div style="flex:1;">
-                            <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Top Position (%)</label>
-                            <input type="number" id="float-card-top" min="0" max="100" value="50" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
+                                <span>Top Position</span>
+                                <span id="float-card-top-val">50%</span>
+                            </div>
+                            <input type="range" id="float-card-top" min="0" max="100" value="50" style="width:100%;">
                         </div>
                     </div>
                     <!-- Sizing and styling per card -->
                     <div style="border-top:1px solid #444; padding-top:8px; display:flex; flex-direction:column; gap:6px;">
                         <label style="font-size:0.65rem; color:#ff5722; font-weight:700; text-transform:uppercase; display:block;">Card Sizing & Style</label>
                         
-                        <div style="display:flex; gap:8px;">
+                        <div style="display:flex; gap:8px; margin-bottom:4px;">
                             <div style="flex:1;">
-                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Width (px/auto)</label>
-                                <input type="text" id="float-card-width-input" placeholder="e.g. 150px or auto" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
+                                    <span>Width (px)</span>
+                                    <span id="float-card-width-val">auto</span>
+                                </div>
+                                <input type="range" id="float-card-width-input" min="80" max="400" value="150" style="width:100%;">
+                                <label style="font-size:0.65rem; color:#aaa; display:flex; align-items:center; gap:4px; margin-top:2px; cursor:pointer;">
+                                    <input type="checkbox" id="float-card-width-auto" checked style="width:12px; height:12px; cursor:pointer;"> Auto
+                                </label>
                             </div>
                             <div style="flex:1;">
-                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Height (px/auto)</label>
-                                <input type="text" id="float-card-height-input" placeholder="e.g. 50px or auto" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
+                                    <span>Height (px)</span>
+                                    <span id="float-card-height-val">auto</span>
+                                </div>
+                                <input type="range" id="float-card-height-input" min="30" max="250" value="50" style="width:100%;">
+                                <label style="font-size:0.65rem; color:#aaa; display:flex; align-items:center; gap:4px; margin-top:2px; cursor:pointer;">
+                                    <input type="checkbox" id="float-card-height-auto" checked style="width:12px; height:12px; cursor:pointer;"> Auto
+                                </label>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px; margin-bottom:4px;">
+                            <div style="flex:1;">
+                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
+                                    <span>Padding</span>
+                                    <span id="float-card-padding-val">10px</span>
+                                </div>
+                                <input type="range" id="float-card-padding-input" min="2" max="30" value="10" style="width:100%;">
+                            </div>
+                            <div style="flex:1;">
+                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
+                                    <span>Radius</span>
+                                    <span id="float-card-radius-val">12px</span>
+                                </div>
+                                <input type="range" id="float-card-radius-input" min="0" max="40" value="12" style="width:100%;">
                             </div>
                         </div>
                         <div style="display:flex; gap:8px;">
                             <div style="flex:1;">
-                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Padding (px)</label>
-                                <input type="number" id="float-card-padding-input" placeholder="e.g. 10" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
+                                    <span>Blur</span>
+                                    <span id="float-card-blur-val">12px</span>
+                                </div>
+                                <input type="range" id="float-card-blur-input" min="0" max="40" value="12" style="width:100%;">
                             </div>
                             <div style="flex:1;">
-                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Radius (px)</label>
-                                <input type="number" id="float-card-radius-input" placeholder="e.g. 12" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
-                            </div>
-                        </div>
-                        <div style="display:flex; gap:8px;">
-                            <div style="flex:1;">
-                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Blur (px)</label>
-                                <input type="number" id="float-card-blur-input" placeholder="e.g. 12" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
-                            </div>
-                            <div style="flex:1;">
-                                <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Opacity (0-1)</label>
-                                <input type="number" id="float-card-opacity-input" step="0.05" min="0.1" max="1" placeholder="e.g. 0.45" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
+                                    <span>Opacity</span>
+                                    <span id="float-card-opacity-val">0.45</span>
+                                </div>
+                                <input type="range" id="float-card-opacity-input" min="10" max="95" value="45" style="width:100%;">
                             </div>
                         </div>
                     </div>
@@ -4166,7 +4196,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const floatCardCancelBtn = document.getElementById('float-card-cancel-btn');
         const floatCardAddBtn = document.getElementById('float-card-add-btn');
         const floatCardLeft = document.getElementById('float-card-left');
+        const floatCardLeftVal = document.getElementById('float-card-left-val');
         const floatCardTop = document.getElementById('float-card-top');
+        const floatCardTopVal = document.getElementById('float-card-top-val');
         const floatCardWidthInput = document.getElementById('float-card-width-input');
         const floatCardWidthVal = document.getElementById('float-card-width-val');
         const floatCardWidthAuto = document.getElementById('float-card-width-auto');
@@ -4236,6 +4268,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     floatCardImgUrl.value = imgUrl;
                     floatCardLeft.value = Math.round(currentLeft);
                     floatCardTop.value = Math.round(currentTop);
+                    if (floatCardLeftVal) floatCardLeftVal.innerText = Math.round(currentLeft) + '%';
+                    if (floatCardTopVal) floatCardTopVal.innerText = Math.round(currentTop) + '%';
 
                     const cardStyle = card.style;
                     
@@ -4334,7 +4368,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 floatCardFile.dataset.base64 = '';
                 floatCardImgPreviewContainer.style.display = 'none';
                 floatCardLeft.value = '50';
+                if (floatCardLeftVal) floatCardLeftVal.innerText = '50%';
                 floatCardTop.value = '50';
+                if (floatCardTopVal) floatCardTopVal.innerText = '50%';
                 
                 if (floatCardWidthInput) {
                     floatCardWidthInput.value = '150';
@@ -4474,7 +4510,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 floatCardFile.dataset.base64 = '';
                 floatCardImgPreviewContainer.style.display = 'none';
                 floatCardLeft.value = '50';
+                if (floatCardLeftVal) floatCardLeftVal.innerText = '50%';
                 floatCardTop.value = '50';
+                if (floatCardTopVal) floatCardTopVal.innerText = '50%';
                 
                 if (floatCardWidthInput) {
                     floatCardWidthInput.value = '150';
@@ -4514,6 +4552,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         };
+
+        if (floatCardLeft) {
+            floatCardLeft.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (floatCardLeftVal) floatCardLeftVal.innerText = val + '%';
+                updateLiveCardStyle('left', val + '%');
+            });
+        }
+        if (floatCardTop) {
+            floatCardTop.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (floatCardTopVal) floatCardTopVal.innerText = val + '%';
+                updateLiveCardStyle('top', val + '%');
+            });
+        }
 
         if (floatCardWidthInput) {
             floatCardWidthInput.addEventListener('input', (e) => {
