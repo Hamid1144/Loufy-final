@@ -874,6 +874,31 @@ document.addEventListener("DOMContentLoaded", () => {
                     <input type="file" id="hero-bg-video-file" accept="video/mp4, video/webm" style="font-size:0.85rem; color:#ccc;">
                     <div style="font-size:0.75rem; color:#888; margin-top:2px;">Cloudinary processes videos in the background. Please wait for the upload to complete.</div>
                 </div>
+
+                <div style="display:flex; align-items:center; gap:8px; margin: 5px 0;">
+                    <span style="flex:1; height:1px; background:#333;"></span>
+                    <span style="font-size:0.8rem; color:#666; font-weight:600;">VIDEO CROP & POSITION</span>
+                    <span style="flex:1; height:1px; background:#333;"></span>
+                </div>
+
+                <div style="display:flex; gap:12px;">
+                    <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                        <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Vertical Align (Focus)</label>
+                        <select id="hero-bg-video-position" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; cursor:pointer; width:100%;">
+                            <option value="center">Center (Darmian)</option>
+                            <option value="top">Top (Uper)</option>
+                            <option value="bottom">Bottom (Neeche)</option>
+                        </select>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                        <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Start Time (Secs)</label>
+                        <input type="number" id="hero-bg-video-start" placeholder="e.g. 0" min="0" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                        <label style="font-size:0.8rem; color:#aaa; font-weight:600;">End Time (Secs)</label>
+                        <input type="number" id="hero-bg-video-end" placeholder="e.g. 15" min="0" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; width:100%; box-sizing:border-box;">
+                    </div>
+                </div>
             </div>
 
             <!-- Actions -->
@@ -936,6 +961,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroBgOpenCropper = document.getElementById("hero-bg-open-cropper");
     const heroBgVideoUrl = document.getElementById("hero-bg-video-url");
     const heroBgVideoFile = document.getElementById("hero-bg-video-file");
+    const heroBgVideoPosition = document.getElementById("hero-bg-video-position");
+    const heroBgVideoStart = document.getElementById("hero-bg-video-start");
+    const heroBgVideoEnd = document.getElementById("hero-bg-video-end");
     const heroBgCloseBtn = document.getElementById("hero-bg-close-btn");
     const heroBgApplyBtn = document.getElementById("hero-bg-apply-btn");
     const fileInput = document.getElementById("crop-file-input");
@@ -1243,6 +1271,22 @@ document.addEventListener("DOMContentLoaded", () => {
         heroBgVideoUrl.value = vidUrl;
         heroBgVideoFile.value = ""; 
 
+        // Populate position align
+        const currentPos = heroVid.style.objectPosition || "center";
+        heroBgVideoPosition.value = currentPos;
+
+        // Parse Start and End offsets from Cloudinary URL
+        let startVal = "";
+        let endVal = "";
+        if (vidUrl.includes('/video/upload/')) {
+            const startMatch = vidUrl.match(/so_([^,/]+)/);
+            const endMatch = vidUrl.match(/eo_([^,/]+)/);
+            if (startMatch) startVal = startMatch[1];
+            if (endMatch) endVal = endMatch[1];
+        }
+        heroBgVideoStart.value = startVal;
+        heroBgVideoEnd.value = endVal;
+
         if (vidUrl.trim() !== "") {
             switchHeroBgTab("video");
         } else {
@@ -1302,11 +1346,42 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.showToast("Please provide a video URL or upload a file.", "warning");
                     return;
                 }
-                if (vidUrl.includes('/video/upload/') && !vidUrl.includes('/f_auto,q_auto/')) {
-                    vidUrl = vidUrl.replace('/video/upload/', '/video/upload/f_auto,q_auto/');
+
+                const startSec = heroBgVideoStart.value.trim();
+                const endSec = heroBgVideoEnd.value.trim();
+
+                // Format Cloudinary Video Url with duration cropping
+                if (vidUrl.includes('/video/upload/')) {
+                    const parts = vidUrl.split('/video/upload/');
+                    const prefix = parts[0] + '/video/upload/';
+                    let remaining = parts[1];
+
+                    // Remove existing transformation block if present
+                    const segments = remaining.split('/');
+                    if (segments.length > 1 && !segments[0].match(/^v\d+$/) && !segments[0].includes('.')) {
+                        segments.shift();
+                        remaining = segments.join('/');
+                    }
+
+                    // Build new parameters
+                    let tx = "f_auto,q_auto";
+                    if (startSec !== "") {
+                        tx += `,so_${startSec}`;
+                    }
+                    if (endSec !== "") {
+                        tx += `,eo_${endSec}`;
+                    }
+
+                    vidUrl = prefix + tx + '/' + remaining;
                 }
+
+                // Apply object position alignment
+                const positionVal = heroBgVideoPosition.value;
+                heroVid.style.objectPosition = positionVal;
+
                 heroVid.setAttribute("src", vidUrl);
                 heroVid.style.display = "block";
+                heroVid.load(); // reload source buffer
                 heroVid.play().catch(e => console.log(e));
                 heroImg.style.display = "none";
             } else {
