@@ -387,6 +387,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Card Height (px/auto)</span>
+                        <span id="hero-card-height-val">auto</span>
+                    </div>
+                    <input type="range" id="hero-card-height-slider" min="150" max="1000" value="400" style="width:100%;">
+                    <label style="font-size:0.65rem; color:#aaa; display:flex; align-items:center; gap:4px; margin-top:2px; cursor:pointer;">
+                        <input type="checkbox" id="hero-card-height-auto" checked style="width:12px; height:12px; cursor:pointer;"> Use Auto Height
+                    </label>
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
+                        <span>Card Padding (px)</span>
+                        <span id="hero-card-padding-val">30px</span>
+                    </div>
+                    <input type="range" id="hero-card-padding-slider" min="10" max="100" value="30" style="width:100%;">
+                </div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
                         <span>Border Radius</span>
                         <span id="hero-card-radius-val">8px</span>
                     </div>
@@ -940,6 +957,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroPaddingSlider = document.getElementById("hero-padding-slider");
     const heroPaddingVal = document.getElementById("hero-padding-val");
     const heroCardWidthVal = document.getElementById("hero-card-width-val");
+    const heroCardHeightSlider = document.getElementById("hero-card-height-slider");
+    const heroCardHeightVal = document.getElementById("hero-card-height-val");
+    const heroCardHeightAuto = document.getElementById("hero-card-height-auto");
+    const heroCardPaddingSlider = document.getElementById("hero-card-padding-slider");
+    const heroCardPaddingVal = document.getElementById("hero-card-padding-val");
     const heroCardRadiusVal = document.getElementById("hero-card-radius-val");
     const heroCardBlurVal = document.getElementById("hero-card-blur-val");
     const heroCardOpacityVal = document.getElementById("hero-card-opacity-val");
@@ -3461,6 +3483,25 @@ document.addEventListener("DOMContentLoaded", () => {
             heroCardWidthSlider.value = cardWidth;
             heroCardWidthVal.innerText = cardWidth + 'px';
         }
+        const cardPaddingStr = style.getPropertyValue('--hero-card-padding') || '30px';
+        const cardPadding = parseInt(cardPaddingStr) || 30;
+
+        const cardHeightStr = style.getPropertyValue('--hero-card-height') || 'auto';
+        const isHeightAuto = cardHeightStr === 'auto' || !cardHeightStr;
+        const cardHeight = isHeightAuto ? 400 : (parseInt(cardHeightStr) || 400);
+
+        if (heroCardPaddingSlider) {
+            heroCardPaddingSlider.value = cardPadding;
+            heroCardPaddingVal.innerText = cardPadding + 'px';
+        }
+        if (heroCardHeightSlider) {
+            heroCardHeightSlider.value = cardHeight;
+            heroCardHeightVal.innerText = isHeightAuto ? 'auto' : cardHeight + 'px';
+            heroCardHeightSlider.disabled = isHeightAuto;
+        }
+        if (heroCardHeightAuto) {
+            heroCardHeightAuto.checked = isHeightAuto;
+        }
         if (heroCardRadiusSlider) {
             heroCardRadiusSlider.value = cardRadius;
             heroCardRadiusVal.innerText = cardRadius + 'px';
@@ -3539,6 +3580,52 @@ document.addEventListener("DOMContentLoaded", () => {
             const val = e.target.value;
             heroCardWidthVal.innerText = val + 'px';
             updateHeroCardStyle('--hero-card-width', val + 'px');
+        });
+    }
+    if (heroCardPaddingSlider) {
+        heroCardPaddingSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (heroCardPaddingVal) heroCardPaddingVal.innerText = val + 'px';
+            updateHeroCardStyle('--hero-card-padding', val + 'px');
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) {
+                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+            }
+        });
+    }
+    if (heroCardHeightSlider) {
+        heroCardHeightSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (heroCardHeightVal) heroCardHeightVal.innerText = val + 'px';
+            updateHeroCardStyle('--hero-card-height', val + 'px');
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) {
+                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+            }
+        });
+    }
+    if (heroCardHeightAuto) {
+        heroCardHeightAuto.addEventListener('change', (e) => {
+            const checked = e.target.checked;
+            if (checked) {
+                if (heroCardHeightSlider) heroCardHeightSlider.disabled = true;
+                if (heroCardHeightVal) heroCardHeightVal.innerText = 'auto';
+                updateHeroCardStyle('--hero-card-height', 'auto');
+            } else {
+                if (heroCardHeightSlider) {
+                    heroCardHeightSlider.disabled = false;
+                    const val = heroCardHeightSlider.value;
+                    if (heroCardHeightVal) heroCardHeightVal.innerText = val + 'px';
+                    updateHeroCardStyle('--hero-card-height', val + 'px');
+                }
+            }
+            window.hasUnsavedChanges = true;
+            const saveBtnEl = document.getElementById('save-changes');
+            if (saveBtnEl) {
+                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+            }
         });
     }
     if (heroCardRadiusSlider) {
