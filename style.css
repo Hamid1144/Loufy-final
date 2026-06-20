@@ -1809,27 +1809,35 @@ body > section.portfolio {
     .service-card .learn-more { font-size: 0.65rem; }
 
     .pricing-grid, .blog-grid {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        gap: 16px;
-        padding-bottom: 20px;
-        -webkit-overflow-scrolling: touch;
-        margin-left: -16px;
-        margin-right: -16px;
-        padding-left: 16px;
-        padding-right: 16px;
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 6px !important;
+        padding-bottom: 0;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
     }
-    .pricing-grid::-webkit-scrollbar, .blog-grid::-webkit-scrollbar { height: 4px; }
-    .pricing-grid::-webkit-scrollbar-track, .blog-grid::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
-    .pricing-grid::-webkit-scrollbar-thumb, .blog-grid::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
     
     .pricing-card, .blog-card {
-        min-width: 280px;
-        flex: 0 0 auto;
-        scroll-snap-align: center;
+        min-width: unset;
+        padding: 8px 6px !important;
     }
+    .pricing-card .package-name { font-size: 0.7rem !important; margin-bottom: 4px; }
+    .pricing-card .price { font-size: 0.9rem !important; margin-bottom: 8px; }
+    .pricing-card .price span { font-size: 0.55rem !important; }
+    .pricing-card ul { margin-bottom: 10px; }
+    .pricing-card ul li { font-size: 0.55rem !important; margin-bottom: 4px; }
+    .pricing-card ul li i { font-size: 0.55rem; margin-right: 4px; }
+    .pricing-card .btn { padding: 6px 10px !important; font-size: 0.6rem !important; }
+
+    .blog-card { padding: 0 !important; }
+    .blog-card img { height: 100px !important; }
+    .blog-content { padding: 8px 6px !important; }
+    .blog-category-badge { font-size: 0.55rem !important; padding: 2px 6px !important; margin-bottom: 6px; }
+    .blog-card h3 { font-size: 0.65rem !important; margin-bottom: 4px; line-height: 1.2; }
+    .blog-card p { font-size: 0.55rem !important; margin-bottom: 8px; line-height: 1.3; }
+    .blog-meta { font-size: 0.55rem !important; }
 
 
     .about-float-tag {
