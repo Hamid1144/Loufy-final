@@ -1875,8 +1875,8 @@ body > section.portfolio {
     }
     .portfolio-card[data-cat="children"] .portfolio-thumb,
     .portfolio-card[data-flipbook="true"] .portfolio-thumb {
-        height: 380px !important;
-        min-height: 380px !important;
+        height: auto !important;
+        min-height: 460px !important;
         aspect-ratio: unset !important;
     }
     .portfolio-card[data-cat="formatting"] .portfolio-thumb,
@@ -1886,11 +1886,12 @@ body > section.portfolio {
         aspect-ratio: unset !important;
     }
     .book-scene {
-        min-height: 340px;
-        padding-top: 10px;
+        min-height: 440px;
+        padding-top: 20px;
+        padding-bottom: 25px;
     }
     .book-scene[data-size] .book-body, .book-body {
-        --pw: min(160px, 44vw) !important;
+        --pw: 42vw !important;
     }
 }
 
@@ -1956,8 +1957,8 @@ body > section.portfolio {
     }
     .portfolio-card[data-cat="children"] .portfolio-thumb,
     .portfolio-card[data-flipbook="true"] .portfolio-thumb {
-        height: 280px !important;
-        min-height: 280px !important;
+        height: auto !important;
+        min-height: 380px !important;
         aspect-ratio: unset !important;
     }
     .portfolio-card[data-cat="formatting"] .portfolio-thumb,
@@ -1967,11 +1968,12 @@ body > section.portfolio {
         aspect-ratio: unset !important;
     }
     .book-scene {
-        min-height: 250px;
-        padding-top: 5px;
+        min-height: 350px;
+        padding-top: 15px;
+        padding-bottom: 25px;
     }
     .book-scene[data-size] .book-body, .book-body {
-        --pw: min(140px, 46vw) !important;
+        --pw: 44vw !important;
     }
     .pricing-card {
         padding: 30px 20px;
