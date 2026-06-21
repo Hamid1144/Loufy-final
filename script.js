@@ -83,15 +83,17 @@ window.initSiteLogic = function () {
       if (!animationRunning) return;
       if (timestamp - lastFrameTime >= FRAME_INTERVAL) {
         lastFrameTime = timestamp - ((timestamp - lastFrameTime) % FRAME_INTERVAL);
-        if (frames[currentFrame]) {
+        
+        // Only draw and advance if the frame is actually fully loaded
+        if (frames[currentFrame] && frames[currentFrame].complete && frames[currentFrame].naturalWidth > 0) {
           drawCover(frames[currentFrame]);
+          currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
         }
-        currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
       }
       requestAnimationFrame(animate);
     }
 
-    // Start animation once all frames are loaded
+    // Start animation once initial frames are loaded
     function startAnimation() {
       if (animationRunning) return;
       resizeCanvas();
@@ -109,7 +111,7 @@ window.initSiteLogic = function () {
       resizeTimer = setTimeout(() => {
         if (animationRunning) {
           resizeCanvas();
-          if (frames[currentFrame]) drawCover(frames[currentFrame]);
+          if (frames[currentFrame] && frames[currentFrame].complete) drawCover(frames[currentFrame]);
         }
       }, 150);
     }, { passive: true });
@@ -128,13 +130,13 @@ window.initSiteLogic = function () {
         img.crossOrigin = 'anonymous';
         img.onload = () => {
           loadedCount++;
-          if (loadedCount === TOTAL_FRAMES) {
+          // Start animation super early (after 3 frames) instead of waiting for all 150!
+          if (loadedCount === 3) {
             startAnimation();
           }
         };
         img.onerror = () => {
           loadedCount++;
-          if (loadedCount === TOTAL_FRAMES) startAnimation();
         };
         img.src = frameUrls[i];
         frames[i] = img;
