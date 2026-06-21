@@ -29,7 +29,7 @@ window.initSiteLogic = function () {
     const TOTAL_FRAMES = 150;
     const TARGET_FPS = 18.75;
     const FRAME_INTERVAL = 1000 / TARGET_FPS;
-    const BASE_URL = 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_1400/portfolio/hero_frames/frame_';
+    const BASE_URL = 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_85,w_1920/portfolio/hero_frames/frame_';
 
     const frames = [];
     let loadedCount = 0;
@@ -62,16 +62,20 @@ window.initSiteLogic = function () {
       dh *= zoom;
       dx = (cw - dw) / 2;
       dy = (ch - dh) / 2;
+      
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(img, dx, dy, dw, dh);
     }
 
-    // Resize canvas to match hero container
+    // Resize canvas to match hero container at full retina resolution
     function resizeCanvas() {
       const hero = canvas.closest('.hero');
       if (!hero) return;
       const rect = hero.getBoundingClientRect();
-      canvas.width = Math.round(rect.width * (window.devicePixelRatio > 1.5 ? 1.5 : window.devicePixelRatio || 1));
-      canvas.height = Math.round(rect.height * (window.devicePixelRatio > 1.5 ? 1.5 : window.devicePixelRatio || 1));
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
     }
 
     // Animation loop using requestAnimationFrame for smooth playback
