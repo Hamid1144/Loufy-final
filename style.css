@@ -2345,7 +2345,7 @@ body.edit-mode .hero-float-card {
         margin: 0 !important;
         padding: 8px 14px !important;
         border-radius: 30px !important;
-        transform: scale(calc(var(--hero-float-card-scale, 1) * 0.75)) !important;
+        transform: scale(calc(var(--hero-float-card-scale, 1) * 0.85)) !important;
         animation: floatCard 6s ease-in-out infinite !important;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05) !important;
         pointer-events: auto !important;
@@ -2384,7 +2384,7 @@ body.edit-mode .hero-float-card {
 @media (max-width: 480px) {
     .hero-float-card {
         padding: 6px 12px !important;
-        transform: scale(calc(var(--hero-float-card-scale, 1) * 0.65)) !important;
+        transform: scale(calc(var(--hero-float-card-scale, 1) * 0.8)) !important;
     }
     .hero-float-card[data-card-id="amazon-kdp"] {
         left: 4% !important;
