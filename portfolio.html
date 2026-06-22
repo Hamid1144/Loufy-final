@@ -1,4 +1,139 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  window.jsErrors = [];
+  window.onerror = function(message, source, lineno, colno, error) {
+    var errStr = 'ERROR: ' + message + ' at ' + source + ':' + lineno + ':' + colno;
+    window.jsErrors.push(errStr);
+    console.warn(errStr);
+    if (window.location.search.indexOf('debug=true') !== -1) {
+      var div = document.getElementById('debug-errors');
+      if (!div) {
+        div = document.createElement('div');
+        div.id = 'debug-errors';
+        div.style.cssText = 'position:fixed; top:10px; left:10px; z-index:9999999; background:red; color:white; padding:10px; font-family:monospace; font-size:12px; max-height:200px; overflow:auto;';
+        document.documentElement.appendChild(div);
+      }
+      var p = document.createElement('p');
+      p.textContent = errStr;
+      div.appendChild(p);
+    }
+    return false;
+  };
+  var oldConsoleError = console.error;
+  console.error = function() {
+    var args = Array.prototype.slice.call(arguments).map(String).join(' ');
+    window.jsErrors.push('CONSOLE.ERROR: ' + args);
+    if (window.location.search.indexOf('debug=true') !== -1) {
+      var div = document.getElementById('debug-errors');
+      if (!div) {
+        div = document.createElement('div');
+        div.id = 'debug-errors';
+        div.style.cssText = 'position:fixed; top:10px; left:10px; z-index:9999999; background:red; color:white; padding:10px; font-family:monospace; font-size:12px; max-height:200px; overflow:auto;';
+        document.documentElement.appendChild(div);
+      }
+      var p = document.createElement('p');
+      p.textContent = 'CONSOLE.ERROR: ' + args;
+      div.appendChild(p);
+    }
+    oldConsoleError.apply(console, arguments);
+  };
+</script>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="JXuo3BNNUB-EVN5RnVFswZHMD9cqjuwlBOvPnEbxJM8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Design Portfolio | Loufy Publisher by Hamid Raza</title>
+<link rel="icon" type="image/png" href="/favicon.png?v=3.29.0">
+<meta name="description" content="Explore Hamid Raza's design portfolio. Premium book covers, children's coloring books, KDP interior formatting, A+ content, and branding. View projects.">
+<meta name="keywords" content="Hamid Raza Portfolio, Loufy Publisher Portfolio, Book Cover Design Portfolio, KDP Book Formatting Portfolio, Children Coloring Books Portfolio, A+ Content Portfolio, Branding Design">
+<link rel="canonical" href="https://loufypublisher.com/portfolio.html">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://loufypublisher.com/portfolio.html">
+<meta property="og:site_name" content="Loufy Publisher">
+<meta property="og:title" content="Design Portfolio | Loufy Publisher by Hamid Raza">
+<meta property="og:description" content="Explore Hamid Raza's design portfolio. Premium book covers, children's coloring books, KDP interior formatting, A+ content, and branding. View projects.">
+<meta property="og:image" content="https://loufypublisher.com/favicon.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loufypublisher.com/portfolio.html">
+<meta name="twitter:title" content="Design Portfolio | Loufy Publisher by Hamid Raza">
+<meta name="twitter:description" content="Explore Hamid Raza's design portfolio. Premium book covers, children's coloring books, KDP interior formatting, A+ content, and branding. View projects.">
+<meta name="twitter:image" content="https://loufypublisher.com/favicon.png">
+
+<!-- Breadcrumbs and Organization Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://loufypublisher.com/#website",
+      "name": "Loufy Publisher",
+      "alternateName": [
+        "Hamid Raza Publisher",
+        "Loufy Publishing"
+      ],
+      "url": "https://loufypublisher.com/"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://loufypublisher.com/#person",
+      "name": "Hamid Raza",
+      "jobTitle": "Professional Book Cover Designer & Amazon KDP Expert",
+      "url": "https://loufypublisher.com/",
+      "sameAs": [
+        "https://www.facebook.com/share/1KPQAXoL8Y/",
+        "https://www.instagram.com/loufy_publisher",
+        "https://www.linkedin.com/in/hamid-r-753208282",
+        "https://www.tiktok.com/@loufy_publisher"
+      ]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://loufypublisher.com/#organization",
+      "name": "Loufy Publisher",
+      "alternateName": "Hamid Raza Publisher",
+      "url": "https://loufypublisher.com/",
+      "logo": "https://loufypublisher.com/favicon.png",
+      "image": "https://loufypublisher.com/favicon.png",
+      "founder": {
+        "@id": "https://loufypublisher.com/#person"
+      },
+      "description": "Loufy Publisher by Hamid Raza specializes in professional book cover design, Amazon KDP formatting, children book layout, and book publishing solutions.",
+      "email": "razah3812@gmail.com",
+      "telephone": "+923268706259",
+      "sameAs": [
+        "https://www.facebook.com/share/1KPQAXoL8Y/",
+        "https://www.instagram.com/loufy_publisher",
+        "https://www.linkedin.com/in/hamid-r-753208282",
+        "https://www.tiktok.com/@loufy_publisher",
+        "https://wa.me/923268706259"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "PK"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://loufypublisher.com/portfolio.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://loufypublisher.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Portfolio",
+          "item": "https://loufypublisher.com/portfolio.html"
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <script>
@@ -139,8 +274,8 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="style.css?v=3.30.0">
-<link rel="stylesheet" href="admin.css?v=3.30.0">
+<link rel="stylesheet" href="style.css?v=3.31.0">
+<link rel="stylesheet" href="admin.css?v=3.31.0">
 <script>
   (function() {
     try {
@@ -168,11 +303,11 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js" defer></script>
-<script src="db.js?v=3.30.1" defer></script>
-<script src="script.js?v=3.30.1" defer></script>
+<script src="db.js?v=3.31.0" defer></script>
+<script src="script.js?v=3.31.0" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
-<script src="admin.js?v=3.30.1" defer></script>
-<script src="bg-anim.js?v=3.30.1" defer></script>
+<script src="admin.js?v=3.31.0" defer></script>
+<script src="bg-anim.js?v=3.31.0" defer></script>
 </head>
 <body>
 <nav class="navbar">
