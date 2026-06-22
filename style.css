@@ -2465,23 +2465,26 @@ body.edit-mode .hero-float-card {
     margin-top: 4px;
 }
 .tagline-badge {
-    background: rgba(var(--primary-rgb), 0.06);
-    border: 1px solid rgba(var(--primary-rgb), 0.12);
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--primary);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.55);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     white-space: nowrap;
 }
 .tagline-badge:hover {
+    transform: translateY(-3px) scale(1.03);
     background: var(--primary) !important;
     color: var(--white) !important;
     border-color: var(--primary) !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.15);
+    box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.15);
 }
 
 @media (max-width: 768px) {
