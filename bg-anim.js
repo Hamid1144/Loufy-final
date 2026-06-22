@@ -183,10 +183,12 @@
     if (mouse.active) {
       var dx = driftX - mouse.x;
       var dy = (driftY - scrollOffset) - mouse.y;
-      var dist = Math.sqrt(dx * dx + dy * dy);
+      var distSq = dx * dx + dy * dy;
       var radius = 200 * this.z;
+      var radiusSq = radius * radius;
 
-      if (dist < radius) {
+      if (distSq < radiusSq) {
+        var dist = Math.sqrt(distSq);
         var force = (radius - dist) / radius; // 0 to 1
         var angle = Math.atan2(dy, dx);
         
@@ -424,15 +426,17 @@
       // 4. Draw connected line constellation style
       if (pConfig.style === 'connected') {
         var maxDistance = 75;
+        var maxDistanceSq = maxDistance * maxDistance;
         for (var i = 0; i < particles.length; i++) {
+          var pi = particles[i];
           for (var j = i + 1; j < particles.length; j++) {
-            var pi = particles[i];
             var pj = particles[j];
             var dx = pi.x - pj.x;
             var dy = pi.y - pj.y;
-            var dist = Math.sqrt(dx * dx + dy * dy);
+            var distSq = dx * dx + dy * dy;
             
-            if (dist < maxDistance) {
+            if (distSq < maxDistanceSq) {
+              var dist = Math.sqrt(distSq);
               var connAlpha = (maxDistance - dist) / maxDistance * 0.15;
               ctx.strokeStyle = isDarkTheme ? 'rgba(255,255,255,' + connAlpha + ')' : 'rgba(15,23,42,' + connAlpha + ')';
               ctx.lineWidth = 0.55;
