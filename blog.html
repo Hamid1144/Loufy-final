@@ -311,7 +311,7 @@
             canonicalLink.setAttribute('rel', 'canonical');
             document.head.appendChild(canonicalLink);
           }
-          canonicalLink.setAttribute('href', `https://loufypublish.vercel.app/blog/${currentPost.slug}`);
+          canonicalLink.setAttribute('href', `https://loufypublisher.com/blog/${currentPost.slug}`);
 
           // Render fields
           postTitleEl.innerText = currentPost.title;
@@ -502,13 +502,13 @@
               "name": "Loufy Publisher",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://loufypublish.vercel.app/favicon.png"
+                "url": "https://loufypublisher.com/favicon.png"
               }
             },
             "description": currentPost.summary,
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `https://loufypublish.vercel.app/blog/${currentPost.slug}`
+              "@id": `https://loufypublisher.com/blog/${currentPost.slug}`
             }
           };
 

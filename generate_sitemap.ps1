@@ -1,7 +1,7 @@
 # PowerShell script to automatically generate sitemap.xml
 $ErrorActionPreference = 'Stop'
 
-$baseUrl = "https://loufypublish.vercel.app"
+$baseUrl = "https://loufypublisher.com"
 $supabaseUrl = 'https://pgictinimttptsxbvngg.supabase.co'
 $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc'
 
