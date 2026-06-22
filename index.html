@@ -288,9 +288,9 @@
 <a href="#" class="learn-more" data-admin-text="true">Learn More →</a>
 </div>
 <div class="service-card reveal" bis_skin_checked="1">
-<div class="service-icon" bis_skin_checked="1"><i class="fa-solid fa-gem"></i></div>
-<h3 data-admin-text="true">Brand Identity Design</h3>
-<p data-admin-text="true">Complete branding packages including logos, color palettes, typography, and brand guidelines.</p>
+<div class="service-icon" bis_skin_checked="1"><i class="fa-solid fa-globe"></i></div>
+<h3 data-admin-text="true">Author Website</h3>
+<p data-admin-text="true">Professional, responsive, and stunning websites tailored specifically for authors to showcase books and build email lists.</p>
 <a href="#" class="learn-more" data-admin-text="true">Learn More →</a>
 </div>
 </div>
@@ -787,7 +787,8 @@
     </div>
   </div><div class="portfolio-grid" bis_skin_checked="1" style="display: grid;">
 
-<div class="paperback-covers-marquee-item portfolio-card reveal" data-cat="paperback-covers" style="">
+<div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">
+            
             
             
             
@@ -805,9 +806,11 @@
           
           
           
+          
           </div>
 
-<div class="paperback-covers-marquee-item portfolio-card reveal" data-cat="paperback-covers" style="">
+<div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">
+            
             
             
             
@@ -825,9 +828,11 @@
           
           
           
+          
           </div>
 
-<div class="paperback-covers-marquee-item portfolio-card reveal" data-cat="paperback-covers" style="">
+<div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">
+            
             
             
             
@@ -845,9 +850,11 @@
           
           
           
+          
           </div>
 
-<div class="paperback-covers-marquee-item portfolio-card reveal" data-cat="paperback-covers" style="">
+<div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">
+            
             
             
             
@@ -865,9 +872,11 @@
           
           
           
+          
           </div>
 
-<div class="paperback-covers-marquee-item portfolio-card reveal" data-cat="paperback-covers" style="">
+<div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">
+            
             
             
             
@@ -885,9 +894,11 @@
           
           
           
+          
           </div>
 
-<div class="paperback-covers-marquee-item portfolio-card reveal" data-cat="paperback-covers" style="">
+<div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">
+            
             
             
             
@@ -901,6 +912,7 @@
                         <h3 data-admin-text="true">Full Book Cover</h3>
                     </div>
                 
+          
           
           
           
@@ -1719,6 +1731,29 @@
     
 
     <!-- Floating Text Styling & Color Toolbar -->
+
+    <!-- Service Detail Modal -->
+    <div id="service-detail-modal" class="service-modal">
+        <div class="service-modal-content">
+            <button class="service-modal-close" aria-label="Close modal">&times;</button>
+            <div class="service-modal-header">
+                <div class="service-modal-icon-wrap">
+                    <i id="service-modal-icon" class="fa-solid fa-book-open"></i>
+                </div>
+                <h3 id="service-modal-title" class="service-modal-title">Service Title</h3>
+            </div>
+            <div class="service-modal-body">
+                <p id="service-modal-desc" class="service-modal-desc">Service description goes here.</p>
+                <h4 class="service-modal-subheading">What's Included:</h4>
+                <ul id="service-modal-list" class="service-modal-list">
+                    <!-- Dynamically populated -->
+                </ul>
+                <div class="service-modal-footer">
+                    <a href="#contact" id="service-modal-cta" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 

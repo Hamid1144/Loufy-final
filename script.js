@@ -1394,6 +1394,171 @@ window.initBlogSection = async function () {
     updateCategories();
     render();
   }
+
+  // ── Service Detail Modal Logic ──────────────────────────
+  (function initServiceModal() {
+    const modal = document.getElementById('service-detail-modal');
+    if (!modal) return;
+
+    const modalClose = modal.querySelector('.service-modal-close');
+    const modalIcon = document.getElementById('service-modal-icon');
+    const modalTitle = document.getElementById('service-modal-title');
+    const modalDesc = document.getElementById('service-modal-desc');
+    const modalList = document.getElementById('service-modal-list');
+    const modalCta = document.getElementById('service-modal-cta');
+
+    const serviceDetailsData = {
+      "Book Cover Design": {
+        icon: "fa-solid fa-book-open",
+        desc: "Eye-catching covers for fiction, non-fiction, romance, thriller, and more that grab reader attention.",
+        bullets: [
+          "Custom front, back, and spine designs tailormade for you.",
+          "High-resolution print-ready files (PDF, JPEG, PNG).",
+          "Free 3D book mockups for marketing & promotions.",
+          "Complete source files (PSD/AI) with commercial rights.",
+          "100% compliant layouts for KDP, IngramSpark, and Lulu.",
+          "Unlimited revisions until you are completely satisfied."
+        ]
+      },
+      "Amazon KDP Formatting": {
+        icon: "fa-solid fa-box-open",
+        desc: "Professional interior formatting, manuscript layout, and KDP-ready files for seamless publishing.",
+        bullets: [
+          "Perfect margins, gutters, page size, and bleed setup.",
+          "Beautiful custom typography and chapter heading designs.",
+          "Professional drop caps, running headers, and footers.",
+          "Clickable Table of Contents (TOC) and hyperlinks for eBooks.",
+          "Guaranteed validation pass for KDP print and eBook formats.",
+          "Reflowable EPUB / fixed-layout formats ready to upload."
+        ]
+      },
+      "A+ Content Design": {
+        icon: "fa-solid fa-star",
+        desc: "Premium Amazon A+ content modules that boost conversions and enhance your product listing.",
+        bullets: [
+          "Custom banner designs and comparison charts.",
+          "Highlights of key book features and chapter concepts.",
+          "Inside-the-book previews and beautiful 3D mockups.",
+          "Optimized layout assets targeting desktop and mobile.",
+          "Increases your conversion rate, sales, and reviews.",
+          "Complies fully with Amazon KDP A+ Content Guidelines."
+        ]
+      },
+      "Children Book Illustration": {
+        icon: "fa-solid fa-palette",
+        desc: "Colorful, engaging illustrations and layouts for children's books that captivate young readers.",
+        bullets: [
+          "Vibrant, story-driven character designs and backgrounds.",
+          "Illustrations tailormade for kids of all age groups.",
+          "Full layout formatting (integrating text and illustrations).",
+          "Print-ready CMYK files with correct bleed and trim size.",
+          "Storyboarding and revisions to match your manuscript.",
+          "Kindle-ready format optimized for children's tablets."
+        ]
+      },
+      "Social Media Design": {
+        icon: "fa-solid fa-thumbs-up",
+        desc: "Scroll-stopping social media graphics, banners, and promotional materials for your brand.",
+        bullets: [
+          "Stunning 3D book cover mockups and marketing assets.",
+          "Custom banners for Facebook, Twitter, and LinkedIn.",
+          "Engaging post graphics, reels templates, and stories.",
+          "High-converting ad designs for Amazon & Meta Ads.",
+          "Consistent branding across all social platforms.",
+          "Promo graphics for book launches, pre-orders, and sales."
+        ]
+      },
+      "Author Website": {
+        icon: "fa-solid fa-globe",
+        desc: "Professional, responsive, and stunning websites tailored specifically for authors to showcase books and build email lists.",
+        bullets: [
+          "Stunning custom portfolio designs tailored to your brand.",
+          "Dedicated book showcase page with buy links.",
+          "Integration with newsletter list building tools (Mailchimp, etc.).",
+          "Fully responsive design optimized for mobile and desktop.",
+          "SEO-optimized structure to rank higher on search engines.",
+          "Fast page load speed and secure contact form integration."
+        ]
+      }
+    };
+
+    const fallbackIndexData = [
+      serviceDetailsData["Book Cover Design"],
+      serviceDetailsData["Amazon KDP Formatting"],
+      serviceDetailsData["A+ Content Design"],
+      serviceDetailsData["Children Book Illustration"],
+      serviceDetailsData["Social Media Design"],
+      serviceDetailsData["Author Website"]
+    ];
+
+    // Handle card clicks
+    const serviceCards = document.querySelectorAll('.service-card');
+    serviceCards.forEach((card, index) => {
+      const learnMoreBtn = card.querySelector('.learn-more');
+      if (!learnMoreBtn) return;
+
+      learnMoreBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Try to match by title
+        const titleEl = card.querySelector('h3');
+        const titleText = titleEl ? titleEl.textContent.trim() : "";
+        let data = serviceDetailsData[titleText];
+
+        // Fallback to index if no matching title found (e.g. if title is edited)
+        if (!data && index < fallbackIndexData.length) {
+          data = fallbackIndexData[index];
+        }
+
+        if (!data) return;
+
+        // Populate modal content
+        if (modalIcon) modalIcon.className = data.icon;
+        if (modalTitle) modalTitle.textContent = titleText || "Service Details";
+        if (modalDesc) modalDesc.textContent = data.desc;
+
+        if (modalList) {
+          modalList.innerHTML = "";
+          data.bullets.forEach(bullet => {
+            const li = document.createElement('li');
+            li.textContent = bullet;
+            modalList.appendChild(li);
+          });
+        }
+
+        // Open modal
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Lock background scrolling
+      });
+    });
+
+    // Close modal helpers
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    if (modalClose) {
+      modalClose.addEventListener('click', closeModal);
+    }
+
+    if (modalCta) {
+      modalCta.addEventListener('click', closeModal);
+    }
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  })();
 };
 
 if (document.readyState === 'loading') {
