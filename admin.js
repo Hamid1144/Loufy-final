@@ -3404,7 +3404,7 @@ document.addEventListener("DOMContentLoaded", () => {
             clone.querySelectorAll('#bg-anim-wrap, #bg-anim-canvas, #bg-hero-glow').forEach(el => el.remove());
 
             // Clean up marquee container from clone so it's not serialized
-            clone.querySelectorAll('.covers-marquee-container, .formatting-marquee-container').forEach(el => el.remove());
+            clone.querySelectorAll('.covers-marquee-container, .formatting-marquee-container, .paperback-covers-marquee-container').forEach(el => el.remove());
             
             // Reset inline display style on all grid cards so they save in a neutral state
             clone.querySelectorAll('.portfolio-grid .portfolio-card').forEach(card => {
