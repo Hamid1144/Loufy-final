@@ -126,6 +126,14 @@ section{padding:100px 0}
 .footer-brand .logo:hover {
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.nav-portfolio-btn {
+    display: none;
+}
 .nav-links {
     display: flex;
     gap: 16px;
@@ -1669,6 +1677,9 @@ body.edit-mode .reveal {
     }
 }
 @media(max-width:992px){
+.nav-portfolio-btn {
+    display: inline-flex !important;
+}
 .nav-links {
     display: none;
     position: fixed;
