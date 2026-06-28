@@ -1676,24 +1676,24 @@ body.edit-mode .reveal {
         grid-template-columns: repeat(3, 1fr);
     }
     .hero-float-card {
-        padding: 2.8vw 4.5vw !important;
+        padding: 1.5vw 2.5vw !important;
         border-radius: 3vw !important;
-        gap: 1.2vw !important;
+        gap: 0.8vw !important;
     }
     .hero-float-card img {
-        height: 4vw !important;
+        height: 2.8vw !important;
         width: auto !important;
     }
     .hero-float-card span {
-        font-size: 1.5vw !important;
+        font-size: 1.1vw !important;
     }
     .hero-float-card[data-card-id="card_1782644395783"] {
-        padding: 1.5vw 2.4vw !important;
+        padding: 1vw 1.8vw !important;
         border-radius: 4vw !important;
     }
     .hero-float-card.badge-like .badge-dot {
-        width: 0.8vw !important;
-        height: 0.8vw !important;
+        width: 0.6vw !important;
+        height: 0.6vw !important;
     }
 }
 @media(max-width:992px){
