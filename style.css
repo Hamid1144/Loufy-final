@@ -2483,6 +2483,19 @@ body.edit-mode .hero-float-card {
     }
 }
 
+@media (max-width: 768px) {
+    .portfolio-page .portfolio-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 10px !important;
+    }
+    .portfolio-page .portfolio-card {
+        padding: 10px !important;
+    }
+    .portfolio-page .portfolio-info h3 {
+        font-size: 0.9rem !important;
+    }
+}
+
 /* Service Detail Modal Styles */
 .service-modal {
     position: fixed;
