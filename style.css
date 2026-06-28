@@ -2330,6 +2330,36 @@ body.edit-mode .hero-float-card {
     color: var(--primary);
 }
 
+.hero-float-card.badge-like {
+    transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+
+.hero-float-card.badge-like:hover {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+    box-shadow: 0 10px 20px rgba(var(--primary-rgb),0.15);
+    animation-play-state: paused;
+}
+
+.hero-float-card.badge-like:hover span:not(.badge-dot) {
+    color: var(--white);
+}
+
+.hero-float-card.badge-like .badge-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    transition: background 0.3s ease;
+}
+
+.hero-float-card.badge-like:hover .badge-dot {
+    background: var(--white);
+}
+
 @keyframes floatCard {
     0%, 100% {
         transform: translateY(0) rotate(0deg);
