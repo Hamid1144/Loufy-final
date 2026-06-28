@@ -2447,18 +2447,23 @@ body.edit-mode .hero-float-card {
 
 @media (max-width: 480px) {
     .hero-float-card {
-        padding: 6px 10px !important;
+        padding: 1.45vw 2.42vw !important;
         transform: scale(var(--hero-float-card-scale, 1)) !important;
+        gap: 2.4vw !important;
     }
     .hero-float-card img {
-        height: 18px !important;
+        height: 4.36vw !important;
     }
     .hero-float-card span {
-        font-size: 0.72rem !important;
+        font-size: 2.8vw !important;
     }
     .hero-float-card[data-card-id="card_1782644395783"] {
         transform: translateX(-50%) scale(0.9) !important;
-        padding: 10px 14px !important;
+        padding: 2.42vw 3.4vw !important;
+    }
+    .hero-float-card.badge-like .badge-dot {
+        width: 1.9vw !important;
+        height: 1.9vw !important;
     }
     .hero-float-card[data-card-id="lulu"] {
         left: 1% !important;
