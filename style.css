@@ -2400,55 +2400,70 @@ body.edit-mode .hero-float-card {
         font-size: 0.82rem !important;
     }
 
-    /* 2x2 absolute layout on tablet/mobile */
-    .hero-float-card[data-card-id="amazon-kdp"] {
-        left: 8% !important;
-        top: 80% !important;
-        right: auto !important;
+    /* Single line layout on tablet/mobile */
+    .hero-float-card[data-card-id="card_1782644395783"] {
+        left: 50% !important;
+        top: 12% !important;
+        transform: translateX(-50%) scale(var(--hero-float-card-scale, 1)) !important;
+        width: 90% !important;
+        max-width: 360px !important;
+        justify-content: center !important;
+        white-space: normal !important;
+        text-align: center !important;
+        padding: 12px 18px !important;
     }
     .hero-float-card[data-card-id="lulu"] {
-        right: 8% !important;
-        top: 80% !important;
-        left: auto !important;
+        left: 2% !important;
+        top: 85% !important;
+        right: auto !important;
+    }
+    .hero-float-card[data-card-id="amazon-kdp"] {
+        left: 27% !important;
+        top: 85% !important;
+        right: auto !important;
     }
     .hero-float-card[data-card-id="ingramspark"] {
-        left: 8% !important;
-        top: 88% !important;
+        left: 52% !important;
+        top: 85% !important;
         right: auto !important;
     }
     .hero-float-card[data-card-id="barnes-noble"] {
-        right: 8% !important;
-        top: 88% !important;
-        left: auto !important;
+        left: 77% !important;
+        top: 85% !important;
+        right: auto !important;
     }
 }
 
 @media (max-width: 480px) {
     .hero-float-card {
-        padding: 8px 16px !important;
+        padding: 6px 10px !important;
         transform: scale(var(--hero-float-card-scale, 1)) !important;
     }
     .hero-float-card img {
-        height: 20px !important;
+        height: 18px !important;
     }
     .hero-float-card span {
-        font-size: 0.78rem !important;
+        font-size: 0.72rem !important;
     }
-    .hero-float-card[data-card-id="amazon-kdp"] {
-        left: 4% !important;
-        top: 80% !important;
+    .hero-float-card[data-card-id="card_1782644395783"] {
+        transform: translateX(-50%) scale(0.9) !important;
+        padding: 10px 14px !important;
     }
     .hero-float-card[data-card-id="lulu"] {
-        right: 4% !important;
-        top: 80% !important;
+        left: 1% !important;
+        top: 85% !important;
+    }
+    .hero-float-card[data-card-id="amazon-kdp"] {
+        left: 26% !important;
+        top: 85% !important;
     }
     .hero-float-card[data-card-id="ingramspark"] {
-        left: 4% !important;
-        top: 88% !important;
+        left: 51% !important;
+        top: 85% !important;
     }
     .hero-float-card[data-card-id="barnes-noble"] {
-        right: 4% !important;
-        top: 88% !important;
+        left: 76% !important;
+        top: 85% !important;
     }
 }
 
