@@ -1740,7 +1740,8 @@ body.edit-mode .reveal {
 .social-icons{justify-content:center}
 .hero-visual{margin-top:20px;height:auto;display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap}
 .hero-visual .float-badge.exp, .hero-visual .float-badge.proj{position:static !important;animation:none !important}
-.services-grid,.tools-grid,.portfolio-grid,.pricing-grid,.blog-grid{grid-template-columns:1fr 1fr}
+.services-grid,.tools-grid,.pricing-grid,.blog-grid{grid-template-columns:1fr 1fr}
+.portfolio-grid{grid-template-columns:repeat(3,1fr) !important;gap:10px !important}
 .timeline-grid{grid-template-columns:1fr}
 .footer-grid{grid-template-columns:1fr 1fr}
 .stats{grid-template-columns:repeat(2,1fr)}
@@ -1748,7 +1749,8 @@ body.edit-mode .reveal {
 .hero h1{font-size:2.4rem}
 }
 @media(max-width:600px){
-.services-grid,.tools-grid,.portfolio-grid,.pricing-grid,.blog-grid{grid-template-columns:1fr}
+.services-grid,.tools-grid,.pricing-grid,.blog-grid{grid-template-columns:1fr}
+.portfolio-grid{grid-template-columns:repeat(3,1fr) !important;gap:8px !important}
 .footer-grid{grid-template-columns:1fr}
 .form-row{grid-template-columns:1fr}
 .hero h1{font-size:1.8rem}
