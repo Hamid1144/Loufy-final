@@ -1675,6 +1675,26 @@ body.edit-mode .reveal {
     .services-grid, .tools-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+    .hero-float-card {
+        padding: 2.8vw 4.5vw !important;
+        border-radius: 3vw !important;
+        gap: 1.2vw !important;
+    }
+    .hero-float-card img {
+        height: 4vw !important;
+        width: auto !important;
+    }
+    .hero-float-card span {
+        font-size: 1.5vw !important;
+    }
+    .hero-float-card[data-card-id="card_1782644395783"] {
+        padding: 1.5vw 2.4vw !important;
+        border-radius: 4vw !important;
+    }
+    .hero-float-card.badge-like .badge-dot {
+        width: 0.8vw !important;
+        height: 0.8vw !important;
+    }
 }
 @media(max-width:992px){
 .nav-portfolio-btn {
@@ -2394,93 +2414,44 @@ body.edit-mode .hero-float-card {
         overflow: hidden !important;
     }
     .hero-float-card {
-        position: absolute !important;
-        margin: 0 !important;
-        padding: 10px 18px !important;
-        border-radius: 30px !important;
-        transform: scale(var(--hero-float-card-scale, 1)) !important;
-        animation: floatCard 6s ease-in-out infinite !important;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05) !important;
         pointer-events: auto !important;
     }
+}
+
+@media (max-width: 480px) {
+}
+
+@media (max-width: 600px) {
+    .hero-float-card {
+        padding: 6px 10px !important;
+        gap: 6px !important;
+    }
     .hero-float-card img {
-        height: 22px !important;
-        width: auto !important;
+        height: 18px !important;
     }
     .hero-float-card span {
-        font-size: 0.82rem !important;
+        font-size: 0.72rem !important;
     }
-
-    /* Single line layout on tablet/mobile */
     .hero-float-card[data-card-id="card_1782644395783"] {
         left: 50% !important;
         top: 12% !important;
-        transform: translateX(-50%) scale(var(--hero-float-card-scale, 1)) !important;
+        transform: translateX(-50%) !important;
         width: 90% !important;
         max-width: 360px !important;
         justify-content: center !important;
         white-space: normal !important;
         text-align: center !important;
-        padding: 12px 18px !important;
-    }
-    .hero-float-card[data-card-id="lulu"] {
-        left: 2% !important;
-        top: 85% !important;
-        right: auto !important;
-    }
-    .hero-float-card[data-card-id="amazon-kdp"] {
-        left: 27% !important;
-        top: 85% !important;
-        right: auto !important;
-    }
-    .hero-float-card[data-card-id="ingramspark"] {
-        left: 52% !important;
-        top: 85% !important;
-        right: auto !important;
-    }
-    .hero-float-card[data-card-id="barnes-noble"] {
-        left: 77% !important;
-        top: 85% !important;
-        right: auto !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-float-card {
-        padding: 1.45vw 2.42vw !important;
-        transform: scale(var(--hero-float-card-scale, 1)) !important;
-        gap: 2.4vw !important;
-    }
-    .hero-float-card img {
-        height: 4.36vw !important;
-    }
-    .hero-float-card span {
-        font-size: 2.8vw !important;
-    }
-    .hero-float-card[data-card-id="card_1782644395783"] {
-        transform: translateX(-50%) scale(0.9) !important;
-        padding: 2.42vw 3.4vw !important;
+        padding: 10px 14px !important;
+        border-radius: 20px !important;
     }
     .hero-float-card.badge-like .badge-dot {
-        width: 1.9vw !important;
-        height: 1.9vw !important;
+        width: 6px !important;
+        height: 6px !important;
     }
-    .hero-float-card[data-card-id="lulu"] {
-        left: 1% !important;
-        top: 85% !important;
-    }
-    .hero-float-card[data-card-id="amazon-kdp"] {
-        left: 26% !important;
-        top: 85% !important;
-    }
-    .hero-float-card[data-card-id="ingramspark"] {
-        left: 51% !important;
-        top: 85% !important;
-    }
-    .hero-float-card[data-card-id="barnes-noble"] {
-        left: 76% !important;
-        top: 85% !important;
-    }
+    .hero-float-card[data-card-id="lulu"] { left: 2% !important; }
+    .hero-float-card[data-card-id="amazon-kdp"] { left: 27% !important; }
+    .hero-float-card[data-card-id="ingramspark"] { left: 52% !important; }
+    .hero-float-card[data-card-id="barnes-noble"] { left: 77% !important; }
 }
 
 @media (max-width: 768px) {
