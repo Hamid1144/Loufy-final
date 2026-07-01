@@ -35,29 +35,17 @@ function Log-Message {
 Log-Message "Performing initial sync on startup..." "WARN"
 try {
     Log-Message "Invoking pull_supabase.ps1..."
-    $pullOutput = powershell -ExecutionPolicy Bypass -File .\pull_supabase.ps1 2>&1
+    $pullOutput = & .\pull_supabase.ps1 2>&1
     Log-Message "pull_supabase.ps1 Output: $pullOutput"
     
-    if ($LASTEXITCODE -ne 0) {
-        throw "pull_supabase.ps1 failed with exit code $LASTEXITCODE"
-    }
-
     Log-Message "Invoking merge_grids.ps1..."
-    $mergeOutput = powershell -ExecutionPolicy Bypass -File .\merge_grids.ps1 2>&1
+    $mergeOutput = & .\merge_grids.ps1 2>&1
     Log-Message "merge_grids.ps1 Output: $mergeOutput"
     
-    if ($LASTEXITCODE -ne 0) {
-        throw "merge_grids.ps1 failed with exit code $LASTEXITCODE"
-    }
-
     Log-Message "Invoking optimize_html_images.ps1..."
-    $optOutput = powershell -ExecutionPolicy Bypass -File .\optimize_html_images.ps1 2>&1
+    $optOutput = & .\optimize_html_images.ps1 2>&1
     Log-Message "optimize_html_images.ps1 Output: $optOutput"
     
-    if ($LASTEXITCODE -ne 0) {
-        throw "optimize_html_images.ps1 failed with exit code $LASTEXITCODE"
-    }
-
     $gitStatus = git status --porcelain
     if ($gitStatus) {
         Log-Message "Local changes detected on startup. Committing and pushing to GitHub..." "WARN"
@@ -67,7 +55,7 @@ try {
         Log-Message "Successfully committed and pushed startup changes to GitHub!" "SUCCESS"
         
         Log-Message "Invoking push_supabase.ps1 -Force to push unified/optimized content back to Supabase..."
-        $pushOutput = powershell -ExecutionPolicy Bypass -File .\push_supabase.ps1 -Force 2>&1
+        $pushOutput = & .\push_supabase.ps1 -Force 2>&1
         Log-Message "push_supabase.ps1 Output: $pushOutput"
     } else {
         Log-Message "Startup check complete. Local files and GitHub are in sync."
@@ -137,17 +125,17 @@ while ($true) {
                 
                 # Run pull script to pull Supabase changes to local HTML files
                 Log-Message "Running pull_supabase.ps1..."
-                $pullRes = powershell -ExecutionPolicy Bypass -File .\pull_supabase.ps1 2>&1
+                $pullRes = & .\pull_supabase.ps1 2>&1
                 Log-Message "pull_supabase.ps1 result: $pullRes"
                 
                 # Run merge script with specified OrderSource
                 Log-Message "Running merge_grids.ps1 -OrderSource $orderSource..."
-                $mergeRes = powershell -ExecutionPolicy Bypass -File .\merge_grids.ps1 -OrderSource $orderSource 2>&1
+                $mergeRes = & .\merge_grids.ps1 -OrderSource $orderSource 2>&1
                 Log-Message "merge_grids.ps1 result: $mergeRes"
                 
                 # Run image optimizer to compress any heavy Base64 data URLs
                 Log-Message "Running optimize_html_images.ps1..."
-                $optRes = powershell -ExecutionPolicy Bypass -File .\optimize_html_images.ps1 2>&1
+                $optRes = & .\optimize_html_images.ps1 2>&1
                 Log-Message "optimize_html_images.ps1 result: $optRes"
                 
                 # Check if there are any git changes to push
@@ -162,7 +150,7 @@ while ($true) {
                     
                     # Self-heal back to Supabase since local merge modified files
                     Log-Message "Pushing unified grids back to Supabase..."
-                    $pushRes = powershell -ExecutionPolicy Bypass -File .\push_supabase.ps1 -Force 2>&1
+                    $pushRes = & .\push_supabase.ps1 -Force 2>&1
                     Log-Message "push_supabase.ps1 result: $pushRes"
                 } else {
                     Log-Message "No local file changes detected after pull (in sync)."
