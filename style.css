@@ -2006,20 +2006,21 @@ body > section.portfolio {
     .portfolio-card[data-cat="children"] .portfolio-thumb,
     .portfolio-card[data-flipbook="true"] .portfolio-thumb {
         height: auto !important;
-        min-height: 260px !important;
+        min-height: 180px !important;
         aspect-ratio: unset !important;
     }
     .portfolio-card[data-cat="formatting"] .portfolio-thumb,
     .portfolio-card[data-cat="paperback-covers"] .portfolio-thumb,
     .portfolio-card[data-layout="full-width"] .portfolio-thumb {
-        height: auto !important;
-        min-height: 120px !important;
+        height: 130px !important;
+        min-height: 130px !important;
         aspect-ratio: unset !important;
     }
     .portfolio-card[data-cat="formatting"] .portfolio-thumb img,
     .portfolio-card[data-cat="paperback-covers"] .portfolio-thumb img,
     .portfolio-card[data-layout="full-width"] .portfolio-thumb img {
-        height: auto !important;
+        height: 100% !important;
+        width: 100% !important;
         object-fit: contain !important;
     }
     .portfolio-filters {
