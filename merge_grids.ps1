@@ -117,7 +117,7 @@ Write-Host "Total unique merged cards: $($script:uniqueCards.Count)"
 
 # Let's reconstruct the portfolio-grid content.
 # We will join them with newlines.
-$mergedGridHTML = $script:uniqueCards -join "`n`n"
+$script:mergedGridHTML = $script:uniqueCards -join "`n`n"
 
 # Re-read index.html and portfolio.html
 $indexContent = [System.IO.File]::ReadAllText("index.html", [System.Text.Encoding]::UTF8)
@@ -153,7 +153,7 @@ function Replace-GridInFile($filePath, $content) {
     $gridStartTagFull = $content.Substring($gridStart, $content.IndexOf('>', $gridStart) - $gridStart + 1)
     
     # Replace the inner grid HTML
-    $newGridHTML = "<div class=""portfolio-grid"" bis_skin_checked=""1"" style=""display: grid;"">`n`n$global:mergedGridHTML`n`n</div>"
+    $newGridHTML = "<div class=""portfolio-grid"" bis_skin_checked=""1"" style=""display: grid;"">`n`n$script:mergedGridHTML`n`n</div>"
     
     $newContent = $content.Substring(0, $gridStart) + $newGridHTML + $content.Substring($gridEnd)
     return $newContent
