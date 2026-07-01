@@ -2009,18 +2009,29 @@ body > section.portfolio {
         min-height: 180px !important;
         aspect-ratio: unset !important;
     }
+    .portfolio-card[data-cat="formatting"],
+    .portfolio-card[data-cat="paperback-covers"],
+    .portfolio-card[data-layout="full-width"] {
+        width: fit-content !important;
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
     .portfolio-card[data-cat="formatting"] .portfolio-thumb,
     .portfolio-card[data-cat="paperback-covers"] .portfolio-thumb,
     .portfolio-card[data-layout="full-width"] .portfolio-thumb {
         height: 130px !important;
         min-height: 130px !important;
+        width: auto !important;
+        display: flex !important;
+        justify-content: center !important;
         aspect-ratio: unset !important;
     }
     .portfolio-card[data-cat="formatting"] .portfolio-thumb img,
     .portfolio-card[data-cat="paperback-covers"] .portfolio-thumb img,
     .portfolio-card[data-layout="full-width"] .portfolio-thumb img {
         height: 100% !important;
-        width: 100% !important;
+        width: auto !important;
         object-fit: contain !important;
     }
     .portfolio-filters {
