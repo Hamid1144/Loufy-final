@@ -1917,14 +1917,14 @@ body > section.portfolio {
     .portfolio-card[data-cat="children"] .portfolio-thumb,
     .portfolio-card[data-flipbook="true"] .portfolio-thumb {
         height: auto !important;
-        min-height: 460px !important;
+        min-height: 360px !important;
         aspect-ratio: unset !important;
     }
     .portfolio-card[data-cat="formatting"] .portfolio-thumb,
     .portfolio-card[data-cat="paperback-covers"] .portfolio-thumb,
     .portfolio-card[data-layout="full-width"] .portfolio-thumb {
-        height: 350px !important;
-        min-height: 350px !important;
+        height: 260px !important;
+        min-height: 260px !important;
         aspect-ratio: unset !important;
     }
     .book-scene {
@@ -2000,15 +2000,41 @@ body > section.portfolio {
     .portfolio-card[data-cat="children"] .portfolio-thumb,
     .portfolio-card[data-flipbook="true"] .portfolio-thumb {
         height: auto !important;
-        min-height: 380px !important;
+        min-height: 260px !important;
         aspect-ratio: unset !important;
     }
     .portfolio-card[data-cat="formatting"] .portfolio-thumb,
     .portfolio-card[data-cat="paperback-covers"] .portfolio-thumb,
     .portfolio-card[data-layout="full-width"] .portfolio-thumb {
-        height: 240px !important;
-        min-height: 240px !important;
+        height: 170px !important;
+        min-height: 170px !important;
         aspect-ratio: unset !important;
+    }
+    .portfolio-filters {
+        margin: 12px 0 16px !important;
+        gap: 6px !important;
+    }
+    .filter-btn {
+        padding: 5px 12px !important;
+        font-size: 0.72rem !important;
+    }
+    .portfolio .container {
+        padding: 0 8px !important;
+    }
+    .portfolio-card[data-cat="formatting"] .portfolio-info,
+    .portfolio-card[data-cat="paperback-covers"] .portfolio-info,
+    .portfolio-card[data-layout="full-width"] .portfolio-info,
+    .portfolio-card[data-cat="children"] .portfolio-info,
+    .portfolio-card[data-flipbook="true"] .portfolio-info {
+        padding: 8px !important;
+    }
+    .portfolio-card .portfolio-info h3 {
+        font-size: 0.72rem !important;
+        margin-bottom: 2px !important;
+    }
+    .portfolio-card .portfolio-info .tags span {
+        font-size: 0.55rem !important;
+        padding: 1px 4px !important;
     }
     .book-scene {
         min-height: 350px;
