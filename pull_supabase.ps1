@@ -15,7 +15,7 @@ try {
     $res = Invoke-RestMethod -Uri "$supabaseUrl/rest/v1/site_content?select=id,html_content" -Headers $headers -Method Get
 } catch {
     Write-Error "Failed to fetch live content: $_"
-    exit 1
+    throw $_
 }
 
 foreach ($row in $res) {
