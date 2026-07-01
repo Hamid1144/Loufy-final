@@ -1,6 +1,6 @@
 # install_sync_daemon.ps1
 # Installer script for Hamid Raza Portfolio Sync Daemon.
-# Terminates existing instances, sets up a Windows Startup shortcut, and starts the service silently using VBScript wrapper.
+# Terminates existing instances, sets up a Windows Startup shortcut, and starts the service in a Minimized window.
 
 $ErrorActionPreference = "Stop"
 
@@ -39,14 +39,14 @@ if (-not $scriptDir) {
 $startupFolder = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 $shortcutPath = Join-Path $startupFolder "HamidRazaSyncDaemon.lnk"
 
-# 3. Create Windows Startup shortcut pointing to VBScript wrapper
+# 3. Create Windows Startup shortcut pointing to PowerShell (Minimized)
 Write-Host "Creating startup shortcut..." -ForegroundColor Yellow
 try {
     $WshShell = New-Object -ComObject WScript.Shell
     $Shortcut = $WshShell.CreateShortcut($shortcutPath)
-    $wscriptPath = Join-Path $env:SystemRoot "System32\wscript.exe"
-    $Shortcut.TargetPath = $wscriptPath
-    $Shortcut.Arguments = """$scriptDir\silent_sync_daemon.vbs"""
+    $powershellPath = Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe"
+    $Shortcut.TargetPath = $powershellPath
+    $Shortcut.Arguments = "-WindowStyle Minimized -ExecutionPolicy Bypass -File ""$scriptDir\sync_daemon.ps1"""
     $Shortcut.WorkingDirectory = "$scriptDir"
     $Shortcut.Description = "Hamid Raza Portfolio GitHub Sync Daemon"
     $Shortcut.Save()
@@ -57,17 +57,17 @@ try {
     exit 1
 }
 
-# 4. Start the silent daemon via VBScript immediately
-Write-Host "Launching sync daemon in background via VBScript..." -ForegroundColor Yellow
+# 4. Start the daemon in a Minimized window immediately
+Write-Host "Launching sync daemon in minimized window..." -ForegroundColor Yellow
 try {
-    $wscriptPath = Join-Path $env:SystemRoot "System32\wscript.exe"
-    Start-Process $wscriptPath -ArgumentList """$scriptDir\silent_sync_daemon.vbs""" -WorkingDirectory "$scriptDir"
-    Start-Sleep -Seconds 3
+    $powershellPath = Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe"
+    Start-Process $powershellPath -ArgumentList "-WindowStyle Minimized -ExecutionPolicy Bypass -File ""$scriptDir\sync_daemon.ps1""" -WorkingDirectory "$scriptDir"
+    Start-Sleep -Seconds 5
     
     # Check if the process is now running
     $newProc = Get-CimInstance Win32_Process -Filter "Name = 'powershell.exe'" | Where-Object { $_.CommandLine -like "*sync_daemon.ps1*" -and $_.CommandLine -notlike "*install_sync_daemon*" -and $_.CommandLine -notlike "*status_sync_daemon*" -and $_.CommandLine -notlike "*stop_sync_daemon*" -and $_.CommandLine -notlike "*-Command*" }
     if ($newProc) {
-        Write-Host "Sync daemon has been successfully started and is running silently!" -ForegroundColor Green
+        Write-Host "Sync daemon has been successfully started and is running in a minimized window!" -ForegroundColor Green
         Write-Host "Process ID(s): $(($newProc | Select-Object -ExpandProperty ProcessId) -join ', ')" -ForegroundColor Gray
     } else {
         Write-Warning "Sync daemon launched, but could not verify running process. Please run status_sync_daemon.ps1 to check."
