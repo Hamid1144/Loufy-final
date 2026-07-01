@@ -2003,56 +2003,56 @@ body > section.portfolio {
     .testimonial-inner {
         padding: 24px 16px !important;
     }
-    /* Uniform 3-column square grid on mobile for ALL portfolio cards */
-    .portfolio-card {
+    /* Uniform 3-column square grid on mobile for grid cards ONLY */
+    .portfolio-grid .portfolio-card {
         grid-column: auto !important;
         width: 100% !important;
     }
-    .portfolio-card .portfolio-thumb {
+    .portfolio-grid .portfolio-card .portfolio-thumb {
         height: auto !important;
         min-height: unset !important;
         aspect-ratio: 1 / 1 !important;
         overflow: hidden !important;
     }
-    .portfolio-card .portfolio-thumb img {
+    .portfolio-grid .portfolio-card .portfolio-thumb img {
         height: 100% !important;
         width: 100% !important;
         object-fit: cover !important;
     }
-    /* Hide card info details on mobile for clean Instagram-style grid gallery */
-    .portfolio-card .portfolio-info {
+    /* Hide card info details on mobile for clean grid gallery */
+    .portfolio-grid .portfolio-card .portfolio-info {
         display: none !important;
     }
-    /* Flat open-book spread styling for Children Coloring Book cards in 3-column mobile grid */
-    .book-controls-row {
+    /* Flat open-book spread styling for Children Coloring Book cards inside grid */
+    .portfolio-grid .book-controls-row {
         display: none !important;
     }
-    .book-scene {
+    .portfolio-grid .book-scene {
         min-height: unset !important;
         height: 100% !important;
         width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
     }
-    .book-3d-wrap {
+    .portfolio-grid .book-3d-wrap {
         perspective: none !important;
         height: 100% !important;
         width: 100% !important;
     }
-    .book-body {
+    .portfolio-grid .book-body {
         transform: none !important;
         height: 100% !important;
         width: 100% !important;
         display: flex !important;
         position: static !important;
     }
-    .bp-left, .bp-right {
+    .portfolio-grid .bp-left, .portfolio-grid .bp-right {
         position: static !important;
         width: 50% !important;
         height: 100% !important;
         display: block !important;
     }
-    .bp-left img, .bp-right img {
+    .portfolio-grid .bp-left img, .portfolio-grid .bp-right img {
         object-fit: cover !important;
         width: 100% !important;
         height: 100% !important;
@@ -2060,7 +2060,7 @@ body > section.portfolio {
         margin: 0 !important;
         border: none !important;
     }
-    .flip-layer {
+    .portfolio-grid .flip-layer {
         display: none !important;
     }
     .portfolio-filters {
