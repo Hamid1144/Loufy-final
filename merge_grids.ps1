@@ -64,8 +64,8 @@ function Get-NormalizedCard($card) {
     return $normalized
 }
 
-$uniqueCards = @()
-$uniqueNormalized = @{}
+$script:uniqueCards = @()
+$script:uniqueNormalized = @{}
 
 # Helper to add a card if it is unique
 function Add-IfUnique($card) {
@@ -74,8 +74,8 @@ function Add-IfUnique($card) {
     # Let's extract the image source:
     $key = $norm
     
-    if (-not $uniqueNormalized.ContainsKey($key)) {
-        $uniqueNormalized[$key] = $true
+    if (-not $script:uniqueNormalized.ContainsKey($key)) {
+        $script:uniqueNormalized[$key] = $true
         # Make sure the card style is displayed block and clean classes
         # Set style to style="display: block;" or clear hidden styles
         $endOfFirstTag = $card.IndexOf('>')
@@ -91,7 +91,7 @@ function Add-IfUnique($card) {
         } else {
             $clean_card = $card
         }
-        $global:uniqueCards += $clean_card
+        $script:uniqueCards += $clean_card
     }
 }
 
@@ -113,11 +113,11 @@ if ($OrderSource -eq "index") {
     }
 }
 
-Write-Host "Total unique merged cards: $($uniqueCards.Count)"
+Write-Host "Total unique merged cards: $($script:uniqueCards.Count)"
 
 # Let's reconstruct the portfolio-grid content.
 # We will join them with newlines.
-$mergedGridHTML = $uniqueCards -join "`n`n"
+$mergedGridHTML = $script:uniqueCards -join "`n`n"
 
 # Re-read index.html and portfolio.html
 $indexContent = [System.IO.File]::ReadAllText("index.html", [System.Text.Encoding]::UTF8)
