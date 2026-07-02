@@ -167,7 +167,7 @@ section{padding:100px 0}
     gap: 10px;
 }
 .nav-portfolio-btn {
-    display: none;
+    display: inline-flex;
 }
 .nav-links {
     display: flex;
@@ -1841,6 +1841,15 @@ body.edit-mode .reveal {
 /* Specific styling for portfolio page */
 body > section.portfolio {
     padding-top: 110px; /* Offset the fixed header height */
+}
+
+/* Standalone subpage specific section top-paddings to offset fixed header */
+body.services-page > section.services,
+body.about-page > section.about,
+body.testimonials-page > section.testimonials,
+body.pricing-page > section.pricing,
+body.contact-page > section.contact {
+    padding-top: 110px !important;
 }
 
 /* Responsive adjustments for section padding, container, about float tags, and flipbooks */

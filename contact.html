@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  window.jsErrors = [];
+  window.onerror = function(message, source, lineno, colno, error) {
+    var errStr = 'ERROR: ' + message + ' at ' + source + ':' + lineno + ':' + colno;
+    window.jsErrors.push(errStr);
+    console.warn(errStr);
+    if (window.location.search.indexOf('debug=true') !== -1) {
+      var div = document.getElementById('debug-errors');
+      if (!div) {
+        div = document.createElement('div');
+        div.id = 'debug-errors';
+        div.style.cssText = 'position:fixed; top:10px; left:10px; z-index:9999999; background:red; color:white; padding:10px; font-family:monospace; font-size:12px; max-height:200px; overflow:auto;';
+        document.documentElement.appendChild(div);
+      }
+      var p = document.createElement('p');
+      p.textContent = errStr;
+      div.appendChild(p);
+    }
+    return false;
+  };
+  var oldConsoleError = console.error;
+  console.error = function() {
+    var args = Array.prototype.slice.call(arguments).map(String).join(' ');
+    window.jsErrors.push('CONSOLE.ERROR: ' + args);
+    if (window.location.search.indexOf('debug=true') !== -1) {
+      var div = document.getElementById('debug-errors');
+      if (!div) {
+        div = document.createElement('div');
+        div.id = 'debug-errors';
+        div.style.cssText = 'position:fixed; top:10px; left:10px; z-index:9999999; background:red; color:white; padding:10px; font-family:monospace; font-size:12px; max-height:200px; overflow:auto;';
+        document.documentElement.appendChild(div);
+      }
+      var p = document.createElement('p');
+      p.textContent = 'CONSOLE.ERROR: ' + args;
+      div.appendChild(p);
+    }
+    oldConsoleError.apply(console, arguments);
+  };
+</script>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="JXuo3BNNUB-EVN5RnVFswZHMD9cqjuwlBOvPnEbxJM8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Contact Me | Loufy Publisher by Hamid Raza</title>
+<link rel="icon" type="image/png" href="/favicon.png?v=3.29.0">
+<meta name="description" content="Get in touch with Hamid Raza. Request a book cover design, manuscript formatting, or publishing assistance.">
+<meta name="keywords" content="Contact Hamid Raza, Loufy Publisher Contact, Hire Book Designer, KDP Assistance Contact">
+<link rel="canonical" href="https://loufypublisher.com/contact.html">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://loufypublisher.com/contact.html">
+<meta property="og:site_name" content="Loufy Publisher">
+<meta property="og:title" content="Contact Me | Loufy Publisher by Hamid Raza">
+<meta property="og:description" content="Get in touch with Hamid Raza. Request a book cover design, manuscript formatting, or publishing assistance.">
+<meta property="og:image" content="https://loufypublisher.com/favicon.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loufypublisher.com/contact.html">
+<meta name="twitter:title" content="Contact Me | Loufy Publisher by Hamid Raza">
+<meta name="twitter:description" content="Get in touch with Hamid Raza. Request a book cover design, manuscript formatting, or publishing assistance.">
+<meta name="twitter:image" content="https://loufypublisher.com/favicon.png">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js" defer></script>
+<script src="db.js?v=3.31.0" defer></script>
+<script src="script.js?v=3.31.0" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
+<script src="admin.js?v=3.31.0" defer></script>
+<script src="bg-anim.js?v=3.31.0" defer></script>
+<script src="live-sync.js?v=3.32.0" defer></script>
+</head>
+<body class="contact-page">
+<nav class="navbar scrolled">
+<div class="container">
+<a href="index.html" class="logo" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Loufy Publisher" class="logo-img"></a>
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="services.html">Services</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="blogs.html">Blog</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="testimonials.html">Testimonials</a></li>
+<li><a href="pricing.html">Pricing</a></li>
+<li><a href="contact.html" class="active">Contact</a></li>
+</ul>
+<div class="nav-actions">
+<a href="portfolio.html" class="btn btn-accent btn-jitter nav-portfolio-btn" style="padding:10px 24px;font-size:.85rem;color:var(--dark);font-weight:700" data-admin-text="true">Portfolio</a>
+<a href="contact.html" class="btn btn-primary" style="padding:10px 24px;font-size:.85rem" data-admin-text="true">Hire Me</a>
+</div>
+<button class="hamburger"><span></span><span></span><span></span></button>
+</div>
+</nav>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+<div class="container" bis_skin_checked="1">
+<div class="contact-info reveal" bis_skin_checked="1">
+<span class="section-tag reveal">Get In Touch</span>
+<h2 class="contact-info-title" style="font-size:2.4rem;font-weight:800;margin-bottom:24px;line-height:1.2" data-admin-text="true">Let's Talk About Your <span class="highlight">Next Project</span></h2>
+<p style="color:#666;margin-bottom:30px;line-height:1.7" data-admin-text="true">Ready to create something amazing? Let's discuss your project and bring your vision to life.</p>
+<div class="contact-details" bis_skin_checked="1">
+<div class="contact-detail" bis_skin_checked="1"><div class="icon-wrap" bis_skin_checked="1"><i class="fa-solid fa-envelope"></i></div><span data-admin-text="true">razah3812@gmail.com</span></div>
+<div class="contact-detail" bis_skin_checked="1"><div class="icon-wrap" bis_skin_checked="1"><i class="fa-solid fa-phone"></i></div><span data-admin-text="true">Not Available Right Now</span></div>
+<div class="contact-detail" bis_skin_checked="1"><div class="icon-wrap" bis_skin_checked="1"><i class="fa-solid fa-location-dot"></i></div><span data-admin-text="true">Pakistan (Serving Worldwide)</span></div>
+</div>
+<div class="social-icons" bis_skin_checked="1"><a href="https://x.com/mr_loufy" data-social="twitter" target="_blank"><i class="fa-brands fa-x-twitter"></i></a><a href="https://www.facebook.com/share/1KPQAXoL8Y/" data-social="facebook" target="_blank"><i class="fa-brands fa-facebook-f"></i></a><a href="https://www.instagram.com/loufy_publisher?igsh=ZXkybnpuNzE5NGl5" data-social="instagram" target="_blank"><i class="fa-brands fa-instagram"></i></a><a href="https://www.linkedin.com/in/hamid-r-753208282?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android" data-social="linkedin" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a><a href="https://www.tiktok.com/@loufy_publisher?_r=1&amp;_t=ZS-96fEAAxpzNs" data-social="tiktok" target="_blank"><i class="fa-brands fa-tiktok"></i></a><a href="https://wa.me/923268706259" data-social="whatsapp" target="_blank"><i class="fa-brands fa-whatsapp"></i></a></div>
+</div>
+<form class="contact-form">
+<div class="form-row" bis_skin_checked="1">
+<div class="form-group" bis_skin_checked="1"><input type="text" placeholder="Your Name" required=""></div>
+<div class="form-group" bis_skin_checked="1"><input type="email" placeholder="Your Email" required=""></div>
+</div>
+<div class="form-row" bis_skin_checked="1">
+<div class="form-group" bis_skin_checked="1"><input type="tel" placeholder="Phone Number"></div>
+<div class="form-group" bis_skin_checked="1"><select><option value="">Project Type</option><option>Book Cover Design</option><option>KDP Formatting</option><option>Children Book</option><option>Branding</option><option>A+ Content</option><option>Other</option></select></div>
+</div>
+<div class="form-group" bis_skin_checked="1"><input type="text" placeholder="Budget Range"></div>
+<div class="form-group" bis_skin_checked="1"><textarea placeholder="Tell me about your project..."></textarea></div>
+<button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send Message →</button>
+</form>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand reveal">
+<a href="index.html" class="logo" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher" class="logo-img"></a>
+<p data-admin-text="true">Professional Book Cover Designer &amp; Amazon KDP Expert. Creating premium designs that help authors stand out and succeed.</p>
+<div class="social-icons" style="margin-top:16px">
+<a href="https://x.com/mr_loufy" data-social="twitter" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-x-twitter"></i></a>
+<a href="https://www.instagram.com/loufy_publisher" data-social="instagram" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-instagram"></i></a>
+<a href="https://www.linkedin.com/in/hamid-r-753208282" data-social="linkedin" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-linkedin-in"></i></a>
+<a href="https://www.tiktok.com/@loufy_publisher" data-social="behance" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-tiktok"></i></a>
+<a href="https://www.facebook.com/share/1KPQAXoL8Y/" data-social="facebook" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-facebook-f"></i></a>
+</div>
+</div>
+<div class="footer-col reveal"><h4 data-admin-text="true">Quick Links</h4><a href="index.html" class="" data-admin-text="true">Home</a><a href="about.html" class="" data-admin-text="true">About</a><a href="portfolio.html" class="" data-admin-text="true">Portfolio</a><a href="blogs.html" class="" data-admin-text="true">Blog</a><a href="contact.html" class="" data-admin-text="true">Contact</a></div>
+<div class="footer-col reveal"><h4 data-admin-text="true">Services</h4><a href="#" class="" data-admin-text="true">Book Cover Design</a><a href="#" class="" data-admin-text="true">KDP Formatting</a><a href="#" class="" data-admin-text="true">A+ Content</a><a href="#" class="" data-admin-text="true">Branding</a></div>
+<div class="footer-col reveal"><h4 data-admin-text="true">Contact</h4><a href="mailto:razah3812@gmail.com" class="" data-admin-text="true">razah3812@gmail.com</a><a href="#" class="" data-admin-text="true">Pakistan</a></div>
+</div>
+<div class="footer-bottom" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher" style="height: 18px; vertical-align: middle; margin-right: 8px; margin-top: -2px; opacity: 0.8;">© 2026 Hamid Raza. All Rights Reserved.</div>
+</div>
+</footer>
+
+<script>
+  (function() {
+    const pageId = 'contact';
+    try {
+      const cached = localStorage.getItem('supabase_cached_html_' + pageId);
+      if (cached && !window.contentLoadedFromLive) {
+        document.addEventListener('DOMContentLoaded', () => {
+          if (window.contentLoadedFromLive) return;
+          const panel = document.getElementById('super-admin-panel');
+          const modal = document.getElementById('admin-crop-modal');
+          const addItemModalEl = document.getElementById('admin-add-item-modal');
+          const rpOvlEl = document.getElementById('fp-rp-overlay');
+          const rpModEl = document.getElementById('fp-rp-modal');
+          
+          const animWrap = document.getElementById('bg-anim-wrap');
+          const animCanvas = document.getElementById('bg-anim-canvas');
+          const heroGlow = document.getElementById('bg-hero-glow');
+          
+          const loader = document.getElementById('loading-screen');
+          document.body.innerHTML = cached;
+          if (loader) document.body.appendChild(loader);
+          
+          ['bg-anim-wrap', 'bg-anim-canvas', 'bg-hero-glow'].forEach(id => {
+              const el = document.getElementById(id);
+              if (el) el.remove();
+          });
+          
+          if (panel) document.body.appendChild(panel);
+          if (modal) document.body.appendChild(modal);
+          if (addItemModalEl) document.body.appendChild(addItemModalEl);
+          if (rpOvlEl) document.body.appendChild(rpOvlEl);
+          if (rpModEl) document.body.appendChild(rpModEl);
+          
+          if (animWrap) document.body.insertBefore(animWrap, document.body.firstChild);
+          if (animCanvas) document.body.insertBefore(animCanvas, document.body.firstChild);
+          if (heroGlow) document.body.insertBefore(heroGlow, document.body.firstChild);
+
+          window.contentLoadedFromCache = true;
+          if (window.initSiteLogic) window.initSiteLogic();
+          if (window.bgAnim && typeof window.bgAnim.init === 'function') window.bgAnim.init();
+          
+          document.body.classList.add('loaded');
+          if (loader) {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+            setTimeout(function() { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 500);
+          }
+        });
+      }
+    } catch (e) {
+      console.warn("Failed to load cached content: ", e);
+    }
+  })();
+</script>
+</body>
+</html>
