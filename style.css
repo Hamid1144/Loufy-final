@@ -63,6 +63,41 @@ section{padding:100px 0}
 .btn-outline:hover .btn-arrow{transform:translateY(-2px)}
 .btn:hover .btn-arrow.down{transform:translateY(4px)}
 
+/* Jitter/Shake animation for attention grabbing */
+.btn-jitter {
+    animation: btn-jitter 3s infinite ease-in-out;
+    transform-origin: center;
+}
+.btn-jitter:hover {
+    animation-play-state: paused;
+}
+@keyframes btn-jitter {
+    0%, 15%, 100% {
+        transform: scale(1) rotate(0deg);
+    }
+    1.5% {
+        transform: scale(1.05) rotate(-3deg);
+    }
+    3% {
+        transform: scale(1.05) rotate(3deg);
+    }
+    4.5% {
+        transform: scale(1.05) rotate(-3deg);
+    }
+    6% {
+        transform: scale(1.05) rotate(3deg);
+    }
+    7.5% {
+        transform: scale(1.05) rotate(-1.5deg);
+    }
+    9% {
+        transform: scale(1.05) rotate(1.5deg);
+    }
+    10.5% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
 
 
 .navbar {
