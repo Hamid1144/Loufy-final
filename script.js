@@ -155,8 +155,7 @@ window.initSiteLogic = function () {
   // Navbar scroll
   let navbarNode = document.querySelector('.navbar');
   const navScroll = () => {
-    if (!navbarNode) navbarNode = document.querySelector('.navbar');
-    navbarNode?.classList.toggle('scrolled', window.scrollY > 50);
+    // Navbar is now permanently in the "scrolled" state
   };
   window.removeEventListener('scroll', navScroll);
   window.addEventListener('scroll', navScroll, { passive: true });
