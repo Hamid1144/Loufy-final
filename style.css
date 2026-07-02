@@ -47,7 +47,7 @@ section{padding:100px 0}
 .section-title{font-size:2.6rem;font-weight:800;margin-bottom:16px;line-height:1.2}
 .section-sub{color:#666;font-size:1.05rem;max-width:560px;line-height:1.7}
 .highlight{color:var(--accent)}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;font-family:var(--font);font-weight:600;font-size:.95rem;cursor:pointer;border:1px solid rgba(255, 255, 255, 0.15);transition:all .4s cubic-bezier(.25,.8,.25,1);position:relative;overflow:hidden;z-index:1}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;font-family:var(--font);font-weight:600;font-size:.95rem;cursor:pointer;border:1px solid rgba(255, 255, 255, 0.15);transition:all .4s cubic-bezier(.25,.8,.25,1);position:relative;overflow:hidden;z-index:1;white-space:nowrap}
 .btn::after{content:'';position:absolute;top:0;left:-150%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0) 30%,rgba(255,255,255,0.45) 50%,rgba(255,255,255,0) 70%,transparent);transform:skewX(-25deg);z-index:2;pointer-events:none}
 .btn:hover::after{animation:liquid-reflection 1.5s cubic-bezier(0.2,0.8,0.2,1) infinite}
 @keyframes liquid-reflection{0%{left:-150%}100%{left:150%}}
@@ -121,11 +121,11 @@ section{padding:100px 0}
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     padding: 10px 0;
-}
-.navbar .container {
+}.navbar .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
 }
 .logo {
     font-size: 1.8rem;
@@ -133,15 +133,14 @@ section{padding:100px 0}
     color: var(--dark);
     text-transform: uppercase;
     letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    flex-shrink: 0;
 }
 .logo img {
     height: 38px;
     width: auto;
     display: block;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    flex-shrink: 0;
 }
 .logo span {
     color: var(--accent);
@@ -165,6 +164,7 @@ section{padding:100px 0}
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0;
 }
 .nav-portfolio-btn {
     display: inline-flex;
@@ -1706,6 +1706,16 @@ body.edit-mode .reveal {
 }
 
 /* RESPONSIVE */
+@media (max-width: 1250px) {
+    .nav-links a {
+        padding: 8px 12px;
+        font-size: 0.88rem;
+    }
+    .nav-links {
+        gap: 8px;
+    }
+}
+
 @media (max-width: 1200px) {
     .services-grid, .tools-grid {
         grid-template-columns: repeat(3, 1fr);
