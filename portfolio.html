@@ -133,141 +133,6 @@
           "position": 2,
           "name": "Portfolio",
           "item": "https://loufypublisher.com/portfolio.html"
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<script>
-  window.jsErrors = [];
-  window.onerror = function(message, source, lineno, colno, error) {
-    var errStr = 'ERROR: ' + message + ' at ' + source + ':' + lineno + ':' + colno;
-    window.jsErrors.push(errStr);
-    console.warn(errStr);
-    if (window.location.search.indexOf('debug=true') !== -1) {
-      var div = document.getElementById('debug-errors');
-      if (!div) {
-        div = document.createElement('div');
-        div.id = 'debug-errors';
-        div.style.cssText = 'position:fixed; top:10px; left:10px; z-index:9999999; background:red; color:white; padding:10px; font-family:monospace; font-size:12px; max-height:200px; overflow:auto;';
-        document.documentElement.appendChild(div);
-      }
-      var p = document.createElement('p');
-      p.textContent = errStr;
-      div.appendChild(p);
-    }
-    return false;
-  };
-  var oldConsoleError = console.error;
-  console.error = function() {
-    var args = Array.prototype.slice.call(arguments).map(String).join(' ');
-    window.jsErrors.push('CONSOLE.ERROR: ' + args);
-    if (window.location.search.indexOf('debug=true') !== -1) {
-      var div = document.getElementById('debug-errors');
-      if (!div) {
-        div = document.createElement('div');
-        div.id = 'debug-errors';
-        div.style.cssText = 'position:fixed; top:10px; left:10px; z-index:9999999; background:red; color:white; padding:10px; font-family:monospace; font-size:12px; max-height:200px; overflow:auto;';
-        document.documentElement.appendChild(div);
-      }
-      var p = document.createElement('p');
-      p.textContent = 'CONSOLE.ERROR: ' + args;
-      div.appendChild(p);
-    }
-    oldConsoleError.apply(console, arguments);
-  };
-</script>
-<meta charset="UTF-8">
-<meta name="google-site-verification" content="JXuo3BNNUB-EVN5RnVFswZHMD9cqjuwlBOvPnEbxJM8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Design Portfolio | Loufy Publisher by Hamid Raza</title>
-<link rel="icon" type="image/png" href="/favicon.png?v=3.29.0">
-<meta name="description" content="Explore Hamid Raza's design portfolio. Premium book covers, children's coloring books, KDP interior formatting, A+ content, and branding. View projects.">
-<meta name="keywords" content="Hamid Raza Portfolio, Loufy Publisher Portfolio, Book Cover Design Portfolio, KDP Book Formatting Portfolio, Children Coloring Books Portfolio, A+ Content Portfolio, Branding Design">
-<link rel="canonical" href="https://loufypublisher.com/portfolio.html">
-
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://loufypublisher.com/portfolio.html">
-<meta property="og:site_name" content="Loufy Publisher">
-<meta property="og:title" content="Design Portfolio | Loufy Publisher by Hamid Raza">
-<meta property="og:description" content="Explore Hamid Raza's design portfolio. Premium book covers, children's coloring books, KDP interior formatting, A+ content, and branding. View projects.">
-<meta property="og:image" content="https://loufypublisher.com/favicon.png">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://loufypublisher.com/portfolio.html">
-<meta name="twitter:title" content="Design Portfolio | Loufy Publisher by Hamid Raza">
-<meta name="twitter:description" content="Explore Hamid Raza's design portfolio. Premium book covers, children's coloring books, KDP interior formatting, A+ content, and branding. View projects.">
-<meta name="twitter:image" content="https://loufypublisher.com/favicon.png">
-
-<!-- Breadcrumbs and Organization Schema -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://loufypublisher.com/#website",
-      "name": "Loufy Publisher",
-      "alternateName": [
-        "Hamid Raza Publisher",
-        "Loufy Publishing"
-      ],
-      "url": "https://loufypublisher.com/"
-    },
-    {
-      "@type": "Person",
-      "@id": "https://loufypublisher.com/#person",
-      "name": "Hamid Raza",
-      "jobTitle": "Professional Book Cover Designer & Amazon KDP Expert",
-      "url": "https://loufypublisher.com/",
-      "sameAs": [
-        "https://www.facebook.com/share/1KPQAXoL8Y/",
-        "https://www.instagram.com/loufy_publisher",
-        "https://www.linkedin.com/in/hamid-r-753208282",
-        "https://www.tiktok.com/@loufy_publisher"
-      ]
-    },
-    {
-      "@type": "ProfessionalService",
-      "@id": "https://loufypublisher.com/#organization",
-      "name": "Loufy Publisher",
-      "alternateName": "Hamid Raza Publisher",
-      "url": "https://loufypublisher.com/",
-      "logo": "https://loufypublisher.com/favicon.png",
-      "image": "https://loufypublisher.com/favicon.png",
-      "founder": {
-        "@id": "https://loufypublisher.com/#person"
-      },
-      "description": "Loufy Publisher by Hamid Raza specializes in professional book cover design, Amazon KDP formatting, children book layout, and book publishing solutions.",
-      "email": "razah3812@gmail.com",
-      "telephone": "+923268706259",
-      "sameAs": [
-        "https://www.facebook.com/share/1KPQAXoL8Y/",
-        "https://www.instagram.com/loufy_publisher",
-        "https://www.linkedin.com/in/hamid-r-753208282",
-        "https://www.tiktok.com/@loufy_publisher",
-        "https://wa.me/923268706259"
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "PK"
-      }
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://loufypublisher.com/portfolio.html#breadcrumb",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://loufypublisher.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Portfolio",
-          "item": "https://loufypublisher.com/portfolio.html"
         }
       ]
     }
@@ -674,7 +539,7 @@
                 </div>
 
 <div class="portfolio-card reveal" data-cat="children" data-flipbook="true" style="">
-                    <div class="portfolio-thumb" style="overflow: visible; height: auto; min-height: 0px; position: relative; aspect-ratio: unset; background: none;"><div class="book-scene" id="book-scene-1" data-size="8.5x8.5" style="position: relative;"><div class="book-3d-wrap"><div class="book-body"><div class="bp-left"><img class="bp-img" id="book-scene-1-li" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472848/portfolio/qximacz6v4cra5xrjmgm.jpg" alt="Left page"></div><div class="bp-right"><img class="bp-img" id="book-scene-1-ri" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472862/portfolio/w9wz6vitw3l03eniejmq.jpg" alt="Right page"></div><div class="flip-layer" id="book-scene-1-fl" style="--flip-dur: 700ms;"><div class="flip-face flip-face-f"><img class="bp-img" id="book-scene-1-ff" src="" alt=""></div><div class="flip-face flip-face-b"><img class="bp-img" id="book-scene-1-fb" src="" alt=""></div></div></div></div><div class="book-controls-row"><button class="bc-btn bc-prev" id="book-scene-1-prev">‹</button><span class="bc-counter" id="book-scene-1-cnt">Pages 1–2 of 8</span><button class="bc-btn bc-next" id="book-scene-1-next">›</button></div></div><div id="flipbook-1-pages" style="display: none;"><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472848/portfolio/qximacz6v4cra5xrjmgm.jpg" alt="Page 1" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472862/portfolio/w9wz6vitw3l03eniejmq.jpg" alt="Page 2" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472913/portfolio/dowy7722lmr9xzkrju63.jpg" alt="Page 3" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472986/portfolio/k4d9chazgbia2hti0h2k.jpg" alt="Page 4" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781467968/portfolio/znmcs68ra2u0uqaeh9ep.jpg" alt="Page 5" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781467993/portfolio/hbfmgcdnu5t8umfkcivn.jpg" alt="Page 6" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781468020/portfolio/g2gwfhy33j0janjvfqcn.jpg" alt="Page 7" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781468039/portfolio/dkvd2ft4f8sedrlivgic.jpg" alt="Page 8" loading="lazy"></div></div></div>
+                    <div class="portfolio-thumb" style="overflow: visible; height: auto; min-height: 0px; position: relative; aspect-ratio: unset; background: none;"><div class="book-scene" id="book-scene-1" data-size="8.5x8.5" style="position: relative;"><div class="book-3d-wrap"><div class="book-body"><div class="bp-left"><img class="bp-img" id="book-scene-1-li" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472848/portfolio/qximacz6v4cra5xrjmgm.jpg" alt="Left page"></div><div class="bp-right"><img class="bp-img" id="book-scene-1-ri" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472862/portfolio/w9wz6vitw3l03eniejmq.jpg" alt="Right page"></div><div class="flip-layer" id="book-scene-1-fl" style="--flip-dur: 700ms;"><div class="flip-face flip-face-f"><img class="bp-img" id="book-scene-1-ff" src="" alt=""></div><div class="flip-face flip-face-b"><img class="bp-img" id="book-scene-1-fb" src="" alt=""></div></div></div></div><div class="book-controls-row"><button class="bc-btn bc-prev" id="book-scene-1-prev">â€¹</button><span class="bc-counter" id="book-scene-1-cnt">Pages 1â€“2 of 8</span><button class="bc-btn bc-next" id="book-scene-1-next">â€º</button></div></div><div id="flipbook-1-pages" style="display: none;"><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472848/portfolio/qximacz6v4cra5xrjmgm.jpg" alt="Page 1" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472862/portfolio/w9wz6vitw3l03eniejmq.jpg" alt="Page 2" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472913/portfolio/dowy7722lmr9xzkrju63.jpg" alt="Page 3" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781472986/portfolio/k4d9chazgbia2hti0h2k.jpg" alt="Page 4" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781467968/portfolio/znmcs68ra2u0uqaeh9ep.jpg" alt="Page 5" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781467993/portfolio/hbfmgcdnu5t8umfkcivn.jpg" alt="Page 6" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781468020/portfolio/g2gwfhy33j0janjvfqcn.jpg" alt="Page 7" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781468039/portfolio/dkvd2ft4f8sedrlivgic.jpg" alt="Page 8" loading="lazy"></div></div></div>
                     <div class="portfolio-info">
                         <div class="tags"><span data-admin-text="true">Illustrations</span></div>
                         <h3 data-admin-text="true">Childrens Book</h3>
@@ -682,7 +547,7 @@
                 </div>
 
 <div class="portfolio-card reveal" data-cat="children" data-flipbook="true" style="">
-                    <div class="portfolio-thumb" style="overflow: visible; height: auto; min-height: 0px; position: relative; aspect-ratio: unset; background: none;"><div class="book-scene" id="book-scene-2" data-size="8.5x11" style="position: relative;"><div class="book-3d-wrap"><div class="book-body"><div class="bp-left"><img class="bp-img" id="book-scene-2-li" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265483/portfolio/kgs0eqtrhkhg4kewp6ag.jpg" alt="Left page"></div><div class="bp-right"><img class="bp-img" id="book-scene-2-ri" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265508/portfolio/ekuh2u3xbmhke3mbphzn.jpg" alt="Right page"></div><div class="flip-layer" id="book-scene-2-fl" style="--flip-dur: 700ms;"><div class="flip-face flip-face-f"><img class="bp-img" id="book-scene-2-ff" src="" alt=""></div><div class="flip-face flip-face-b"><img class="bp-img" id="book-scene-2-fb" src="" alt=""></div></div></div></div><div class="book-controls-row"><button class="bc-btn bc-prev" id="book-scene-2-prev">‹</button><span class="bc-counter" id="book-scene-2-cnt">Pages 1–2 of 8</span><button class="bc-btn bc-next" id="book-scene-2-next">›</button></div></div><div id="flipbook-2-pages" style="display: none;"><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265483/portfolio/kgs0eqtrhkhg4kewp6ag.jpg" alt="Page 1" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265508/portfolio/ekuh2u3xbmhke3mbphzn.jpg" alt="Page 2" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265541/portfolio/cnb8g8wzrwkynidzxtjw.jpg" alt="Page 3" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265576/portfolio/jptzbwrrprsmuzlyry7o.jpg" alt="Page 4" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265612/portfolio/csohi16vfnvy3v80a59r.jpg" alt="Page 5" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265627/portfolio/iuopb33kjkovflw7vnnw.jpg" alt="Page 6" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265661/portfolio/pw9v1uipdlo5it9htrrq.jpg" alt="Page 7" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265703/portfolio/tsk107pxa3sf3yrm9ilv.jpg" alt="Page 8" loading="lazy"></div></div></div>
+                    <div class="portfolio-thumb" style="overflow: visible; height: auto; min-height: 0px; position: relative; aspect-ratio: unset; background: none;"><div class="book-scene" id="book-scene-2" data-size="8.5x11" style="position: relative;"><div class="book-3d-wrap"><div class="book-body"><div class="bp-left"><img class="bp-img" id="book-scene-2-li" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265483/portfolio/kgs0eqtrhkhg4kewp6ag.jpg" alt="Left page"></div><div class="bp-right"><img class="bp-img" id="book-scene-2-ri" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265508/portfolio/ekuh2u3xbmhke3mbphzn.jpg" alt="Right page"></div><div class="flip-layer" id="book-scene-2-fl" style="--flip-dur: 700ms;"><div class="flip-face flip-face-f"><img class="bp-img" id="book-scene-2-ff" src="" alt=""></div><div class="flip-face flip-face-b"><img class="bp-img" id="book-scene-2-fb" src="" alt=""></div></div></div></div><div class="book-controls-row"><button class="bc-btn bc-prev" id="book-scene-2-prev">â€¹</button><span class="bc-counter" id="book-scene-2-cnt">Pages 1â€“2 of 8</span><button class="bc-btn bc-next" id="book-scene-2-next">â€º</button></div></div><div id="flipbook-2-pages" style="display: none;"><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265483/portfolio/kgs0eqtrhkhg4kewp6ag.jpg" alt="Page 1" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265508/portfolio/ekuh2u3xbmhke3mbphzn.jpg" alt="Page 2" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265541/portfolio/cnb8g8wzrwkynidzxtjw.jpg" alt="Page 3" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265576/portfolio/jptzbwrrprsmuzlyry7o.jpg" alt="Page 4" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265612/portfolio/csohi16vfnvy3v80a59r.jpg" alt="Page 5" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265627/portfolio/iuopb33kjkovflw7vnnw.jpg" alt="Page 6" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265661/portfolio/pw9v1uipdlo5it9htrrq.jpg" alt="Page 7" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781265703/portfolio/tsk107pxa3sf3yrm9ilv.jpg" alt="Page 8" loading="lazy"></div></div></div>
                     
                     <div class="portfolio-info">
                         <div class="tags"><span data-admin-text="true">Children</span><span data-admin-text="true">Interior Preview</span></div>
@@ -691,7 +556,7 @@
                 </div>
 
 <div class="portfolio-card reveal" data-cat="children" data-flipbook="true" style="">
-                    <div class="portfolio-thumb" style="overflow: visible; height: auto; min-height: 0px; position: relative; aspect-ratio: unset; background: none;"><div class="book-scene" id="book-scene-3" data-size="8.5x11" style="position: relative;"><div class="book-3d-wrap"><div class="book-body"><div class="bp-left"><img class="bp-img" id="book-scene-3-li" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266604/portfolio/dn69p310u92ssxz0tci6.jpg" alt="Left page"></div><div class="bp-right"><img class="bp-img" id="book-scene-3-ri" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266615/portfolio/txc49j2ttqemmijbz3hw.jpg" alt="Right page"></div><div class="flip-layer" id="book-scene-3-fl" style="--flip-dur: 700ms;"><div class="flip-face flip-face-f"><img class="bp-img" id="book-scene-3-ff" src="" alt=""></div><div class="flip-face flip-face-b"><img class="bp-img" id="book-scene-3-fb" src="" alt=""></div></div></div></div><div class="book-controls-row"><button class="bc-btn bc-prev" id="book-scene-3-prev">‹</button><span class="bc-counter" id="book-scene-3-cnt">Pages 1–2 of 8</span><button class="bc-btn bc-next" id="book-scene-3-next">›</button></div></div><div id="flipbook-3-pages" style="display: none;"><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266604/portfolio/dn69p310u92ssxz0tci6.jpg" alt="Page 1" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266615/portfolio/txc49j2ttqemmijbz3hw.jpg" alt="Page 2" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266631/portfolio/dynllyvkdm3yf9e1ag4v.jpg" alt="Page 3" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266641/portfolio/qfvoufftr7baambcei8j.jpg" alt="Page 4" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266650/portfolio/avw8btadfsj91mdcleoh.jpg" alt="Page 5" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266659/portfolio/ve79zh18gsianzqf2nv8.jpg" alt="Page 6" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266669/portfolio/h8sj9qcrttrk4admg6zk.jpg" alt="Page 7" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266679/portfolio/muavj5xyuu3wo4dqxogn.jpg" alt="Page 8" loading="lazy"></div></div></div>
+                    <div class="portfolio-thumb" style="overflow: visible; height: auto; min-height: 0px; position: relative; aspect-ratio: unset; background: none;"><div class="book-scene" id="book-scene-3" data-size="8.5x11" style="position: relative;"><div class="book-3d-wrap"><div class="book-body"><div class="bp-left"><img class="bp-img" id="book-scene-3-li" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266604/portfolio/dn69p310u92ssxz0tci6.jpg" alt="Left page"></div><div class="bp-right"><img class="bp-img" id="book-scene-3-ri" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266615/portfolio/txc49j2ttqemmijbz3hw.jpg" alt="Right page"></div><div class="flip-layer" id="book-scene-3-fl" style="--flip-dur: 700ms;"><div class="flip-face flip-face-f"><img class="bp-img" id="book-scene-3-ff" src="" alt=""></div><div class="flip-face flip-face-b"><img class="bp-img" id="book-scene-3-fb" src="" alt=""></div></div></div></div><div class="book-controls-row"><button class="bc-btn bc-prev" id="book-scene-3-prev">â€¹</button><span class="bc-counter" id="book-scene-3-cnt">Pages 1â€“2 of 8</span><button class="bc-btn bc-next" id="book-scene-3-next">â€º</button></div></div><div id="flipbook-3-pages" style="display: none;"><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266604/portfolio/dn69p310u92ssxz0tci6.jpg" alt="Page 1" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266615/portfolio/txc49j2ttqemmijbz3hw.jpg" alt="Page 2" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266631/portfolio/dynllyvkdm3yf9e1ag4v.jpg" alt="Page 3" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266641/portfolio/qfvoufftr7baambcei8j.jpg" alt="Page 4" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266650/portfolio/avw8btadfsj91mdcleoh.jpg" alt="Page 5" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266659/portfolio/ve79zh18gsianzqf2nv8.jpg" alt="Page 6" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266669/portfolio/h8sj9qcrttrk4admg6zk.jpg" alt="Page 7" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781266679/portfolio/muavj5xyuu3wo4dqxogn.jpg" alt="Page 8" loading="lazy"></div></div></div>
                     <div class="portfolio-info">
                         <div class="tags"><span data-admin-text="true">Illustrations</span></div>
                         <h3 data-admin-text="true">Childrens Book</h3>
@@ -699,7 +564,7 @@
                 </div>
 
 <div class="portfolio-card reveal" data-cat="children" data-flipbook="true" style="" bis_skin_checked="1">
-<div class="portfolio-thumb" style="overflow: visible; height: auto; min-height: 0px; position: relative; aspect-ratio: unset; background: none;" bis_skin_checked="1"><div class="book-scene" id="book-scene-4" data-size="8.5x11" style="position: relative;"><div class="book-3d-wrap"><div class="book-body"><div class="bp-left"><img class="bp-img" id="book-scene-4-li" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206048/portfolio/img_0cd435c4e6b4e8aeb0b9dae7da5a3707.webp" alt="Left page"></div><div class="bp-right"><img class="bp-img" id="book-scene-4-ri" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206049/portfolio/img_47a6347cd8a7303cee7b7a72b28b0848.webp" alt="Right page"></div><div class="flip-layer" id="book-scene-4-fl" style="--flip-dur: 700ms;"><div class="flip-face flip-face-f"><img class="bp-img" id="book-scene-4-ff" src="" alt=""></div><div class="flip-face flip-face-b"><img class="bp-img" id="book-scene-4-fb" src="" alt=""></div></div></div></div><div class="book-controls-row"><button class="bc-btn bc-prev" id="book-scene-4-prev">‹</button><span class="bc-counter" id="book-scene-4-cnt">Pages 1–2 of 8</span><button class="bc-btn bc-next" id="book-scene-4-next">›</button></div></div><div id="flipbook-4-pages" style="display: none;"><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206048/portfolio/img_0cd435c4e6b4e8aeb0b9dae7da5a3707.webp" alt="Page 1" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206049/portfolio/img_47a6347cd8a7303cee7b7a72b28b0848.webp" alt="Page 2" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206050/portfolio/img_2aa69362cdb87a8b8bd98fdcb9bbc091.webp" alt="Page 3" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206051/portfolio/img_47c2ab8fc0143318d66e382c0385038a.webp" alt="Page 4" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206052/portfolio/img_b37fe6d90ad7142546eab8661d015f17.webp" alt="Page 5" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206054/portfolio/img_fc0661acb2cf67e5cc44d7aea7d079fd.webp" alt="Page 6" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206055/portfolio/img_2462b2a131c5dec66a86db3c22286521.webp" alt="Page 7" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206056/portfolio/img_2f013eeda0595578de3f36b11d46281f.webp" alt="Page 8" loading="lazy"></div></div></div>
+<div class="portfolio-thumb" style="overflow: visible; height: auto; min-height: 0px; position: relative; aspect-ratio: unset; background: none;" bis_skin_checked="1"><div class="book-scene" id="book-scene-4" data-size="8.5x11" style="position: relative;"><div class="book-3d-wrap"><div class="book-body"><div class="bp-left"><img class="bp-img" id="book-scene-4-li" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206048/portfolio/img_0cd435c4e6b4e8aeb0b9dae7da5a3707.webp" alt="Left page"></div><div class="bp-right"><img class="bp-img" id="book-scene-4-ri" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206049/portfolio/img_47a6347cd8a7303cee7b7a72b28b0848.webp" alt="Right page"></div><div class="flip-layer" id="book-scene-4-fl" style="--flip-dur: 700ms;"><div class="flip-face flip-face-f"><img class="bp-img" id="book-scene-4-ff" src="" alt=""></div><div class="flip-face flip-face-b"><img class="bp-img" id="book-scene-4-fb" src="" alt=""></div></div></div></div><div class="book-controls-row"><button class="bc-btn bc-prev" id="book-scene-4-prev">â€¹</button><span class="bc-counter" id="book-scene-4-cnt">Pages 1â€“2 of 8</span><button class="bc-btn bc-next" id="book-scene-4-next">â€º</button></div></div><div id="flipbook-4-pages" style="display: none;"><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206048/portfolio/img_0cd435c4e6b4e8aeb0b9dae7da5a3707.webp" alt="Page 1" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206049/portfolio/img_47a6347cd8a7303cee7b7a72b28b0848.webp" alt="Page 2" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206050/portfolio/img_2aa69362cdb87a8b8bd98fdcb9bbc091.webp" alt="Page 3" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206051/portfolio/img_47c2ab8fc0143318d66e382c0385038a.webp" alt="Page 4" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206052/portfolio/img_b37fe6d90ad7142546eab8661d015f17.webp" alt="Page 5" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206054/portfolio/img_fc0661acb2cf67e5cc44d7aea7d079fd.webp" alt="Page 6" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206055/portfolio/img_2462b2a131c5dec66a86db3c22286521.webp" alt="Page 7" loading="lazy"></div><div class="flipbook-page"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781206056/portfolio/img_2f013eeda0595578de3f36b11d46281f.webp" alt="Page 8" loading="lazy"></div></div></div>
 <div class="portfolio-info" bis_skin_checked="1"><div class="tags" bis_skin_checked="1"><span data-admin-text="true">Children</span><span data-admin-text="true">Interior Preview</span></div><h3 data-admin-text="true">Kids Coloring Book Design</h3></div>
 </div>
 
@@ -952,7 +817,7 @@
 <div class="footer-col reveal"><h4 data-admin-text="true">Services</h4><a href="#" class="" data-admin-text="true">Book Cover Design</a><a href="#" class="" data-admin-text="true">KDP Formatting</a><a href="#" class="" data-admin-text="true">A+ Content</a><a href="#" class="" data-admin-text="true">Branding</a></div>
 <div class="footer-col reveal"><h4 data-admin-text="true">Contact</h4><a href="mailto:razah3812@gmail.com" class="" data-admin-text="true">razah3812@gmail.com</a><a href="#" class="" data-admin-text="true">+92 300 1234567</a><a href="#" class="" data-admin-text="true">Pakistan</a></div>
 </div>
-<div class="footer-bottom" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher" style="height: 18px; vertical-align: middle; margin-right: 8px; margin-top: -2px; opacity: 0.8;">© 2026 Hamid Raza. All Rights Reserved.</div>
+<div class="footer-bottom" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher" style="height: 18px; vertical-align: middle; margin-right: 8px; margin-top: -2px; opacity: 0.8;">Â© 2026 Hamid Raza. All Rights Reserved.</div>
 </div>
 </footer>
 
@@ -1125,6 +990,7 @@
     <!-- Floating Text Styling & Color Toolbar --><script id="particle-config" type="application/json">{"enabled":false,"size":1.5,"density":350,"color1":"#6366f1","color2":"#a78bfa","color3":"#0f172a","style":"glow","speed":1,"interaction":"repel","glowIntensity":4,"blendMode":"adaptive","opacity":0.22,"randomness":4}</script>
 </body>
 </html>
+
 
 
 
