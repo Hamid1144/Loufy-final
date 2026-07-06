@@ -339,7 +339,7 @@ window.initSiteLogic = function () {
   });
 
   // Ensure "All" category is selected by default on load
-  const defaultFilter = document.querySelector('.filter-btn[data-cat="all"]');
+  const defaultFilter = document.querySelector('.filter-btn[data-cat="all"]') || document.querySelector('.filter-btn');
   if (defaultFilter) {
     defaultFilter.click();
   }
