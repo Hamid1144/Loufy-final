@@ -2718,5 +2718,16 @@ body.edit-mode .hero-float-card {
     width: 100% !important;
 }
 
+/* Adjust landscape thumbnail heights in custom column layout grids on desktop */
+@media (min-width: 993px) {
+    .portfolio-grid[class*="cols-"] .portfolio-card[data-cat="paperback-covers"] .portfolio-thumb,
+    .portfolio-grid[class*="cols-"] .portfolio-card[data-cat="formatting"] .portfolio-thumb,
+    .portfolio-grid[class*="cols-"] .portfolio-card[data-layout="full-width"] .portfolio-thumb {
+        height: auto !important;
+        min-height: auto !important;
+        aspect-ratio: 1.5 / 1 !important;
+    }
+}
+
 
 
