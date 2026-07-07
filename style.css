@@ -2695,5 +2695,28 @@ body.edit-mode .hero-float-card {
     display: none !important;
 }
 
+/* Dynamic Grid Column Override Layouts */
+.portfolio-grid.cols-1 {
+    grid-template-columns: 1fr !important;
+}
+.portfolio-grid.cols-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+}
+.portfolio-grid.cols-3 {
+    grid-template-columns: repeat(3, 1fr) !important;
+}
+.portfolio-grid.cols-4 {
+    grid-template-columns: repeat(4, 1fr) !important;
+}
+
+/* Reset full-width overrides in custom column grids */
+.portfolio-grid.cols-1 .portfolio-card,
+.portfolio-grid.cols-2 .portfolio-card,
+.portfolio-grid.cols-3 .portfolio-card,
+.portfolio-grid.cols-4 .portfolio-card {
+    grid-column: span 1 !important;
+    width: 100% !important;
+}
+
 
 

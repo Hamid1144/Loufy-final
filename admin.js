@@ -1636,6 +1636,73 @@ document.addEventListener("DOMContentLoaded", () => {
             div.appendChild(labelSpan);
 
             if (!isAll) {
+                // Read current data-cols and data-rows from the button
+                const currentCols = btn.getAttribute('data-cols') || '';
+                const currentRows = btn.getAttribute('data-rows') || '';
+
+                // Create columns select
+                const colsSelect = document.createElement('select');
+                colsSelect.style.cssText = 'background:#333;color:#fff;border:none;border-radius:3px;font-size:0.7rem;padding:2px 4px;cursor:pointer;';
+                colsSelect.title = 'Grid Columns';
+                
+                const colOptions = [
+                    { value: '', label: 'Cols: Default' },
+                    { value: '1', label: '1 Col' },
+                    { value: '2', label: '2 Cols' },
+                    { value: '3', label: '3 Cols' },
+                    { value: '4', label: '4 Cols' }
+                ];
+                colOptions.forEach(opt => {
+                    const o = document.createElement('option');
+                    o.value = opt.value;
+                    o.text = opt.label;
+                    if (currentCols === opt.value) o.selected = true;
+                    colsSelect.appendChild(o);
+                });
+
+                colsSelect.addEventListener('change', () => {
+                    if (colsSelect.value) {
+                        btn.setAttribute('data-cols', colsSelect.value);
+                    } else {
+                        btn.removeAttribute('data-cols');
+                    }
+                    saveFiltersToLocal();
+                    if (window.initSiteLogic) window.initSiteLogic();
+                });
+                div.appendChild(colsSelect);
+
+                // Create rows select
+                const rowsSelect = document.createElement('select');
+                rowsSelect.style.cssText = 'background:#333;color:#fff;border:none;border-radius:3px;font-size:0.7rem;padding:2px 4px;cursor:pointer;';
+                rowsSelect.title = 'Grid Rows (Item Limit)';
+
+                const rowOptions = [
+                    { value: '', label: 'Rows: All' },
+                    { value: '1', label: '1 Row' },
+                    { value: '2', label: '2 Rows' },
+                    { value: '3', label: '3 Rows' },
+                    { value: '4', label: '4 Rows' },
+                    { value: '5', label: '5 Rows' }
+                ];
+                rowOptions.forEach(opt => {
+                    const o = document.createElement('option');
+                    o.value = opt.value;
+                    o.text = opt.label;
+                    if (currentRows === opt.value) o.selected = true;
+                    rowsSelect.appendChild(o);
+                });
+
+                rowsSelect.addEventListener('change', () => {
+                    if (rowsSelect.value) {
+                        btn.setAttribute('data-rows', rowsSelect.value);
+                    } else {
+                        btn.removeAttribute('data-rows');
+                    }
+                    saveFiltersToLocal();
+                    if (window.initSiteLogic) window.initSiteLogic();
+                });
+                div.appendChild(rowsSelect);
+
                 // Duplicate button
                 const dupBtn = document.createElement('button');
                 dupBtn.innerHTML = '<i class="fa-solid fa-copy"></i> Dup';
@@ -1648,6 +1715,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     dupBtn2.className = 'filter-btn';
                     dupBtn2.setAttribute('data-cat', newCat);
                     dupBtn2.innerText = newLabel;
+                    if (currentCols) dupBtn2.setAttribute('data-cols', currentCols);
+                    if (currentRows) dupBtn2.setAttribute('data-rows', currentRows);
                     btn.insertAdjacentElement('afterend', dupBtn2);
                     saveFiltersToLocal();
                     if (window.initSiteLogic) window.initSiteLogic();
@@ -1680,7 +1749,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!filterContainer) return;
         const filters = [];
         filterContainer.querySelectorAll('.filter-btn').forEach(btn => {
-            filters.push({ cat: btn.getAttribute('data-cat'), text: btn.innerText });
+            filters.push({ 
+                cat: btn.getAttribute('data-cat'), 
+                text: btn.innerText,
+                cols: btn.getAttribute('data-cols') || '',
+                rows: btn.getAttribute('data-rows') || ''
+            });
         });
         localStorage.setItem('shared_portfolio_filters', JSON.stringify(filters));
     }
@@ -1698,6 +1772,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     btn.className = 'filter-btn';
                     if (f.cat === 'all') btn.classList.add('active');
                     btn.setAttribute('data-cat', f.cat);
+                    if (f.cols) btn.setAttribute('data-cols', f.cols);
+                    if (f.rows) btn.setAttribute('data-rows', f.rows);
                     btn.innerText = f.text;
                     filterContainer.appendChild(btn);
                 });

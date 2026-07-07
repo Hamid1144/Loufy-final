@@ -289,14 +289,29 @@ window.initSiteLogic = function () {
         } else {
           grid.style.display = 'grid';
         }
+
+        // Dynamic columns override
+        grid.classList.remove('cols-1', 'cols-2', 'cols-3', 'cols-4');
+        let cols = this.dataset.cols;
+        if (!cols && (cat === 'paperback-covers' || cat === 'formatting')) {
+          cols = '2';
+        }
+        if (cols) {
+          grid.classList.add('cols-' + cols);
+        }
       }
-      
+
+      const colsVal = parseInt(this.dataset.cols) || ( (cat === 'paperback-covers' || cat === 'formatting') ? 2 : 3 );
+      const rowsVal = parseInt(this.dataset.rows) || 0;
+      const limit = colsVal * rowsVal;
+      let activeCatFilteredCount = 0;
+
       const categoryShowCounts = {};
 
       document.querySelectorAll('.portfolio-grid > .portfolio-card').forEach(card => {
         const cardCat = card.dataset.cat;
         let shouldShow = false;
-        
+
         if (cat === 'all' || cardCat === cat) {
           if ((cardCat === 'covers' || cardCat === 'formatting' || cardCat === 'paperback-covers') && isMainPage && !isEdit) {
             shouldShow = false;
@@ -316,6 +331,14 @@ window.initSiteLogic = function () {
                 shouldShow = true;
               }
             }
+          }
+        }
+
+        if (shouldShow && !isMainPage && cat !== 'all' && limit > 0) {
+          if (activeCatFilteredCount >= limit) {
+            shouldShow = false;
+          } else {
+            activeCatFilteredCount++;
           }
         }
         
