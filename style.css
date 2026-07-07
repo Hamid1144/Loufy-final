@@ -2690,5 +2690,10 @@ body.edit-mode .hero-float-card {
     font-size: 0.9rem;
 }
 
+/* Hide All button on separate portfolio page */
+.portfolio-page .portfolio-filters button[data-cat="all"] {
+    display: none !important;
+}
+
 
 
