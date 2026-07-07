@@ -361,8 +361,16 @@ window.initSiteLogic = function () {
     });
   });
 
-  // Ensure "All" category is selected by default on load
-  const defaultFilter = document.querySelector('.filter-btn[data-cat="all"]') || document.querySelector('.filter-btn');
+  // Ensure correct category is selected by default on load
+  let defaultFilter;
+  if (!isMainPage) {
+    // Separate portfolio page: select the first visible (non-all) category filter
+    defaultFilter = document.querySelector('.filter-btn:not([data-cat="all"])');
+  } else {
+    // Homepage: select "All" if it exists, otherwise fallback to first
+    defaultFilter = document.querySelector('.filter-btn[data-cat="all"]') || document.querySelector('.filter-btn');
+  }
+
   if (defaultFilter) {
     defaultFilter.click();
   }
