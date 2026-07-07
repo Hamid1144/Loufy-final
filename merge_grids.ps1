@@ -167,8 +167,10 @@ $indexFiltersEnd = $indexContent.IndexOf('</div>', $indexFiltersStart) + 6
 $indexFiltersHTML = $indexContent.Substring($indexFiltersStart, $indexFiltersEnd - $indexFiltersStart)
 
 # Make sure "All" filter button is active in portfolio.html and a-plus-content is active or not
-$portfolioFiltersHTML = $indexFiltersHTML -replace 'class="filter-btn active"', 'class="filter-btn"'
-$portfolioFiltersHTML = $portfolioFiltersHTML -replace 'data-cat="all"', 'class="filter-btn active" data-cat="all"'
+$portfolioFiltersHTML = $indexFiltersHTML -replace 'style="display:\s*none;?"', ''
+$portfolioFiltersHTML = $portfolioFiltersHTML -replace '(?s)<button[^>]*data-cat="all"[^>]*>All</button>\s*', ''
+$portfolioFiltersHTML = $portfolioFiltersHTML -replace 'class="filter-btn active"', 'class="filter-btn"'
+$portfolioFiltersHTML = $portfolioFiltersHTML -replace 'data-cat="covers"', 'class="filter-btn active" data-cat="covers"'
 $portfolioFiltersHTML = $portfolioFiltersHTML -replace 'class="filter-btn" class="filter-btn active"', 'class="filter-btn active"'
 
 # Replace index.html grid and filters
