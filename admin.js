@@ -4920,7 +4920,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         window.location.search.includes('edit=true') || 
                         window.location.hash === '#admin';
 
-        if (!isAdmin) {
+        if (isAdmin) {
+            // Auto-redirect to the professional dashboard unless explicitly launching live editor
+            if (!window.location.search.includes('live=true') && !window.location.search.includes('live_edit=true')) {
+                window.location.href = '/admin.html';
+                return;
+            }
+        } else {
             const panel = document.getElementById('super-admin-panel');
             if (panel) panel.remove();
             const textToolbar = document.getElementById('admin-text-toolbar');
