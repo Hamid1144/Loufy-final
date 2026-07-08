@@ -27,7 +27,7 @@ window.initSiteLogic = function () {
 
     const ctx = canvas.getContext('2d');
     const TOTAL_FRAMES = 150;
-    const TARGET_FPS = 15;
+    const TARGET_FPS = 30;
     const FRAME_INTERVAL = 1000 / TARGET_FPS;
     const BASE_URL = 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_85,w_1920/portfolio/hero_frames/frame_';
 
