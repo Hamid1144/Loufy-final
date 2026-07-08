@@ -1043,7 +1043,7 @@
     }
 
     lockSubmit.addEventListener('click', () => {
-      if (passwordInput.value === 'Hamidraza1144@') {
+      if (passwordInput.value.trim() === 'Hamidraza1144@') {
         sessionStorage.setItem('admin_authenticated', 'true');
         unlockDashboard();
       } else {
