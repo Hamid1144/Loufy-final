@@ -1,58 +1,55 @@
 $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 $supabaseUrl = 'https://pgictinimttptsxbvngg.supabase.co'
 $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc'
 
-# Headers
 $headers = @{
     "apikey" = $supabaseKey
     "Authorization" = "Bearer $supabaseKey"
-    "Content-Type" = "application/json; charset=utf-8"
 }
 
-Write-Host "Fetching live content from Supabase..."
-try {
-    $res = Invoke-RestMethod -Uri "$supabaseUrl/rest/v1/site_content?select=id,html_content" -Headers $headers -Method Get
-} catch {
-    Write-Error "Failed to fetch live content: $_"
-    throw $_
-}
+$pages = @(
+    @{ id = "index"; path = ".\index.html" },
+    @{ id = "portfolio"; path = ".\portfolio.html" }
+)
 
-foreach ($row in $res) {
-    $id = $row.id
-    $liveBody = $row.html_content.Trim()
+foreach ($page in $pages) {
+    $id = $page.id
+    $filePath = $page.path
     
-    $filePath = ""
-    if ($id -eq "index") {
-        $filePath = ".\index.html"
-    } elseif ($id -eq "portfolio") {
-        $filePath = ".\portfolio.html"
-    }
+    Write-Host "Fetching live body content for '$id' from Supabase..."
+    $fetchUri = "$supabaseUrl/rest/v1/site_content?id=eq.$id&select=html_content"
     
-    if ($filePath -and (Test-Path $filePath)) {
-        Write-Host "Syncing live '$id' body content (safe method) to $filePath..."
-        
-        # Read the file
-        $htmlContent = Get-Content -Path $filePath -Raw -Encoding UTF8
-        
-        # Using regex to find the body content boundaries
-        $pattern = '(?s)(<body[^>]*>)(.*?)(</body>)'
-        if ($htmlContent -match $pattern) {
-            $startTag = $Matches[1]
-            $bodyContent = $Matches[2]
-            $endTag = $Matches[3]
+    try {
+        $liveData = Invoke-RestMethod -Uri $fetchUri -Headers $headers -Method Get -UseBasicParsing
+        if ($liveData -and $liveData.Count -gt 0 -and $liveData[0].html_content) {
+            $liveBody = $liveData[0].html_content
             
-            # Find index of body content and replace it safely
-            $index = $htmlContent.IndexOf($bodyContent)
-            if ($index -ge 0) {
-                $newHtmlContent = $htmlContent.Substring(0, $index) + "`r`n" + $liveBody + "`r`n" + $htmlContent.Substring($index + $bodyContent.Length)
-                [System.IO.File]::WriteAllText($filePath, $newHtmlContent, [System.Text.Encoding]::UTF8)
-                Write-Host "Successfully synced local $filePath with live database (safe method)!"
+            if (Test-Path $filePath) {
+                $fileContent = Get-Content -Path $filePath -Raw -Encoding UTF8
+                
+                # Replace content inside <body>...</body>
+                if ($fileContent -match '(?s)(<body[^>]*>)(.*?)(</body>)') {
+                    $openTag = $Matches[1]
+                    $closeTag = $Matches[3]
+                    
+                    # Construct replacement safely
+                    $escapedLiveBody = $liveBody.Replace('$', '$$')
+                    $newContent = $fileContent -replace '(?s)<body[^>]*>.*?</body>', "$openTag`r`n$escapedLiveBody`r`n$closeTag"
+                    
+                    [IO.File]::WriteAllText((Resolve-Path $filePath), $newContent, [System.Text.Encoding]::UTF8)
+                    Write-Host "Successfully synced local $filePath with live Supabase content!"
+                } else {
+                    Write-Warning "Could not find body tags in $filePath"
+                }
             } else {
-                Write-Warning "Could not locate body content index in $filePath"
+                Write-Warning "Local file $filePath not found!"
             }
         } else {
-            Write-Warning "Could not find body tags in $filePath"
+            Write-Warning "No content found in database for '$id'"
         }
+    } catch {
+        Write-Error "Failed to sync '$id': $_"
     }
 }
