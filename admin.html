@@ -1416,35 +1416,6 @@
       }
     });
 
-    document.getElementById('form-flipbook-file1').addEventListener('change', async function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      
-      showToast('Uploading cover to Cloudinary...', 'info');
-      try {
-        const url = await uploadToCloudinary(file);
-        document.getElementById('form-flipbook-img1').value = url;
-        showToast('Cover uploaded successfully!', 'success');
-      } catch (err) {
-        console.error(err);
-        showToast('Upload failed: ' + err.message, 'error');
-      }
-    });
-
-    document.getElementById('form-flipbook-file2').addEventListener('change', async function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      
-      showToast('Uploading page 2 to Cloudinary...', 'info');
-      try {
-        const url = await uploadToCloudinary(file);
-        document.getElementById('form-flipbook-img2').value = url;
-        showToast('Page 2 uploaded successfully!', 'success');
-      } catch (err) {
-        console.error(err);
-        showToast('Upload failed: ' + err.message, 'error');
-      }
-    });
 
     // ── PORTFOLIO MANAGER ──
     function loadPortfolioItems() {
