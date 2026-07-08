@@ -695,9 +695,12 @@
           </a>
         </li>
       </ul>
-      <div class="sidebar-footer">
+      <div class="sidebar-footer" style="display: flex; flex-direction: column; gap: 8px;">
         <a href="/index.html?admin=true&live=true" target="_blank" class="btn btn-secondary" style="width: 100%; justify-content: center; background: #1e3a8a; border: none; color: #fff;">
           <i class="fa-solid fa-pen-to-square"></i> Live Admin Panel
+        </a>
+        <a href="/index.html" class="btn btn-danger" style="width: 100%; justify-content: center; color: #fff; background: #dc2626; border: none; padding: 10px 14px;">
+          <i class="fa-solid fa-right-from-bracket"></i> Exit Panel
         </a>
       </div>
     </div>
@@ -708,7 +711,10 @@
       <!-- Top Navbar -->
       <div class="top-navbar">
         <h2 id="navbar-tab-title">Dashboard Overview</h2>
-        <div class="navbar-actions">
+        <div class="navbar-actions" style="display: flex; gap: 10px;">
+          <a href="/index.html" class="btn btn-secondary" style="border: 1px solid var(--card-border); color: #fff; text-decoration: none; padding: 10px 16px; font-weight: 500; font-size: 0.9rem;">
+            <i class="fa-solid fa-right-from-bracket"></i> Exit Panel
+          </a>
           <button id="global-save-btn" class="btn btn-primary">
             <i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud
           </button>
