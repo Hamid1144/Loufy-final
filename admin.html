@@ -617,6 +617,34 @@
       cursor: pointer;
       background: none;
     }
+
+    .tag-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      display: inline-block;
+    }
+    .tag-pill.active {
+      background: var(--accent);
+      color: #111;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+    .tag-pill:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    .tag-pill.active:hover {
+      background: #e0a500;
+      color: #111;
+    }
   </style>
 </head>
 <body>
@@ -1041,6 +1069,7 @@
         <div class="form-group">
           <label>Tags (Comma separated)</label>
           <input type="text" id="form-portfolio-tags" class="form-control" placeholder="e.g. Paperback Cover, Kindle, Fantasy">
+          <div id="portfolio-tags-selector" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;"></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -1704,6 +1733,84 @@
       renderPortfolioTable(filtered);
     });
 
+    // ── PORTFOLIO TAG PILLS LOGIC ──
+    const CATEGORY_KEYWORDS = {
+      'covers': ['Fiction', 'Non-Fiction', 'Fantasy', 'Sci-Fi', 'Thriller', 'Romance', 'Mystery', 'Horror', 'Kindle', 'Ebook', 'Minimalist', 'Typography'],
+      'paperback-covers': ['Paperback', 'Hardcover', 'Bleed', 'Spine Design', 'Dust Jacket', 'KDP Print', 'IngramSpark', 'Bar-Code', 'Back Cover', 'Wrap-Around', 'Matte Finish', 'Glossy Finish'],
+      'formatting': ['Book Formatting', 'KDP Interior', 'Paperback Format', 'Kindle Format', 'EPUB', 'Novel Layout', 'Non-Fiction Format', 'Drop Caps', 'Header-Footer', 'Table of Contents', 'Bleed Layout', 'Children Book'],
+      'a-plus-content': ['A+ Content', 'Amazon KDP', 'Marketing Grid', 'Product Banners', 'Author Brand', 'Module 1', 'Module 2', 'Graphic Headers', 'High-Conversion', 'Book Promotion', 'Comparison Chart', 'SEO Optimized'],
+      'logo-branding': ['Logo Design', 'Author Brand', 'Publisher Logo', 'Branding Kit', 'Color Palette', 'Typography Logo', 'Iconography', 'Vector', 'Modern Brand', 'Signature Logo', 'Business Card', 'Social Media Kit']
+    };
+
+    function renderKeywordPills() {
+      const container = document.getElementById('portfolio-tags-selector');
+      if (!container) return;
+      
+      const cat = document.getElementById('form-portfolio-cat').value;
+      const keywords = CATEGORY_KEYWORDS[cat] || [];
+      
+      // Get currently selected tags from the input field
+      const currentTagsInput = document.getElementById('form-portfolio-tags').value;
+      const currentTags = currentTagsInput.split(',')
+        .map(t => t.trim())
+        .filter(t => t.length > 0);
+      
+      container.innerHTML = '';
+      
+      keywords.forEach(kw => {
+        const pill = document.createElement('span');
+        pill.className = 'tag-pill';
+        pill.textContent = kw;
+        pill.style.margin = '4px';
+        
+        // Check if this keyword is already in the input tags
+        const isActive = currentTags.some(t => t.toLowerCase() === kw.toLowerCase());
+        if (isActive) {
+          pill.classList.add('active');
+        }
+        
+        pill.addEventListener('click', function(e) {
+          e.preventDefault();
+          let tagsVal = document.getElementById('form-portfolio-tags').value;
+          let tags = tagsVal.split(',')
+            .map(t => t.trim())
+            .filter(t => t.length > 0);
+          
+          const idx = tags.findIndex(t => t.toLowerCase() === kw.toLowerCase());
+          if (idx !== -1) {
+            tags.splice(idx, 1);
+            pill.classList.remove('active');
+          } else {
+            tags.push(kw);
+            pill.classList.add('active');
+          }
+          
+          document.getElementById('form-portfolio-tags').value = tags.join(', ');
+        });
+        
+        container.appendChild(pill);
+      });
+    }
+
+    document.getElementById('form-portfolio-tags').addEventListener('input', function() {
+      const currentTags = this.value.split(',')
+        .map(t => t.trim())
+        .filter(t => t.length > 0);
+        
+      const pills = document.querySelectorAll('#portfolio-tags-selector .tag-pill');
+      pills.forEach(pill => {
+        const kw = pill.textContent;
+        const isActive = currentTags.some(t => t.toLowerCase() === kw.toLowerCase());
+        if (isActive) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+    });
+
+    document.getElementById('form-portfolio-cat').addEventListener('change', renderKeywordPills);
+
     // Add portfolio card action
     document.getElementById('btn-add-portfolio-item').addEventListener('click', () => {
       document.getElementById('portfolio-modal-title').textContent = 'Add Portfolio Card';
@@ -1714,6 +1821,7 @@
       document.getElementById('form-portfolio-tags').value = '';
       document.getElementById('form-portfolio-cat').value = 'covers';
       document.getElementById('form-portfolio-layout').value = 'default';
+      renderKeywordPills();
       openModal('portfolio-modal');
     });
 
@@ -1729,6 +1837,7 @@
       document.getElementById('form-portfolio-tags').value = item.tags.join(', ');
       document.getElementById('form-portfolio-cat').value = item.cat;
       document.getElementById('form-portfolio-layout').value = item.layout;
+      renderKeywordPills();
       openModal('portfolio-modal');
     }
 
