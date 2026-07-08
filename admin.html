@@ -669,6 +669,31 @@
             <i class="fa-solid fa-palette"></i> <span>Theme Customizer</span>
           </a>
         </li>
+        <li>
+          <a class="sidebar-link" data-tab="flipbook">
+            <i class="fa-solid fa-book-open"></i> <span>Flipbook Pages</span>
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" data-tab="social">
+            <i class="fa-solid fa-share-nodes"></i> <span>Social Links</span>
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" data-tab="pricing">
+            <i class="fa-solid fa-tags"></i> <span>Pricing Packages</span>
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" data-tab="filters">
+            <i class="fa-solid fa-filter"></i> <span>Categories & Filters</span>
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" data-tab="sections">
+            <i class="fa-solid fa-layer-group"></i> <span>Section Visibility</span>
+          </a>
+        </li>
       </ul>
       <div class="sidebar-footer">
         <a href="/index.html?admin=true&live=true" target="_blank" class="btn btn-secondary" style="width: 100%; justify-content: center; background: #1e3a8a; border: none; color: #fff;">
@@ -854,6 +879,127 @@
         </div>
       </div>
 
+      <!-- ── TAB VIEW: FLIPBOOK ── -->
+      <div id="tab-flipbook" class="panel-body">
+        <div class="action-bar">
+          <h3 style="font-size: 1.1rem; color: #fff;">Manage Flipbook Pages</h3>
+        </div>
+        <div id="flipbook-pages-list">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- ── TAB VIEW: SOCIAL ── -->
+      <div id="tab-social" class="panel-body">
+        <div class="box-card" style="max-width: 800px;">
+          <h3>Manage Social Media Icon Links</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">Toggle social networks and specify their URLs/numbers. Click "Apply Social Changes" to update layouts in both templates.</p>
+          <div id="social-links-list" style="margin-bottom: 25px;">
+            <!-- Dynamically populated -->
+          </div>
+          <button id="btn-save-socials" class="btn btn-success" onclick="saveSocialLinks()">
+            <i class="fa-solid fa-circle-check"></i> Apply Social Changes
+          </button>
+        </div>
+      </div>
+
+      <!-- ── TAB VIEW: PRICING ── -->
+      <div id="tab-pricing" class="panel-body">
+        <div class="action-bar">
+          <h3 style="font-size: 1.1rem; color: #fff;">Manage Pricing Packages</h3>
+          <button id="btn-add-pricing-package" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Add Package
+          </button>
+        </div>
+        <div class="dashboard-table-wrap">
+          <table class="dashboard-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Features</th>
+                <th>Button Link</th>
+                <th style="width: 150px; text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pricing-packages-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB VIEW: FILTERS ── -->
+      <div id="tab-filters" class="panel-body">
+        <div class="box-card" style="max-width: 800px; margin-bottom: 25px;">
+          <h3>Manage Categories & Filters</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">List of categories displayed on the portfolio page. Add new categories or remove existing ones.</p>
+          <div id="categories-list-container" style="margin-bottom: 25px;">
+            <!-- Dynamically populated -->
+          </div>
+          
+          <div style="border-top: 1px solid var(--card-border); padding-top: 25px;">
+            <h3>Create New Category Filter</h3>
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 15px;">Specify category label and unique filter ID.</p>
+            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+              <div style="flex: 1;">
+                <label style="font-size: 0.78rem; color: var(--text-muted); display:block; margin-bottom: 5px;">Filter Label</label>
+                <input type="text" id="new-filter-name-input" class="form-control" placeholder="e.g. Children Books">
+              </div>
+              <div style="flex: 1;">
+                <label style="font-size: 0.78rem; color: var(--text-muted); display:block; margin-bottom: 5px;">Filter ID (lowercase, alphanumeric)</label>
+                <input type="text" id="new-filter-id-input" class="form-control" placeholder="e.g. children-books">
+              </div>
+            </div>
+            <button onclick="addCategoryFilter()" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Category Filter</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB VIEW: SECTIONS ── -->
+      <div id="tab-sections" class="panel-body">
+        <div class="box-card" style="max-width: 800px;">
+          <h3>Section Visibility Control</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">Toggle visibility of homepage sections. Hidden sections will also be automatically removed from the navigation bar.</p>
+          <div id="sections-list-container">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── PRICING ADD/EDIT MODAL ── -->
+  <div id="pricing-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="pricing-modal-title">Add Pricing Package</h3>
+        <button class="modal-close-btn" onclick="closeModal('pricing-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="form-pricing-id">
+        <div class="form-group">
+          <label>Package Title</label>
+          <input type="text" id="form-pricing-title" class="form-control" placeholder="e.g. Standard Formatting" required>
+        </div>
+        <div class="form-group">
+          <label>Price Display HTML</label>
+          <input type="text" id="form-pricing-price" class="form-control" placeholder="e.g. $49<small>/project</small>" required>
+        </div>
+        <div class="form-group">
+          <label>Button Target URL/Section</label>
+          <input type="text" id="form-pricing-link" class="form-control" placeholder="e.g. #contact" required>
+        </div>
+        <div class="form-group">
+          <label>Features list (one feature per line)</label>
+          <textarea id="form-pricing-features" class="form-control" rows="6" placeholder="Feature 1&#10;Feature 2&#10;Feature 3" required></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('pricing-modal')">Cancel</button>
+        <button id="form-pricing-submit" class="btn btn-primary">Save Package</button>
+      </div>
     </div>
   </div>
 
@@ -1105,6 +1251,11 @@
         loadReviewsList();
         loadBlogsList();
         loadThemeColors();
+        loadFlipbookPages();
+        loadSocialLinks();
+        loadPricingPackages();
+        loadCategoriesList();
+        loadSectionsList();
         
         updateOverviewStats();
         showToast('Database content loaded successfully!', 'success');
@@ -1653,7 +1804,457 @@
         saveBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud';
       }
     });
+    });
 
+    // ── FLIPBOOK PAGES MANAGER ──
+    function loadFlipbookPages() {
+      const container = document.getElementById('flipbook-pages-list');
+      container.innerHTML = '';
+      if (!portfolioDoc) return;
+      
+      const stores = portfolioDoc.querySelectorAll('[id^="flipbook-"][id$="-pages"]');
+      if (stores.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-muted); padding: 15px;">No flipbook cards found on the portfolio page.</p>';
+        return;
+      }
+      
+      stores.forEach(store => {
+        const id = store.id;
+        const match = id.match(/flipbook-(\d+)-pages/);
+        const n = match ? match[1] : '1';
+        
+        const imgs = Array.from(store.querySelectorAll('.flipbook-page img')).map(img => img.src).filter(src => src && !src.endsWith('/'));
+        
+        const div = document.createElement('div');
+        div.className = 'box-card';
+        div.style.marginBottom = '25px';
+        div.innerHTML = `
+          <h3>Flipbook Book #${n} Pages (${imgs.length} pages)</h3>
+          <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top: 15px; margin-bottom:20px;" id="pages-thumbnails-${n}">
+            ${imgs.map((src, idx) => `
+              <div style="position:relative; width:90px; height:120px; border-radius:6px; overflow:hidden; border:1px solid var(--card-border); background:#111;">
+                <img src="${src}" style="width:100%; height:100%; object-fit:cover;">
+                <button onclick="deleteFlipbookPage('${id}', ${idx})" style="position:absolute; top:4px; right:4px; background:rgba(220,38,38,0.95); color:#fff; border:none; border-radius:4px; width:22px; height:22px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:0.75rem;" title="Delete Page"><i class="fa-solid fa-trash"></i></button>
+                <div style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.7); color:#fff; text-align:center; font-size:0.65rem; padding:2px 0;">Page ${idx+1}</div>
+              </div>
+            `).join('')}
+          </div>
+          <div style="display:flex; gap:10px; align-items: center;">
+            <input type="text" id="add-page-url-${n}" class="form-control" placeholder="Paste Cloudinary Page Image URL..." style="flex:1;">
+            <button onclick="addFlipbookPage('${id}', ${n})" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Page</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+    
+    window.addFlipbookPage = function(storeId, n) {
+      const urlInput = document.getElementById(`add-page-url-${n}`);
+      const url = urlInput.value.trim();
+      if (!url) {
+        showToast('Please paste a valid image URL!', 'error');
+        return;
+      }
+      const store = portfolioDoc.getElementById(storeId);
+      if (store) {
+        const newPage = portfolioDoc.createElement('div');
+        newPage.className = 'flipbook-page';
+        newPage.innerHTML = `<img src="${url}" alt="Page" loading="lazy">`;
+        store.appendChild(newPage);
+        showToast('Page added to flipbook!');
+        urlInput.value = '';
+        loadFlipbookPages();
+      }
+    };
+    
+    window.deleteFlipbookPage = function(storeId, idx) {
+      if (!confirm('Are you sure you want to delete this flipbook page?')) return;
+      const store = portfolioDoc.getElementById(storeId);
+      if (store) {
+        const pages = store.querySelectorAll('.flipbook-page');
+        if (pages[idx]) {
+          pages[idx].remove();
+          showToast('Page deleted from flipbook!');
+          loadFlipbookPages();
+        }
+      }
+    };
+
+    // ── SOCIAL LINKS MANAGER ──
+    function loadSocialLinks() {
+      const list = document.getElementById('social-links-list');
+      list.innerHTML = '';
+      if (!indexDoc) return;
+      
+      const predefined = [
+        { id: 'whatsapp', name: 'WhatsApp', icon: 'fa-brands fa-whatsapp' },
+        { id: 'instagram', name: 'Instagram', icon: 'fa-brands fa-instagram' },
+        { id: 'linkedin', name: 'LinkedIn', icon: 'fa-brands fa-linkedin-in' },
+        { id: 'behance', name: 'Behance', icon: 'fa-brands fa-behance' },
+        { id: 'dribbble', name: 'Dribbble', icon: 'fa-brands fa-dribbble' },
+        { id: 'youtube', name: 'YouTube', icon: 'fa-brands fa-youtube' },
+        { id: 'tiktok', name: 'TikTok', icon: 'fa-brands fa-tiktok' },
+        { id: 'facebook', name: 'Facebook', icon: 'fa-brands fa-facebook-f' },
+        { id: 'twitter', name: 'Twitter (X)', icon: 'fa-brands fa-x-twitter' },
+        { id: 'github', name: 'GitHub', icon: 'fa-brands fa-github' }
+      ];
+      
+      predefined.forEach(soc => {
+        const existingBtn = indexDoc.querySelector(`a[data-social="${soc.id}"]`);
+        const isEnabled = !!existingBtn;
+        let linkVal = existingBtn && existingBtn.getAttribute('href') !== '#' ? existingBtn.getAttribute('href') : '';
+        
+        if (soc.id === 'whatsapp' && linkVal.includes('wa.me/')) {
+          linkVal = linkVal.split('wa.me/')[1] || '';
+        }
+        
+        const div = document.createElement('div');
+        div.className = 'color-picker-box';
+        div.style.display = 'flex';
+        div.style.alignItems = 'center';
+        div.style.gap = '15px';
+        div.style.marginBottom = '15px';
+        div.style.background = 'rgba(255,255,255,0.02)';
+        div.style.padding = '12px';
+        div.style.borderRadius = '6px';
+        div.innerHTML = `
+          <input type="checkbox" id="social-check-${soc.id}" ${isEnabled ? 'checked' : ''} style="width:20px; height:20px; cursor:pointer;">
+          <div style="flex:1;">
+            <label style="font-weight:600; font-size:0.85rem; display:block; color:#fff; margin-bottom:4px;"><i class="${soc.icon}"></i> ${soc.name}</label>
+            <input type="text" id="social-url-${soc.id}" class="form-control" value="${linkVal}" placeholder="${soc.id === 'whatsapp' ? 'WhatsApp number with country code, e.g. 923001234567' : 'URL...'}" style="padding:6px; font-size:0.8rem;">
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+    
+    window.saveSocialLinks = function() {
+      const predefined = [
+        { id: 'twitter', icon: '<i class="fa-brands fa-x-twitter"></i>' },
+        { id: 'facebook', icon: '<i class="fa-brands fa-facebook-f"></i>' },
+        { id: 'instagram', icon: '<i class="fa-brands fa-instagram"></i>' },
+        { id: 'linkedin', icon: '<i class="fa-brands fa-linkedin-in"></i>' },
+        { id: 'behance', icon: '<i class="fa-brands fa-behance"></i>' },
+        { id: 'dribbble', icon: '<i class="fa-brands fa-dribbble"></i>' },
+        { id: 'youtube', icon: '<i class="fa-brands fa-youtube"></i>' },
+        { id: 'tiktok', icon: '<i class="fa-brands fa-tiktok"></i>' },
+        { id: 'whatsapp', icon: '<i class="fa-brands fa-whatsapp"></i>' },
+        { id: 'github', icon: '<i class="fa-brands fa-github"></i>' }
+      ];
+      
+      const updateDocs = [indexDoc, portfolioDoc];
+      updateDocs.forEach(doc => {
+        if (!doc) return;
+        doc.querySelectorAll('.social-icons').forEach(container => {
+          container.innerHTML = '';
+          predefined.forEach(soc => {
+            const check = document.getElementById('social-check-' + soc.id);
+            const input = document.getElementById('social-url-' + soc.id);
+            if (check && check.checked) {
+              let url = input.value.trim() || '#';
+              if (soc.id === 'whatsapp' && url !== '#') {
+                url = 'https://wa.me/' + url.replace(/[^\d]/g, '');
+              }
+              const a = doc.createElement('a');
+              a.href = url;
+              a.target = '_blank';
+              a.setAttribute('data-social', soc.id);
+              a.innerHTML = soc.icon;
+              container.appendChild(a);
+            }
+          });
+        });
+      });
+      showToast('Social icons updated in both page templates!', 'success');
+    };
+
+    // ── PRICING PACKAGES MANAGER ──
+    let pricingItems = [];
+    function loadPricingPackages() {
+      pricingItems = [];
+      if (!indexDoc) return;
+      const grid = indexDoc.querySelector('.pricing-grid');
+      if (!grid) return;
+      
+      const cards = grid.querySelectorAll('.pricing-card');
+      cards.forEach((card, idx) => {
+        const h3 = card.querySelector('h3');
+        const price = card.querySelector('.price');
+        const features = Array.from(card.querySelectorAll('ul li')).map(li => li.textContent.trim());
+        const btn = card.querySelector('a.btn');
+        
+        pricingItems.push({
+          id: idx,
+          title: h3 ? h3.textContent.trim() : 'No Title',
+          price: price ? price.innerHTML.replace(/<[^>]*>/g, '').trim() : '',
+          rawPrice: price ? price.innerHTML : '',
+          features: features,
+          btnLink: btn ? btn.getAttribute('href') : '',
+          el: card
+        });
+      });
+      
+      renderPricingTable();
+    }
+
+    function renderPricingTable() {
+      const tbody = document.getElementById('pricing-packages-tbody');
+      tbody.innerHTML = '';
+      
+      if (pricingItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">No pricing packages found.</td></tr>`;
+        return;
+      }
+      
+      pricingItems.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight:600; color:#fff;">${item.title}</td>
+          <td><span class="tag-badge" style="background:rgba(244,180,0,0.1); color:var(--accent);">${item.price}</span></td>
+          <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-muted);">${item.features.join(', ')}</td>
+          <td><code>${item.btnLink}</code></td>
+          <td class="action-cell" style="justify-content: flex-end;">
+            <button class="btn btn-secondary" onclick="editPricingPackage(${item.id})" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-edit"></i> Edit</button>
+            <button class="btn btn-danger" onclick="deletePricingPackage(${item.id})" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-trash"></i> Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.getElementById('btn-add-pricing-package').addEventListener('click', () => {
+      document.getElementById('pricing-modal-title').textContent = 'Add Pricing Package';
+      document.getElementById('form-pricing-id').value = '';
+      document.getElementById('form-pricing-title').value = '';
+      document.getElementById('form-pricing-price').value = '';
+      document.getElementById('form-pricing-link').value = '#contact';
+      document.getElementById('form-pricing-features').value = '';
+      openModal('pricing-modal');
+    });
+
+    window.editPricingPackage = function(id) {
+      const item = pricingItems.find(i => i.id === id);
+      if (!item) return;
+      document.getElementById('pricing-modal-title').textContent = 'Edit Pricing Package';
+      document.getElementById('form-pricing-id').value = id;
+      document.getElementById('form-pricing-title').value = item.title;
+      document.getElementById('form-pricing-price').value = item.rawPrice;
+      document.getElementById('form-pricing-link').value = item.btnLink;
+      document.getElementById('form-pricing-features').value = item.features.join('\n');
+      openModal('pricing-modal');
+    };
+
+    window.deletePricingPackage = function(id) {
+      if (!confirm('Are you sure you want to delete this pricing package?')) return;
+      const item = pricingItems.find(i => i.id === id);
+      if (item && item.el) {
+        item.el.remove();
+        showToast('Pricing package deleted successfully!');
+        loadPricingPackages();
+      }
+    };
+
+    document.getElementById('form-pricing-submit').addEventListener('click', () => {
+      const idVal = document.getElementById('form-pricing-id').value;
+      const title = document.getElementById('form-pricing-title').value.trim();
+      const price = document.getElementById('form-pricing-price').value.trim();
+      const link = document.getElementById('form-pricing-link').value.trim();
+      const featuresRaw = document.getElementById('form-pricing-features').value.trim();
+      const features = featuresRaw.split('\n').map(f => f.trim()).filter(f => f.length > 0);
+      
+      if (!title || !price || !link) {
+        showToast('Please fill out Title, Price, and Link!', 'error');
+        return;
+      }
+      
+      const grid = indexDoc.querySelector('.pricing-grid');
+      if (!grid) return;
+      
+      const featuresHTML = features.map(f => `<li>${f}</li>`).join('');
+      
+      const cardHTML = `
+        <div class="pricing-card reveal active">
+          <h3>${title}</h3>
+          <div class="price">${price}</div>
+          <ul>
+            ${featuresHTML}
+          </ul>
+          <a href="${link}" data-pricing="${title.toLowerCase().replace(/[^a-z0-9]/g, '')}" class="btn btn-outline" style="width:100%;justify-content:center;border-color:rgba(255,255,255,.3);color:var(--white)">Get Started</a>
+        </div>
+      `;
+      
+      const parser = new DOMParser();
+      const newCardDoc = parser.parseFromString(cardHTML, 'text/html');
+      const newCardNode = newCardDoc.querySelector('.pricing-card');
+      
+      if (idVal === '') {
+        // Add
+        grid.appendChild(newCardNode);
+        showToast('Pricing package added successfully!');
+      } else {
+        // Edit
+        const itemObj = pricingItems.find(i => i.id === parseInt(idVal));
+        if (itemObj && itemObj.el) {
+          itemObj.el.replaceWith(newCardNode);
+          showToast('Pricing package updated successfully!');
+        }
+      }
+      
+      loadPricingPackages();
+      closeModal('pricing-modal');
+    });
+
+    // ── PORTFOLIO FILTERS MANAGER ──
+    let categoryFilters = [];
+    function loadCategoriesList() {
+      categoryFilters = [];
+      if (!portfolioDoc) return;
+      
+      const filterWrap = portfolioDoc.querySelector('.portfolio-filters');
+      if (!filterWrap) return;
+      
+      const container = document.getElementById('categories-list-container');
+      container.innerHTML = '';
+      
+      const btns = filterWrap.querySelectorAll('button[data-cat]');
+      btns.forEach((btn, idx) => {
+        const label = btn.textContent.trim();
+        const catId = btn.getAttribute('data-cat');
+        
+        if (catId === 'all') return; // Skip all filter
+        
+        categoryFilters.push({
+          id: idx,
+          label: label,
+          catId: catId,
+          el: btn
+        });
+        
+        const div = document.createElement('div');
+        div.className = 'color-picker-box';
+        div.style.display = 'flex';
+        div.style.justifyContent = 'space-between';
+        div.style.alignItems = 'center';
+        div.style.marginBottom = '12px';
+        div.style.background = 'rgba(255,255,255,0.02)';
+        div.style.padding = '12px';
+        div.style.borderRadius = '6px';
+        div.innerHTML = `
+          <div>
+            <span style="font-weight:600; color:#fff; font-size: 0.9rem;">${label}</span>
+            <span style="font-size:0.75rem; color:var(--text-muted); margin-left:12px;">ID: <code>${catId}</code></span>
+          </div>
+          <button onclick="deleteCategoryFilter(${idx})" class="btn btn-danger" style="padding:6px 12px; font-size:0.75rem;"><i class="fa-solid fa-trash"></i> Delete</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    window.addCategoryFilter = function() {
+      const labelInput = document.getElementById('new-filter-name-input');
+      const idInput = document.getElementById('new-filter-id-input');
+      const label = labelInput.value.trim();
+      const catId = idInput.value.trim().toLowerCase().replace(/[^a-z0-9\-]/g, '');
+      
+      if (!label || !catId) {
+        showToast('Please fill out both Filter Label and ID!', 'error');
+        return;
+      }
+      
+      const filterWrap = portfolioDoc.querySelector('.portfolio-filters');
+      if (filterWrap) {
+        // Add to portfolio page
+        const btn = portfolioDoc.createElement('button');
+        btn.className = 'filter-btn';
+        btn.setAttribute('data-cat', catId);
+        btn.textContent = label;
+        filterWrap.appendChild(btn);
+        
+        // Also add to index page filters if present
+        if (indexDoc) {
+          const indexFilters = indexDoc.querySelector('.portfolio-filters');
+          if (indexFilters) {
+            const indexBtn = indexDoc.createElement('button');
+            indexBtn.className = 'filter-btn';
+            indexBtn.setAttribute('data-cat', catId);
+            indexBtn.textContent = label;
+            indexFilters.appendChild(indexBtn);
+          }
+        }
+        
+        showToast('Category filter added successfully!');
+        labelInput.value = '';
+        idInput.value = '';
+        loadCategoriesList();
+      }
+    };
+
+    window.deleteCategoryFilter = function(id) {
+      if (!confirm('Are you sure you want to delete this category filter?')) return;
+      const filter = categoryFilters.find(i => i.id === id);
+      if (filter) {
+        filter.el.remove();
+        
+        if (indexDoc) {
+          const indexFilters = indexDoc.querySelector(`.portfolio-filters button[data-cat="${filter.catId}"]`);
+          if (indexFilters) indexFilters.remove();
+        }
+        
+        showToast('Category filter deleted successfully!');
+        loadCategoriesList();
+      }
+    };
+
+    // ── SECTIONS MANAGER ──
+    function loadSectionsList() {
+      const container = document.getElementById('sections-list-container');
+      container.innerHTML = '';
+      if (!indexDoc) return;
+      
+      const sections = indexDoc.querySelectorAll('section');
+      sections.forEach((sec, idx) => {
+        const secId = sec.id || sec.className.split(' ')[0] || `section-${idx}`;
+        const isHidden = sec.classList.contains('hidden-section');
+        
+        const div = document.createElement('div');
+        div.className = 'color-picker-box';
+        div.style.display = 'flex';
+        div.style.justifyContent = 'space-between';
+        div.style.alignItems = 'center';
+        div.style.marginBottom = '12px';
+        div.style.background = 'rgba(255,255,255,0.02)';
+        div.style.padding = '12px';
+        div.style.borderRadius = '6px';
+        div.innerHTML = `
+          <span style="font-weight:600; text-transform:capitalize; color:#fff; font-size: 0.9rem;">${secId.replace(/[-_]/g, ' ')}</span>
+          <label style="cursor:pointer; display:flex; align-items:center; gap:10px;">
+            <input type="checkbox" id="section-check-${secId}" ${isHidden ? '' : 'checked'} onchange="toggleSectionVisibility('${secId}', this.checked)" style="width:18px; height:18px; cursor:pointer;">
+            <span id="section-status-${secId}" style="font-size:0.8rem; font-weight:600; color:${isHidden ? '#ef4444' : '#10b981'};">${isHidden ? 'Hidden' : 'Visible'}</span>
+          </label>
+        `;
+        container.appendChild(div);
+      });
+    }
+    
+    window.toggleSectionVisibility = function(secId, isChecked) {
+      const sec = indexDoc.getElementById(secId) || indexDoc.querySelector('.' + secId);
+      const statusSpan = document.getElementById('section-status-' + secId);
+      if (sec) {
+        if (isChecked) {
+          sec.classList.remove('hidden-section');
+          if (statusSpan) { statusSpan.textContent = 'Visible'; statusSpan.style.color = '#10b981'; }
+        } else {
+          sec.classList.add('hidden-section');
+          if (statusSpan) { statusSpan.textContent = 'Hidden'; statusSpan.style.color = '#ef4444'; }
+        }
+        
+        // Also update corresponding navigation link in indexDoc
+        const navLink = indexDoc.querySelector(`.nav-links a[href="#${secId}"]`);
+        if (navLink && navLink.parentElement) {
+          navLink.parentElement.style.display = isChecked ? '' : 'none';
+        }
+      }
+    };
     } catch (globalErr) {
       alert("Admin Dashboard Load Error:\n" + globalErr.message + "\n\nStack:\n" + globalErr.stack);
     }
