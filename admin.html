@@ -778,22 +778,8 @@
             <i class="fa-solid fa-plus"></i> Add Portfolio Card
           </button>
         </div>
-        <div class="dashboard-table-wrap">
-          <table class="dashboard-table">
-            <thead>
-              <tr>
-                <th style="width: 80px;">Preview</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Layout</th>
-                <th>Tags</th>
-                <th style="width: 150px; text-align: right;">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="portfolio-list-tbody">
-              <!-- Dynamically populated -->
-            </tbody>
-          </table>
+        <div id="portfolio-categories-container">
+          <!-- Dynamically populated category groups -->
         </div>
       </div>
 
@@ -1404,28 +1390,80 @@
     }
 
     function renderPortfolioTable(items) {
-      const tbody = document.getElementById('portfolio-list-tbody');
-      tbody.innerHTML = '';
+      const container = document.getElementById('portfolio-categories-container');
+      if (!container) return;
+      container.innerHTML = '';
       
       if (items.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">No portfolio cards found.</td></tr>`;
+        container.innerHTML = `<div class="box-card" style="text-align:center; padding:40px; color:var(--text-muted);">No portfolio cards found matching your query.</div>`;
         return;
       }
       
+      // Group items by category
+      const groups = {};
       items.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><img src="${item.imgUrl}" class="thumbnail-preview" alt="Preview"></td>
-          <td style="font-weight:600; color:#fff;">${item.title}</td>
-          <td><span class="tag-badge" style="background:rgba(244,180,0,0.1); color:var(--accent); font-weight:600;">${item.cat}</span></td>
-          <td>${item.layout === 'full-width' ? 'Full Width' : 'Column Default'}</td>
-          <td>${item.tags.map(t => `<span class="tag-badge">${t}</span>`).join('')}</td>
-          <td class="action-cell" style="justify-content: flex-end;">
-            <button class="btn btn-secondary" onclick="editPortfolioItem(${item.id})" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-edit"></i> Edit</button>
-            <button class="btn btn-danger" onclick="deletePortfolioItem(${item.id})" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-trash"></i> Delete</button>
-          </td>
+        const cat = item.cat || 'uncategorized';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(item);
+      });
+      
+      const CAT_NAMES = {
+        'covers': 'Book Covers',
+        'paperback-covers': 'Paperback Covers',
+        'a-plus-content': 'A+ Content',
+        'formatting': 'Interior Book Formatting',
+        'children': 'Children Books & Illustration'
+      };
+      
+      // Render each group
+      Object.keys(groups).forEach(catId => {
+        const groupItems = groups[catId];
+        const catTitle = CAT_NAMES[catId] || catId.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        
+        const groupDiv = document.createElement('div');
+        groupDiv.style.marginBottom = '35px';
+        
+        groupDiv.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--card-border); padding-bottom:8px;">
+            <h3 style="font-size:1.1rem; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">
+              <i class="fa-solid fa-folder-open" style="margin-right:8px; font-size:0.95rem; color:#fff;"></i> ${catTitle}
+              <span style="font-size:0.75rem; color:var(--text-muted); text-transform:none; font-weight:normal; margin-left:10px;">(${groupItems.length} cards)</span>
+            </h3>
+          </div>
+          <div class="dashboard-table-wrap">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th style="width: 80px;">Preview</th>
+                  <th>Title</th>
+                  <th>Layout</th>
+                  <th>Tags</th>
+                  <th style="width: 150px; text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="group-tbody-${catId}">
+              </tbody>
+            </table>
+          </div>
         `;
-        tbody.appendChild(tr);
+        
+        const tbody = groupDiv.querySelector(`.group-tbody-${catId}`);
+        groupItems.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><img src="${item.imgUrl}" class="thumbnail-preview" alt="Preview"></td>
+            <td style="font-weight:600; color:#fff;">${item.title}</td>
+            <td><span class="tag-badge" style="background:rgba(255,255,255,0.05); color:#ccc;">${item.layout === 'full-width' ? 'Full Width' : 'Column Default'}</span></td>
+            <td>${item.tags.map(t => `<span class="tag-badge">${t}</span>`).join('')}</td>
+            <td class="action-cell" style="justify-content: flex-end;">
+              <button class="btn btn-secondary" onclick="editPortfolioItem(${item.id})" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-edit"></i> Edit</button>
+              <button class="btn btn-danger" onclick="deletePortfolioItem(${item.id})" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-trash"></i> Delete</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+        
+        container.appendChild(groupDiv);
       });
     }
 
