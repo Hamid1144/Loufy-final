@@ -869,6 +869,9 @@
       <div id="tab-flipbook" class="panel-body">
         <div class="action-bar">
           <h3 style="font-size: 1.1rem; color: #fff;">Manage Flipbook Pages</h3>
+          <button id="btn-create-flipbook" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Create New Flipbook
+          </button>
         </div>
         <div id="flipbook-pages-list">
           <!-- Dynamically populated -->
@@ -1035,6 +1038,58 @@
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="closeModal('portfolio-modal')">Cancel</button>
         <button id="form-portfolio-submit" class="btn btn-primary">Save Card</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FLIPBOOK CREATE MODAL ── -->
+  <div id="flipbook-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="flipbook-modal-title">Create New Flipbook</h3>
+        <button class="modal-close-btn" onclick="closeModal('flipbook-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Book Title</label>
+          <input type="text" id="form-flipbook-title" class="form-control" placeholder="e.g. The Brave Squirrel" required>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="form-flipbook-cat" class="form-control">
+            <option value="children">Children Books & Illustration</option>
+            <option value="formatting">Interior Book Formatting</option>
+            <option value="covers">Book Covers</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Book Dimensions (data-size)</label>
+          <select id="form-flipbook-size" class="form-control">
+            <option value="8.5x8.5">Square (8.5" x 8.5")</option>
+            <option value="6x9">Novel (6" x 9")</option>
+            <option value="8.5x11">Letter (8.5" x 11")</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>First Page / Cover Image URL</label>
+          <input type="text" id="form-flipbook-img1" class="form-control" placeholder="https://res.cloudinary.com/..." required>
+        </div>
+        <div class="form-group">
+          <label>Or Upload Cover From Device</label>
+          <input type="file" id="form-flipbook-file1" class="form-control" accept="image/*" style="border: 1px dashed var(--card-border); padding: 10px;">
+        </div>
+        <div class="form-group" style="margin-top: 15px;">
+          <label>Second Page Image URL</label>
+          <input type="text" id="form-flipbook-img2" class="form-control" placeholder="https://res.cloudinary.com/..." required>
+        </div>
+        <div class="form-group">
+          <label>Or Upload Page 2 From Device</label>
+          <input type="file" id="form-flipbook-file2" class="form-control" accept="image/*" style="border: 1px dashed var(--card-border); padding: 10px;">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('flipbook-modal')">Cancel</button>
+        <button id="form-flipbook-submit" class="btn btn-primary">Create Book</button>
       </div>
     </div>
   </div>
@@ -1357,6 +1412,36 @@
         const url = await uploadToCloudinary(file);
         document.getElementById('form-blogs-image').value = url;
         showToast('Image uploaded successfully!', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('Upload failed: ' + err.message, 'error');
+      }
+    });
+
+    document.getElementById('form-flipbook-file1').addEventListener('change', async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      showToast('Uploading cover to Cloudinary...', 'info');
+      try {
+        const url = await uploadToCloudinary(file);
+        document.getElementById('form-flipbook-img1').value = url;
+        showToast('Cover uploaded successfully!', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('Upload failed: ' + err.message, 'error');
+      }
+    });
+
+    document.getElementById('form-flipbook-file2').addEventListener('change', async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      showToast('Uploading page 2 to Cloudinary...', 'info');
+      try {
+        const url = await uploadToCloudinary(file);
+        document.getElementById('form-flipbook-img2').value = url;
+        showToast('Page 2 uploaded successfully!', 'success');
       } catch (err) {
         console.error(err);
         showToast('Upload failed: ' + err.message, 'error');
@@ -2027,6 +2112,105 @@
         }
       }
     };
+
+    // Create new flipbook click handler
+    document.getElementById('btn-create-flipbook').addEventListener('click', () => {
+      document.getElementById('form-flipbook-title').value = '';
+      document.getElementById('form-flipbook-cat').value = 'children';
+      document.getElementById('form-flipbook-size').value = '8.5x8.5';
+      document.getElementById('form-flipbook-img1').value = '';
+      document.getElementById('form-flipbook-img2').value = '';
+      document.getElementById('form-flipbook-file1').value = '';
+      document.getElementById('form-flipbook-file2').value = '';
+      openModal('flipbook-modal');
+    });
+
+    document.getElementById('form-flipbook-submit').addEventListener('click', () => {
+      const title = document.getElementById('form-flipbook-title').value.trim();
+      const cat = document.getElementById('form-flipbook-cat').value;
+      const size = document.getElementById('form-flipbook-size').value;
+      const img1 = document.getElementById('form-flipbook-img1').value.trim();
+      const img2 = document.getElementById('form-flipbook-img2').value.trim();
+      
+      if (!title || !img1 || !img2) {
+        showToast('Please fill out Title, Cover Image, and Page 2 Image!', 'error');
+        return;
+      }
+      
+      const grid = portfolioDoc.querySelector('.portfolio-grid');
+      if (!grid) {
+        showToast('Portfolio grid not found in template!', 'error');
+        return;
+      }
+      
+      // Calculate next flipbook ID index N
+      const stores = portfolioDoc.querySelectorAll('[id^="flipbook-"][id$="-pages"]');
+      let maxN = 0;
+      stores.forEach(store => {
+        const id = store.id;
+        const match = id.match(/flipbook-(\d+)-pages/);
+        if (match) {
+          const n = parseInt(match[1]);
+          if (n > maxN) maxN = n;
+        }
+      });
+      const newN = maxN + 1;
+      
+      // Create Card HTML
+      const cardHTML = `
+<div class="portfolio-card reveal active" data-cat="${cat}" data-layout="default" data-flipbook="true">
+    <div class="portfolio-thumb" style="overflow: visible; height: auto; min-height: 0px; position: relative; aspect-ratio: unset; background: none;">
+        <div class="book-scene" id="book-scene-${newN}" data-size="${size}" style="position: relative;">
+            <div class="book-3d-wrap">
+                <div class="book-body">
+                    <div class="bp-left">
+                        <img class="bp-img" id="book-scene-${newN}-li" src="${img1}" alt="Left page">
+                    </div>
+                    <div class="bp-right">
+                        <img class="bp-img" id="book-scene-${newN}-ri" src="${img2}" alt="Right page">
+                    </div>
+                    <div class="flip-layer" id="book-scene-${newN}-fl" style="--flip-dur: 700ms;">
+                        <div class="flip-face flip-face-f">
+                            <img class="bp-img" id="book-scene-${newN}-ff" src="" alt="">
+                        </div>
+                        <div class="flip-face flip-face-b">
+                            <img class="bp-img" id="book-scene-${newN}-fb" src="" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="book-controls-row">
+                <button class="bc-btn bc-prev" id="book-scene-${newN}-prev">‹</button>
+                <span class="bc-counter" id="book-scene-${newN}-cnt">Pages 1–2 of 2</span>
+                <button class="bc-btn bc-next" id="book-scene-${newN}-next">›</button>
+            </div>
+        </div>
+        <div id="flipbook-${newN}-pages" style="display: none;">
+            <div class="flipbook-page"><img src="${img1}" alt="Page 1" loading="lazy"></div>
+            <div class="flipbook-page"><img src="${img2}" alt="Page 2" loading="lazy"></div>
+        </div>
+    </div>
+    <div class="portfolio-info">
+        <div class="tags"><span data-admin-text="true">3D Flipbook</span></div>
+        <h3 data-admin-text="true">${title}</h3>
+    </div>
+</div>`;
+      
+      const parser = new DOMParser();
+      const newCardDoc = parser.parseFromString(cardHTML, 'text/html');
+      const newCardNode = newCardDoc.querySelector('.portfolio-card');
+      
+      // Prepend to start of grid
+      grid.insertBefore(newCardNode, grid.firstChild);
+      
+      showToast(`Flipbook "${title}" created successfully!`);
+      closeModal('flipbook-modal');
+      
+      // Reload details
+      loadPortfolioItems();
+      loadFlipbookPages();
+      updateOverviewStats();
+    });
 
     // ── SOCIAL LINKS MANAGER ──
     function loadSocialLinks() {
