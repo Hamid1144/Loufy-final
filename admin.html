@@ -992,6 +992,7 @@
 
   <!-- ── JAVASCRIPT CODE LOGIC ── -->
   <script>
+    try {
     const SUPABASE_URL = 'https://pgictinimttptsxbvngg.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc';
     
@@ -1056,8 +1057,8 @@
       if (e.key === 'Enter') lockSubmit.click();
     });
 
-    // Run auth check on page load
-    window.addEventListener('DOMContentLoaded', checkAuth);
+    // Run auth check immediately (DOM is already fully parsed at bottom script tag)
+    checkAuth();
 
     // ── TABS SWITCHER ──
     document.querySelectorAll('.sidebar-link').forEach(link => {
@@ -1653,6 +1654,9 @@
       }
     });
 
+    } catch (globalErr) {
+      alert("Admin Dashboard Load Error:\n" + globalErr.message + "\n\nStack:\n" + globalErr.stack);
+    }
   </script>
 </body>
 </html>
