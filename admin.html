@@ -1077,7 +1077,7 @@
     async function initDashboard() {
       showToast('Connecting to database...', 'info');
       try {
-        supabase = supabaseClient.createClient(SUPABASE_URL, SUPABASE_KEY);
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
         // 1. Fetch content
         const indexRes = await supabase.from('site_content').select('html_content').eq('id', 'index').single();
