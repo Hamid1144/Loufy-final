@@ -7,6 +7,8 @@
   <!-- Google Fonts & FontAwesome -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
   <!-- Supabase JS Client CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
@@ -1193,6 +1195,35 @@
   </div>
 
 
+  <!-- ── CROP MODAL ── -->
+  <div id="crop-modal" class="modal-overlay" style="z-index: 2000;">
+    <div class="modal-content" style="max-width: 600px; max-height: 90vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <h3>Crop & Adjust Image</h3>
+        <button class="modal-close-btn" onclick="closeCropModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="flex: 1; min-height: 300px; display: flex; flex-direction: column; overflow: hidden; padding: 15px;">
+        <div style="flex: 1; min-height: 300px; position: relative; background: #111; display: flex; justify-content: center; align-items: center; border-radius: 6px; overflow: hidden;">
+          <img id="crop-preview-img" style="max-width: 100%; max-height: 100%; display: block;">
+        </div>
+        <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Select Aspect Ratio:</span>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="crop-aspect-buttons">
+            <button type="button" class="btn btn-secondary active" data-ratio="NaN" style="padding: 6px 12px; font-size: 0.8rem; border: 1px solid var(--card-border);">Free (Original)</button>
+            <button type="button" class="btn btn-secondary" data-ratio="1" style="padding: 6px 12px; font-size: 0.8rem; border: 1px solid var(--card-border);">Square (1:1)</button>
+            <button type="button" class="btn btn-secondary" data-ratio="0.6667" style="padding: 6px 12px; font-size: 0.8rem; border: 1px solid var(--card-border);">Book Cover (2:3)</button>
+            <button type="button" class="btn btn-secondary" data-ratio="1.7778" style="padding: 6px 12px; font-size: 0.8rem; border: 1px solid var(--card-border);">Landscape (16:9)</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 15px;">
+        <button class="btn btn-secondary" onclick="closeCropModal()">Cancel</button>
+        <button id="btn-apply-crop" class="btn btn-primary">Apply Crop & Upload</button>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ── JAVASCRIPT CODE LOGIC ── -->
   <script>
     try {
@@ -1382,50 +1413,179 @@
       return result.secure_url;
     }
 
-    // Bind file input listeners for auto upload
-    document.getElementById('form-portfolio-file').addEventListener('change', async function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
+    // ── CROP MODAL LOGIC ──
+    let cropperInstance = null;
+    let cropCallback = null;
+
+    window.openCropModalFor = function(imgSrc, defaultRatio, callback) {
+      const modal = document.getElementById('crop-modal');
+      const previewImg = document.getElementById('crop-preview-img');
+      if (!modal || !previewImg) return;
       
-      showToast('Uploading image to Cloudinary...', 'info');
+      modal.classList.add('active');
+      cropCallback = callback;
+      
+      if (cropperInstance) {
+        cropperInstance.destroy();
+        cropperInstance = null;
+      }
+      
+      previewImg.src = imgSrc;
+      previewImg.onload = function() {
+        // Set aspect buttons active states
+        const buttons = document.querySelectorAll('#crop-aspect-buttons button');
+        buttons.forEach(btn => {
+          if (btn.getAttribute('data-ratio') === defaultRatio) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+        
+        const ratio = defaultRatio === 'NaN' ? NaN : parseFloat(defaultRatio);
+        cropperInstance = new Cropper(previewImg, {
+          aspectRatio: ratio,
+          viewMode: 1,
+          dragMode: 'move',
+          autoCropArea: 1,
+          restore: false,
+          guides: true,
+          center: true,
+          highlight: false,
+          cropBoxMovable: true,
+          cropBoxResizable: true,
+          toggleDragModeOnDblclick: false,
+        });
+      };
+    };
+
+    window.closeCropModal = function() {
+      const modal = document.getElementById('crop-modal');
+      if (modal) modal.classList.remove('active');
+      if (cropperInstance) {
+        cropperInstance.destroy();
+        cropperInstance = null;
+      }
+      cropCallback = null;
+    };
+
+    // Bind aspect buttons in crop modal
+    document.querySelectorAll('#crop-aspect-buttons button').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('#crop-aspect-buttons button').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const rawRatio = this.getAttribute('data-ratio');
+        const ratio = rawRatio === 'NaN' ? NaN : parseFloat(rawRatio);
+        if (cropperInstance) {
+          cropperInstance.setAspectRatio(ratio);
+        }
+      });
+    });
+
+    document.getElementById('btn-apply-crop').addEventListener('click', async function() {
+      if (!cropperInstance || !cropCallback) return;
+      
+      const applyBtn = this;
+      const originalText = applyBtn.innerHTML;
+      applyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
+      applyBtn.disabled = true;
+      
       try {
-        const url = await uploadToCloudinary(file);
-        document.getElementById('form-portfolio-img').value = url;
-        showToast('Image uploaded successfully!', 'success');
+        let canvas = cropperInstance.getCroppedCanvas({
+          imageSmoothingEnabled: true,
+          imageSmoothingQuality: 'high'
+        });
+        
+        if (canvas) {
+          // Downscale if too large
+          const maxDim = 2560;
+          let w = canvas.width;
+          let h = canvas.height;
+          if (w > maxDim || h > maxDim) {
+            const ratio = w / h;
+            if (w > h) {
+              w = maxDim;
+              h = Math.round(maxDim / ratio);
+            } else {
+              h = maxDim;
+              w = Math.round(maxDim * ratio);
+            }
+            const resizedCanvas = document.createElement('canvas');
+            resizedCanvas.width = w;
+            resizedCanvas.height = h;
+            const resizedCtx = resizedCanvas.getContext('2d');
+            resizedCtx.imageSmoothingEnabled = true;
+            resizedCtx.imageSmoothingQuality = 'high';
+            resizedCtx.fillStyle = '#ffffff';
+            resizedCtx.fillRect(0, 0, w, h);
+            resizedCtx.drawImage(canvas, 0, 0, w, h);
+            canvas = resizedCanvas;
+          }
+          
+          const base64Data = canvas.toDataURL('image/jpeg', 0.95);
+          
+          showToast('Uploading cropped image to Cloudinary...', 'info');
+          const cloudinaryUrl = await uploadToCloudinary(base64Data);
+          const optimizedUrl = cloudinaryUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+          
+          cropCallback(optimizedUrl);
+          showToast('Image cropped & uploaded successfully!', 'success');
+          closeCropModal();
+        }
       } catch (err) {
         console.error(err);
-        showToast('Upload failed: ' + err.message, 'error');
+        showToast('Crop/Upload failed: ' + err.message, 'error');
+      } finally {
+        applyBtn.innerHTML = originalText;
+        applyBtn.disabled = false;
       }
     });
 
-    document.getElementById('form-reviews-file').addEventListener('change', async function(e) {
+    // Bind file input listeners for auto upload (with Cropper)
+    document.getElementById('form-portfolio-file').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
       
-      showToast('Uploading avatar to Cloudinary...', 'info');
-      try {
-        const url = await uploadToCloudinary(file);
-        document.getElementById('form-reviews-avatar').value = url;
-        showToast('Avatar uploaded successfully!', 'success');
-      } catch (err) {
-        console.error(err);
-        showToast('Upload failed: ' + err.message, 'error');
-      }
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const cat = document.getElementById('form-portfolio-cat').value;
+        let defaultRatio = "NaN";
+        if (cat === 'covers') defaultRatio = "0.6667"; // Book cover 2:3
+        else if (cat === 'formatting') defaultRatio = "1.7778"; // Landscape 16:9
+        else defaultRatio = "1"; // Square (1:1)
+        
+        openCropModalFor(event.target.result, defaultRatio, function(croppedUrl) {
+          document.getElementById('form-portfolio-img').value = croppedUrl;
+        });
+      };
+      reader.readAsDataURL(file);
     });
 
-    document.getElementById('form-blogs-file').addEventListener('change', async function(e) {
+    document.getElementById('form-reviews-file').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
       
-      showToast('Uploading featured image to Cloudinary...', 'info');
-      try {
-        const url = await uploadToCloudinary(file);
-        document.getElementById('form-blogs-image').value = url;
-        showToast('Image uploaded successfully!', 'success');
-      } catch (err) {
-        console.error(err);
-        showToast('Upload failed: ' + err.message, 'error');
-      }
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        openCropModalFor(event.target.result, "1", function(croppedUrl) {
+          document.getElementById('form-reviews-avatar').value = croppedUrl;
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('form-blogs-file').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        openCropModalFor(event.target.result, "1.7778", function(croppedUrl) {
+          document.getElementById('form-blogs-image').value = croppedUrl;
+        });
+      };
+      reader.readAsDataURL(file);
     });
 
 
