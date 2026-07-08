@@ -125,7 +125,7 @@ $portfolioContent = [System.IO.File]::ReadAllText("portfolio.html", [System.Text
 
 # Replaces the portfolio-grid content in a file
 function Replace-GridInFile($filePath, $content) {
-    $gridStartTag = '<div class="portfolio-grid"'
+    $gridStartTag = '<div class="portfolio-grid'
     $gridStart = $content.IndexOf($gridStartTag)
     if ($gridStart -eq -1) {
         Write-Error "Could not find .portfolio-grid in $filePath"
@@ -149,11 +149,11 @@ function Replace-GridInFile($filePath, $content) {
     }
     $gridEnd = $ptr
     
-    # Create the new grid tag with style="display: grid;"
+    # Get the original full grid start tag
     $gridStartTagFull = $content.Substring($gridStart, $content.IndexOf('>', $gridStart) - $gridStart + 1)
     
-    # Replace the inner grid HTML
-    $newGridHTML = "<div class=""portfolio-grid"" bis_skin_checked=""1"" style=""display: grid;"">`n`n$script:mergedGridHTML`n`n</div>"
+    # Replace the inner grid HTML, preserving the original start tag's classes and styles (e.g. cols-2)
+    $newGridHTML = "$gridStartTagFull`n`n$script:mergedGridHTML`n`n</div>"
     
     $newContent = $content.Substring(0, $gridStart) + $newGridHTML + $content.Substring($gridEnd)
     return $newContent
