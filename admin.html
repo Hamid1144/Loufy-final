@@ -2056,7 +2056,7 @@
         const match = id.match(/flipbook-(\d+)-pages/);
         const n = match ? match[1] : '1';
         
-        const imgs = Array.from(store.querySelectorAll('.flipbook-page img')).map(img => img.src).filter(src => src && !src.endsWith('/'));
+        const imgs = Array.from(store.querySelectorAll('.flipbook-page img')).map(img => img.getAttribute('src')).filter(src => src && !src.endsWith('/'));
         
         const div = document.createElement('div');
         div.className = 'box-card';
@@ -2067,14 +2067,27 @@
             ${imgs.map((src, idx) => `
               <div style="position:relative; width:90px; height:120px; border-radius:6px; overflow:hidden; border:1px solid var(--card-border); background:#111;">
                 <img src="${src}" style="width:100%; height:100%; object-fit:cover;">
-                <button onclick="deleteFlipbookPage('${id}', ${idx})" style="position:absolute; top:4px; right:4px; background:rgba(220,38,38,0.95); color:#fff; border:none; border-radius:4px; width:22px; height:22px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:0.75rem;" title="Delete Page"><i class="fa-solid fa-trash"></i></button>
-                <div style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.7); color:#fff; text-align:center; font-size:0.65rem; padding:2px 0;">Page ${idx+1}</div>
+                <button onclick="deleteFlipbookPage('${id}', ${idx})" style="position:absolute; top:4px; right:4px; background:rgba(220,38,38,0.95); color:#fff; border:none; border-radius:4px; width:22px; height:22px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:0.75rem; z-index: 10;" title="Delete Page"><i class="fa-solid fa-trash"></i></button>
+                
+                <!-- Replace Page File Input -->
+                <label style="position:absolute; bottom:20px; left:4px; right:4px; background:rgba(24,76,58,0.9); color:#fff; text-align:center; font-size:0.65rem; padding:4px 0; border-radius:4px; cursor:pointer; z-index: 10;" title="Replace Page">
+                  <i class="fa-solid fa-arrows-rotate"></i> Replace
+                  <input type="file" accept="image/*" onchange="replaceFlipbookPage('${id}', ${idx}, this)" style="display:none;">
+                </label>
+                
+                <div style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.7); color:#fff; text-align:center; font-size:0.65rem; padding:2px 0; z-index: 5;">Page ${idx+1}</div>
               </div>
             `).join('')}
           </div>
-          <div style="display:flex; gap:10px; align-items: center;">
-            <input type="text" id="add-page-url-${n}" class="form-control" placeholder="Paste Cloudinary Page Image URL..." style="flex:1;">
-            <button onclick="addFlipbookPage('${id}', ${n})" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Page</button>
+          <div style="display:flex; flex-direction:column; gap:12px; background:rgba(255,255,255,0.01); padding:15px; border-radius:6px; border:1px solid var(--card-border);">
+            <div style="display:flex; gap:10px; align-items: center;">
+              <input type="text" id="add-page-url-${n}" class="form-control" placeholder="Paste Cloudinary Page Image URL..." style="flex:1;">
+              <button onclick="addFlipbookPage('${id}', ${n})" class="btn btn-primary"><i class="fa-solid fa-link"></i> Add by URL</button>
+            </div>
+            <div style="display:flex; gap:10px; align-items: center; border-top:1px solid var(--card-border); padding-top:12px;">
+              <span style="font-size:0.85rem; color:var(--text-muted);">Or Upload Page:</span>
+              <input type="file" id="add-page-file-${n}" class="form-control" accept="image/*" onchange="uploadFlipbookPageFile('${id}', ${n}, this)" style="flex:1; border: 1px dashed var(--card-border); padding: 6px 12px; font-size:0.8rem;">
+            </div>
           </div>
         `;
         container.appendChild(div);
@@ -2110,6 +2123,51 @@
           showToast('Page deleted from flipbook!');
           loadFlipbookPages();
         }
+      }
+    };
+
+    window.replaceFlipbookPage = async function(storeId, idx, inputEl) {
+      const file = inputEl.files[0];
+      if (!file) return;
+      
+      showToast('Uploading replacement page to Cloudinary...', 'info');
+      try {
+        const url = await uploadToCloudinary(file);
+        const store = portfolioDoc.getElementById(storeId);
+        if (store) {
+          const pages = store.querySelectorAll('.flipbook-page img');
+          if (pages[idx]) {
+            pages[idx].setAttribute('src', url);
+            showToast('Page replaced successfully!', 'success');
+            loadFlipbookPages();
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Replace failed: ' + err.message, 'error');
+      }
+    };
+
+    window.uploadFlipbookPageFile = async function(storeId, n, inputEl) {
+      const file = inputEl.files[0];
+      if (!file) return;
+      
+      showToast('Uploading new page to Cloudinary...', 'info');
+      try {
+        const url = await uploadToCloudinary(file);
+        const store = portfolioDoc.getElementById(storeId);
+        if (store) {
+          const newPage = portfolioDoc.createElement('div');
+          newPage.className = 'flipbook-page';
+          newPage.innerHTML = `<img src="${url}" alt="Page" loading="lazy">`;
+          store.appendChild(newPage);
+          showToast('Page added to flipbook successfully!', 'success');
+          inputEl.value = '';
+          loadFlipbookPages();
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Upload failed: ' + err.message, 'error');
       }
     };
 
