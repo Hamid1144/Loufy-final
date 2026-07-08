@@ -57,6 +57,17 @@
     } : { r: 15, g: 23, b: 42 };
   }
 
+  /* ── Color Cache Store to prevent execution stutters ── */
+  var cachedBaseRGB = { r: 15, g: 23, b: 42 };
+  var cachedAcc1RGB = { r: 99, g: 102, b: 241 };
+  var cachedAcc2RGB = { r: 167, g: 139, b: 250 };
+
+  function updateCachedColors() {
+    cachedBaseRGB = hexToRgb(pConfig.color3);
+    cachedAcc1RGB = hexToRgb(pConfig.color1);
+    cachedAcc2RGB = hexToRgb(pConfig.color2);
+  }
+
   /* ── Inject global CSS rules for stacking layers ──────────────── */
   function injectStyles() {
     if (document.getElementById('bg-anim-styles')) return;
@@ -246,13 +257,9 @@
   };
 
   Particle.prototype.draw = function () {
-    // Determine colors
-    var baseRGB = hexToRgb(pConfig.color3);
-    var acc1RGB = hexToRgb(pConfig.color1);
-    var acc2RGB = hexToRgb(pConfig.color2);
-    
     // Resolve base adaptive color swap if color3 is default Slate-900 and theme is dark
     var isDark = isDarkThemeActive();
+    var baseRGB = cachedBaseRGB;
     if (pConfig.color3 === '#0f172a' && isDark) {
       baseRGB = { r: 226, g: 232, b: 240 }; // Slate-200
     }
@@ -260,9 +267,9 @@
     var colStr = '';
     if (this.isHighlight) {
       var ratio = this.highlightRatio;
-      var targetR = this.colorSeed > 0.5 ? acc1RGB.r : acc2RGB.r;
-      var targetG = this.colorSeed > 0.5 ? acc1RGB.g : acc2RGB.g;
-      var targetB = this.colorSeed > 0.5 ? acc1RGB.b : acc2RGB.b;
+      var targetR = this.colorSeed > 0.5 ? cachedAcc1RGB.r : cachedAcc2RGB.r;
+      var targetG = this.colorSeed > 0.5 ? cachedAcc1RGB.g : cachedAcc2RGB.g;
+      var targetB = this.colorSeed > 0.5 ? cachedAcc1RGB.b : cachedAcc2RGB.b;
 
       var r = Math.round(baseRGB.r + (targetR - baseRGB.r) * ratio);
       var g = Math.round(baseRGB.g + (targetG - baseRGB.g) * ratio);
@@ -320,7 +327,7 @@
       ctx.beginPath();
       ctx.moveTo(this.lastX, this.lastY);
       ctx.lineTo(this.x, this.y);
-      var trailTarget = this.colorSeed > 0.5 ? acc1RGB : acc2RGB;
+      var trailTarget = this.colorSeed > 0.5 ? cachedAcc1RGB : cachedAcc2RGB;
       ctx.strokeStyle = 'rgba(' + trailTarget.r + ',' + trailTarget.g + ',' + trailTarget.b + ',' + (this.alpha * 0.25) + ')';
       ctx.lineWidth = this.r * 0.8;
       ctx.stroke();
@@ -330,8 +337,8 @@
   /* ── Canvas Loop & Drawing ─────────────────────────────────────── */
   function resize() {
     if (!canvas || !ctx) return;
-    // Enhanced HD/Supersampling: use devicePixelRatio, but force at least 2.0 on lower resolution screens for crisp quality!
-    var dpr = Math.max(window.devicePixelRatio || 1, 2.0);
+    // Enhanced HD/Supersampling: scale up to 2.0 on high DPI screens but respect standard 1.0 screens to prevent GPU lag
+    var dpr = Math.min(window.devicePixelRatio || 1, 2.0);
     var zoom = pConfig.zoom || 1.0;
     width = window.innerWidth / zoom;
     height = window.innerHeight / zoom;
@@ -510,6 +517,7 @@
   }
 
   function applySettingsToEngine(c) {
+    updateCachedColors();
     if (!c.enabled || reduced) {
       hide();
       return;
