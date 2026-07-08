@@ -91,6 +91,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            // 4. Sync section visibility classes and navigation links display state
+            const liveSections = doc.querySelectorAll('section');
+            liveSections.forEach(liveSec => {
+                const id = liveSec.id;
+                if (!id) return;
+                const currentSec = document.getElementById(id);
+                if (currentSec) {
+                    const isHiddenLive = liveSec.classList.contains('hidden-section');
+                    const isHiddenCurrent = currentSec.classList.contains('hidden-section');
+                    
+                    if (isHiddenLive !== isHiddenCurrent) {
+                        if (isHiddenLive) {
+                            currentSec.classList.add('hidden-section');
+                        } else {
+                            currentSec.classList.remove('hidden-section');
+                        }
+                        modified = true;
+                    }
+                    
+                    if (currentSec.className !== liveSec.className) {
+                        currentSec.className = liveSec.className;
+                        modified = true;
+                    }
+
+                    // Sync corresponding navigation link visibility
+                    const navLink = document.querySelector(`.nav-links a[href="#${id}"]`);
+                    if (navLink && navLink.parentElement) {
+                        const currentDisplay = navLink.parentElement.style.display;
+                        const targetDisplay = isHiddenLive ? 'none' : '';
+                        if (currentDisplay !== targetDisplay) {
+                            navLink.parentElement.style.display = targetDisplay;
+                            modified = true;
+                        }
+                    }
+                }
+            });
+
             // Re-initialize site logic if we modified anything
             if (modified && window.initSiteLogic) {
                 window.initSiteLogic();
