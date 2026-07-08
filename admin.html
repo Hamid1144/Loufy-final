@@ -699,9 +699,9 @@
         <a href="/index.html?admin=true&live=true" target="_blank" class="btn btn-secondary" style="width: 100%; justify-content: center; background: #1e3a8a; border: none; color: #fff;">
           <i class="fa-solid fa-pen-to-square"></i> Live Admin Panel
         </a>
-        <a href="/index.html" class="btn btn-danger" style="width: 100%; justify-content: center; color: #fff; background: #dc2626; border: none; padding: 10px 14px;">
+        <button onclick="exitAdminPanel()" class="btn btn-danger" style="width: 100%; justify-content: center; color: #fff; background: #dc2626; border: none; padding: 10px 14px; cursor: pointer;">
           <i class="fa-solid fa-right-from-bracket"></i> Exit Panel
-        </a>
+        </button>
       </div>
     </div>
 
@@ -712,9 +712,9 @@
       <div class="top-navbar">
         <h2 id="navbar-tab-title">Dashboard Overview</h2>
         <div class="navbar-actions" style="display: flex; gap: 10px;">
-          <a href="/index.html" class="btn btn-secondary" style="border: 1px solid var(--card-border); color: #fff; text-decoration: none; padding: 10px 16px; font-weight: 500; font-size: 0.9rem;">
+          <button onclick="exitAdminPanel()" class="btn btn-secondary" style="border: 1px solid var(--card-border); color: #fff; background: transparent; padding: 10px 16px; font-weight: 500; font-size: 0.9rem; cursor: pointer;">
             <i class="fa-solid fa-right-from-bracket"></i> Exit Panel
-          </a>
+          </button>
           <button id="global-save-btn" class="btn btn-primary">
             <i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud
           </button>
@@ -1276,6 +1276,12 @@
         document.getElementById('navbar-tab-title').textContent = this.querySelector('span').textContent;
       });
     });
+
+    window.exitAdminPanel = function() {
+      localStorage.removeItem('admin_mode');
+      localStorage.setItem('admin_mode', 'false');
+      window.location.href = '/index.html';
+    };
 
     // ── INITIALIZATION ──
     async function initDashboard() {
