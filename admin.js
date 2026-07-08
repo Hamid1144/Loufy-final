@@ -256,6 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="export-html" class="admin-btn" style="background:#F4B400; color:#111;"><i class="fa-solid fa-file-code"></i> Export Final HTML</button>
             <button id="clear-storage" class="admin-btn danger"><i class="fa-solid fa-rotate-left"></i> Reset Changes</button>
             <button id="exit-admin-mode" class="admin-btn" style="background:#6c757d; color:#fff;"><i class="fa-solid fa-right-from-bracket"></i> Exit Admin Mode</button>
+            <button id="go-to-dashboard" class="admin-btn" style="background:#4A90E2; color:#fff;"><i class="fa-solid fa-gauge-high"></i> Go to Dashboard</button>
         </div>
 
         <div id="social-links-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
@@ -5254,6 +5255,13 @@ document.addEventListener("DOMContentLoaded", () => {
             url.searchParams.delete('admin');
             url.searchParams.delete('edit');
             window.location.href = url.pathname + url.search;
+        });
+    }
+
+    const goToDashboardBtn = document.getElementById("go-to-dashboard");
+    if (goToDashboardBtn) {
+        goToDashboardBtn.addEventListener("click", () => {
+            window.location.href = "/admin.html";
         });
     }
 
