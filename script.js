@@ -1846,6 +1846,7 @@ window.initBlogSection = async function () {
 
         e.preventDefault();
         const cat = card.getAttribute('data-cat') || 'covers';
+        if (cat === 'children') return;
         
         if (window.openLightboxFor) {
             window.openLightboxFor(src, cat, card);
