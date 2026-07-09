@@ -1593,6 +1593,272 @@ window.initBlogSection = async function () {
 
 };
 
+/* ════════════════════════════════════════════════════
+   PORTFOLIO LIGHTBOX GALLERY WITH CATEGORY FILTERING
+   ════════════════════════════════════════════════════ */
+(function() {
+    // 1. Inject Lightbox CSS Stylesheet
+    const lightboxStyles = `
+    .custom-lightbox {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(11, 15, 25, 0.98);
+        z-index: 10000;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        user-select: none;
+    }
+    .custom-lightbox.active {
+        display: flex;
+        opacity: 1;
+    }
+    .lightbox-content {
+        position: relative;
+        max-width: 90%;
+        max-height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .lightbox-img {
+        max-width: 100%;
+        max-height: 85vh;
+        border-radius: 6px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        user-select: none;
+        pointer-events: none;
+    }
+    .lightbox-close {
+        position: absolute;
+        top: 30px; right: 30px;
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 2.2rem;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.2s, transform 0.2s;
+        z-index: 10002;
+        padding: 10px;
+    }
+    .lightbox-close:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    .lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: #fff;
+        width: 50px; height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 1.5rem;
+        transition: all 0.2s ease;
+        z-index: 10001;
+        user-select: none;
+    }
+    .lightbox-nav:hover {
+        background: rgba(255,255,255,0.15);
+        border-color: rgba(255,255,255,0.25);
+        transform: translateY(-50%) scale(1.05);
+    }
+    .lightbox-nav-prev {
+        left: 40px;
+    }
+    .lightbox-nav-next {
+        right: 40px;
+    }
+    .lightbox-info {
+        position: absolute;
+        bottom: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        font-family: sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        opacity: 0.8;
+        white-space: nowrap;
+        text-align: center;
+    }
+    @media (max-width: 768px) {
+        .lightbox-nav {
+            width: 40px; height: 40px;
+            font-size: 1.2rem;
+        }
+        .lightbox-nav-prev { left: 15px; }
+        .lightbox-nav-next { right: 15px; }
+        .lightbox-close { top: 15px; right: 15px; font-size: 1.8rem; }
+    }
+    `;
+
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = lightboxStyles;
+    document.head.appendChild(styleSheet);
+
+    // 2. Inject Lightbox HTML Markup on DOMContentLoaded / load
+    function injectLightboxHTML() {
+        if (document.getElementById('portfolio-lightbox')) return;
+        const lightboxMarkup = `
+        <div class="custom-lightbox" id="portfolio-lightbox">
+            <button class="lightbox-close" id="lightbox-close-btn">&times;</button>
+            <div class="lightbox-nav lightbox-nav-prev" id="lightbox-prev-btn">&#10094;</div>
+            <div class="lightbox-content">
+                <img class="lightbox-img" id="lightbox-display-img" src="" alt="Portfolio Large View">
+                <div class="lightbox-info" id="lightbox-counter-info"></div>
+            </div>
+            <div class="lightbox-nav lightbox-nav-next" id="lightbox-next-btn">&#10095;</div>
+        </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', lightboxMarkup);
+        bindLightboxEvents();
+    }
+
+    let currentItems = [];
+    let currentIndex = 0;
+    let currentCategory = 'covers';
+
+    function bindLightboxEvents() {
+        const lightbox = document.getElementById('portfolio-lightbox');
+        const closeBtn = document.getElementById('lightbox-close-btn');
+        const prevBtn = document.getElementById('lightbox-prev-btn');
+        const nextBtn = document.getElementById('lightbox-next-btn');
+        const displayImg = document.getElementById('lightbox-display-img');
+        const counterInfo = document.getElementById('lightbox-counter-info');
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        function showItem(index) {
+            if (index < 0 || index >= currentItems.length) return;
+            currentIndex = index;
+            
+            const item = currentItems[currentIndex];
+            displayImg.src = item.src;
+            
+            const catNames = {
+                'covers': 'Book Covers',
+                'paperback-covers': 'Paperback Covers',
+                'children': 'Children Books & Illustration',
+                'formatting': 'Interior Book Formatting',
+                'a-plus-content': 'A+ Content Layout',
+                'logo-branding': 'Logo & Branding'
+            };
+            const catLabel = catNames[currentCategory] || currentCategory.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            counterInfo.textContent = `${catLabel} — ${currentIndex + 1} of ${currentItems.length}`;
+        }
+
+        closeBtn.addEventListener('click', closeLightbox);
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showItem((currentIndex - 1 + currentItems.length) % currentItems.length);
+        });
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showItem((currentIndex + 1) % currentItems.length);
+        });
+
+        // Close when clicking on background overlay
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') showItem((currentIndex - 1 + currentItems.length) % currentItems.length);
+            if (e.key === 'ArrowRight') showItem((currentIndex + 1) % currentItems.length);
+        });
+
+        window.openLightboxFor = function(imgSrc, category, clickedCard) {
+            currentCategory = category;
+            
+            // Gather all cards of the same category
+            const cards = Array.from(document.querySelectorAll('.portfolio-card')).filter(c => {
+                const cCat = c.getAttribute('data-cat') || 'covers';
+                return cCat === category;
+            });
+
+            // Extract src and elements
+            const rawItems = cards.map(c => {
+                const imgEl = c.querySelector('.portfolio-thumb img') || c.querySelector('img');
+                return {
+                    src: imgEl ? imgEl.getAttribute('src') : '',
+                    cardEl: c
+                };
+            }).filter(item => item.src);
+
+            // Deduplicate to prevent marquee clone doubling
+            currentItems = [];
+            const seen = new Set();
+            rawItems.forEach(item => {
+                // Ignore base64 loaders or empty images
+                if (item.src.startsWith('data:image/svg+xml')) return;
+                
+                if (!seen.has(item.src)) {
+                    seen.add(item.src);
+                    currentItems.push(item);
+                }
+            });
+
+            if (currentItems.length === 0) return;
+
+            // Find index of clicked item
+            let index = currentItems.findIndex(item => item.cardEl === clickedCard);
+            if (index === -1) {
+                index = currentItems.findIndex(item => item.src === imgSrc);
+            }
+            if (index === -1) index = 0;
+
+            showItem(index);
+            lightbox.classList.add('active');
+        };
+    }
+
+    // 3. Dynamic click interceptor delegator
+    document.addEventListener('click', function(e) {
+        const card = e.target.closest('.portfolio-card');
+        if (!card) return;
+        
+        // Ignore if user clicked inside book control buttons or edit toolbars
+        if (e.target.closest('.book-controls-row') || e.target.closest('.card-toolbar') || e.target.closest('.btn') || e.target.closest('button')) return;
+        
+        const img = card.querySelector('.portfolio-thumb img') || card.querySelector('img');
+        if (!img) return;
+
+        // Skip svg placeholders
+        const src = img.getAttribute('src');
+        if (src && src.startsWith('data:image/svg+xml')) return;
+
+        e.preventDefault();
+        const cat = card.getAttribute('data-cat') || 'covers';
+        
+        if (window.openLightboxFor) {
+            window.openLightboxFor(src, cat, card);
+        }
+    });
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', injectLightboxHTML);
+    } else {
+        injectLightboxHTML();
+    }
+})();
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', window.initSiteLogic);
 } else {
