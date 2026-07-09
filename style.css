@@ -2730,12 +2730,6 @@ body.edit-mode .hero-float-card {
 }
 
 /* ── GLOBAL HOVER OVERLAY POPUP OVERRIDES ── */
-.portfolio-card {
-    display: block !important;
-    position: relative !important;
-    overflow: hidden !important;
-}
-
 .portfolio-card .portfolio-info {
     position: absolute !important;
     bottom: 0 !important;
@@ -2745,16 +2739,15 @@ body.edit-mode .hero-float-card {
     background: linear-gradient(0deg, rgba(11, 15, 25, 0.95) 0%, rgba(11, 15, 25, 0.8) 60%, transparent 100%) !important;
     color: #fff !important;
     padding: 20px !important;
-    transform: translateY(100%) !important;
     opacity: 0 !important;
-    transition: transform 0.35s cubic-bezier(.4, 0, .2, 1), opacity 0.35s ease !important;
+    transform: translateY(10px) !important;
     pointer-events: none !important;
+    transition: transform 0.3s ease, opacity 0.3s ease !important;
     display: block !important; /* override display: none for covers */
     z-index: 10 !important;
     box-sizing: border-box !important;
     border-top: none !important;
-    margin: 0 !important;
-    max-width: 100% !important;
+    margin: 0 auto !important;
 }
 
 .portfolio-card:hover .portfolio-info {
