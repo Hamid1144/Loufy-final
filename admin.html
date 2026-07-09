@@ -645,6 +645,16 @@
       background: #e0a500;
       color: #111;
     }
+
+    .sidebar-submenu {
+      display: none;
+    }
+    .sidebar-submenu.expanded {
+      display: block !important;
+    }
+    .sidebar-sublink:hover, .sidebar-sublink.active {
+      color: var(--accent) !important;
+    }
   </style>
 </head>
 <body>
@@ -683,6 +693,38 @@
           <a class="sidebar-link" data-tab="portfolio">
             <i class="fa-solid fa-folder-open"></i> <span>Portfolio Items</span>
           </a>
+          <ul class="sidebar-submenu" style="list-style: none; padding-left: 28px; margin-top: 5px; display: none;">
+            <li>
+              <a class="sidebar-sublink" data-cat="covers" style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; padding: 6px 0; font-size: 0.82rem; cursor: pointer; transition: color 0.2s;">
+                <i class="fa-solid fa-book" style="font-size: 0.75rem; width: 12px;"></i> Book Covers
+              </a>
+            </li>
+            <li>
+              <a class="sidebar-sublink" data-cat="paperback-covers" style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; padding: 6px 0; font-size: 0.82rem; cursor: pointer; transition: color 0.2s;">
+                <i class="fa-solid fa-file-invoice" style="font-size: 0.75rem; width: 12px;"></i> Paperback Covers
+              </a>
+            </li>
+            <li>
+              <a class="sidebar-sublink" data-cat="children" style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; padding: 6px 0; font-size: 0.82rem; cursor: pointer; transition: color 0.2s;">
+                <i class="fa-solid fa-child" style="font-size: 0.75rem; width: 12px;"></i> Children Books
+              </a>
+            </li>
+            <li>
+              <a class="sidebar-sublink" data-cat="formatting" style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; padding: 6px 0; font-size: 0.82rem; cursor: pointer; transition: color 0.2s;">
+                <i class="fa-solid fa-paragraph" style="font-size: 0.75rem; width: 12px;"></i> Formatting & Layout
+              </a>
+            </li>
+            <li>
+              <a class="sidebar-sublink" data-cat="a-plus-content" style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; padding: 6px 0; font-size: 0.82rem; cursor: pointer; transition: color 0.2s;">
+                <i class="fa-solid fa-plus" style="font-size: 0.75rem; width: 12px;"></i> A+ Content Layout
+              </a>
+            </li>
+            <li>
+              <a class="sidebar-sublink" data-cat="logo-branding" style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; padding: 6px 0; font-size: 0.82rem; cursor: pointer; transition: color 0.2s;">
+                <i class="fa-solid fa-copyright" style="font-size: 0.75rem; width: 12px;"></i> Logo & Branding
+              </a>
+            </li>
+          </ul>
         </li>
         <li>
           <a class="sidebar-link" data-tab="reviews">
@@ -1046,6 +1088,7 @@
           <select id="form-portfolio-cat" class="form-control">
             <option value="covers">Book Covers</option>
             <option value="paperback-covers">Paperback Covers</option>
+            <option value="children">Children Books & Illustration</option>
             <option value="formatting">Formatting & Interior Layout</option>
             <option value="a-plus-content">A+ Content Layout</option>
             <option value="logo-branding">Logo & Branding Kits</option>
@@ -1334,6 +1377,54 @@
         document.getElementById('tab-' + tab).classList.add('active');
         
         document.getElementById('navbar-tab-title').textContent = this.querySelector('span').textContent;
+        
+        // Show/Hide sidebar sub-menu for portfolio items
+        const subMenu = document.querySelector('.sidebar-submenu');
+        if (subMenu) {
+          if (tab === 'portfolio') {
+            subMenu.classList.add('expanded');
+          } else {
+            subMenu.classList.remove('expanded');
+            // Remove active styles from all sublinks when leaving portfolio tab
+            document.querySelectorAll('.sidebar-sublink').forEach(sl => sl.classList.remove('active'));
+          }
+        }
+      });
+    });
+
+    // Bind sidebar sub-links click handlers
+    document.querySelectorAll('.sidebar-sublink').forEach(sublink => {
+      sublink.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const cat = this.getAttribute('data-cat');
+        
+        // 1. Highlight clicked sublink
+        document.querySelectorAll('.sidebar-sublink').forEach(sl => sl.classList.remove('active'));
+        this.classList.add('active');
+        
+        // 2. Make sure portfolio link is selected in sidebar
+        const parentLink = document.querySelector('.sidebar-link[data-tab="portfolio"]');
+        if (parentLink && !parentLink.classList.contains('active')) {
+          parentLink.click();
+        }
+        
+        // 3. Scroll to the group Div after DOM switches tabs
+        setTimeout(() => {
+          const targetDiv = document.getElementById('category-group-' + cat);
+          if (targetDiv) {
+            targetDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Highlight targetDiv background temporarily to guide the user's eye!
+            const originalBg = targetDiv.style.background;
+            targetDiv.style.transition = 'background 0.3s ease';
+            targetDiv.style.background = 'rgba(244, 180, 0, 0.08)';
+            setTimeout(() => {
+              targetDiv.style.background = originalBg;
+            }, 1000);
+          }
+        }, 150);
       });
     });
 
@@ -1676,7 +1767,10 @@
         const catTitle = CAT_NAMES[catId] || catId.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
         
         const groupDiv = document.createElement('div');
+        groupDiv.id = 'category-group-' + catId;
         groupDiv.style.marginBottom = '35px';
+        groupDiv.style.padding = '8px';
+        groupDiv.style.borderRadius = '8px';
         
         groupDiv.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--card-border); padding-bottom:8px;">
@@ -1737,6 +1831,7 @@
     const CATEGORY_KEYWORDS = {
       'covers': ['Fiction', 'Non-Fiction', 'Fantasy', 'Sci-Fi', 'Thriller', 'Romance', 'Mystery', 'Horror', 'Kindle', 'Ebook', 'Minimalist', 'Typography'],
       'paperback-covers': ['Paperback', 'Hardcover', 'Bleed', 'Spine Design', 'Dust Jacket', 'KDP Print', 'IngramSpark', 'Bar-Code', 'Back Cover', 'Wrap-Around', 'Matte Finish', 'Glossy Finish'],
+      'children': ['Children Book', 'Illustrations', 'Story Book', 'Coloring Book', 'Character Design', 'Vibrant Colors', 'Hardcover', 'Kindle Kids', 'Nursery Rhymes', 'A+ Content', 'Bleed', 'Activity Book'],
       'formatting': ['Book Formatting', 'KDP Interior', 'Paperback Format', 'Kindle Format', 'EPUB', 'Novel Layout', 'Non-Fiction Format', 'Drop Caps', 'Header-Footer', 'Table of Contents', 'Bleed Layout', 'Children Book'],
       'a-plus-content': ['A+ Content', 'Amazon KDP', 'Marketing Grid', 'Product Banners', 'Author Brand', 'Module 1', 'Module 2', 'Graphic Headers', 'High-Conversion', 'Book Promotion', 'Comparison Chart', 'SEO Optimized'],
       'logo-branding': ['Logo Design', 'Author Brand', 'Publisher Logo', 'Branding Kit', 'Color Palette', 'Typography Logo', 'Iconography', 'Vector', 'Modern Brand', 'Signature Logo', 'Business Card', 'Social Media Kit']
