@@ -975,17 +975,17 @@ section{padding:100px 0}
 .pricing .container{text-align:center}
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:50px}
 .pricing-card{background:rgba(255,255,255,.09);border-radius:var(--radius);padding:45px 35px;border:1px solid rgba(255,255,255,.1);transition:.4s}
-.pricing-card.featured{background:var(--accent);color:var(--dark);transform:scale(1.05);border:none}
-.pricing-card:hover{transform:translateY(-8px)}
-.pricing-card.featured:hover{transform:scale(1.05) translateY(-8px)}
+.pricing-card:hover{background:var(--accent);color:var(--dark);transform:scale(1.05) translateY(-8px);border-color:transparent}
 .pricing-card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
 .pricing-card .price{font-size:2.8rem;font-weight:800;margin:16px 0}
 .pricing-card .price small{font-size:1rem;font-weight:400}
 .pricing-card ul{text-align:left;margin:24px 0}
-.pricing-card ul li{padding:8px 0;font-size:.92rem;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.1)}
-.pricing-card.featured ul li{border-color:rgba(0,0,0,.1)}
-.pricing-card ul li::before{content:'✓';color:var(--accent);font-weight:700}
-.pricing-card.featured ul li::before{color:var(--primary)}
+.pricing-card ul li{padding:8px 0;font-size:.92rem;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.1);transition:.4s}
+.pricing-card:hover ul li{border-color:rgba(0,0,0,.1)}
+.pricing-card ul li::before{content:'✓';color:var(--accent);font-weight:700;transition:.4s}
+.pricing-card:hover ul li::before{color:var(--primary)}
+.pricing-card .btn{width:100%;justify-content:center;border:1px solid rgba(255,255,255,.3);color:var(--white);background:transparent}
+.pricing-card:hover .btn{background:var(--primary);color:var(--white);border-color:var(--primary)}
 
 /* TESTIMONIALS */
 .testimonials .container{text-align:center}
