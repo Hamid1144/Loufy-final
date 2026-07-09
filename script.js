@@ -1866,3 +1866,48 @@ if (document.readyState === 'loading') {
   window.initSiteLogic();
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  // Number counting effect on hover for stat cards
+  document.querySelectorAll('.stat').forEach(stat => {
+    const numEl = stat.querySelector('.num');
+    if (!numEl) return;
+    
+    // Check if it contains an icon, if so skip
+    if (numEl.querySelector('i')) return;
+    
+    const originalText = numEl.textContent.trim();
+    const targetMatch = originalText.match(/(\d+)/);
+    if (!targetMatch) return;
+    
+    const targetNumber = parseInt(targetMatch[0], 10);
+    const suffix = originalText.replace(targetMatch[0], '');
+    
+    let isCounting = false;
+    
+    stat.addEventListener('mouseenter', () => {
+      if (isCounting) return;
+      isCounting = true;
+      const duration = 1500; // 1.5 seconds
+      const startTime = performance.now();
+      
+      const updateNumber = (time) => {
+        const elapsed = time - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        const easeOutQuad = t => t * (2 - t);
+        const currentNum = Math.floor(easeOutQuad(progress) * targetNumber);
+        
+        numEl.textContent = Math.max(1, currentNum) + suffix;
+        
+        if (progress < 1) {
+          requestAnimationFrame(updateNumber);
+        } else {
+          numEl.textContent = originalText;
+          isCounting = false;
+        }
+      };
+      
+      requestAnimationFrame(updateNumber);
+    });
+  });
+});
