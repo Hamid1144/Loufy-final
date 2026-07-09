@@ -698,6 +698,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="crop-aspect-selector">
                 <span class="crop-aspect-label">Aspect Ratio:</span>
                 <button type="button" class="crop-aspect-btn active" data-ratio="NaN">Free (Original)</button>
+                <button type="button" class="crop-aspect-btn" id="dynamic-card-ratio-btn" style="display:none; background: var(--primary);">Card Default</button>
                 <button type="button" class="crop-aspect-btn" data-ratio="1">Square (1:1)</button>
                 <button type="button" class="crop-aspect-btn" data-ratio="0.6667">Book Cover (2:3)</button>
                 <button type="button" class="crop-aspect-btn" data-ratio="1.7778">Landscape (16:9)</button>
@@ -2796,14 +2797,27 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Auto-select the default aspect ratio button
         let defaultRatio = "NaN"; // Default to Free crop
+        const dynamicBtn = document.getElementById('dynamic-card-ratio-btn');
+        if (dynamicBtn) dynamicBtn.style.display = 'none';
+
         if (imgElement) {
-            if (imgElement.closest('.portfolio-card')) {
+            // Calculate natural display aspect ratio of the image element as rendered on the page
+            const rect = imgElement.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+                const calculatedRatio = (rect.width / rect.height).toFixed(4);
+                if (dynamicBtn) {
+                    dynamicBtn.setAttribute('data-ratio', calculatedRatio);
+                    dynamicBtn.innerHTML = `Card Ratio (${calculatedRatio})`;
+                    dynamicBtn.style.display = 'inline-block';
+                    defaultRatio = calculatedRatio; // Auto-select the exact card ratio
+                }
+            } else if (imgElement.closest('.portfolio-card')) {
                 const card = imgElement.closest('.portfolio-card');
                 const cat = card.getAttribute('data-cat');
                 if (cat === 'covers') {
                     defaultRatio = "0.6667"; // Book cover 2:3
-                } else if (cat === 'formatting') {
-                    defaultRatio = "1.7778"; // Landscape 16:9
+                } else if (cat === 'formatting' || card.getAttribute('data-layout') === 'full-width') {
+                    defaultRatio = "1.5"; // Landscape 3:2
                 } else {
                     defaultRatio = "1"; // Square for other standard portfolio items
                 }
