@@ -975,7 +975,7 @@ section{padding:100px 0}
 .pricing .container{text-align:center}
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:50px}
 .pricing-card{background:rgba(255,255,255,.09);border-radius:var(--radius);padding:45px 35px;border:1px solid rgba(255,255,255,.1);transition:.4s}
-.pricing-card:hover{background:var(--accent);color:var(--dark);transform:scale(1.05) translateY(-8px);border-color:transparent;transition-delay:0s !important}
+.pricing-card:hover{background:var(--accent);color:var(--dark);transform:scale(1.05) translateY(-12px) !important;border-color:transparent;transition-delay:0s !important}
 .pricing-card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
 .pricing-card .price{font-size:2.8rem;font-weight:800;margin:16px 0}
 .pricing-card .price small{font-size:1rem;font-weight:400}
