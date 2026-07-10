@@ -3282,7 +3282,7 @@
                     const pContainer = portfolioDoc.getElementById('book-covers-sub-filters');
                     if (pContainer) {
                         pContainer.innerHTML = newHtml;
-                        await window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY).from('site_content').update({ html_content: portfolioDoc.body.innerHTML }).eq('id', 'portfolio');
+                        await window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY).from('site_content').update({ html_content: '<!DOCTYPE html>\n' + portfolioDoc.documentElement.outerHTML }).eq('id', 'portfolio');
                     }
                 }
                 
@@ -3290,7 +3290,7 @@
                     const iContainer = indexDoc.getElementById('book-covers-sub-filters');
                     if (iContainer) {
                         iContainer.innerHTML = newHtml;
-                        await window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY).from('site_content').update({ html_content: indexDoc.body.innerHTML }).eq('id', 'index');
+                        await window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY).from('site_content').update({ html_content: '<!DOCTYPE html>\n' + indexDoc.documentElement.outerHTML }).eq('id', 'index');
                     }
                 }
                 
