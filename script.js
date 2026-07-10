@@ -1143,17 +1143,18 @@ window.initCoversMarquee = function() {
   });
 
   // Apply correct display rules based on the active filter button
-        const isEdit = document.body.classList.contains('edit-mode');
-      
-      const subFilters = document.getElementById('book-covers-sub-filters');
-      if (subFilters) {
-        if (cat === 'covers') {
-          subFilters.style.display = 'flex';
-        } else {
-          subFilters.style.display = 'none';
-        }
-      }
+  const isEdit = document.body.classList.contains('edit-mode');
   const activeFilter = document.querySelector('.filter-btn.active');
+  const cat = activeFilter ? activeFilter.dataset.cat : 'all';
+  
+  const subFilters = document.getElementById('book-covers-sub-filters');
+  if (subFilters) {
+    if (cat === 'covers') {
+      subFilters.style.display = 'flex';
+    } else {
+      subFilters.style.display = 'none';
+    }
+  }
   if (activeFilter) {
     const cat = activeFilter.dataset.cat;
     if (isEdit) {
@@ -1251,17 +1252,18 @@ window.initPaperbackCoversMarquee = function() {
   });
 
   // Apply correct display rules based on the active filter button
-        const isEdit = document.body.classList.contains('edit-mode');
-      
-      const subFilters = document.getElementById('book-covers-sub-filters');
-      if (subFilters) {
-        if (cat === 'covers') {
-          subFilters.style.display = 'flex';
-        } else {
-          subFilters.style.display = 'none';
-        }
-      }
+  const isEdit = document.body.classList.contains('edit-mode');
   const activeFilter = document.querySelector('.filter-btn.active');
+  const cat = activeFilter ? activeFilter.dataset.cat : 'all';
+  
+  const subFilters = document.getElementById('book-covers-sub-filters');
+  if (subFilters) {
+    if (cat === 'covers') {
+      subFilters.style.display = 'flex';
+    } else {
+      subFilters.style.display = 'none';
+    }
+  }
   if (activeFilter) {
     const cat = activeFilter.dataset.cat;
     if (isEdit) {
@@ -1346,17 +1348,18 @@ window.initFormattingMarquee = function() {
   });
 
   // Apply correct display rules based on the active filter button
-        const isEdit = document.body.classList.contains('edit-mode');
-      
-      const subFilters = document.getElementById('book-covers-sub-filters');
-      if (subFilters) {
-        if (cat === 'covers') {
-          subFilters.style.display = 'flex';
-        } else {
-          subFilters.style.display = 'none';
-        }
-      }
+  const isEdit = document.body.classList.contains('edit-mode');
   const activeFilter = document.querySelector('.filter-btn.active');
+  const cat = activeFilter ? activeFilter.dataset.cat : 'all';
+  
+  const subFilters = document.getElementById('book-covers-sub-filters');
+  if (subFilters) {
+    if (cat === 'covers') {
+      subFilters.style.display = 'flex';
+    } else {
+      subFilters.style.display = 'none';
+    }
+  }
   if (activeFilter) {
     const cat = activeFilter.dataset.cat;
     if (isEdit) {

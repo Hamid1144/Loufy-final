@@ -3114,7 +3114,7 @@
   </script>
 
   <!-- Subcategory Manager Modal (Dashboard) -->
-  <div id="dashboard-subcat-modal" class="modal-overlay" style="display:none; z-index:999999;">
+  <div id="dashboard-subcat-modal" class="modal-overlay" style="z-index:999999;">
     <div class="modal-content" style="max-height: 80vh; overflow-y: auto; width:90%; max-width:500px;">
       <div class="modal-header" style="border-bottom:1px solid #333; padding-bottom:12px;">
         <h3 style="color:#dc3545; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-list-ul"></i> Manage Subcategories</h3>
@@ -3189,10 +3189,10 @@
                     });
                 }
                 renderDsList();
-                dsModal.style.display = 'flex';
+                dsModal.classList.add('active');
             });
             
-            dsCloseBtns.forEach(b => b.addEventListener('click', () => dsModal.style.display = 'none'));
+            dsCloseBtns.forEach(b => b.addEventListener('click', () => dsModal.classList.remove('active')));
             
             dsAddBtn.addEventListener('click', () => {
                 const val = dsInput.value.trim();
@@ -3241,7 +3241,7 @@
                     if (typeof renderKeywordPills === 'function') renderKeywordPills();
                     
                     showToast('Subcategories Synced successfully!', 'success');
-                    dsModal.style.display = 'none';
+                    dsModal.classList.remove('active');
                 } catch(e) {
                     console.error(e);
                     showToast('Failed to sync subcategories', 'error');
