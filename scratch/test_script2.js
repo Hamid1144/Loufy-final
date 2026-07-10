@@ -41,10 +41,20 @@
         let source = "none";
         
         try {
+            // Guarantee we have a valid client instance without relying on global variables!
+            const myUrl = 'https://pgictinimttptsxbvngg.supabase.co';
+            const myKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc';
+            
+            if (!window.supabase) {
+                throw new Error("Supabase library not loaded. Check your internet connection or ad blocker.");
+            }
+            
+            const sbClient = window.supabase.createClient(myUrl, myKey);
+            
             // Strategy 1: Try validSubcats (populated on load)
-            if (typeof validSubcats !== 'undefined' && Object.keys(validSubcats).length > 0) {
+            if (typeof window.validSubcats !== 'undefined' && validSubcats && Object.keys(validSubcats).length > 0) {
                 Object.keys(validSubcats).forEach(name => {
-                    dsSubcats.push({ name: name, slug: validSubcats[name] });
+                    dsSubcats.push({ name: name, slug: window.validSubcats[name] });
                 });
                 source = "validSubcats";
             }
@@ -52,7 +62,7 @@
             // Strategy 2: Try portfolioDoc (parsed on load)
             if (dsSubcats.length === 0 && typeof portfolioDoc !== 'undefined' && portfolioDoc) {
                 const btns = portfolioDoc.querySelectorAll('#book-covers-sub-filters .sub-filter-btn:not([data-subcat="all"])');
-                if (btns.length > 0) {
+                if (btns && btns.length > 0) {
                     btns.forEach(b => {
                         dsSubcats.push({ name: b.textContent.trim(), slug: b.getAttribute('data-subcat') });
                     });
@@ -62,12 +72,12 @@
             
             // Strategy 3: Try Supabase Fetch (bypass cache)
             if (dsSubcats.length === 0) {
-                const portRes = await supabase.from('site_content').select('html_content').eq('id', 'portfolio').single();
+                const portRes = await sbClient.from('site_content').select('html_content').eq('id', 'portfolio').single();
                 if (portRes && portRes.data) {
                     const parser = new DOMParser();
                     const tempDoc = parser.parseFromString(portRes.data.html_content, 'text/html');
                     const btns = tempDoc.querySelectorAll('#book-covers-sub-filters .sub-filter-btn:not([data-subcat="all"])');
-                    if (btns.length > 0) {
+                    if (btns && btns.length > 0) {
                         btns.forEach(b => {
                             dsSubcats.push({ name: b.textContent.trim(), slug: b.getAttribute('data-subcat') });
                         });
@@ -76,21 +86,23 @@
                     }
                 }
             }
+            
+            // If STILL empty, show an alert to the user so they can tell me what's wrong!
+            if (dsSubcats.length === 0) {
+                alert("DEBUG INFO: Subcategories are empty. Checked validSubcats, portfolioDoc, and Supabase site_content. All returned 0 items. Please take a screenshot of this alert and send it to the developer.");
+            }
+            
+            renderDsList();
+            
+            const modal = document.getElementById('dashboard-subcat-modal');
+            if (modal) modal.classList.add('active');
+            
         } catch(err) {
             console.error('Failed to load subcategories:', err);
             alert("Error loading subcategories: " + err.message);
+        } finally {
+            if (btnManage) btnManage.innerHTML = '<i class="fa-solid fa-list-ul"></i> Manage Covers Subcategories';
         }
-        
-        // If STILL empty, show an alert to the user so they can tell me what's wrong!
-        if (dsSubcats.length === 0) {
-            alert("DEBUG INFO: Subcategories are empty. Checked validSubcats, portfolioDoc, and Supabase site_content. All returned 0 items. Please take a screenshot of this alert and send it to the developer.");
-        }
-        
-        renderDsList();
-        if (btnManage) btnManage.innerHTML = '<i class="fa-solid fa-list-ul"></i> Manage Covers Subcategories';
-        
-        const modal = document.getElementById('dashboard-subcat-modal');
-        if (modal) modal.classList.add('active');
     };
 
     document.body.addEventListener('click', async (e) => {
@@ -123,6 +135,10 @@
             dsSaveBtn.disabled = true;
             
             try {
+                const sbUrl = 'https://pgictinimttptsxbvngg.supabase.co';
+                const sbKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc';
+                const sbClient = window.supabase.createClient(sbUrl, sbKey);
+                
                 let newHtml = `<button class="sub-filter-btn active" data-subcat="all">All</button>\n`;
                 dsSubcats.forEach(sub => {
                     newHtml += `<button class="sub-filter-btn" data-subcat="${sub.slug}">${sub.name}</button>\n`;
@@ -132,7 +148,7 @@
                     const pContainer = portfolioDoc.getElementById('book-covers-sub-filters');
                     if (pContainer) {
                         pContainer.innerHTML = newHtml;
-                        await supabase.from('site_content').update({ html_content: portfolioDoc.body.innerHTML }).eq('id', 'portfolio');
+                        await sbClient.from('site_content').update({ html_content: '<!DOCTYPE html>\n' + portfolioDoc.documentElement.outerHTML }).eq('id', 'portfolio');
                     }
                 }
                 
@@ -140,27 +156,32 @@
                     const iContainer = indexDoc.getElementById('book-covers-sub-filters');
                     if (iContainer) {
                         iContainer.innerHTML = newHtml;
-                        await supabase.from('site_content').update({ html_content: indexDoc.body.innerHTML }).eq('id', 'index');
+                        await sbClient.from('site_content').update({ html_content: '<!DOCTYPE html>\n' + indexDoc.documentElement.outerHTML }).eq('id', 'index');
                     }
                 }
                 
-                if (typeof CATEGORY_KEYWORDS !== 'undefined') {
-                    CATEGORY_KEYWORDS['covers'] = dsSubcats.map(s => s.name);
-                }
-                if (typeof validSubcats !== 'undefined') {
-                    // We must update the global validSubcats object without reassigning if it's const, 
-                    // but it's let in admin.js
-                    window.validSubcats = {};
-                    dsSubcats.forEach(s => window.validSubcats[s.name] = s.slug);
+                if (typeof window.CATEGORY_KEYWORDS !== 'undefined') {
+                    window.CATEGORY_KEYWORDS['covers'] = dsSubcats.map(s => s.name);
                 }
                 
-                if (typeof renderKeywordPills === 'function') renderKeywordPills();
+                if (typeof window.validSubcats !== 'undefined' || typeof window.validSubcats !== 'undefined') {
+                    const targetObj = window.validSubcats || validSubcats;
+                    // Clear the object properties without reassignment just in case
+                    for (const prop of Object.keys(targetObj)) {
+                        delete targetObj[prop];
+                    }
+                    dsSubcats.forEach(s => targetObj[s.name] = s.slug);
+                    if (typeof window.validSubcats !== 'undefined') window.validSubcats = targetObj;
+                }
+                
+                if (typeof window.renderKeywordPills === 'function') window.renderKeywordPills();
                 
                 if(typeof showToast === 'function') showToast('Subcategories Synced successfully!', 'success');
                 const modal = document.getElementById('dashboard-subcat-modal');
                 if (modal) modal.classList.remove('active');
             } catch(err) {
-                console.error(err);
+                console.error('Save to Cloud Error:', err);
+                alert("Failed to sync subcategories: " + err.message);
                 if(typeof showToast === 'function') showToast('Failed to sync subcategories', 'error');
             } finally {
                 dsSaveBtn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud`;
