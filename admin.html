@@ -2394,7 +2394,7 @@
           const clone = doc.documentElement.cloneNode(true);
           clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-category-selector-modal, #admin-text-toolbar, .admin-element-toolbar, #fp-rp-overlay, #fp-rp-modal, #custom-toast, .covers-marquee-container, .formatting-marquee-container, #admin-blog-modal, #admin-hero-bg-modal').forEach(el => el.remove());
           clone.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
-          return '<!DOCTYPE html>\n' + clone.outerHTML;
+          return clone.body.innerHTML;
         };
         
         const finalIndexHTML = cleanDocHTML(indexDoc);
@@ -3290,7 +3290,7 @@
                     const pContainer = portfolioDoc.getElementById('book-covers-sub-filters');
                     if (pContainer) {
                         pContainer.innerHTML = newHtml;
-                        await sbClient.from('site_content').update({ html_content: '<!DOCTYPE html>\n' + portfolioDoc.documentElement.outerHTML }).eq('id', 'portfolio');
+                        await sbClient.from('site_content').update({ html_content: portfolioDoc.body.innerHTML }).eq('id', 'portfolio');
                     }
                 }
                 
@@ -3298,7 +3298,7 @@
                     const iContainer = indexDoc.getElementById('book-covers-sub-filters');
                     if (iContainer) {
                         iContainer.innerHTML = newHtml;
-                        await sbClient.from('site_content').update({ html_content: '<!DOCTYPE html>\n' + indexDoc.documentElement.outerHTML }).eq('id', 'index');
+                        await sbClient.from('site_content').update({ html_content: indexDoc.body.innerHTML }).eq('id', 'index');
                     }
                 }
                 
