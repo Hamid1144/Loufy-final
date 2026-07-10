@@ -727,6 +727,33 @@ document.addEventListener("DOMContentLoaded", () => {
                     </select>
                 </div>
                 
+                <!-- Subcategory Select -->
+                <div id="add-item-subcategory-container" style="display:none; flex-direction:column; gap:5px;">
+                    <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Subcategory</label>
+                    <select id="add-item-subcategory" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; cursor:pointer; width:100%;">
+                        <option value="business">Business</option>
+                        <option value="childrens">Children's</option>
+                        <option value="crime">Crime</option>
+                        <option value="cooking">Cooking</option>
+                        <option value="educational">Educational</option>
+                        <option value="fantasy">Fantasy</option>
+                        <option value="fitness">Fitness</option>
+                        <option value="historical-fiction">Historical Fiction</option>
+                        <option value="horror">Horror</option>
+                        <option value="mystery">Mystery</option>
+                        <option value="paranormal">Paranormal</option>
+                        <option value="poetry">Poetry</option>
+                        <option value="psychology">Psychology</option>
+                        <option value="religious">Religious</option>
+                        <option value="romance">Romance</option>
+                        <option value="science-fiction">Science Fiction</option>
+                        <option value="spiritual">Spiritual</option>
+                        <option value="technology">Technology</option>
+                        <option value="travel">Travel</option>
+                        <option value="wildlife">Wildlife</option>
+                    </select>
+                </div>
+                
                 <!-- Layout/Type Choice -->
                 <div style="display:flex; flex-direction:column; gap:5px;">
                     <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Item Type / Layout</label>
@@ -1163,6 +1190,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (typeof updateAddItemLayoutHighlights === 'function') {
                 updateAddItemLayoutHighlights();
+            }
+            
+            const subContainer = document.getElementById('add-item-subcategory-container');
+            if (subContainer) {
+                if (val === 'covers') {
+                    subContainer.style.display = 'flex';
+                } else {
+                    subContainer.style.display = 'none';
+                }
             }
         });
     }
@@ -2444,6 +2480,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             const cat = addItemCategory ? addItemCategory.value : 'covers';
+            const subcatSelect = document.getElementById('add-item-subcategory');
+            const subcat = (subcatSelect && cat === 'covers') ? subcatSelect.value : '';
             const layoutRadio = addItemModal ? addItemModal.querySelector('input[name="add-item-layout"]:checked') : null;
             const layout = layoutRadio ? layoutRadio.value : 'standard';
             const title = addItemTitle ? addItemTitle.value.trim() : '';
@@ -2472,6 +2510,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const newItem = document.createElement('div');
             newItem.className = 'portfolio-card reveal active';
             newItem.setAttribute('data-cat', cat.toLowerCase());
+            if (subcat) {
+                newItem.setAttribute('data-subcat', subcat);
+            }
             
             if (layout === 'full-width') {
                 newItem.setAttribute('data-layout', 'full-width');
