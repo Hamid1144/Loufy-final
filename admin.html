@@ -3223,7 +3223,7 @@
                     const pContainer = portfolioDoc.getElementById('book-covers-sub-filters');
                     if (pContainer) {
                         pContainer.innerHTML = newHtml;
-                        await supabase.from('pages').update({ html_content: portfolioDoc.body.innerHTML }).eq('slug', 'portfolio');
+                        await supabase.from('site_content').update({ html_content: portfolioDoc.body.innerHTML }).eq('id', 'portfolio');
                     }
                 }
                 
@@ -3231,7 +3231,7 @@
                     const iContainer = indexDoc.getElementById('book-covers-sub-filters');
                     if (iContainer) {
                         iContainer.innerHTML = newHtml;
-                        await supabase.from('pages').update({ html_content: indexDoc.body.innerHTML }).eq('slug', 'index');
+                        await supabase.from('site_content').update({ html_content: indexDoc.body.innerHTML }).eq('id', 'index');
                     }
                 }
                 
