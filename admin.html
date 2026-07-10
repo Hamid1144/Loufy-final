@@ -1829,7 +1829,7 @@
 
     // ── PORTFOLIO TAG PILLS LOGIC ──
     const CATEGORY_KEYWORDS = {
-      'covers': ['Fiction', 'Non-Fiction', 'Fantasy', 'Sci-Fi', 'Thriller', 'Romance', 'Mystery', 'Horror', 'Kindle', 'Ebook', 'Minimalist', 'Typography'],
+      'covers': ['Business', "Children's", 'Crime', 'Cooking', 'Educational', 'Fantasy', 'Fitness', 'Historical Fiction', 'Horror', 'Mystery', 'Paranormal', 'Poetry', 'Psychology', 'Religious', 'Romance', 'Science Fiction', 'Spiritual', 'Technology', 'Travel', 'Wildlife'],
       'paperback-covers': ['Paperback', 'Hardcover', 'Bleed', 'Spine Design', 'Dust Jacket', 'KDP Print', 'IngramSpark', 'Bar-Code', 'Back Cover', 'Wrap-Around', 'Matte Finish', 'Glossy Finish'],
       'children': ['Children Book', 'Illustrations', 'Story Book', 'Coloring Book', 'Character Design', 'Vibrant Colors', 'Hardcover', 'Kindle Kids', 'Nursery Rhymes', 'A+ Content', 'Bleed', 'Activity Book'],
       'formatting': ['Book Formatting', 'KDP Interior', 'Paperback Format', 'Kindle Format', 'EPUB', 'Novel Layout', 'Non-Fiction Format', 'Drop Caps', 'Header-Footer', 'Table of Contents', 'Bleed Layout', 'Children Book'],
@@ -1952,9 +1952,39 @@
       
       const cleanImgUrl = imgUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
       
+      let subcatAttr = '';
+      if (cat === 'covers') {
+         const validSubcats = {
+            'Business': 'business',
+            "Children's": 'childrens',
+            'Crime': 'crime',
+            'Cooking': 'cooking',
+            'Educational': 'educational',
+            'Fantasy': 'fantasy',
+            'Fitness': 'fitness',
+            'Historical Fiction': 'historical-fiction',
+            'Horror': 'horror',
+            'Mystery': 'mystery',
+            'Paranormal': 'paranormal',
+            'Poetry': 'poetry',
+            'Psychology': 'psychology',
+            'Religious': 'religious',
+            'Romance': 'romance',
+            'Science Fiction': 'science-fiction',
+            'Spiritual': 'spiritual',
+            'Technology': 'technology',
+            'Travel': 'travel',
+            'Wildlife': 'wildlife'
+         };
+         const matchingTag = tags.find(t => validSubcats[t]);
+         if (matchingTag) {
+            subcatAttr = ` data-subcat="${validSubcats[matchingTag]}"`;
+         }
+      }
+      
       // Construct card HTML
       const cardHTML = `
-<div class="portfolio-card reveal" data-cat="${cat}" data-layout="${layout}" style="">
+<div class="portfolio-card reveal" data-cat="${cat}" data-layout="${layout}"${subcatAttr} style="">
                     <div class="portfolio-thumb">
                         <img src="${cleanImgUrl}" alt="${title}" data-optimized="true" srcset="${cleanImgUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/f_auto,q_auto,w_480/')} 480w, ${cleanImgUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/f_auto,q_auto,w_800/')} 800w, ${cleanImgUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/f_auto,q_auto,w_1200/')} 1200w">
                     </div>

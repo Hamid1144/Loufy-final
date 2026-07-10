@@ -376,6 +376,17 @@ window.initSiteLogic = function () {
     });
   });
 
+  // Sub-category filters
+  document.querySelectorAll('.sub-filter-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelectorAll('.sub-filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      const activeMainFilter = document.querySelector('.filter-btn.active');
+      if (activeMainFilter) activeMainFilter.click();
+    });
+  });
+
   // Ensure correct category is selected by default on load
   let defaultFilter;
   if (!isMainPage) {
