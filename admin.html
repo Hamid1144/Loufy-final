@@ -3290,7 +3290,12 @@
                     const pContainer = portfolioDoc.getElementById('book-covers-sub-filters');
                     if (pContainer) {
                         pContainer.innerHTML = newHtml;
-                        const pUp = await sbClient.from('site_content').upsert({ id: 'portfolio', html_content: portfolioDoc.body.innerHTML }); if (pUp.error) throw pUp.error;
+                        
+                        if (!portfolioDoc.body || !portfolioDoc.body.innerHTML) {
+                            alert("DEBUG: portfolioDoc.body is empty!");
+                        }
+                        const pUp = await sbClient.from('site_content').upsert({ id: 'portfolio', html_content: portfolioDoc.body.innerHTML });
+ if (pUp.error) throw pUp.error;
                     }
                 }
                 

@@ -92,22 +92,25 @@ foreach ($page in $pages) {
             }
             
             Write-Host "Uploading body content to Supabase..."
-            $updateUri = "$supabaseUrl/rest/v1/site_content?id=eq.$id"
+            $updateUri = "$supabaseUrl/rest/v1/site_content"
             
             $bodyObj = @{
+                id = $id
                 html_content = $bodyContent
             }
             $bodyJson = ConvertTo-Json -InputObject $bodyObj -Compress
             
             $maxRetries = 3
             $retryCount = 0
+            $headers['Prefer'] = 'return=representation,resolution=merge-duplicates'
             $success = $false
             
             while (-not $success -and $retryCount -lt $maxRetries) {
                 $retryCount++
                 try {
                     $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($bodyJson)
-                    $response = Invoke-WebRequest -Uri $updateUri -Headers $headers -Method Patch -Body $bodyBytes -UseBasicParsing
+                    
+                    $response = Invoke-WebRequest -Uri $updateUri -Headers $headers -Method Post -Body $bodyBytes -UseBasicParsing
                     
                     if ($response.StatusCode -ge 200 -and $response.StatusCode -lt 300) {
                         Write-Host "Successfully pushed '$id' body to Supabase!"
