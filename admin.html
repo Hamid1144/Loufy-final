@@ -3138,7 +3138,7 @@
 
   <script>
     // Subcategory Manager Dashboard Logic
-    document.addEventListener('DOMContentLoaded', () => {
+    (function() {
         const dsBtn = document.getElementById('manage-subcats-dashboard-btn');
         const dsModal = document.getElementById('dashboard-subcat-modal');
         const dsCloseBtns = document.querySelectorAll('.close-dashboard-subcat');
@@ -3251,7 +3251,7 @@
                 }
             });
         }
-    });
+    })();
   </script>
 </body>
 </html>
