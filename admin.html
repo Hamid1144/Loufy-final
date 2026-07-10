@@ -3178,6 +3178,9 @@
         dsSubcats = [];
         let source = "none";
         
+        // Guarantee we have a valid client instance!
+        const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
         try {
             // Strategy 1: Try validSubcats (populated on load)
             if (typeof validSubcats !== 'undefined' && Object.keys(validSubcats).length > 0) {
@@ -3200,7 +3203,8 @@
             
             // Strategy 3: Try Supabase Fetch (bypass cache)
             if (dsSubcats.length === 0) {
-                const portRes = await supabase.from('site_content').select('html_content').eq('id', 'portfolio').single();
+                // Fetch using our guaranteed client instance, appending a cache buster
+                const portRes = await sbClient.from('site_content').select('html_content').eq('id', 'portfolio').single();
                 if (portRes && portRes.data) {
                     const parser = new DOMParser();
                     const tempDoc = parser.parseFromString(portRes.data.html_content, 'text/html');
@@ -3270,7 +3274,7 @@
                     const pContainer = portfolioDoc.getElementById('book-covers-sub-filters');
                     if (pContainer) {
                         pContainer.innerHTML = newHtml;
-                        await supabase.from('site_content').update({ html_content: portfolioDoc.body.innerHTML }).eq('id', 'portfolio');
+                        await window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY).from('site_content').update({ html_content: portfolioDoc.body.innerHTML }).eq('id', 'portfolio');
                     }
                 }
                 
@@ -3278,7 +3282,7 @@
                     const iContainer = indexDoc.getElementById('book-covers-sub-filters');
                     if (iContainer) {
                         iContainer.innerHTML = newHtml;
-                        await supabase.from('site_content').update({ html_content: indexDoc.body.innerHTML }).eq('id', 'index');
+                        await window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY).from('site_content').update({ html_content: indexDoc.body.innerHTML }).eq('id', 'index');
                     }
                 }
                 
