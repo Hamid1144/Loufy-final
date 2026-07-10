@@ -1712,6 +1712,22 @@
     // ── PORTFOLIO MANAGER ──
     function loadPortfolioItems() {
       portfolioItems = [];
+      
+      const subButtons = portfolioDoc.querySelectorAll('#book-covers-sub-filters .sub-filter-btn:not([data-subcat="all"])');
+      const coversKWs = [];
+      validSubcats = {};
+      if (subButtons) {
+        subButtons.forEach(btn => {
+           const name = btn.textContent.trim();
+           const slug = btn.getAttribute('data-subcat');
+           if (name && slug) {
+               coversKWs.push(name);
+               validSubcats[name] = slug;
+           }
+        });
+      }
+      CATEGORY_KEYWORDS['covers'] = coversKWs;
+      
       const grid = portfolioDoc.querySelector('.portfolio-grid');
       if (!grid) return;
       
@@ -1828,8 +1844,9 @@
     });
 
     // ── PORTFOLIO TAG PILLS LOGIC ──
+    let validSubcats = {};
     const CATEGORY_KEYWORDS = {
-      'covers': ['Business', "Children's", 'Crime', 'Cooking', 'Educational', 'Fantasy', 'Fitness', 'Historical Fiction', 'Horror', 'Mystery', 'Paranormal', 'Poetry', 'Psychology', 'Religious', 'Romance', 'Science Fiction', 'Spiritual', 'Technology', 'Travel', 'Wildlife'],
+      'covers': [], // Will be populated dynamically
       'paperback-covers': ['Paperback', 'Hardcover', 'Bleed', 'Spine Design', 'Dust Jacket', 'KDP Print', 'IngramSpark', 'Bar-Code', 'Back Cover', 'Wrap-Around', 'Matte Finish', 'Glossy Finish'],
       'children': ['Children Book', 'Illustrations', 'Story Book', 'Coloring Book', 'Character Design', 'Vibrant Colors', 'Hardcover', 'Kindle Kids', 'Nursery Rhymes', 'A+ Content', 'Bleed', 'Activity Book'],
       'formatting': ['Book Formatting', 'KDP Interior', 'Paperback Format', 'Kindle Format', 'EPUB', 'Novel Layout', 'Non-Fiction Format', 'Drop Caps', 'Header-Footer', 'Table of Contents', 'Bleed Layout', 'Children Book'],
@@ -1954,28 +1971,7 @@
       
       let subcatAttr = '';
       if (cat === 'covers') {
-         const validSubcats = {
-            'Business': 'business',
-            "Children's": 'childrens',
-            'Crime': 'crime',
-            'Cooking': 'cooking',
-            'Educational': 'educational',
-            'Fantasy': 'fantasy',
-            'Fitness': 'fitness',
-            'Historical Fiction': 'historical-fiction',
-            'Horror': 'horror',
-            'Mystery': 'mystery',
-            'Paranormal': 'paranormal',
-            'Poetry': 'poetry',
-            'Psychology': 'psychology',
-            'Religious': 'religious',
-            'Romance': 'romance',
-            'Science Fiction': 'science-fiction',
-            'Spiritual': 'spiritual',
-            'Technology': 'technology',
-            'Travel': 'travel',
-            'Wildlife': 'wildlife'
-         };
+         // validSubcats is now populated globally in loadPortfolioItems()
          const matchingTag = tags.find(t => validSubcats[t]);
          if (matchingTag) {
             subcatAttr = ` data-subcat="${validSubcats[matchingTag]}"`;

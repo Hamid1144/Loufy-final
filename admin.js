@@ -246,6 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="manage-pricing" class="admin-btn" style="background:#6f42c1;"><i class="fa-solid fa-dollar-sign"></i> Manage Pricing Links</button>
             <button id="manage-sections" class="admin-btn" style="background:#e83e8c;"><i class="fa-solid fa-layer-group"></i> Manage Sections</button>
             <button id="manage-filters" class="admin-btn" style="background:#fd7e14;"><i class="fa-solid fa-tags"></i> Manage Categories</button>
+            <button id="manage-subcategories-btn" class="admin-btn" style="background:#dc3545; color:#fff;"><i class="fa-solid fa-list-ul"></i> Manage Subcategories</button>
             <button id="manage-blogs-btn" class="admin-btn" style="background:#ff9f43; color:#fff;"><i class="fa-solid fa-blog"></i> Manage Blog Posts</button>
             <button id="manage-theme" class="admin-btn" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-palette"></i> Customize Theme</button>
             <button id="manage-hero-card" class="admin-btn" style="background:#ff5722; color:#fff;"><i class="fa-solid fa-wand-magic-sparkles"></i> Edit Hero Content</button>
@@ -731,26 +732,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div id="add-item-subcategory-container" style="display:none; flex-direction:column; gap:5px;">
                     <label style="font-size:0.8rem; color:#aaa; font-weight:600;">Subcategory</label>
                     <select id="add-item-subcategory" style="padding:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:0.85rem; cursor:pointer; width:100%;">
-                        <option value="business">Business</option>
-                        <option value="childrens">Children's</option>
-                        <option value="crime">Crime</option>
-                        <option value="cooking">Cooking</option>
-                        <option value="educational">Educational</option>
-                        <option value="fantasy">Fantasy</option>
-                        <option value="fitness">Fitness</option>
-                        <option value="historical-fiction">Historical Fiction</option>
-                        <option value="horror">Horror</option>
-                        <option value="mystery">Mystery</option>
-                        <option value="paranormal">Paranormal</option>
-                        <option value="poetry">Poetry</option>
-                        <option value="psychology">Psychology</option>
-                        <option value="religious">Religious</option>
-                        <option value="romance">Romance</option>
-                        <option value="science-fiction">Science Fiction</option>
-                        <option value="spiritual">Spiritual</option>
-                        <option value="technology">Technology</option>
-                        <option value="travel">Travel</option>
-                        <option value="wildlife">Wildlife</option>
+                        <!-- Populated dynamically -->
                     </select>
                 </div>
                 
@@ -1138,6 +1120,27 @@ document.addEventListener("DOMContentLoaded", () => {
         addItemModal.querySelectorAll('input[name="add-item-layout"]').forEach(radio => {
             radio.addEventListener('change', updateAddItemLayoutHighlights);
         });
+    }
+
+
+    function populateAddItemSubcategories() {
+        const subcatSelect = document.getElementById("add-item-subcategory");
+        if (!subcatSelect) return;
+        subcatSelect.innerHTML = '';
+        
+        const subButtons = document.querySelectorAll('#book-covers-sub-filters .sub-filter-btn:not([data-subcat="all"])');
+        if (subButtons && subButtons.length > 0) {
+            subButtons.forEach(btn => {
+                const name = btn.textContent.trim();
+                const slug = btn.getAttribute('data-subcat');
+                if (name && slug) {
+                    const opt = document.createElement('option');
+                    opt.value = slug;
+                    opt.textContent = name;
+                    subcatSelect.appendChild(opt);
+                }
+            });
+        }
     }
 
     function populateAddItemCategories() {
@@ -3523,7 +3526,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveBtn.innerText = "Saving to Cloud...";
 
             const clone = document.body.cloneNode(true);
-            const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar, #admin-blog-modal, #admin-hero-bg-modal');
+            const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar, #admin-blog-modal, #admin-hero-bg-modal, #admin-subcat-modal');
             adminElements.forEach(el => el.remove());
 
             clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
@@ -5962,3 +5965,154 @@ document.addEventListener("DOMContentLoaded", () => {
     initTextToolbarEvents();
     loadSavedContent();
 });
+
+
+    // --- Subcategory Manager Logic ---
+    const manageSubcatBtn = document.getElementById("manage-subcategories-btn");
+    const subcatModal = document.getElementById("admin-subcat-modal");
+    const closeSubcatBtn = subcatModal ? subcatModal.querySelector(".close-subcat-modal") : null;
+    const closeSubcatBtn2 = subcatModal ? subcatModal.querySelector(".close-subcat-modal-btn") : null;
+    const addSubcatBtn = document.getElementById("add-subcat-btn");
+    const newSubcatInput = document.getElementById("new-subcat-input");
+    const subcatListContainer = document.getElementById("subcat-list-container");
+    const saveSubcatBtn = document.getElementById("save-subcat-btn");
+    
+    let currentSubcats = [];
+
+    function renderSubcatList() {
+        if (!subcatListContainer) return;
+        subcatListContainer.innerHTML = '';
+        currentSubcats.forEach((sub, index) => {
+            const item = document.createElement('div');
+            item.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:#222; padding:8px 12px; border-radius:6px; border:1px solid #444;";
+            
+            const input = document.createElement('input');
+            input.type = "text";
+            input.value = sub.name;
+            input.style.cssText = "background:transparent; border:none; color:#fff; font-size:0.85rem; font-family:'Poppins', sans-serif; flex:1; outline:none;";
+            input.addEventListener('change', (e) => {
+                currentSubcats[index].name = e.target.value.trim();
+                // re-generate slug if needed? Let's just keep the old slug so existing cards don't break, unless it's new
+            });
+            
+            const delBtn = document.createElement('button');
+            delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+            delBtn.style.cssText = "background:none; border:none; color:#dc3545; cursor:pointer; font-size:0.9rem; margin-left:10px;";
+            delBtn.onclick = () => {
+                currentSubcats.splice(index, 1);
+                renderSubcatList();
+            };
+            
+            item.appendChild(input);
+            item.appendChild(delBtn);
+            subcatListContainer.appendChild(item);
+        });
+    }
+
+    if (manageSubcatBtn && subcatModal) {
+        manageSubcatBtn.addEventListener('click', () => {
+            // Read current subcategories from the DOM
+            currentSubcats = [];
+            const existingBtns = document.querySelectorAll('#book-covers-sub-filters .sub-filter-btn:not([data-subcat="all"])');
+            existingBtns.forEach(btn => {
+                currentSubcats.push({
+                    name: btn.textContent.trim(),
+                    slug: btn.getAttribute('data-subcat')
+                });
+            });
+            renderSubcatList();
+            subcatModal.style.display = 'flex';
+        });
+        
+        const closeMod = () => { subcatModal.style.display = 'none'; };
+        if (closeSubcatBtn) closeSubcatBtn.addEventListener('click', closeMod);
+        if (closeSubcatBtn2) closeSubcatBtn2.addEventListener('click', closeMod);
+        
+        if (addSubcatBtn && newSubcatInput) {
+            addSubcatBtn.addEventListener('click', () => {
+                const val = newSubcatInput.value.trim();
+                if (!val) return;
+                const slug = val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                if (currentSubcats.find(s => s.slug === slug)) {
+                    window.showToast('Subcategory already exists!', 'error');
+                    return;
+                }
+                currentSubcats.push({ name: val, slug: slug });
+                newSubcatInput.value = '';
+                renderSubcatList();
+            });
+        }
+        
+        if (saveSubcatBtn) {
+            saveSubcatBtn.addEventListener('click', async () => {
+                saveSubcatBtn.innerText = "Syncing...";
+                saveSubcatBtn.disabled = true;
+                
+                try {
+                    // 1. Build new HTML for sub-filters
+                    let newHtml = `<button class="sub-filter-btn active" data-subcat="all">All</button>\n`;
+                    currentSubcats.forEach(sub => {
+                        newHtml += `<button class="sub-filter-btn" data-subcat="${sub.slug}">${sub.name}</button>\n`;
+                    });
+                    
+                    // 2. Update current DOM
+                    const localContainer = document.getElementById('book-covers-sub-filters');
+                    if (localContainer) {
+                        localContainer.innerHTML = newHtml;
+                    }
+                    
+                    // Re-bind listeners locally so they work without refresh
+                    if (typeof window.bindSubcatListeners === 'function') {
+                        window.bindSubcatListeners(); 
+                    } else {
+                        // inline listener bind
+                        document.querySelectorAll('.sub-filter-btn').forEach(btn => {
+                            btn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                document.querySelectorAll('.sub-filter-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                const activeMainFilter = document.querySelector('.filter-btn.active');
+                                if (activeMainFilter) activeMainFilter.click();
+                            });
+                        });
+                    }
+                    
+                    // 3. Save current page
+                    const currentPage = window.location.pathname.includes('portfolio') ? 'portfolio' : 'index';
+                    const otherPage = currentPage === 'portfolio' ? 'index' : 'portfolio';
+                    
+                    // trigger standard save for current page
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    document.getElementById('save-changes').click();
+                    
+                    // 4. Fetch the other page, update its DOM string, and save it
+                    const { data: pageData, error: fetchErr } = await window.supabaseClient
+                        .from('pages')
+                        .select('html_content')
+                        .eq('slug', otherPage)
+                        .single();
+                        
+                    if (!fetchErr && pageData) {
+                        const parser = new DOMParser();
+                        const otherDoc = parser.parseFromString(pageData.html_content, 'text/html');
+                        const otherContainer = otherDoc.getElementById('book-covers-sub-filters');
+                        if (otherContainer) {
+                            otherContainer.innerHTML = newHtml;
+                            const updatedHtml = otherDoc.body.innerHTML;
+                            await window.supabaseClient.from('pages').update({ html_content: updatedHtml }).eq('slug', otherPage);
+                        }
+                    }
+                    
+                    window.showToast('Subcategories Synced successfully!', 'success');
+                    subcatModal.style.display = 'none';
+                    populateAddItemSubcategories(); // update dropdown
+                } catch(e) {
+                    console.error(e);
+                    window.showToast('Failed to sync subcategories', 'error');
+                } finally {
+                    saveSubcatBtn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud`;
+                    saveSubcatBtn.disabled = false;
+                }
+            });
+        }
+    }
