@@ -3176,23 +3176,52 @@
         if (btnManage) btnManage.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
         
         dsSubcats = [];
+        let source = "none";
+        
         try {
-            const portRes = await supabase.from('site_content').select('html_content').eq('id', 'portfolio').single();
-            if (portRes && portRes.data) {
-                const parser = new DOMParser();
-                const tempDoc = parser.parseFromString(portRes.data.html_content, 'text/html');
-                const btns = tempDoc.querySelectorAll('#book-covers-sub-filters .sub-filter-btn:not([data-subcat="all"])');
-                btns.forEach(b => {
-                    dsSubcats.push({ name: b.textContent.trim(), slug: b.getAttribute('data-subcat') });
+            // Strategy 1: Try validSubcats (populated on load)
+            if (typeof validSubcats !== 'undefined' && Object.keys(validSubcats).length > 0) {
+                Object.keys(validSubcats).forEach(name => {
+                    dsSubcats.push({ name: name, slug: validSubcats[name] });
                 });
-                
-                // Update global portfolioDoc if possible
-                if (typeof portfolioDoc !== 'undefined') {
-                    portfolioDoc = tempDoc;
+                source = "validSubcats";
+            }
+            
+            // Strategy 2: Try portfolioDoc (parsed on load)
+            if (dsSubcats.length === 0 && typeof portfolioDoc !== 'undefined' && portfolioDoc) {
+                const btns = portfolioDoc.querySelectorAll('#book-covers-sub-filters .sub-filter-btn:not([data-subcat="all"])');
+                if (btns.length > 0) {
+                    btns.forEach(b => {
+                        dsSubcats.push({ name: b.textContent.trim(), slug: b.getAttribute('data-subcat') });
+                    });
+                    source = "portfolioDoc";
+                }
+            }
+            
+            // Strategy 3: Try Supabase Fetch (bypass cache)
+            if (dsSubcats.length === 0) {
+                const portRes = await supabase.from('site_content').select('html_content').eq('id', 'portfolio').single();
+                if (portRes && portRes.data) {
+                    const parser = new DOMParser();
+                    const tempDoc = parser.parseFromString(portRes.data.html_content, 'text/html');
+                    const btns = tempDoc.querySelectorAll('#book-covers-sub-filters .sub-filter-btn:not([data-subcat="all"])');
+                    if (btns.length > 0) {
+                        btns.forEach(b => {
+                            dsSubcats.push({ name: b.textContent.trim(), slug: b.getAttribute('data-subcat') });
+                        });
+                        source = "supabase";
+                        if (typeof portfolioDoc !== 'undefined') portfolioDoc = tempDoc;
+                    }
                 }
             }
         } catch(err) {
             console.error('Failed to load subcategories:', err);
+            alert("Error loading subcategories: " + err.message);
+        }
+        
+        // If STILL empty, show an alert to the user so they can tell me what's wrong!
+        if (dsSubcats.length === 0) {
+            alert("DEBUG INFO: Subcategories are empty. Checked validSubcats, portfolioDoc, and Supabase site_content. All returned 0 items. Please take a screenshot of this alert and send it to the developer.");
         }
         
         renderDsList();
