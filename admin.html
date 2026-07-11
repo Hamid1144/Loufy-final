@@ -1983,10 +1983,24 @@
       
       let subcatAttr = '';
       if (cat === 'covers') {
-         // validSubcats is now populated globally in loadPortfolioItems()
-         const matchingTag = tags.find(t => validSubcats[t]);
-         if (matchingTag) {
-            subcatAttr = ` data-subcat="${validSubcats[matchingTag]}"`;
+         // Check case-insensitively for subcats containing commas against raw tags,
+         // e.g. "Cookbooks, Food & Wine" in "Book Cover, Cookbooks, Food & Wine"
+         const cleanTagsRaw = tagsRaw.toLowerCase();
+         let foundSubcat = null;
+         for (const [name, slug] of Object.entries(validSubcats)) {
+            if (cleanTagsRaw.includes(name.toLowerCase())) {
+               foundSubcat = slug;
+               break;
+            }
+         }
+         if (!foundSubcat) {
+            const matchingTag = tags.find(t => validSubcats[t]);
+            if (matchingTag) {
+               foundSubcat = validSubcats[matchingTag];
+            }
+         }
+         if (foundSubcat) {
+            subcatAttr = ` data-subcat="${foundSubcat}"`;
          }
       }
       
