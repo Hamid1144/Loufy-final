@@ -6086,8 +6086,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     const otherPage = currentPage === 'portfolio' ? 'index' : 'portfolio';
                     
                     // trigger standard save for current page
-                    await new Promise(resolve => setTimeout(resolve, 500));
                     document.getElementById('save-changes').click();
+                    
+                    // Wait for the main save changes process to fully complete to avoid race conditions
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    const mainSaveBtn = document.getElementById('save-changes');
+                    await new Promise(resolve => {
+                        const interval = setInterval(() => {
+                            if (!mainSaveBtn || !mainSaveBtn.disabled) {
+                                clearInterval(interval);
+                                resolve();
+                            }
+                        }, 200);
+                    });
                     
                     // 4. Fetch the other page, update its DOM string, and save it
                     const { data: pageData, error: fetchErr } = await window.supabaseClient
