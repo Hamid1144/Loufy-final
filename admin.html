@@ -2400,16 +2400,19 @@
         const finalIndexHTML = cleanDocHTML(indexDoc);
         const finalPortHTML = cleanDocHTML(portfolioDoc);
         
-        // Upload Index
-        const indexUp = await supabase.from('site_content').upsert({ id: 'index', html_content: finalIndexHTML });
+        // Upload Index (Delete then Insert Workaround)
+        await supabase.from('site_content').delete().eq('id', 'index');
+        const indexUp = await supabase.from('site_content').insert({ id: 'index', html_content: finalIndexHTML });
         if (indexUp.error) throw indexUp.error;
         
-        // Upload Portfolio
-        const portUp = await supabase.from('site_content').upsert({ id: 'portfolio', html_content: finalPortHTML });
+        // Upload Portfolio (Delete then Insert Workaround)
+        await supabase.from('site_content').delete().eq('id', 'portfolio');
+        const portUp = await supabase.from('site_content').insert({ id: 'portfolio', html_content: finalPortHTML });
         if (portUp.error) throw portUp.error;
         
-        // Upload Blogs JSON
-        const blogsUp = await supabase.from('site_content').upsert({ id: 'blogs_json', html_content: JSON.stringify(blogsList) });
+        // Upload Blogs JSON (Delete then Insert Workaround)
+        await supabase.from('site_content').delete().eq('id', 'blogs_json');
+        const blogsUp = await supabase.from('site_content').insert({ id: 'blogs_json', html_content: JSON.stringify(blogsList) });
         if (blogsUp.error) throw blogsUp.error;
         
         showToast('All changes successfully saved to Supabase cloud! Daemon will commit in 15s.', 'success');
@@ -3291,11 +3294,9 @@
                     if (pContainer) {
                         pContainer.innerHTML = newHtml;
                         
-                        if (!portfolioDoc.body || !portfolioDoc.body.innerHTML) {
-                            alert("DEBUG: portfolioDoc.body is empty!");
-                        }
-                        const pUp = await sbClient.from('site_content').upsert({ id: 'portfolio', html_content: portfolioDoc.body.innerHTML });
- if (pUp.error) throw pUp.error;
+                        await sbClient.from('site_content').delete().eq('id', 'portfolio');
+                        const pUp = await sbClient.from('site_content').insert({ id: 'portfolio', html_content: portfolioDoc.body.innerHTML });
+                        if (pUp.error) throw pUp.error;
                     }
                 }
                 
@@ -3303,7 +3304,9 @@
                     const iContainer = indexDoc.getElementById('book-covers-sub-filters');
                     if (iContainer) {
                         iContainer.innerHTML = newHtml;
-                        const iUp = await sbClient.from('site_content').upsert({ id: 'index', html_content: indexDoc.body.innerHTML }); if (iUp.error) throw iUp.error;
+                        await sbClient.from('site_content').delete().eq('id', 'index');
+                        const iUp = await sbClient.from('site_content').insert({ id: 'index', html_content: indexDoc.body.innerHTML });
+                        if (iUp.error) throw iUp.error;
                     }
                 }
                 

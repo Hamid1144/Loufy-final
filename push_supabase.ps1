@@ -91,8 +91,9 @@ foreach ($page in $pages) {
                 Write-Warning "Force flag enabled. Overwriting live '$id' database content completely with local file!"
             }
             
-            Write-Host "Uploading body content to Supabase..."
-            $updateUri = "$supabaseUrl/rest/v1/site_content"
+            Write-Host "Uploading body content to Supabase (Delete then Insert Workaround)..."
+            $deleteUri = "$supabaseUrl/rest/v1/site_content?id=eq.$id"
+            $insertUri = "$supabaseUrl/rest/v1/site_content"
             
             $bodyObj = @{
                 id = $id
@@ -102,15 +103,22 @@ foreach ($page in $pages) {
             
             $maxRetries = 3
             $retryCount = 0
-            $headers['Prefer'] = 'return=representation,resolution=merge-duplicates'
             $success = $false
             
             while (-not $success -and $retryCount -lt $maxRetries) {
                 $retryCount++
                 try {
-                    $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($bodyJson)
+                    # 1. Delete existing row
+                    try {
+                        $null = Invoke-RestMethod -Uri $deleteUri -Headers $headers -Method Delete -UseBasicParsing
+                    } catch {
+                        Write-Warning "Delete failed, attempting insert anyway: $_"
+                    }
                     
-                    $response = Invoke-WebRequest -Uri $updateUri -Headers $headers -Method Post -Body $bodyBytes -UseBasicParsing
+                    # 2. Insert new row
+                    $bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($bodyJson)
+                    $headers['Prefer'] = 'return=representation'
+                    $response = Invoke-WebRequest -Uri $insertUri -Headers $headers -Method Post -Body $bodyBytes -UseBasicParsing
                     
                     if ($response.StatusCode -ge 200 -and $response.StatusCode -lt 300) {
                         Write-Host "Successfully pushed '$id' body to Supabase!"
