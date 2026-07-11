@@ -3186,6 +3186,16 @@
         let source = "none";
         
         try {
+            // Guarantee we have a valid client instance without relying on global variables!
+            const myUrl = 'https://pgictinimttptsxbvngg.supabase.co';
+            const myKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc';
+            
+            if (!window.supabase) {
+                throw new Error("Supabase library not loaded. Check your internet connection or ad blocker.");
+            }
+            
+            const sbClient = window.supabaseClient || window.supabase.createClient(myUrl, myKey);
+
             // Strategy 1: Try validSubcats (populated on load)
             const globalSubcats = window.validSubcats || (typeof validSubcats !== 'undefined' ? validSubcats : {});
             if (Object.keys(globalSubcats).length > 0) {
@@ -3206,13 +3216,17 @@
                 }
             }
             
-            // Strategy 3: Try Supabase Fetch via existing window.supabaseClient (bypass cache)
-            if (dsSubcats.length === 0 && window.supabaseClient) {
+            // Strategy 3: Try Supabase Fetch (bypass cache)
+            if (dsSubcats.length === 0) {
                 // Add a timeout to the fetch so it doesn't hang forever
-                const fetchPromise = window.supabaseClient.from('site_content').select('html_content').eq('id', 'portfolio').single();
+                const fetchPromise = sbClient.from('site_content').select('html_content').eq('id', 'portfolio').single();
                 const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Supabase fetch timeout")), 5000));
                 
                 const portRes = await Promise.race([fetchPromise, timeoutPromise]);
+                
+                if (portRes && portRes.error) {
+                     alert("Supabase Fetch Error: " + portRes.error.message);
+                }
                 
                 if (portRes && portRes.data) {
                     const parser = new DOMParser();
@@ -3224,12 +3238,15 @@
                         });
                         source = "supabase";
                         if (typeof portfolioDoc !== 'undefined') portfolioDoc = tempDoc;
+                    } else {
+                        alert("DOMParser failed to find buttons. HTML length: " + portRes.data.html_content.length);
                     }
                 }
             }
             
             // If STILL empty, show toast instead of alert to prevent blocking
             if (dsSubcats.length === 0) {
+                alert("DEBUG INFO: Subcats are empty. Source=" + source + " | portfolioDoc exists? " + (typeof portfolioDoc !== 'undefined') + " | validSubcats keys: " + (typeof validSubcats !== 'undefined' ? Object.keys(validSubcats).length : 0));
                 if(typeof showToast === 'function') showToast("Warning: Subcategories are empty. Starting fresh.", "error");
                 console.warn("DEBUG INFO: Subcategories are empty. Checked validSubcats, portfolioDoc, and Supabase site_content.");
             }
