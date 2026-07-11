@@ -3553,10 +3553,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const pageId = isPortfolioPage ? 'portfolio' : 'index';
             const otherPageId = isPortfolioPage ? 'index' : 'portfolio';
             
-            // 1. Save current page content (primary upload)
+            // 1. Save current page content (primary upload - Delete then Insert Workaround)
+            await window.supabaseClient.from('site_content').delete().eq('id', pageId);
             const { error } = await window.supabaseClient
                 .from('site_content')
-                .upsert({ id: pageId, html_content: clone.innerHTML })
+                .insert({ id: pageId, html_content: clone.innerHTML });
                 
             if (error) throw error;
 
@@ -3622,9 +3623,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     if (needsUpdate) {
                         const updatedOtherHtml = otherDoc.body.innerHTML;
+                        await window.supabaseClient.from('site_content').delete().eq('id', otherPageId);
                         const { error: otherUpdateError } = await window.supabaseClient
                             .from('site_content')
-                            .upsert({ id: otherPageId, html_content: updatedOtherHtml });
+                            .insert({ id: otherPageId, html_content: updatedOtherHtml });
                         if (otherUpdateError) throw otherUpdateError;
                     }
                 }
@@ -5789,9 +5791,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const updatedJson = JSON.stringify(posts);
             
             if (!window.supabaseClient) throw new Error("Database not connected");
+            await window.supabaseClient.from('site_content').delete().eq('id', 'blogs_json');
             const { error } = await window.supabaseClient
                 .from('site_content')
-                .upsert({ id: 'blogs_json', html_content: updatedJson });
+                .insert({ id: 'blogs_json', html_content: updatedJson });
                 
             if (error) throw error;
             
@@ -5933,9 +5936,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const updatedJson = JSON.stringify(posts);
                 
                 if (!window.supabaseClient) throw new Error("Database not connected");
+                await window.supabaseClient.from('site_content').delete().eq('id', 'blogs_json');
                 const { error } = await window.supabaseClient
                     .from('site_content')
-                    .upsert({ id: 'blogs_json', html_content: updatedJson });
+                    .insert({ id: 'blogs_json', html_content: updatedJson });
                     
                 if (error) throw error;
                 
@@ -6087,9 +6091,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     // 4. Fetch the other page, update its DOM string, and save it
                     const { data: pageData, error: fetchErr } = await window.supabaseClient
-                        .from('pages')
+                        .from('site_content')
                         .select('html_content')
-                        .eq('slug', otherPage)
+                        .eq('id', otherPage)
                         .single();
                         
                     if (!fetchErr && pageData) {
@@ -6099,7 +6103,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (otherContainer) {
                             otherContainer.innerHTML = newHtml;
                             const updatedHtml = otherDoc.body.innerHTML;
-                            await window.supabaseClient.from('pages').update({ html_content: updatedHtml }).eq('slug', otherPage);
+                            
+                            // Delete then Insert Workaround for RLS
+                            await window.supabaseClient.from('site_content').delete().eq('id', otherPage);
+                            const { error: otherUpdateError } = await window.supabaseClient
+                                .from('site_content')
+                                .insert({ id: otherPage, html_content: updatedHtml });
+                            if (otherUpdateError) throw otherUpdateError;
                         }
                     }
                     
