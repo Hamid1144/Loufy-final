@@ -3186,20 +3186,11 @@
         let source = "none";
         
         try {
-            // Guarantee we have a valid client instance without relying on global variables!
-            const myUrl = 'https://pgictinimttptsxbvngg.supabase.co';
-            const myKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc';
-            
-            if (!window.supabase) {
-                throw new Error("Supabase library not loaded. Check your internet connection or ad blocker.");
-            }
-            
-            const sbClient = window.supabase.createClient(myUrl, myKey);
-            
             // Strategy 1: Try validSubcats (populated on load)
-            if (typeof validSubcats !== 'undefined' && validSubcats && Object.keys(validSubcats).length > 0) {
-                Object.keys(validSubcats).forEach(name => {
-                    dsSubcats.push({ name: name, slug: validSubcats[name] });
+            const globalSubcats = window.validSubcats || (typeof validSubcats !== 'undefined' ? validSubcats : {});
+            if (Object.keys(globalSubcats).length > 0) {
+                Object.keys(globalSubcats).forEach(name => {
+                    dsSubcats.push({ name: name, slug: globalSubcats[name] });
                 });
                 source = "validSubcats";
             }
@@ -3215,9 +3206,14 @@
                 }
             }
             
-            // Strategy 3: Try Supabase Fetch (bypass cache)
-            if (dsSubcats.length === 0) {
-                const portRes = await sbClient.from('site_content').select('html_content').eq('id', 'portfolio').single();
+            // Strategy 3: Try Supabase Fetch via existing window.supabaseClient (bypass cache)
+            if (dsSubcats.length === 0 && window.supabaseClient) {
+                // Add a timeout to the fetch so it doesn't hang forever
+                const fetchPromise = window.supabaseClient.from('site_content').select('html_content').eq('id', 'portfolio').single();
+                const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Supabase fetch timeout")), 5000));
+                
+                const portRes = await Promise.race([fetchPromise, timeoutPromise]);
+                
                 if (portRes && portRes.data) {
                     const parser = new DOMParser();
                     const tempDoc = parser.parseFromString(portRes.data.html_content, 'text/html');
@@ -3232,19 +3228,24 @@
                 }
             }
             
-            // If STILL empty, show an alert to the user so they can tell me what's wrong!
+            // If STILL empty, show toast instead of alert to prevent blocking
             if (dsSubcats.length === 0) {
-                alert("DEBUG INFO: Subcategories are empty. Checked validSubcats, portfolioDoc, and Supabase site_content. All returned 0 items. Please take a screenshot of this alert and send it to the developer.");
+                if(typeof showToast === 'function') showToast("Warning: Subcategories are empty. Starting fresh.", "error");
+                console.warn("DEBUG INFO: Subcategories are empty. Checked validSubcats, portfolioDoc, and Supabase site_content.");
             }
             
             renderDsList();
             
             const modal = document.getElementById('dashboard-subcat-modal');
-            if (modal) modal.classList.add('active');
+            if (modal) {
+                modal.classList.add('active');
+            } else {
+                if(typeof showToast === 'function') showToast("Error: Modal element not found in DOM.", "error");
+            }
             
         } catch(err) {
             console.error('Failed to load subcategories:', err);
-            alert("Error loading subcategories: " + err.message);
+            if(typeof showToast === 'function') showToast("Error loading subcategories: " + err.message, "error");
         } finally {
             if (btnManage) btnManage.innerHTML = '<i class="fa-solid fa-list-ul"></i> Manage Covers Subcategories';
         }
@@ -3276,13 +3277,15 @@
         
         const dsSaveBtn = e.target.closest('#ds-save-subcat-btn');
         if (dsSaveBtn) {
-            dsSaveBtn.innerHTML = "Syncing...";
+            dsSaveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Syncing...';
             dsSaveBtn.disabled = true;
             
             try {
-                const sbUrl = 'https://pgictinimttptsxbvngg.supabase.co';
-                const sbKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc';
-                const sbClient = window.supabase.createClient(sbUrl, sbKey);
+                // Use the existing client if available
+                const sbClient = window.supabaseClient || window.supabase.createClient(
+                    'https://pgictinimttptsxbvngg.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc'
+                );
                 
                 let newHtml = `<button class="sub-filter-btn active" data-subcat="all">All</button>\n`;
                 dsSubcats.forEach(sub => {
@@ -3332,8 +3335,7 @@
                 if (modal) modal.classList.remove('active');
             } catch(err) {
                 console.error('Save to Cloud Error:', err);
-                alert("Failed to sync subcategories: " + err.message);
-                if(typeof showToast === 'function') showToast('Failed to sync subcategories', 'error');
+                if(typeof showToast === 'function') showToast('Failed to sync subcategories: ' + err.message, 'error');
             } finally {
                 dsSaveBtn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud`;
                 dsSaveBtn.disabled = false;
