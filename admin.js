@@ -2513,8 +2513,33 @@ document.addEventListener("DOMContentLoaded", () => {
             const newItem = document.createElement('div');
             newItem.className = 'portfolio-card reveal active';
             newItem.setAttribute('data-cat', cat.toLowerCase());
+            
+            let finalSubcats = [];
             if (subcat) {
-                newItem.setAttribute('data-subcat', subcat);
+                finalSubcats.push(subcat);
+            }
+            
+            if (cat === 'covers' && tags.length > 0) {
+                // Also check if tags match any other subcategory
+                const cleanTagsRaw = tags.join(',').toLowerCase();
+                const globalSubcats = window.validSubcats_ref || (typeof validSubcats !== 'undefined' ? validSubcats : {});
+                
+                for (const [name, slug] of Object.entries(globalSubcats)) {
+                    if (cleanTagsRaw.includes(name.toLowerCase()) && !finalSubcats.includes(slug)) {
+                        finalSubcats.push(slug);
+                    }
+                }
+                
+                // Fallback check
+                tags.forEach(t => {
+                    if (globalSubcats[t] && !finalSubcats.includes(globalSubcats[t])) {
+                        finalSubcats.push(globalSubcats[t]);
+                    }
+                });
+            }
+            
+            if (finalSubcats.length > 0) {
+                newItem.setAttribute('data-subcat', finalSubcats.join(','));
             }
             
             if (layout === 'full-width') {
