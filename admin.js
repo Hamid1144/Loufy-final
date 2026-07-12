@@ -484,6 +484,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 <button id="hero-add-tag-btn" class="admin-btn" style="width:100%; background:#28a745; font-size:0.75rem; padding:6px; margin:0;"><i class="fa-solid fa-plus"></i> Add New Tag</button>
             </div>
 
+            <!-- Marquee Text Editor -->
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333;">
+                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:8px;"><i class="fa-solid fa-text-width"></i> Marquee Items</label>
+                <div id="hero-marquee-editor-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px;"></div>
+                <button id="hero-add-marquee-btn" class="admin-btn" style="width:100%; background:#28a745; font-size:0.75rem; padding:6px; margin:0;"><i class="fa-solid fa-plus"></i> Add New Marquee Item</button>
+            </div>
+
             <!-- Floating Logo Cards Editor -->
             <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333;">
                 <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:8px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Floating Logo Cards</label>
@@ -1077,6 +1084,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroAddButtonBtn = document.getElementById("hero-add-button-btn");
     const heroTagsEditorList = document.getElementById("hero-tags-editor-list");
     const heroAddTagBtn = document.getElementById("hero-add-tag-btn");
+    
+    const heroMarqueeEditorList = document.getElementById("hero-marquee-editor-list");
+    const heroAddMarqueeBtn = document.getElementById("hero-add-marquee-btn");
 
     const heroBadgeTextInput = document.getElementById("hero-badge-text-input");
     const heroTitleTextInput = document.getElementById("hero-title-text-input");
@@ -3819,6 +3829,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderHeroButtonsList();
         renderHeroTagsList();
+        renderHeroMarqueeList();
         if (typeof initFloatingCardsPanelLogic === 'function') {
             initFloatingCardsPanelLogic();
         }
@@ -4250,6 +4261,82 @@ document.addEventListener("DOMContentLoaded", () => {
                 setupEditableElements();
                 document.querySelectorAll('[data-admin-text="true"]').forEach(el => el.setAttribute("contenteditable", "true"));
             }
+        });
+    }
+
+    function getMarqueeData() {
+        const firstTrack = document.querySelector('.marquee-track');
+        if (!firstTrack) return [];
+        const items = Array.from(firstTrack.querySelectorAll('span'));
+        const halfCount = Math.floor(items.length / 2) || items.length;
+        return items.slice(0, halfCount).map(el => el.innerText.trim());
+    }
+
+    function renderMarqueeDOM(dataArray) {
+        const firstTrack = document.querySelector('.marquee-track');
+        if (!firstTrack) return;
+        firstTrack.innerHTML = '';
+        // Duplicate data array for seamless loop
+        const fullArray = [...dataArray, ...dataArray];
+        fullArray.forEach(text => {
+            const span = document.createElement('span');
+            span.setAttribute('data-admin-text', 'true');
+            if (isEditMode) span.setAttribute("contenteditable", "true");
+            span.innerText = text;
+            firstTrack.appendChild(span);
+        });
+    }
+
+    function renderHeroMarqueeList() {
+        if (!heroMarqueeEditorList) return;
+        heroMarqueeEditorList.innerHTML = '';
+
+        const dataArray = getMarqueeData();
+        if (dataArray.length === 0) {
+            heroMarqueeEditorList.innerHTML = '<p style="font-size:0.75rem; color:#f44336;">.marquee-track not found or empty</p>';
+            return;
+        }
+
+        dataArray.forEach((text, idx) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.style.cssText = 'border:1px solid #444; padding:8px; border-radius:6px; background:#222; display:flex; flex-direction:column; gap:6px; margin-bottom:4px;';
+            itemDiv.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:0.72rem; color:#888; font-weight:bold;">Marquee Item #${idx + 1}</span>
+                    <button class="admin-btn danger btn-delete-hero-marquee" data-index="${idx}" style="padding:2px 6px; font-size:0.7rem; margin:0;"><i class="fa-solid fa-trash"></i></button>
+                </div>
+                <input type="text" class="marquee-text-input" data-index="${idx}" value="${text}" placeholder="Item Text" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
+            `;
+            heroMarqueeEditorList.appendChild(itemDiv);
+        });
+
+        heroMarqueeEditorList.querySelectorAll('.marquee-text-input').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const idx = parseInt(e.target.dataset.index);
+                const val = e.target.value;
+                const currentData = getMarqueeData();
+                currentData[idx] = val;
+                renderMarqueeDOM(currentData);
+            });
+        });
+
+        heroMarqueeEditorList.querySelectorAll('.btn-delete-hero-marquee').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.currentTarget.dataset.index);
+                const currentData = getMarqueeData();
+                currentData.splice(idx, 1);
+                renderMarqueeDOM(currentData);
+                renderHeroMarqueeList();
+            });
+        });
+    }
+
+    if (heroAddMarqueeBtn) {
+        heroAddMarqueeBtn.addEventListener('click', () => {
+            const currentData = getMarqueeData();
+            currentData.push('New Marquee Item');
+            renderMarqueeDOM(currentData);
+            renderHeroMarqueeList();
         });
     }
 
