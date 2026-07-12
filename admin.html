@@ -1983,24 +1983,24 @@
       
       let subcatAttr = '';
       if (cat === 'covers') {
-         // Check case-insensitively for subcats containing commas against raw tags,
-         // e.g. "Cookbooks, Food & Wine" in "Book Cover, Cookbooks, Food & Wine"
+         // Collect ALL matching subcategory slugs (not just the first)
          const cleanTagsRaw = tagsRaw.toLowerCase();
-         let foundSubcat = null;
+         const foundSlugs = [];
          for (const [name, slug] of Object.entries(validSubcats)) {
             if (cleanTagsRaw.includes(name.toLowerCase())) {
-               foundSubcat = slug;
-               break;
+               foundSlugs.push(slug);
             }
          }
-         if (!foundSubcat) {
-            const matchingTag = tags.find(t => validSubcats[t]);
-            if (matchingTag) {
-               foundSubcat = validSubcats[matchingTag];
-            }
+         if (foundSlugs.length === 0) {
+            // Fallback: check split tags
+            tags.forEach(t => {
+               if (validSubcats[t] && !foundSlugs.includes(validSubcats[t])) {
+                  foundSlugs.push(validSubcats[t]);
+               }
+            });
          }
-         if (foundSubcat) {
-            subcatAttr = ` data-subcat="${foundSubcat}"`;
+         if (foundSlugs.length > 0) {
+            subcatAttr = ` data-subcat="${foundSlugs.join(',')}"`;
          }
       }
       

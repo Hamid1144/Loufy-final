@@ -324,7 +324,8 @@ window.initSiteLogic = function () {
         if (cat === 'all' || cardCat === cat) {
           const activeSubCatBtn = document.querySelector('.sub-filter-btn.active');
           const activeSubCat = activeSubCatBtn ? activeSubCatBtn.dataset.subcat : 'all';
-          if (cat === 'covers' && activeSubCat !== 'all' && card.dataset.subcat !== activeSubCat) {
+          const cardSubcats = card.dataset.subcat ? card.dataset.subcat.split(',') : [];
+          if (cat === 'covers' && activeSubCat !== 'all' && !cardSubcats.includes(activeSubCat)) {
             shouldShow = false;
           } else {
             if ((cardCat === 'covers' || cardCat === 'formatting' || cardCat === 'paperback-covers') && isMainPage && !isEdit) {
