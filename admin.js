@@ -5439,7 +5439,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const goToDashboardBtn = document.getElementById("go-to-dashboard");
     if (goToDashboardBtn) {
         goToDashboardBtn.addEventListener("click", () => {
-            window.location.href = "/admin.html";
+            window.location.href = "/admin.html?ref=" + encodeURIComponent(window.location.pathname);
         });
     }
 
