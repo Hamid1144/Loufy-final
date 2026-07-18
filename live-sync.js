@@ -162,20 +162,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // 7. Sync Footer and Navigation globally (useful for pages like about.html syncing from index.html)
-            const currentFooter = document.querySelector('.footer');
-            const liveFooter = doc.querySelector('.footer');
-            if (currentFooter && liveFooter && currentFooter.innerHTML !== liveFooter.innerHTML) {
-                currentFooter.innerHTML = liveFooter.innerHTML;
-                modified = true;
-            }
-
-            const currentNav = document.querySelector('.nav-links');
-            const liveNav = doc.querySelector('.nav-links');
-            if (currentNav && liveNav && currentNav.innerHTML !== liveNav.innerHTML) {
-                currentNav.innerHTML = liveNav.innerHTML;
-                modified = true;
-            }
+            // 7. Sync Footer, Navigation, and Contact globally (useful for pages like about.html syncing from index.html)
+            const globalSelectors = ['.footer', '.nav-links', '#contact'];
+            globalSelectors.forEach(selector => {
+                const currentEl = document.querySelector(selector);
+                const liveEl = doc.querySelector(selector);
+                if (currentEl && liveEl && currentEl.innerHTML !== liveEl.innerHTML) {
+                    currentEl.innerHTML = liveEl.innerHTML;
+                    modified = true;
+                }
+            });
 
             // Re-initialize site logic if we modified anything
             if (modified && window.initSiteLogic) {
