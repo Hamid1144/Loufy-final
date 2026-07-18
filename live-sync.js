@@ -128,6 +128,55 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            // 5. Sync all editable text elements
+            const currentTextEls = document.querySelectorAll('[data-admin-text="true"]');
+            const liveTextEls = doc.querySelectorAll('[data-admin-text="true"]');
+            if (currentTextEls.length > 0 && currentTextEls.length === liveTextEls.length) {
+                for (let i = 0; i < currentTextEls.length; i++) {
+                    const currentEl = currentTextEls[i];
+                    const liveEl = liveTextEls[i];
+                    
+                    if (currentEl.innerHTML !== liveEl.innerHTML) {
+                        currentEl.innerHTML = liveEl.innerHTML;
+                        modified = true;
+                    }
+                    if (liveEl.hasAttribute('href') && currentEl.getAttribute('href') !== liveEl.getAttribute('href')) {
+                        currentEl.setAttribute('href', liveEl.getAttribute('href'));
+                        modified = true;
+                    }
+                }
+            }
+
+            // 6. Sync hero image and other standalone images if changed
+            const currentImgs = document.querySelectorAll('img[id], img.hero-bg-image');
+            const liveImgs = doc.querySelectorAll('img[id], img.hero-bg-image');
+            currentImgs.forEach(currentImg => {
+                const idOrClass = currentImg.id ? `#${currentImg.id}` : `.${currentImg.className.split(' ').join('.')}`;
+                const liveImg = doc.querySelector(idOrClass);
+                if (liveImg && currentImg.src !== liveImg.src) {
+                    currentImg.src = liveImg.src;
+                    if (liveImg.hasAttribute('data-optimized')) {
+                        currentImg.setAttribute('data-optimized', liveImg.getAttribute('data-optimized'));
+                    }
+                    modified = true;
+                }
+            });
+
+            // 7. Sync Footer and Navigation globally (useful for pages like about.html syncing from index.html)
+            const currentFooter = document.querySelector('.footer');
+            const liveFooter = doc.querySelector('.footer');
+            if (currentFooter && liveFooter && currentFooter.innerHTML !== liveFooter.innerHTML) {
+                currentFooter.innerHTML = liveFooter.innerHTML;
+                modified = true;
+            }
+
+            const currentNav = document.querySelector('.nav-links');
+            const liveNav = doc.querySelector('.nav-links');
+            if (currentNav && liveNav && currentNav.innerHTML !== liveNav.innerHTML) {
+                currentNav.innerHTML = liveNav.innerHTML;
+                modified = true;
+            }
+
             // Re-initialize site logic if we modified anything
             if (modified && window.initSiteLogic) {
                 window.initSiteLogic();
