@@ -611,16 +611,26 @@ section{padding:100px 0}
 }
 
 /* ── A Plus Content card ── */
+.portfolio-grid .portfolio-card[data-cat="a-plus-content"] {
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .portfolio-card[data-cat="a-plus-content"] .portfolio-thumb {
     height: auto !important;
     min-height: unset !important;
     aspect-ratio: unset !important;
     background: transparent !important;
+    max-height: 520px;
+    overflow: hidden;
 }
 .portfolio-card[data-cat="a-plus-content"] .portfolio-thumb img {
     object-fit: contain !important;
     width: 100% !important;
+    max-height: 520px !important;
     height: auto !important;
+    display: block;
+    margin: 0 auto;
 }
 
 
