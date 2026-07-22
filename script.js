@@ -885,8 +885,12 @@ window.syncPortfolioGrids = function () {
   } catch(e) {}
 
   adminCards.forEach(function(item) {
-    // Skip if a card with this data-id already exists (avoid duplicates)
+    // Skip if a card with this data-id or same thumbnail image already exists (avoid duplicates)
     if (item.id && grid.querySelector('[data-admin-id="' + item.id + '"]')) return;
+    if (item.thumb) {
+      var fileName = item.thumb.split('/').pop().split('?')[0];
+      if (fileName && grid.querySelector('img[src*="' + fileName + '"]')) return;
+    }
     var card = document.createElement('div');
     card.className = 'portfolio-card reveal';
     card.setAttribute('data-cat', item.cat || 'covers');

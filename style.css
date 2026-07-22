@@ -611,21 +611,16 @@ section{padding:100px 0}
 }
 
 /* ── A Plus Content card ── */
-.portfolio-card[data-cat="a-plus-content"] {
-    grid-column: span 1 !important;
-    width: 100% !important;
-}
 .portfolio-card[data-cat="a-plus-content"] .portfolio-thumb {
-    height: 350px !important;
-    min-height: 350px !important;
+    height: auto !important;
+    min-height: unset !important;
     aspect-ratio: unset !important;
-    background: #ffffff !important;
-    overflow: hidden;
+    background: transparent !important;
 }
 .portfolio-card[data-cat="a-plus-content"] .portfolio-thumb img {
     object-fit: contain !important;
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important;
 }
 
 
