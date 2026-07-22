@@ -314,6 +314,9 @@ window.initSiteLogic = function () {
         if (!cols && (cat === 'paperback-covers' || cat === 'formatting')) {
           cols = '2';
         }
+        if (!cols && cat === 'a-plus-content') {
+          cols = '1';
+        }
         if (cols) {
           grid.classList.add('cols-' + cols);
         }

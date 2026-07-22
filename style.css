@@ -612,9 +612,11 @@ section{padding:100px 0}
 
 /* ── A Plus Content card ── */
 .portfolio-grid .portfolio-card[data-cat="a-plus-content"] {
-    max-width: 850px;
-    margin-left: auto;
-    margin-right: auto;
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: 850px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 .portfolio-card[data-cat="a-plus-content"] .portfolio-thumb {
     height: auto !important;
