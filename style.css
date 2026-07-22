@@ -2294,6 +2294,91 @@ body.contact-page > section.contact {
     }
 }
 
+/* ── A+ Content Marquee Showcase ── */
+.aplus-marquee-container {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    margin-bottom: 40px;
+}
+
+.aplus-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+.aplus-marquee.row-rtl .aplus-marquee-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    animation: scroll-rtl 90s linear infinite;
+    padding-right: 24px;
+}
+
+.aplus-marquee:hover .aplus-marquee-track {
+    animation-play-state: paused;
+}
+
+.aplus-marquee-item {
+    width: 850px !important;
+    flex-shrink: 0 !important;
+    margin: 0;
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.aplus-marquee-item .portfolio-thumb {
+    aspect-ratio: unset !important;
+    height: 510px !important;
+    min-height: 510px !important;
+    width: 100% !important;
+    background: #ffffff !important;
+}
+
+.aplus-marquee-item .portfolio-thumb img {
+    object-fit: contain !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+}
+
+.aplus-marquee-item.portfolio-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 768px) {
+    .aplus-marquee-item {
+        width: 580px !important;
+    }
+    .aplus-marquee-item .portfolio-thumb {
+        height: 350px !important;
+        min-height: 350px !important;
+    }
+    .aplus-marquee-container {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .aplus-marquee-item {
+        width: 380px !important;
+    }
+    .aplus-marquee-item .portfolio-thumb {
+        height: 230px !important;
+        min-height: 230px !important;
+    }
+}
+
 /* ── Paperback Covers Marquee Showcase ── */
 .paperback-covers-marquee-container {
     width: 100vw;

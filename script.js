@@ -256,8 +256,9 @@ window.initSiteLogic = function () {
       const marquee = document.querySelector('.covers-marquee-container');
       const pbMarquee = document.querySelector('.paperback-covers-marquee-container');
       const fmtMarquee = document.querySelector('.formatting-marquee-container');
+      const aplusMarquee = document.querySelector('.aplus-marquee-container');
       const grid = document.querySelector('.portfolio-grid');
-            const isEdit = document.body.classList.contains('edit-mode');
+      const isEdit = document.body.classList.contains('edit-mode');
       
       const subFilters = document.getElementById('book-covers-sub-filters');
       if (subFilters) {
@@ -292,8 +293,16 @@ window.initSiteLogic = function () {
         }
       }
       
+      if (aplusMarquee) {
+        if (isMainPage && !isEdit && (cat === 'all' || cat === 'a-plus-content')) {
+          aplusMarquee.style.display = 'flex';
+        } else {
+          aplusMarquee.style.display = 'none';
+        }
+      }
+      
       if (grid) {
-        if (isMainPage && !isEdit && (cat === 'covers' || cat === 'formatting' || cat === 'paperback-covers')) {
+        if (isMainPage && !isEdit && (cat === 'covers' || cat === 'formatting' || cat === 'paperback-covers' || cat === 'a-plus-content')) {
           grid.style.display = 'none';
         } else {
           grid.style.display = 'grid';
@@ -902,6 +911,7 @@ window.syncPortfolioGrids = function () {
   if (window.initCoversMarquee) window.initCoversMarquee();
   if (window.initPaperbackCoversMarquee) window.initPaperbackCoversMarquee();
   if (window.initFormattingMarquee) window.initFormattingMarquee();
+  if (window.initAPlusMarquee) window.initAPlusMarquee();
 
   // ── Service Detail Modal Logic ──────────────────────────
   (function initServiceModal() {
@@ -1188,6 +1198,7 @@ setTimeout(function() {
   if (window.initCoversMarquee) window.initCoversMarquee();
   if (window.initPaperbackCoversMarquee) window.initPaperbackCoversMarquee();
   if (window.initFormattingMarquee) window.initFormattingMarquee();
+  if (window.initAPlusMarquee) window.initAPlusMarquee();
 }, 800);
 
 // 4.5 Implement paperback covers marquee (headline style)
@@ -1371,6 +1382,96 @@ window.initFormattingMarquee = function() {
       });
     } else {
       if (cat === 'all' || cat === 'formatting') {
+        marqueeContainer.style.display = 'flex';
+      } else {
+        marqueeContainer.style.display = 'none';
+      }
+    }
+  }
+};
+
+// 6. Implement A+ Content marquee (headline style, right-to-left)
+window.initAPlusMarquee = function() {
+  const isMainPage = !window.location.pathname.includes('portfolio');
+  if (!isMainPage) return;
+
+  const grid = document.querySelector('.portfolio-grid');
+  if (!grid) return;
+
+  // Reset any inline display:none on a-plus-content grid cards so we always capture all of them
+  document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="a-plus-content"]').forEach(card => {
+    card.style.display = '';
+  });
+
+  const aplusCards = Array.from(document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="a-plus-content"]'));
+  if (!aplusCards.length) return;
+  
+  const aplusCardsHTML = aplusCards.map(card => card.innerHTML);
+  if (!aplusCardsHTML.length) return;
+  
+  let marqueeContainer = document.querySelector('.aplus-marquee-container');
+  if (!marqueeContainer) {
+    marqueeContainer = document.createElement('div');
+    marqueeContainer.className = 'aplus-marquee-container';
+    
+    // Insert after formatting marquee container if it exists, otherwise before the grid
+    const fmtMarquee = document.querySelector('.formatting-marquee-container');
+    const paperbackMarquee = document.querySelector('.paperback-covers-marquee-container');
+    const coversMarquee = document.querySelector('.covers-marquee-container');
+    if (fmtMarquee) {
+      fmtMarquee.parentNode.insertBefore(marqueeContainer, fmtMarquee.nextSibling);
+    } else if (paperbackMarquee) {
+      paperbackMarquee.parentNode.insertBefore(marqueeContainer, paperbackMarquee.nextSibling);
+    } else if (coversMarquee) {
+      coversMarquee.parentNode.insertBefore(marqueeContainer, coversMarquee.nextSibling);
+    } else {
+      grid.parentNode.insertBefore(marqueeContainer, grid);
+    }
+  }
+  
+  // Fill the track to ensure it spans at least the width of the screen
+  const singleHTMLs = [...aplusCardsHTML];
+  while (singleHTMLs.length < 12) {
+    singleHTMLs.push(...aplusCardsHTML);
+  }
+  
+  marqueeContainer.innerHTML = `
+    <div class="aplus-marquee row-rtl">
+      <div class="aplus-marquee-track">
+        ${singleHTMLs.map(innerHtml => `
+          <div class="aplus-marquee-item portfolio-card" data-cat="a-plus-content">
+            ${innerHtml}
+          </div>
+        `).join('')}
+      </div>
+      <div class="aplus-marquee-track" aria-hidden="true">
+        ${singleHTMLs.map(innerHtml => `
+          <div class="aplus-marquee-item portfolio-card" data-cat="a-plus-content">
+            ${innerHtml}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  // Hide the original grid a-plus-content cards (they show only in marquee, not the grid)
+  document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="a-plus-content"]').forEach(card => {
+    card.style.display = 'none';
+  });
+
+  // Apply correct display rules based on the active filter button
+  const isEdit = document.body.classList.contains('edit-mode');
+  const activeFilter = document.querySelector('.filter-btn.active');
+  
+  if (activeFilter) {
+    const cat = activeFilter.dataset.cat;
+    if (isEdit) {
+      marqueeContainer.style.display = 'none';
+      document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="a-plus-content"]').forEach(card => {
+        card.style.display = 'block';
+      });
+    } else {
+      if (cat === 'all' || cat === 'a-plus-content') {
         marqueeContainer.style.display = 'flex';
       } else {
         marqueeContainer.style.display = 'none';
