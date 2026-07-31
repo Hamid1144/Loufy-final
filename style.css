@@ -2893,3 +2893,12 @@ body.edit-mode .hero-float-card {
 
 
 
+
+/* Mobile Hero View Toggles */
+@media (max-width: 768px) {
+    #hero-bg-canvas, #hero-bg-image, #hero-floating-cards { display: none !important; }
+    #hero-bg-image-mobile, #hero-floating-cards-mobile { display: block !important; }
+}
+@media (min-width: 769px) {
+    #hero-bg-image-mobile, #hero-floating-cards-mobile { display: none !important; }
+}

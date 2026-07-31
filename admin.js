@@ -251,6 +251,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="manage-theme" class="admin-btn" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-palette"></i> Customize Theme</button>
             <button id="manage-hero-card" class="admin-btn" style="background:#ff5722; color:#fff;"><i class="fa-solid fa-wand-magic-sparkles"></i> Edit Hero Content</button>
             <button id="change-hero-bg" class="admin-btn" style="background:#7209b7;"><i class="fa-solid fa-image"></i> Change Hero Image</button>
+            <button id="change-mobile-hero-bg" class="admin-btn" style="background:#8e44ad;"><i class="fa-solid fa-mobile-screen"></i> Change Mobile Hero Image</button>
+            <button id="mobile-edit-mode-toggle" class="admin-btn" style="background:#28a745;"><i class="fa-solid fa-mobile"></i> Mobile Edit Mode: OFF</button>
             <button id="bg-anim-admin-toggle" class="admin-btn" style="background:#20c997;"><i class="fa-solid fa-wand-magic-sparkles"></i> Antigravity BG: ON</button>
             <button id="manage-particles" class="admin-btn" style="background:#4c566a; color:#fff;"><i class="fa-solid fa-circle-nodes"></i> Particles Config</button>
             <button id="save-changes" class="admin-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Save to Cloud (Supabase)</button>
@@ -1013,6 +1015,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const exitAdminBtn = document.getElementById("exit-admin-mode");
     const closeBtn = document.querySelector(".close-admin");
     const changeHeroBgBtn = document.getElementById("change-hero-bg");
+    const changeMobileHeroBgBtn = document.getElementById("change-mobile-hero-bg");
+    const mobileEditModeToggle = document.getElementById("mobile-edit-mode-toggle");
 
     // Social Links Elements
     const pricingPanel = document.getElementById("pricing-links-panel");
@@ -1370,6 +1374,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (changeHeroBgBtn) {
         if (isPortfolioPage) {
             changeHeroBgBtn.style.display = "none";
+            if (changeMobileHeroBgBtn) changeMobileHeroBgBtn.style.display = "none";
+            if (mobileEditModeToggle) mobileEditModeToggle.style.display = "none";
         } else {
             changeHeroBgBtn.addEventListener("click", () => {
                 const heroImg = document.getElementById("hero-bg-image");
@@ -1377,6 +1383,45 @@ document.addEventListener("DOMContentLoaded", () => {
                     openCropModal(heroImg);
                 }
             });
+            if (changeMobileHeroBgBtn) {
+                changeMobileHeroBgBtn.addEventListener("click", () => {
+                    const heroImgMobile = document.getElementById("hero-bg-image-mobile");
+                    if (heroImgMobile) {
+                        openCropModal(heroImgMobile);
+                    }
+                });
+            }
+            if (mobileEditModeToggle) {
+                let isMobileMode = false;
+                mobileEditModeToggle.addEventListener("click", () => {
+                    isMobileMode = !isMobileMode;
+                    mobileEditModeToggle.innerHTML = `<i class="fa-solid fa-mobile"></i> Mobile Edit Mode: ${isMobileMode ? 'ON' : 'OFF'}`;
+                    mobileEditModeToggle.style.background = isMobileMode ? '#dc3545' : '#28a745';
+                    
+                    const heroFloatingCards = document.getElementById('hero-floating-cards');
+                    const heroFloatingCardsMobile = document.getElementById('hero-floating-cards-mobile');
+                    
+                    if (isMobileMode) {
+                        if (heroFloatingCards) heroFloatingCards.style.display = 'none';
+                        if (heroFloatingCardsMobile) heroFloatingCardsMobile.style.display = 'block';
+                        
+                        // Trick the system to use mobile container
+                        window.activeFloatingContainer = heroFloatingCardsMobile;
+                        document.body.classList.add('admin-mobile-preview');
+                    } else {
+                        if (heroFloatingCards) heroFloatingCards.style.display = '';
+                        if (heroFloatingCardsMobile) heroFloatingCardsMobile.style.display = 'none';
+                        
+                        window.activeFloatingContainer = heroFloatingCards;
+                        document.body.classList.remove('admin-mobile-preview');
+                    }
+                    
+                    // Re-render list
+                    if (typeof window.renderFloatCardsList === 'function') {
+                        window.renderFloatCardsList();
+                    }
+                });
+            }
         }
     }
 
@@ -3561,6 +3606,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveBtn.innerText = "Saving to Cloud...";
 
             const clone = document.body.cloneNode(true);
+            clone.classList.remove('admin-mobile-preview');
             const adminElements = clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar, #admin-blog-modal, #admin-hero-bg-modal, #admin-subcat-modal');
             adminElements.forEach(el => el.remove());
 
@@ -4528,12 +4574,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!floatCardsList) return;
 
-        const heroFloatingCardsContainer = document.getElementById('hero-floating-cards');
-        if (!heroFloatingCardsContainer) return;
+        const getHeroFloatingCardsContainer = () => window.activeFloatingContainer || document.getElementById('hero-floating-cards');
+        if (!getHeroFloatingCardsContainer()) return;
 
         const renderList = () => {
             floatCardsList.innerHTML = '';
-            const cards = heroFloatingCardsContainer.querySelectorAll('.hero-float-card');
+            const cards = getHeroFloatingCardsContainer().querySelectorAll('.hero-float-card');
             
             if (cards.length === 0) {
                 floatCardsList.innerHTML = '<p style="font-size:0.75rem; color:#888; text-align:center; padding:10px; margin:0;">No floating cards found.</p>';
@@ -4768,7 +4814,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (mode === 'add') {
                         const newId = 'card_' + Date.now();
-                        const delay = (heroFloatingCardsContainer.querySelectorAll('.hero-float-card').length * 1.5) + 's';
+                        const delay = (getHeroFloatingCardsContainer().querySelectorAll('.hero-float-card').length * 1.5) + 's';
                         
                         const newCard = document.createElement('div');
                         newCard.className = 'hero-float-card';
@@ -4792,10 +4838,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                         
                         newCard.innerHTML = cardHTML;
-                        heroFloatingCardsContainer.appendChild(newCard);
+                        getHeroFloatingCardsContainer().appendChild(newCard);
                         window.showToast('Card added. Enable Edit Mode and drag it to position!', 'success');
                     } else {
-                        const card = heroFloatingCardsContainer.querySelector(`[data-card-id="${targetId}"]`);
+                        const card = getHeroFloatingCardsContainer().querySelector(`[data-card-id="${targetId}"]`);
                         if (card) {
                             let cardHTML = '';
                             if (imgUrl) {
@@ -4884,7 +4930,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const mode = floatCardForm.dataset.mode || 'add';
             const targetId = floatCardForm.dataset.targetId;
             if (mode === 'edit' && targetId) {
-                const card = heroFloatingCardsContainer.querySelector(`[data-card-id="${targetId}"]`);
+                const card = getHeroFloatingCardsContainer().querySelector(`[data-card-id="${targetId}"]`);
                 if (card) {
                     card.style.setProperty(prop, val);
                 }
@@ -5176,6 +5222,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Helper to clean a DOM body for comparison
                     const getCleanBodyHTML = (bodyEl) => {
                         const clone = bodyEl.cloneNode(true);
+                        clone.classList.remove('admin-mobile-preview');
                         clone.querySelectorAll('#super-admin-panel, #admin-crop-modal, #admin-add-item-modal, #admin-text-toolbar, #admin-blog-modal, #admin-hero-bg-modal').forEach(el => el.remove());
                         clone.querySelectorAll('.admin-element-toolbar').forEach(tb => tb.remove());
                         clone.querySelectorAll('.editable-container').forEach(c => c.classList.remove('editable-container'));
