@@ -343,11 +343,15 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div id="hero-card-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
-            <!-- Visibility Toggle -->
-            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; align-items:center; justify-content:space-between;">
+            <!-- Visibility & Mobile Edit Toggle -->
+            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; flex-direction:column; gap:10px;">
                 <label style="font-size:0.75rem; color:#ccc; display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600;">
                     <input type="checkbox" id="hero-card-visible-toggle" checked style="cursor:pointer; width:16px; height:16px; accent-color:#20c997;">
                     <i class="fa-solid fa-eye" style="color:#20c997;"></i> Show Hero Card on Page
+                </label>
+                <label style="font-size:0.75rem; color:#ff5722; display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600;">
+                    <input type="checkbox" id="hero-card-mobile-edit-toggle" style="cursor:pointer; width:16px; height:16px; accent-color:#ff5722;">
+                    <i class="fa-solid fa-mobile-screen"></i> Edit Mobile View Separately
                 </label>
             </div>
             <p style="font-size:0.75rem; color:#aaa; margin-bottom:10px;">Customize layout and content of the hero glass card.</p>
@@ -3737,7 +3741,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ── Hero Card Settings Logic ──────────────────────────────────────────────
     function initHeroCardPanelFromDOM() {
-        const heroContent = document.querySelector('.hero-content');
+        const heroContent = document.querySelector(document.body.classList.contains('admin-mobile-preview') ? '.hero-content-mobile' : '.hero-content');
         if (!heroContent) return;
 
         // Sync hero card visibility toggle
@@ -3746,6 +3750,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (visToggle && heroSection) {
             visToggle.checked = !heroSection.classList.contains('hero-card-hidden');
         }
+
+        const mobileEditToggle = document.getElementById('hero-card-mobile-edit-toggle');
+        if (mobileEditToggle) {
+            mobileEditToggle.checked = document.body.classList.contains('admin-mobile-preview');
+        }
+
 
         let heroHeight = 650;
         let heroPadding = 60;
@@ -3849,11 +3859,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (span) span.remove();
             heroBadgeTextInput.value = clone.innerText.trim();
         }
-        const titleEl = document.querySelector('.hero-content h1');
+        const activeHero = document.querySelector(document.body.classList.contains('admin-mobile-preview') ? '.hero-content-mobile' : '.hero-content');
+        const titleEl = activeHero ? activeHero.querySelector('h1') : null;
         if (titleEl && heroTitleTextInput) {
             heroTitleTextInput.value = titleEl.innerHTML.trim();
         }
-        const descEl = document.querySelector('.hero-content p');
+        const descEl = activeHero ? activeHero.querySelector('p') : null;
         if (descEl && heroDescTextInput) {
             heroDescTextInput.value = descEl.innerHTML.trim();
         }
@@ -3882,7 +3893,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateHeroCardStyle(prop, val) {
-        const heroContent = document.querySelector('.hero-content');
+        const heroContent = document.querySelector(document.body.classList.contains('admin-mobile-preview') ? '.hero-content-mobile' : '.hero-content');
         if (heroContent) {
             heroContent.style.setProperty(prop, val);
         }
@@ -4047,6 +4058,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const heroCardMobileEditToggle = document.getElementById('hero-card-mobile-edit-toggle');
+    if (heroCardMobileEditToggle) {
+        heroCardMobileEditToggle.addEventListener('change', (e) => {
+            const mobileEditModeToggle = document.getElementById("mobile-edit-mode-toggle");
+            if (mobileEditModeToggle) {
+                if (e.target.checked !== document.body.classList.contains('admin-mobile-preview')) {
+                    mobileEditModeToggle.click();
+                }
+                setTimeout(() => initHeroCardPanelFromDOM(), 50);
+            }
+        });
+    }
+
+
     if (heroBadgeTextInput) {
         heroBadgeTextInput.addEventListener('input', (e) => {
             const badgeEl = document.querySelector('.hero-badge');
@@ -4060,7 +4085,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (heroTitleTextInput) {
         heroTitleTextInput.addEventListener('input', (e) => {
-            const titleEl = document.querySelector('.hero-content h1');
+            const activeHero = document.querySelector(document.body.classList.contains('admin-mobile-preview') ? '.hero-content-mobile' : '.hero-content');
+            const titleEl = activeHero ? activeHero.querySelector('h1') : null;
             if (titleEl) {
                 titleEl.innerHTML = e.target.value;
             }
@@ -4068,7 +4094,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (heroDescTextInput) {
         heroDescTextInput.addEventListener('input', (e) => {
-            const descEl = document.querySelector('.hero-content p');
+            const activeHeroDesc = document.querySelector(document.body.classList.contains('admin-mobile-preview') ? '.hero-content-mobile' : '.hero-content');
+            const descEl = activeHeroDesc ? activeHeroDesc.querySelector('p') : null;
             if (descEl) {
                 descEl.innerHTML = e.target.value;
             }
@@ -4444,7 +4471,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // 2. Check for main hero card
-        const heroContent = e.target.closest('.hero-content');
+        const heroContent = e.target.closest('.hero-content') || e.target.closest('.hero-content-mobile');
         if (heroContent) {
             // Avoid dragging if clicking on links, buttons, inputs, edit/delete buttons, or anything clickable
             if (e.target.closest('a') || 
