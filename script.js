@@ -1399,6 +1399,7 @@ window.initFormattingMarquee = function() {
 
 // 6. Implement A+ Content marquee (headline style, right-to-left)
 window.initAPlusMarquee = function() {
+  return; // Disabled per user request (headline effect removed)
   const isMainPage = !window.location.pathname.includes('portfolio');
   if (!isMainPage) return;
 
