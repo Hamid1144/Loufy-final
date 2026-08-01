@@ -1418,19 +1418,45 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (!mobileStyle) {
                             mobileStyle = document.createElement('style');
                             mobileStyle.id = 'admin-mobile-style-tag';
-                            mobileStyle.innerHTML = `
+                            
+                            // Generate dynamic CSS based on actual media queries
+                            let dynamicCSS = '';
+                            try {
+                                for (let sheet of document.styleSheets) {
+                                    if (sheet.href && !sheet.href.includes(window.location.host) && !sheet.href.includes('style.css')) continue;
+                                    
+                                    for (let rule of sheet.cssRules) {
+                                        if (rule.type === CSSRule.MEDIA_RULE && rule.conditionText.includes("max-width")) {
+                                            for (let innerRule of rule.cssRules) {
+                                                if (innerRule.type === CSSRule.STYLE_RULE) {
+                                                    let selectors = innerRule.selectorText.split(',');
+                                                    let prefixedSelectors = selectors.map(s => {
+                                                        let sel = s.trim();
+                                                        if (sel === 'body' || sel === 'html') return '.admin-mobile-preview';
+                                                        return '.admin-mobile-preview ' + sel;
+                                                    }).join(', ');
+                                                    dynamicCSS += prefixedSelectors + ' { ' + innerRule.style.cssText + ' }\\n';
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } catch(e) { console.warn("Could not parse all stylesheets for mobile preview", e); }
+
+                            mobileStyle.innerHTML = \`
                                 body.admin-mobile-preview {
-                                    background-color: #111;
+                                    background-color: #111 !important;
                                 }
                                 body.admin-mobile-preview header,
                                 body.admin-mobile-preview section,
-                                body.admin-mobile-preview footer {
+                                body.admin-mobile-preview footer,
+                                body.admin-mobile-preview .hero {
                                     max-width: 414px !important;
                                     margin-left: auto !important;
                                     margin-right: auto !important;
                                     background-color: var(--bg);
                                     box-shadow: 0 0 30px rgba(0,0,0,0.8);
-                                    overflow-x: hidden;
+                                    overflow-x: hidden !important;
                                 }
                                 body.admin-mobile-preview #admin-panel-toggle,
                                 body.admin-mobile-preview .admin-panel-wrapper,
@@ -1440,7 +1466,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                     margin-left: 0 !important;
                                     margin-right: 0 !important;
                                 }
-                            `;
+                                \${dynamicCSS}
+                            \`;
                             document.head.appendChild(mobileStyle);
                         }
                     } else {
