@@ -1443,7 +1443,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 }
                             } catch(e) { console.warn("Could not parse all stylesheets for mobile preview", e); }
 
-                            mobileStyle.innerHTML = \`
+                            mobileStyle.innerHTML = `
                                 body.admin-mobile-preview {
                                     background-color: #111 !important;
                                 }
@@ -1466,8 +1466,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                     margin-left: 0 !important;
                                     margin-right: 0 !important;
                                 }
-                                \${dynamicCSS}
-                            \`;
+                                ${dynamicCSS}
+                            `;
                             document.head.appendChild(mobileStyle);
                         }
                     } else {
