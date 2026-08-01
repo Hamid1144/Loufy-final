@@ -1412,6 +1412,37 @@ document.addEventListener("DOMContentLoaded", () => {
                         // Trick the system to use mobile container
                         window.activeFloatingContainer = heroFloatingCardsMobile;
                         document.body.classList.add('admin-mobile-preview');
+                        
+                        // Inject visual mobile preview styles
+                        let mobileStyle = document.getElementById('admin-mobile-style-tag');
+                        if (!mobileStyle) {
+                            mobileStyle = document.createElement('style');
+                            mobileStyle.id = 'admin-mobile-style-tag';
+                            mobileStyle.innerHTML = `
+                                body.admin-mobile-preview {
+                                    background-color: #111;
+                                }
+                                body.admin-mobile-preview header,
+                                body.admin-mobile-preview section,
+                                body.admin-mobile-preview footer {
+                                    max-width: 414px !important;
+                                    margin-left: auto !important;
+                                    margin-right: auto !important;
+                                    background-color: var(--bg);
+                                    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+                                    overflow-x: hidden;
+                                }
+                                body.admin-mobile-preview #admin-panel-toggle,
+                                body.admin-mobile-preview .admin-panel-wrapper,
+                                body.admin-mobile-preview .service-modal,
+                                body.admin-mobile-preview .crop-modal {
+                                    max-width: none !important;
+                                    margin-left: 0 !important;
+                                    margin-right: 0 !important;
+                                }
+                            `;
+                            document.head.appendChild(mobileStyle);
+                        }
                     } else {
                         if (heroFloatingCards) heroFloatingCards.style.display = '';
                         if (heroFloatingCardsMobile) heroFloatingCardsMobile.style.display = 'none';
