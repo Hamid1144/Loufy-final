@@ -244,6 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="manage-flipbook" class="admin-btn" style="background:#20c997;"><i class="fa-solid fa-book-open"></i> Manage Flipbook Pages</button>
             <button id="manage-social" class="admin-btn" style="background:#007bff;"><i class="fa-solid fa-share-nodes"></i> Manage Social Icons</button>
             <button id="manage-pricing" class="admin-btn" style="background:#6f42c1;"><i class="fa-solid fa-dollar-sign"></i> Manage Pricing Links</button>
+            <button id="manage-whatsapp" class="admin-btn" style="background:#25d366;"><i class="fa-brands fa-whatsapp"></i> Manage WhatsApp Button</button>
             <button id="manage-sections" class="admin-btn" style="background:#e83e8c;"><i class="fa-solid fa-layer-group"></i> Manage Sections</button>
             <button id="manage-filters" class="admin-btn" style="background:#fd7e14;"><i class="fa-solid fa-tags"></i> Manage Categories</button>
             <button id="manage-subcategories-btn" class="admin-btn" style="background:#dc3545; color:#fff;"><i class="fa-solid fa-list-ul"></i> Manage Subcategories</button>
@@ -282,6 +283,37 @@ document.addEventListener("DOMContentLoaded", () => {
                 <input type="text" id="pricing-input-premium" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff;" placeholder="#contact or URL...">
             </div>
             <button id="save-pricing-links" class="admin-btn" style="width:100%; background:#28a745;"><i class="fa-solid fa-check"></i> Apply Pricing Links</button>
+        </div>
+
+        <div id="whatsapp-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+            <p style="font-size:0.75rem; color:#aaa; margin-bottom:10px;">Configure floating WhatsApp button.</p>
+            <div style="margin-bottom:8px;">
+                <label style="font-size:0.75rem; color:#ccc;">Display Button</label>
+                <select id="wa-display-select" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff;">
+                    <option value="flex">Show</option>
+                    <option value="none">Hide</option>
+                </select>
+            </div>
+            <div style="margin-bottom:8px;">
+                <label style="font-size:0.75rem; color:#ccc;">Phone Number (with country code, no +)</label>
+                <input type="text" id="wa-number-input" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff;" placeholder="e.g. 1234567890">
+            </div>
+            <div style="margin-bottom:8px;">
+                <label style="font-size:0.75rem; color:#ccc;">Position</label>
+                <select id="wa-position-select" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff;">
+                    <option value="bottom-right">Bottom Right</option>
+                    <option value="bottom-left">Bottom Left</option>
+                </select>
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="font-size:0.75rem; color:#ccc;">Size</label>
+                <select id="wa-size-select" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff;">
+                    <option value="50px">Small</option>
+                    <option value="60px">Medium</option>
+                    <option value="70px">Large</option>
+                </select>
+            </div>
+            <button id="save-whatsapp" class="admin-btn" style="width:100%; background:#28a745;"><i class="fa-solid fa-check"></i> Apply WhatsApp Settings</button>
         </div>
 
         <div id="sections-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
@@ -1010,6 +1042,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const addPackageBtn = document.getElementById("add-package");
     const manageSocialBtn = document.getElementById("manage-social");
     const managePricingBtn = document.getElementById("manage-pricing");
+    const manageWhatsappBtn = document.getElementById("manage-whatsapp");
     const manageSectionsBtn = document.getElementById("manage-sections");
     const manageFiltersBtn = document.getElementById("manage-filters");
     const manageFlipbookBtnEl = document.getElementById("manage-flipbook");
@@ -1023,7 +1056,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileEditModeToggle = document.getElementById("mobile-edit-mode-toggle");
 
     // Social Links Elements
+    const socialPanel = document.getElementById("social-links-panel");
     const pricingPanel = document.getElementById("pricing-links-panel");
+    const whatsappPanel = document.getElementById("whatsapp-panel");
+    const saveWhatsappBtn = document.getElementById("save-whatsapp");
     const savePricingBtn = document.getElementById("save-pricing-links");
 
     // Sections Panel
@@ -1695,9 +1731,91 @@ document.addEventListener("DOMContentLoaded", () => {
         pricingPanel.style.display = 'none';
     });
 
+    if (manageWhatsappBtn) {
+        manageWhatsappBtn.addEventListener("click", () => {
+            socialPanel.style.display = 'none';
+            pricingPanel.style.display = 'none';
+            sectionsPanel.style.display = 'none';
+            if (filtersPanel) filtersPanel.style.display = 'none';
+            if (flipbookPanel) flipbookPanel.style.display = 'none';
+            if (themePanel) themePanel.style.display = 'none';
+            if (heroCardPanel) heroCardPanel.style.display = 'none';
+            
+            const isHidden = whatsappPanel.style.display === 'none';
+            whatsappPanel.style.display = isHidden ? 'block' : 'none';
+            
+            if (isHidden) {
+                const waBtn = document.getElementById("whatsapp-float");
+                if (waBtn) {
+                    const href = waBtn.getAttribute("href") || "";
+                    const numMatch = href.match(/wa\.me\/([0-9]+)/);
+                    if (numMatch) {
+                        document.getElementById("wa-number-input").value = numMatch[1];
+                    }
+                    document.getElementById("wa-display-select").value = (waBtn.style.display === "none") ? "none" : "flex";
+                    document.getElementById("wa-position-select").value = waBtn.style.left ? "bottom-left" : "bottom-right";
+                    document.getElementById("wa-size-select").value = waBtn.style.width || "60px";
+                }
+            }
+        });
+    }
+
+    if (saveWhatsappBtn) {
+        saveWhatsappBtn.addEventListener("click", () => {
+            let waBtn = document.getElementById("whatsapp-float");
+            if (!waBtn) {
+                waBtn = document.createElement("a");
+                waBtn.id = "whatsapp-float";
+                waBtn.target = "_blank";
+                waBtn.innerHTML = '<i class="fa-brands fa-whatsapp"></i>';
+                waBtn.style.position = "fixed";
+                waBtn.style.bottom = "20px";
+                waBtn.style.backgroundColor = "#25d366";
+                waBtn.style.color = "white";
+                waBtn.style.borderRadius = "50px";
+                waBtn.style.alignItems = "center";
+                waBtn.style.justifyContent = "center";
+                waBtn.style.boxShadow = "2px 2px 3px #999";
+                waBtn.style.zIndex = "1000";
+                waBtn.style.textDecoration = "none";
+                waBtn.style.transition = "all 0.3s ease";
+                document.body.appendChild(waBtn);
+            }
+            
+            const number = document.getElementById("wa-number-input").value.trim();
+            const display = document.getElementById("wa-display-select").value;
+            const pos = document.getElementById("wa-position-select").value;
+            const size = document.getElementById("wa-size-select").value;
+            
+            waBtn.setAttribute("href", `https://wa.me/${number}`);
+            waBtn.style.display = display;
+            
+            if (pos === "bottom-left") {
+                waBtn.style.right = "";
+                waBtn.style.left = "20px";
+            } else {
+                waBtn.style.left = "";
+                waBtn.style.right = "20px";
+            }
+            
+            waBtn.style.width = size;
+            waBtn.style.height = size;
+            waBtn.style.fontSize = (parseInt(size) / 2) + "px";
+            
+            window.hasUnsavedChanges = true;
+            const globalSaveBtn = document.getElementById('save-changes');
+            if (globalSaveBtn) globalSaveBtn.style.boxShadow = '0 0 15px #20c997';
+            
+            window.showToast("WhatsApp settings applied! Click 'Save to Cloud' when done.", "success");
+            whatsappPanel.style.display = 'none';
+        });
+    }
+
     // 4b. Manage Sections Logic
     manageSectionsBtn.addEventListener("click", () => {
         socialPanel.style.display = 'none';
+        pricingPanel.style.display = 'none';
+        if (whatsappPanel) whatsappPanel.style.display = 'none';
         pricingPanel.style.display = 'none';
         if (filtersPanel) filtersPanel.style.display = 'none';
         if (flipbookPanel) flipbookPanel.style.display = 'none';
@@ -3626,7 +3744,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (wasEditMode) toggleBtn.click(); 
         
         if (socialPanel.style.display !== 'none') manageSocialBtn.click();
-        if (pricingPanel.style.display !== 'none') managePricingBtn.click();
+        if (pricingPanel && pricingPanel.style.display !== 'none') managePricingBtn.click();
+        if (whatsappPanel && whatsappPanel.style.display !== 'none') manageWhatsappBtn.click();
         if (heroCardPanel && heroCardPanel.style.display !== 'none') manageHeroCardBtn.click();
 
         const originalText = saveBtn.innerText;
@@ -5476,6 +5595,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (socialPanel && socialPanel.style.display !== 'none') manageSocialBtn.click();
         if (pricingPanel && pricingPanel.style.display !== 'none') managePricingBtn.click();
+        if (whatsappPanel && whatsappPanel.style.display !== 'none') manageWhatsappBtn.click();
         if (heroCardPanel && heroCardPanel.style.display !== 'none') manageHeroCardBtn.click();
 
         const cloneDoc = document.documentElement.cloneNode(true);
