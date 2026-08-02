@@ -1055,8 +1055,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const changeMobileHeroBgBtn = document.getElementById("change-mobile-hero-bg");
     const mobileEditModeToggle = document.getElementById("mobile-edit-mode-toggle");
 
-    // Social Links Elements
-    const socialPanel = document.getElementById("social-links-panel");
     const pricingPanel = document.getElementById("pricing-links-panel");
     const whatsappPanel = document.getElementById("whatsapp-panel");
     const saveWhatsappBtn = document.getElementById("save-whatsapp");
