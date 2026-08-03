@@ -2082,3 +2082,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// GLOBAL LOADER LOGIC
+window.addEventListener('load', function() {
+  const loader = document.getElementById('global-loader');
+  if (loader) {
+    loader.classList.add('hidden');
+    setTimeout(() => {
+      if (loader.parentNode) {
+        loader.parentNode.removeChild(loader);
+      }
+    }, 500);
+  }
+});
+
