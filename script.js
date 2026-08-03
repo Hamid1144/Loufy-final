@@ -981,16 +981,20 @@ window.syncPortfolioGrids = function () {
           "Kindle-ready format optimized for children's tablets."
         ]
       },
-      "Social Media Design": {
-        icon: "fa-solid fa-thumbs-up",
-        desc: "Scroll-stopping social media graphics, banners, and promotional materials for your brand.",
+      "Book Publishing": {
+        icon: "fa-solid fa-book-open",
+        desc: "Our complete Book Publishing service helps authors publish professionally across leading self publishing platforms. We prepare print ready and eBook files, optimize metadata, assist with ISBN guidance, category selection, keyword optimization, and ensure every book meets platform requirements for a smooth publishing process.",
         bullets: [
-          "Stunning 3D book cover mockups and marketing assets.",
-          "Custom banners for Facebook, Twitter, and LinkedIn.",
-          "Engaging post graphics, reels templates, and stories.",
-          "High-converting ad designs for Amazon & Meta Ads.",
-          "Consistent branding across all social platforms.",
-          "Promo graphics for book launches, pre-orders, and sales."
+          "Amazon KDP Publishing",
+          "IngramSpark Publishing",
+          "Barnes & Noble Press",
+          "Lulu Publishing",
+          "Print Ready File Preparation",
+          "eBook Upload & Publishing",
+          "Metadata Optimization",
+          "ISBN Guidance",
+          "Category & Keyword Selection",
+          "Global Distribution Support"
         ]
       },
       "Author Website": {
@@ -1012,7 +1016,7 @@ window.syncPortfolioGrids = function () {
       serviceDetailsData["Amazon KDP Formatting"],
       serviceDetailsData["A+ Content Design"],
       serviceDetailsData["Children Book Illustration"],
-      serviceDetailsData["Social Media Design"],
+      serviceDetailsData["Book Publishing"],
       serviceDetailsData["Author Website"]
     ];
 
