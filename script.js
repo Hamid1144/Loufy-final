@@ -2084,15 +2084,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // GLOBAL LOADER LOGIC
-window.addEventListener('load', function() {
-  const loader = document.getElementById('global-loader');
-  if (loader) {
-    loader.classList.add('hidden');
-    setTimeout(() => {
-      if (loader.parentNode) {
-        loader.parentNode.removeChild(loader);
-      }
-    }, 500);
-  }
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(() => {
+    const loader = document.getElementById('global-loader');
+    if (loader) {
+      loader.classList.add('hidden');
+      setTimeout(() => {
+        if (loader.parentNode) {
+          loader.parentNode.removeChild(loader);
+        }
+      }, 400);
+    }
+  }, 250); 
 });
 
