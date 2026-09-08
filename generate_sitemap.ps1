@@ -53,6 +53,36 @@ $xml = @"
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>$baseUrl/about.html</loc>
+    <lastmod>$indexLastMod</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>$baseUrl/services.html</loc>
+    <lastmod>$indexLastMod</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>$baseUrl/pricing.html</loc>
+    <lastmod>$indexLastMod</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>$baseUrl/testimonials.html</loc>
+    <lastmod>$indexLastMod</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>$baseUrl/contact.html</loc>
+    <lastmod>$indexLastMod</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>$baseUrl/blogs</loc>
     <lastmod>$indexLastMod</lastmod>
     <changefreq>weekly</changefreq>
