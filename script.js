@@ -2109,6 +2109,16 @@ window.initBlogSection = async function () {
 
     // 3. Dynamic click interceptor delegator
     document.addEventListener('click', function(e) {
+        // If clicking View Details button directly
+        const detailsBtn = e.target.closest('.btn-open-website-details');
+        if (detailsBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const parentCard = detailsBtn.closest('.portfolio-card') || document.querySelector('.portfolio-card[data-cat="websites"]');
+            if (parentCard) window.openWebsiteDetailModal(parentCard);
+            return;
+        }
+
         const card = e.target.closest('.portfolio-card');
         if (!card) return;
 
