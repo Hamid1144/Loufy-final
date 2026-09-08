@@ -878,37 +878,8 @@ window.syncPortfolioGrids = function () {
     }
   });
 
-  // 2. Sync admin-added non-flipbook portfolio cards
-  var grid = document.querySelector('.portfolio-grid');
-  if (!grid) return;
-  var adminCards = [];
-  try {
-    var raw = localStorage.getItem('portfolio_cards');
-    if (raw) adminCards = JSON.parse(raw) || [];
-  } catch(e) {}
-
-  adminCards.forEach(function(item) {
-    // Skip if a card with this data-id or same thumbnail image already exists (avoid duplicates)
-    if (item.id && grid.querySelector('[data-admin-id="' + item.id + '"]')) return;
-    if (item.thumb) {
-      var fileName = item.thumb.split('/').pop().split('?')[0];
-      if (fileName && grid.querySelector('img[src*="' + fileName + '"]')) return;
-    }
-    var card = document.createElement('div');
-    card.className = 'portfolio-card reveal';
-    card.setAttribute('data-cat', item.cat || 'covers');
-    if (item.id) card.setAttribute('data-admin-id', item.id);
-    card.innerHTML =
-      '<div class="portfolio-thumb"><img src="' + (item.thumb || '') + '" alt="' + (item.title || '') + '" loading="lazy"></div>' +
-      '<div class="portfolio-info">' +
-        '<div class="tags">' + (item.tags || []).map(function(t){ return '<span>' + t + '</span>'; }).join('') + '</div>' +
-        '<h3>' + (item.title || 'Untitled') + '</h3>' +
-      '</div>';
-    grid.appendChild(card);
-    if (window.revealObserver) {
-      window.revealObserver.observe(card);
-    }
-  });
+  // 2. Remove obsolete localStorage cards to prevent stale card flashes
+  try { localStorage.removeItem('portfolio_cards'); } catch(e) {}
 
   // 3. Re-run reveal so any new cards animate in
   document.querySelectorAll('.reveal').forEach(function(el) {

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta name="google-site-verification" content="rAuCFDwSv6bpD21j0c4JLMfwkVIUukiTIeiKKP2oJGE" />
@@ -158,9 +158,20 @@
 <script>
   (function() {
     try {
-      // Clear old HTML cache keys to free local storage space
-      localStorage.removeItem('supabase_cached_html_index');
-      localStorage.removeItem('supabase_cached_html_portfolio');
+      // Clear all obsolete website cache keys permanently
+      [
+        'supabase_cached_html_index',
+        'supabase_cached_html_portfolio',
+        'supabase_cached_html_about',
+        'supabase_cached_html_services',
+        'supabase_cached_html_pricing',
+        'supabase_cached_html_contact',
+        'supabase_cached_html_testimonials',
+        'portfolio_cards',
+        'saved_website'
+      ].forEach(function(k) {
+        try { localStorage.removeItem(k); } catch(e) {}
+      });
       
       const cachedTheme = localStorage.getItem('supabase_cached_theme');
       if (cachedTheme) {
@@ -170,7 +181,7 @@
         document.head.appendChild(style);
       }
     } catch (e) {
-      console.warn("Failed to pre-inject custom theme: ", e);
+      console.warn("Theme preload notice: ", e);
     }
   })();
 </script>
@@ -3227,63 +3238,7 @@
 <div class="footer-bottom" bis_skin_checked="1" data-admin-text="true">© 2026 Hamid Raza. All Rights Reserved.</div>
 </div>
 </footer>
-
-<script>
-  (function() {
-    const pageId = window.location.pathname.includes("portfolio.html") ? 'portfolio' : 'index';
-    try {
-      const cached = localStorage.getItem('supabase_cached_html_' + pageId);
-      if (cached && !window.contentLoadedFromLive) {
-        document.addEventListener('DOMContentLoaded', () => {
-          if (window.contentLoadedFromLive) return;
-          const panel = document.getElementById('super-admin-panel');
-          const modal = document.getElementById('admin-crop-modal');
-          const addItemModalEl = document.getElementById('admin-add-item-modal');
-          const rpOvlEl = document.getElementById('fp-rp-overlay');
-          const rpModEl = document.getElementById('fp-rp-modal');
-          
-          const animWrap = document.getElementById('bg-anim-wrap');
-          const animCanvas = document.getElementById('bg-anim-canvas');
-          const heroGlow = document.getElementById('bg-hero-glow');
-          
-          const loader = document.getElementById('loading-screen');
-          document.body.innerHTML = cached;
-          if (loader) document.body.appendChild(loader);
-          
-          ['bg-anim-wrap', 'bg-anim-canvas', 'bg-hero-glow'].forEach(id => {
-              const el = document.getElementById(id);
-              if (el) el.remove();
-          });
-          
-          if (panel) document.body.appendChild(panel);
-          if (modal) document.body.appendChild(modal);
-          if (addItemModalEl) document.body.appendChild(addItemModalEl);
-          if (rpOvlEl) document.body.appendChild(rpOvlEl);
-          if (rpModEl) document.body.appendChild(rpModEl);
-          
-          if (animWrap) document.body.insertBefore(animWrap, document.body.firstChild);
-          if (animCanvas) document.body.insertBefore(animCanvas, document.body.firstChild);
-          if (heroGlow) document.body.insertBefore(heroGlow, document.body.firstChild);
-
-          window.contentLoadedFromCache = true;
-          if (window.initSiteLogic) window.initSiteLogic();
-          if (window.bgAnim && typeof window.bgAnim.init === 'function') window.bgAnim.init();
-          if (window.initFlipbooks) window.initFlipbooks();
-
-          // Hide loader immediately for cache load to make page load instant
-          document.body.classList.add('loaded');
-          if (loader) {
-            loader.style.opacity = '0';
-            loader.style.visibility = 'hidden';
-            setTimeout(function() { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 500);
-          }
-        });
-      }
-    } catch (e) {
-      console.warn("Failed to load cached content: ", e);
-    }
-  })();
-</script><script id="particle-config" type="application/json">{"enabled":false,"size":2,"density":500,"color1":"#ff0000","color2":"#00ff62","color3":"#004cff","style":"glow","speed":0.9,"interaction":"magnetic","glowIntensity":2,"blendMode":"adaptive","opacity":0.5,"randomness":2}</script>
+<script id="particle-config" type="application/json">{"enabled":false,"size":2,"density":500,"color1":"#ff0000","color2":"#00ff62","color3":"#004cff","style":"glow","speed":0.9,"interaction":"magnetic","glowIntensity":2,"blendMode":"adaptive","opacity":0.5,"randomness":2}</script>
     
 
     <!-- Flipbook Replace Page Modal -->
