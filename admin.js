@@ -1217,7 +1217,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 { id: 'kdp', name: 'Amazon KDP' },
                 { id: 'branding', name: 'Branding' },
                 { id: 'social', name: 'Social Media' },
-                { id: 'formatting', name: 'Formatting' }
+                { id: 'formatting', name: 'Formatting' },
+                { id: 'websites', name: 'Websites Created' }
             );
         }
         

@@ -314,7 +314,7 @@ window.initSiteLogic = function () {
         if (!cols && (cat === 'paperback-covers' || cat === 'formatting')) {
           cols = '2';
         }
-        if (!cols && cat === 'a-plus-content') {
+        if (!cols && (cat === 'a-plus-content' || cat === 'websites')) {
           cols = '1';
         }
         if (cols) {
@@ -322,7 +322,7 @@ window.initSiteLogic = function () {
         }
       }
 
-      const colsVal = parseInt(this.dataset.cols) || ( (cat === 'paperback-covers' || cat === 'formatting') ? 2 : 3 );
+      const colsVal = parseInt(this.dataset.cols) || ( (cat === 'paperback-covers' || cat === 'formatting') ? 2 : (cat === 'websites' || cat === 'a-plus-content') ? 1 : 3 );
       const rowsVal = parseInt(this.dataset.rows) || 0;
       const limit = colsVal * rowsVal;
       let activeCatFilteredCount = 0;

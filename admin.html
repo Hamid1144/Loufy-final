@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -723,6 +723,11 @@
                 <i class="fa-solid fa-copyright" style="font-size: 0.75rem; width: 12px;"></i> Logo & Branding
               </a>
             </li>
+            <li>
+              <a class="sidebar-sublink" data-cat="websites" style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; padding: 6px 0; font-size: 0.82rem; cursor: pointer; transition: color 0.2s;">
+                <i class="fa-solid fa-globe" style="font-size: 0.75rem; width: 12px;"></i> Websites Created
+              </a>
+            </li>
           </ul>
         </li>
         <li>
@@ -1091,17 +1096,27 @@
             <option value="formatting">Formatting & Interior Layout</option>
             <option value="a-plus-content">A+ Content Layout</option>
             <option value="logo-branding">Logo & Branding Kits</option>
+            <option value="websites">Websites Created</option>
           </select>
+        </div>
+        <div class="form-group" id="group-portfolio-site-url">
+          <label>Website Live URL (Visit Link)</label>
+          <input type="url" id="form-portfolio-site-url" class="form-control" placeholder="https://example.com">
+          <small style="color:var(--text-muted);font-size:0.75rem;margin-top:4px;display:block;">Used for "Websites Created" category to link to the live client website.</small>
+        </div>
+        <div class="form-group" id="group-portfolio-desc">
+          <label>Website Details / Description</label>
+          <textarea id="form-portfolio-desc" class="form-control" rows="3" placeholder="Describe the website features, client, platform, etc."></textarea>
         </div>
         <div class="form-group">
           <label>Layout Width</label>
           <select id="form-portfolio-layout" class="form-control">
             <option value="default">Default Column Width</option>
-            <option value="full-width">Full Width Layout (For landscape formats)</option>
+            <option value="full-width">Full Width Layout (For landscape / website formats)</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Cloudinary Image URL</label>
+          <label>Cloudinary Image URL / Screenshot</label>
           <input type="text" id="form-portfolio-img" class="form-control" placeholder="https://res.cloudinary.com/..." required>
         </div>
         <div class="form-group">
@@ -1747,6 +1762,9 @@
         const img = card.querySelector('img');
         const h3 = card.querySelector('h3');
         const tags = Array.from(card.querySelectorAll('.tags span')).map(s => s.textContent.trim());
+        const descEl = card.querySelector('.portfolio-desc');
+        const visitBtn = card.querySelector('a.btn-visit-website');
+        const siteUrl = card.getAttribute('data-website-url') || (visitBtn ? visitBtn.getAttribute('href') : '');
         
         portfolioItems.push({
           id: index,
@@ -1755,6 +1773,8 @@
           layout: card.getAttribute('data-layout') || 'default',
           imgUrl: img ? img.getAttribute('src') : '',
           tags: tags,
+          desc: descEl ? descEl.textContent.trim() : '',
+          siteUrl: siteUrl || '',
           el: card
         });
       });
@@ -1785,7 +1805,8 @@
         'paperback-covers': 'Paperback Covers',
         'a-plus-content': 'A+ Content',
         'formatting': 'Interior Book Formatting',
-        'children': 'Children Books & Illustration'
+        'children': 'Children Books & Illustration',
+        'websites': 'Websites Created'
       };
       
       // Render each group
@@ -1811,9 +1832,9 @@
               <thead>
                 <tr>
                   <th style="width: 80px;">Preview</th>
-                  <th>Title</th>
+                  <th>Title ${catId === 'websites' ? '& Live Link' : ''}</th>
                   <th>Layout</th>
-                  <th>Tags</th>
+                  <th>Tags ${catId === 'websites' ? '& Details' : ''}</th>
                   <th style="width: 150px; text-align: right;">Actions</th>
                 </tr>
               </thead>
@@ -1826,11 +1847,20 @@
         const tbody = groupDiv.querySelector(`.group-tbody-${catId}`);
         groupItems.forEach(item => {
           const tr = document.createElement('tr');
+          const urlSnippet = item.siteUrl ? `<div style="margin-top:4px;"><a href="${item.siteUrl}" target="_blank" style="color:var(--accent);font-size:0.8rem;text-decoration:none;display:inline-flex;align-items:center;gap:4px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${item.siteUrl}</a></div>` : '';
+          const descSnippet = item.desc ? `<div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${item.desc}</div>` : '';
+          
           tr.innerHTML = `
             <td><img src="${item.imgUrl}" class="thumbnail-preview" alt="Preview"></td>
-            <td style="font-weight:600; color:#fff;">${item.title}</td>
+            <td style="font-weight:600; color:#fff;">
+              ${item.title}
+              ${urlSnippet}
+            </td>
             <td><span class="tag-badge" style="background:rgba(255,255,255,0.05); color:#ccc;">${item.layout === 'full-width' ? 'Full Width' : 'Column Default'}</span></td>
-            <td>${item.tags.map(t => `<span class="tag-badge">${t}</span>`).join('')}</td>
+            <td>
+              <div>${item.tags.map(t => `<span class="tag-badge">${t}</span>`).join('')}</div>
+              ${descSnippet}
+            </td>
             <td class="action-cell" style="justify-content: flex-end;">
               <button class="btn btn-secondary" onclick="editPortfolioItem(${item.id})" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-edit"></i> Edit</button>
               <button class="btn btn-danger" onclick="deletePortfolioItem(${item.id})" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-trash"></i> Delete</button>
@@ -1849,6 +1879,8 @@
       const filtered = portfolioItems.filter(item => 
         item.title.toLowerCase().includes(query) || 
         item.cat.toLowerCase().includes(query) || 
+        (item.siteUrl && item.siteUrl.toLowerCase().includes(query)) ||
+        (item.desc && item.desc.toLowerCase().includes(query)) ||
         item.tags.some(t => t.toLowerCase().includes(query))
       );
       renderPortfolioTable(filtered);
@@ -1862,7 +1894,8 @@
       'children': ['Children Book', 'Illustrations', 'Story Book', 'Coloring Book', 'Character Design', 'Vibrant Colors', 'Hardcover', 'Kindle Kids', 'Nursery Rhymes', 'A+ Content', 'Bleed', 'Activity Book'],
       'formatting': ['Book Formatting', 'KDP Interior', 'Paperback Format', 'Kindle Format', 'EPUB', 'Novel Layout', 'Non-Fiction Format', 'Drop Caps', 'Header-Footer', 'Table of Contents', 'Bleed Layout', 'Children Book'],
       'a-plus-content': ['A+ Content', 'Amazon KDP', 'Marketing Grid', 'Product Banners', 'Author Brand', 'Module 1', 'Module 2', 'Graphic Headers', 'High-Conversion', 'Book Promotion', 'Comparison Chart', 'SEO Optimized'],
-      'logo-branding': ['Logo Design', 'Author Brand', 'Publisher Logo', 'Branding Kit', 'Color Palette', 'Typography Logo', 'Iconography', 'Vector', 'Modern Brand', 'Signature Logo', 'Business Card', 'Social Media Kit']
+      'logo-branding': ['Logo Design', 'Author Brand', 'Publisher Logo', 'Branding Kit', 'Color Palette', 'Typography Logo', 'Iconography', 'Vector', 'Modern Brand', 'Signature Logo', 'Business Card', 'Social Media Kit'],
+      'websites': ['Author Website', 'WordPress', 'Shopify', 'Responsive', 'Custom Design', 'Book Launch', 'Landing Page', 'E-Commerce', 'Portfolio Website', 'SEO Ready', 'Fast Loading']
     };
 
     window.validSubcats_ref = validSubcats;
@@ -1941,7 +1974,27 @@
       });
     });
 
-    document.getElementById('form-portfolio-cat').addEventListener('change', renderKeywordPills);
+    function toggleWebsiteFields() {
+      const cat = document.getElementById('form-portfolio-cat').value;
+      const urlGroup = document.getElementById('group-portfolio-site-url');
+      const descGroup = document.getElementById('group-portfolio-desc');
+      const layoutSelect = document.getElementById('form-portfolio-layout');
+      
+      if (cat === 'websites') {
+        if (urlGroup) urlGroup.style.display = 'block';
+        if (descGroup) descGroup.style.display = 'block';
+        if (layoutSelect) layoutSelect.value = 'full-width';
+      } else {
+        // Keep visible or optional for flexibility, but highlight for websites
+        if (urlGroup) urlGroup.style.display = 'block';
+        if (descGroup) descGroup.style.display = 'block';
+      }
+    }
+
+    document.getElementById('form-portfolio-cat').addEventListener('change', () => {
+      renderKeywordPills();
+      toggleWebsiteFields();
+    });
 
     // Add portfolio card action
     document.getElementById('btn-add-portfolio-item').addEventListener('click', () => {
@@ -1953,7 +2006,10 @@
       document.getElementById('form-portfolio-tags').value = '';
       document.getElementById('form-portfolio-cat').value = 'covers';
       document.getElementById('form-portfolio-layout').value = 'default';
+      document.getElementById('form-portfolio-site-url').value = '';
+      document.getElementById('form-portfolio-desc').value = '';
       renderKeywordPills();
+      toggleWebsiteFields();
       openModal('portfolio-modal');
     });
 
@@ -1969,7 +2025,10 @@
       document.getElementById('form-portfolio-tags').value = item.tags.join(', ');
       document.getElementById('form-portfolio-cat').value = item.cat;
       document.getElementById('form-portfolio-layout').value = item.layout;
+      document.getElementById('form-portfolio-site-url').value = item.siteUrl || '';
+      document.getElementById('form-portfolio-desc').value = item.desc || '';
       renderKeywordPills();
+      toggleWebsiteFields();
       openModal('portfolio-modal');
     }
 
@@ -1979,6 +2038,8 @@
       const cat = document.getElementById('form-portfolio-cat').value;
       const layout = document.getElementById('form-portfolio-layout').value;
       const imgUrl = document.getElementById('form-portfolio-img').value.trim();
+      const siteUrl = (document.getElementById('form-portfolio-site-url')?.value || '').trim();
+      const desc = (document.getElementById('form-portfolio-desc')?.value || '').trim();
       const tagsRaw = document.getElementById('form-portfolio-tags').value;
       const tags = tagsRaw.split(',').map(t => t.trim()).filter(t => t.length > 0);
       
@@ -2013,7 +2074,33 @@
       }
       
       // Construct card HTML
-      const cardHTML = `
+      let cardHTML = '';
+      if (cat === 'websites') {
+        const displayUrl = siteUrl ? siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') : 'Live Website';
+        cardHTML = `
+<div class="portfolio-card website-card reveal" data-cat="websites" data-layout="full-width"${siteUrl ? ` data-website-url="${siteUrl}"` : ''} style="">
+    <div class="browser-bar">
+        <div class="browser-dots">
+            <span class="browser-dot red"></span>
+            <span class="browser-dot yellow"></span>
+            <span class="browser-dot green"></span>
+        </div>
+        <div class="browser-url-bar"><i class="fa-solid fa-lock" style="font-size:0.65rem;"></i> ${displayUrl}</div>
+    </div>
+    <div class="website-card-body">
+        <div class="portfolio-thumb">
+            <img src="${cleanImgUrl}" alt="${title}" data-optimized="true" srcset="${cleanImgUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/f_auto,q_auto,w_480/')} 480w, ${cleanImgUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/f_auto,q_auto,w_800/')} 800w, ${cleanImgUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/f_auto,q_auto,w_1200/')} 1200w">
+        </div>
+        <div class="portfolio-info">
+            <div class="tags">${tags.map(t => `<span data-admin-text="true">${t}</span>`).join('')}</div>
+            <h3 data-admin-text="true">${title}</h3>
+            ${desc ? `<p class="portfolio-desc" data-admin-text="true">${desc}</p>` : ''}
+            ${siteUrl ? `<a href="${siteUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-visit-website"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Website</a>` : ''}
+        </div>
+    </div>
+</div>`;
+      } else {
+        cardHTML = `
 <div class="portfolio-card reveal" data-cat="${cat}" data-layout="${layout}"${subcatAttr} style="">
                     <div class="portfolio-thumb">
                         <img src="${cleanImgUrl}" alt="${title}" data-optimized="true" srcset="${cleanImgUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/f_auto,q_auto,w_480/')} 480w, ${cleanImgUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/f_auto,q_auto,w_800/')} 800w, ${cleanImgUrl.replace('/image/upload/f_auto,q_auto/', '/image/upload/f_auto,q_auto,w_1200/')} 1200w">
@@ -2023,6 +2110,7 @@
                         <h3 data-admin-text="true">${title}</h3>
                     </div>
                 </div>`;
+      }
                 
       const parser = new DOMParser();
       const newCardDoc = parser.parseFromString(cardHTML, 'text/html');
