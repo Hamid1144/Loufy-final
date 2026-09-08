@@ -1096,17 +1096,33 @@
             <option value="formatting">Formatting & Interior Layout</option>
             <option value="a-plus-content">A+ Content Layout</option>
             <option value="logo-branding">Logo & Branding Kits</option>
-            <option value="websites">Websites Created</option>
+            <option value="websites">Websites I Created</option>
           </select>
         </div>
-        <div class="form-group" id="group-portfolio-site-url">
-          <label>Website Live URL (Visit Link)</label>
-          <input type="url" id="form-portfolio-site-url" class="form-control" placeholder="https://example.com">
-          <small style="color:var(--text-muted);font-size:0.75rem;margin-top:4px;display:block;">Used for "Websites Created" category to link to the live client website.</small>
-        </div>
-        <div class="form-group" id="group-portfolio-desc">
-          <label>Website Details / Description</label>
-          <textarea id="form-portfolio-desc" class="form-control" rows="3" placeholder="Describe the website features, client, platform, etc."></textarea>
+        <!-- Dedicated Website Project Settings Box -->
+        <div id="website-extra-fields" style="background:rgba(255,255,255,0.03);border:1px solid rgba(230,126,34,0.3);border-radius:10px;padding:16px;margin-bottom:16px;">
+          <h4 style="color:var(--accent);margin:0 0 12px 0;font-size:0.92rem;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-globe"></i> Website Project Detailed Settings
+          </h4>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label>Website Live URL (Visit Link)</label>
+            <input type="url" id="form-portfolio-site-url" class="form-control" placeholder="https://example.com">
+            <small style="color:var(--text-muted);font-size:0.75rem;margin-top:4px;display:block;">Required for "Visit Website" button on the card &amp; popup modal.</small>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Client / Author Name</label>
+              <input type="text" id="form-portfolio-client" class="form-control" placeholder="e.g. Loufy Publisher">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Platform / Technology</label>
+              <input type="text" id="form-portfolio-platform" class="form-control" placeholder="e.g. WordPress, Shopify, Custom">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label>Website Details / Full Description</label>
+            <textarea id="form-portfolio-desc" class="form-control" rows="4" placeholder="Describe the website design, key features, pages created, book sales integration, client feedback, etc."></textarea>
+          </div>
         </div>
         <div class="form-group">
           <label>Layout Width</label>
@@ -1765,6 +1781,8 @@
         const descEl = card.querySelector('.portfolio-desc');
         const visitBtn = card.querySelector('a.btn-visit-website');
         const siteUrl = card.getAttribute('data-website-url') || (visitBtn ? visitBtn.getAttribute('href') : '');
+        const client = card.getAttribute('data-client') || '';
+        const platform = card.getAttribute('data-platform') || '';
         
         portfolioItems.push({
           id: index,
@@ -1775,6 +1793,8 @@
           tags: tags,
           desc: descEl ? descEl.textContent.trim() : '',
           siteUrl: siteUrl || '',
+          client: client || '',
+          platform: platform || '',
           el: card
         });
       });
@@ -1806,7 +1826,7 @@
         'a-plus-content': 'A+ Content',
         'formatting': 'Interior Book Formatting',
         'children': 'Children Books & Illustration',
-        'websites': 'Websites Created'
+        'websites': 'Websites I Created'
       };
       
       // Render each group
@@ -1895,7 +1915,7 @@
       'formatting': ['Book Formatting', 'KDP Interior', 'Paperback Format', 'Kindle Format', 'EPUB', 'Novel Layout', 'Non-Fiction Format', 'Drop Caps', 'Header-Footer', 'Table of Contents', 'Bleed Layout', 'Children Book'],
       'a-plus-content': ['A+ Content', 'Amazon KDP', 'Marketing Grid', 'Product Banners', 'Author Brand', 'Module 1', 'Module 2', 'Graphic Headers', 'High-Conversion', 'Book Promotion', 'Comparison Chart', 'SEO Optimized'],
       'logo-branding': ['Logo Design', 'Author Brand', 'Publisher Logo', 'Branding Kit', 'Color Palette', 'Typography Logo', 'Iconography', 'Vector', 'Modern Brand', 'Signature Logo', 'Business Card', 'Social Media Kit'],
-      'websites': ['Author Website', 'WordPress', 'Shopify', 'Responsive', 'Custom Design', 'Book Launch', 'Landing Page', 'E-Commerce', 'Portfolio Website', 'SEO Ready', 'Fast Loading']
+      'websites': ['Author Website', 'Book Launch Website', 'WordPress', 'Shopify', 'Responsive Design', 'Custom Theme', 'Landing Page', 'E-Commerce', 'Newsletter Setup', 'SEO Optimized', 'Speed Optimized', 'Domain & Hosting', 'Blog Setup', 'Live Project']
     };
 
     window.validSubcats_ref = validSubcats;
@@ -1976,18 +1996,14 @@
 
     function toggleWebsiteFields() {
       const cat = document.getElementById('form-portfolio-cat').value;
-      const urlGroup = document.getElementById('group-portfolio-site-url');
-      const descGroup = document.getElementById('group-portfolio-desc');
+      const extraBox = document.getElementById('website-extra-fields');
       const layoutSelect = document.getElementById('form-portfolio-layout');
       
       if (cat === 'websites') {
-        if (urlGroup) urlGroup.style.display = 'block';
-        if (descGroup) descGroup.style.display = 'block';
+        if (extraBox) extraBox.style.display = 'block';
         if (layoutSelect) layoutSelect.value = 'full-width';
       } else {
-        // Keep visible or optional for flexibility, but highlight for websites
-        if (urlGroup) urlGroup.style.display = 'block';
-        if (descGroup) descGroup.style.display = 'block';
+        if (extraBox) extraBox.style.display = 'none';
       }
     }
 
@@ -2007,6 +2023,8 @@
       document.getElementById('form-portfolio-cat').value = 'covers';
       document.getElementById('form-portfolio-layout').value = 'default';
       document.getElementById('form-portfolio-site-url').value = '';
+      if (document.getElementById('form-portfolio-client')) document.getElementById('form-portfolio-client').value = '';
+      if (document.getElementById('form-portfolio-platform')) document.getElementById('form-portfolio-platform').value = '';
       document.getElementById('form-portfolio-desc').value = '';
       renderKeywordPills();
       toggleWebsiteFields();
@@ -2017,7 +2035,7 @@
       const item = portfolioItems.find(i => i.id === id);
       if (!item) return;
       
-      document.getElementById('portfolio-modal-title').textContent = 'Edit Portfolio Card';
+      document.getElementById('portfolio-modal-title').textContent = item.cat === 'websites' ? 'Edit Website Project' : 'Edit Portfolio Card';
       document.getElementById('form-portfolio-id').value = id;
       document.getElementById('form-portfolio-title').value = item.title;
       document.getElementById('form-portfolio-img').value = item.imgUrl;
@@ -2026,6 +2044,8 @@
       document.getElementById('form-portfolio-cat').value = item.cat;
       document.getElementById('form-portfolio-layout').value = item.layout;
       document.getElementById('form-portfolio-site-url').value = item.siteUrl || '';
+      if (document.getElementById('form-portfolio-client')) document.getElementById('form-portfolio-client').value = item.client || '';
+      if (document.getElementById('form-portfolio-platform')) document.getElementById('form-portfolio-platform').value = item.platform || '';
       document.getElementById('form-portfolio-desc').value = item.desc || '';
       renderKeywordPills();
       toggleWebsiteFields();
@@ -2039,6 +2059,8 @@
       const layout = document.getElementById('form-portfolio-layout').value;
       const imgUrl = document.getElementById('form-portfolio-img').value.trim();
       const siteUrl = (document.getElementById('form-portfolio-site-url')?.value || '').trim();
+      const client = (document.getElementById('form-portfolio-client')?.value || '').trim();
+      const platform = (document.getElementById('form-portfolio-platform')?.value || '').trim();
       const desc = (document.getElementById('form-portfolio-desc')?.value || '').trim();
       const tagsRaw = document.getElementById('form-portfolio-tags').value;
       const tags = tagsRaw.split(',').map(t => t.trim()).filter(t => t.length > 0);
@@ -2078,7 +2100,7 @@
       if (cat === 'websites') {
         const displayUrl = siteUrl ? siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') : 'Live Website';
         cardHTML = `
-<div class="portfolio-card website-card reveal" data-cat="websites" data-layout="full-width"${siteUrl ? ` data-website-url="${siteUrl}"` : ''} style="">
+<div class="portfolio-card website-card reveal" data-cat="websites" data-layout="full-width"${siteUrl ? ` data-website-url="${siteUrl}"` : ''}${client ? ` data-client="${client}"` : ''}${platform ? ` data-platform="${platform}"` : ''} style="">
     <div class="browser-bar">
         <div class="browser-dots">
             <span class="browser-dot red"></span>
@@ -2095,7 +2117,10 @@
             <div class="tags">${tags.map(t => `<span data-admin-text="true">${t}</span>`).join('')}</div>
             <h3 data-admin-text="true">${title}</h3>
             ${desc ? `<p class="portfolio-desc" data-admin-text="true">${desc}</p>` : ''}
-            ${siteUrl ? `<a href="${siteUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-visit-website"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Website</a>` : ''}
+            <div class="website-card-actions">
+                <button type="button" class="btn btn-secondary btn-open-website-details"><i class="fa-solid fa-circle-info"></i> View Details</button>
+                ${siteUrl ? `<a href="${siteUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-visit-website"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Website</a>` : ''}
+            </div>
         </div>
     </div>
 </div>`;

@@ -2000,14 +2000,166 @@ window.initBlogSection = async function () {
         };
     }
 
+    // ── Website Project Detail Modal Logic ──────────────────
+    function injectWebsiteModal() {
+        if (document.getElementById('website-project-modal')) return;
+
+        const modal = document.createElement('div');
+        modal.id = 'website-project-modal';
+        modal.className = 'website-modal-overlay';
+        modal.innerHTML = `
+            <div class="website-modal-box">
+                <button class="website-modal-close" aria-label="Close modal">&times;</button>
+                
+                <div class="website-modal-browser-bar">
+                    <div class="browser-dots">
+                        <span class="browser-dot red"></span>
+                        <span class="browser-dot yellow"></span>
+                        <span class="browser-dot green"></span>
+                    </div>
+                    <div class="browser-url-display">
+                        <i class="fa-solid fa-lock" style="font-size: 0.7rem; color: #27c93f;"></i>
+                        <span id="website-modal-url-text">Live Website</span>
+                    </div>
+                </div>
+
+                <div class="website-modal-body">
+                    <div class="website-modal-preview">
+                        <img id="website-modal-img" src="" alt="Website Preview" />
+                    </div>
+
+                    <div class="website-modal-content">
+                        <div class="website-modal-meta">
+                            <span class="website-modal-badge category"><i class="fa-solid fa-globe"></i> Websites I Created</span>
+                            <span id="website-modal-client-badge" class="website-modal-badge client" style="display:none;"><i class="fa-solid fa-user-check"></i> <span id="website-modal-client-text"></span></span>
+                            <span id="website-modal-platform-badge" class="website-modal-badge platform" style="display:none;"><i class="fa-solid fa-layer-group"></i> <span id="website-modal-platform-text"></span></span>
+                        </div>
+
+                        <h2 id="website-modal-title" class="website-modal-title">Website Title</h2>
+
+                        <div id="website-modal-tags" class="website-modal-tags"></div>
+
+                        <div class="website-modal-section">
+                            <h4><i class="fa-solid fa-circle-info"></i> Project Details &amp; Overview</h4>
+                            <p id="website-modal-desc" class="website-modal-desc"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="website-modal-footer">
+                    <button class="btn btn-secondary website-modal-cancel">Close</button>
+                    <a id="website-modal-visit-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-visit-live">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Live Website
+                    </a>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        const closeBtn = modal.querySelector('.website-modal-close');
+        const cancelBtn = modal.querySelector('.website-modal-cancel');
+        const close = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        closeBtn.addEventListener('click', close);
+        cancelBtn.addEventListener('click', close);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) close();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) close();
+        });
+    }
+
+    window.openWebsiteDetailModal = function(card) {
+        injectWebsiteModal();
+        const modal = document.getElementById('website-project-modal');
+        if (!modal) return;
+
+        const titleEl = card.querySelector('h3');
+        const title = titleEl ? titleEl.textContent.trim() : 'Website Project';
+        const imgEl = card.querySelector('.portfolio-thumb img') || card.querySelector('img');
+        const imgSrc = imgEl ? (imgEl.getAttribute('src') || '') : '';
+        const descEl = card.querySelector('.portfolio-desc');
+        const desc = descEl ? descEl.textContent.trim() : (card.getAttribute('data-desc') || '');
+        const siteUrl = card.getAttribute('data-website-url') || card.querySelector('a.btn-visit-website')?.getAttribute('href') || '';
+        const client = card.getAttribute('data-client') || '';
+        const platform = card.getAttribute('data-platform') || '';
+        
+        const tags = Array.from(card.querySelectorAll('.tags span')).map(s => s.textContent.trim());
+
+        document.getElementById('website-modal-title').textContent = title;
+        document.getElementById('website-modal-img').src = imgSrc;
+        document.getElementById('website-modal-desc').textContent = desc || 'A custom designed responsive website created for the author/client with modern UX, clean book showcase, and high conversion rate.';
+        
+        const urlDisplay = siteUrl ? siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') : 'Live Website';
+        document.getElementById('website-modal-url-text').textContent = urlDisplay;
+        
+        const visitBtn = document.getElementById('website-modal-visit-btn');
+        if (siteUrl && siteUrl !== '#') {
+            visitBtn.href = siteUrl;
+            visitBtn.style.display = 'inline-flex';
+        } else {
+            visitBtn.style.display = 'none';
+        }
+
+        const clientBadge = document.getElementById('website-modal-client-badge');
+        const clientText = document.getElementById('website-modal-client-text');
+        if (client) {
+            clientText.textContent = client;
+            clientBadge.style.display = 'inline-flex';
+        } else {
+            clientBadge.style.display = 'none';
+        }
+
+        const platBadge = document.getElementById('website-modal-platform-badge');
+        const platText = document.getElementById('website-modal-platform-text');
+        if (platform) {
+            platText.textContent = platform;
+            platBadge.style.display = 'inline-flex';
+        } else {
+            platBadge.style.display = 'none';
+        }
+
+        const tagsWrap = document.getElementById('website-modal-tags');
+        tagsWrap.innerHTML = '';
+        tags.forEach(t => {
+            const sp = document.createElement('span');
+            sp.className = 'website-modal-tag';
+            sp.textContent = t;
+            tagsWrap.appendChild(sp);
+        });
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+
     // 3. Dynamic click interceptor delegator
     document.addEventListener('click', function(e) {
         const card = e.target.closest('.portfolio-card');
         if (!card) return;
+
+        // If clicking on direct external link like "Visit Website", allow default link navigation
+        const directLink = e.target.closest('a.btn-visit-website');
+        if (directLink && directLink.getAttribute('href') && directLink.getAttribute('href') !== '#') {
+            return;
+        }
+
+        // If clicking inside book control buttons or edit toolbars
+        if (e.target.closest('.book-controls-row') || e.target.closest('.card-toolbar')) return;
         
-        // Ignore if user clicked inside book control buttons or edit toolbars
-        if (e.target.closest('.book-controls-row') || e.target.closest('.card-toolbar') || e.target.closest('.btn') || e.target.closest('button')) return;
-        
+        const cat = card.getAttribute('data-cat') || 'covers';
+        if (cat === 'children') return;
+
+        // Open dedicated detailed modal for websites
+        if (cat === 'websites') {
+            e.preventDefault();
+            window.openWebsiteDetailModal(card);
+            return;
+        }
+
         const img = card.querySelector('.portfolio-thumb img') || card.querySelector('img');
         if (!img) return;
 
@@ -2016,8 +2168,6 @@ window.initBlogSection = async function () {
         if (src && src.startsWith('data:image/svg+xml')) return;
 
         e.preventDefault();
-        const cat = card.getAttribute('data-cat') || 'covers';
-        if (cat === 'children') return;
         
         if (window.openLightboxFor) {
             window.openLightboxFor(src, cat, card);
@@ -2025,9 +2175,13 @@ window.initBlogSection = async function () {
     });
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', injectLightboxHTML);
+        document.addEventListener('DOMContentLoaded', () => {
+            injectLightboxHTML();
+            injectWebsiteModal();
+        });
     } else {
         injectLightboxHTML();
+        injectWebsiteModal();
     }
 })();
 
