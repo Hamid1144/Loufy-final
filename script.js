@@ -333,7 +333,12 @@ window.initSiteLogic = function () {
         const cardCat = card.dataset.cat;
         let shouldShow = false;
 
-        if (cat === 'all' || cardCat === cat) {
+        // Websites cards must strictly and exclusively appear under 'websites' category
+        if (cardCat === 'websites') {
+          shouldShow = (cat === 'websites');
+        } else if (cat === 'websites') {
+          shouldShow = false;
+        } else if (cat === 'all' || cardCat === cat) {
           const activeSubCatBtn = document.querySelector('.sub-filter-btn.active');
           const activeSubCat = activeSubCatBtn ? activeSubCatBtn.dataset.subcat : 'all';
           const cardSubcats = card.dataset.subcat ? card.dataset.subcat.split(',') : [];
@@ -371,7 +376,8 @@ window.initSiteLogic = function () {
         }
         
         if (shouldShow) {
-          card.style.display = 'block';
+          card.classList.remove('card-hidden');
+          card.style.setProperty('display', (cardCat === 'websites' || card.dataset.layout === 'full-width' || card.dataset.flipbook === 'true') ? 'flex' : 'block');
           card.classList.remove('active');
           card.style.opacity = '';
           void card.offsetWidth; // Force reflow
@@ -381,9 +387,10 @@ window.initSiteLogic = function () {
             card.classList.add('active');
           }
         } else {
+          card.classList.add('card-hidden');
           card.classList.remove('active');
           card.style.opacity = '';
-          card.style.display = 'none';
+          card.style.setProperty('display', 'none', 'important');
         }
       });
     });

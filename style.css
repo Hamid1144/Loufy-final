@@ -2984,8 +2984,8 @@ body.edit-mode .hero-float-card {
 
 /* ── WEBSITES I CREATED SHOWCASE CARDS (STACKED 1-COLUMN) ── */
 .portfolio-card[data-cat="websites"] {
-  display: flex !important;
-  flex-direction: column !important;
+  display: flex;
+  flex-direction: column;
   background: var(--card-bg, #111526) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 16px !important;
@@ -2995,6 +2995,12 @@ body.edit-mode .hero-float-card {
   margin-bottom: 30px !important;
   width: 100% !important;
   position: relative !important;
+}
+
+.portfolio-card[data-cat="websites"][style*="display: none"],
+.portfolio-card[data-cat="websites"][style*="display:none"],
+.portfolio-card[data-cat="websites"].card-hidden {
+  display: none !important;
 }
 
 .portfolio-card[data-cat="websites"]:hover {
