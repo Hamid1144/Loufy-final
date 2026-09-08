@@ -1,6 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 <script>
   window.jsErrors = [];
   window.onerror = function(message, source, lineno, colno, error) {
@@ -153,10 +156,17 @@
         'supabase_cached_html_pricing',
         'supabase_cached_html_contact',
         'supabase_cached_html_testimonials',
+        'supabase_cached_grid',
+        'supabase_cached_filters',
+        'site_content_cache',
         'portfolio_cards',
-        'saved_website'
+        'saved_website',
+        'cached_portfolio',
+        'cached_index',
+        'cached_html'
       ].forEach(function(k) {
         try { localStorage.removeItem(k); } catch(e) {}
+        try { sessionStorage.removeItem(k); } catch(e) {}
       });
       
       const cachedTheme = localStorage.getItem('supabase_cached_theme');
@@ -184,7 +194,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
 <script src="admin.js?v=3.32.2" defer></script>
 <script src="bg-anim.js?v=3.31.0" defer></script>
-<script src="live-sync.js?v=3.32.0" defer></script>
+<script src="live-sync.js?v=3.33.0" defer></script>
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4743547325066813" crossorigin="anonymous"></script>
 </head>

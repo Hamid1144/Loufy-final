@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <script>
     window.jsErrors = [];
     window.onerror = function(message, source, lineno, colno, error) {
@@ -67,6 +70,43 @@
   <link rel="icon" type="image/png" href="/favicon.png?v=3.29.0">
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4743547325066813" crossorigin="anonymous"></script>
+<script>
+  (function() {
+    try {
+      // Clear all obsolete website cache keys permanently
+      [
+        'supabase_cached_html_index',
+        'supabase_cached_html_portfolio',
+        'supabase_cached_html_about',
+        'supabase_cached_html_services',
+        'supabase_cached_html_pricing',
+        'supabase_cached_html_contact',
+        'supabase_cached_html_testimonials',
+        'supabase_cached_grid',
+        'supabase_cached_filters',
+        'site_content_cache',
+        'portfolio_cards',
+        'saved_website',
+        'cached_portfolio',
+        'cached_index',
+        'cached_html'
+      ].forEach(function(k) {
+        try { localStorage.removeItem(k); } catch(e) {}
+        try { sessionStorage.removeItem(k); } catch(e) {}
+      });
+      
+      const cachedTheme = localStorage.getItem('supabase_cached_theme');
+      if (cachedTheme) {
+        const style = document.createElement('style');
+        style.id = 'custom-theme-styles-preload';
+        style.innerHTML = cachedTheme;
+        document.head.appendChild(style);
+      }
+    } catch (e) {
+      console.warn("Theme preload notice: ", e);
+    }
+  })();
+</script>
 </head>
 <body class="blog-detail-page">
 <!-- GLOBAL LOADING SCREEN -->

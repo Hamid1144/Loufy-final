@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 1. Sync custom theme styles
             if (liveThemeStyle) {
                 if (currentThemeStyle) {
-                    if (currentThemeStyle.innerHTML !== liveThemeStyle.innerHTML) {
+                    if (currentThemeStyle.innerHTML.trim() !== liveThemeStyle.innerHTML.trim()) {
                         currentThemeStyle.innerHTML = liveThemeStyle.innerHTML;
                         modified = true;
                     }
@@ -73,21 +73,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 modified = true;
             }
 
-            // 2. Sync portfolio grid
+            // 2. Sync portfolio grid intelligently (Semantic signature comparison)
             if (liveGrid && currentGrid) {
-                const norm = s => s.replace(/\s+/g, ' ').trim();
-                if (norm(currentGrid.innerHTML) !== norm(liveGrid.innerHTML)) {
+                const getCardSignature = (card) => {
+                    const img = card.querySelector('img');
+                    const title = card.querySelector('h3');
+                    const desc = card.querySelector('.portfolio-desc');
+                    const visitBtn = card.querySelector('.btn-visit-website');
+                    const cat = card.getAttribute('data-cat') || '';
+                    const subcat = card.getAttribute('data-subcat') || '';
+                    const imgSrc = img ? (img.getAttribute('src') || '') : '';
+                    const titleText = title ? title.textContent.trim() : '';
+                    const descText = desc ? desc.textContent.trim() : '';
+                    const visitHref = visitBtn ? (visitBtn.getAttribute('href') || '') : '';
+                    return `${cat}:::${subcat}:::${imgSrc}:::${titleText}:::${descText}:::${visitHref}`;
+                };
+
+                const currentCards = Array.from(currentGrid.querySelectorAll('.portfolio-card'));
+                const liveCards = Array.from(liveGrid.querySelectorAll('.portfolio-card'));
+
+                const currentSigs = currentCards.map(getCardSignature).join('|||');
+                const liveSigs = liveCards.map(getCardSignature).join('|||');
+
+                // Only update DOM if the actual cards changed in database
+                if (currentSigs !== liveSigs) {
+                    const activeFilterBtn = document.querySelector('.filter-btn.active');
+                    const activeCat = activeFilterBtn ? activeFilterBtn.dataset.cat : null;
+
                     currentGrid.innerHTML = liveGrid.innerHTML;
                     modified = true;
+
+                    // Immediately re-apply active filter to prevent unstyled flash of cards
+                    if (activeCat && activeCat !== 'all') {
+                        currentGrid.querySelectorAll('.portfolio-card').forEach(card => {
+                            if (card.dataset.cat !== activeCat) {
+                                card.style.display = 'none';
+                            }
+                        });
+                    }
                 }
             }
 
-            // 3. Sync portfolio filters
+            // 3. Sync portfolio filters intelligently
             if (liveFilters && currentFilters) {
-                const norm = s => s.replace(/\s+/g, ' ').trim();
-                if (norm(currentFilters.innerHTML) !== norm(liveFilters.innerHTML)) {
+                const getFilterSignature = (filtersEl) => {
+                    const btns = Array.from(filtersEl.querySelectorAll('.filter-btn, .sub-filter-btn'));
+                    return btns.map(b => `${b.dataset.cat || ''}:::${b.dataset.subcat || ''}:::${b.textContent.trim()}`).join('|||');
+                };
+
+                if (getFilterSignature(currentFilters) !== getFilterSignature(liveFilters)) {
+                    const activeFilterBtn = currentFilters.querySelector('.filter-btn.active');
+                    const activeCat = activeFilterBtn ? activeFilterBtn.dataset.cat : null;
+
                     currentFilters.innerHTML = liveFilters.innerHTML;
                     modified = true;
+
+                    if (activeCat) {
+                        currentFilters.querySelectorAll('.filter-btn').forEach(b => {
+                            if (b.dataset.cat === activeCat) b.classList.add('active');
+                            else b.classList.remove('active');
+                        });
+                    }
                 }
             }
 
@@ -162,21 +208,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // 7. Sync Footer, Navigation, and Contact globally (useful for pages like about.html syncing from index.html)
-            const globalSelectors = ['.footer', '.nav-links', '#contact'];
+            // 7. Sync Footer and Contact globally without active link conflicts
+            const globalSelectors = ['.footer', '#contact'];
             globalSelectors.forEach(selector => {
                 const currentEl = document.querySelector(selector);
                 const liveEl = doc.querySelector(selector);
-                if (currentEl && liveEl && currentEl.innerHTML !== liveEl.innerHTML) {
+                if (currentEl && liveEl && currentEl.innerHTML.trim() !== liveEl.innerHTML.trim()) {
                     currentEl.innerHTML = liveEl.innerHTML;
                     modified = true;
                 }
             });
 
-            // Re-initialize site logic if we modified anything
+            // Re-initialize site logic ONLY if changes were actually applied
             if (modified && window.initSiteLogic) {
                 window.initSiteLogic();
-                // If Swiper or other components need re-initialization
                 if (window.initFlipbooks) window.initFlipbooks();
             }
 
