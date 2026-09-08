@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <script>
@@ -47,7 +47,7 @@
   </script>
   
   <!-- CSS Styling -->
-  <link rel="stylesheet" href="/style.css?v=4.32.4">
+  <link rel="stylesheet" href="/style.css?v=5.2.0">
   <link rel="stylesheet" href="/admin.css?v=3.31.0">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -60,6 +60,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="/db.js?v=3.31.0" defer></script>
   <script src="/bg-anim.js?v=3.31.0" defer></script>
+  <script src="/script.js?v=3.34.0" defer></script>
   <script src="/admin.js?v=3.32.2" defer></script>
   
   <!-- Favicon -->
@@ -220,18 +221,37 @@
       // Transition page opacity from 0 to 1
       document.body.classList.add('loaded');
 
+      // Dismiss Global Loader
+      const hideGlobalLoader = () => {
+        const loader = document.getElementById('global-loader');
+        if (loader) {
+          loader.classList.add('hidden');
+          setTimeout(() => {
+            if (loader.parentNode) loader.parentNode.removeChild(loader);
+          }, 350);
+        }
+      };
+
+      // Guaranteed Safety Net: Hide loader after 800ms
+      setTimeout(hideGlobalLoader, 800);
+      window.addEventListener('load', () => setTimeout(hideGlobalLoader, 200));
+
       // 1. Determine active blog slug from URL (e.g. ?slug=my-post or rewritten slug path)
       const params = new URLSearchParams(window.location.search);
       let slug = params.get('slug');
       
-      // If Vercel rewrites don't run in local, we check the pathname
-      // path matching /blog/slug-name
       if (!slug) {
-        const pathParts = window.location.pathname.split('/');
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
         const blogIdx = pathParts.indexOf('blog');
         if (blogIdx !== -1 && pathParts[blogIdx + 1]) {
           slug = pathParts[blogIdx + 1];
+        } else if (pathParts.length > 0 && !pathParts[pathParts.length - 1].includes('.html')) {
+          slug = pathParts[pathParts.length - 1];
         }
+      }
+      if (slug) {
+        try { slug = decodeURIComponent(slug); } catch(e) {}
+        slug = slug.replace(/\.html$/i, '').trim();
       }
 
       // Check loader/error states
@@ -244,6 +264,7 @@
       const postBodyEl = document.getElementById("post-body-content");
       
       const showError = () => {
+        hideGlobalLoader();
         postTitleEl.innerText = "Article Not Found";
         postCategoryEl.innerText = "Error 404";
         postAuthorEl.innerText = "System";
@@ -264,30 +285,34 @@
         return;
       }
 
-      // 2. Fetch all posts from Supabase blogs_json row
-      // Wait for supabaseClient to be initialized
-      const checkClient = setInterval(async () => {
+      // Helper to fetch blogs from Supabase JS client or direct REST fallback
+      const fetchBlogsData = async () => {
         if (window.supabaseClient) {
-          clearInterval(checkClient);
-          loadPost();
+          try {
+            const { data, error } = await window.supabaseClient
+              .from('site_content')
+              .select('html_content')
+              .eq('id', 'blogs_json')
+              .single();
+            if (!error && data && data.html_content) {
+              return JSON.parse(data.html_content);
+            }
+          } catch (e) {}
         }
-      }, 50);
+        // Direct REST API fetch fallback
+        const restUrl = 'https://pgictinimttptsxbvngg.supabase.co/rest/v1/site_content?id=eq.blogs_json&select=html_content';
+        const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc';
+        const res = await fetch(restUrl, { headers: { 'apikey': apiKey, 'Authorization': 'Bearer ' + apiKey } });
+        const json = await res.json();
+        if (json && json[0] && json[0].html_content) {
+          return JSON.parse(json[0].html_content);
+        }
+        throw new Error("Could not load blogs data");
+      };
 
       const loadPost = async () => {
         try {
-          const { data, error } = await window.supabaseClient
-            .from('site_content')
-            .select('html_content')
-            .eq('id', 'blogs_json')
-            .single();
-            
-          if (error) throw error;
-          if (!data || !data.html_content) {
-            showError();
-            return;
-          }
-
-          const postsList = JSON.parse(data.html_content);
+          const postsList = await fetchBlogsData();
           const currentPost = postsList.find(p => p.slug === slug);
 
           if (!currentPost) {
@@ -561,11 +586,18 @@
             document.head.appendChild(s2);
           }
 
+          // Successfully rendered, hide global loader immediately
+          hideGlobalLoader();
         } catch (ex) {
           console.error("Failed to render blog details:", ex);
           showError();
+        } finally {
+          hideGlobalLoader();
         }
       };
+
+      // Immediately kick off blog loading
+      loadPost();
 
       // Hamburger Menu Toggles for mobile
       const hamburger = document.querySelector('.hamburger');
