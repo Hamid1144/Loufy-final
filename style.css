@@ -2986,15 +2986,16 @@ body.edit-mode .hero-float-card {
 .portfolio-card[data-cat="websites"] {
   display: flex;
   flex-direction: column;
-  background: var(--card-bg, #111526) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: var(--card-bg, #ffffff) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
   border-radius: 16px !important;
   overflow: hidden !important;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
   transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.35s ease, border-color 0.35s ease !important;
   margin-bottom: 30px !important;
   width: 100% !important;
   position: relative !important;
+  cursor: pointer !important;
 }
 
 .portfolio-card[data-cat="websites"][style*="display: none"],
@@ -3004,8 +3005,8 @@ body.edit-mode .hero-float-card {
 }
 
 .portfolio-card[data-cat="websites"]:hover {
-  transform: translateY(-5px) !important;
-  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.35) !important;
+  transform: translateY(-4px) !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12) !important;
   border-color: rgba(var(--primary-rgb, 230, 126, 34), 0.35) !important;
 }
 
@@ -3014,9 +3015,9 @@ body.edit-mode .hero-float-card {
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
-  padding: 12px 20px !important;
-  background: rgba(0, 0, 0, 0.35) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  padding: 10px 18px !important;
+  background: #f1f3f7 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
 }
 
 .portfolio-card[data-cat="websites"] .browser-dots {
@@ -3038,11 +3039,12 @@ body.edit-mode .hero-float-card {
 .portfolio-card[data-cat="websites"] .browser-url-bar {
   flex: 1 !important;
   max-width: 420px !important;
-  background: rgba(255, 255, 255, 0.07) !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
   border-radius: 20px !important;
   padding: 4px 14px !important;
   font-size: 0.75rem !important;
-  color: var(--text-muted, #a0aec0) !important;
+  color: #64748b !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
@@ -3052,35 +3054,34 @@ body.edit-mode .hero-float-card {
   margin-left: 10px !important;
 }
 
-/* Card inner content */
+/* Card inner content (Desktop) */
 @media (min-width: 900px) {
   .portfolio-card[data-cat="websites"] .website-card-body {
     display: grid !important;
     grid-template-columns: 1.25fr 1fr !important;
     gap: 32px !important;
-    padding: 28px !important;
+    padding: 26px !important;
     align-items: center !important;
   }
 }
 
-@media (max-width: 899px) {
+@media (max-width: 899px) and (min-width: 769px) {
   .portfolio-card[data-cat="websites"] .website-card-body {
     display: flex !important;
     flex-direction: column !important;
     padding: 20px !important;
-    gap: 20px !important;
+    gap: 18px !important;
   }
 }
 
 .portfolio-card[data-cat="websites"] .portfolio-thumb {
   width: 100% !important;
   height: auto !important;
-  min-height: auto !important;
   aspect-ratio: 16 / 10 !important;
   border-radius: 12px !important;
   overflow: hidden !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
   background: #0d111e !important;
 }
 
@@ -3097,12 +3098,9 @@ body.edit-mode .hero-float-card {
   transform: scale(1.025) !important;
 }
 
-/* Ensure info and buttons are completely visible and interactive (override hover overlay) */
+/* Ensure info and buttons are completely visible and interactive */
 .portfolio-card[data-cat="websites"] .portfolio-info {
   position: static !important;
-  bottom: auto !important;
-  left: auto !important;
-  right: auto !important;
   width: 100% !important;
   background: transparent !important;
   color: inherit !important;
@@ -3124,9 +3122,9 @@ body.edit-mode .hero-float-card {
 }
 
 .portfolio-card[data-cat="websites"] .portfolio-info .tags span {
-  background: rgba(var(--primary-rgb, 230, 126, 34), 0.12) !important;
+  background: rgba(var(--primary-rgb, 230, 126, 34), 0.1) !important;
   color: var(--primary, #e67e22) !important;
-  border: 1px solid rgba(var(--primary-rgb, 230, 126, 34), 0.25) !important;
+  border: 1px solid rgba(var(--primary-rgb, 230, 126, 34), 0.22) !important;
   font-size: 0.78rem !important;
   font-weight: 600 !important;
   padding: 5px 14px !important;
@@ -3134,18 +3132,18 @@ body.edit-mode .hero-float-card {
 }
 
 .portfolio-card[data-cat="websites"] .portfolio-info h3 {
-  font-size: 1.55rem !important;
+  font-size: 1.45rem !important;
   font-weight: 700 !important;
-  margin-bottom: 12px !important;
-  color: #ffffff !important;
+  margin-bottom: 10px !important;
+  color: var(--dark, #111827) !important;
   line-height: 1.3 !important;
 }
 
 .portfolio-card[data-cat="websites"] .portfolio-desc {
-  color: #b0b8c4 !important;
-  font-size: 0.95rem !important;
+  color: #4b5563 !important;
+  font-size: 0.92rem !important;
   line-height: 1.65 !important;
-  margin-bottom: 24px !important;
+  margin-bottom: 22px !important;
 }
 
 .portfolio-card[data-cat="websites"] .website-card-actions {
@@ -3153,7 +3151,7 @@ body.edit-mode .hero-float-card {
   flex-wrap: wrap !important;
   gap: 12px !important;
   align-items: center !important;
-  margin-top: 6px !important;
+  margin-top: 4px !important;
 }
 
 .portfolio-card[data-cat="websites"] .btn-open-website-details {
@@ -3161,20 +3159,21 @@ body.edit-mode .hero-float-card {
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
-  padding: 12px 24px !important;
-  font-size: 0.92rem !important;
+  padding: 11px 22px !important;
+  font-size: 0.9rem !important;
   font-weight: 700 !important;
   border-radius: 30px !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #fff !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #1e293b !important;
   cursor: pointer !important;
-  transition: all 0.3s ease !important;
+  transition: all 0.25s ease !important;
 }
 
 .portfolio-card[data-cat="websites"] .btn-open-website-details:hover {
-  background: rgba(255, 255, 255, 0.18) !important;
-  border-color: #fff !important;
+  background: var(--primary, #e67e22) !important;
+  border-color: var(--primary, #e67e22) !important;
+  color: #ffffff !important;
   transform: translateY(-2px) !important;
 }
 
@@ -3182,24 +3181,113 @@ body.edit-mode .hero-float-card {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 10px !important;
-  padding: 12px 28px !important;
-  font-size: 0.92rem !important;
+  gap: 8px !important;
+  padding: 11px 26px !important;
+  font-size: 0.9rem !important;
   font-weight: 700 !important;
   border-radius: 30px !important;
   width: fit-content !important;
   text-decoration: none !important;
   background: var(--primary, #e67e22) !important;
   color: #ffffff !important;
-  transition: all 0.3s ease !important;
-  box-shadow: 0 4px 18px rgba(var(--primary-rgb, 230, 126, 34), 0.35) !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 4px 16px rgba(var(--primary-rgb, 230, 126, 34), 0.3) !important;
 }
 
 .portfolio-card[data-cat="websites"] .btn-visit-website:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 8px 25px rgba(var(--primary-rgb, 230, 126, 34), 0.5) !important;
-  background: var(--accent, #f39c12) !important;
-  color: #111 !important;
+  box-shadow: 0 8px 24px rgba(var(--primary-rgb, 230, 126, 34), 0.45) !important;
+  background: #f39c12 !important;
+  color: #fff !important;
+}
+
+/* ── MOBILE VIEW OPTIMIZATIONS FOR WEBSITE CARD (< 768px) ── */
+@media (max-width: 768px) {
+  .portfolio-card[data-cat="websites"] {
+    margin-bottom: 18px !important;
+    border-radius: 14px !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .browser-bar {
+    padding: 7px 12px !important;
+    gap: 6px !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .browser-dot {
+    width: 7px !important;
+    height: 7px !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .browser-url-bar {
+    padding: 3px 10px !important;
+    font-size: 0.68rem !important;
+    margin-left: 6px !important;
+    max-width: 180px !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .website-card-body {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 14px !important;
+    gap: 12px !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .portfolio-thumb {
+    width: 100% !important;
+    aspect-ratio: 16 / 9 !important;
+    max-height: 190px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .portfolio-info .tags {
+    margin-bottom: 6px !important;
+    gap: 5px !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .portfolio-info .tags span {
+    font-size: 0.7rem !important;
+    padding: 3px 9px !important;
+    border-radius: 12px !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .portfolio-info h3 {
+    font-size: 1.15rem !important;
+    margin-bottom: 6px !important;
+    line-height: 1.35 !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .portfolio-desc {
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 12px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .website-card-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+  }
+
+  .portfolio-card[data-cat="websites"] .btn-open-website-details,
+  .portfolio-card[data-cat="websites"] .btn-visit-website {
+    width: 100% !important;
+    padding: 10px 8px !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    border-radius: 24px !important;
+    justify-content: center !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
 }
 
 /* ── WEBSITE PROJECT DETAIL POPUP MODAL ── */
@@ -3248,6 +3336,11 @@ body.edit-mode .hero-float-card {
 @keyframes websiteModalIn {
   from { opacity: 0; transform: scale(0.95) translateY(20px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes websiteModalSlideUpMobile {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .website-modal-close {
@@ -3303,6 +3396,7 @@ body.edit-mode .hero-float-card {
   display: flex !important;
   flex-direction: column !important;
   gap: 22px !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
 .website-modal-preview {
@@ -3435,6 +3529,106 @@ body.edit-mode .hero-float-card {
   transform: translateY(-2px) !important;
   box-shadow: 0 8px 25px rgba(230, 126, 34, 0.55) !important;
   background: #f39c12 !important;
+}
+
+/* ── MOBILE VIEW OPTIMIZATIONS FOR WEBSITE MODAL (< 768px) ── */
+@media (max-width: 768px) {
+  .website-modal-overlay {
+    padding: 0 !important;
+    align-items: flex-end !important;
+  }
+
+  .website-modal-box {
+    max-height: 88vh !important;
+    width: 100% !important;
+    border-radius: 20px 20px 0 0 !important;
+    margin: 0 !important;
+    animation: websiteModalSlideUpMobile 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+  }
+
+  .website-modal-close {
+    top: 10px !important;
+    right: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1.15rem !important;
+  }
+
+  .website-modal-browser-bar {
+    padding: 10px 14px !important;
+  }
+
+  .website-modal-browser-bar .browser-url-display {
+    max-width: 200px !important;
+    font-size: 0.72rem !important;
+    padding: 4px 10px !important;
+  }
+
+  .website-modal-body {
+    padding: 16px !important;
+    gap: 12px !important;
+  }
+
+  .website-modal-preview {
+    max-height: 190px !important;
+    border-radius: 8px !important;
+  }
+
+  .website-modal-title {
+    font-size: 1.25rem !important;
+    margin-bottom: 8px !important;
+    line-height: 1.3 !important;
+  }
+
+  .website-modal-meta {
+    gap: 6px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .website-modal-badge {
+    font-size: 0.72rem !important;
+    padding: 3px 10px !important;
+  }
+
+  .website-modal-tags {
+    gap: 6px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .website-modal-tag {
+    font-size: 0.72rem !important;
+    padding: 3px 10px !important;
+  }
+
+  .website-modal-section h4 {
+    font-size: 0.95rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  .website-modal-desc {
+    font-size: 0.84rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .website-modal-footer {
+    padding: 12px 14px !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1.5fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .website-modal-footer .website-modal-cancel,
+  .website-modal-footer .btn-visit-live {
+    width: 100% !important;
+    padding: 11px 8px !important;
+    font-size: 0.82rem !important;
+    border-radius: 24px !important;
+    justify-content: center !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
 }
 
 
