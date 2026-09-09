@@ -25,6 +25,42 @@
     --card-bg:var(--white);
 }
 html{scroll-behavior:smooth}
+/* Lenis Super Smooth Scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+/* Sleek Brand Scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--primary-rgb), 0.4) transparent;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--primary-rgb), 0.35);
+  border-radius: 999px;
+  transition: background 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
 body{font-family:var(--font);color:var(--dark);background:var(--white);overflow-x:hidden;opacity:0;transition:opacity 0.4s ease}
 body.loaded{opacity:1}
 /* Ensure all main sections stack above the z-index:0 background animation layers */
