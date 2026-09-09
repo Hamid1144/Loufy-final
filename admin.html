@@ -1126,6 +1126,23 @@
             <label>Website Details / Full Description</label>
             <textarea id="form-portfolio-desc" class="form-control" rows="4" placeholder="Describe the website design, key features, pages created, book sales integration, client feedback, etc."></textarea>
           </div>
+          <!-- Website Card Display Order / Position -->
+          <div class="form-group" style="margin-top:14px;margin-bottom:0;padding-top:14px;border-top:1px dashed rgba(230,126,34,0.35);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+              <label style="margin:0;display:flex;align-items:center;gap:6px;font-weight:600;color:#fff;">
+                <i class="fa-solid fa-arrow-down-1-9" style="color:var(--accent);"></i> Website Display Position / Order:
+              </label>
+              <button type="button" id="btn-set-website-top" class="btn btn-sm" style="background:linear-gradient(135deg, #f59e0b, #d97706);color:#fff;font-weight:700;border:none;padding:5px 14px;border-radius:6px;font-size:0.8rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(245,158,11,0.3);transition:all 0.2s ease;">
+                <i class="fa-solid fa-bolt"></i> At Top (#1 Position)
+              </button>
+            </div>
+            <select id="form-portfolio-position" class="form-control" style="background:#151c2c;border-color:rgba(230,126,34,0.4);color:#fff;font-weight:600;cursor:pointer;padding:10px 12px;">
+              <option value="1">Position 1 — Top / 1st Position</option>
+            </select>
+            <small id="form-portfolio-position-hint" style="color:var(--text-muted);font-size:0.75rem;margin-top:6px;display:block;">
+              Choose whether this website card appears 1st, 2nd, 3rd, etc. among website cards, or click "At Top (#1 Position)" to place it at the very beginning.
+            </small>
+          </div>
         </div>
         <div class="form-group">
           <label>Layout Width</label>
@@ -1868,15 +1885,17 @@
         `;
         
         const tbody = groupDiv.querySelector(`.group-tbody-${catId}`);
-        groupItems.forEach(item => {
+        groupItems.forEach((item, itemIdx) => {
           const tr = document.createElement('tr');
           const urlSnippet = item.siteUrl ? `<div style="margin-top:4px;"><a href="${item.siteUrl}" target="_blank" style="color:var(--accent);font-size:0.8rem;text-decoration:none;display:inline-flex;align-items:center;gap:4px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${item.siteUrl}</a></div>` : '';
           const descSnippet = item.desc ? `<div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${item.desc}</div>` : '';
+          const posBadge = catId === 'websites' ? `<span style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:4px;padding:2px 7px;font-size:0.72rem;font-weight:700;margin-right:8px;display:inline-block;" title="Website Display Position">#${itemIdx + 1}</span>` : '';
+          const topBtn = (catId === 'websites' && itemIdx > 0) ? `<button class="btn btn-warning" onclick="quickMoveWebsiteToTop(${item.id})" style="padding:5px 10px;font-size:0.75rem;background:#f59e0b;color:#111;font-weight:700;border:none;margin-right:6px;" title="Move to #1 Position"><i class="fa-solid fa-arrow-up"></i> Top</button>` : '';
           
           tr.innerHTML = `
             <td><img src="${item.imgUrl}" class="thumbnail-preview" alt="Preview"></td>
             <td style="font-weight:600; color:#fff;">
-              ${item.title}
+              ${posBadge}${item.title}
               ${urlSnippet}
             </td>
             <td><span class="tag-badge" style="background:rgba(255,255,255,0.05); color:#ccc;">${item.layout === 'full-width' ? 'Full Width' : 'Column Default'}</span></td>
@@ -1885,6 +1904,7 @@
               ${descSnippet}
             </td>
             <td class="action-cell" style="justify-content: flex-end;">
+              ${topBtn}
               <button class="btn btn-secondary" onclick="editPortfolioItem(${item.id})" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-edit"></i> Edit</button>
               <button class="btn btn-danger" onclick="deletePortfolioItem(${item.id})" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-trash"></i> Delete</button>
             </td>
@@ -2008,7 +2028,109 @@
       } else {
         if (extraBox) extraBox.style.display = 'none';
       }
+      updatePortfolioPositionDropdown();
     }
+
+    function updatePortfolioPositionDropdown() {
+      const posSelect = document.getElementById('form-portfolio-position');
+      if (!posSelect) return;
+      
+      const cat = document.getElementById('form-portfolio-cat').value;
+      const idVal = document.getElementById('form-portfolio-id').value;
+      const grid = portfolioDoc ? portfolioDoc.querySelector('.portfolio-grid') : null;
+      
+      posSelect.innerHTML = '';
+      if (!grid) return;
+      
+      const catCards = Array.from(grid.querySelectorAll(`.portfolio-card[data-cat="${cat}"]`));
+      
+      const isEditing = (idVal !== '');
+      let currentItemCard = null;
+      if (isEditing) {
+        const itemIndex = parseInt(idVal);
+        const itemObj = portfolioItems.find(i => i.id === itemIndex);
+        if (itemObj) currentItemCard = itemObj.el;
+      }
+      
+      let currentPos = 1;
+      if (currentItemCard) {
+        const idx = catCards.indexOf(currentItemCard);
+        if (idx !== -1) currentPos = idx + 1;
+      }
+      
+      const totalPositions = isEditing ? catCards.length : (catCards.length + 1);
+      
+      for (let p = 1; p <= totalPositions; p++) {
+        const opt = document.createElement('option');
+        opt.value = p;
+        
+        let label = `Position ${p}`;
+        if (p === 1) {
+          label += ' — Top / 1st Position';
+        } else if (p === totalPositions && !isEditing) {
+          label += ' — At the End (Last)';
+        } else if (p === totalPositions && isEditing) {
+          label += ' — Last Position';
+        }
+        
+        if (isEditing && p === currentPos) {
+          label += ' ★ (Current)';
+        }
+        
+        opt.textContent = label;
+        posSelect.appendChild(opt);
+      }
+      
+      if (isEditing) {
+        posSelect.value = currentPos;
+      } else {
+        posSelect.value = 1;
+      }
+    }
+
+    const setWebsiteTopBtn = document.getElementById('btn-set-website-top');
+    if (setWebsiteTopBtn) {
+      setWebsiteTopBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const posSelect = document.getElementById('form-portfolio-position');
+        if (posSelect) {
+          posSelect.value = "1";
+          posSelect.style.transition = 'box-shadow 0.3s, border-color 0.3s';
+          posSelect.style.borderColor = '#f59e0b';
+          posSelect.style.boxShadow = '0 0 14px rgba(245, 158, 11, 0.6)';
+          setTimeout(() => {
+            posSelect.style.borderColor = 'rgba(230,126,34,0.4)';
+            posSelect.style.boxShadow = '';
+          }, 800);
+          showToast('Selected: Position #1 (Top)!', 'success');
+        }
+      });
+    }
+
+    window.quickMoveWebsiteToTop = function(id) {
+      const item = portfolioItems.find(i => i.id === id);
+      if (!item || !item.el) return;
+      const grid = portfolioDoc ? portfolioDoc.querySelector('.portfolio-grid') : null;
+      if (!grid) return;
+      
+      const firstWebCard = grid.querySelector('.portfolio-card[data-cat="websites"]');
+      if (firstWebCard && firstWebCard !== item.el) {
+        grid.insertBefore(item.el, firstWebCard);
+        if (indexDoc) {
+          const indexGrid = indexDoc.querySelector('.portfolio-grid');
+          if (indexGrid) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = grid.innerHTML;
+            tempDiv.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
+            indexGrid.innerHTML = tempDiv.innerHTML;
+          }
+        }
+        loadPortfolioItems();
+        showToast(`"${item.title}" moved to #1 (Top)! Click "Save to Cloud" to apply live.`, 'success');
+      } else {
+        showToast(`"${item.title}" is already at #1 (Top)!`, 'info');
+      }
+    };
 
     document.getElementById('form-portfolio-cat').addEventListener('change', () => {
       renderKeywordPills();
@@ -2031,6 +2153,7 @@
       document.getElementById('form-portfolio-desc').value = '';
       renderKeywordPills();
       toggleWebsiteFields();
+      updatePortfolioPositionDropdown();
       openModal('portfolio-modal');
     });
 
@@ -2052,6 +2175,7 @@
       document.getElementById('form-portfolio-desc').value = item.desc || '';
       renderKeywordPills();
       toggleWebsiteFields();
+      updatePortfolioPositionDropdown();
       openModal('portfolio-modal');
     }
 
@@ -2147,17 +2271,50 @@
       const grid = portfolioDoc.querySelector('.portfolio-grid');
       if (!grid) return;
       
+      const targetPos = parseInt(document.getElementById('form-portfolio-position')?.value) || 1;
+      const catCards = Array.from(grid.querySelectorAll(`.portfolio-card[data-cat="${cat}"]`));
+      
       if (idVal === '') {
-        // Add new (prepend to start of grid)
-        grid.insertBefore(newCardNode, grid.firstChild);
-        showToast('New card prepended to grid successfully!');
+        // Add new card at targetPos among category cards
+        if (catCards.length === 0) {
+          grid.insertBefore(newCardNode, grid.firstChild);
+        } else if (targetPos <= 1) {
+          grid.insertBefore(newCardNode, catCards[0]);
+        } else if (targetPos > catCards.length) {
+          catCards[catCards.length - 1].after(newCardNode);
+        } else {
+          grid.insertBefore(newCardNode, catCards[targetPos - 1]);
+        }
+        showToast(`New ${cat === 'websites' ? 'website' : 'portfolio'} card added at Position #${targetPos}!`, 'success');
       } else {
-        // Edit existing
+        // Edit existing card at targetPos
         const itemIndex = parseInt(idVal);
         const itemObj = portfolioItems.find(i => i.id === itemIndex);
-        if (itemObj && itemObj.el) {
-          itemObj.el.replaceWith(newCardNode);
-          showToast('Card updated successfully!');
+        const oldCard = itemObj ? itemObj.el : null;
+        
+        const otherCatCards = catCards.filter(c => c !== oldCard);
+        if (oldCard) oldCard.remove();
+        
+        if (otherCatCards.length === 0) {
+          grid.insertBefore(newCardNode, grid.firstChild);
+        } else if (targetPos <= 1) {
+          grid.insertBefore(newCardNode, otherCatCards[0]);
+        } else if (targetPos > otherCatCards.length) {
+          otherCatCards[otherCatCards.length - 1].after(newCardNode);
+        } else {
+          grid.insertBefore(newCardNode, otherCatCards[targetPos - 1]);
+        }
+        showToast(`Card updated at Position #${targetPos}!`, 'success');
+      }
+      
+      // Also sync to indexDoc immediately if present
+      if (indexDoc) {
+        const indexGrid = indexDoc.querySelector('.portfolio-grid');
+        if (indexGrid) {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = grid.innerHTML;
+          tempDiv.querySelectorAll('.reveal').forEach(el => el.classList.remove('active'));
+          indexGrid.innerHTML = tempDiv.innerHTML;
         }
       }
       
