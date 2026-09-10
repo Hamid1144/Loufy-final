@@ -8,16 +8,15 @@ function t(t,i,e){return Math.max(t,Math.min(i,e))}var i=class{isRunning=!1;valu
 
   try {
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.08,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
+      wheelMultiplier: 1.1,
       syncTouch: true,
       syncTouchLerp: 0.08,
       touchInertiaMultiplier: 35,
-      touchMultiplier: 1.5,
+      touchMultiplier: 1.3,
       infinite: false,
       autoRaf: true,
       anchors: false,
@@ -184,6 +183,25 @@ window.initSiteLogic = function () {
       if (end < TOTAL_FRAMES) {
         setTimeout(loadBatch, 50);
       }
+    }
+
+    // Pause hero animation when scrolled out of viewport to eliminate GPU scroll lag
+    const heroEl = canvas.closest('.hero');
+    if (heroEl && 'IntersectionObserver' in window) {
+      const heroObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (!animationRunning && loadedCount >= 3) {
+              animationRunning = true;
+              lastFrameTime = 0;
+              requestAnimationFrame(animate);
+            }
+          } else {
+            animationRunning = false;
+          }
+        });
+      }, { threshold: 0 });
+      heroObserver.observe(heroEl);
     }
 
     // Kick off preloading

@@ -14,7 +14,7 @@
   var DEFAULT_CONFIG = {
     enabled: true,
     size: 1.5,            // Slider: 0.5 to 10
-    density: 350,         // Slider: 50 to 1200
+    density: 75,          // Optimized for silky-smooth 60fps scrolling
     color1: '#6366f1',    // Accent color 1 (Indigo)
     color2: '#a78bfa',    // Accent color 2 (Violet)
     color3: '#0f172a',    // Base color (Slate-900)
@@ -377,8 +377,14 @@
       mouse.active = false;
     });
 
+    var scrollTimeout = null;
     window.addEventListener('scroll', function () {
       scrollY = window.scrollY;
+      window.__isFastScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function () {
+        window.__isFastScrolling = false;
+      }, 100);
     }, { passive: true });
 
     function loop() {
@@ -387,8 +393,8 @@
       ctx.clearRect(0, 0, width, height);
       var isDarkTheme = isDarkThemeActive();
 
-      // 1. Draw smooth interactive radial cursor glow
-      if (mouse.active) {
+      // 1. Draw smooth interactive radial cursor glow (only when mouse active and not scrolling fast)
+      if (mouse.active && !window.__isFastScrolling) {
         mouse.x += (mouse.targetX - mouse.x) * 0.12;
         mouse.y += (mouse.targetY - mouse.y) * 0.12;
 
@@ -408,22 +414,24 @@
         ctx.fillRect(0, 0, width, height);
       }
 
-      // 2. Draw extremely soft floating background radial backdrop shapes
-      GLOW_ORBS.forEach(function (orb) {
-        orb.angleX += orb.speedX;
-        orb.angleY += orb.speedY;
-        
-        var ox = width * orb.xRatio + Math.sin(orb.angleX) * 40;
-        var oy = height * orb.yRatio - (scrollY * 0.12) + Math.cos(orb.angleY) * 30;
+      // 2. Draw extremely soft floating background radial backdrop shapes (bypass during fast scrolling for buttery 60fps scroll)
+      if (!window.__isFastScrolling) {
+        GLOW_ORBS.forEach(function (orb) {
+          orb.angleX += orb.speedX;
+          orb.angleY += orb.speedY;
+          
+          var ox = width * orb.xRatio + Math.sin(orb.angleX) * 40;
+          var oy = height * orb.yRatio - (scrollY * 0.12) + Math.cos(orb.angleY) * 30;
 
-        var rad = ctx.createRadialGradient(ox, oy, 0, ox, oy, orb.size);
-        rad.addColorStop(0, orb.c);
-        rad.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = rad;
-        ctx.beginPath();
-        ctx.arc(ox, oy, orb.size, 0, Math.PI * 2);
-        ctx.fill();
-      });
+          var rad = ctx.createRadialGradient(ox, oy, 0, ox, oy, orb.size);
+          rad.addColorStop(0, orb.c);
+          rad.addColorStop(1, 'rgba(255,255,255,0)');
+          ctx.fillStyle = rad;
+          ctx.beginPath();
+          ctx.arc(ox, oy, orb.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
 
       // 3. Update particles
       for (var i = 0; i < particles.length; i++) {
@@ -488,7 +496,9 @@
       if (raw) {
         var parsed = JSON.parse(raw);
         if (parsed && typeof parsed === 'object') {
-          return Object.assign({}, DEFAULT_CONFIG, parsed);
+          var merged = Object.assign({}, DEFAULT_CONFIG, parsed);
+          if (merged.density > 100) merged.density = 75;
+          return merged;
         }
       }
     } catch (e) {}

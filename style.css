@@ -29,6 +29,9 @@ html{scroll-behavior:smooth}
 html.lenis, html.lenis body {
   height: auto;
 }
+html.lenis {
+  scroll-behavior: auto !important;
+}
 .lenis.lenis-smooth {
   scroll-behavior: auto !important;
 }
@@ -1683,17 +1686,16 @@ section{padding:100px 0}
 .footer-col a:hover{color:var(--accent);padding-left:6px}
 .footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:20px 0;margin-top:50px;text-align:center;font-size:.85rem;color:rgba(255,255,255,.5)}
 
-/* REVEAL ANIMATIONS (Premium 3D Perspective Tilt-In) */
+/* REVEAL ANIMATIONS (Optimized Hardware-Accelerated Fade & Slide) */
 .reveal {
     opacity: 0;
-    transform: perspective(1200px) rotateX(12deg) translateY(55px) scale(0.96);
-    transform-origin: top center;
-    transition: opacity 1.2s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-    will-change: transform, opacity;
+    transform: translateY(28px);
+    transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .reveal.active {
     opacity: 1;
-    transform: perspective(1200px) rotateX(0deg) translateY(0) scale(1);
+    transform: translateY(0);
+    will-change: auto;
 }
 /* Stagger delays for section headers */
 .container .section-tag.reveal { transition-delay: 0s; }
@@ -2181,6 +2183,14 @@ body.contact-page > section.contact {
     overflow: hidden;
     position: relative;
     display: flex;
+}
+.covers-marquee-track,
+.formatting-marquee-track,
+.aplus-marquee-track,
+.paperback-covers-marquee-track {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 /* Row 1 and 3: Left to Right (scroll-ltr) */
