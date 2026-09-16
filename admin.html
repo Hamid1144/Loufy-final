@@ -2710,7 +2710,7 @@
         const blogsUp = await supabase.from('site_content').insert({ id: 'blogs_json', html_content: JSON.stringify(blogsList) });
         if (blogsUp.error) throw blogsUp.error;
         
-        showToast('All changes successfully saved to Supabase cloud! Daemon will commit in 15s.', 'success');
+        showToast('All changes successfully saved to Supabase cloud!', 'success');
       } catch (err) {
         console.error(err);
         showToast('Save to Cloud failed: ' + err.message, 'error');

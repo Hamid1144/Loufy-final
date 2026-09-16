@@ -1,9 +1,7 @@
 name: Supabase Sync
 
 on:
-  schedule:
-    - cron: '*/5 * * * *' # Run every 5 minutes
-  workflow_dispatch: # Allow manual triggering
+  workflow_dispatch: # Allow manual triggering only
 
 jobs:
   sync:
