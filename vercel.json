@@ -48,7 +48,7 @@
     },
     {
       "source": "/blogs/category/:category",
-      "destination": "/blogs.html?category=:category"
+      "destination": "/blogs?category=:category"
     },
     {
       "source": "/blog/:slug",
@@ -56,7 +56,7 @@
     },
     {
       "source": "/portfolio/:category",
-      "destination": "/portfolio.html?category=:category"
+      "destination": "/portfolio?category=:category"
     }
   ]
 }
