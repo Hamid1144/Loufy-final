@@ -243,6 +243,14 @@ section{padding:100px 0}
 .nav-links a:hover::after {
     width: 50%;
 }
+.nav-links a.active {
+    color: var(--primary);
+    background: rgba(var(--primary-rgb), 0.08);
+    border-color: rgba(var(--primary-rgb), 0.12);
+}
+.nav-links a.active::after {
+    width: 60%;
+}
 .hamburger {
     display: none;
     flex-direction: column;
@@ -3694,3 +3702,276 @@ body.edit-mode .hero-float-card {
     font-size: 0.68rem !important;
   }
 }
+
+/* ── STANDALONE TESTIMONIALS 3-COLUMN GRID & MODAL ── */
+.testimonials-page section.testimonials {
+  padding: 100px 0 60px !important;
+  min-height: calc(100vh - 350px);
+}
+
+.testimonial-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 28px !important;
+  margin: 45px 0 30px !important;
+  text-align: left !important;
+}
+
+@media (max-width: 1024px) {
+  .testimonial-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .testimonial-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+}
+
+.testimonial-grid .testimonial-card {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+}
+
+.testimonial-grid .testimonial-inner {
+  width: 100% !important;
+  background: var(--card-bg, #ffffff) !important;
+  padding: 32px 28px !important;
+  border-radius: 18px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  text-align: left !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  transform: none !important;
+}
+
+.testimonial-grid .testimonial-inner:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08) !important;
+}
+
+.testimonial-grid .testimonial-stars {
+  color: var(--accent, #F4B400) !important;
+  font-size: 1.15rem !important;
+  margin-bottom: 14px !important;
+  display: flex !important;
+  gap: 4px !important;
+}
+
+.testimonial-grid .testimonial-inner p {
+  font-size: 0.98rem !important;
+  line-height: 1.75 !important;
+  color: #475569 !important;
+  margin-bottom: 22px !important;
+  font-style: normal !important;
+  flex-grow: 1 !important;
+}
+
+.testimonial-grid .testimonial-author {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  justify-content: flex-start !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+  padding-top: 16px !important;
+}
+
+.testimonial-grid .testimonial-author img {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid var(--accent, #F4B400) !important;
+}
+
+.testimonial-grid .testimonial-author h4 {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  margin: 0 0 2px !important;
+}
+
+.testimonial-grid .testimonial-author span {
+  font-size: 0.82rem !important;
+  color: #64748b !important;
+  display: block !important;
+}
+
+/* Leave Review Section & Button */
+.leave-review-section {
+  text-align: center !important;
+  margin: 45px 0 70px !important;
+}
+
+.btn-leave-review {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 14px 38px !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  border-radius: 50px !important;
+  background: var(--primary, #184C3A) !important;
+  color: #ffffff !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-shadow: 0 10px 25px rgba(24, 76, 58, 0.25) !important;
+  transition: all 0.3s ease !important;
+  text-decoration: none !important;
+}
+
+.btn-leave-review:hover {
+  background: var(--accent, #F4B400) !important;
+  color: #111827 !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 14px 32px rgba(244, 180, 0, 0.35) !important;
+}
+
+/* Review Submission Modal */
+.review-modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(15, 23, 42, 0.72) !important;
+  backdrop-filter: blur(6px) !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 999999 !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+}
+
+.review-modal-overlay.active {
+  display: flex !important;
+}
+
+.review-modal-box {
+  background: #ffffff !important;
+  border-radius: 20px !important;
+  width: 100% !important;
+  max-width: 520px !important;
+  padding: 32px !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25) !important;
+  position: relative !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  box-sizing: border-box !important;
+}
+
+.review-modal-close {
+  position: absolute !important;
+  top: 18px !important;
+  right: 18px !important;
+  background: #f1f5f9 !important;
+  border: none !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  font-size: 1.1rem !important;
+  color: #64748b !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s !important;
+}
+
+.review-modal-close:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+.review-modal-box h3 {
+  font-size: 1.45rem !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  margin: 0 0 6px !important;
+  text-align: left !important;
+}
+
+.review-modal-box p.subtitle {
+  color: #64748b !important;
+  font-size: 0.88rem !important;
+  margin: 0 0 24px !important;
+  text-align: left !important;
+}
+
+.review-form-group {
+  margin-bottom: 18px !important;
+  text-align: left !important;
+}
+
+.review-form-group label {
+  display: block !important;
+  font-size: 0.86rem !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+  margin-bottom: 6px !important;
+}
+
+.review-form-group input,
+.review-form-group textarea,
+.review-form-group select {
+  width: 100% !important;
+  padding: 11px 14px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 10px !important;
+  font-family: inherit !important;
+  font-size: 0.92rem !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  background: #fff !important;
+  color: #1e293b !important;
+  transition: border-color 0.2s !important;
+}
+
+.review-form-group input:focus,
+.review-form-group textarea:focus,
+.review-form-group select:focus {
+  border-color: var(--primary, #184C3A) !important;
+}
+
+.star-rating-select {
+  display: flex !important;
+  gap: 8px !important;
+  font-size: 1.6rem !important;
+  cursor: pointer !important;
+  color: #cbd5e1 !important;
+}
+
+.star-rating-select i {
+  transition: color 0.15s ease !important;
+}
+
+.star-rating-select i.active {
+  color: var(--accent, #F4B400) !important;
+}
+
+.review-form-submit-btn {
+  width: 100% !important;
+  padding: 13px !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  border-radius: 50px !important;
+  background: var(--primary, #184C3A) !important;
+  color: #fff !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  margin-top: 10px !important;
+}
+
+.review-form-submit-btn:hover {
+  background: var(--accent, #F4B400) !important;
+  color: #111 !important;
+}
+

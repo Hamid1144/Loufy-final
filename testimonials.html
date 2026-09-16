@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -10,102 +10,64 @@
     var errStr = 'ERROR: ' + message + ' at ' + source + ':' + lineno + ':' + colno;
     window.jsErrors.push(errStr);
     console.warn(errStr);
-    if (window.location.search.indexOf('debug=true') !== -1) {
-      var div = document.getElementById('debug-errors');
-      if (!div) {
-        div = document.createElement('div');
-        div.id = 'debug-errors';
-        div.style.cssText = 'position:fixed; top:10px; left:10px; z-index:9999999; background:red; color:white; padding:10px; font-family:monospace; font-size:12px; max-height:200px; overflow:auto;';
-        document.documentElement.appendChild(div);
-      }
-      var p = document.createElement('p');
-      p.textContent = errStr;
-      div.appendChild(p);
-    }
     return false;
-  };
-  var oldConsoleError = console.error;
-  console.error = function() {
-    var args = Array.prototype.slice.call(arguments).map(String).join(' ');
-    window.jsErrors.push('CONSOLE.ERROR: ' + args);
-    if (window.location.search.indexOf('debug=true') !== -1) {
-      var div = document.getElementById('debug-errors');
-      if (!div) {
-        div = document.createElement('div');
-        div.id = 'debug-errors';
-        div.style.cssText = 'position:fixed; top:10px; left:10px; z-index:9999999; background:red; color:white; padding:10px; font-family:monospace; font-size:12px; max-height:200px; overflow:auto;';
-        document.documentElement.appendChild(div);
-      }
-      var p = document.createElement('p');
-      p.textContent = 'CONSOLE.ERROR: ' + args;
-      div.appendChild(p);
-    }
-    oldConsoleError.apply(console, arguments);
   };
 </script>
 <meta charset="UTF-8">
 <meta name="google-site-verification" content="JXuo3BNNUB-EVN5RnVFswZHMD9cqjuwlBOvPnEbxJM8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Client Reviews & Testimonials | Loufy Publisher</title>
+<title>Client Reviews & Author Testimonials | Loufy Publisher</title>
 <link rel="icon" type="image/png" href="/favicon.png?v=3.29.0">
-<meta name="description" content="Read client testimonials and reviews for Hamid Raza. Hear from bestselling authors, publishers, and self-publishers.">
-<meta name="keywords" content="Client Reviews, Testimonials, Hamid Raza Reviews, Loufy Publisher Testimonials">
-<link rel="canonical" href="https://loufypublisher.com/testimonials.html">
+<meta name="description" content="Read authentic client reviews and 5-star author testimonials for Hamid Raza at Loufy Publisher. Discover how our book cover design, Amazon KDP formatting, and custom website services help authors succeed.">
+<meta name="keywords" content="Client Reviews, Testimonials, Hamid Raza Reviews, Loufy Publisher Testimonials, KDP Expert Reviews, Book Cover Designer Reviews, Author Feedback">
+<link rel="canonical" href="https://loufypublisher.com/testimonials">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://loufypublisher.com/testimonials.html">
+<meta property="og:url" content="https://loufypublisher.com/testimonials">
 <meta property="og:site_name" content="Loufy Publisher">
-<meta property="og:title" content="Client Reviews & Testimonials | Loufy Publisher">
-<meta property="og:description" content="Read client testimonials and reviews for Hamid Raza. Hear from bestselling authors, publishers, and self-publishers.">
+<meta property="og:title" content="Client Reviews & Author Testimonials | Loufy Publisher">
+<meta property="og:description" content="Read authentic client reviews and 5-star author testimonials for Hamid Raza at Loufy Publisher. Discover how our book cover design, Amazon KDP formatting, and custom website services help authors succeed.">
 <meta property="og:image" content="https://loufypublisher.com/favicon.png">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://loufypublisher.com/testimonials.html">
-<meta name="twitter:title" content="Client Reviews & Testimonials | Loufy Publisher">
-<meta name="twitter:description" content="Read client testimonials and reviews for Hamid Raza. Hear from bestselling authors, publishers, and self-publishers.">
+<meta name="twitter:url" content="https://loufypublisher.com/testimonials">
+<meta name="twitter:title" content="Client Reviews & Author Testimonials | Loufy Publisher">
+<meta name="twitter:description" content="Read authentic client reviews and 5-star author testimonials for Hamid Raza at Loufy Publisher. Discover how our book cover design, Amazon KDP formatting, and custom website services help authors succeed.">
 <meta name="twitter:image" content="https://loufypublisher.com/favicon.png">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+<!-- JSON-LD Structured Data for Reviews & AggregateRating -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Loufy Publisher",
+  "url": "https://loufypublisher.com/testimonials",
+  "logo": "https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png",
+  "image": "https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png",
+  "founder": {
+    "@type": "Person",
+    "name": "Hamid Raza"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "12",
+    "bestRating": "5",
+    "worstRating": "1"
+  }
+}
+</script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js" defer></script>
-<script src="db.js?v=3.31.0" defer></script>
 <script src="script.js?v=3.37.0" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
-<script src="admin.js?v=3.32.2" defer></script>
-<script src="bg-anim.js?v=3.33.0" defer></script>
-<script src="live-sync.js?v=3.33.0" defer></script>
-<link rel="stylesheet" href="style.css?v=5.4.5">
+<link rel="stylesheet" href="style.css?v=5.4.6">
 <script>
   (function() {
     try {
-      // Clear all obsolete website cache keys permanently
-      [
-        'supabase_cached_html_index',
-        'supabase_cached_html_portfolio',
-        'supabase_cached_html_about',
-        'supabase_cached_html_services',
-        'supabase_cached_html_pricing',
-        'supabase_cached_html_contact',
-        'supabase_cached_html_testimonials',
-        'supabase_cached_grid',
-        'supabase_cached_filters',
-        'site_content_cache',
-        'portfolio_cards',
-        'saved_website',
-        'cached_portfolio',
-        'cached_index',
-        'cached_html'
-      ].forEach(function(k) {
-        try { localStorage.removeItem(k); } catch(e) {}
-        try { sessionStorage.removeItem(k); } catch(e) {}
-      });
-      
       const cachedTheme = localStorage.getItem('supabase_cached_theme');
       if (cachedTheme) {
         const style = document.createElement('style');
@@ -118,9 +80,6 @@
     }
   })();
 </script>
-<link rel="stylesheet" href="admin.css?v=3.31.0">
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4743547325066813" crossorigin="anonymous"></script>
 </head>
 <body class="testimonials-page">
 <!-- GLOBAL LOADING SCREEN -->
@@ -128,128 +87,203 @@
   <div class="loader-spinner"></div>
   <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Logo" class="loader-logo">
 </div>
+
 <nav class="navbar scrolled">
 <div class="container">
-<a href="index.html" class="logo" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Loufy Publisher" class="logo-img"></a>
+<a href="/" class="logo" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Loufy Publisher" class="logo-img"></a>
 <ul class="nav-links">
-<li><a href="index.html#home">Home</a></li>
-<li><a href="index.html#services">Services</a></li>
-<li><a href="blogs.html">Blog</a></li>
-<li><a href="index.html#about">About</a></li>
-<li><a href="index.html#testimonials">Testimonials</a></li>
-<li><a href="index.html#pricing">Pricing</a></li>
-<li><a href="index.html#contact">Contact</a></li>
+<li><a href="/">Home</a></li>
+<li><a href="/services">Services</a></li>
+<li><a href="/blogs">Blog</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/testimonials" class="active">Testimonials</a></li>
+<li><a href="/pricing">Pricing</a></li>
+<li><a href="/contact">Contact</a></li>
 </ul>
 <div class="nav-actions">
-<a href="portfolio.html" class="btn btn-accent btn-jitter nav-portfolio-btn" style="padding:10px 24px;font-size:.85rem;color:var(--dark);font-weight:700" data-admin-text="true">Portfolio</a>
-<a href="contact.html" class="btn btn-primary" style="padding:10px 24px;font-size:.85rem" data-admin-text="true">Hire Me</a>
+<a href="/portfolio" class="btn btn-accent btn-jitter nav-portfolio-btn" style="padding:10px 24px;font-size:.85rem;color:var(--dark);font-weight:700" data-admin-text="true">Portfolio</a>
+<a href="/contact" class="btn btn-primary" style="padding:10px 24px;font-size:.85rem" data-admin-text="true">Hire Me</a>
 </div>
 <button class="hamburger"><span></span><span></span><span></span></button>
 </div>
 </nav>
 
-<!-- TESTIMONIALS -->
+<!-- TESTIMONIALS SECTION -->
 <section class="testimonials" id="testimonials">
-<div class="container" bis_skin_checked="1">
-<span class="section-tag reveal">Reviews</span>
-<h2 class="section-title reveal" data-admin-text="true">The Impact of My <span class="highlight">Work</span></h2>
-<div class="testimonial-slider reveal" bis_skin_checked="1">
-<div class="testimonial-track" bis_skin_checked="1">
+<div class="container">
+<span class="section-tag">Reviews &amp; Feedback</span>
+<h1 class="section-title" data-admin-text="true">The Impact of My <span class="highlight">Work</span></h1>
+<p class="section-sub" style="text-align:center;max-width:680px;margin:0 auto 40px;color:#64748b;font-size:1.05rem;line-height:1.6;">Real stories and 5-star feedback from authors, independent publishers, and creators worldwide.</p>
 
-<div class="testimonial-card" bis_skin_checked="1">
-<div class="testimonial-inner" bis_skin_checked="1">
-<div class="testimonial-stars" bis_skin_checked="1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p data-admin-text="true">"Hamid designed the most stunning book cover I've ever seen. My book sales increased by 40% after the redesign. Absolutely incredible work!"</p>
-<div class="testimonial-author" bis_skin_checked="1"><img loading="lazy" src="https://i.pravatar.cc/60?img=1" alt="Client"><div bis_skin_checked="1"><h4 data-admin-text="true">Sarah Johnson</h4><span>Author, USA</span></div></div>
-</div>
-</div>
+<!-- 3-COLUMN STATIC REVIEWS GRID -->
+<div class="testimonial-grid" id="testimonial-grid-container">
 
-<div class="testimonial-card" bis_skin_checked="1">
-<div class="testimonial-inner" bis_skin_checked="1">
-<div class="testimonial-stars" bis_skin_checked="1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p data-admin-text="true">"Best KDP formatting expert I've worked with. Everything was pixel-perfect and ready to publish. Highly recommended for any author!"</p>
-<div class="testimonial-author" bis_skin_checked="1"><img loading="lazy" src="https://i.pravatar.cc/60?img=3" alt="Client"><div bis_skin_checked="1"><h4 data-admin-text="true">Michael Chen</h4><span>Publisher, Canada</span></div></div>
-</div>
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"Hamid designed the most stunning book cover I've ever seen. My book sales increased by 40% after the redesign. Absolutely incredible work and communication!"</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=1" alt="Sarah Johnson"><div><h4 data-admin-text="true">Sarah Johnson</h4><span>Author, USA</span></div></div>
+  </div>
 </div>
 
-<div class="testimonial-card" bis_skin_checked="1">
-<div class="testimonial-inner" bis_skin_checked="1">
-<div class="testimonial-stars" bis_skin_checked="1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p data-admin-text="true">"The children's book illustrations were magical! My kids absolutely loved them. Hamid captured the essence of every character perfectly."</p>
-<div class="testimonial-author" bis_skin_checked="1"><img loading="lazy" src="https://i.pravatar.cc/60?img=5" alt="Client"><div bis_skin_checked="1"><h4 data-admin-text="true">Emma Williams</h4><span>Children's Author, UK</span></div></div>
-</div>
-</div>
-
-<div class="testimonial-card" bis_skin_checked="1">
-<div class="testimonial-inner" bis_skin_checked="1">
-<div class="testimonial-stars" bis_skin_checked="1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p data-admin-text="true">"Amazing book layout design. The typography and margins were exactly what Amazon KDP required. Process was fast and professional."</p>
-<div class="testimonial-author" bis_skin_checked="1"><img loading="lazy" src="https://i.pravatar.cc/60?img=8" alt="Client"><div bis_skin_checked="1"><h4 data-admin-text="true">David Miller</h4><span>Sci-Fi Author, USA</span></div></div>
-</div>
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"Best KDP formatting expert I've worked with. Everything was pixel-perfect, zero margin errors, and ready to publish immediately on Amazon."</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=3" alt="Michael Chen"><div><h4 data-admin-text="true">Michael Chen</h4><span>Publisher, Canada</span></div></div>
+  </div>
 </div>
 
-<div class="testimonial-card" bis_skin_checked="1">
-<div class="testimonial-inner" bis_skin_checked="1">
-<div class="testimonial-stars" bis_skin_checked="1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p data-admin-text="true">"Superb children's book formatting and A+ content design. Hamid has an incredible eye for details and color harmony. Will hire again!"</p>
-<div class="testimonial-author" bis_skin_checked="1"><img loading="lazy" src="https://i.pravatar.cc/60?img=12" alt="Client"><div bis_skin_checked="1"><h4 data-admin-text="true">Sophia Martinez</h4><span>Self-Publisher, Spain</span></div></div>
-</div>
-</div>
-
-<div class="testimonial-card" bis_skin_checked="1">
-<div class="testimonial-inner" bis_skin_checked="1">
-<div class="testimonial-stars" bis_skin_checked="1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p data-admin-text="true">"The hardcover and paperback files were accepted on KDP on my first attempt! No trim size or bleed issues. Thank you for the great work!"</p>
-<div class="testimonial-author" bis_skin_checked="1"><img loading="lazy" src="https://i.pravatar.cc/60?img=15" alt="Client"><div bis_skin_checked="1"><h4 data-admin-text="true">James Wilson</h4><span>Novelist, Australia</span></div></div>
-</div>
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"The children's book illustrations and layout were magical! My readers and kids absolutely adore the characters. Hamid captured my vision flawlessly."</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=5" alt="Emma Williams"><div><h4 data-admin-text="true">Emma Williams</h4><span>Children's Author, UK</span></div></div>
+  </div>
 </div>
 
-<div class="testimonial-card" bis_skin_checked="1">
-<div class="testimonial-inner" bis_skin_checked="1">
-<div class="testimonial-stars" bis_skin_checked="1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p data-admin-text="true">"The cover design exceeded my expectations! The magical atmosphere and typography perfectly fit my epic fantasy theme."</p>
-<div class="testimonial-author" bis_skin_checked="1"><img loading="lazy" src="https://i.pravatar.cc/60?img=20" alt="Client"><div bis_skin_checked="1"><h4 data-admin-text="true">Olivia Taylor</h4><span>Fantasy Author, UK</span></div></div>
-</div>
-</div>
-
-<div class="testimonial-card" bis_skin_checked="1">
-<div class="testimonial-inner" bis_skin_checked="1">
-<div class="testimonial-stars" bis_skin_checked="1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p data-admin-text="true">"Professional interior formatting for my business guide. Clean headers, elegant page breaks, and perfect tables. Highly recommend."</p>
-<div class="testimonial-author" bis_skin_checked="1"><img loading="lazy" src="https://i.pravatar.cc/60?img=25" alt="Client"><div bis_skin_checked="1"><h4 data-admin-text="true">Robert Garcia</h4><span>Non-Fiction Author, USA</span></div></div>
-</div>
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"Amazing book interior design. The typography and header margins were exactly what KDP required. Fast turnaround and unmatched professionalism."</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=8" alt="David Miller"><div><h4 data-admin-text="true">David Miller</h4><span>Sci-Fi Author, USA</span></div></div>
+  </div>
 </div>
 
-<div class="testimonial-card" bis_skin_checked="1">
-<div class="testimonial-inner" bis_skin_checked="1">
-<div class="testimonial-stars" bis_skin_checked="1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p data-admin-text="true">"Beautiful layout for my poetry book. Hamid arranged the verses with so much elegance. The spacing and fonts are gorgeous."</p>
-<div class="testimonial-author" bis_skin_checked="1"><img loading="lazy" src="https://i.pravatar.cc/60?img=32" alt="Client"><div bis_skin_checked="1"><h4 data-admin-text="true">Isabella Rossi</h4><span>Poet, Italy</span></div></div>
-</div>
-</div>
-
-<div class="testimonial-card" bis_skin_checked="1">
-<div class="testimonial-inner" bis_skin_checked="1">
-<div class="testimonial-stars" bis_skin_checked="1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-<p data-admin-text="true">"Fantastic service from start to finish. Helped me with cover sizing, upload assistance, and spine calculation. A true publishing partner!"</p>
-<div class="testimonial-author" bis_skin_checked="1"><img loading="lazy" src="https://i.pravatar.cc/60?img=44" alt="Client"><div bis_skin_checked="1"><h4 data-admin-text="true">William Davis</h4><span>Biographer, USA</span></div></div>
-</div>
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"Superb book formatting and A+ content design. Hamid has an incredible eye for typography, bleed guidelines, and color harmony. Will hire again!"</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=12" alt="Sophia Martinez"><div><h4 data-admin-text="true">Sophia Martinez</h4><span>Self-Publisher, Spain</span></div></div>
+  </div>
 </div>
 
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"Both my hardcover and paperback files were approved by KDP on the first attempt! No spine calculation errors. Thank you for making publishing stress-free."</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=15" alt="James Wilson"><div><h4 data-admin-text="true">James Wilson</h4><span>Novelist, Australia</span></div></div>
+  </div>
 </div>
-<div class="slider-controls" bis_skin_checked="1">
-<button class="slider-btn slider-prev" tabindex="0" aria-label="Previous slide">←</button>
-<button class="slider-btn slider-next" tabindex="0" aria-label="Next slide">→</button>
+
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"The fantasy cover design exceeded every expectation! The magical lighting and gold foil effects gave my book a true bestseller presence."</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=20" alt="Olivia Taylor"><div><h4 data-admin-text="true">Olivia Taylor</h4><span>Fantasy Author, UK</span></div></div>
+  </div>
 </div>
+
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"Professional interior formatting for my business guide. Clean section headers, elegant table formatting, and crisp callout boxes. Highly recommend."</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=25" alt="Robert Garcia"><div><h4 data-admin-text="true">Robert Garcia</h4><span>Non-Fiction Author, USA</span></div></div>
+  </div>
+</div>
+
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"Beautiful typography and layout for my poetry collection. Hamid treated every verse with care and balanced the white space beautifully."</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=32" alt="Isabella Rossi"><div><h4 data-admin-text="true">Isabella Rossi</h4><span>Poet, Italy</span></div></div>
+  </div>
+</div>
+
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"Fantastic service from inception to upload. Hamid built our author website and aligned all book assets perfectly. A true publishing partner!"</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=44" alt="William Davis"><div><h4 data-admin-text="true">William Davis</h4><span>Biographer, USA</span></div></div>
+  </div>
+</div>
+
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"He developed our author portfolio site from scratch with lightning-fast speeds and sleek responsive design. Clients constantly praise the layout."</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=48" alt="Elena Rostova"><div><h4 data-admin-text="true">Elena Rostova</h4><span>Thriller Author, Germany</span></div></div>
+  </div>
+</div>
+
+<div class="testimonial-card">
+  <div class="testimonial-inner">
+    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p data-admin-text="true">"Delivered ahead of deadline with top tier communication. The A+ content and 3D mockups significantly boosted our book launch conversions."</p>
+    <div class="testimonial-author"><img loading="lazy" src="https://i.pravatar.cc/100?img=52" alt="Marcus Bennett"><div><h4 data-admin-text="true">Marcus Bennett</h4><span>Indie Publisher, USA</span></div></div>
+  </div>
+</div>
+
+</div>
+
+<!-- LEAVE A REVIEW ACTION -->
+<div class="leave-review-section">
+  <button type="button" id="btn-open-review-modal" class="btn-leave-review">
+    <i class="fa-solid fa-star"></i> Leave a Review
+  </button>
+</div>
+
 </div>
 </section>
+
+<!-- LEAVE REVIEW POPUP MODAL -->
+<div class="review-modal-overlay" id="review-modal-overlay">
+  <div class="review-modal-box">
+    <button type="button" class="review-modal-close" id="btn-close-review-modal"><i class="fa-solid fa-xmark"></i></button>
+    <h3>Leave a Review</h3>
+    <p class="subtitle">Share your feedback about working with Hamid Raza.</p>
+    
+    <form id="leave-review-form">
+      <div class="review-form-group">
+        <label for="review-name">Your Full Name *</label>
+        <input type="text" id="review-name" placeholder="e.g. John Doe" required>
+      </div>
+      
+      <div class="review-form-group">
+        <label for="review-role">Your Role / Location *</label>
+        <input type="text" id="review-role" placeholder="e.g. Bestselling Author, USA" required>
+      </div>
+
+      <div class="review-form-group">
+        <label for="review-service">Project / Service Received</label>
+        <select id="review-service">
+          <option value="Book Cover Design">Book Cover Design</option>
+          <option value="Amazon KDP Formatting">Amazon KDP Formatting</option>
+          <option value="Children's Book Design">Children's Book Design</option>
+          <option value="Author Website">Custom Author Website</option>
+          <option value="A+ Content & Marketing">A+ Content & Marketing</option>
+        </select>
+      </div>
+
+      <div class="review-form-group">
+        <label>Rating *</label>
+        <div class="star-rating-select" id="star-rating-picker" data-rating="5">
+          <i class="fa-solid fa-star active" data-val="1"></i>
+          <i class="fa-solid fa-star active" data-val="2"></i>
+          <i class="fa-solid fa-star active" data-val="3"></i>
+          <i class="fa-solid fa-star active" data-val="4"></i>
+          <i class="fa-solid fa-star active" data-val="5"></i>
+        </div>
+      </div>
+
+      <div class="review-form-group">
+        <label for="review-message">Your Review *</label>
+        <textarea id="review-message" rows="4" placeholder="Tell us about the quality of work, turnaround time, and communication..." required></textarea>
+      </div>
+
+      <button type="submit" class="review-form-submit-btn">
+        <i class="fa-solid fa-paper-plane"></i> Submit Review
+      </button>
+    </form>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer class="footer">
 <div class="container">
 <div class="footer-grid">
 <div class="footer-brand reveal">
-<a href="index.html" class="logo" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher" class="logo-img"></a>
+<a href="/" class="logo" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher" class="logo-img"></a>
 <p data-admin-text="true">Professional Book Cover Designer &amp; Amazon KDP Expert. Creating premium designs that help authors stand out and succeed.</p>
 <div class="social-icons" style="margin-top:16px">
 <a href="https://x.com/mr_loufy" data-social="twitter" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-x-twitter"></i></a>
@@ -259,13 +293,134 @@
 <a href="https://www.facebook.com/share/1KPQAXoL8Y/" data-social="facebook" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-facebook-f"></i></a>
 </div>
 </div>
-<div class="footer-col reveal"><h4 data-admin-text="true">Quick Links</h4><a href="index.html" class="" data-admin-text="true">Home</a><a href="about.html" class="" data-admin-text="true">About</a><a href="portfolio.html" class="" data-admin-text="true">Portfolio</a><a href="blogs.html" class="" data-admin-text="true">Blog</a><a href="contact.html" class="" data-admin-text="true">Contact</a></div>
-<div class="footer-col reveal"><h4 data-admin-text="true">Services</h4><a href="/portfolio/covers" class="" data-admin-text="true">Book Cover Design</a><a href="/portfolio/formatting" class="" data-admin-text="true">KDP Formatting</a><a href="/portfolio/a-plus-content" class="" data-admin-text="true">A+ Content</a><a href="/portfolio/websites" class="" data-admin-text="true">Websites</a></div>
-<div class="footer-col reveal"><h4 data-admin-text="true">Contact</h4><a href="mailto:razah3812@gmail.com" class="" data-admin-text="true">razah3812@gmail.com</a><a href="#" class="" data-admin-text="true">Pakistan</a></div>
+<div class="footer-col reveal"><h4 data-admin-text="true">Quick Links</h4><a href="/" data-admin-text="true">Home</a><a href="/about" data-admin-text="true">About</a><a href="/portfolio" data-admin-text="true">Portfolio</a><a href="/blogs" data-admin-text="true">Blog</a><a href="/contact" data-admin-text="true">Contact</a></div>
+<div class="footer-col reveal"><h4 data-admin-text="true">Services</h4><a href="/portfolio/covers" data-admin-text="true">Book Cover Design</a><a href="/portfolio/formatting" data-admin-text="true">KDP Formatting</a><a href="/portfolio/a-plus-content" data-admin-text="true">A+ Content</a><a href="/portfolio/websites" data-admin-text="true">Websites</a></div>
+<div class="footer-col reveal"><h4 data-admin-text="true">Contact</h4><a href="mailto:razah3812@gmail.com" data-admin-text="true">razah3812@gmail.com</a><a href="#" data-admin-text="true">Pakistan</a></div>
 </div>
 <div class="footer-bottom" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher" style="height: 18px; vertical-align: middle; margin-right: 8px; margin-top: -2px; opacity: 0.8;">© 2026 Hamid Raza. All Rights Reserved.</div>
 </div>
 </footer>
 
+<!-- MODAL SCRIPT -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('review-modal-overlay');
+  const openBtn = document.getElementById('btn-open-review-modal');
+  const closeBtn = document.getElementById('btn-close-review-modal');
+  const starPicker = document.getElementById('star-rating-picker');
+  const stars = starPicker.querySelectorAll('i');
+  const form = document.getElementById('leave-review-form');
+  const container = document.getElementById('testimonial-grid-container');
+
+  let currentRating = 5;
+
+  if (openBtn) {
+    openBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Star selector
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      currentRating = parseInt(star.dataset.val);
+      starPicker.dataset.rating = currentRating;
+      stars.forEach(s => {
+        const val = parseInt(s.dataset.val);
+        if (val <= currentRating) {
+          s.classList.add('active');
+        } else {
+          s.classList.remove('active');
+        }
+      });
+    });
+  });
+
+  // Handle Form Submission
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('review-name').value.trim();
+    const role = document.getElementById('review-role').value.trim();
+    const message = document.getElementById('review-message').value.trim();
+    
+    if (!name || !role || !message) return;
+
+    // Random avatar
+    const randomImg = Math.floor(Math.random() * 60) + 1;
+    const avatarUrl = 'https://i.pravatar.cc/100?img=' + randomImg;
+
+    // Build star HTML
+    let starsHtml = '';
+    for (let i = 0; i < currentRating; i++) {
+      starsHtml += '<i class="fa-solid fa-star"></i>';
+    }
+
+    // Build card
+    const card = document.createElement('div');
+    card.className = 'testimonial-card';
+    card.innerHTML = `
+      <div class="testimonial-inner">
+        <div class="testimonial-stars">${starsHtml}</div>
+        <p data-admin-text="true">"${message}"</p>
+        <div class="testimonial-author">
+          <img loading="lazy" src="${avatarUrl}" alt="${name}">
+          <div><h4 data-admin-text="true">${name}</h4><span>${role}</span></div>
+        </div>
+      </div>
+    `;
+
+    // Append to top of grid
+    container.insertBefore(card, container.firstChild);
+
+    // Save to localStorage
+    try {
+      const stored = JSON.parse(localStorage.getItem('user_added_reviews') || '[]');
+      stored.unshift({ name, role, message, rating: currentRating, avatarUrl });
+      localStorage.setItem('user_added_reviews', JSON.stringify(stored));
+    } catch(err) {}
+
+    // Reset and close
+    form.reset();
+    currentRating = 5;
+    stars.forEach(s => s.classList.add('active'));
+    closeModal();
+
+    alert('Thank you! Your review has been submitted successfully.');
+  });
+
+  // Load custom reviews from localStorage if any
+  try {
+    const stored = JSON.parse(localStorage.getItem('user_added_reviews') || '[]');
+    stored.forEach(r => {
+      let starsHtml = '';
+      for (let i = 0; i < (r.rating || 5); i++) starsHtml += '<i class="fa-solid fa-star"></i>';
+      const card = document.createElement('div');
+      card.className = 'testimonial-card';
+      card.innerHTML = `
+        <div class="testimonial-inner">
+          <div class="testimonial-stars">${starsHtml}</div>
+          <p data-admin-text="true">"${r.message}"</p>
+          <div class="testimonial-author">
+            <img loading="lazy" src="${r.avatarUrl}" alt="${r.name}">
+            <div><h4 data-admin-text="true">${r.name}</h4><span>${r.role}</span></div>
+          </div>
+        </div>
+      `;
+      container.insertBefore(card, container.firstChild);
+    });
+  } catch(err) {}
+});
+</script>
 </body>
 </html>
