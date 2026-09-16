@@ -43,8 +43,8 @@
   ],
   "rewrites": [
     {
-      "source": "/blogs",
-      "destination": "/blogs"
+      "source": "/blogs/:category",
+      "destination": "/blogs?category=:category"
     },
     {
       "source": "/blogs/category/:category",
@@ -53,6 +53,10 @@
     {
       "source": "/blog/:slug",
       "destination": "/blog?slug=:slug"
+    },
+    {
+      "source": "/portfolio/:category/:genre",
+      "destination": "/portfolio?category=:category&genre=:genre"
     },
     {
       "source": "/portfolio/:category",

@@ -345,10 +345,11 @@ window.initSiteLogic = function () {
     let cat = params.get('category') || params.get('cat');
     let subcat = params.get('genre') || params.get('subcat');
 
-    // Check pathname (e.g. /portfolio/websites or /portfolio/covers)
+    // Check clean pathname (e.g. /portfolio/websites or /portfolio/covers/fiction)
     const pathParts = window.location.pathname.replace(/^\/|\/$/g, '').split('/');
-    if (!cat && pathParts.length >= 2 && (pathParts[0] === 'portfolio' || pathParts[0] === 'portfolio.html')) {
-      cat = pathParts[1];
+    if (pathParts.length >= 2 && (pathParts[0] === 'portfolio' || pathParts[0] === 'portfolio.html')) {
+      if (!cat) cat = pathParts[1];
+      if (!subcat && pathParts.length >= 3) subcat = pathParts[2];
     }
 
     // Check hash (e.g. #websites or #category=websites)
@@ -384,43 +385,30 @@ window.initSiteLogic = function () {
       document.title = `${seo.title} - loufypublisher.com`;
     }
 
+    // Determine clean path: e.g. /portfolio/websites, /portfolio/covers/fiction, /portfolio
+    let cleanPath = '/portfolio';
+    if (cat && cat !== 'all') {
+      cleanPath = `/portfolio/${cat}`;
+      if (subcat && subcat !== 'all') {
+        cleanPath += `/${subcat}`;
+      }
+    }
+
     // Update Canonical URL dynamically
     let canonicalTag = document.querySelector('link[rel="canonical"]');
     if (canonicalTag && seo && !isMainPage) {
-      const canonicalBase = 'https://loufypublisher.com/portfolio.html';
-      canonicalTag.setAttribute('href', (cat && cat !== 'all') ? `${canonicalBase}?category=${cat}` : canonicalBase);
+      canonicalTag.setAttribute('href', `https://loufypublisher.com${cleanPath}`);
     }
 
-    // Update Address Bar URL
-    const url = new URL(window.location.href);
-    if (cat && cat !== 'all') {
-      url.searchParams.set('category', cat);
-      url.searchParams.delete('cat');
-    } else {
-      url.searchParams.delete('category');
-      url.searchParams.delete('cat');
-    }
-
-    if (subcat && subcat !== 'all') {
-      url.searchParams.set('genre', subcat);
-      url.searchParams.delete('subcat');
-    } else {
-      url.searchParams.delete('genre');
-      url.searchParams.delete('subcat');
-    }
-
-    if (isMainPage && cat && cat !== 'all') {
-      url.hash = 'portfolio';
-    }
-
-    const newUrl = url.pathname + url.search + url.hash;
-    const currentFull = window.location.pathname + window.location.search + window.location.hash;
-
-    if (newUrl !== currentFull) {
-      if (pushHistory) {
-        window.history.pushState({ cat, subcat }, '', newUrl);
-      } else {
-        window.history.replaceState({ cat, subcat }, '', newUrl);
+    // Update Address Bar URL cleanly without query parameters
+    if (!isMainPage) {
+      const currentFull = window.location.pathname;
+      if (cleanPath !== currentFull) {
+        if (pushHistory) {
+          window.history.pushState({ cat, subcat }, '', cleanPath);
+        } else {
+          window.history.replaceState({ cat, subcat }, '', cleanPath);
+        }
       }
     }
   };
@@ -1823,10 +1811,16 @@ window.initBlogSection = async function () {
   if (blogGrid) {
     let visibleCount = 6;
 
-    // Parse URL parameters for blog deep linking
+    // Parse URL parameters or clean pathname for blog deep linking
     const blogUrlParams = new URLSearchParams(window.location.search);
     let activeCategory = blogUrlParams.get('category') || blogUrlParams.get('cat') || 'All';
     let activeSearch = (blogUrlParams.get('q') || blogUrlParams.get('search') || '').toLowerCase().trim();
+
+    // Check clean pathname: e.g. /blogs/formatting or /blogs/design
+    const blogPathParts = window.location.pathname.replace(/^\/|\/$/g, '').split('/');
+    if (blogPathParts.length >= 2 && (blogPathParts[0] === 'blogs' || blogPathParts[0] === 'blogs.html')) {
+      activeCategory = decodeURIComponent(blogPathParts[1]);
+    }
 
     if (activeSearch && searchInput) {
       searchInput.value = activeSearch;
@@ -1858,17 +1852,20 @@ window.initBlogSection = async function () {
           activeCategory = btn.dataset.category;
           visibleCount = 6; // Reset pagination
 
-          // Update URL & Title for SEO
-          const blogUrl = new URL(window.location.href);
+          // Update URL & Title for SEO using clean path (e.g. /blogs/formatting or /blogs)
+          const cleanBlogPath = (activeCategory && activeCategory !== 'All')
+            ? `/blogs/${encodeURIComponent(activeCategory.toLowerCase())}`
+            : '/blogs';
           if (activeCategory && activeCategory !== 'All') {
-            blogUrl.searchParams.set('category', activeCategory);
             document.title = `${activeCategory} Articles & Guides | Loufy Publisher Blog`;
           } else {
-            blogUrl.searchParams.delete('category');
-            blogUrl.searchParams.delete('cat');
             document.title = 'Loufy Publisher Blog | Self-Publishing, Formatting & Cover Design Tips';
           }
-          window.history.pushState({ category: activeCategory }, '', blogUrl.pathname + blogUrl.search);
+          const searchStr = activeSearch ? `?q=${encodeURIComponent(activeSearch)}` : '';
+          const targetBlogUrl = cleanBlogPath + searchStr;
+          if (targetBlogUrl !== (window.location.pathname + window.location.search)) {
+            window.history.pushState({ category: activeCategory }, '', targetBlogUrl);
+          }
 
           render();
         });
@@ -2017,6 +2014,28 @@ window.initBlogSection = async function () {
     // Run initial state
     updateCategories();
     render();
+
+    // Listen for browser back/forward buttons on blogs directory
+    if (!window.__blogPopstateBound) {
+      window.__blogPopstateBound = true;
+      window.addEventListener('popstate', () => {
+        const pParts = window.location.pathname.replace(/^\/|\/$/g, '').split('/');
+        const sParams = new URLSearchParams(window.location.search);
+        let popCat = (pParts.length >= 2 && (pParts[0] === 'blogs' || pParts[0] === 'blogs.html'))
+          ? decodeURIComponent(pParts[1])
+          : (sParams.get('category') || sParams.get('cat') || 'All');
+        if (categoriesContainer) {
+          const catBtn = Array.from(categoriesContainer.querySelectorAll('.blog-cat-btn'))
+            .find(b => b.dataset.category.toLowerCase() === popCat.toLowerCase()) || categoriesContainer.querySelector('.blog-cat-btn[data-category="All"]');
+          if (catBtn) {
+            categoriesContainer.querySelectorAll('.blog-cat-btn').forEach(b => b.classList.remove('active'));
+            catBtn.classList.add('active');
+            activeCategory = catBtn.dataset.category;
+            render();
+          }
+        }
+      });
+    }
   }
 
 
