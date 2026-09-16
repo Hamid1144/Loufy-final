@@ -1,308 +1,350 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://loufypublisher.com/</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/portfolio</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/portfolio/websites</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/portfolio/covers</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/portfolio/paperback-covers</loc>
+    <loc>https://loufypublisher.com/portfolio.html</loc>
     <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/portfolio/children</loc>
+    <loc>https://loufypublisher.com/about.html</loc>
     <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/portfolio/formatting</loc>
+    <loc>https://loufypublisher.com/services.html</loc>
     <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/portfolio/a-plus-content</loc>
+    <loc>https://loufypublisher.com/pricing.html</loc>
     <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blogs/formatting</loc>
+    <loc>https://loufypublisher.com/testimonials.html</loc>
     <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blogs/design</loc>
+    <loc>https://loufypublisher.com/contact.html</loc>
     <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/blogs/publishing</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/blogs/marketing</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/about</loc>
-    <lastmod>2026-09-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/services</loc>
-    <lastmod>2026-09-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/pricing</loc>
-    <lastmod>2026-09-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/testimonials</loc>
-    <lastmod>2026-09-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/contact</loc>
-    <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://loufypublisher.com/blogs</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/how-to-design-book-covers-that-sell</loc>
-    <lastmod>2026-06-11</lastmod>
+    <loc>https://loufypublisher.com/blog/book-cover-design</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/best-typography-children-book-formatting</loc>
-    <lastmod>2026-06-13</lastmod>
+    <loc>https://loufypublisher.com/blog/how-much-does-a-book-cover-design-cost</loc>
+    <lastmod>2026-03-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/book-formatting-hardcover-vs-paperback</loc>
-    <lastmod>2026-06-14</lastmod>
+    <loc>https://loufypublisher.com/blog/kdp-paperback-cover-size-guide</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/kindle-formatting-checklist-ebook-errors</loc>
-    <lastmod>2026-06-15</lastmod>
+    <loc>https://loufypublisher.com/blog/book-cover-design-mistakes-to-avoid</loc>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/self-publishing-checklist-kdp-bestseller</loc>
-    <lastmod>2026-06-15</lastmod>
+    <loc>https://loufypublisher.com/blog/how-to-design-a-book-cover-in-canva</loc>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/paperback-formatting-gutter-margins-trim</loc>
-    <lastmod>2026-06-16</lastmod>
+    <loc>https://loufypublisher.com/blog/romance-book-cover-design-trends</loc>
+    <lastmod>2026-03-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/why-childrens-book-formatting-requires-bleed</loc>
-    <lastmod>2026-06-16</lastmod>
+    <loc>https://loufypublisher.com/blog/fantasy-book-cover-design-ideas</loc>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/book-cover-design-color-psychology</loc>
-    <lastmod>2026-06-16</lastmod>
+    <loc>https://loufypublisher.com/blog/how-to-choose-fonts-for-a-book-cover</loc>
+    <lastmod>2026-03-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/cost-of-self-publishing-launch-budget</loc>
-    <lastmod>2026-06-17</lastmod>
+    <loc>https://loufypublisher.com/blog/ebook-cover-vs-print-cover-design-differences</loc>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/hardcover-formatting-margin-spine-calculations</loc>
-    <lastmod>2026-06-17</lastmod>
+    <loc>https://loufypublisher.com/blog/should-i-hire-a-professional-book-cover-designer</loc>
+    <lastmod>2026-03-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/bestselling-book-interior-fonts-layout</loc>
-    <lastmod>2026-06-17</lastmod>
+    <loc>https://loufypublisher.com/blog/book-formatting</loc>
+    <lastmod>2026-03-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/amazon-aplus-content-books-guide</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://loufypublisher.com/blog/book-interior-formatting-for-kdp</loc>
+    <lastmod>2026-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/kdp-gutter-margins-calculator-guide</loc>
-    <lastmod>2026-07-03</lastmod>
+    <loc>https://loufypublisher.com/blog/ebook-vs-paperback-formatting-differences</loc>
+    <lastmod>2026-03-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/format-childrens-picture-book-kdp-bleed</loc>
-    <lastmod>2026-07-05</lastmod>
+    <loc>https://loufypublisher.com/blog/best-software-for-formatting-a-book</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/amazon-kdp-7-keywords-strategy</loc>
-    <lastmod>2026-07-08</lastmod>
+    <loc>https://loufypublisher.com/blog/how-to-format-a-book-in-word-for-self-publishing</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/romance-book-cover-design-psychology-tropes</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://loufypublisher.com/blog/how-many-pages-should-a-book-be</loc>
+    <lastmod>2026-03-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/fantasy-scifi-book-cover-design-typography</loc>
-    <lastmod>2026-07-12</lastmod>
+    <loc>https://loufypublisher.com/blog/how-to-add-page-numbers-and-headers-to-a-book</loc>
+    <lastmod>2026-03-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/calculate-book-spine-width-kdp-ingramspark</loc>
-    <lastmod>2026-07-15</lastmod>
+    <loc>https://loufypublisher.com/blog/common-formatting-mistakes-in-self-published-books</loc>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/formatting-nonfiction-books-chicago-manual</loc>
-    <lastmod>2026-07-18</lastmod>
+    <loc>https://loufypublisher.com/blog/self-publishing</loc>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/format-kdp-coloring-books-activity-books</loc>
-    <lastmod>2026-07-20</lastmod>
+    <loc>https://loufypublisher.com/blog/how-to-publish-a-book-on-amazon-kdp-step-by-step</loc>
+    <lastmod>2026-03-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/book-copyright-page-templates-self-publishers</loc>
-    <lastmod>2026-07-22</lastmod>
+    <loc>https://loufypublisher.com/blog/how-to-choose-kdp-categories-and-keywords</loc>
+    <lastmod>2026-03-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/ingramspark-vs-amazon-kdp-comparison</loc>
-    <lastmod>2026-07-25</lastmod>
+    <loc>https://loufypublisher.com/blog/mistakes-first-time-self-published-authors-make</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/epub-vs-kpf-vs-pdf-ebook-print-formatting</loc>
-    <lastmod>2026-07-28</lastmod>
+    <loc>https://loufypublisher.com/blog/how-much-do-self-published-authors-make</loc>
+    <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/acx-audiobook-cover-design-specs</loc>
-    <lastmod>2026-07-30</lastmod>
+    <loc>https://loufypublisher.com/blog/do-you-need-an-isbn-to-self-publish</loc>
+    <lastmod>2026-03-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/standard-book-trim-sizes-explained</loc>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://loufypublisher.com/blog/kdp-royalties-explained</loc>
+    <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/amazon-kdp-category-research-strategy</loc>
-    <lastmod>2026-08-05</lastmod>
+    <loc>https://loufypublisher.com/blog/how-to-price-a-self-published-book</loc>
+    <lastmod>2026-03-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/essential-author-website-features-double-sales</loc>
-    <lastmod>2026-08-08</lastmod>
+    <loc>https://loufypublisher.com/blog/ingramspark</loc>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/true-cost-self-publishing-book-usa</loc>
-    <lastmod>2026-08-10</lastmod>
+    <loc>https://loufypublisher.com/blog/kdp-vs-ingramspark-which-is-better</loc>
+    <lastmod>2026-03-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/how-to-hire-childrens-book-illustrator</loc>
-    <lastmod>2026-08-12</lastmod>
+    <loc>https://loufypublisher.com/blog/how-to-format-a-book-for-ingramspark</loc>
+    <lastmod>2026-03-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/amazon-book-description-copywriting-html</loc>
-    <lastmod>2026-08-15</lastmod>
+    <loc>https://loufypublisher.com/blog/how-to-get-your-book-into-bookstores-and-libraries</loc>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/when-to-redesign-your-book-cover</loc>
-    <lastmod>2026-08-18</lastmod>
+    <loc>https://loufypublisher.com/blog/ingramspark-vs-kdp-print-costs-compared</loc>
+    <lastmod>2026-03-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/poetry-book-formatting-kindle-print</loc>
-    <lastmod>2026-08-20</lastmod>
+    <loc>https://loufypublisher.com/blog/website-design</loc>
+    <lastmod>2026-03-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/blog/amazon-ads-for-authors-beginners-guide</loc>
-    <lastmod>2026-08-22</lastmod>
+    <loc>https://loufypublisher.com/blog/how-much-does-it-cost-to-build-a-website</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/best-website-builder-for-small-business</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/how-to-build-a-website-without-coding</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/what-to-include-on-a-website-homepage</loc>
+    <lastmod>2026-03-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/wordpress-vs-wix-vs-squarespace-comparison</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/how-to-make-a-portfolio-website</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/how-long-does-it-take-to-build-a-website</loc>
+    <lastmod>2026-04-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/canva-tutorial</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/canva-vs-photoshop-for-book-design</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/how-to-design-a-kindle-ebook-cover-in-photoshop</loc>
+    <lastmod>2026-04-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/free-canva-templates-for-book-marketing</loc>
+    <lastmod>2026-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/how-to-remove-background-in-photoshop-step-by-step</loc>
+    <lastmod>2026-04-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/amazon-a-plus-content</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/how-to-create-amazon-a-plus-content-for-books</loc>
+    <lastmod>2026-04-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/amazon-a-plus-content-examples-that-increase-sales</loc>
+    <lastmod>2026-04-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/childrens-book-illustration</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/how-much-does-it-cost-to-illustrate-a-childrens-book</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/blog/how-to-self-publish-a-childrens-book-on-amazon</loc>
+    <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

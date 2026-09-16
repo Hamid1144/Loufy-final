@@ -1736,7 +1736,7 @@ window.initBlogSection = async function () {
 
   let blogPosts = [];
 
-  // 1. Fetch from Supabase
+  // 1. Fetch from Supabase with local /blogs.json fallback
   try {
     if (window.diagLog) window.diagLog("Starting fetch for blogs_json from Supabase...");
     const { data, error } = await window.supabaseClient
@@ -1756,6 +1756,20 @@ window.initBlogSection = async function () {
     if (window.diagLog) window.diagLog(`Supabase fetch failed: ${err.message || err}`);
     console.error('Failed to load blog posts from cloud:', err);
     blogPosts = [];
+  }
+
+  // Fallback: If Supabase returned empty or failed, load from local /blogs.json
+  if (!blogPosts || blogPosts.length === 0) {
+    try {
+      if (window.diagLog) window.diagLog("Attempting local /blogs.json fallback...");
+      const localRes = await fetch('/blogs.json');
+      if (localRes.ok) {
+        blogPosts = await localRes.json();
+        if (window.diagLog) window.diagLog(`Loaded ${blogPosts.length} posts from /blogs.json fallback.`);
+      }
+    } catch (e) {
+      console.warn("Could not load /blogs.json fallback:", e);
+    }
   }
 
   window.blogPostsList = blogPosts; // Cache globally for admin reference

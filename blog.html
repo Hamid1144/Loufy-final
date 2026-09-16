@@ -325,7 +325,7 @@
         return;
       }
 
-      // Helper to fetch blogs from Supabase JS client or direct REST fallback
+      // Helper to fetch blogs from Supabase JS client or direct REST fallback with local /blogs.json fallback
       const fetchBlogsData = async () => {
         if (window.supabaseClient) {
           try {
@@ -335,18 +335,32 @@
               .eq('id', 'blogs_json')
               .single();
             if (!error && data && data.html_content) {
-              return JSON.parse(data.html_content);
+              const posts = JSON.parse(data.html_content);
+              if (posts && posts.length > 0) return posts;
             }
           } catch (e) {}
         }
         // Direct REST API fetch fallback
-        const restUrl = 'https://pgictinimttptsxbvngg.supabase.co/rest/v1/site_content?id=eq.blogs_json&select=html_content';
-        const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc';
-        const res = await fetch(restUrl, { headers: { 'apikey': apiKey, 'Authorization': 'Bearer ' + apiKey } });
-        const json = await res.json();
-        if (json && json[0] && json[0].html_content) {
-          return JSON.parse(json[0].html_content);
-        }
+        try {
+          const restUrl = 'https://pgictinimttptsxbvngg.supabase.co/rest/v1/site_content?id=eq.blogs_json&select=html_content';
+          const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc';
+          const res = await fetch(restUrl, { headers: { 'apikey': apiKey, 'Authorization': 'Bearer ' + apiKey } });
+          const json = await res.json();
+          if (json && json[0] && json[0].html_content) {
+            const posts = JSON.parse(json[0].html_content);
+            if (posts && posts.length > 0) return posts;
+          }
+        } catch (e) {}
+
+        // Local static JSON fallback
+        try {
+          const localRes = await fetch('/blogs.json');
+          if (localRes.ok) {
+            const localPosts = await localRes.json();
+            if (localPosts && localPosts.length > 0) return localPosts;
+          }
+        } catch (e) {}
+
         throw new Error("Could not load blogs data");
       };
 
