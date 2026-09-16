@@ -47,8 +47,16 @@
       "destination": "/blogs"
     },
     {
+      "source": "/blogs/category/:category",
+      "destination": "/blogs.html?category=:category"
+    },
+    {
       "source": "/blog/:slug",
       "destination": "/blog?slug=:slug"
+    },
+    {
+      "source": "/portfolio/:category",
+      "destination": "/portfolio.html?category=:category"
     }
   ]
 }

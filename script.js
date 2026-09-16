@@ -300,6 +300,131 @@ window.initSiteLogic = function () {
     });
   });
 
+
+  // ── Portfolio Category SEO & Dynamic URL Management ──────────────────────
+  const PORTFOLIO_CATEGORY_SEO = {
+    'websites': {
+      title: 'Websites I Created | Custom Author & Brand Web Design Portfolio',
+      heading: 'Websites I Created',
+      desc: 'Explore custom author websites, publishing brand portals, and eCommerce designs crafted by Loufy Publisher.'
+    },
+    'covers': {
+      title: 'Book Cover Design Portfolio | Bestselling Kindle & Paperback Covers',
+      heading: 'Book Covers',
+      desc: 'Award-winning book cover designs for Kindle, paperback, and hardcover self-publishers by Hamid Raza.'
+    },
+    'paperback-covers': {
+      title: 'Paperback & Hardcover Book Cover Design Portfolio | Loufy Publisher',
+      heading: 'Paperback Covers',
+      desc: 'Full-wrap paperback and hardcover book cover designs with accurate spine and bleed calculations.'
+    },
+    'children': {
+      title: 'Children’s Book Illustration & Design Portfolio | Loufy Publisher',
+      heading: 'Children Books',
+      desc: 'Vibrant children picture book illustrations, storybook layouts, and coloring books for Amazon KDP.'
+    },
+    'formatting': {
+      title: 'Book Formatting & Interior Layout Portfolio | Loufy Publisher',
+      heading: 'Book Formatting',
+      desc: 'Flawless interior book formatting, typography layout, and print-ready PDF & ePUB files for authors.'
+    },
+    'a-plus-content': {
+      title: 'Amazon A+ Content Design Portfolio | Loufy Publisher',
+      heading: 'A+ Content',
+      desc: 'High-converting Amazon KDP A+ Content modules that elevate author brand visibility and double sales.'
+    },
+    'all': {
+      title: 'Design & Publishing Portfolio | Loufy Publisher by Hamid Raza',
+      heading: 'All Work',
+      desc: 'Complete design portfolio of book covers, paperback formatting, children illustrations, and author websites.'
+    }
+  };
+
+  window.getPortfolioCategoryFromURL = function() {
+    const params = new URLSearchParams(window.location.search);
+    let cat = params.get('category') || params.get('cat');
+    let subcat = params.get('genre') || params.get('subcat');
+
+    // Check pathname (e.g. /portfolio/websites or /portfolio/covers)
+    const pathParts = window.location.pathname.replace(/^\/|\/$/g, '').split('/');
+    if (!cat && pathParts.length >= 2 && (pathParts[0] === 'portfolio' || pathParts[0] === 'portfolio.html')) {
+      cat = pathParts[1];
+    }
+
+    // Check hash (e.g. #websites or #category=websites)
+    if (!cat && window.location.hash) {
+      const h = window.location.hash.replace('#', '');
+      if (h.startsWith('category=')) {
+        cat = h.replace('category=', '');
+      } else if (['websites', 'covers', 'paperback-covers', 'children', 'formatting', 'a-plus-content', 'all'].includes(h)) {
+        cat = h;
+      }
+    }
+
+    if (cat) {
+      cat = cat.toLowerCase().trim();
+      if (cat === 'website' || cat === 'author-websites' || cat === 'websites-i-created' || cat === 'websites-i-build') cat = 'websites';
+      if (cat === 'book-covers' || cat === 'cover') cat = 'covers';
+      if (cat === 'paperback' || cat === 'paperbacks') cat = 'paperback-covers';
+      if (cat === 'children-books' || cat === 'childrens-books') cat = 'children';
+      if (cat === 'book-formatting' || cat === 'format') cat = 'formatting';
+      if (cat === 'aplus' || cat === 'a-plus') cat = 'a-plus-content';
+    }
+
+    return { cat, subcat };
+  };
+
+  window.updatePortfolioCategorySEO = function(cat, subcat = null, pushHistory = true) {
+    if (document.body.classList.contains('edit-mode')) return;
+
+    const seo = PORTFOLIO_CATEGORY_SEO[cat] || PORTFOLIO_CATEGORY_SEO['all'];
+    
+    // Update Title on portfolio page
+    if (!isMainPage && seo) {
+      document.title = `${seo.title} - loufypublisher.com`;
+    }
+
+    // Update Canonical URL dynamically
+    let canonicalTag = document.querySelector('link[rel="canonical"]');
+    if (canonicalTag && seo && !isMainPage) {
+      const canonicalBase = 'https://loufypublisher.com/portfolio.html';
+      canonicalTag.setAttribute('href', (cat && cat !== 'all') ? `${canonicalBase}?category=${cat}` : canonicalBase);
+    }
+
+    // Update Address Bar URL
+    const url = new URL(window.location.href);
+    if (cat && cat !== 'all') {
+      url.searchParams.set('category', cat);
+      url.searchParams.delete('cat');
+    } else {
+      url.searchParams.delete('category');
+      url.searchParams.delete('cat');
+    }
+
+    if (subcat && subcat !== 'all') {
+      url.searchParams.set('genre', subcat);
+      url.searchParams.delete('subcat');
+    } else {
+      url.searchParams.delete('genre');
+      url.searchParams.delete('subcat');
+    }
+
+    if (isMainPage && cat && cat !== 'all') {
+      url.hash = 'portfolio';
+    }
+
+    const newUrl = url.pathname + url.search + url.hash;
+    const currentFull = window.location.pathname + window.location.search + window.location.hash;
+
+    if (newUrl !== currentFull) {
+      if (pushHistory) {
+        window.history.pushState({ cat, subcat }, '', newUrl);
+      } else {
+        window.history.replaceState({ cat, subcat }, '', newUrl);
+      }
+    }
+  };
+
   // Portfolio filter
   const isMainPage = !window.location.pathname.includes('portfolio');
   document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -308,6 +433,14 @@ window.initSiteLogic = function () {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
       const cat = this.dataset.cat;
+
+      // Update URL and Document Title for SEO
+      if (window.updatePortfolioCategorySEO) {
+        const activeSubBtn = document.querySelector('.sub-filter-btn.active');
+        const subcat = (cat === 'covers' && activeSubBtn) ? activeSubBtn.dataset.subcat : null;
+        window.updatePortfolioCategorySEO(cat, subcat, !this._isInitial);
+      }
+      this._isInitial = false;
       
       const marquee = document.querySelector('.covers-marquee-container');
       const pbMarquee = document.querySelector('.paperback-covers-marquee-container');
@@ -460,22 +593,77 @@ window.initSiteLogic = function () {
       document.querySelectorAll('.sub-filter-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
       const activeMainFilter = document.querySelector('.filter-btn.active');
+      const cat = activeMainFilter ? activeMainFilter.dataset.cat : 'covers';
+      const subcat = this.dataset.subcat;
       if (activeMainFilter) activeMainFilter.click();
+      if (window.updatePortfolioCategorySEO) {
+        window.updatePortfolioCategorySEO(cat, subcat, true);
+      }
     });
   });
 
-  // Ensure correct category is selected by default on load
-  let defaultFilter;
-  if (!isMainPage) {
-    // Separate portfolio page: select the first visible (non-all) category filter
-    defaultFilter = document.querySelector('.filter-btn:not([data-cat="all"])');
-  } else {
-    // Homepage: select "All" if it exists, otherwise fallback to first
-    defaultFilter = document.querySelector('.filter-btn[data-cat="all"]') || document.querySelector('.filter-btn');
+  // Ensure correct category is selected based on URL or default
+  const { cat: urlCat, subcat: urlSubCat } = window.getPortfolioCategoryFromURL ? window.getPortfolioCategoryFromURL() : { cat: null, subcat: null };
+  let defaultFilter = null;
+
+  if (urlCat) {
+    defaultFilter = document.querySelector(`.filter-btn[data-cat="${urlCat}"]`);
+  }
+
+  if (!defaultFilter) {
+    if (!isMainPage) {
+      defaultFilter = document.querySelector('.filter-btn:not([data-cat="all"])');
+    } else {
+      defaultFilter = document.querySelector('.filter-btn[data-cat="all"]') || document.querySelector('.filter-btn');
+    }
   }
 
   if (defaultFilter) {
+    if (urlSubCat) {
+      const targetSub = document.querySelector(`.sub-filter-btn[data-subcat="${urlSubCat}"]`);
+      if (targetSub) {
+        document.querySelectorAll('.sub-filter-btn').forEach(b => b.classList.remove('active'));
+        targetSub.classList.add('active');
+      }
+    }
+    defaultFilter._isInitial = true;
     defaultFilter.click();
+    defaultFilter._isInitial = false;
+
+    // If landed with category parameter on homepage, smoothly scroll to #portfolio section
+    if (isMainPage && urlCat) {
+      setTimeout(() => {
+        const portSec = document.getElementById('portfolio');
+        if (portSec) {
+          if (window.lenis) {
+            window.lenis.scrollTo(portSec, { offset: -70, duration: 1.0 });
+          } else {
+            portSec.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, 400);
+    }
+  }
+
+  // Popstate listener for browser back/forward navigation
+  if (!window.__portfolioPopstateBound) {
+    window.__portfolioPopstateBound = true;
+    window.addEventListener('popstate', () => {
+      const { cat: popCat, subcat: popSubCat } = window.getPortfolioCategoryFromURL ? window.getPortfolioCategoryFromURL() : { cat: null, subcat: null };
+      const btn = popCat ? document.querySelector(`.filter-btn[data-cat="${popCat}"]`) : (document.querySelector('.filter-btn[data-cat="all"]') || document.querySelector('.filter-btn'));
+      if (btn) {
+        if (popSubCat) {
+          const sBtn = document.querySelector(`.sub-filter-btn[data-subcat="${popSubCat}"]`);
+          if (sBtn) {
+            document.querySelectorAll('.sub-filter-btn').forEach(b => b.classList.remove('active'));
+            sBtn.classList.add('active');
+          }
+        }
+        btn._isInitial = true;
+        btn.click();
+        btn._isInitial = false;
+      }
+    });
   }
 
   // Tool circle animation - smooth premium hover interactive system
@@ -1634,17 +1822,30 @@ window.initBlogSection = async function () {
   // Case 2: Full Directory Page
   if (blogGrid) {
     let visibleCount = 6;
-    let activeCategory = 'All';
-    let activeSearch = '';
+
+    // Parse URL parameters for blog deep linking
+    const blogUrlParams = new URLSearchParams(window.location.search);
+    let activeCategory = blogUrlParams.get('category') || blogUrlParams.get('cat') || 'All';
+    let activeSearch = (blogUrlParams.get('q') || blogUrlParams.get('search') || '').toLowerCase().trim();
+
+    if (activeSearch && searchInput) {
+      searchInput.value = activeSearch;
+    }
 
     // 2. Extract and Render Category Filters
     const updateCategories = () => {
       if (!categoriesContainer) return;
       const categories = new Set(blogPosts.map(p => p.category).filter(Boolean));
       const catArray = ['All', ...Array.from(categories)];
+
+      // Check if URL specified category exists (case insensitive match)
+      if (activeCategory !== 'All') {
+        const found = catArray.find(c => c.toLowerCase() === activeCategory.toLowerCase());
+        if (found) activeCategory = found;
+      }
       
       categoriesContainer.innerHTML = catArray.map(cat => `
-        <button class="blog-cat-btn ${cat === activeCategory ? 'active' : ''}" data-category="${cat}">
+        <button class="blog-cat-btn ${cat.toLowerCase() === activeCategory.toLowerCase() ? 'active' : ''}" data-category="${cat}">
           ${cat}
         </button>
       `).join('');
@@ -1656,6 +1857,19 @@ window.initBlogSection = async function () {
           btn.classList.add('active');
           activeCategory = btn.dataset.category;
           visibleCount = 6; // Reset pagination
+
+          // Update URL & Title for SEO
+          const blogUrl = new URL(window.location.href);
+          if (activeCategory && activeCategory !== 'All') {
+            blogUrl.searchParams.set('category', activeCategory);
+            document.title = `${activeCategory} Articles & Guides | Loufy Publisher Blog`;
+          } else {
+            blogUrl.searchParams.delete('category');
+            blogUrl.searchParams.delete('cat');
+            document.title = 'Loufy Publisher Blog | Self-Publishing, Formatting & Cover Design Tips';
+          }
+          window.history.pushState({ category: activeCategory }, '', blogUrl.pathname + blogUrl.search);
+
           render();
         });
       });
