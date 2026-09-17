@@ -88,6 +88,12 @@ $xml = @"
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>$baseUrl/tools</loc>
+    <lastmod>$indexLastMod</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
 $blogsXml</urlset>
 "@
 

@@ -3,7 +3,7 @@
   "trailingSlash": false,
   "headers": [
     {
-      "source": "/(.*\\.html|/|/portfolio|/blogs|/blog|/blog/.*|/about|/services|/pricing|/contact|/testimonials|/admin)",
+      "source": "/(.*\\.html|/|/portfolio|/blogs|/blog|/blog/.*|/about|/services|/pricing|/contact|/testimonials|/tools|/admin)",
       "headers": [
         {
           "key": "Cache-Control",
