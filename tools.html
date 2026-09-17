@@ -227,6 +227,234 @@
     }
 
     /* Preloaded Sample Covers Carousel */
+    
+    /* Cover Mode Tabs */
+    .cover-mode-tabs {
+      display: flex;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .cover-mode-tab {
+      flex: 1;
+      padding: 8px 10px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 7px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .cover-mode-tab:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .cover-mode-tab.active {
+      background: var(--accent);
+      color: #0b1f17;
+      box-shadow: 0 2px 8px rgba(244, 180, 0, 0.25);
+    }
+
+    /* Auto-detection badge */
+    .autodetect-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+      line-height: 1.4;
+    }
+    .autodetect-badge.wrap-detected {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+    .autodetect-badge.single-detected {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+    }
+
+    /* Slice Studio Box */
+    .slice-studio-card {
+      background: rgba(8, 13, 20, 0.7);
+      border: 1px solid rgba(244, 180, 0, 0.3);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .slice-canvas-wrapper {
+      position: relative;
+      width: 100%;
+      height: 70px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: #050a0f;
+      margin-bottom: 10px;
+    }
+    #slice-preview-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .slice-zones-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      pointer-events: none;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .slice-zone-back {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.22);
+      border-right: 2px dashed #34d399;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      transition: width 0.1s ease;
+    }
+    .slice-zone-spine {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      background: rgba(244, 180, 0, 0.35);
+      border-right: 2px dashed var(--accent);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      transition: width 0.1s ease;
+    }
+    .slice-zone-front {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #60a5fa;
+      background: rgba(59, 130, 246, 0.22);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      transition: width 0.1s ease;
+    }
+
+    /* Separate Dropzones Grid */
+    .separate-dropzones-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .separate-box {
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+      padding: 12px 6px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+      min-height: 112px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .separate-box:hover, .separate-box.dragover {
+      border-color: var(--accent);
+      background: rgba(244, 180, 0, 0.06);
+    }
+    .separate-box.has-image {
+      border-style: solid;
+      border-color: rgba(16, 185, 129, 0.6);
+      background: rgba(16, 185, 129, 0.06);
+    }
+    .separate-box .box-thumb {
+      width: 44px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    .separate-box input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .separate-box .box-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+    .separate-box .box-sub {
+      font-size: 0.65rem;
+      color: #64748b;
+    }
+    .separate-clear-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(239, 68, 68, 0.9);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 0.65rem;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .separate-box.has-image .separate-clear-btn {
+      display: flex;
+    }
+
+    .sample-badge {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: rgba(244, 180, 0, 0.95);
+      color: #0b1f17;
+      font-size: 0.55rem;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 3px;
+      line-height: 1;
+      letter-spacing: 0.5px;
+    }
+    .sample-badge.front-badge {
+      background: rgba(59, 130, 246, 0.95);
+      color: #fff;
+    }
+    .sample-thumb {
+      position: relative;
+    }
+
     .samples-row {
       display: flex;
       gap: 8px;
@@ -516,31 +744,124 @@
           </div>
         </div>
 
-        <!-- 2. Upload Front Cover -->
+                <!-- 2. Book Cover Artwork & Full Wrap Slicer -->
         <div class="tool-group">
-          <div class="tool-label"><i class="fa-solid fa-cloud-arrow-up"></i> 2. Upload Front Cover</div>
-          <div class="upload-dropzone" id="cover-dropzone">
-            <i class="fa-solid fa-image"></i>
-            <p>Click or Drag &amp; Drop Your Cover</p>
-            <span>Supports JPG, PNG, WEBP (Recommended: 1600x2560 px)</span>
-            <input type="file" id="cover-file-input" accept="image/*">
+          <div class="tool-label"><i class="fa-solid fa-cloud-arrow-up"></i> 2. Book Cover Artwork</div>
+          
+          <!-- Mode Tabs -->
+          <div class="cover-mode-tabs">
+            <button type="button" class="cover-mode-tab active" id="tab-wrap-mode" data-mode="wrap">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Auto Full Wrap
+            </button>
+            <button type="button" class="cover-mode-tab" id="tab-separate-mode" data-mode="separate">
+              <i class="fa-solid fa-folder-open"></i> Separate (Front/Spine/Back)
+            </button>
+          </div>
+
+          <!-- A. FULL WRAP DROPZONE & AUTO-SLICER -->
+          <div id="wrap-mode-container">
+            <div class="upload-dropzone" id="cover-dropzone">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p><strong>Click or Drag &amp; Drop Your Cover</strong></p>
+              <span>Supports Full Wrap Jacket or 2D Front Cover (Auto-Detects)</span>
+              <input type="file" id="cover-file-input" accept="image/*">
+            </div>
+
+            <!-- Auto-detection status alert -->
+            <div id="autodetect-status" class="autodetect-badge wrap-detected" style="display: flex;">
+              <i class="fa-solid fa-circle-check"></i>
+              <span id="autodetect-msg">Full Wrap Detected! Auto-extracted Front, Spine &amp; Back.</span>
+            </div>
+
+            <!-- Interactive Slice Studio (visible when a full wrap is loaded) -->
+            <div id="slice-studio-box" class="slice-studio-card" style="display: block;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">
+                  <i class="fa-solid fa-scissors"></i> Full Wrap Slicer &amp; Auto-Fit
+                </span>
+                <button type="button" id="btn-autofit-slice" style="background: rgba(244,180,0,0.15); border: 1px solid var(--accent); color: #fff; font-size: 0.72rem; padding: 3px 9px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                  <i class="fa-solid fa-arrows-split-up-and-left"></i> Auto-Fit to Pages
+                </button>
+              </div>
+
+              <!-- Mini visual strip of wrap with Back / Spine / Front overlays -->
+              <div class="slice-canvas-wrapper">
+                <canvas id="slice-preview-canvas"></canvas>
+                <div class="slice-zones-overlay">
+                  <div class="slice-zone-back" id="zone-back-overlay" style="width: 45.6%;">Back</div>
+                  <div class="slice-zone-spine" id="zone-spine-overlay" style="width: 8.8%;">Spine</div>
+                  <div class="slice-zone-front" id="zone-front-overlay" style="width: 45.6%;">Front</div>
+                </div>
+              </div>
+
+              <!-- Spine Width Slider -->
+              <div class="slider-row" style="margin-top: 6px; font-size: 0.75rem;">
+                <span>Spine Slice Width:</span>
+                <span id="slice-width-display" style="color: var(--accent); font-weight: 700;">8.8%</span>
+              </div>
+              <input type="range" id="slice-width-slider" class="custom-range" min="3" max="24" step="0.2" value="8.8">
+
+              <!-- Spine Center Nudge Slider -->
+              <div class="slider-row" style="margin-top: 6px; font-size: 0.75rem;">
+                <span>Spine Center Offset:</span>
+                <span id="slice-center-display" style="color: #cbd5e1; font-weight: 600;">50%</span>
+              </div>
+              <input type="range" id="slice-center-slider" class="custom-range" min="42" max="58" step="0.2" value="50">
+            </div>
+          </div>
+
+          <!-- B. SEPARATE FILES UPLOAD GRID -->
+          <div id="separate-mode-container" style="display: none;">
+            <div class="separate-dropzones-grid">
+              <!-- Front -->
+              <div class="separate-box" id="box-front">
+                <button type="button" class="separate-clear-btn" data-target="front" title="Clear">✕</button>
+                <div id="thumb-front-wrap" style="display: none;"><img id="thumb-front-img" class="box-thumb" alt="Front"></div>
+                <div id="icon-front-wrap"><i class="fa-solid fa-book" style="font-size: 1.2rem; color: #60a5fa; margin-bottom: 4px;"></i></div>
+                <div class="box-label">Front Cover</div>
+                <div class="box-sub">Required (2D)</div>
+                <input type="file" id="sep-front-input" accept="image/*">
+              </div>
+              <!-- Spine -->
+              <div class="separate-box" id="box-spine">
+                <button type="button" class="separate-clear-btn" data-target="spine" title="Clear">✕</button>
+                <div id="thumb-spine-wrap" style="display: none;"><img id="thumb-spine-img" class="box-thumb" alt="Spine"></div>
+                <div id="icon-spine-wrap"><i class="fa-solid fa-align-left" style="font-size: 1.2rem; color: var(--accent); margin-bottom: 4px;"></i></div>
+                <div class="box-label">Spine Art</div>
+                <div class="box-sub">Optional / Auto</div>
+                <input type="file" id="sep-spine-input" accept="image/*">
+              </div>
+              <!-- Back -->
+              <div class="separate-box" id="box-back">
+                <button type="button" class="separate-clear-btn" data-target="back" title="Clear">✕</button>
+                <div id="thumb-back-wrap" style="display: none;"><img id="thumb-back-img" class="box-thumb" alt="Back"></div>
+                <div id="icon-back-wrap"><i class="fa-solid fa-file-lines" style="font-size: 1.2rem; color: #34d399; margin-bottom: 4px;"></i></div>
+                <div class="box-label">Back Cover</div>
+                <div class="box-sub">Optional / Auto</div>
+                <input type="file" id="sep-back-input" accept="image/*">
+              </div>
+            </div>
           </div>
           
           <!-- Sample Covers Quick Selector -->
           <div style="margin-top: 14px;">
-            <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 6px;">Or try one of our demo covers:</div>
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 6px;">Or try one of our preloaded demo covers:</div>
             <div class="samples-row">
-              <div class="sample-thumb active" data-sample="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" title="Bestseller Design">
+              <div class="sample-thumb active" data-sample="fantasy-wrap" title="Fantasy Full Wrap (Front + Spine + Back)">
+                <canvas id="thumb-canvas-fantasy" style="width: 100%; height: 100%; object-fit: cover;"></canvas>
+                <span class="sample-badge">WRAP</span>
+              </div>
+              <div class="sample-thumb" data-sample="thriller-wrap" title="Thriller Full Wrap (Front + Spine + Back)">
+                <canvas id="thumb-canvas-thriller" style="width: 100%; height: 100%; object-fit: cover;"></canvas>
+                <span class="sample-badge">WRAP</span>
+              </div>
+              <div class="sample-thumb" data-sample="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" title="Bestseller Front Only">
                 <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=150&q=80" alt="Sample 1">
+                <span class="sample-badge front-badge">FRONT</span>
               </div>
-              <div class="sample-thumb" data-sample="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80" title="Fantasy Tome">
-                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=150&q=80" alt="Sample 2">
-              </div>
-              <div class="sample-thumb" data-sample="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=800&q=80" title="Mystery Thriller">
-                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=150&q=80" alt="Sample 3">
-              </div>
-              <div class="sample-thumb" data-sample="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=800&q=80" title="Non-Fiction Mind">
-                <img src="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=150&q=80" alt="Sample 4">
+              <div class="sample-thumb" data-sample="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=800&q=80" title="Non-Fiction Front Only">
+                <img src="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=150&q=80" alt="Sample 2">
+                <span class="sample-badge front-badge">FRONT</span>
               </div>
             </div>
           </div>
@@ -706,12 +1027,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // State
   let currentPreset = 'hardcover'; // 'hardcover', 'paperback', 'ebook', 'bundle'
-  let currentCoverUrl = 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80';
-  let spineColor = '#111827';
+  let uploadMode = 'wrap'; // 'wrap' or 'separate'
   let bookThickness = 0.55;
+  let spineColor = '#111827';
   let coverFinish = 'glossy'; // 'glossy' or 'matte'
   let bgMode = 'transparent'; // 'transparent', 'dark', 'white'
   let isAutoRotating = false;
+
+  // Wrap mode state
+  let isWrapDetected = true;
+  let fullWrapSource = null; // Image or Canvas
+  let spineWidthPct = 0.088; // Default ~8.8%
+  let spineCenterPct = 0.50; // Default center 50%
+
+  // Separate mode state
+  let sepFrontTex = null;
+  let sepSpineTex = null;
+  let sepBackTex = null;
+
+  // Single front fallback
+  let singleFrontUrl = 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80';
 
   const container = document.getElementById('three-canvas-container');
   if (!container) return;
@@ -736,7 +1071,7 @@ document.addEventListener('DOMContentLoaded', () => {
   controls.minDistance = 3;
   controls.target.set(0, 0, 0);
 
-  // 2. Lighting Rig (Key, Fill, Rim & Ground Ambient)
+  // 2. Lighting Rig
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
   scene.add(ambientLight);
 
@@ -786,7 +1121,7 @@ document.addEventListener('DOMContentLoaded', () => {
   shadowPlane.position.y = -2.1;
   scene.add(shadowPlane);
 
-  // 4. Procedural Pages Texture (Realistic Book Edge Lines)
+  // 4. Procedural Pages Texture
   const createPagesTexture = () => {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
@@ -795,7 +1130,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = '#f6f3ea';
     ctx.fillRect(0, 0, 256, 256);
 
-    // Draw realistic fine paper lines
     ctx.strokeStyle = '#e0dac8';
     ctx.lineWidth = 1;
     for (let i = 0; i < 256; i += 3) {
@@ -804,7 +1138,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.lineTo(256, i);
       ctx.stroke();
     }
-    // Random subtle page edge variations
     ctx.fillStyle = 'rgba(0,0,0,0.03)';
     for (let i = 0; i < 15; i++) {
       ctx.fillRect(0, Math.random() * 256, 256, 2);
@@ -813,18 +1146,16 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const pagesTexture = createPagesTexture();
 
-  // 5. Procedural Spine Texture Generator
+  // 5. Procedural Spine Texture (Fallback)
   const createSpineTexture = (baseColor) => {
     const canvas = document.createElement('canvas');
     canvas.width = 128;
     canvas.height = 1024;
     const ctx = canvas.getContext('2d');
 
-    // Base color
     ctx.fillStyle = baseColor;
     ctx.fillRect(0, 0, 128, 1024);
 
-    // Spine 3D shading curvature gradient (edges darker, center highlight)
     const grad = ctx.createLinearGradient(0, 0, 128, 0);
     grad.addColorStop(0, 'rgba(0,0,0,0.4)');
     grad.addColorStop(0.2, 'rgba(255,255,255,0.08)');
@@ -834,12 +1165,10 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 128, 1024);
 
-    // Gold spine foil accents
     ctx.fillStyle = '#f4b400';
     ctx.fillRect(10, 40, 108, 3);
     ctx.fillRect(10, 980, 108, 3);
 
-    // Spine text (Loufy Publisher logo symbol)
     ctx.save();
     ctx.translate(64, 512);
     ctx.rotate(Math.PI / 2);
@@ -852,15 +1181,462 @@ document.addEventListener('DOMContentLoaded', () => {
     return new THREE.CanvasTexture(canvas);
   };
 
+  // Solid Back Texture (Fallback)
+  const createSolidBackTexture = (baseColor) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 768;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = baseColor;
+    ctx.fillRect(0, 0, 512, 768);
+    // Subtle back frame
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(30, 30, 452, 708);
+    return new THREE.CanvasTexture(canvas);
+  };
+
   // Group container for models
   let modelGroup = new THREE.Group();
   scene.add(modelGroup);
 
   const textureLoader = new THREE.TextureLoader();
 
-  // 6. Model Construction Functions
+  // 6. PROCEDURAL DEMO FULL WRAP COVERS
+  const generateFantasyFullWrapCanvas = () => {
+    const c = document.createElement('canvas');
+    c.width = 1600;
+    c.height = 1050;
+    const ctx = c.getContext('2d');
+
+    const grad = ctx.createLinearGradient(0, 0, 1600, 1050);
+    grad.addColorStop(0, '#041610');
+    grad.addColorStop(0.35, '#07241a');
+    grad.addColorStop(0.5, '#0a2e22');
+    grad.addColorStop(0.7, '#07241a');
+    grad.addColorStop(1, '#03120d');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1600, 1050);
+
+    ctx.fillStyle = 'rgba(244, 180, 0, 0.08)';
+    for (let i = 0; i < 90; i++) {
+      const rx = Math.random() * 1600;
+      const ry = Math.random() * 1050;
+      const rr = Math.random() * 3 + 1;
+      ctx.beginPath();
+      ctx.arc(rx, ry, rr, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // BACK COVER (0 to 729)
+    ctx.save();
+    ctx.strokeStyle = 'rgba(244, 180, 0, 0.3)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(60, 60, 610, 930);
+
+    ctx.fillStyle = '#f4b400';
+    ctx.font = '28px Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('★★★★★', 365, 150);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 22px Outfit, sans-serif';
+    ctx.fillText('"AN ELECTRIFYING, UNMISSABLE EPIC."', 365, 200);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'italic 16px Poppins, sans-serif';
+    ctx.fillText('— The New York Literary Review', 365, 235);
+
+    ctx.strokeStyle = '#f4b400';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(180, 275);
+    ctx.lineTo(550, 275);
+    ctx.stroke();
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '16px Poppins, sans-serif';
+    ctx.textAlign = 'left';
+    const blurb = [
+      'The ancient pact that held the shadows at bay has finally shattered.',
+      'Deep within the whispered halls of the Citadel, Elena discovers that',
+      'the darkness stalking the empire is not an invading force—it is her',
+      'own forgotten bloodline.',
+      '',
+      'Faced with a fractured throne and an encroaching eclipse, she must',
+      'master the forbidden arts before the Queen of Shadows awakens.',
+      'In a world where every ally holds a hidden blade, salvation and',
+      'ruin walk hand in hand.',
+      '',
+      '"A breathtaking tour-de-force of worldbuilding and pure emotion."'
+    ];
+    blurb.forEach((l, idx) => ctx.fillText(l, 90, 330 + (idx * 27)));
+
+    // Barcode Box
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(430, 810, 210, 120);
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText('ISBN 978-1-95382-01-9', 445, 830);
+    for (let bx = 445; bx < 625; bx += 4) {
+      const w = (bx % 3 === 0) ? 2.5 : 1.2;
+      ctx.fillRect(bx, 840, w, 65);
+    }
+    ctx.fillText('$18.99 US / $24.99 CAN', 445, 920);
+
+    ctx.fillStyle = '#f4b400';
+    ctx.font = 'bold 15px Outfit, sans-serif';
+    ctx.fillText('LOUFY PUBLISHER', 90, 890);
+    ctx.fillStyle = '#64748b';
+    ctx.font = '12px Poppins, sans-serif';
+    ctx.fillText('FICTION / EPIC FANTASY', 90, 915);
+    ctx.restore();
+
+    // SPINE (729 to 870, width 141)
+    ctx.save();
+    const spineGrad = ctx.createLinearGradient(729, 0, 870, 0);
+    spineGrad.addColorStop(0, 'rgba(0,0,0,0.5)');
+    spineGrad.addColorStop(0.2, 'rgba(255,255,255,0.08)');
+    spineGrad.addColorStop(0.5, 'rgba(255,255,255,0.18)');
+    spineGrad.addColorStop(0.8, 'rgba(255,255,255,0.08)');
+    spineGrad.addColorStop(1, 'rgba(0,0,0,0.5)');
+    ctx.fillStyle = spineGrad;
+    ctx.fillRect(729, 0, 141, 1050);
+
+    ctx.fillStyle = '#f4b400';
+    ctx.fillRect(740, 45, 119, 4);
+    ctx.fillRect(740, 55, 119, 2);
+    ctx.fillRect(740, 985, 119, 2);
+    ctx.fillRect(740, 995, 119, 4);
+
+    ctx.translate(800, 520);
+    ctx.rotate(Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 36px Outfit, sans-serif';
+    ctx.fillText('BOUND BY SHADOWS IV', 0, 12);
+    ctx.fillStyle = '#f4b400';
+    ctx.font = '600 20px Outfit, sans-serif';
+    ctx.fillText('KARLLEY JOSLYN', -260, 8);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = 'bold 16px Outfit, sans-serif';
+    ctx.fillText('LOUFY', 260, 8);
+    ctx.restore();
+
+    // FRONT COVER (870 to 1600, width 730)
+    ctx.save();
+    const moonGrad = ctx.createRadialGradient(1235, 450, 40, 1235, 450, 360);
+    moonGrad.addColorStop(0, 'rgba(244, 180, 0, 0.35)');
+    moonGrad.addColorStop(0.3, 'rgba(24, 76, 58, 0.45)');
+    moonGrad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = moonGrad;
+    ctx.beginPath();
+    ctx.arc(1235, 450, 360, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(244, 180, 0, 0.4)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(1235, 520, 130, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '600 17px Outfit, sans-serif';
+    ctx.letterSpacing = '5px';
+    ctx.fillText('THE NEW YORK TIMES BESTSELLER', 1235, 130);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '800 62px Outfit, sans-serif';
+    ctx.shadowColor = 'rgba(0,0,0,0.9)';
+    ctx.shadowBlur = 18;
+    ctx.fillText('BOUND BY', 1235, 230);
+    ctx.fillStyle = '#f4b400';
+    ctx.font = '900 72px Outfit, sans-serif';
+    ctx.fillText('SHADOWS IV', 1235, 305);
+
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = '600 24px Outfit, sans-serif';
+    ctx.fillText('RISE OF THE NIGHT QUEEN', 1235, 360);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 36px Outfit, sans-serif';
+    ctx.fillText('KARLLEY JOSLYN', 1235, 920);
+
+    ctx.fillStyle = '#f4b400';
+    ctx.font = '600 15px Poppins, sans-serif';
+    ctx.fillText('BOOK FOUR IN THE SHADOWS SAGA', 1235, 960);
+    ctx.restore();
+
+    return c;
+  };
+
+  const generateThrillerFullWrapCanvas = () => {
+    const c = document.createElement('canvas');
+    c.width = 1600;
+    c.height = 1050;
+    const ctx = c.getContext('2d');
+
+    const grad = ctx.createLinearGradient(0, 0, 1600, 1050);
+    grad.addColorStop(0, '#0a0e1a');
+    grad.addColorStop(0.5, '#121829');
+    grad.addColorStop(1, '#080c14');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1600, 1050);
+
+    // Crimson fog
+    const crimsonGrad = ctx.createRadialGradient(1200, 600, 50, 1200, 600, 450);
+    crimsonGrad.addColorStop(0, 'rgba(220, 38, 38, 0.4)');
+    crimsonGrad.addColorStop(0.4, 'rgba(185, 28, 28, 0.15)');
+    crimsonGrad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = crimsonGrad;
+    ctx.fillRect(0, 0, 1600, 1050);
+
+    // BACK
+    ctx.save();
+    ctx.strokeStyle = 'rgba(220, 38, 38, 0.4)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(60, 60, 610, 930);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.font = '28px Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('★★★★★', 365, 150);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 22px Outfit, sans-serif';
+    ctx.fillText('"A MASTERCLASS IN RELENTLESS SUSPENSE."', 365, 200);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'italic 16px Poppins, sans-serif';
+    ctx.fillText('— Sunday Times Crime Review', 365, 235);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '16px Poppins, sans-serif';
+    ctx.textAlign = 'left';
+    const blurb = [
+      'In a quiet coastal town shrouded in perpetual mist, Detective David',
+      'Vane arrives to solve what appears to be a tragic drowning.',
+      '',
+      'But every door he knocks on leads to a wall of silence. The victims',
+      'are connected by an anonymous confession tape recorded twenty',
+      'years ago. Before the killer strikes again, Vane must confront',
+      'the one secret he swore he would take to the grave.',
+      '',
+      '"Gripping, dark, and utterly impossible to put down."'
+    ];
+    blurb.forEach((l, idx) => ctx.fillText(l, 90, 330 + (idx * 28)));
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(430, 810, 210, 120);
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText('ISBN 978-0-385-54734-4', 445, 830);
+    for (let bx = 445; bx < 625; bx += 4) {
+      const w = (bx % 3 === 0) ? 2.5 : 1.2;
+      ctx.fillRect(bx, 840, w, 65);
+    }
+    ctx.fillText('$17.99 US / $23.99 CAN', 445, 920);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 15px Outfit, sans-serif';
+    ctx.fillText('LOUFY PUBLISHER', 90, 890);
+    ctx.fillStyle = '#64748b';
+    ctx.font = '12px Poppins, sans-serif';
+    ctx.fillText('PSYCHOLOGICAL THRILLER', 90, 915);
+    ctx.restore();
+
+    // SPINE
+    ctx.save();
+    const spineGrad = ctx.createLinearGradient(729, 0, 870, 0);
+    spineGrad.addColorStop(0, 'rgba(0,0,0,0.6)');
+    spineGrad.addColorStop(0.5, 'rgba(255,255,255,0.1)');
+    spineGrad.addColorStop(1, 'rgba(0,0,0,0.6)');
+    ctx.fillStyle = spineGrad;
+    ctx.fillRect(729, 0, 141, 1050);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.fillRect(740, 45, 119, 4);
+    ctx.fillRect(740, 995, 119, 4);
+
+    ctx.translate(800, 520);
+    ctx.rotate(Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 36px Outfit, sans-serif';
+    ctx.fillText('THE SILENT WHISPER', 0, 12);
+    ctx.fillStyle = '#ef4444';
+    ctx.font = '600 20px Outfit, sans-serif';
+    ctx.fillText('ALEXANDER CROSS', -260, 8);
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = 'bold 16px Outfit, sans-serif';
+    ctx.fillText('LOUFY', 260, 8);
+    ctx.restore();
+
+    // FRONT
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 16px Outfit, sans-serif';
+    ctx.letterSpacing = '5px';
+    ctx.fillText('THE SUNDAY TIMES BESTSELLER', 1235, 140);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '900 68px Outfit, sans-serif';
+    ctx.shadowColor = 'rgba(0,0,0,0.9)';
+    ctx.shadowBlur = 20;
+    ctx.fillText('THE SILENT', 1235, 270);
+    ctx.fillStyle = '#ef4444';
+    ctx.fillText('WHISPER', 1235, 345);
+
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'italic 20px Poppins, sans-serif';
+    ctx.fillText('"Some secrets refuse to stay buried."', 1235, 410);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 36px Outfit, sans-serif';
+    ctx.fillText('ALEXANDER CROSS', 1235, 920);
+    ctx.restore();
+
+    return c;
+  };
+
+  // Render thumbnail buttons on canvas
+  const renderThumbnails = () => {
+    const thumbFantasy = document.getElementById('thumb-canvas-fantasy');
+    if (thumbFantasy) {
+      thumbFantasy.width = 160;
+      thumbFantasy.height = 105;
+      const tCtx = thumbFantasy.getContext('2d');
+      tCtx.drawImage(generateFantasyFullWrapCanvas(), 0, 0, 160, 105);
+    }
+    const thumbThriller = document.getElementById('thumb-canvas-thriller');
+    if (thumbThriller) {
+      thumbThriller.width = 160;
+      thumbThriller.height = 105;
+      const tCtx = thumbThriller.getContext('2d');
+      tCtx.drawImage(generateThrillerFullWrapCanvas(), 0, 0, 160, 105);
+    }
+  };
+  renderThumbnails();
+
+  // Set default wrap
+  fullWrapSource = generateFantasyFullWrapCanvas();
+
+  // 7. FULL WRAP SLICING ENGINE
+  const sliceFullWrap = (source, widthPct, centerPct) => {
+    const totalW = source.naturalWidth || source.width;
+    const totalH = source.naturalHeight || source.height;
+
+    const spineW = Math.max(10, Math.round(totalW * widthPct));
+    const spineCenterX = Math.round(totalW * centerPct);
+    const spineStartX = Math.max(0, spineCenterX - Math.round(spineW / 2));
+    const spineEndX = Math.min(totalW, spineStartX + spineW);
+
+    const backW = Math.max(10, spineStartX);
+    const frontW = Math.max(10, totalW - spineEndX);
+
+    // Back Canvas
+    const backCanvas = document.createElement('canvas');
+    backCanvas.width = backW;
+    backCanvas.height = totalH;
+    const bCtx = backCanvas.getContext('2d');
+    bCtx.drawImage(source, 0, 0, backW, totalH, 0, 0, backW, totalH);
+
+    // Spine Canvas
+    const spineCanvas = document.createElement('canvas');
+    spineCanvas.width = spineW;
+    spineCanvas.height = totalH;
+    const sCtx = spineCanvas.getContext('2d');
+    sCtx.drawImage(source, spineStartX, 0, spineW, totalH, 0, 0, spineW, totalH);
+
+    // Front Canvas
+    const frontCanvas = document.createElement('canvas');
+    frontCanvas.width = frontW;
+    frontCanvas.height = totalH;
+    const fCtx = frontCanvas.getContext('2d');
+    fCtx.drawImage(source, spineEndX, 0, frontW, totalH, 0, 0, frontW, totalH);
+
+    const maxAniso = renderer.capabilities.getMaxAnisotropy();
+    const frontTex = new THREE.CanvasTexture(frontCanvas);
+    frontTex.anisotropy = maxAniso;
+
+    const spineTex = new THREE.CanvasTexture(spineCanvas);
+    spineTex.anisotropy = maxAniso;
+
+    const backTex = new THREE.CanvasTexture(backCanvas);
+    backTex.anisotropy = maxAniso;
+
+    return {
+      frontTex,
+      spineTex,
+      backTex,
+      metrics: { totalW, totalH, backW, spineW, frontW, spineStartX, spineEndX }
+    };
+  };
+
+  // Update Slice Preview Bar UI
+  const updateSlicePreview = (metrics) => {
+    const previewCanvas = document.getElementById('slice-preview-canvas');
+    if (!previewCanvas || !fullWrapSource) return;
+
+    previewCanvas.width = 380;
+    previewCanvas.height = 70;
+    const ctx = previewCanvas.getContext('2d');
+    ctx.drawImage(fullWrapSource, 0, 0, 380, 70);
+
+    const totalW = metrics.totalW;
+    const backPct = (metrics.backW / totalW) * 100;
+    const spinePct = (metrics.spineW / totalW) * 100;
+    const frontPct = (metrics.frontW / totalW) * 100;
+
+    const zoneBack = document.getElementById('zone-back-overlay');
+    const zoneSpine = document.getElementById('zone-spine-overlay');
+    const zoneFront = document.getElementById('zone-front-overlay');
+
+    if (zoneBack) zoneBack.style.width = backPct + '%';
+    if (zoneSpine) zoneSpine.style.width = spinePct + '%';
+    if (zoneFront) zoneFront.style.width = frontPct + '%';
+
+    const widthDisp = document.getElementById('slice-width-display');
+    if (widthDisp) widthDisp.innerText = (spineWidthPct * 100).toFixed(1) + '%';
+
+    const centerDisp = document.getElementById('slice-center-display');
+    if (centerDisp) centerDisp.innerText = (spineCenterPct * 100).toFixed(0) + '%';
+  };
+
+  // 8. TEXTURE RESOLUTION PIPELINE
+  const resolveTextures = (onReady) => {
+    const maxAniso = renderer.capabilities.getMaxAnisotropy();
+
+    if (uploadMode === 'wrap') {
+      if (isWrapDetected && fullWrapSource) {
+        const sliced = sliceFullWrap(fullWrapSource, spineWidthPct, spineCenterPct);
+        updateSlicePreview(sliced.metrics);
+        onReady(sliced.frontTex, sliced.spineTex, sliced.backTex);
+      } else {
+        // Single front image fallback
+        textureLoader.load(singleFrontUrl, (frontTex) => {
+          frontTex.anisotropy = maxAniso;
+          const spineTex = createSpineTexture(spineColor);
+          const backTex = createSolidBackTexture(spineColor);
+          onReady(frontTex, spineTex, backTex);
+        });
+      }
+    } else {
+      // Separate uploads mode
+      const frontTex = sepFrontTex ? sepFrontTex : textureLoader.load(singleFrontUrl);
+      frontTex.anisotropy = maxAniso;
+      const spineTex = sepSpineTex ? sepSpineTex : createSpineTexture(spineColor);
+      const backTex = sepBackTex ? sepBackTex : createSolidBackTexture(spineColor);
+      onReady(frontTex, spineTex, backTex);
+    }
+  };
+
+  // 9. MODEL CONSTRUCTION FUNCTION
   const buildScene = () => {
-    // Clear old meshes
     while (modelGroup.children.length > 0) {
       const obj = modelGroup.children[0];
       if (obj.geometry) obj.geometry.dispose();
@@ -871,45 +1647,36 @@ document.addEventListener('DOMContentLoaded', () => {
       modelGroup.remove(obj);
     }
 
-    textureLoader.load(currentCoverUrl, (frontTexture) => {
-      frontTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      const spineTex = createSpineTexture(spineColor);
-
+    resolveTextures((frontTex, spineTex, backTex) => {
       const roughnessVal = coverFinish === 'glossy' ? 0.28 : 0.72;
       const metalnessVal = coverFinish === 'glossy' ? 0.1 : 0.02;
 
-      // Common dimensions for 6x9 book
       const bookW = 2.8;
       const bookH = 4.2;
       const bookD = bookThickness;
 
       if (currentPreset === 'hardcover') {
-        // --- 1. HARDCOVER MODEL (with overhanging boards and pages block) ---
         const bookRoot = new THREE.Group();
 
-        // Pages Block
+        // Pages block
         const pageW = bookW - 0.12;
         const pageH = bookH - 0.16;
         const pageD = bookD - 0.08;
         const pageGeo = new THREE.BoxGeometry(pageW, pageH, pageD);
-        const pageMat = new THREE.MeshStandardMaterial({
-          map: pagesTexture,
-          roughness: 0.9,
-          metalness: 0.0
-        });
+        const pageMat = new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9, metalness: 0.0 });
         const pageMesh = new THREE.Mesh(pageGeo, pageMat);
         pageMesh.position.set(0.06, 0, 0);
         bookRoot.add(pageMesh);
 
-        // Hardcover Box Wrap (Right, Left/Spine, Top, Bottom, Front, Back)
+        // Hardcover Box (Right, Spine, Top, Bottom, Front, Back)
         const coverGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
         const coverMaterials = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }), // Right (fore-edge)
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }), // Left (Spine)
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }), // Top
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }), // Bottom
-          new THREE.MeshStandardMaterial({ map: frontTexture, roughness: roughnessVal, metalness: metalnessVal }), // Front
-          new THREE.MeshStandardMaterial({ color: spineColor, roughness: roughnessVal, metalness: metalnessVal }) // Back
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
+          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
+          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
         ];
         const coverMesh = new THREE.Mesh(coverGeo, coverMaterials);
         coverMesh.castShadow = true;
@@ -920,7 +1687,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modelGroup.add(bookRoot);
 
       } else if (currentPreset === 'paperback') {
-        // --- 2. PAPERBACK MODEL (softcover flush edges) ---
         const bookRoot = new THREE.Group();
         const pbGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
         const pbMaterials = [
@@ -928,8 +1694,8 @@ document.addEventListener('DOMContentLoaded', () => {
           new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
           new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
           new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTexture, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ color: spineColor, roughness: roughnessVal, metalness: metalnessVal })
+          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
         ];
         const pbMesh = new THREE.Mesh(pbGeo, pbMaterials);
         pbMesh.castShadow = true;
@@ -940,34 +1706,22 @@ document.addEventListener('DOMContentLoaded', () => {
         modelGroup.add(bookRoot);
 
       } else if (currentPreset === 'ebook') {
-        // --- 3. EBOOK TABLET (iPad / Kindle Oasis style) ---
         const tabletRoot = new THREE.Group();
         const tabW = 2.9;
         const tabH = 4.2;
         const tabD = 0.12;
 
-        // Tablet Chassis (Dark Metal Chassis)
         const chassisGeo = new THREE.BoxGeometry(tabW, tabH, tabD);
-        const chassisMat = new THREE.MeshStandardMaterial({
-          color: 0x181e29,
-          roughness: 0.35,
-          metalness: 0.8
-        });
+        const chassisMat = new THREE.MeshStandardMaterial({ color: 0x181e29, roughness: 0.35, metalness: 0.8 });
         const chassisMesh = new THREE.Mesh(chassisGeo, chassisMat);
         tabletRoot.add(chassisMesh);
 
-        // Screen Bezel & Cover Face
         const screenGeo = new THREE.PlaneGeometry(tabW - 0.22, tabH - 0.26);
-        const screenMat = new THREE.MeshStandardMaterial({
-          map: frontTexture,
-          roughness: 0.12,
-          metalness: 0.05
-        });
+        const screenMat = new THREE.MeshStandardMaterial({ map: frontTex, roughness: 0.12, metalness: 0.05 });
         const screenMesh = new THREE.Mesh(screenGeo, screenMat);
         screenMesh.position.z = (tabD / 2) + 0.005;
         tabletRoot.add(screenMesh);
 
-        // Camera Dot
         const camDotGeo = new THREE.CircleGeometry(0.035, 16);
         const camDotMat = new THREE.MeshBasicMaterial({ color: 0x050505 });
         const camDot = new THREE.Mesh(camDotGeo, camDotMat);
@@ -979,8 +1733,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modelGroup.add(tabletRoot);
 
       } else if (currentPreset === 'bundle') {
-        // --- 4. DUO BUNDLE (Standing Hardcover + Angled Tablet) ---
-        // 1. Hardcover behind
+        // Hardcover Behind
         const bookRoot = new THREE.Group();
         const coverGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
         const coverMaterials = [
@@ -988,8 +1741,8 @@ document.addEventListener('DOMContentLoaded', () => {
           new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
           new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
           new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
-          new THREE.MeshStandardMaterial({ map: frontTexture, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ color: spineColor, roughness: roughnessVal, metalness: metalnessVal })
+          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
         ];
         const coverMesh = new THREE.Mesh(coverGeo, coverMaterials);
         coverMesh.castShadow = true;
@@ -998,7 +1751,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bookRoot.rotation.y = -0.4;
         modelGroup.add(bookRoot);
 
-        // 2. Tablet in front
+        // Tablet In Front
         const tabletRoot = new THREE.Group();
         const tabW = 2.4;
         const tabH = 3.5;
@@ -1011,7 +1764,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const screenMesh = new THREE.Mesh(
           new THREE.PlaneGeometry(tabW - 0.2, tabH - 0.24),
-          new THREE.MeshStandardMaterial({ map: frontTexture, roughness: 0.12, metalness: 0.05 })
+          new THREE.MeshStandardMaterial({ map: frontTex, roughness: 0.12, metalness: 0.05 })
         );
         screenMesh.position.z = (tabD / 2) + 0.005;
         tabletRoot.add(screenMesh);
@@ -1029,20 +1782,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial Build
   buildScene();
 
-  // 7. Render Loop
+  // 10. ANIMATION LOOP
   const animate = () => {
     requestAnimationFrame(animate);
-
     if (isAutoRotating) {
       modelGroup.rotation.y += 0.008;
     }
-
     controls.update();
     renderer.render(scene, camera);
   };
   animate();
 
-  // Resize Listener
+  // Resize
   window.addEventListener('resize', () => {
     if (!container) return;
     camera.aspect = container.clientWidth / container.clientHeight;
@@ -1050,7 +1801,33 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.setSize(container.clientWidth, container.clientHeight);
   });
 
-  // 8. Event Handlers & User Controls
+  // 11. EVENT HANDLERS & USER INTERACTIONS
+
+  // Mode Tabs (Auto Wrap vs Separate)
+  const tabWrap = document.getElementById('tab-wrap-mode');
+  const tabSep = document.getElementById('tab-separate-mode');
+  const wrapContainer = document.getElementById('wrap-mode-container');
+  const sepContainer = document.getElementById('separate-mode-container');
+
+  if (tabWrap && tabSep) {
+    tabWrap.addEventListener('click', () => {
+      tabWrap.classList.add('active');
+      tabSep.classList.remove('active');
+      uploadMode = 'wrap';
+      if (wrapContainer) wrapContainer.style.display = 'block';
+      if (sepContainer) sepContainer.style.display = 'none';
+      buildScene();
+    });
+
+    tabSep.addEventListener('click', () => {
+      tabSep.classList.add('active');
+      tabWrap.classList.remove('active');
+      uploadMode = 'separate';
+      if (wrapContainer) wrapContainer.style.display = 'none';
+      if (sepContainer) sepContainer.style.display = 'block';
+      buildScene();
+    });
+  }
 
   // Preset Buttons
   document.querySelectorAll('.preset-btn').forEach(btn => {
@@ -1058,24 +1835,66 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentPreset = btn.getAttribute('data-preset');
-      
+
       const spineControls = document.getElementById('spine-controls-group');
       if (spineControls) {
         spineControls.style.display = (currentPreset === 'ebook') ? 'none' : 'block';
       }
-      
       buildScene();
     });
   });
 
-  // Upload Cover Image
+  // Auto-Detection Wrap Slicer Handlers
   const handleCoverUpload = (file) => {
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      currentCoverUrl = e.target.result;
-      document.querySelectorAll('.sample-thumb').forEach(t => t.classList.remove('active'));
-      buildScene();
+      const img = new Image();
+      img.onload = () => {
+        const aspect = img.naturalWidth / img.naturalHeight;
+        const statusBadge = document.getElementById('autodetect-status');
+        const statusMsg = document.getElementById('autodetect-msg');
+        const sliceBox = document.getElementById('slice-studio-box');
+
+        if (aspect >= 1.15) {
+          // Full Wrap Detected!
+          isWrapDetected = true;
+          fullWrapSource = img;
+
+          // Auto-calculate spine width from 3D thickness
+          const bookW = 2.8;
+          spineWidthPct = Math.min(0.22, Math.max(0.04, bookThickness / (bookW * 2 + bookThickness)));
+          const widthSlider = document.getElementById('slice-width-slider');
+          if (widthSlider) widthSlider.value = (spineWidthPct * 100).toFixed(1);
+
+          if (statusBadge) {
+            statusBadge.style.display = 'flex';
+            statusBadge.className = 'autodetect-badge wrap-detected';
+          }
+          if (statusMsg) {
+            statusMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> <strong>Full Wrap Detected!</strong> (${img.naturalWidth}x${img.naturalHeight}px) — Auto-extracted Front, Spine &amp; Back.`;
+          }
+          if (sliceBox) sliceBox.style.display = 'block';
+
+        } else {
+          // Single Front Cover
+          isWrapDetected = false;
+          singleFrontUrl = e.target.result;
+
+          if (statusBadge) {
+            statusBadge.style.display = 'flex';
+            statusBadge.className = 'autodetect-badge single-detected';
+          }
+          if (statusMsg) {
+            statusMsg.innerHTML = `<i class="fa-solid fa-file-image"></i> <strong>Single Front Cover Detected</strong> (${img.naturalWidth}x${img.naturalHeight}px) — Mapped to front face.`;
+          }
+          if (sliceBox) sliceBox.style.display = 'none';
+        }
+
+        document.querySelectorAll('.sample-thumb').forEach(t => t.classList.remove('active'));
+        buildScene();
+      };
+      img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   };
@@ -1111,12 +1930,140 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Slice Width Slider
+  const sliceWidthSlider = document.getElementById('slice-width-slider');
+  if (sliceWidthSlider) {
+    sliceWidthSlider.addEventListener('input', (e) => {
+      spineWidthPct = parseFloat(e.target.value) / 100;
+      buildScene();
+    });
+  }
+
+  // Slice Center Slider
+  const sliceCenterSlider = document.getElementById('slice-center-slider');
+  if (sliceCenterSlider) {
+    sliceCenterSlider.addEventListener('input', (e) => {
+      spineCenterPct = parseFloat(e.target.value) / 100;
+      buildScene();
+    });
+  }
+
+  // Auto-Fit Slice Button
+  const btnAutofitSlice = document.getElementById('btn-autofit-slice');
+  if (btnAutofitSlice) {
+    btnAutofitSlice.addEventListener('click', () => {
+      const bookW = 2.8;
+      spineWidthPct = Math.min(0.24, Math.max(0.04, bookThickness / (bookW * 2 + bookThickness)));
+      spineCenterPct = 0.50;
+      if (sliceWidthSlider) sliceWidthSlider.value = (spineWidthPct * 100).toFixed(1);
+      if (sliceCenterSlider) sliceCenterSlider.value = 50;
+      buildScene();
+    });
+  }
+
+  // Separate Files Input Handlers
+  const setupSeparateInput = (inputId, boxId, thumbWrapId, thumbImgId, iconWrapId, onLoaded, onCleared) => {
+    const input = document.getElementById(inputId);
+    const box = document.getElementById(boxId);
+    const thumbWrap = document.getElementById(thumbWrapId);
+    const thumbImg = document.getElementById(thumbImgId);
+    const iconWrap = document.getElementById(iconWrapId);
+    const clearBtn = box ? box.querySelector('.separate-clear-btn') : null;
+
+    if (!input || !box) return;
+
+    const processFile = (file) => {
+      if (!file || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const tex = textureLoader.load(e.target.result, () => buildScene());
+        tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        onLoaded(tex);
+
+        if (thumbImg) thumbImg.src = e.target.result;
+        if (thumbWrap) thumbWrap.style.display = 'block';
+        if (iconWrap) iconWrap.style.display = 'none';
+        box.classList.add('has-image');
+      };
+      reader.readAsDataURL(file);
+    };
+
+    input.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) processFile(e.target.files[0]);
+    });
+
+    ['dragenter', 'dragover'].forEach(name => {
+      box.addEventListener(name, (e) => { e.preventDefault(); box.classList.add('dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(name => {
+      box.addEventListener(name, (e) => { e.preventDefault(); box.classList.remove('dragover'); });
+    });
+    box.addEventListener('drop', (e) => {
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+        processFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        onCleared();
+        if (thumbWrap) thumbWrap.style.display = 'none';
+        if (iconWrap) iconWrap.style.display = 'block';
+        box.classList.remove('has-image');
+        input.value = '';
+        buildScene();
+      });
+    }
+  };
+
+  setupSeparateInput('sep-front-input', 'box-front', 'thumb-front-wrap', 'thumb-front-img', 'icon-front-wrap', (tex) => { sepFrontTex = tex; }, () => { sepFrontTex = null; });
+  setupSeparateInput('sep-spine-input', 'box-spine', 'thumb-spine-wrap', 'thumb-spine-img', 'icon-spine-wrap', (tex) => { sepSpineTex = tex; }, () => { sepSpineTex = null; });
+  setupSeparateInput('sep-back-input', 'box-back', 'thumb-back-wrap', 'thumb-back-img', 'icon-back-wrap', (tex) => { sepBackTex = tex; }, () => { sepBackTex = null; });
+
   // Sample Covers
   document.querySelectorAll('.sample-thumb').forEach(thumb => {
     thumb.addEventListener('click', () => {
       document.querySelectorAll('.sample-thumb').forEach(t => t.classList.remove('active'));
       thumb.classList.add('active');
-      currentCoverUrl = thumb.getAttribute('data-sample');
+
+      const sampleType = thumb.getAttribute('data-sample');
+      const statusBadge = document.getElementById('autodetect-status');
+      const statusMsg = document.getElementById('autodetect-msg');
+      const sliceBox = document.getElementById('slice-studio-box');
+
+      // Make sure we are in wrap mode
+      if (uploadMode !== 'wrap' && tabWrap) {
+        tabWrap.click();
+      }
+
+      if (sampleType === 'fantasy-wrap') {
+        isWrapDetected = true;
+        fullWrapSource = generateFantasyFullWrapCanvas();
+        spineWidthPct = 0.088;
+        spineCenterPct = 0.50;
+        if (sliceWidthSlider) sliceWidthSlider.value = 8.8;
+        if (sliceCenterSlider) sliceCenterSlider.value = 50;
+        if (statusBadge) statusBadge.style.display = 'flex';
+        if (statusMsg) statusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Fantasy Full Wrap Demo Loaded</strong> — Front, Spine &amp; Back active.';
+        if (sliceBox) sliceBox.style.display = 'block';
+      } else if (sampleType === 'thriller-wrap') {
+        isWrapDetected = true;
+        fullWrapSource = generateThrillerFullWrapCanvas();
+        spineWidthPct = 0.088;
+        spineCenterPct = 0.50;
+        if (sliceWidthSlider) sliceWidthSlider.value = 8.8;
+        if (sliceCenterSlider) sliceCenterSlider.value = 50;
+        if (statusBadge) statusBadge.style.display = 'flex';
+        if (statusMsg) statusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Thriller Full Wrap Demo Loaded</strong> — Front, Spine &amp; Back active.';
+        if (sliceBox) sliceBox.style.display = 'block';
+      } else {
+        isWrapDetected = false;
+        singleFrontUrl = sampleType;
+        if (statusBadge) statusBadge.style.display = 'flex';
+        if (statusMsg) statusMsg.innerHTML = '<i class="fa-solid fa-file-image"></i> <strong>Single Front Cover Loaded</strong> — Mapped to front face.';
+        if (sliceBox) sliceBox.style.display = 'none';
+      }
       buildScene();
     });
   });
@@ -1129,6 +2076,13 @@ document.addEventListener('DOMContentLoaded', () => {
       bookThickness = parseFloat(e.target.value);
       const estPages = Math.round(bookThickness * 650);
       thicknessDisplay.innerText = `${estPages} Pages`;
+
+      // Auto sync wrap spine slice width if wrap active
+      if (isWrapDetected) {
+        const bookW = 2.8;
+        spineWidthPct = Math.min(0.24, Math.max(0.04, bookThickness / (bookW * 2 + bookThickness)));
+        if (sliceWidthSlider) sliceWidthSlider.value = (spineWidthPct * 100).toFixed(1);
+      }
       buildScene();
     });
   }
@@ -1154,7 +2108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Background Mode (Transparent, Dark, White)
+  // Background Mode
   document.querySelectorAll('[data-bg]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('[data-bg]').forEach(b => b.classList.remove('active'));
@@ -1217,11 +2171,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 9. HIGH-RESOLUTION PNG DOWNLOAD
+  // 12. HIGH-RESOLUTION PNG DOWNLOAD
   const downloadBtn = document.getElementById('download-mockup-btn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', () => {
-      // Temporarily scale canvas up for 2400x1800 studio resolution
       const exportWidth = 2400;
       const exportHeight = 1800;
 
@@ -1232,19 +2185,15 @@ document.addEventListener('DOMContentLoaded', () => {
       camera.aspect = exportWidth / exportHeight;
       camera.updateProjectionMatrix();
 
-      // Render 1 ultra-sharp frame
       renderer.render(scene, camera);
 
-      // Extract high quality PNG data URL
       const dataUrl = renderer.domElement.toDataURL('image/png', 1.0);
 
-      // Restore original viewport resolution
       renderer.setSize(originalWidth, originalHeight, true);
       camera.aspect = originalWidth / originalHeight;
       camera.updateProjectionMatrix();
       renderer.render(scene, camera);
 
-      // Trigger download
       const link = document.createElement('a');
       link.download = `loufy-3d-book-mockup-${currentPreset}.png`;
       link.href = dataUrl;
