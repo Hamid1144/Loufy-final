@@ -1049,6 +1049,93 @@ section{padding:100px 0}
 .pricing-card .btn{width:100%;justify-content:center;border:1px solid rgba(255,255,255,.3);color:var(--white);background:transparent}
 .pricing-card:hover .btn{background:var(--primary);color:var(--white);border-color:var(--primary)}
 
+/* PRICING TABS & WEBSITE PACKAGES */
+.pricing-tabs-container {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 30px auto 40px;
+  flex-wrap: wrap;
+}
+.pricing-tab-btn {
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.06);
+  color: var(--white);
+  font-family: 'Outfit', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.pricing-tab-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(244,180,0,0.12);
+}
+.pricing-tab-btn.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--dark);
+  box-shadow: 0 6px 20px rgba(244,180,0,0.35);
+}
+.pricing-card.featured-popular {
+  border: 2px solid var(--accent);
+  position: relative;
+  background: rgba(255,255,255,0.13);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.popular-badge {
+  background: var(--accent);
+  color: var(--dark);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+.pricing-card:hover .popular-badge {
+  background: var(--primary);
+  color: var(--white);
+}
+.pricing-card .price-range {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 14px 0;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+.pricing-card .price-range small {
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+.pricing-card-note {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.7);
+  margin-top: 14px;
+  margin-bottom: 18px;
+  font-style: italic;
+  text-align: center;
+  border-top: 1px dashed rgba(255,255,255,0.18);
+  padding-top: 10px;
+  transition: all 0.3s ease;
+}
+.pricing-card:hover .pricing-card-note {
+  color: rgba(0,0,0,0.85);
+  border-top-color: rgba(0,0,0,0.2);
+}
+
 /* TESTIMONIALS */
 .testimonials .container{text-align:center}
 .testimonial-slider{margin-top:50px;position:relative;overflow:hidden}

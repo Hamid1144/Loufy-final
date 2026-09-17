@@ -185,7 +185,7 @@
 </div>
 <div class="form-row" bis_skin_checked="1">
 <div class="form-group" bis_skin_checked="1"><input type="tel" placeholder="Phone Number"></div>
-<div class="form-group" bis_skin_checked="1"><select><option value="">Project Type</option><option>Book Cover Design</option><option>KDP Formatting</option><option>Children Book</option><option>Branding</option><option>A+ Content</option><option>Other</option></select></div>
+<div class="form-group" bis_skin_checked="1"><select><option value="">Project Type</option><option>Website Development</option><option>Book Cover Design</option><option>KDP Formatting</option><option>Children Book</option><option>Branding</option><option>A+ Content</option><option>Other</option></select></div>
 </div>
 <div class="form-group" bis_skin_checked="1"><input type="text" placeholder="Budget Range"></div>
 <div class="form-group" bis_skin_checked="1"><textarea placeholder="Tell me about your project..."></textarea></div>
@@ -217,5 +217,26 @@
 </div>
 </footer>
 
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const pkg = params.get('package');
+    if (pkg) {
+      const select = document.querySelector('.contact-form select');
+      if (select) {
+        if (pkg.includes('website')) {
+          select.value = 'Website Development';
+        }
+      }
+      const budgetInput = document.querySelector('.contact-form input[placeholder="Budget Range"]');
+      if (budgetInput) {
+        if (pkg === 'starter-website') budgetInput.value = '$250 - $375 (Starter Website)';
+        else if (pkg === 'business-website') budgetInput.value = '$475 - $600 (Business Website)';
+        else if (pkg === 'custom-premium-website') budgetInput.value = '$750 - $1500+ (Custom / Premium Website)';
+      }
+    }
+  });
+</script>
 </body>
 </html>

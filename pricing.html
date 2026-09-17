@@ -46,10 +46,10 @@
 <meta charset="UTF-8">
 <meta name="google-site-verification" content="JXuo3BNNUB-EVN5RnVFswZHMD9cqjuwlBOvPnEbxJM8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Pricing & Publishing Packages | Loufy Publisher Book Design</title>
+<title>Pricing & Packages | Website Development & Book Design | Loufy Publisher</title>
 <link rel="icon" type="image/png" href="/favicon.png?v=3.29.0">
-<meta name="description" content="Affordable, transparent self-publishing and book design packages by Hamid Raza. Basic, Standard, and Premium publishing bundles for independent authors.">
-<meta name="keywords" content="Book Design Pricing, Self-Publishing Packages, Formatting Cost, Cover Design Price, KDP Packages">
+<meta name="description" content="Transparent pricing for professional website development and self-publishing packages by Hamid Raza (Loufy Publisher). Starter, Business, and Custom Website packages.">
+<meta name="keywords" content="Website Development Pricing, Starter Website Cost, Business Website Design, Book Design Pricing, Self-Publishing Packages, KDP Packages">
 <link rel="canonical" href="https://loufypublisher.com/pricing">
 
 <!-- Open Graph / Facebook -->
@@ -125,13 +125,61 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "PriceSpecification",
-  "name": "Book Publishing Design Packages",
-  "priceCurrency": "USD",
-  "eligibleQuantity": {
-    "@type": "QuantitativeValue",
-    "value": 1
-  }
+  "@type": "OfferCatalog",
+  "name": "Loufy Publisher Design & Website Packages",
+  "itemListElement": [
+    {
+      "@type": "OfferCatalog",
+      "name": "Website Development Packages",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "name": "Starter Website Package",
+          "price": "250-375",
+          "priceCurrency": "USD",
+          "description": "3 to 5 Pages Website, 1 Year Free Domain & Hosting, 1 Year Free Maintenance, Mobile-Responsive Design, Basic On-Page SEO, Contact Form Integration."
+        },
+        {
+          "@type": "Offer",
+          "name": "Business Website Package",
+          "price": "475-600",
+          "priceCurrency": "USD",
+          "description": "5 to 7 Pages Website, 2 Years Free Domain & Hosting, Yearly Maintenance Plan, Advanced SEO Setup, Social Media Integration, Blog / News Section."
+        },
+        {
+          "@type": "Offer",
+          "name": "Custom / Premium Website Package",
+          "price": "750-1500+",
+          "priceCurrency": "USD",
+          "description": "Unlimited Pages, Fully Custom Design, 3 Years Free Domain & Hosting, Priority Yearly Maintenance, E-Commerce, Booking System, Full Branding Kit."
+        }
+      ]
+    },
+    {
+      "@type": "OfferCatalog",
+      "name": "Book Publishing & Design Packages",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "name": "Basic Publishing Package",
+          "price": "75",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "Standard Publishing Package",
+          "price": "125",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "Premium Publishing Package",
+          "price": "175",
+          "priceCurrency": "USD"
+        }
+      ]
+    }
+  ]
 }
 </script>
 
@@ -166,47 +214,119 @@
 <section class="pricing" id="pricing">
 <div class="container" bis_skin_checked="1">
 <span class="section-tag reveal" style="background:rgba(244,180,0,.15);color:var(--accent)">Packages</span>
-<h2 class="section-title reveal" style="color:var(--white)" data-admin-text="true">My Pricing <span class="highlight">Model</span></h2>
-<div class="pricing-grid" bis_skin_checked="1">
-<div class="pricing-card reveal" bis_skin_checked="1">
-<h3 data-admin-text="true">Basic Package</h3>
-<div class="price" data-admin-text="true" bis_skin_checked="1">$75<small>/project</small></div>
-<ul>
-<li data-admin-text="true">Publish Formatted Book on Amazon</li>
-<li data-admin-text="true">Ranked Keywords</li>
-<li data-admin-text="true">SEO</li>
-<li data-admin-text="true">3D Mockups</li>
-<li data-admin-text="true">24 Hours Delivery</li>
-</ul>
-<a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="basic" class="btn" data-admin-text="true" target="_blank">Get Started</a>
+<h2 class="section-title reveal" style="color:var(--white)" data-admin-text="true">My Pricing <span class="highlight">Packages</span></h2>
+<p class="section-sub reveal" style="color:#ccc;max-width:650px;margin:0 auto 10px;font-size:1.05rem" data-admin-text="true">
+  Transparent, competitive packages for modern websites and self-publishing authors.
+</p>
+
+<!-- PRICING TABS -->
+<div class="pricing-tabs-container reveal">
+  <button class="pricing-tab-btn active" data-pricing-target="websites-pricing">
+    <i class="fa-solid fa-globe"></i> Website Development
+  </button>
+  <button class="pricing-tab-btn" data-pricing-target="publishing-pricing">
+    <i class="fa-solid fa-book-open"></i> Book Publishing &amp; Design
+  </button>
 </div>
-<div class="pricing-card reveal" bis_skin_checked="1">
-<h3 data-admin-text="true">Standard Package <i class="fa-solid fa-star" style="color:var(--accent)"></i></h3>
-<div class="price" data-admin-text="true" bis_skin_checked="1">$125<small>/project</small></div>
-<ul>
-<li data-admin-text="true">Format and Publish Your Book</li>
-<li data-admin-text="true">Unlimited Revisions</li>
-<li data-admin-text="true">2-Day Delivery</li>
-<li data-admin-text="true">Print + Digital Files</li>
-<li data-admin-text="true">Source Files + Mockups</li>
-<li data-admin-text="true">KDP Formatting Included</li>
-</ul>
-<a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="standard" class="btn" data-admin-text="true" target="_blank">Get Started</a>
+
+<!-- 1. WEBSITE PRICING GRID (ACTIVE DEFAULT) -->
+<div class="pricing-grid active" id="websites-pricing" bis_skin_checked="1">
+  <!-- Package 1: Starter Website -->
+  <div class="pricing-card reveal" bis_skin_checked="1">
+    <h3 data-admin-text="true">Starter Website</h3>
+    <div class="price price-range" data-admin-text="true" bis_skin_checked="1">$250–$375<small>/project</small></div>
+    <ul>
+      <li data-admin-text="true">3 to 5 Pages Website</li>
+      <li data-admin-text="true">1 Year Free Domain &amp; Hosting</li>
+      <li data-admin-text="true">1 Year Free Maintenance</li>
+      <li data-admin-text="true">Mobile-Responsive Design</li>
+      <li data-admin-text="true">Basic On-Page SEO</li>
+      <li data-admin-text="true">Contact Form Integration</li>
+      <li data-admin-text="true">5–7 Days Delivery</li>
+      <li data-admin-text="true">Rush Delivery (2–3 Days): +$50</li>
+    </ul>
+    <a href="/contact?package=starter-website" data-pricing="starter-website" class="btn" data-admin-text="true">Get Started</a>
+  </div>
+
+  <!-- Package 2: Business Website (Most Popular) -->
+  <div class="pricing-card featured-popular reveal" bis_skin_checked="1">
+    <span class="popular-badge"><i class="fa-solid fa-fire"></i> Most Popular</span>
+    <h3 data-admin-text="true">Business Website</h3>
+    <div class="price price-range" data-admin-text="true" bis_skin_checked="1">$475–$600<small>/project</small></div>
+    <ul>
+      <li data-admin-text="true">5 to 7 Pages Website</li>
+      <li data-admin-text="true">2 Years Free Domain &amp; Hosting</li>
+      <li data-admin-text="true">Yearly Maintenance Plan</li>
+      <li data-admin-text="true">Advanced SEO Setup</li>
+      <li data-admin-text="true">Social Media Integration</li>
+      <li data-admin-text="true">Blog / News Section</li>
+      <li data-admin-text="true">7–10 Days Delivery</li>
+      <li data-admin-text="true">Rush Delivery (3–4 Days): +$75</li>
+    </ul>
+    <a href="/contact?package=business-website" data-pricing="business-website" class="btn" data-admin-text="true">Get Started</a>
+  </div>
+
+  <!-- Package 3: Custom / Premium Website -->
+  <div class="pricing-card reveal" bis_skin_checked="1">
+    <h3 data-admin-text="true">Custom / Premium Website</h3>
+    <div class="price price-range" data-admin-text="true" bis_skin_checked="1">$750–$1500+<small>/project</small></div>
+    <ul>
+      <li data-admin-text="true">Unlimited Pages – Fully Custom Design</li>
+      <li data-admin-text="true">3 Years Free Domain &amp; Hosting</li>
+      <li data-admin-text="true">Priority Yearly Maintenance</li>
+      <li data-admin-text="true">E-Commerce / Online Store Setup</li>
+      <li data-admin-text="true">Booking System / Payment Gateway Integration</li>
+      <li data-admin-text="true">Full Branding Kit</li>
+      <li data-admin-text="true">Advanced Animations &amp; Custom Functionality</li>
+      <li data-admin-text="true">3D Mockups &amp; Priority Support</li>
+      <li data-admin-text="true">Rush Delivery: Custom quote based on timeline</li>
+    </ul>
+    <p class="pricing-card-note" data-admin-text="true"><i class="fa-solid fa-circle-info"></i> Fully customizable — pricing depends on features added</p>
+    <a href="/contact?package=custom-premium-website" data-pricing="custom-premium-website" class="btn" data-admin-text="true">Get Started</a>
+  </div>
 </div>
-<div class="pricing-card reveal" bis_skin_checked="1">
-<h3 data-admin-text="true">Premium Package</h3>
-<div class="price" data-admin-text="true" bis_skin_checked="1">$175<small>/project</small></div>
-<ul>
-<li data-admin-text="true">5 Cover Concepts</li>
-<li data-admin-text="true">Unlimited Revisions</li>
-<li data-admin-text="true">3-Day Priority Delivery</li>
-<li data-admin-text="true">All File Formats</li>
-<li data-admin-text="true">Full Branding Kit</li>
-<li data-admin-text="true">3D Mockups</li>
-<li data-admin-text="true">Priority Support</li>
-</ul>
-<a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="premium" class="btn" data-admin-text="true" target="_blank">Get Started</a>
-</div>
+
+<!-- 2. BOOK PUBLISHING PRICING GRID -->
+<div class="pricing-grid" id="publishing-pricing" style="display:none;" bis_skin_checked="1">
+  <div class="pricing-card reveal" bis_skin_checked="1">
+    <h3 data-admin-text="true">Basic Package</h3>
+    <div class="price" data-admin-text="true" bis_skin_checked="1">$75<small>/project</small></div>
+    <ul>
+      <li data-admin-text="true">Publish Formatted Book on Amazon</li>
+      <li data-admin-text="true">Ranked Keywords</li>
+      <li data-admin-text="true">SEO</li>
+      <li data-admin-text="true">3D Mockups</li>
+      <li data-admin-text="true">24 Hours Delivery</li>
+    </ul>
+    <a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="basic" class="btn" data-admin-text="true" target="_blank">Get Started</a>
+  </div>
+  <div class="pricing-card reveal" bis_skin_checked="1">
+    <h3 data-admin-text="true">Standard Package <i class="fa-solid fa-star" style="color:var(--accent)"></i></h3>
+    <div class="price" data-admin-text="true" bis_skin_checked="1">$125<small>/project</small></div>
+    <ul>
+      <li data-admin-text="true">Format and Publish Your Book</li>
+      <li data-admin-text="true">Unlimited Revisions</li>
+      <li data-admin-text="true">2-Day Delivery</li>
+      <li data-admin-text="true">Print + Digital Files</li>
+      <li data-admin-text="true">Source Files + Mockups</li>
+      <li data-admin-text="true">KDP Formatting Included</li>
+    </ul>
+    <a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="standard" class="btn" data-admin-text="true" target="_blank">Get Started</a>
+  </div>
+  <div class="pricing-card reveal" bis_skin_checked="1">
+    <h3 data-admin-text="true">Premium Package</h3>
+    <div class="price" data-admin-text="true" bis_skin_checked="1">$175<small>/project</small></div>
+    <ul>
+      <li data-admin-text="true">5 Cover Concepts</li>
+      <li data-admin-text="true">Unlimited Revisions</li>
+      <li data-admin-text="true">3-Day Priority Delivery</li>
+      <li data-admin-text="true">All File Formats</li>
+      <li data-admin-text="true">Full Branding Kit</li>
+      <li data-admin-text="true">3D Mockups</li>
+      <li data-admin-text="true">Priority Support</li>
+    </ul>
+    <a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="premium" class="btn" data-admin-text="true" target="_blank">Get Started</a>
+  </div>
 </div>
 </div>
 </section>
@@ -234,5 +354,28 @@
 </div>
 </footer>
 
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabBtns = document.querySelectorAll('.pricing-tab-btn');
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-pricing-target');
+        const container = btn.closest('.pricing') || document;
+        container.querySelectorAll('.pricing-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        container.querySelectorAll('.pricing-grid').forEach(grid => {
+          if (grid.id === target) {
+            grid.style.display = 'grid';
+            grid.classList.add('active');
+          } else {
+            grid.style.display = 'none';
+            grid.classList.remove('active');
+          }
+        });
+      });
+    });
+  });
+</script>
 </body>
 </html>
