@@ -149,6 +149,41 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
+    .preset-btn-full {
+      grid-column: 1 / -1;
+    }
+    .preset-btn small {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: #94a3b8;
+      margin-top: -3px;
+      line-height: 1.2;
+    }
+    .preset-btn.active small {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    .cam-lock-pill {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 4px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cam-lock-pill.locked {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #34d399;
+    }
+    .cam-lock-pill:hover {
+      border-color: var(--accent);
+    }
     .preset-btn {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -725,21 +760,30 @@
         <div class="tool-group">
           <div class="tool-label"><i class="fa-solid fa-layer-group"></i> 1. Select Mockup Style</div>
           <div class="preset-selector-grid">
-            <button class="preset-btn active" data-preset="hardcover">
+            <button class="preset-btn active" data-preset="tabletop">
               <i class="fa-solid fa-book"></i>
-              <span>Hardcover 3D</span>
+              <span>Tabletop 3D</span>
+              <small>Lying Angled (Front + Spine)</small>
             </button>
-            <button class="preset-btn" data-preset="paperback">
+            <button class="preset-btn" data-preset="standing-duo">
               <i class="fa-solid fa-book-open"></i>
-              <span>Paperback 3D</span>
+              <span>Standing Duo</span>
+              <small>Front &amp; Back Side-by-Side</small>
             </button>
-            <button class="preset-btn" data-preset="ebook">
+            <button class="preset-btn" data-preset="stacked">
+              <i class="fa-solid fa-layer-group"></i>
+              <span>Stacked Books</span>
+              <small>Dual Layered Paperbacks</small>
+            </button>
+            <button class="preset-btn" data-preset="open-wrap">
+              <i class="fa-solid fa-book-journal-whills"></i>
+              <span>Open Full Wrap</span>
+              <small>Spread Face-Down (Jacket)</small>
+            </button>
+            <button class="preset-btn preset-btn-full" data-preset="kindle">
               <i class="fa-solid fa-tablet-screen-button"></i>
-              <span>eBook Tablet</span>
-            </button>
-            <button class="preset-btn" data-preset="bundle">
-              <i class="fa-solid fa-boxes-stacked"></i>
-              <span>Duo Bundle</span>
+              <span>Amazon KDP Kindle Tablet</span>
+              <small>Authentic Amazon e-Reader with Glass Sheen</small>
             </button>
           </div>
         </div>
@@ -902,9 +946,9 @@
           <div>
             <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px;">Export Canvas Background:</div>
             <div class="btn-toggle-group">
-              <button class="toggle-pill active" data-bg="transparent"><i class="fa-solid fa-border-none"></i> Transparent</button>
+              <button class="toggle-pill active" data-bg="light"><i class="fa-solid fa-sun" style="color:#f4b400;"></i> Studio Light</button>
+              <button class="toggle-pill" data-bg="transparent"><i class="fa-solid fa-border-none"></i> Transparent</button>
               <button class="toggle-pill" data-bg="dark"><i class="fa-solid fa-circle" style="color:#0b1f17"></i> Studio Dark</button>
-              <button class="toggle-pill" data-bg="white"><i class="fa-regular fa-circle" style="color:#fff"></i> Pure White</button>
             </div>
           </div>
         </div>
@@ -916,9 +960,14 @@
         
         <!-- Top status bar -->
         <div class="viewport-topbar">
-          <div class="status-pill"><i class="fa-solid fa-circle-check"></i> WebGL 3D Studio Live</div>
-          <div style="font-size: 0.8rem; color: #94a3b8;">
-            <i class="fa-solid fa-hand-pointer"></i> Drag to rotate 360° | Scroll to zoom
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="status-pill"><i class="fa-solid fa-circle-check"></i> Studio HD Live</div>
+            <button type="button" class="cam-lock-pill locked" id="cam-lock-toggle" title="Click to toggle fixed studio lock">
+              <i class="fa-solid fa-lock" id="cam-lock-icon"></i> <span id="cam-lock-text">Studio Angle Locked</span>
+            </button>
+          </div>
+          <div style="font-size: 0.78rem; color: #94a3b8;" id="camera-hint-text">
+            <i class="fa-solid fa-camera"></i> Fixed Studio PSD Alignment
           </div>
         </div>
 
@@ -1026,19 +1075,20 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // State
-  let currentPreset = 'hardcover'; // 'hardcover', 'paperback', 'ebook', 'bundle'
+  let currentPreset = 'tabletop'; // 'tabletop', 'standing-duo', 'stacked', 'open-wrap', 'kindle'
+  let isCameraLocked = true;
   let uploadMode = 'wrap'; // 'wrap' or 'separate'
-  let bookThickness = 0.55;
+  let bookThickness = 0.45;
   let spineColor = '#111827';
   let coverFinish = 'glossy'; // 'glossy' or 'matte'
-  let bgMode = 'transparent'; // 'transparent', 'dark', 'white'
+  let bgMode = 'light'; // 'light', 'transparent', 'dark'
   let isAutoRotating = false;
 
   // Wrap mode state
   let isWrapDetected = true;
-  let fullWrapSource = null; // Image or Canvas
-  let spineWidthPct = 0.088; // Default ~8.8%
-  let spineCenterPct = 0.50; // Default center 50%
+  let fullWrapSource = null;
+  let spineWidthPct = 0.088;
+  let spineCenterPct = 0.50;
 
   // Separate mode state
   let sepFrontTex = null;
@@ -1054,7 +1104,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Three.js Scene
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
-  camera.position.set(3.8, 1.8, 6.2);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
@@ -1063,53 +1112,75 @@ document.addEventListener('DOMContentLoaded', () => {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   container.appendChild(renderer.domElement);
 
-  // OrbitControls
+  // OrbitControls (Disabled/Locked by default per user specification)
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
   controls.maxDistance = 14;
-  controls.minDistance = 3;
-  controls.target.set(0, 0, 0);
+  controls.minDistance = 2.5;
+  controls.enabled = false; // Locked by default!
 
-  // 2. Lighting Rig
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+  // 2. Lighting Rig (Commercial Studio Lighting)
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
   scene.add(ambientLight);
 
-  const keyLight = new THREE.DirectionalLight(0xfff8ee, 0.9);
+  const keyLight = new THREE.DirectionalLight(0xfffaf0, 0.95);
   keyLight.position.set(5, 8, 6);
   keyLight.castShadow = true;
   keyLight.shadow.mapSize.width = 1024;
   keyLight.shadow.mapSize.height = 1024;
   keyLight.shadow.camera.near = 1;
   keyLight.shadow.camera.far = 20;
-  keyLight.shadow.bias = -0.001;
+  keyLight.shadow.bias = -0.0008;
   scene.add(keyLight);
 
-  const fillLight = new THREE.DirectionalLight(0xdbeafe, 0.45);
-  fillLight.position.set(-6, 3, 4);
+  const fillLight = new THREE.DirectionalLight(0xe0f2fe, 0.5);
+  fillLight.position.set(-6, 4, 4);
   scene.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
+  const rimLight = new THREE.DirectionalLight(0xffffff, 0.65);
   rimLight.position.set(2, 6, -6);
   scene.add(rimLight);
 
-  // 3. Shadow Ground Plane
+  // 3. Studio Cyclorama Backdrop & Ground Shadow
+  const createStudioBackdropTexture = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createRadialGradient(256, 256, 40, 256, 256, 360);
+    grad.addColorStop(0, '#f8fafc');
+    grad.addColorStop(0.5, '#e2e8f0');
+    grad.addColorStop(1, '#cbd5e1');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 512, 512);
+    return new THREE.CanvasTexture(canvas);
+  };
+  const studioBackdropTex = createStudioBackdropTexture();
+
+  const backdropGeo = new THREE.PlaneGeometry(35, 25);
+  const backdropMat = new THREE.MeshBasicMaterial({ map: studioBackdropTex, depthWrite: false });
+  const backdropMesh = new THREE.Mesh(backdropGeo, backdropMat);
+  backdropMesh.position.set(0, 0, -5);
+  scene.add(backdropMesh);
+
+  // Ground Contact Shadow
   const createContactShadowTexture = () => {
     const canvas = document.createElement('canvas');
-    canvas.width = 256;
-    canvas.height = 256;
+    canvas.width = 512;
+    canvas.height = 512;
     const ctx = canvas.getContext('2d');
-    const grad = ctx.createRadialGradient(128, 128, 20, 128, 128, 120);
-    grad.addColorStop(0, 'rgba(0, 0, 0, 0.65)');
-    grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.35)');
-    grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.08)');
+    const grad = ctx.createRadialGradient(256, 256, 30, 256, 256, 240);
+    grad.addColorStop(0, 'rgba(15, 23, 42, 0.7)');
+    grad.addColorStop(0.25, 'rgba(15, 23, 42, 0.4)');
+    grad.addColorStop(0.65, 'rgba(15, 23, 42, 0.12)');
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 256, 256);
+    ctx.fillRect(0, 0, 512, 512);
     return new THREE.CanvasTexture(canvas);
   };
 
-  const shadowGeo = new THREE.PlaneGeometry(8, 8);
+  const shadowGeo = new THREE.PlaneGeometry(9, 9);
   const shadowMat = new THREE.MeshBasicMaterial({
     map: createContactShadowTexture(),
     transparent: true,
@@ -1121,16 +1192,16 @@ document.addEventListener('DOMContentLoaded', () => {
   shadowPlane.position.y = -2.1;
   scene.add(shadowPlane);
 
-  // 4. Procedural Pages Texture
+  // 4. Procedural Textures
   const createPagesTexture = () => {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
     canvas.height = 256;
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#f6f3ea';
+    ctx.fillStyle = '#f8f6f0';
     ctx.fillRect(0, 0, 256, 256);
 
-    ctx.strokeStyle = '#e0dac8';
+    ctx.strokeStyle = '#ded8c8';
     ctx.lineWidth = 1;
     for (let i = 0; i < 256; i += 3) {
       ctx.beginPath();
@@ -1146,7 +1217,6 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const pagesTexture = createPagesTexture();
 
-  // 5. Procedural Spine Texture (Fallback)
   const createSpineTexture = (baseColor) => {
     const canvas = document.createElement('canvas');
     canvas.width = 128;
@@ -1157,7 +1227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillRect(0, 0, 128, 1024);
 
     const grad = ctx.createLinearGradient(0, 0, 128, 0);
-    grad.addColorStop(0, 'rgba(0,0,0,0.4)');
+    grad.addColorStop(0, 'rgba(0,0,0,0.45)');
     grad.addColorStop(0.2, 'rgba(255,255,255,0.08)');
     grad.addColorStop(0.5, 'rgba(255,255,255,0.18)');
     grad.addColorStop(0.8, 'rgba(255,255,255,0.08)');
@@ -1181,7 +1251,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return new THREE.CanvasTexture(canvas);
   };
 
-  // Solid Back Texture (Fallback)
   const createSolidBackTexture = (baseColor) => {
     const canvas = document.createElement('canvas');
     canvas.width = 512;
@@ -1189,20 +1258,52 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = baseColor;
     ctx.fillRect(0, 0, 512, 768);
-    // Subtle back frame
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
     ctx.lineWidth = 2;
     ctx.strokeRect(30, 30, 452, 708);
     return new THREE.CanvasTexture(canvas);
   };
 
-  // Group container for models
+  // Kindle Branding Logo Texture
+  const createKindleLogoTexture = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, 256, 64);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+    ctx.font = 'bold 28px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('kindle', 128, 42);
+    return new THREE.CanvasTexture(canvas);
+  };
+  const kindleLogoTex = createKindleLogoTexture();
+
+  // Kindle Glass Sheen Glare Texture
+  const createGlassSheenTexture = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, 256, 256);
+    grad.addColorStop(0, 'rgba(255,255,255,0)');
+    grad.addColorStop(0.35, 'rgba(255,255,255,0.02)');
+    grad.addColorStop(0.48, 'rgba(255,255,255,0.18)');
+    grad.addColorStop(0.55, 'rgba(255,255,255,0.06)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(canvas);
+  };
+  const glassSheenTex = createGlassSheenTexture();
+
+  // Model Group
   let modelGroup = new THREE.Group();
   scene.add(modelGroup);
 
   const textureLoader = new THREE.TextureLoader();
 
-  // 6. PROCEDURAL DEMO FULL WRAP COVERS
+  // 5. PROCEDURAL DEMO FULL WRAP COVERS
   const generateFantasyFullWrapCanvas = () => {
     const c = document.createElement('canvas');
     c.width = 1600;
@@ -1228,7 +1329,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fill();
     }
 
-    // BACK COVER (0 to 729)
+    // BACK (0 to 729)
     ctx.save();
     ctx.strokeStyle = 'rgba(244, 180, 0, 0.3)';
     ctx.lineWidth = 2;
@@ -1272,7 +1373,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     blurb.forEach((l, idx) => ctx.fillText(l, 90, 330 + (idx * 27)));
 
-    // Barcode Box
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(430, 810, 210, 120);
     ctx.fillStyle = '#000000';
@@ -1292,7 +1392,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillText('FICTION / EPIC FANTASY', 90, 915);
     ctx.restore();
 
-    // SPINE (729 to 870, width 141)
+    // SPINE (729 to 870)
     ctx.save();
     const spineGrad = ctx.createLinearGradient(729, 0, 870, 0);
     spineGrad.addColorStop(0, 'rgba(0,0,0,0.5)');
@@ -1323,7 +1423,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillText('LOUFY', 260, 8);
     ctx.restore();
 
-    // FRONT COVER (870 to 1600, width 730)
+    // FRONT (870 to 1600)
     ctx.save();
     const moonGrad = ctx.createRadialGradient(1235, 450, 40, 1235, 450, 360);
     moonGrad.addColorStop(0, 'rgba(244, 180, 0, 0.35)');
@@ -1383,14 +1483,6 @@ document.addEventListener('DOMContentLoaded', () => {
     grad.addColorStop(0.5, '#121829');
     grad.addColorStop(1, '#080c14');
     ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 1600, 1050);
-
-    // Crimson fog
-    const crimsonGrad = ctx.createRadialGradient(1200, 600, 50, 1200, 600, 450);
-    crimsonGrad.addColorStop(0, 'rgba(220, 38, 38, 0.4)');
-    crimsonGrad.addColorStop(0.4, 'rgba(185, 28, 28, 0.15)');
-    crimsonGrad.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = crimsonGrad;
     ctx.fillRect(0, 0, 1600, 1050);
 
     // BACK
@@ -1503,7 +1595,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return c;
   };
 
-  // Render thumbnail buttons on canvas
   const renderThumbnails = () => {
     const thumbFantasy = document.getElementById('thumb-canvas-fantasy');
     if (thumbFantasy) {
@@ -1522,10 +1613,9 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   renderThumbnails();
 
-  // Set default wrap
   fullWrapSource = generateFantasyFullWrapCanvas();
 
-  // 7. FULL WRAP SLICING ENGINE
+  // 6. FULL WRAP SLICING ENGINE
   const sliceFullWrap = (source, widthPct, centerPct) => {
     const totalW = source.naturalWidth || source.width;
     const totalH = source.naturalHeight || source.height;
@@ -1538,21 +1628,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const backW = Math.max(10, spineStartX);
     const frontW = Math.max(10, totalW - spineEndX);
 
-    // Back Canvas
     const backCanvas = document.createElement('canvas');
     backCanvas.width = backW;
     backCanvas.height = totalH;
     const bCtx = backCanvas.getContext('2d');
     bCtx.drawImage(source, 0, 0, backW, totalH, 0, 0, backW, totalH);
 
-    // Spine Canvas
     const spineCanvas = document.createElement('canvas');
     spineCanvas.width = spineW;
     spineCanvas.height = totalH;
     const sCtx = spineCanvas.getContext('2d');
     sCtx.drawImage(source, spineStartX, 0, spineW, totalH, 0, 0, spineW, totalH);
 
-    // Front Canvas
     const frontCanvas = document.createElement('canvas');
     frontCanvas.width = frontW;
     frontCanvas.height = totalH;
@@ -1577,7 +1664,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   };
 
-  // Update Slice Preview Bar UI
   const updateSlicePreview = (metrics) => {
     const previewCanvas = document.getElementById('slice-preview-canvas');
     if (!previewCanvas || !fullWrapSource) return;
@@ -1607,7 +1693,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (centerDisp) centerDisp.innerText = (spineCenterPct * 100).toFixed(0) + '%';
   };
 
-  // 8. TEXTURE RESOLUTION PIPELINE
+  // 7. TEXTURE RESOLUTION
   const resolveTextures = (onReady) => {
     const maxAniso = renderer.capabilities.getMaxAnisotropy();
 
@@ -1617,7 +1703,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSlicePreview(sliced.metrics);
         onReady(sliced.frontTex, sliced.spineTex, sliced.backTex);
       } else {
-        // Single front image fallback
         textureLoader.load(singleFrontUrl, (frontTex) => {
           frontTex.anisotropy = maxAniso;
           const spineTex = createSpineTexture(spineColor);
@@ -1626,7 +1711,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     } else {
-      // Separate uploads mode
       const frontTex = sepFrontTex ? sepFrontTex : textureLoader.load(singleFrontUrl);
       frontTex.anisotropy = maxAniso;
       const spineTex = sepSpineTex ? sepSpineTex : createSpineTexture(spineColor);
@@ -1635,7 +1719,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // 9. MODEL CONSTRUCTION FUNCTION
+  // 8. CAMERA PRESET CALIBRATION
+  const applyCameraPreset = () => {
+    isAutoRotating = false;
+    modelGroup.rotation.set(0, 0, 0);
+
+    if (currentPreset === 'tabletop') {
+      camera.position.set(2.8, 4.4, 4.2);
+      controls.target.set(-0.1, -0.2, 0);
+    } else if (currentPreset === 'standing-duo') {
+      camera.position.set(0, 0.15, 7.6);
+      controls.target.set(0, 0, 0);
+    } else if (currentPreset === 'stacked') {
+      camera.position.set(2.5, 4.8, 4.4);
+      controls.target.set(0, -0.3, 0);
+    } else if (currentPreset === 'open-wrap') {
+      camera.position.set(0, 5.6, 4.4);
+      controls.target.set(0, -0.2, 0);
+    } else if (currentPreset === 'kindle') {
+      camera.position.set(0, 0.2, 6.4);
+      controls.target.set(0, 0, 0);
+    }
+
+    controls.update();
+  };
+
+  // 9. MODEL CONSTRUCTION FUNCTION (5 EXACT STUDIO PRESETS)
   const buildScene = () => {
     while (modelGroup.children.length > 0) {
       const obj = modelGroup.children[0];
@@ -1647,132 +1756,271 @@ document.addEventListener('DOMContentLoaded', () => {
       modelGroup.remove(obj);
     }
 
+    applyCameraPreset();
+
     resolveTextures((frontTex, spineTex, backTex) => {
       const roughnessVal = coverFinish === 'glossy' ? 0.28 : 0.72;
-      const metalnessVal = coverFinish === 'glossy' ? 0.1 : 0.02;
+      const metalnessVal = coverFinish === 'glossy' ? 0.08 : 0.02;
 
       const bookW = 2.8;
-      const bookH = 4.2;
-      const bookD = bookThickness;
+      const bookH = 4.0;
+      const bookD = Math.max(0.2, bookThickness);
 
-      if (currentPreset === 'hardcover') {
-        const bookRoot = new THREE.Group();
-
-        // Pages block
-        const pageW = bookW - 0.12;
-        const pageH = bookH - 0.16;
-        const pageD = bookD - 0.08;
-        const pageGeo = new THREE.BoxGeometry(pageW, pageH, pageD);
-        const pageMat = new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9, metalness: 0.0 });
-        const pageMesh = new THREE.Mesh(pageGeo, pageMat);
-        pageMesh.position.set(0.06, 0, 0);
-        bookRoot.add(pageMesh);
-
-        // Hardcover Box (Right, Spine, Top, Bottom, Front, Back)
-        const coverGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const coverMaterials = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
-        ];
-        const coverMesh = new THREE.Mesh(coverGeo, coverMaterials);
-        coverMesh.castShadow = true;
-        bookRoot.add(coverMesh);
-
-        bookRoot.rotation.y = -0.38;
-        bookRoot.position.set(0, 0.1, 0);
-        modelGroup.add(bookRoot);
-
-      } else if (currentPreset === 'paperback') {
+      if (currentPreset === 'tabletop') {
+        // --- 1. TABLETOP 3D (Lying Flat Angled Paperback - Image 1) ---
+        // Back cover is hidden flat against the table. Front and Spine are visible.
         const bookRoot = new THREE.Group();
         const pbGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
         const pbMaterials = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }), // Right (fore-edge)
+          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }), // Left (Spine)
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }), // Top
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }), // Bottom
+          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }), // Front Cover
+          new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.9 }) // Back (flat against table)
         ];
         const pbMesh = new THREE.Mesh(pbGeo, pbMaterials);
         pbMesh.castShadow = true;
         bookRoot.add(pbMesh);
 
-        bookRoot.rotation.y = -0.45;
-        bookRoot.position.set(0, 0, 0);
+        bookRoot.position.set(0, -0.6, 0);
+        bookRoot.rotation.set(-Math.PI / 2 + 0.18, 0, -0.58);
         modelGroup.add(bookRoot);
 
-      } else if (currentPreset === 'ebook') {
-        const tabletRoot = new THREE.Group();
-        const tabW = 2.9;
-        const tabH = 4.2;
-        const tabD = 0.12;
+        // Position shadow directly beneath lying book
+        shadowPlane.position.set(0.3, -2.08, 0.2);
+        shadowPlane.scale.set(1.1, 1.1, 1.1);
 
-        const chassisGeo = new THREE.BoxGeometry(tabW, tabH, tabD);
-        const chassisMat = new THREE.MeshStandardMaterial({ color: 0x181e29, roughness: 0.35, metalness: 0.8 });
-        const chassisMesh = new THREE.Mesh(chassisGeo, chassisMat);
-        tabletRoot.add(chassisMesh);
-
-        const screenGeo = new THREE.PlaneGeometry(tabW - 0.22, tabH - 0.26);
-        const screenMat = new THREE.MeshStandardMaterial({ map: frontTex, roughness: 0.12, metalness: 0.05 });
-        const screenMesh = new THREE.Mesh(screenGeo, screenMat);
-        screenMesh.position.z = (tabD / 2) + 0.005;
-        tabletRoot.add(screenMesh);
-
-        const camDotGeo = new THREE.CircleGeometry(0.035, 16);
-        const camDotMat = new THREE.MeshBasicMaterial({ color: 0x050505 });
-        const camDot = new THREE.Mesh(camDotGeo, camDotMat);
-        camDot.position.set(0, (tabH / 2) - 0.07, (tabD / 2) + 0.006);
-        tabletRoot.add(camDot);
-
-        tabletRoot.rotation.y = -0.3;
-        tabletRoot.rotation.x = 0.05;
-        modelGroup.add(tabletRoot);
-
-      } else if (currentPreset === 'bundle') {
-        // Hardcover Behind
-        const bookRoot = new THREE.Group();
-        const coverGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const coverMaterials = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
+      } else if (currentPreset === 'standing-duo') {
+        // --- 2. STANDING DUO (Front & Back Side-by-Side - Image 2) ---
+        // Left: Front Cover showcase. Right: Back Cover + Spine showcase!
+        
+        // Left Book (Front Showcase)
+        const leftBook = new THREE.Group();
+        const leftGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
+        const leftMaterials = [
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
           new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
           new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
           new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
         ];
-        const coverMesh = new THREE.Mesh(coverGeo, coverMaterials);
-        coverMesh.castShadow = true;
-        bookRoot.add(coverMesh);
-        bookRoot.position.set(-0.85, 0.2, -0.6);
-        bookRoot.rotation.y = -0.4;
-        modelGroup.add(bookRoot);
+        const leftMesh = new THREE.Mesh(leftGeo, leftMaterials);
+        leftMesh.castShadow = true;
+        leftBook.add(leftMesh);
+        leftBook.position.set(-1.48, -0.1, 0.1);
+        leftBook.rotation.y = -0.22;
+        modelGroup.add(leftBook);
 
-        // Tablet In Front
+        // Right Book (Back Showcase with Spine on Right)
+        const rightBook = new THREE.Group();
+        const rightGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
+        const rightMaterials = [
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
+        ];
+        const rightMesh = new THREE.Mesh(rightGeo, rightMaterials);
+        rightMesh.castShadow = true;
+        rightBook.add(rightMesh);
+        rightBook.position.set(1.42, -0.1, -0.25);
+        rightBook.rotation.y = Math.PI - 0.22;
+        modelGroup.add(rightBook);
+
+        shadowPlane.position.set(0, -2.08, 0);
+        shadowPlane.scale.set(1.4, 1.0, 1.0);
+
+      } else if (currentPreset === 'stacked') {
+        // --- 3. STACKED DUAL BOOKS (Image 3) ---
+        // Two paperbacks stacked obliquely
+        const bottomBook = new THREE.Group();
+        const bGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
+        const bMats = [
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
+        ];
+        const bMesh = new THREE.Mesh(bGeo, bMats);
+        bMesh.castShadow = true;
+        bottomBook.add(bMesh);
+        bottomBook.position.set(-0.25, -0.7, -0.2);
+        bottomBook.rotation.set(-Math.PI / 2 + 0.2, 0, -0.42);
+        modelGroup.add(bottomBook);
+
+        // Top Book
+        const topBook = new THREE.Group();
+        const tGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
+        const tMats = [
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
+        ];
+        const tMesh = new THREE.Mesh(tGeo, tMats);
+        tMesh.castShadow = true;
+        topBook.add(tMesh);
+        topBook.position.set(0.12, -0.7 + bookD + 0.04, 0.1);
+        topBook.rotation.set(-Math.PI / 2 + 0.2, 0, -0.62);
+        modelGroup.add(topBook);
+
+        shadowPlane.position.set(0, -2.08, 0);
+        shadowPlane.scale.set(1.2, 1.2, 1.2);
+
+      } else if (currentPreset === 'open-wrap') {
+        // --- 4. OPEN FULL WRAP (Spread Face-Down - Image 4) ---
+        // Book lying face down with full jacket spread out across the table!
+        const openRoot = new THREE.Group();
+        const wingW = 2.7;
+        const wingH = 4.0;
+        const wingD = 0.04;
+        const spineW = Math.max(0.35, bookD * 0.9);
+
+        // Left Wing (Back Cover)
+        const leftWingGeo = new THREE.BoxGeometry(wingW, wingH, wingD);
+        const leftWingMats = [
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ color: 0x111827 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal }), // Top face
+          new THREE.MeshStandardMaterial({ color: 0xf8f6f0, roughness: 0.9 }) // Inside endpaper
+        ];
+        const leftWing = new THREE.Mesh(leftWingGeo, leftWingMats);
+        leftWing.castShadow = true;
+        leftWing.position.set(-(wingW / 2 + spineW / 2 - 0.02), 0.1, 0);
+        leftWing.rotation.z = 0.09;
+        openRoot.add(leftWing);
+
+        // Left Pages Block underneath
+        const leftPagesGeo = new THREE.BoxGeometry(wingW - 0.1, wingH - 0.15, 0.22);
+        const leftPagesMat = new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 });
+        const leftPages = new THREE.Mesh(leftPagesGeo, leftPagesMat);
+        leftPages.position.set(-(wingW / 2 + spineW / 2 - 0.02), -0.05, 0);
+        leftPages.rotation.z = 0.09;
+        openRoot.add(leftPages);
+
+        // Center Spine Curved Arch
+        const spineArchGeo = new THREE.BoxGeometry(spineW + 0.04, wingH, wingD);
+        const spineArchMats = [
+          new THREE.MeshStandardMaterial({ color: 0x111827 }),
+          new THREE.MeshStandardMaterial({ color: 0x111827 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
+          new THREE.MeshStandardMaterial({ color: 0x111827 })
+        ];
+        const spineArch = new THREE.Mesh(spineArchGeo, spineArchMats);
+        spineArch.position.set(0, 0.22, 0);
+        openRoot.add(spineArch);
+
+        // Right Wing (Front Cover)
+        const rightWingGeo = new THREE.BoxGeometry(wingW, wingH, wingD);
+        const rightWingMats = [
+          new THREE.MeshStandardMaterial({ color: 0x111827 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
+          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }), // Top face
+          new THREE.MeshStandardMaterial({ color: 0xf8f6f0, roughness: 0.9 }) // Inside endpaper
+        ];
+        const rightWing = new THREE.Mesh(rightWingGeo, rightWingMats);
+        rightWing.castShadow = true;
+        rightWing.position.set(wingW / 2 + spineW / 2 - 0.02, 0.1, 0);
+        rightWing.rotation.z = -0.09;
+        openRoot.add(rightWing);
+
+        // Right Pages Block underneath
+        const rightPagesGeo = new THREE.BoxGeometry(wingW - 0.1, wingH - 0.15, 0.22);
+        const rightPagesMat = new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 });
+        const rightPages = new THREE.Mesh(rightPagesGeo, rightPagesMat);
+        rightPages.position.set(wingW / 2 + spineW / 2 - 0.02, -0.05, 0);
+        rightPages.rotation.z = -0.09;
+        openRoot.add(rightPages);
+
+        openRoot.position.set(0, -0.5, 0);
+        openRoot.rotation.set(-Math.PI / 2 + 0.25, 0, -0.5);
+        modelGroup.add(openRoot);
+
+        shadowPlane.position.set(0, -2.08, 0);
+        shadowPlane.scale.set(1.4, 1.4, 1.4);
+
+      } else if (currentPreset === 'kindle') {
+        // --- 5. AMAZON KDP KINDLE TABLET ---
+        // Authentic Amazon Kindle / Fire Tablet with screen glass sheen
         const tabletRoot = new THREE.Group();
-        const tabW = 2.4;
-        const tabH = 3.5;
-        const tabD = 0.1;
-        const chassisMesh = new THREE.Mesh(
-          new THREE.BoxGeometry(tabW, tabH, tabD),
-          new THREE.MeshStandardMaterial({ color: 0x181e29, roughness: 0.35, metalness: 0.8 })
-        );
+        const tabW = 3.1;
+        const tabH = 4.6;
+        const tabD = 0.14;
+
+        // Dark Slate Chassis
+        const chassisGeo = new THREE.BoxGeometry(tabW, tabH, tabD);
+        const chassisMat = new THREE.MeshStandardMaterial({
+          color: 0x131921, // Amazon official dark slate
+          roughness: 0.45,
+          metalness: 0.55
+        });
+        const chassisMesh = new THREE.Mesh(chassisGeo, chassisMat);
+        chassisMesh.castShadow = true;
         tabletRoot.add(chassisMesh);
 
-        const screenMesh = new THREE.Mesh(
-          new THREE.PlaneGeometry(tabW - 0.2, tabH - 0.24),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: 0.12, metalness: 0.05 })
-        );
-        screenMesh.position.z = (tabD / 2) + 0.005;
+        // Screen Surface
+        const screenW = 2.62;
+        const screenH = 3.76;
+        const screenGeo = new THREE.PlaneGeometry(screenW, screenH);
+        const screenMat = new THREE.MeshStandardMaterial({
+          map: frontTex,
+          roughness: 0.15,
+          metalness: 0.05
+        });
+        const screenMesh = new THREE.Mesh(screenGeo, screenMat);
+        screenMesh.position.set(0, 0.14, (tabD / 2) + 0.005);
         tabletRoot.add(screenMesh);
 
-        tabletRoot.position.set(0.95, -0.3, 0.7);
-        tabletRoot.rotation.y = -0.22;
-        tabletRoot.rotation.z = -0.05;
+        // Screen Glass Sheen Overlay
+        const sheenGeo = new THREE.PlaneGeometry(screenW, screenH);
+        const sheenMat = new THREE.MeshBasicMaterial({
+          map: glassSheenTex,
+          transparent: true,
+          opacity: 0.65,
+          blending: THREE.AdditiveBlending
+        });
+        const sheenMesh = new THREE.Mesh(sheenGeo, sheenMat);
+        sheenMesh.position.set(0, 0.14, (tabD / 2) + 0.007);
+        tabletRoot.add(sheenMesh);
+
+        // Embossed Kindle Logo on Bottom Bezel
+        const logoGeo = new THREE.PlaneGeometry(0.85, 0.22);
+        const logoMat = new THREE.MeshBasicMaterial({
+          map: kindleLogoTex,
+          transparent: true,
+          opacity: 0.75
+        });
+        const logoMesh = new THREE.Mesh(logoGeo, logoMat);
+        logoMesh.position.set(0, -(tabH / 2) + 0.25, (tabD / 2) + 0.006);
+        tabletRoot.add(logoMesh);
+
+        // Camera Sensor Dot on Top Bezel
+        const camDotGeo = new THREE.CircleGeometry(0.04, 16);
+        const camDotMat = new THREE.MeshBasicMaterial({ color: 0x050505 });
+        const camDot = new THREE.Mesh(camDotGeo, camDotMat);
+        camDot.position.set(0, (tabH / 2) - 0.15, (tabD / 2) + 0.006);
+        tabletRoot.add(camDot);
+
+        tabletRoot.position.set(0, -0.1, 0);
+        tabletRoot.rotation.set(-0.12, -0.18, -0.03);
         modelGroup.add(tabletRoot);
+
+        shadowPlane.position.set(0, -2.08, 0);
+        shadowPlane.scale.set(1.0, 1.0, 1.0);
       }
 
       renderer.render(scene, camera);
@@ -1788,12 +2036,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isAutoRotating) {
       modelGroup.rotation.y += 0.008;
     }
-    controls.update();
+    if (!isCameraLocked) {
+      controls.update();
+    }
     renderer.render(scene, camera);
   };
   animate();
 
-  // Resize
+  // Resize Listener
   window.addEventListener('resize', () => {
     if (!container) return;
     camera.aspect = container.clientWidth / container.clientHeight;
@@ -1801,9 +2051,53 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.setSize(container.clientWidth, container.clientHeight);
   });
 
-  // 11. EVENT HANDLERS & USER INTERACTIONS
+  // 11. USER INTERACTIONS & EVENT HANDLERS
 
-  // Mode Tabs (Auto Wrap vs Separate)
+  // Camera Lock Toggle Button
+  const camLockToggle = document.getElementById('cam-lock-toggle');
+  const camLockIcon = document.getElementById('cam-lock-icon');
+  const camLockText = document.getElementById('cam-lock-text');
+  const camHintText = document.getElementById('camera-hint-text');
+
+  if (camLockToggle) {
+    camLockToggle.addEventListener('click', () => {
+      isCameraLocked = !isCameraLocked;
+      controls.enabled = !isCameraLocked;
+
+      if (isCameraLocked) {
+        camLockToggle.className = 'cam-lock-pill locked';
+        if (camLockIcon) camLockIcon.className = 'fa-solid fa-lock';
+        if (camLockText) camLockText.innerText = 'Studio Angle Locked';
+        if (camHintText) camHintText.innerHTML = '<i class="fa-solid fa-camera"></i> Fixed Studio PSD Alignment';
+        container.style.cursor = 'default';
+        applyCameraPreset();
+      } else {
+        camLockToggle.className = 'cam-lock-pill';
+        if (camLockIcon) camLockIcon.className = 'fa-solid fa-arrows-up-down-left-right';
+        if (camLockText) camLockText.innerText = '360° Orbit Active';
+        if (camHintText) camHintText.innerHTML = '<i class="fa-solid fa-hand-pointer"></i> Drag to rotate freely';
+        container.style.cursor = 'grab';
+      }
+    });
+  }
+
+  // Preset Buttons
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentPreset = btn.getAttribute('data-preset');
+
+      const spineControls = document.getElementById('spine-controls-group');
+      if (spineControls) {
+        spineControls.style.display = (currentPreset === 'kindle') ? 'none' : 'block';
+      }
+
+      buildScene();
+    });
+  });
+
+  // Mode Tabs (Auto Full Wrap vs Separate)
   const tabWrap = document.getElementById('tab-wrap-mode');
   const tabSep = document.getElementById('tab-separate-mode');
   const wrapContainer = document.getElementById('wrap-mode-container');
@@ -1829,22 +2123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Preset Buttons
-  document.querySelectorAll('.preset-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentPreset = btn.getAttribute('data-preset');
-
-      const spineControls = document.getElementById('spine-controls-group');
-      if (spineControls) {
-        spineControls.style.display = (currentPreset === 'ebook') ? 'none' : 'block';
-      }
-      buildScene();
-    });
-  });
-
-  // Auto-Detection Wrap Slicer Handlers
+  // Cover Upload Handling
   const handleCoverUpload = (file) => {
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
@@ -1857,13 +2136,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const sliceBox = document.getElementById('slice-studio-box');
 
         if (aspect >= 1.15) {
-          // Full Wrap Detected!
           isWrapDetected = true;
           fullWrapSource = img;
 
-          // Auto-calculate spine width from 3D thickness
           const bookW = 2.8;
-          spineWidthPct = Math.min(0.22, Math.max(0.04, bookThickness / (bookW * 2 + bookThickness)));
+          spineWidthPct = Math.min(0.24, Math.max(0.04, bookThickness / (bookW * 2 + bookThickness)));
           const widthSlider = document.getElementById('slice-width-slider');
           if (widthSlider) widthSlider.value = (spineWidthPct * 100).toFixed(1);
 
@@ -1877,7 +2154,6 @@ document.addEventListener('DOMContentLoaded', () => {
           if (sliceBox) sliceBox.style.display = 'block';
 
         } else {
-          // Single Front Cover
           isWrapDetected = false;
           singleFrontUrl = e.target.result;
 
@@ -1886,7 +2162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             statusBadge.className = 'autodetect-badge single-detected';
           }
           if (statusMsg) {
-            statusMsg.innerHTML = `<i class="fa-solid fa-file-image"></i> <strong>Single Front Cover Detected</strong> (${img.naturalWidth}x${img.naturalHeight}px) — Mapped to front face.`;
+            statusMsg.innerHTML = `<i class="fa-solid fa-file-image"></i> <strong>Single Front Cover Detected</strong> (${img.naturalWidth}x${img.naturalHeight}px) — Auto-fitted to front face.`;
           }
           if (sliceBox) sliceBox.style.display = 'none';
         }
@@ -1902,9 +2178,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('cover-file-input');
   if (fileInput) {
     fileInput.addEventListener('change', (e) => {
-      if (e.target.files && e.target.files[0]) {
-        handleCoverUpload(e.target.files[0]);
-      }
+      if (e.target.files && e.target.files[0]) handleCoverUpload(e.target.files[0]);
     });
   }
 
@@ -1912,16 +2186,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const dropzone = document.getElementById('cover-dropzone');
   if (dropzone) {
     ['dragenter', 'dragover'].forEach(name => {
-      dropzone.addEventListener(name, (e) => {
-        e.preventDefault();
-        dropzone.classList.add('dragover');
-      });
+      dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
     });
     ['dragleave', 'drop'].forEach(name => {
-      dropzone.addEventListener(name, (e) => {
-        e.preventDefault();
-        dropzone.classList.remove('dragover');
-      });
+      dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); });
     });
     dropzone.addEventListener('drop', (e) => {
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
@@ -1930,7 +2198,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Slice Width Slider
+  // Slice Sliders
   const sliceWidthSlider = document.getElementById('slice-width-slider');
   if (sliceWidthSlider) {
     sliceWidthSlider.addEventListener('input', (e) => {
@@ -1939,7 +2207,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Slice Center Slider
   const sliceCenterSlider = document.getElementById('slice-center-slider');
   if (sliceCenterSlider) {
     sliceCenterSlider.addEventListener('input', (e) => {
@@ -1948,7 +2215,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Auto-Fit Slice Button
   const btnAutofitSlice = document.getElementById('btn-autofit-slice');
   if (btnAutofitSlice) {
     btnAutofitSlice.addEventListener('click', () => {
@@ -2032,7 +2298,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const statusMsg = document.getElementById('autodetect-msg');
       const sliceBox = document.getElementById('slice-studio-box');
 
-      // Make sure we are in wrap mode
       if (uploadMode !== 'wrap' && tabWrap) {
         tabWrap.click();
       }
@@ -2074,10 +2339,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (thicknessSlider && thicknessDisplay) {
     thicknessSlider.addEventListener('input', (e) => {
       bookThickness = parseFloat(e.target.value);
-      const estPages = Math.round(bookThickness * 650);
+      const estPages = Math.round(bookThickness * 700);
       thicknessDisplay.innerText = `${estPages} Pages`;
 
-      // Auto sync wrap spine slice width if wrap active
       if (isWrapDetected) {
         const bookW = 2.8;
         spineWidthPct = Math.min(0.24, Math.max(0.04, bookThickness / (bookW * 2 + bookThickness)));
@@ -2108,25 +2372,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Background Mode
+  // Background Mode (Studio Light, Transparent, Studio Dark)
   document.querySelectorAll('[data-bg]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('[data-bg]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       bgMode = btn.getAttribute('data-bg');
 
-      if (bgMode === 'transparent') {
+      if (bgMode === 'light') {
         scene.background = null;
+        backdropMesh.visible = true;
+        renderer.setClearColor(0xe2e8f0, 1);
+        shadowPlane.material.opacity = 0.85;
+      } else if (bgMode === 'transparent') {
+        scene.background = null;
+        backdropMesh.visible = false;
         renderer.setClearColor(0x000000, 0);
         shadowPlane.material.opacity = 0.75;
       } else if (bgMode === 'dark') {
         scene.background = new THREE.Color(0x080e18);
+        backdropMesh.visible = false;
         renderer.setClearColor(0x080e18, 1);
-        shadowPlane.material.opacity = 0.85;
-      } else if (bgMode === 'white') {
-        scene.background = new THREE.Color(0xffffff);
-        renderer.setClearColor(0xffffff, 1);
-        shadowPlane.material.opacity = 0.35;
+        shadowPlane.material.opacity = 0.9;
       }
       renderer.render(scene, camera);
     });
@@ -2138,20 +2405,18 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('[data-cam]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const camMode = btn.getAttribute('data-cam');
-      isAutoRotating = false;
-      modelGroup.rotation.y = 0;
 
       if (camMode === 'perspective') {
-        camera.position.set(3.8, 1.8, 6.2);
+        camera.position.set(3.4, 3.8, 5.8);
         controls.target.set(0, 0, 0);
       } else if (camMode === 'front') {
-        camera.position.set(0, 0.2, 7.2);
+        camera.position.set(0, 0.1, 7.2);
         controls.target.set(0, 0, 0);
       } else if (camMode === 'spine') {
         camera.position.set(-5.5, 0.4, 4.5);
         controls.target.set(0, 0, 0);
       } else if (camMode === 'top') {
-        camera.position.set(0.2, 7.5, 2.5);
+        camera.position.set(0.1, 7.5, 2.2);
         controls.target.set(0, 0, 0);
       }
       controls.update();
@@ -2171,7 +2436,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 12. HIGH-RESOLUTION PNG DOWNLOAD
+  // 12. HIGH-RESOLUTION PNG DOWNLOAD (2400x1800)
   const downloadBtn = document.getElementById('download-mockup-btn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', () => {
@@ -2195,7 +2460,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderer.render(scene, camera);
 
       const link = document.createElement('a');
-      link.download = `loufy-3d-book-mockup-${currentPreset}.png`;
+      link.download = `loufy-3d-mockup-${currentPreset}.png`;
       link.href = dataUrl;
       document.body.appendChild(link);
       link.click();
