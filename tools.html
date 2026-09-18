@@ -1114,9 +1114,9 @@ document.addEventListener('DOMContentLoaded', () => {
     "layers": {
       "backdrop": "images/psd_mockups/hardcover_standing/base_backdrop.jpg",
       "shadow": "images/psd_mockups/hardcover_standing/shadow.png",
-      "shading": "images/psd_mockups/hardcover_standing/book_shading.png",
-      "shadingBlend": "multiply"
+      "crease": "images/psd_mockups/hardcover_standing/crease.png"
     },
+    "quadsBlendMode": "source-over",
     "quads": {
       "front": [
         [
@@ -1231,7 +1231,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
       ]
     },
-    "quadsBlendMode": "multiply"
+    "quadsBlendMode": "source-over"
   },
   "front_back_showcase": {
     "id": "front_back_showcase",
@@ -1625,7 +1625,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
       ]
     },
-    "quadsBlendMode": "multiply"
+    "quadsBlendMode": "source-over"
   },
   "book_mockup_1": {
     "id": "book_mockup_1",
@@ -1939,7 +1939,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       ctx.save();
       ctx.translate(w / 2, h / 2);
       ctx.rotate(Math.PI / 2);
-      ctx.fillStyle = '#ffffff';
+      // Smart contrast text calculation
+      const hex = (color || '#1e293b').replace('#', '');
+      const r = parseInt(hex.substring(0, 2), 16) || 0;
+      const g = parseInt(hex.substring(2, 4), 16) || 0;
+      const b = parseInt(hex.substring(4, 6), 16) || 0;
+      const lum = (r * 299 + g * 587 + b * 114) / 1000;
+      ctx.fillStyle = lum > 150 ? '#0f172a' : '#ffffff';
       ctx.font = 'bold 36px Outfit, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(label, 0, 10);
@@ -1999,7 +2005,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const rawFront = activeFrontImg || createSolidArtwork('#1e293b', 1000, 1500, 'BOOK TITLE');
       const frontArt = getTransformedArtwork(rawFront);
       const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
-      const rawBack = customBackImg || activeBackImg || createSolidArtwork(spineColor, 1000, 1500, '');
+      const rawBack = customBackImg || activeBackImg || activeFrontImg || createSolidArtwork(spineColor, 1000, 1500, '');
       const backArt = getTransformedArtwork(rawBack);
 
       // 3. Realistic Layer Compositing Pipeline
@@ -2013,7 +2019,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
         // 2. Back Book Artwork (Cover + Spine)
         ctx.save();
-        ctx.globalCompositeOperation = config.quadsBlendMode || 'multiply';
+        ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
         if (config.quads.back) warpQuad(ctx, backArt, config.quads.back, scale);
         if (config.quads.backSpine) warpQuad(ctx, spineArt, config.quads.backSpine, scale);
         ctx.restore();
@@ -2038,7 +2044,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
         // 5. Book 3 Artwork (stackFront2 + stackSpine2)
         ctx.save();
-        ctx.globalCompositeOperation = config.quadsBlendMode || 'multiply';
+        ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
         if (config.quads.stackFront2) warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
         if (config.quads.stackSpine2) warpQuad(ctx, spineArt, config.quads.stackSpine2, scale);
         ctx.restore();
@@ -2051,7 +2057,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
         // 7. Book 2 Artwork (stackFront1 + stackSpine1)
         ctx.save();
-        ctx.globalCompositeOperation = config.quadsBlendMode || 'multiply';
+        ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
         if (config.quads.stackFront1) warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
         if (config.quads.stackSpine1) warpQuad(ctx, spineArt, config.quads.stackSpine1, scale);
         ctx.restore();
@@ -2064,7 +2070,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
         // 9. Book 1 Artwork (Hero front cover + hero spine)
         ctx.save();
-        ctx.globalCompositeOperation = config.quadsBlendMode || 'multiply';
+        ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
         if (config.quads.front) warpQuad(ctx, frontArt, config.quads.front, scale);
         if (config.quads.spine) warpQuad(ctx, spineArt, config.quads.spine, scale);
         ctx.restore();
@@ -2321,6 +2327,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
 
   // Smart Artwork Processor: Slices Full Wraps or uses Front Covers
+  window.processUploadedArtwork = processUploadedArtwork;
   function processUploadedArtwork(imgOrCanvas) {
     if (!imgOrCanvas) return;
     const w = imgOrCanvas.width || imgOrCanvas.videoWidth;
@@ -2372,6 +2379,21 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       activeFrontImg = imgOrCanvas;
       activeSpineImg = null;
       activeBackImg = null;
+
+      // Auto-sample spine color from edge of uploaded cover if not manually overridden
+      try {
+        if (!customSpineImg) {
+          const sc = document.createElement('canvas');
+          sc.width = 16; sc.height = 16;
+          const sctx = sc.getContext('2d');
+          sctx.drawImage(imgOrCanvas, 0, 0, 16, 16);
+          const p = sctx.getImageData(0, 8, 1, 1).data;
+          const hex = '#' + ((1 << 24) + (p[0] << 16) + (p[1] << 8) + p[2]).toString(16).slice(1);
+          spineColor = hex;
+          if (spineColorPicker) spineColorPicker.value = hex;
+          if (spineColorVal) spineColorVal.textContent = hex.toUpperCase();
+        }
+      } catch (e) {}
     }
 
     renderCurrentMockup();

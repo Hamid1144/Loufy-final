@@ -14,9 +14,9 @@
     "layers": {
       "backdrop": "images/psd_mockups/hardcover_standing/base_backdrop.jpg",
       "shadow": "images/psd_mockups/hardcover_standing/shadow.png",
-      "shading": "images/psd_mockups/hardcover_standing/book_shading.png",
-      "shadingBlend": "multiply"
+      "crease": "images/psd_mockups/hardcover_standing/crease.png"
     },
+    "quadsBlendMode": "source-over",
     "quads": {
       "front": [
         [
@@ -131,7 +131,7 @@
         ]
       ]
     },
-    "quadsBlendMode": "multiply"
+    "quadsBlendMode": "source-over"
   },
   "front_back_showcase": {
     "id": "front_back_showcase",
@@ -525,7 +525,7 @@
         ]
       ]
     },
-    "quadsBlendMode": "multiply"
+    "quadsBlendMode": "source-over"
   },
   "book_mockup_1": {
     "id": "book_mockup_1",
