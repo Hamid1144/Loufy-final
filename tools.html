@@ -1079,7 +1079,8 @@ document.addEventListener('DOMContentLoaded', () => {
           1764.3
         ]
       ]
-    }
+    },
+    "quadsBlendMode": "overlay"
   },
   "front_back_showcase": {
     "id": "front_back_showcase",
@@ -1353,7 +1354,8 @@ document.addEventListener('DOMContentLoaded', () => {
           1582.07
         ]
       ]
-    }
+    },
+    "quadsBlendMode": "multiply"
   },
   "studio_collector": {
     "id": "studio_collector",
@@ -1517,7 +1519,8 @@ document.addEventListener('DOMContentLoaded', () => {
           2215.52
         ]
       ]
-    }
+    },
+    "quadsBlendMode": "overlay"
   },
   "hardcover_flatlay": {
     "id": "hardcover_flatlay",
@@ -1875,7 +1878,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
       const backArt = customBackImg || activeBackImg || createSolidArtwork(spineColor, 1000, 1500, '');
 
-      // 4. Draw Quads or Rects
+      // Set global blend mode for quads if specified
+      ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
+
+      // 4. Draw Back/Bottom Quads
       if (config.quads) {
         if (config.quads.back) warpQuad(ctx, backArt, config.quads.back, scale);
         if (config.quads.spine) warpQuad(ctx, spineArt, config.quads.spine, scale);
@@ -1884,17 +1890,36 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.quads.stackSpine2) warpQuad(ctx, spineArt, config.quads.stackSpine2, scale);
         if (config.quads.stackFront1) warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
         if (config.quads.stackSpine1) warpQuad(ctx, spineArt, config.quads.stackSpine1, scale);
-        if (config.quads.front) warpQuad(ctx, frontArt, config.quads.front, scale);
       } else if (config.rects) {
         if (config.rects.back) {
           const [rx, ry, rw, rh] = config.rects.back;
           ctx.drawImage(backArt, rx * scale, ry * scale, rw * scale, rh * scale);
         }
-        if (config.rects.front) {
-          const [rx, ry, rw, rh] = config.rects.front;
-          ctx.drawImage(frontArt, rx * scale, ry * scale, rw * scale, rh * scale);
-        }
-        if (config.reflections) {
+      }
+
+      // Reset to normal before drawing front body
+      ctx.globalCompositeOperation = 'source-over';
+
+      // 5. Front body overlay (for paperback duo)
+      if (config.layers.frontBody) {
+        const fbImg = await preloadImage(config.layers.frontBody);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+        if (fbImg) ctx.drawImage(fbImg, 0, 0, renderWidth, renderHeight);
+      }
+
+      // 6. Draw Top/Front Quads
+      ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
+      if (config.quads && config.quads.front) warpQuad(ctx, frontArt, config.quads.front, scale);
+      else if (config.rects && config.rects.front) {
+        const [rx, ry, rw, rh] = config.rects.front;
+        ctx.drawImage(frontArt, rx * scale, ry * scale, rw * scale, rh * scale);
+      }
+      
+      // Reset to normal
+      ctx.globalCompositeOperation = 'source-over';
+
+      // Draw Reflections (if any)
+      if (config.rects && config.reflections) {
           ctx.save();
           ctx.globalAlpha = 0.35;
           if (config.reflections.back) {
@@ -1914,14 +1939,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.restore();
           }
           ctx.restore();
-        }
-      }
-
-      // 5. Front body overlay (for paperback duo)
-      if (config.layers.frontBody) {
-        const fbImg = await preloadImage(config.layers.frontBody);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (fbImg) ctx.drawImage(fbImg, 0, 0, renderWidth, renderHeight);
       }
 
       // 6. Realistic Photoshop Shading & Texture Blending
