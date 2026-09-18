@@ -354,7 +354,7 @@
         ]
       ]
     },
-    "quadsBlendMode": "multiply"
+    "quadsBlendMode": "source-over"
   },
   "studio_collector": {
     "id": "studio_collector",
