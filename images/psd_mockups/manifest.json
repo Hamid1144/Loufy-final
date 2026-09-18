@@ -371,8 +371,13 @@
     ],
     "defaultBg": "#f8f9fa",
     "layers": {
-      "backdrop": "images/psd_mockups/studio_collector/base_backdrop.jpg",
-      "bodies": "images/psd_mockups/studio_collector/book_bodies.png"
+      "backdrop": "images/psd_mockups/spine_full_showcase/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/spine_full_showcase/shadows.png",
+      "backBookBase": "images/psd_mockups/spine_full_showcase/back_book_base.png",
+      "interShadows": "images/psd_mockups/spine_full_showcase/inter_shadows.png",
+      "book3Base": "images/psd_mockups/spine_full_showcase/book3_base.png",
+      "book2Base": "images/psd_mockups/spine_full_showcase/book2_base.png",
+      "book1Base": "images/psd_mockups/spine_full_showcase/book1_base.png"
     },
     "quads": {
       "front": [

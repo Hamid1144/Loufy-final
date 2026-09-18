@@ -788,12 +788,13 @@
               </div>
             </button>
 
-            <!-- 7. Ultimate 4-Book Collector Showcase -->
-            <button type="button" class="mockup-psd-card" data-preset="studio_collector">
-              <img src="/images/psd_mockups/thumbnails/studio_collector.jpg" class="mockup-psd-thumb" alt="4-Book Showcase">
+            <!-- 7. Ultimate 4-Book Collector Showcase (from Spine full book cover.psd) -->
+            <button type="button" class="mockup-psd-card" data-preset="studio_collector" style="border-color: rgba(244, 180, 0, 0.4); background: rgba(244, 180, 0, 0.04);">
+              <span class="preset-badge-new">NEW</span>
+              <img src="/images/psd_mockups/thumbnails/spine_full_showcase.jpg" class="mockup-psd-thumb" alt="4-Book Spine Showcase">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">4-Book Studio</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-crown"></i> Stack & Stand</span>
+                <span class="mockup-psd-title" style="color: #fde047;">4-Book Studio</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-crown" style="color: #f4b400;"></i> Full Spine Suite</span>
               </div>
             </button>
 
@@ -1470,8 +1471,13 @@ document.addEventListener('DOMContentLoaded', () => {
     ],
     "defaultBg": "#f8f9fa",
     "layers": {
-      "backdrop": "images/psd_mockups/studio_collector/base_backdrop.jpg",
-      "bodies": "images/psd_mockups/studio_collector/book_bodies.png"
+      "backdrop": "images/psd_mockups/spine_full_showcase/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/spine_full_showcase/shadows.png",
+      "backBookBase": "images/psd_mockups/spine_full_showcase/back_book_base.png",
+      "interShadows": "images/psd_mockups/spine_full_showcase/inter_shadows.png",
+      "book3Base": "images/psd_mockups/spine_full_showcase/book3_base.png",
+      "book2Base": "images/psd_mockups/spine_full_showcase/book2_base.png",
+      "book1Base": "images/psd_mockups/spine_full_showcase/book1_base.png"
     },
     "quads": {
       "front": [
@@ -1647,6 +1653,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 };
+PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
   // 2. DOM Elements (Queried once at top - avoids any Temporal Dead Zone errors)
   const viewportCanvas = document.getElementById('psd-canvas');
@@ -1995,80 +2002,148 @@ document.addEventListener('DOMContentLoaded', () => {
       const rawBack = customBackImg || activeBackImg || createSolidArtwork(spineColor, 1000, 1500, '');
       const backArt = getTransformedArtwork(rawBack);
 
-      // 3. Base Bodies & Interleaved Stacked Covers (3.psd square stack & collector)
-      if (config.layers.bodyBottom) {
-        const bbImg = await preloadImage(config.layers.bodyBottom);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (bbImg) ctx.drawImage(bbImg, 0, 0, renderWidth, renderHeight);
-        if (config.quads && config.quads.stackFront2) {
-          ctx.save();
-          ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
-          warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
-          ctx.restore();
+      // 3. Realistic Layer Compositing Pipeline
+      if (presetId === 'studio_collector' || presetId === 'spine_full_showcase') {
+        // --- AUTHENTIC 4-BOOK COLLECTOR PIPELINE (from Spine full book cover.psd) ---
+        // 1. Standing Back Book Base Volume & Spine Crease
+        if (config.layers.backBookBase) {
+          const bbbImg = await preloadImage(config.layers.backBookBase);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (bbbImg) ctx.drawImage(bbbImg, 0, 0, renderWidth, renderHeight);
         }
-      }
-      if (config.layers.bodyMiddle) {
-        const bmImg = await preloadImage(config.layers.bodyMiddle);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (bmImg) ctx.drawImage(bmImg, 0, 0, renderWidth, renderHeight);
-        if (config.quads && config.quads.stackFront1) {
-          ctx.save();
-          ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
-          warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
-          ctx.restore();
-        }
-      }
-      if (config.layers.bodyTop) {
-        const btImg = await preloadImage(config.layers.bodyTop);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (btImg) ctx.drawImage(btImg, 0, 0, renderWidth, renderHeight);
-      }
-      if (config.layers.bodies) {
-        const bImg = await preloadImage(config.layers.bodies);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (bImg) ctx.drawImage(bImg, 0, 0, renderWidth, renderHeight);
-      }
-      if (config.layers.backBody) {
-        const bbImg = await preloadImage(config.layers.backBody);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (bbImg) ctx.drawImage(bbImg, 0, 0, renderWidth, renderHeight);
-      }
-
-      // 4. Draw Back/Bottom Quads
-      if (config.quads) {
+        // 2. Back Book Artwork (Cover + Spine)
         ctx.save();
-        ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
+        ctx.globalCompositeOperation = config.quadsBlendMode || 'multiply';
         if (config.quads.back) warpQuad(ctx, backArt, config.quads.back, scale);
-        if (config.quads.spine) warpQuad(ctx, spineArt, config.quads.spine, scale);
         if (config.quads.backSpine) warpQuad(ctx, spineArt, config.quads.backSpine, scale);
-        if (!config.layers.bodyBottom && config.quads.stackFront2) warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
+        ctx.restore();
+
+        // 3. Inter-Book Catch Shadows (Cast from stack and hero book)
+        if (config.layers.interShadows) {
+          const isImg = await preloadImage(config.layers.interShadows);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (isImg) {
+            ctx.save();
+            ctx.globalAlpha = Math.min(1.0, shadowLevel / 100);
+            ctx.drawImage(isImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+
+        // 4. Book 3 Base (Bottom stacked book with ivory paper pages)
+        if (config.layers.book3Base) {
+          const b3Img = await preloadImage(config.layers.book3Base);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (b3Img) ctx.drawImage(b3Img, 0, 0, renderWidth, renderHeight);
+        }
+        // 5. Book 3 Artwork (stackFront2 + stackSpine2)
+        ctx.save();
+        ctx.globalCompositeOperation = config.quadsBlendMode || 'multiply';
+        if (config.quads.stackFront2) warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
         if (config.quads.stackSpine2) warpQuad(ctx, spineArt, config.quads.stackSpine2, scale);
-        if (!config.layers.bodyMiddle && config.quads.stackFront1) warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
+        ctx.restore();
+
+        // 6. Book 2 Base (Top stacked book with ivory paper pages)
+        if (config.layers.book2Base) {
+          const b2Img = await preloadImage(config.layers.book2Base);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (b2Img) ctx.drawImage(b2Img, 0, 0, renderWidth, renderHeight);
+        }
+        // 7. Book 2 Artwork (stackFront1 + stackSpine1)
+        ctx.save();
+        ctx.globalCompositeOperation = config.quadsBlendMode || 'multiply';
+        if (config.quads.stackFront1) warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
         if (config.quads.stackSpine1) warpQuad(ctx, spineArt, config.quads.stackSpine1, scale);
         ctx.restore();
-      } else if (config.rects) {
-        if (config.rects.back) {
-          const [rx, ry, rw, rh] = config.rects.back;
-          ctx.drawImage(backArt, rx * scale, ry * scale, rw * scale, rh * scale);
+
+        // 8. Book 1 Base (Standing hero book volume & hinge crease)
+        if (config.layers.book1Base) {
+          const b1Img = await preloadImage(config.layers.book1Base);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (b1Img) ctx.drawImage(b1Img, 0, 0, renderWidth, renderHeight);
         }
-      }
+        // 9. Book 1 Artwork (Hero front cover + hero spine)
+        ctx.save();
+        ctx.globalCompositeOperation = config.quadsBlendMode || 'multiply';
+        if (config.quads.front) warpQuad(ctx, frontArt, config.quads.front, scale);
+        if (config.quads.spine) warpQuad(ctx, spineArt, config.quads.spine, scale);
+        ctx.restore();
+      } else {
+        // --- STANDARD PIPELINE FOR OTHER PRESETS ---
+        if (config.layers.bodyBottom) {
+          const bbImg = await preloadImage(config.layers.bodyBottom);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (bbImg) ctx.drawImage(bbImg, 0, 0, renderWidth, renderHeight);
+          if (config.quads && config.quads.stackFront2) {
+            ctx.save();
+            ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
+            warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
+            ctx.restore();
+          }
+        }
+        if (config.layers.bodyMiddle) {
+          const bmImg = await preloadImage(config.layers.bodyMiddle);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (bmImg) ctx.drawImage(bmImg, 0, 0, renderWidth, renderHeight);
+          if (config.quads && config.quads.stackFront1) {
+            ctx.save();
+            ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
+            warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
+            ctx.restore();
+          }
+        }
+        if (config.layers.bodyTop) {
+          const btImg = await preloadImage(config.layers.bodyTop);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (btImg) ctx.drawImage(btImg, 0, 0, renderWidth, renderHeight);
+        }
+        if (config.layers.bodies) {
+          const bImg = await preloadImage(config.layers.bodies);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (bImg) ctx.drawImage(bImg, 0, 0, renderWidth, renderHeight);
+        }
+        if (config.layers.backBody) {
+          const bbImg = await preloadImage(config.layers.backBody);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (bbImg) ctx.drawImage(bbImg, 0, 0, renderWidth, renderHeight);
+        }
 
-      // Reset to normal before drawing front body
-      ctx.globalCompositeOperation = 'source-over';
+        // Draw Back/Bottom Quads
+        if (config.quads) {
+          ctx.save();
+          ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
+          if (config.quads.back) warpQuad(ctx, backArt, config.quads.back, scale);
+          if (config.quads.spine) warpQuad(ctx, spineArt, config.quads.spine, scale);
+          if (config.quads.backSpine) warpQuad(ctx, spineArt, config.quads.backSpine, scale);
+          if (!config.layers.bodyBottom && config.quads.stackFront2) warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
+          if (config.quads.stackSpine2) warpQuad(ctx, spineArt, config.quads.stackSpine2, scale);
+          if (!config.layers.bodyMiddle && config.quads.stackFront1) warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
+          if (config.quads.stackSpine1) warpQuad(ctx, spineArt, config.quads.stackSpine1, scale);
+          ctx.restore();
+        } else if (config.rects) {
+          if (config.rects.back) {
+            const [rx, ry, rw, rh] = config.rects.back;
+            ctx.drawImage(backArt, rx * scale, ry * scale, rw * scale, rh * scale);
+          }
+        }
 
-      // 5. Front body overlay (for paperback duo)
-      if (config.layers.frontBody) {
-        const fbImg = await preloadImage(config.layers.frontBody);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (fbImg) ctx.drawImage(fbImg, 0, 0, renderWidth, renderHeight);
-      }
+        // Reset to normal before drawing front body
+        ctx.globalCompositeOperation = 'source-over';
 
-      // 6. Draw Top/Front Quads
-      ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
-      if (config.quads && config.quads.front) warpQuad(ctx, frontArt, config.quads.front, scale);
-      else if (config.rects && config.rects.front) {
-        const [rx, ry, rw, rh] = config.rects.front;
-        ctx.drawImage(frontArt, rx * scale, ry * scale, rw * scale, rh * scale);
+        // Front body overlay (for paperback duo)
+        if (config.layers.frontBody) {
+          const fbImg = await preloadImage(config.layers.frontBody);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (fbImg) ctx.drawImage(fbImg, 0, 0, renderWidth, renderHeight);
+        }
+
+        // Draw Top/Front Quads
+        ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
+        if (config.quads && config.quads.front) warpQuad(ctx, frontArt, config.quads.front, scale);
+        else if (config.rects && config.rects.front) {
+          const [rx, ry, rw, rh] = config.rects.front;
+          ctx.drawImage(frontArt, rx * scale, ry * scale, rw * scale, rh * scale);
+        }
       }
       
       // Reset to normal
