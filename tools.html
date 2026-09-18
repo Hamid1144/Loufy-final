@@ -1669,7 +1669,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < 4; i++) {
       const sx = srcPts[i][0], sy = srcPts[i][1];
       const dx = dstPts[i][0], dy = dstPts[i][1];
-      A.push([sx, sy, 1, 0, 0, 0, -sx * dx, -sy * dy]);
+      A.push([sx, sy, 1, 0, 0, 0, -sx * dx, -sy * dx]);
       B.push(dx);
       A.push([0, 0, 0, sx, sy, 1, -sx * dy, -sy * dy]);
       B.push(dy);
