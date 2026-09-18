@@ -80,107 +80,141 @@
     /* ── 3D TOOL WORKSPACE STYLING ── */
     .mockup-app-section {
       background: radial-gradient(circle at 50% 20%, rgba(24, 76, 58, 0.45), #080d14 70%);
-      padding: 120px 0 80px;
+      padding: 72px 0 12px;
       min-height: 100vh;
       color: #fff;
     }
 
     .mockup-header-intro {
-      text-align: center;
-      max-width: 820px;
-      margin: 0 auto 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto 10px;
+      padding: 0 4px;
+    }
+    .mockup-header-intro .title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     .mockup-header-intro h1 {
-      font-size: 3rem;
+      font-size: 1.55rem;
       font-weight: 800;
-      margin: 12px 0 16px;
+      margin: 0;
       line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
     .mockup-header-intro p {
-      color: #cbd5e1;
-      font-size: 1.1rem;
-      line-height: 1.6;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin: 0;
+      line-height: 1.3;
+    }
+    .mockup-header-intro .header-badge {
+      font-size: 0.76rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(244, 180, 0, 0.12);
+      border: 1px solid rgba(244, 180, 0, 0.35);
+      color: #f4b400;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
+    /* Workspace: Fit on 1 Desktop Screen */
     .mockup-workspace-grid {
       display: grid;
-      grid-template-columns: 430px 1fr;
-      gap: 30px;
-      align-items: start;
-      margin-top: 20px;
+      grid-template-columns: 385px 1fr;
+      gap: 14px;
+      align-items: stretch;
+      max-width: 1400px;
+      margin: 0 auto;
+      height: calc(100vh - 145px);
+      min-height: 520px;
+      max-height: 740px;
     }
 
-    /* Left Controls Sidebar */
+    /* Left Controls Sidebar (Scrolls cleanly if window is small) */
     .mockup-sidebar-card {
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(15, 23, 42, 0.78);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 26px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .mockup-sidebar-card::-webkit-scrollbar {
+      width: 5px;
+    }
+    .mockup-sidebar-card::-webkit-scrollbar-thumb {
+      background: rgba(244, 180, 0, 0.3);
+      border-radius: 4px;
     }
 
     .tool-group {
-      margin-bottom: 22px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 20px;
+      padding-bottom: 9px;
     }
     .tool-group:last-child {
-      margin-bottom: 0;
       border-bottom: none;
       padding-bottom: 0;
     }
 
     .tool-label {
-      font-size: 0.85rem;
+      font-size: 0.76rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       font-weight: 700;
       color: var(--accent);
-      margin-bottom: 12px;
+      margin-bottom: 6px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
+    }
+    .tool-label .badge-mini {
+      font-size: 0.65rem;
+      color: #94a3b8;
+      font-weight: 500;
+      text-transform: none;
     }
 
-    /* Preset Buttons */
+    /* Compact 3-Column Mockup Grid */
     .mockup-grid-12 {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      max-height: 340px;
-      overflow-y: auto;
-      padding-right: 4px;
-      margin-bottom: 6px;
-    }
-    .mockup-grid-12::-webkit-scrollbar {
-      width: 5px;
-    }
-    .mockup-grid-12::-webkit-scrollbar-thumb {
-      background: rgba(244, 180, 0, 0.35);
-      border-radius: 4px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
     }
     .mockup-card-btn {
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      padding: 10px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 8px;
+      padding: 6px 4px;
       color: #e2e8f0;
       font-family: 'Outfit', sans-serif;
-      font-size: 0.82rem;
+      font-size: 0.71rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
-      transition: all 0.2s ease;
+      gap: 3px;
+      transition: all 0.18s ease;
       text-align: center;
+      line-height: 1.15;
     }
     .mockup-card-btn i {
-      font-size: 1.15rem;
+      font-size: 0.92rem;
       color: #94a3b8;
-      transition: color 0.2s;
+      transition: color 0.18s;
     }
     .mockup-card-btn:hover {
       background: rgba(244, 180, 0, 0.08);
@@ -188,304 +222,206 @@
       color: #fff;
     }
     .mockup-card-btn.active {
-      background: rgba(24, 76, 58, 0.75);
+      background: rgba(24, 76, 58, 0.85);
       border-color: var(--accent);
       color: #fff;
-      box-shadow: 0 0 14px rgba(244, 180, 0, 0.25);
+      box-shadow: 0 0 10px rgba(244, 180, 0, 0.28);
     }
     .mockup-card-btn.active i {
       color: var(--accent);
     }
-    .mockup-card-btn small {
-      font-size: 0.65rem;
-      font-weight: 400;
-      color: #94a3b8;
-      line-height: 1.15;
+
+    /* Aspect Ratio Selector Pills */
+    .ratio-pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+      margin-bottom: 6px;
     }
-    .mockup-card-btn.active small {
-      color: rgba(255, 255, 255, 0.85);
+    .ratio-pill {
+      padding: 3px 7px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #94a3b8;
+      font-size: 0.68rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .ratio-pill:hover {
+      background: rgba(244, 180, 0, 0.1);
+      color: #fff;
+      border-color: rgba(244, 180, 0, 0.35);
+    }
+    .ratio-pill.active {
+      background: rgba(24, 76, 58, 0.85);
+      border-color: var(--accent);
+      color: #fff;
     }
 
-    /* Drag and Drop Zone */
+    /* Drag and Drop Zone (Compact) */
     .upload-dropzone {
       border: 2px dashed rgba(244, 180, 0, 0.4);
       background: rgba(244, 180, 0, 0.03);
-      border-radius: 14px;
-      padding: 24px 16px;
+      border-radius: 10px;
+      padding: 10px 12px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
       position: relative;
     }
     .upload-dropzone:hover, .upload-dropzone.dragover {
       border-color: var(--accent);
       background: rgba(244, 180, 0, 0.08);
-      transform: translateY(-2px);
-    }
-    .upload-dropzone i {
-      font-size: 2rem;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-    .upload-dropzone p {
-      font-size: 0.88rem;
-      color: #cbd5e1;
-      margin-bottom: 4px;
-      font-weight: 500;
-    }
-    .upload-dropzone span {
-      font-size: 0.75rem;
-      color: #64748b;
+      transform: scale(1.005);
     }
     .upload-dropzone input[type="file"] {
       position: absolute;
-      inset: 0;
+      top: 0; left: 0; width: 100%; height: 100%;
       opacity: 0;
       cursor: pointer;
-      width: 100%;
-      height: 100%;
     }
-
-    /* Preloaded Sample Covers Carousel */
-    
-    /* Cover Mode Tabs */
-    .cover-mode-tabs {
-      display: flex;
-      gap: 6px;
-      background: rgba(0, 0, 0, 0.35);
-      padding: 4px;
-      border-radius: 10px;
-      margin-bottom: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .upload-dropzone i {
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 2px;
     }
-    .cover-mode-tab {
-      flex: 1;
-      padding: 8px 10px;
-      border: none;
-      background: transparent;
-      color: #94a3b8;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.8rem;
+    .upload-dropzone p {
+      font-size: 0.77rem;
+      color: #e2e8f0;
+      margin: 0;
       font-weight: 600;
-      border-radius: 7px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s;
     }
-    .cover-mode-tab:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.05);
-    }
-    .cover-mode-tab.active {
-      background: var(--accent);
-      color: #0b1f17;
-      box-shadow: 0 2px 8px rgba(244, 180, 0, 0.25);
+    .upload-dropzone small {
+      font-size: 0.64rem;
+      color: #94a3b8;
+      display: block;
+      margin-top: 2px;
     }
 
-    /* Auto-detection badge */
+    /* Detection Status Badge */
     .autodetect-badge {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 9px 12px;
-      border-radius: 8px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      margin-top: 10px;
-      transition: all 0.3s ease;
-      line-height: 1.4;
+      gap: 6px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      margin-top: 5px;
+      font-weight: 500;
     }
     .autodetect-badge.wrap-detected {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      color: #34d399;
+      background: rgba(24, 76, 58, 0.6);
+      border: 1px solid rgba(24, 76, 58, 0.8);
+      color: #4ade80;
     }
     .autodetect-badge.single-detected {
-      background: rgba(59, 130, 246, 0.15);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      color: #60a5fa;
+      background: rgba(244, 180, 0, 0.12);
+      border: 1px solid rgba(244, 180, 0, 0.35);
+      color: #f4b400;
     }
 
-    /* Slice Studio Box */
-    .slice-studio-card {
-      background: rgba(8, 13, 20, 0.7);
-      border: 1px solid rgba(244, 180, 0, 0.3);
-      border-radius: 12px;
-      padding: 14px;
-      margin-top: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-    .slice-canvas-wrapper {
-      position: relative;
-      width: 100%;
-      height: 70px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: #050a0f;
-      margin-bottom: 10px;
-    }
-    #slice-preview-canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-    .slice-zones-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      pointer-events: none;
-      font-size: 0.68rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    .slice-zone-back {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #34d399;
-      background: rgba(16, 185, 129, 0.22);
-      border-right: 2px dashed #34d399;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      transition: width 0.1s ease;
-    }
-    .slice-zone-spine {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--accent);
-      background: rgba(244, 180, 0, 0.35);
-      border-right: 2px dashed var(--accent);
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      transition: width 0.1s ease;
-    }
-    .slice-zone-front {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #60a5fa;
-      background: rgba(59, 130, 246, 0.22);
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      transition: width 0.1s ease;
-    }
-
-    /* Separate Dropzones Grid */
-    .separate-dropzones-grid {
+    /* Optional Separate Spine & Back Row */
+    .separate-covers-row {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 6px;
     }
     .separate-box {
-      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
       background: rgba(255, 255, 255, 0.02);
-      border-radius: 10px;
-      padding: 12px 6px;
+      border-radius: 8px;
+      padding: 6px;
       text-align: center;
       cursor: pointer;
       position: relative;
       transition: all 0.2s;
-      min-height: 112px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
-    .separate-box:hover, .separate-box.dragover {
-      border-color: var(--accent);
-      background: rgba(244, 180, 0, 0.06);
-    }
-    .separate-box.has-image {
-      border-style: solid;
-      border-color: rgba(16, 185, 129, 0.6);
-      background: rgba(16, 185, 129, 0.06);
-    }
-    .separate-box .box-thumb {
-      width: 44px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 4px;
-      margin-bottom: 6px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    .separate-box:hover {
+      border-color: rgba(244, 180, 0, 0.5);
+      background: rgba(244, 180, 0, 0.05);
     }
     .separate-box input[type="file"] {
       position: absolute;
-      inset: 0;
+      top: 0; left: 0; width: 100%; height: 100%;
       opacity: 0;
       cursor: pointer;
-      width: 100%;
-      height: 100%;
     }
-    .separate-box .box-label {
-      font-size: 0.75rem;
-      font-weight: 700;
+    .separate-box .sep-label {
+      font-size: 0.68rem;
       color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-weight: 600;
     }
-    .separate-box .box-sub {
-      font-size: 0.65rem;
-      color: #64748b;
+    .separate-thumb-wrap {
+      position: relative;
+      display: none;
+      margin-top: 3px;
+    }
+    .separate-thumb-wrap img {
+      width: 100%;
+      height: 38px;
+      object-fit: contain;
+      border-radius: 4px;
     }
     .separate-clear-btn {
       position: absolute;
-      top: 4px;
-      right: 4px;
-      background: rgba(239, 68, 68, 0.9);
+      top: -4px;
+      right: -4px;
+      background: #ef4444;
       color: #fff;
       border: none;
       border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      font-size: 0.65rem;
-      display: none;
+      width: 15px;
+      height: 15px;
+      font-size: 9px;
+      cursor: pointer;
+      display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      z-index: 2;
-    }
-    .separate-box.has-image .separate-clear-btn {
-      display: flex;
-    }
-
-    .sample-badge {
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      background: rgba(244, 180, 0, 0.95);
-      color: #0b1f17;
-      font-size: 0.55rem;
-      font-weight: 800;
-      padding: 1px 4px;
-      border-radius: 3px;
       line-height: 1;
-      letter-spacing: 0.5px;
-    }
-    .sample-badge.front-badge {
-      background: rgba(59, 130, 246, 0.95);
-      color: #fff;
-    }
-    .sample-thumb {
-      position: relative;
     }
 
-    .samples-row {
+    /* Color picker & slider compact */
+    .spine-color-row {
       display: flex;
+      align-items: center;
       gap: 8px;
-      margin-top: 12px;
+      margin-top: 4px;
+    }
+    .spine-color-picker {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      background: none;
+      padding: 0;
+    }
+    .spine-color-hex {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      font-family: monospace;
+    }
+
+    /* Demo Covers Carousel */
+    .sample-covers-strip {
+      display: flex;
+      gap: 6px;
+      margin-top: 5px;
       overflow-x: auto;
-      padding-bottom: 6px;
+      padding-bottom: 4px;
     }
     .sample-thumb {
-      flex: 0 0 54px;
-      height: 76px;
-      border-radius: 6px;
+      flex: 0 0 46px;
+      height: 60px;
+      border-radius: 5px;
       overflow: hidden;
       border: 2px solid transparent;
       cursor: pointer;
@@ -497,12 +433,12 @@
       object-fit: cover;
     }
     .sample-thumb:hover {
-      transform: scale(1.05);
+      transform: scale(1.04);
       border-color: rgba(244, 180, 0, 0.5);
     }
     .sample-thumb.active {
       border-color: var(--accent);
-      box-shadow: 0 0 10px rgba(244, 180, 0, 0.4);
+      box-shadow: 0 0 8px rgba(244, 180, 0, 0.4);
     }
 
     /* Range Sliders */
@@ -510,33 +446,34 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 8px;
-      font-size: 0.85rem;
+      margin-bottom: 4px;
+      font-size: 0.75rem;
       color: #94a3b8;
     }
     .custom-range {
       width: 100%;
       accent-color: var(--accent);
       cursor: pointer;
+      height: 4px;
     }
 
     /* Finish & Background Toggles */
     .btn-toggle-group {
       display: flex;
-      gap: 8px;
+      gap: 5px;
     }
     .toggle-pill {
       flex: 1;
-      padding: 8px 12px;
+      padding: 5px 8px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
+      border-radius: 6px;
       color: #cbd5e1;
-      font-size: 0.8rem;
+      font-size: 0.72rem;
       font-weight: 600;
       cursor: pointer;
       text-align: center;
-      transition: all 0.2s;
+      transition: all 0.18s;
     }
     .toggle-pill:hover {
       background: rgba(255, 255, 255, 0.1);
@@ -553,45 +490,110 @@
       background: rgba(11, 19, 31, 0.85);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
+      border-radius: 16px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
+      height: 100%;
     }
 
     .viewport-topbar {
-      padding: 16px 22px;
+      padding: 10px 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(8, 13, 20, 0.5);
+      background: rgba(8, 13, 20, 0.6);
+      flex-shrink: 0;
     }
     .viewport-topbar .status-pill {
-      font-size: 0.78rem;
-      padding: 4px 10px;
+      font-size: 0.73rem;
+      padding: 3px 8px;
       background: rgba(24, 76, 58, 0.6);
       border: 1px solid rgba(24, 76, 58, 0.8);
       color: #4ade80;
-      border-radius: 20px;
+      border-radius: 16px;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
     .viewport-topbar .status-pill::before {
       content: '';
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       background: #4ade80;
       border-radius: 50%;
       display: inline-block;
-      box-shadow: 0 0 8px #4ade80;
+      box-shadow: 0 0 6px #4ade80;
+    }
+    .viewport-topbar .active-preset-name {
+      font-size: 0.78rem;
+      color: #e2e8f0;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    /* 3D Canvas Container */
+    .viewport-footer-actions {
+      padding: 10px 16px;
+      background: rgba(8, 13, 20, 0.7);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .viewport-footer-actions .download-info {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      display: flex;
+      flex-direction: column;
+    }
+    .viewport-footer-actions .download-info strong {
+      color: #fff;
+      font-size: 0.82rem;
+    }
+    .download-primary-btn {
+      padding: 8px 18px;
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .download-primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(244, 180, 0, 0.35);
+    }
+    .download-primary-btn:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1024px) {
+      .mockup-workspace-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+        max-height: none;
+      }
+      .mockup-sidebar-card {
+        max-height: none;
+      }
+      #three-canvas-container {
+        height: 440px !important;
+      }
+    }
+/* 3D Canvas Container */
     #three-canvas-container {
       width: 100%;
       height: 540px;
@@ -826,13 +828,27 @@
 
         <!-- 2. Book Cover Artwork Uploads -->
         <div class="tool-group">
-          <div class="tool-label"><i class="fa-solid fa-cloud-arrow-up"></i> 2. Upload Book Artwork</div>
+          <div class="tool-label">
+            <span><i class="fa-solid fa-cloud-arrow-up"></i> 2. Upload Book Artwork</span>
+            <span class="badge-mini" id="dimension-tag" style="font-size: 0.68rem; color: #f4b400; font-weight: 600;">Auto-Detecting</span>
+          </div>
+
+          <!-- Quick Aspect Ratio Presets -->
+          <div class="ratio-pill-group" id="ratio-selector-bar">
+            <button type="button" class="ratio-pill active" data-ratio="auto" title="Automatically match uploaded image size"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto Fit</button>
+            <button type="button" class="ratio-pill" data-ratio="0.667" title="Standard 6x9 inches (2:3)">6x9 (2:3)</button>
+            <button type="button" class="ratio-pill" data-ratio="1.0" title="Square 8.5x8.5 inches (1:1)">8.5x8.5 (1:1)</button>
+            <button type="button" class="ratio-pill" data-ratio="0.773" title="Standard Letter 8.5x11 inches">8.5x11</button>
+            <button type="button" class="ratio-pill" data-ratio="0.700" title="Digest / Trade 7x10 inches">7x10</button>
+            <button type="button" class="ratio-pill" data-ratio="0.800" title="Workbook / Photo 8x10 inches">8x10</button>
+            <button type="button" class="ratio-pill" data-ratio="0.625" title="Pocket 5x8 inches">5x8</button>
+          </div>
           
           <!-- Primary Upload Box -->
-          <div class="upload-dropzone" id="cover-dropzone" style="padding: 22px 14px;">
+          <div class="upload-dropzone" id="cover-dropzone">
             <i class="fa-solid fa-cloud-arrow-up"></i>
             <p><strong>Click or Drag &amp; Drop Your Cover</strong></p>
-            <span>Supports Full Wrap Jacket or 2D Front Cover (Auto-Detects)</span>
+            <small>Supports Full Wrap Jacket or Front Cover (Auto-Detects)</small>
             <input type="file" id="cover-file-input" accept="image/*">
           </div>
 
@@ -849,7 +865,7 @@
             </div>
             <div class="separate-dropzones-grid" style="margin-bottom: 0;">
               <!-- Spine Input -->
-              <div class="separate-box" id="box-spine" style="min-height: 85px; padding: 8px 4px;">
+              <div class="separate-box" id="box-spine" style="min-height: 52px; padding: 4px;">
                 <button type="button" class="separate-clear-btn" data-target="spine" title="Clear">✕</button>
                 <div id="thumb-spine-wrap" style="display: none;"><img id="thumb-spine-img" class="box-thumb" alt="Spine" style="width: 32px; height: 48px;"></div>
                 <div id="icon-spine-wrap"><i class="fa-solid fa-align-left" style="font-size: 1rem; color: var(--accent); margin-bottom: 3px;"></i></div>
@@ -858,7 +874,7 @@
                 <input type="file" id="sep-spine-input" accept="image/*">
               </div>
               <!-- Back Input -->
-              <div class="separate-box" id="box-back" style="min-height: 85px; padding: 8px 4px;">
+              <div class="separate-box" id="box-back" style="min-height: 52px; padding: 4px;">
                 <button type="button" class="separate-clear-btn" data-target="back" title="Clear">✕</button>
                 <div id="thumb-back-wrap" style="display: none;"><img id="thumb-back-img" class="box-thumb" alt="Back" style="width: 32px; height: 48px;"></div>
                 <div id="icon-back-wrap"><i class="fa-solid fa-file-lines" style="font-size: 1rem; color: #34d399; margin-bottom: 3px;"></i></div>
@@ -1037,11 +1053,17 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // State
-  let currentPreset = 'open-wrap'; // Default: Open Full Wrap (matches user reference!)
-  let bgMode = 'light'; // 'light' (Studio Grey), 'transparent', 'dark'
+  let currentPreset = 'open-wrap';
+  let bgMode = 'light';
   let bookThickness = 0.45;
   let spineColor = '#111827';
   let coverFinish = 'glossy';
+
+  // Aspect Ratio & Dimensions State
+  let manualRatio = 'auto'; // 'auto' or numeric string like '0.667', '1.0'
+  let activeFrontAspect = 0.667; // Default 6x9 (2:3)
+  let activeWrapAspect = 1.52;
+  let autoDetectedLabel = '6x9 in (2:3 Standard)';
 
   // Artwork Sources
   let isWrapDetected = true;
@@ -1071,7 +1093,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderer.setClearColor(0xe2e8f0, 1);
   container.appendChild(renderer.domElement);
 
-  // OrbitControls (Disabled by default - Fixed Studio PSD Alignment per user request)
+  // OrbitControls (Disabled by default - Fixed Studio PSD Alignment)
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
@@ -1135,19 +1157,20 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.width = 512;
     canvas.height = 512;
     const ctx = canvas.getContext('2d');
-    const grad = ctx.createRadialGradient(256, 256, 30, 256, 256, 240);
+    const grad = ctx.createRadialGradient(256, 256, 10, 256, 256, 250);
     grad.addColorStop(0, 'rgba(15, 23, 42, 0.65)');
-    grad.addColorStop(0.3, 'rgba(15, 23, 42, 0.35)');
-    grad.addColorStop(0.7, 'rgba(15, 23, 42, 0.08)');
-    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    grad.addColorStop(0.35, 'rgba(15, 23, 42, 0.32)');
+    grad.addColorStop(0.7, 'rgba(15, 23, 42, 0.1)');
+    grad.addColorStop(1, 'rgba(15, 23, 42, 0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 512, 512);
     return new THREE.CanvasTexture(canvas);
   };
+  const contactShadowTex = createContactShadowTexture();
 
-  const shadowGeo = new THREE.PlaneGeometry(9, 9);
+  const shadowGeo = new THREE.PlaneGeometry(7.5, 7.5);
   const shadowMat = new THREE.MeshBasicMaterial({
-    map: createContactShadowTexture(),
+    map: contactShadowTex,
     transparent: true,
     opacity: 0.85,
     depthWrite: false
@@ -1217,6 +1240,67 @@ document.addEventListener('DOMContentLoaded', () => {
     return new THREE.CanvasTexture(canvas);
   };
 
+  // Procedural Solid Back Texture Generator (Fixes ReferenceError!)
+  const createSolidBackTexture = (baseColor) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1000;
+    canvas.height = 1500;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = baseColor || '#111827';
+    ctx.fillRect(0, 0, 1000, 1500);
+
+    // Decorative border
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(60, 60, 880, 1380);
+
+    // Gold 5-star rating
+    ctx.fillStyle = '#f4b400';
+    ctx.font = '42px Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('★★★★★', 500, 320);
+
+    // Review quote
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 30px Outfit, sans-serif';
+    ctx.fillText('"AN UNFORGETTABLE MASTERPIECE"', 500, 395);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '22px Outfit, sans-serif';
+    ctx.fillText('— The Global Literary Review', 500, 440);
+
+    // ISBN Barcode
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(580, 1180, 300, 180);
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 16px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('ISBN 978-1-95382-01-9', 600, 1215);
+
+    for (let x = 600; x < 860; x += 5) {
+      const w = (x % 3 === 0) ? 3.5 : 1.8;
+      ctx.fillRect(x, 1230, w, 95);
+    }
+    ctx.fillText('$18.99 US / $24.99 CAN', 600, 1345);
+
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    return tex;
+  };
+
+  // Safe Texture Creation from Image
+  const createTextureFromImage = (img) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth || img.width || 800;
+    canvas.height = img.naturalHeight || img.height || 1200;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    return tex;
+  };
+
   // Kindle Branding Logo Texture
   const createKindleLogoTexture = () => {
     const canvas = document.createElement('canvas');
@@ -1272,155 +1356,106 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 1600, 1050);
 
-    ctx.fillStyle = 'rgba(244, 180, 0, 0.08)';
-    for (let i = 0; i < 90; i++) {
-      const rx = Math.random() * 1600;
-      const ry = Math.random() * 1050;
-      const rr = Math.random() * 3 + 1;
-      ctx.beginPath();
-      ctx.arc(rx, ry, rr, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // BACK (0 to 729)
-    ctx.save();
-    ctx.strokeStyle = 'rgba(244, 180, 0, 0.3)';
+    // Left: Back Cover
+    ctx.strokeStyle = 'rgba(244, 180, 0, 0.4)';
     ctx.lineWidth = 2;
     ctx.strokeRect(60, 60, 610, 930);
 
     ctx.fillStyle = '#f4b400';
     ctx.font = '28px Georgia, serif';
     ctx.textAlign = 'center';
-    ctx.fillText('★★★★★', 365, 150);
+    ctx.fillText('★★★★★', 365, 160);
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 22px Outfit, sans-serif';
-    ctx.fillText('"AN ELECTRIFYING, UNMISSABLE EPIC."', 365, 200);
+    ctx.font = 'bold 24px Outfit, sans-serif';
+    ctx.fillText('"A SPELLBINDING EPIC MASTERPIECE"', 365, 220);
 
     ctx.fillStyle = '#94a3b8';
-    ctx.font = 'italic 16px Poppins, sans-serif';
-    ctx.fillText('— The New York Literary Review', 365, 235);
-
-    ctx.strokeStyle = '#f4b400';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(180, 275);
-    ctx.lineTo(550, 275);
-    ctx.stroke();
+    ctx.font = '16px Outfit, sans-serif';
+    ctx.fillText('— The Fantasy Chronicle', 365, 260);
 
     ctx.fillStyle = '#cbd5e1';
-    ctx.font = '16px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    const blurb = [
-      'The ancient pact that held the shadows at bay has finally shattered.',
-      'Deep within the whispered halls of the Citadel, Elena discovers that',
-      'the darkness stalking the empire is not an invading force—it is her',
-      'own forgotten bloodline.',
-      '',
-      'Faced with a fractured throne and an encroaching eclipse, she must',
-      'master the forbidden arts before the Queen of Shadows awakens.',
-      'In a world where every ally holds a hidden blade, salvation and',
-      'ruin walk hand in hand.',
-      '',
-      '"A breathtaking tour-de-force of worldbuilding and pure emotion."'
-    ];
-    blurb.forEach((l, idx) => ctx.fillText(l, 90, 330 + (idx * 27)));
+    ctx.font = '14px Outfit, sans-serif';
+    const blurb = 'In an ancient realm forgotten by time, an untold prophecy awakens.';
+    ctx.fillText(blurb, 365, 330);
 
+    // Barcode box
     ctx.fillStyle = '#ffffff';
-    ctx.fillRect(430, 810, 210, 120);
+    ctx.fillRect(440, 810, 200, 120);
     ctx.fillStyle = '#000000';
     ctx.font = 'bold 11px monospace';
-    ctx.fillText('ISBN 978-1-95382-01-9', 445, 830);
-    for (let bx = 445; bx < 625; bx += 4) {
-      const w = (bx % 3 === 0) ? 2.5 : 1.2;
-      ctx.fillRect(bx, 840, w, 65);
+    ctx.fillText('ISBN 978-0-12345-67-8', 455, 830);
+    for (let x = 455; x < 625; x += 4) {
+      const w = (x % 3 === 0) ? 2.5 : 1.2;
+      ctx.fillRect(x, 840, w, 65);
     }
-    ctx.fillText('$18.99 US / $24.99 CAN', 445, 920);
+    ctx.fillText('$19.99 US / $26.99 CAN', 455, 920);
 
-    ctx.fillStyle = '#f4b400';
-    ctx.font = 'bold 15px Outfit, sans-serif';
-    ctx.fillText('LOUFY PUBLISHER', 90, 890);
-    ctx.fillStyle = '#64748b';
-    ctx.font = '12px Poppins, sans-serif';
-    ctx.fillText('FICTION / EPIC FANTASY', 90, 915);
-    ctx.restore();
-
-    // SPINE (729 to 870)
-    ctx.save();
-    const spineGrad = ctx.createLinearGradient(729, 0, 870, 0);
-    spineGrad.addColorStop(0, 'rgba(0,0,0,0.5)');
-    spineGrad.addColorStop(0.2, 'rgba(255,255,255,0.08)');
-    spineGrad.addColorStop(0.5, 'rgba(255,255,255,0.18)');
-    spineGrad.addColorStop(0.8, 'rgba(255,255,255,0.08)');
-    spineGrad.addColorStop(1, 'rgba(0,0,0,0.5)');
+    // Center: Spine
+    const spineGrad = ctx.createLinearGradient(730, 0, 870, 0);
+    spineGrad.addColorStop(0, 'rgba(0,0,0,0.6)');
+    spineGrad.addColorStop(0.5, 'rgba(255,255,255,0.08)');
+    spineGrad.addColorStop(1, 'rgba(0,0,0,0.6)');
     ctx.fillStyle = spineGrad;
-    ctx.fillRect(729, 0, 141, 1050);
+    ctx.fillRect(730, 0, 140, 1050);
 
     ctx.fillStyle = '#f4b400';
-    ctx.fillRect(740, 45, 119, 4);
-    ctx.fillRect(740, 55, 119, 2);
-    ctx.fillRect(740, 985, 119, 2);
-    ctx.fillRect(740, 995, 119, 4);
+    ctx.fillRect(740, 45, 120, 3);
+    ctx.fillRect(740, 995, 120, 3);
 
-    ctx.translate(800, 520);
+    ctx.save();
+    ctx.translate(800, 525);
     ctx.rotate(Math.PI / 2);
-    ctx.textAlign = 'center';
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 36px Outfit, sans-serif';
-    ctx.fillText('BOUND BY SHADOWS IV', 0, 12);
-    ctx.fillStyle = '#f4b400';
-    ctx.font = '600 20px Outfit, sans-serif';
-    ctx.fillText('KARLLEY JOSLYN', -260, 8);
-    ctx.fillStyle = '#cbd5e1';
-    ctx.font = 'bold 16px Outfit, sans-serif';
-    ctx.fillText('LOUFY', 260, 8);
+    ctx.font = 'bold 32px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('CHRONICLES OF ELDON', 0, 10);
     ctx.restore();
 
-    // FRONT (870 to 1600)
-    ctx.save();
-    const moonGrad = ctx.createRadialGradient(1235, 450, 40, 1235, 450, 360);
-    moonGrad.addColorStop(0, 'rgba(244, 180, 0, 0.35)');
-    moonGrad.addColorStop(0.3, 'rgba(24, 76, 58, 0.45)');
-    moonGrad.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = moonGrad;
-    ctx.beginPath();
-    ctx.arc(1235, 450, 360, 0, Math.PI * 2);
-    ctx.fill();
+    // Right: Front Cover
+    ctx.strokeStyle = 'rgba(244, 180, 0, 0.45)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(930, 60, 610, 930);
 
-    ctx.strokeStyle = 'rgba(244, 180, 0, 0.4)';
-    ctx.lineWidth = 3;
+    ctx.fillStyle = '#f4b400';
+    ctx.font = 'bold 18px Outfit, sans-serif';
+    ctx.letterSpacing = '4px';
+    ctx.textAlign = 'center';
+    ctx.fillText('#1 INTERNATIONAL BESTSELLER', 1235, 130);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '900 52px Outfit, sans-serif';
+    ctx.fillText('CHRONICLES', 1235, 230);
+    ctx.fillStyle = '#f4b400';
+    ctx.fillText('OF ELDON', 1235, 290);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = 'italic 20px Georgia, serif';
+    ctx.fillText('The Shattered Throne', 1235, 345);
+
+    // Glowing emblem
     ctx.beginPath();
-    ctx.arc(1235, 520, 130, 0, Math.PI * 2);
+    ctx.arc(1235, 540, 110, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(244, 180, 0, 0.12)';
+    ctx.fill();
+    ctx.strokeStyle = '#f4b400';
+    ctx.lineWidth = 3;
     ctx.stroke();
 
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#cbd5e1';
-    ctx.font = '600 17px Outfit, sans-serif';
-    ctx.letterSpacing = '5px';
-    ctx.fillText('THE NEW YORK TIMES BESTSELLER', 1235, 130);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '800 62px Outfit, sans-serif';
-    ctx.shadowColor = 'rgba(0,0,0,0.9)';
-    ctx.shadowBlur = 18;
-    ctx.fillText('BOUND BY', 1235, 230);
-    ctx.fillStyle = '#f4b400';
-    ctx.font = '900 72px Outfit, sans-serif';
-    ctx.fillText('SHADOWS IV', 1235, 305);
-
-    ctx.shadowBlur = 0;
-    ctx.fillStyle = '#e2e8f0';
-    ctx.font = '600 24px Outfit, sans-serif';
-    ctx.fillText('RISE OF THE NIGHT QUEEN', 1235, 360);
+    ctx.beginPath();
+    ctx.arc(1235, 540, 85, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(74, 222, 128, 0.15)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(74, 222, 128, 0.7)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
 
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 36px Outfit, sans-serif';
-    ctx.fillText('KARLLEY JOSLYN', 1235, 920);
-
-    ctx.fillStyle = '#f4b400';
-    ctx.font = '600 15px Poppins, sans-serif';
-    ctx.fillText('BOOK FOUR IN THE SHADOWS SAGA', 1235, 960);
-    ctx.restore();
+    ctx.fillText('HAMID RAZA', 1235, 910);
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '14px Outfit, sans-serif';
+    ctx.fillText('LOUFY PUBLISHING', 1235, 940);
 
     return c;
   };
@@ -1432,118 +1467,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = c.getContext('2d');
 
     const grad = ctx.createLinearGradient(0, 0, 1600, 1050);
-    grad.addColorStop(0, '#0a0e1a');
-    grad.addColorStop(0.5, '#121829');
-    grad.addColorStop(1, '#080c14');
+    grad.addColorStop(0, '#110505');
+    grad.addColorStop(0.5, '#220808');
+    grad.addColorStop(1, '#0c0303');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 1600, 1050);
 
-    // BACK
+    // Spine
+    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.fillRect(730, 0, 140, 1050);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.fillRect(740, 45, 120, 3);
+    ctx.fillRect(740, 995, 120, 3);
+
     ctx.save();
-    ctx.strokeStyle = 'rgba(220, 38, 38, 0.4)';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(60, 60, 610, 930);
-
-    ctx.fillStyle = '#ef4444';
-    ctx.font = '28px Georgia, serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('★★★★★', 365, 150);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 22px Outfit, sans-serif';
-    ctx.fillText('"A MASTERCLASS IN RELENTLESS SUSPENSE."', 365, 200);
-
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = 'italic 16px Poppins, sans-serif';
-    ctx.fillText('— Sunday Times Crime Review', 365, 235);
-
-    ctx.fillStyle = '#cbd5e1';
-    ctx.font = '16px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    const blurb = [
-      'In a quiet coastal town shrouded in perpetual mist, Detective David',
-      'Vane arrives to solve what appears to be a tragic drowning.',
-      '',
-      'But every door he knocks on leads to a wall of silence. The victims',
-      'are connected by an anonymous confession tape recorded twenty',
-      'years ago. Before the killer strikes again, Vane must confront',
-      'the one secret he swore he would take to the grave.',
-      '',
-      '"Gripping, dark, and utterly impossible to put down."'
-    ];
-    blurb.forEach((l, idx) => ctx.fillText(l, 90, 330 + (idx * 28)));
-
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(430, 810, 210, 120);
-    ctx.fillStyle = '#000000';
-    ctx.font = 'bold 11px monospace';
-    ctx.fillText('ISBN 978-0-385-54734-4', 445, 830);
-    for (let bx = 445; bx < 625; bx += 4) {
-      const w = (bx % 3 === 0) ? 2.5 : 1.2;
-      ctx.fillRect(bx, 840, w, 65);
-    }
-    ctx.fillText('$17.99 US / $23.99 CAN', 445, 920);
-
-    ctx.fillStyle = '#ef4444';
-    ctx.font = 'bold 15px Outfit, sans-serif';
-    ctx.fillText('LOUFY PUBLISHER', 90, 890);
-    ctx.fillStyle = '#64748b';
-    ctx.font = '12px Poppins, sans-serif';
-    ctx.fillText('PSYCHOLOGICAL THRILLER', 90, 915);
-    ctx.restore();
-
-    // SPINE
-    ctx.save();
-    const spineGrad = ctx.createLinearGradient(729, 0, 870, 0);
-    spineGrad.addColorStop(0, 'rgba(0,0,0,0.6)');
-    spineGrad.addColorStop(0.5, 'rgba(255,255,255,0.1)');
-    spineGrad.addColorStop(1, 'rgba(0,0,0,0.6)');
-    ctx.fillStyle = spineGrad;
-    ctx.fillRect(729, 0, 141, 1050);
-
-    ctx.fillStyle = '#ef4444';
-    ctx.fillRect(740, 45, 119, 4);
-    ctx.fillRect(740, 995, 119, 4);
-
-    ctx.translate(800, 520);
+    ctx.translate(800, 525);
     ctx.rotate(Math.PI / 2);
-    ctx.textAlign = 'center';
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 36px Outfit, sans-serif';
-    ctx.fillText('THE SILENT WHISPER', 0, 12);
-    ctx.fillStyle = '#ef4444';
-    ctx.font = '600 20px Outfit, sans-serif';
-    ctx.fillText('ALEXANDER CROSS', -260, 8);
-    ctx.fillStyle = '#cbd5e1';
-    ctx.font = 'bold 16px Outfit, sans-serif';
-    ctx.fillText('LOUFY', 260, 8);
+    ctx.font = 'bold 32px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('THE SILENT PROTOCOL', 0, 10);
     ctx.restore();
 
-    // FRONT
-    ctx.save();
-    ctx.textAlign = 'center';
+    // Front
     ctx.fillStyle = '#ef4444';
-    ctx.font = 'bold 16px Outfit, sans-serif';
-    ctx.letterSpacing = '5px';
-    ctx.fillText('THE SUNDAY TIMES BESTSELLER', 1235, 140);
+    ctx.font = 'bold 18px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('A PULSE-POUNDING PSYCHOLOGICAL THRILLER', 1235, 130);
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = '900 68px Outfit, sans-serif';
-    ctx.shadowColor = 'rgba(0,0,0,0.9)';
-    ctx.shadowBlur = 20;
-    ctx.fillText('THE SILENT', 1235, 270);
+    ctx.font = '900 56px Outfit, sans-serif';
+    ctx.fillText('THE SILENT', 1235, 230);
     ctx.fillStyle = '#ef4444';
-    ctx.fillText('WHISPER', 1235, 345);
+    ctx.fillText('PROTOCOL', 1235, 290);
 
-    ctx.shadowBlur = 0;
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = 'italic 20px Poppins, sans-serif';
-    ctx.fillText('"Some secrets refuse to stay buried."', 1235, 410);
+    // Crosshair target
+    ctx.beginPath();
+    ctx.arc(1235, 540, 90, 0, Math.PI * 2);
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(1235, 420); ctx.lineTo(1235, 660);
+    ctx.moveTo(1115, 540); ctx.lineTo(1355, 540);
+    ctx.strokeStyle = 'rgba(239, 68, 68, 0.7)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
 
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 36px Outfit, sans-serif';
-    ctx.fillText('ALEXANDER CROSS', 1235, 920);
-    ctx.restore();
+    ctx.fillText('HAMID RAZA', 1235, 910);
 
     return c;
   };
@@ -1553,8 +1527,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (thumbFantasy) {
       thumbFantasy.width = 160;
       thumbFantasy.height = 105;
-      const tCtx = thumbFantasy.getContext('2d');
-      tCtx.drawImage(generateFantasyFullWrapCanvas(), 0, 0, 160, 105);
+      const fCtx = thumbFantasy.getContext('2d');
+      fCtx.drawImage(generateFantasyFullWrapCanvas(), 0, 0, 160, 105);
     }
     const thumbThriller = document.getElementById('thumb-canvas-thriller');
     if (thumbThriller) {
@@ -1569,73 +1543,80 @@ document.addEventListener('DOMContentLoaded', () => {
   currentFullWrapCanvas = generateFantasyFullWrapCanvas();
 
   // Helper: Compose Full Wrap from Single Front Cover
-  const composeFullWrapFromFront = (frontImg, baseColor) => {
+  const composeFullWrapFromFront = (frontImg, baseColor, frontAspect) => {
     const c = document.createElement('canvas');
-    c.width = 1600;
-    c.height = 1050;
+    const fAspect = frontAspect || 0.667;
+    const canvasH = 1050;
+    const frontW = Math.round(canvasH * fAspect);
+    const spineW = 140;
+    const backW = frontW;
+    const totalW = backW + spineW + frontW;
+
+    c.width = totalW;
+    c.height = canvasH;
     const ctx = c.getContext('2d');
 
     ctx.fillStyle = baseColor || '#111827';
-    ctx.fillRect(0, 0, 1600, 1050);
+    ctx.fillRect(0, 0, totalW, canvasH);
 
+    // Draw Front
     if (frontImg) {
-      ctx.drawImage(frontImg, 870, 0, 730, 1050);
+      ctx.drawImage(frontImg, backW + spineW, 0, frontW, canvasH);
     }
 
-    // Spine in center
-    const spineGrad = ctx.createLinearGradient(730, 0, 870, 0);
-    spineGrad.addColorStop(0, 'rgba(0,0,0,0.5)');
-    spineGrad.addColorStop(0.5, 'rgba(255,255,255,0.15)');
-    spineGrad.addColorStop(1, 'rgba(0,0,0,0.5)');
-    ctx.fillStyle = spineGrad;
-    ctx.fillRect(730, 0, 140, 1050);
+    // Draw Spine
+    if (customSpineImg) {
+      ctx.drawImage(customSpineImg, backW, 0, spineW, canvasH);
+    } else {
+      const spineGrad = ctx.createLinearGradient(backW, 0, backW + spineW, 0);
+      spineGrad.addColorStop(0, 'rgba(0,0,0,0.5)');
+      spineGrad.addColorStop(0.5, 'rgba(255,255,255,0.15)');
+      spineGrad.addColorStop(1, 'rgba(0,0,0,0.5)');
+      ctx.fillStyle = spineGrad;
+      ctx.fillRect(backW, 0, spineW, canvasH);
 
-    ctx.fillStyle = '#f4b400';
-    ctx.fillRect(740, 45, 120, 4);
-    ctx.fillRect(740, 995, 120, 4);
+      ctx.fillStyle = '#f4b400';
+      ctx.fillRect(backW + 10, 45, spineW - 20, 4);
+      ctx.fillRect(backW + 10, canvasH - 55, spineW - 20, 4);
 
-    ctx.save();
-    ctx.translate(800, 525);
-    ctx.rotate(Math.PI / 2);
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 34px Outfit, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('BESTSELLER EDITION', 0, 12);
-    ctx.restore();
+      ctx.save();
+      ctx.translate(backW + (spineW / 2), canvasH / 2);
+      ctx.rotate(Math.PI / 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 34px Outfit, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('BESTSELLER EDITION', 0, 12);
+      ctx.restore();
+    }
 
-    // Back cover
+    // Draw Back
     if (customBackImg) {
-      ctx.drawImage(customBackImg, 0, 0, 730, 1050);
+      ctx.drawImage(customBackImg, 0, 0, backW, canvasH);
     } else {
       ctx.strokeStyle = 'rgba(255,255,255,0.15)';
       ctx.lineWidth = 1.5;
-      ctx.strokeRect(60, 60, 610, 930);
+      ctx.strokeRect(40, 40, backW - 80, canvasH - 80);
 
       ctx.fillStyle = '#f4b400';
       ctx.font = '28px Georgia, serif';
       ctx.textAlign = 'center';
-      ctx.fillText('★★★★★', 365, 180);
+      ctx.fillText('★★★★★', backW / 2, 180);
 
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 22px Outfit, sans-serif';
-      ctx.fillText('"AN UNFORGETTABLE MASTERPIECE"', 365, 230);
+      ctx.fillText('"AN UNFORGETTABLE MASTERPIECE"', backW / 2, 230);
 
       // Barcode box
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(430, 810, 210, 120);
+      ctx.fillRect(backW - 230, canvasH - 170, 190, 110);
       ctx.fillStyle = '#000000';
       ctx.font = 'bold 11px monospace';
-      ctx.fillText('ISBN 978-1-95382-01-9', 445, 830);
-      for (let bx = 445; bx < 625; bx += 4) {
+      ctx.textAlign = 'left';
+      ctx.fillText('ISBN 978-1-95382-01-9', backW - 220, canvasH - 150);
+      for (let bx = backW - 220; bx < backW - 50; bx += 4) {
         const w = (bx % 3 === 0) ? 2.5 : 1.2;
-        ctx.fillRect(bx, 840, w, 65);
+        ctx.fillRect(bx, canvasH - 140, w, 60);
       }
-      ctx.fillText('$18.99 US / $24.99 CAN', 445, 920);
-    }
-
-    // Spine
-    if (customSpineImg) {
-      ctx.drawImage(customSpineImg, 730, 0, 140, 1050);
     }
 
     return c;
@@ -1686,14 +1667,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const resolveTextures = (onReady) => {
     const maxAniso = renderer.capabilities.getMaxAnisotropy();
 
-    // 1. Full Wrap Texture for Open Wrap
     let fullWrapTex = null;
     let frontTex = null;
     let spineTex = null;
     let backTex = null;
 
     if (isWrapDetected && currentFullWrapCanvas) {
-      fullWrapTex = new THREE.CanvasTexture(currentFullWrapCanvas);
+      fullWrapTex = (currentFullWrapCanvas instanceof HTMLCanvasElement)
+        ? new THREE.CanvasTexture(currentFullWrapCanvas)
+        : createTextureFromImage(currentFullWrapCanvas);
       fullWrapTex.anisotropy = maxAniso;
 
       const sliced = sliceWrapCanvases(currentFullWrapCanvas);
@@ -1701,13 +1683,13 @@ document.addEventListener('DOMContentLoaded', () => {
       spineTex = sliced.spineTex;
       backTex = sliced.backTex;
     } else if (currentFrontImage) {
-      // Create composed full wrap
-      const composed = composeFullWrapFromFront(currentFrontImage, spineColor);
+      // Calculate front aspect
+      const effAspect = (manualRatio && manualRatio !== 'auto') ? parseFloat(manualRatio) : activeFrontAspect;
+      const composed = composeFullWrapFromFront(currentFrontImage, spineColor, effAspect);
       fullWrapTex = new THREE.CanvasTexture(composed);
       fullWrapTex.anisotropy = maxAniso;
 
-      frontTex = new THREE.CanvasTexture(currentFrontImage);
-      frontTex.anisotropy = maxAniso;
+      frontTex = createTextureFromImage(currentFrontImage);
       spineTex = createSpineTexture(spineColor);
       backTex = createSolidBackTexture(spineColor);
     } else {
@@ -1771,12 +1753,12 @@ document.addEventListener('DOMContentLoaded', () => {
         controls.target.set(0, 0, 0);
         break;
       case 'frontal':
-        camera.position.set(0.3, 0.1, 7.2);
+        camera.position.set(0, 0.05, 6.8);
         controls.target.set(0, 0, 0);
         break;
       case 'spine-showcase':
-        camera.position.set(-2.8, 0.3, 5.0);
-        controls.target.set(0, 0, 0);
+        camera.position.set(0.2, 0.1, 6.2);
+        controls.target.set(0.3, 0, 0);
         break;
       case 'floating':
         camera.position.set(3.4, 3.4, 5.2);
@@ -1786,7 +1768,7 @@ document.addEventListener('DOMContentLoaded', () => {
     controls.update();
   };
 
-  // 8. 12 MODEL CONSTRUCTION FUNCTIONS
+  // 8. 12 MODEL CONSTRUCTION FUNCTIONS WITH DYNAMIC PROPORTIONS
   const buildScene = () => {
     while (modelGroup.children.length > 0) {
       const obj = modelGroup.children[0];
@@ -1801,32 +1783,36 @@ document.addEventListener('DOMContentLoaded', () => {
     applyCameraPreset();
 
     resolveTextures(({ fullWrapTex, frontTex, spineTex, backTex }) => {
-      // Soft semi-matte photographic material
+      // Material Finish
       const roughnessVal = coverFinish === 'glossy' ? 0.35 : 0.65;
       const metalnessVal = 0.02;
 
-      const bookW = 2.8;
-      const bookH = 4.0;
-      const bookD = Math.max(0.2, bookThickness);
+      // Dynamic Book Dimensions based on Auto-Detected / Selected Aspect Ratio!
+      const effAspect = (manualRatio && manualRatio !== 'auto') ? parseFloat(manualRatio) : activeFrontAspect;
+      const bookH = 3.9;
+      const bookW = Number((bookH * effAspect).toFixed(3));
+      const bookD = Math.max(0.18, bookThickness);
 
       if (currentPreset === 'open-wrap') {
         // ── 1. OPEN FULL WRAP (Face-Down Continuous Mesh - Ref: media_1789688687853.jpg) ──
         const openRoot = new THREE.Group();
-        const wrapW = 6.0;
-        const wrapH = 4.0;
+        const wrapH = bookH;
+        const wrapW = isWrapDetected ? (wrapH * activeWrapAspect) : (bookW * 2 + 0.35);
 
         // Continuous curved mesh mapping the entire full wrap seamlessly
         const wrapGeo = new THREE.PlaneGeometry(wrapW, wrapH, 40, 10);
         const pos = wrapGeo.attributes.position;
+        const spineHalf = (wrapW * 0.06);
+
         for (let i = 0; i < pos.count; i++) {
           const x = pos.getX(i);
           const absX = Math.abs(x);
           let z = 0;
-          if (absX < 0.35) {
-            z = 0.25 * (1 - Math.pow(absX / 0.35, 2));
+          if (absX < spineHalf) {
+            z = 0.25 * (1 - Math.pow(absX / spineHalf, 2));
           } else {
-            const dist = absX - 0.35;
-            z = Math.max(0, 0.25 * Math.exp(-dist * 1.8));
+            const dist = absX - spineHalf;
+            z = Math.max(0, 0.25 * Math.exp(-dist * 2.0));
           }
           pos.setZ(i, z);
         }
@@ -1842,17 +1828,18 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapMesh.castShadow = true;
         openRoot.add(wrapMesh);
 
-        // Underneath page wedges peeking out
-        const pagesGeoLeft = new THREE.BoxGeometry(2.5, 3.8, 0.22);
+        // Underneath page wedges peeking out realistically
+        const pageBlockW = Math.max(1.0, (wrapW / 2) - 0.3);
+        const pagesGeoLeft = new THREE.BoxGeometry(pageBlockW, bookH - 0.2, 0.22);
         const pagesMat = new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 });
         const pagesLeft = new THREE.Mesh(pagesGeoLeft, pagesMat);
-        pagesLeft.position.set(-1.6, 0, -0.12);
+        pagesLeft.position.set(-(wrapW / 4), 0, -0.12);
         pagesLeft.rotation.y = 0.08;
         openRoot.add(pagesLeft);
 
-        const pagesGeoRight = new THREE.BoxGeometry(2.5, 3.8, 0.22);
+        const pagesGeoRight = new THREE.BoxGeometry(pageBlockW, bookH - 0.2, 0.22);
         const pagesRight = new THREE.Mesh(pagesGeoRight, pagesMat);
-        pagesRight.position.set(1.6, 0, -0.12);
+        pagesRight.position.set(wrapW / 4, 0, -0.12);
         pagesRight.rotation.y = -0.08;
         openRoot.add(pagesRight);
 
@@ -1889,7 +1876,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shadowPlane.scale.set(1.2, 1.2, 1.2);
 
       } else if (currentPreset === 'standing-hard') {
-        // ── 3. STANDING 6X9 HARDCOVER (CoverVault Style - Ref: media_1789688701189.png) ──
+        // ── 3. STANDING HARDCOVER (CoverVault Style - Ref: media_1789688701189.png) ──
         const bookRoot = new THREE.Group();
         
         // Inner pages block
@@ -1931,7 +1918,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shadowPlane.scale.set(1.1, 1.1, 1.1);
 
       } else if (currentPreset === 'standing-duo') {
-        // ── 4. STANDING DUO (Front & Back Side-by-Side - Ref: Image 2) ──
+        // ── 4. STANDING DUO (Front & Back Side-by-Side) ──
         const leftBook = new THREE.Group();
         const leftGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
         const leftMats = [
@@ -1945,7 +1932,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const leftMesh = new THREE.Mesh(leftGeo, leftMats);
         leftMesh.castShadow = true;
         leftBook.add(leftMesh);
-        leftBook.position.set(-1.48, -0.1, 0.1);
+        leftBook.position.set(-(bookW * 0.55), -0.1, 0.1);
         leftBook.rotation.y = -0.22;
         modelGroup.add(leftBook);
 
@@ -1962,7 +1949,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rightMesh = new THREE.Mesh(rightGeo, rightMats);
         rightMesh.castShadow = true;
         rightBook.add(rightMesh);
-        rightBook.position.set(1.42, -0.1, -0.25);
+        rightBook.position.set(bookW * 0.52, -0.1, -0.25);
         rightBook.rotation.y = Math.PI - 0.22;
         modelGroup.add(rightBook);
 
@@ -1970,7 +1957,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shadowPlane.scale.set(1.4, 1.0, 1.0);
 
       } else if (currentPreset === 'stacked-dual') {
-        // ── 5. STACKED DUAL PAPERBACKS (Ref: Image 3) ──
+        // ── 5. STACKED DUAL PAPERBACKS ──
         const bottomBook = new THREE.Group();
         const bGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
         const bMats = [
@@ -1984,8 +1971,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const bMesh = new THREE.Mesh(bGeo, bMats);
         bMesh.castShadow = true;
         bottomBook.add(bMesh);
-        bottomBook.position.set(-0.25, -0.7, -0.2);
-        bottomBook.rotation.set(-Math.PI / 2 + 0.2, 0, -0.42);
+        bottomBook.position.set(0, -0.7, 0);
+        bottomBook.rotation.set(-Math.PI / 2 + 0.16, 0, -0.4);
         modelGroup.add(bottomBook);
 
         const topBook = new THREE.Group();
@@ -1996,27 +1983,24 @@ document.addEventListener('DOMContentLoaded', () => {
           new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
           new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
           new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
+          new THREE.MeshStandardMaterial({ color: 0x18181b })
         ];
         const tMesh = new THREE.Mesh(tGeo, tMats);
         tMesh.castShadow = true;
         topBook.add(tMesh);
-        topBook.position.set(0.12, -0.7 + bookD + 0.04, 0.1);
-        topBook.rotation.set(-Math.PI / 2 + 0.2, 0, -0.62);
+        topBook.position.set(0.08, -0.7 + bookD, -0.05);
+        topBook.rotation.set(-Math.PI / 2 + 0.16, 0, -0.58);
         modelGroup.add(topBook);
 
         shadowPlane.position.set(0, -2.08, 0);
         shadowPlane.scale.set(1.2, 1.2, 1.2);
 
       } else if (currentPreset === 'stacked-square') {
-        // ── 6. TRIPLE STACKED SQUARE BOOKS (Ref: media_1789688715829.jpg) ──
-        const sqW = 3.2;
-        const sqH = 3.2;
-        const sqD = 0.22;
-
+        // ── 6. TRIPLE STACKED BOOKS (Ref: media_1789688715829.jpg) ──
+        const fanAngles = [0.35, 0.45, 0.55];
         for (let i = 0; i < 3; i++) {
           const sqBook = new THREE.Group();
-          const sqGeo = new THREE.BoxGeometry(sqW, sqH, sqD);
+          const sqGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
           const sqMats = [
             new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
             new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
@@ -2029,10 +2013,8 @@ document.addEventListener('DOMContentLoaded', () => {
           sqMesh.castShadow = true;
           sqBook.add(sqMesh);
 
-          // Tiered fanned angles (Ref: media_1789688715829.jpg)
-          const fanAngles = [0.35, 0.45, 0.55];
           sqBook.rotation.order = 'YXZ';
-          sqBook.position.set((i - 1) * 0.08, -0.6 + (i * 0.24), (i - 1) * 0.06);
+          sqBook.position.set((i - 1) * 0.08, -0.6 + (i * (bookD + 0.02)), (i - 1) * 0.06);
           sqBook.rotation.set(-Math.PI / 2 + 0.32, fanAngles[i], 0);
           modelGroup.add(sqBook);
         }
@@ -2041,15 +2023,11 @@ document.addEventListener('DOMContentLoaded', () => {
         shadowPlane.scale.set(1.3, 1.3, 1.3);
 
       } else if (currentPreset === 'topdown-stack') {
-        // ── 7. TOP-DOWN BIRD'S EYE STACK (Ref: media_1789688737544.png) ──
-        const sqW = 3.3;
-        const sqH = 3.3;
-        const sqD = 0.22;
-
+        // ── 7. TOP-DOWN FLAT LAY (Ref: media_1789688737544.png) ──
         const angles = [0.22, -0.16, 0.0];
         for (let i = 0; i < 3; i++) {
           const flatBook = new THREE.Group();
-          const fGeo = new THREE.BoxGeometry(sqW, sqH, sqD);
+          const fGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
           const fMats = [
             new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
             new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
@@ -2062,7 +2040,7 @@ document.addEventListener('DOMContentLoaded', () => {
           fMesh.castShadow = true;
           flatBook.add(fMesh);
 
-          flatBook.position.set(0, -0.6 + (i * 0.24), 0);
+          flatBook.position.set(0, -0.6 + (i * (bookD + 0.02)), 0);
           flatBook.rotation.set(-Math.PI / 2, 0, angles[i]);
           modelGroup.add(flatBook);
         }
@@ -2073,13 +2051,15 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (currentPreset === 'kindle') {
         // ── 8. AMAZON KDP KINDLE TABLET ──
         const tabletRoot = new THREE.Group();
-        const tabW = 3.1;
-        const tabH = 4.6;
+        const screenW = bookW * 0.94;
+        const screenH = bookH * 0.94;
+        const tabW = screenW + 0.48;
+        const tabH = screenH + 0.84;
         const tabD = 0.14;
 
         const chassisGeo = new THREE.BoxGeometry(tabW, tabH, tabD);
         const chassisMat = new THREE.MeshStandardMaterial({
-          color: 0x131921, // Amazon official dark slate
+          color: 0x131921,
           roughness: 0.45,
           metalness: 0.55
         });
@@ -2088,8 +2068,6 @@ document.addEventListener('DOMContentLoaded', () => {
         tabletRoot.add(chassisMesh);
 
         // Screen Surface
-        const screenW = 2.62;
-        const screenH = 3.76;
         const screenGeo = new THREE.PlaneGeometry(screenW, screenH);
         const screenMat = new THREE.MeshStandardMaterial({
           map: frontTex,
@@ -2139,7 +2117,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       } else if (currentPreset === 'duo-bundle') {
         // ── 9. PRINT + KINDLE DUO BUNDLE ──
-        // Paperback standing behind
         const bookRoot = new THREE.Group();
         const coverGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
         const coverMats = [
@@ -2153,30 +2130,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const coverMesh = new THREE.Mesh(coverGeo, coverMats);
         coverMesh.castShadow = true;
         bookRoot.add(coverMesh);
-        bookRoot.position.set(-1.1, 0.1, -0.5);
+        bookRoot.position.set(-bookW * 0.45, 0.1, -0.5);
         bookRoot.rotation.y = -0.38;
         modelGroup.add(bookRoot);
 
         // Kindle Tablet in front
         const tabletRoot = new THREE.Group();
-        const tabW = 2.4;
-        const tabH = 3.5;
+        const kW = bookW * 0.85;
+        const kH = bookH * 0.85;
         const tabD = 0.1;
         const chassisMesh = new THREE.Mesh(
-          new THREE.BoxGeometry(tabW, tabH, tabD),
+          new THREE.BoxGeometry(kW, kH, tabD),
           new THREE.MeshStandardMaterial({ color: 0x131921, roughness: 0.45, metalness: 0.55 })
         );
         chassisMesh.castShadow = true;
         tabletRoot.add(chassisMesh);
 
         const screenMesh = new THREE.Mesh(
-          new THREE.PlaneGeometry(tabW - 0.22, tabH - 0.26),
+          new THREE.PlaneGeometry(kW - 0.22, kH - 0.26),
           new THREE.MeshStandardMaterial({ map: frontTex, roughness: 0.15, metalness: 0.05 })
         );
         screenMesh.position.z = (tabD / 2) + 0.005;
         tabletRoot.add(screenMesh);
 
-        tabletRoot.position.set(0.95, -0.3, 0.7);
+        tabletRoot.position.set(bookW * 0.38, -0.3, 0.7);
         tabletRoot.rotation.set(-0.06, -0.2, -0.04);
         modelGroup.add(tabletRoot);
 
@@ -2200,7 +2177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bookRoot.add(pbMesh);
 
         bookRoot.position.set(0, 0, 0);
-        bookRoot.rotation.y = -0.1; // Gentle 6° angle
+        bookRoot.rotation.y = -0.1;
         modelGroup.add(bookRoot);
 
         shadowPlane.position.set(0, -2.08, 0);
@@ -2223,7 +2200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bookRoot.add(pbMesh);
 
         bookRoot.position.set(0.4, 0, 0);
-        bookRoot.rotation.y = -1.15; // Emphasize the spine
+        bookRoot.rotation.y = -1.15;
         modelGroup.add(bookRoot);
 
         shadowPlane.position.set(0, -2.08, 0);
@@ -2267,9 +2244,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   animate();
 
-  // Resize Listener
+  // Window Resize
   window.addEventListener('resize', () => {
-    if (!container) return;
     camera.aspect = container.clientWidth / container.clientHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -2299,7 +2275,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const labelEl = document.getElementById('current-mockup-label');
       if (labelEl) {
-        labelEl.innerHTML = `<i class="fa-solid fa-image"></i> Mockup: <strong>${presetLabels[currentPreset] || currentPreset}</strong>`;
+        labelEl.innerHTML = '<i class="fa-solid fa-image"></i> Mockup: <strong>' + (presetLabels[currentPreset] || currentPreset) + '</strong>';
       }
 
       const spineControls = document.getElementById('spine-controls-group');
@@ -2311,16 +2287,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 11. COVER UPLOAD HANDLER
+  // 11. ASPECT RATIO TOOLBAR LISTENER
+  document.querySelectorAll('.ratio-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.ratio-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      manualRatio = pill.getAttribute('data-ratio');
+
+      const dimTag = document.getElementById('dimension-tag');
+      if (dimTag) {
+        if (manualRatio === 'auto') {
+          dimTag.textContent = autoDetectedLabel;
+        } else {
+          dimTag.textContent = 'Forced: ' + pill.textContent;
+        }
+      }
+
+      buildScene();
+    });
+  });
+
+  // 12. COVER UPLOAD HANDLER (WITH AUTO DIMENSION & RATIO PICKING!)
   const handleCoverUpload = (file) => {
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        const aspect = img.naturalWidth / img.naturalHeight;
+        const w = img.naturalWidth;
+        const h = img.naturalHeight;
+        const aspect = w / h;
         const statusBadge = document.getElementById('autodetect-status');
         const statusMsg = document.getElementById('autodetect-msg');
+        const dimTag = document.getElementById('dimension-tag');
 
         if (aspect >= 1.15) {
           // Full Wrap Detected!
@@ -2328,26 +2327,50 @@ document.addEventListener('DOMContentLoaded', () => {
           currentFullWrapCanvas = img;
           currentFrontImage = null;
 
+          const spineW = Math.max(10, Math.round(w * 0.088));
+          const frontW = (w - spineW) / 2;
+          activeFrontAspect = frontW / h;
+          activeWrapAspect = aspect;
+          autoDetectedLabel = 'Full Wrap (' + w + 'x' + h + 'px)';
+
           if (statusBadge) {
             statusBadge.style.display = 'flex';
             statusBadge.className = 'autodetect-badge wrap-detected';
           }
           if (statusMsg) {
-            statusMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> <strong>Full Wrap Detected!</strong> (${img.naturalWidth}x${img.naturalHeight}px) — Auto-fitted to selected mockup.`;
+            statusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Full Wrap Detected!</strong> (' + w + 'x' + h + 'px) — 3D shape auto-fitted.';
           }
         } else {
-          // Single Front Cover
+          // Single Front Cover Detected!
           isWrapDetected = false;
           currentFrontImage = img;
           currentFullWrapCanvas = null;
+
+          activeFrontAspect = aspect;
+          activeWrapAspect = (aspect * 2) + 0.15;
+
+          // Classify format
+          let formatName = w + 'x' + h + 'px';
+          if (Math.abs(aspect - 1.0) < 0.06) formatName = '8.5x8.5 in Square (1:1)';
+          else if (Math.abs(aspect - 0.667) < 0.05) formatName = '6x9 in (2:3 Standard)';
+          else if (Math.abs(aspect - 0.773) < 0.05) formatName = '8.5x11 in Letter';
+          else if (Math.abs(aspect - 0.700) < 0.05) formatName = '7x10 in';
+          else if (Math.abs(aspect - 0.800) < 0.05) formatName = '8x10 in';
+          else if (Math.abs(aspect - 0.625) < 0.05) formatName = '5x8 in Pocket';
+
+          autoDetectedLabel = formatName;
 
           if (statusBadge) {
             statusBadge.style.display = 'flex';
             statusBadge.className = 'autodetect-badge single-detected';
           }
           if (statusMsg) {
-            statusMsg.innerHTML = `<i class="fa-solid fa-file-image"></i> <strong>Front Cover Detected</strong> (${img.naturalWidth}x${img.naturalHeight}px) — Mapped to front face.`;
+            statusMsg.innerHTML = '<i class="fa-solid fa-file-image"></i> <strong>Front Cover Detected:</strong> ' + formatName + ' — 3D Mockup adjusted automatically.';
           }
+        }
+
+        if (dimTag && manualRatio === 'auto') {
+          dimTag.textContent = autoDetectedLabel;
         }
 
         document.querySelectorAll('.sample-thumb').forEach(t => t.classList.remove('active'));
@@ -2375,6 +2398,8 @@ document.addEventListener('DOMContentLoaded', () => {
       dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); });
     });
     dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
         handleCoverUpload(e.dataTransfer.files[0]);
       }
@@ -2398,8 +2423,7 @@ document.addEventListener('DOMContentLoaded', () => {
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          const tex = new THREE.CanvasTexture(img);
-          tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+          const tex = createTextureFromImage(img);
           onLoaded(tex, img);
           buildScene();
         };
@@ -2442,17 +2466,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const sampleType = thumb.getAttribute('data-sample');
       const statusBadge = document.getElementById('autodetect-status');
       const statusMsg = document.getElementById('autodetect-msg');
+      const dimTag = document.getElementById('dimension-tag');
 
       if (sampleType === 'fantasy-wrap') {
         isWrapDetected = true;
         currentFullWrapCanvas = generateFantasyFullWrapCanvas();
         currentFrontImage = null;
+        activeFrontAspect = 0.667;
+        activeWrapAspect = 1.52;
+        autoDetectedLabel = 'Fantasy Wrap (1600x1050px)';
         if (statusBadge) statusBadge.style.display = 'flex';
         if (statusMsg) statusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Fantasy Full Wrap Loaded</strong> — Front, Spine &amp; Back active.';
       } else if (sampleType === 'thriller-wrap') {
         isWrapDetected = true;
         currentFullWrapCanvas = generateThrillerFullWrapCanvas();
         currentFrontImage = null;
+        activeFrontAspect = 0.667;
+        activeWrapAspect = 1.52;
+        autoDetectedLabel = 'Thriller Wrap (1600x1050px)';
         if (statusBadge) statusBadge.style.display = 'flex';
         if (statusMsg) statusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Thriller Full Wrap Loaded</strong> — Front, Spine &amp; Back active.';
       } else {
@@ -2462,41 +2493,46 @@ document.addEventListener('DOMContentLoaded', () => {
         img.onload = () => {
           currentFrontImage = img;
           currentFullWrapCanvas = null;
-          if (statusBadge) statusBadge.style.display = 'flex';
-          if (statusMsg) statusMsg.innerHTML = '<i class="fa-solid fa-file-image"></i> <strong>Front Cover Loaded</strong> — Mapped to front face.';
+          activeFrontAspect = img.naturalWidth / img.naturalHeight;
+          activeWrapAspect = (activeFrontAspect * 2) + 0.15;
+          autoDetectedLabel = 'Cover Sample';
+          if (dimTag) dimTag.textContent = autoDetectedLabel;
           buildScene();
         };
-        img.src = sampleType;
+        img.src = 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop';
+        if (statusBadge) statusBadge.style.display = 'flex';
+        if (statusMsg) statusMsg.innerHTML = '<i class="fa-solid fa-file-image"></i> <strong>Single Front Cover Loaded</strong>';
         return;
       }
+
+      if (dimTag) dimTag.textContent = autoDetectedLabel;
       buildScene();
     });
   });
 
-  // Spine Thickness Slider
-  const thicknessSlider = document.getElementById('thickness-slider');
-  const thicknessDisplay = document.getElementById('thickness-display');
-  if (thicknessSlider && thicknessDisplay) {
-    thicknessSlider.addEventListener('input', (e) => {
+  // Thickness Slider
+  const thickSlider = document.getElementById('thickness-slider');
+  const thickDisplay = document.getElementById('thickness-display');
+  if (thickSlider) {
+    thickSlider.addEventListener('input', (e) => {
       bookThickness = parseFloat(e.target.value);
-      const estPages = Math.round(bookThickness * 700);
-      thicknessDisplay.innerText = `${estPages} Pages`;
+      if (thickDisplay) thickDisplay.textContent = bookThickness.toFixed(2) + ' in';
       buildScene();
     });
   }
 
-  // Spine Base Color Picker
+  // Spine Color
   const spineColorInput = document.getElementById('spine-color-input');
   const spineColorHex = document.getElementById('spine-color-hex');
-  if (spineColorInput && spineColorHex) {
+  if (spineColorInput) {
     spineColorInput.addEventListener('input', (e) => {
       spineColor = e.target.value;
-      spineColorHex.innerText = spineColor;
+      if (spineColorHex) spineColorHex.textContent = spineColor;
       buildScene();
     });
   }
 
-  // Finish Toggles (Glossy / Matte)
+  // Finish Toggles
   document.querySelectorAll('[data-finish]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('[data-finish]').forEach(b => b.classList.remove('active'));
@@ -2536,35 +2572,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 12. HIGH-RESOLUTION PNG DOWNLOAD (2400x1800 Studio Quality)
+  // 13. HIGH-RESOLUTION PNG DOWNLOAD (2400x1800 Studio Quality)
   const downloadBtn = document.getElementById('download-mockup-btn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', () => {
       const exportWidth = 2400;
       const exportHeight = 1800;
 
-      const originalWidth = container.clientWidth;
-      const originalHeight = container.clientHeight;
+      const origW = container.clientWidth;
+      const origH = container.clientHeight;
+      const origPixelRatio = renderer.getPixelRatio();
 
+      renderer.setPixelRatio(1);
       renderer.setSize(exportWidth, exportHeight, false);
       camera.aspect = exportWidth / exportHeight;
       camera.updateProjectionMatrix();
 
       renderer.render(scene, camera);
 
-      const dataUrl = renderer.domElement.toDataURL('image/png', 1.0);
+      const mimeType = (bgMode === 'transparent') ? 'image/png' : 'image/jpeg';
+      const fileExt = (bgMode === 'transparent') ? 'png' : 'jpg';
 
-      renderer.setSize(originalWidth, originalHeight, true);
-      camera.aspect = originalWidth / originalHeight;
-      camera.updateProjectionMatrix();
-      renderer.render(scene, camera);
+      renderer.domElement.toBlob((blob) => {
+        renderer.setPixelRatio(origPixelRatio);
+        renderer.setSize(origW, origH, false);
+        camera.aspect = origW / origH;
+        camera.updateProjectionMatrix();
+        renderer.render(scene, camera);
 
-      const link = document.createElement('a');
-      link.download = `loufy-3d-mockup-${currentPreset}.png`;
-      link.href = dataUrl;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+        if (!blob) return;
+        const link = document.createElement('a');
+        link.download = 'loufy-book-mockup-' + currentPreset + '-' + Date.now() + '.' + fileExt;
+        link.href = URL.createObjectURL(blob);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+      }, mimeType, 0.95);
     });
   }
 
