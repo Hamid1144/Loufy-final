@@ -176,25 +176,31 @@
       font-weight: 600;
     }
 
-    /* 8 PSD Mockup Presets 4x2 Grid */
+    /* 8 PSD Mockup Presets 4x2 Grid (Guaranteed Zero-Overflow) */
     .mockup-grid-psd {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 6px;
+      width: 100%;
+      box-sizing: border-box;
     }
     .mockup-psd-card {
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 8px;
-      padding: 5px;
+      padding: 5px 3px;
       cursor: pointer;
       text-align: center;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       position: relative;
+      overflow: hidden;
     }
     .mockup-psd-card:hover {
       background: rgba(255, 255, 255, 0.09);
@@ -206,31 +212,56 @@
       border-color: var(--accent);
       box-shadow: 0 0 14px rgba(244, 180, 0, 0.3);
     }
+    .preset-badge-new {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      background: linear-gradient(135deg, #f59e0b, #eab308);
+      color: #0b1f17;
+      font-size: 0.52rem;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.6);
+      z-index: 2;
+      line-height: 1;
+    }
     .mockup-psd-thumb {
       width: 100%;
       aspect-ratio: 1 / 1;
       object-fit: cover;
       border-radius: 5px;
       background: #000;
+      display: block;
     }
     .mockup-psd-meta {
       width: 100%;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       gap: 1px;
+      overflow: hidden;
     }
     .mockup-psd-title {
-      font-size: 0.68rem;
+      font-size: 0.64rem;
       font-weight: 700;
       color: #fff;
-      line-height: 1.1;
+      line-height: 1.15;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      display: block;
+      width: 100%;
     }
     .mockup-psd-tag {
-      font-size: 0.58rem;
+      font-size: 0.53rem;
       color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100%;
     }
 
     /* Dropzone Compact */
@@ -702,75 +733,76 @@
           </div>
           
           <div class="mockup-grid-psd" id="preset-buttons-container">
-            <!-- 0. Original PSD Top-Down -->
+            <!-- 1. Original PSD Top-Down -->
             <button type="button" class="mockup-psd-card active" data-preset="book_mockup_1">
               <img src="/images/psd_mockup_2/sample_cover.png" class="mockup-psd-thumb" alt="Original PSD">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Original PSD Tool</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-star"></i> Classic Flatlay</span>
+                <span class="mockup-psd-title">Original PSD</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-star"></i> Classic Flat</span>
               </div>
             </button>
 
-            <!-- 1. Hardcover Standing -->
+            <!-- 2. Hardcover Standing -->
             <button type="button" class="mockup-psd-card" data-preset="hardcover_standing">
               <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" class="mockup-psd-thumb" alt="Hardcover 3D Standing">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Hardcover Standing</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-bookmark"></i> 6x9 + 1.25" Spine</span>
+                <span class="mockup-psd-title">Hardcover</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-bookmark"></i> 6x9 Standing</span>
               </div>
             </button>
 
-            <!-- 2. Paperback Duo -->
+            <!-- 3. Paperback Duo -->
             <button type="button" class="mockup-psd-card" data-preset="paperback_duo">
               <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" class="mockup-psd-thumb" alt="5x8 Paperback Duo">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">5x8 Paperback Duo</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-book-open"></i> Front + Back + Spine</span>
+                <span class="mockup-psd-title">Paperback Duo</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-book-open"></i> Front & Back</span>
               </div>
             </button>
 
-            <!-- 4. Open Spread Flatlay -->
-            <button type="button" class="mockup-psd-card" data-preset="open_spread">
-              <img src="/images/psd_mockups/thumbnails/open_spread.jpg" class="mockup-psd-thumb" alt="8.5x8.5 Open Spread">
+            <!-- 4. Dual Standing Showcase (Front + Back) - from front and back without spine.psd -->
+            <button type="button" class="mockup-psd-card" data-preset="front_back_showcase" style="border-color: rgba(244, 180, 0, 0.4); background: rgba(244, 180, 0, 0.04);">
+              <span class="preset-badge-new">NEW</span>
+              <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" class="mockup-psd-thumb" alt="Dual Standing Showcase">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">8.5x8.5 Open Spread</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-book-journal-whills"></i> Full Open Jacket</span>
+                <span class="mockup-psd-title" style="color: #fde047;">Dual Showcase</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-gem" style="color: #f4b400;"></i> Floor Reflection</span>
               </div>
             </button>
 
             <!-- 5. Square Studio Flatlay -->
             <button type="button" class="mockup-psd-card" data-preset="square_flatlay">
-              <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" class="mockup-psd-thumb" alt="8.5x8.5 Square Flatlay">
+              <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" class="mockup-psd-thumb" alt="Square Flatlay">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Square Flatlay (1:1)</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-shapes"></i> Linen Paper Grain</span>
+                <span class="mockup-psd-title">Square Flatlay</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-shapes"></i> 8.5x8.5 Flat</span>
               </div>
             </button>
 
-            <!-- 6. Square 3-Book Stack -->
+            <!-- 6. Square 3-Book Stack (from 3.psd) -->
             <button type="button" class="mockup-psd-card" data-preset="square_stack">
-              <img src="/images/psd_mockups/thumbnails/square_stack.jpg" class="mockup-psd-thumb" alt="8.5x8.5 3-Book Stack">
+              <img src="/images/psd_mockups/thumbnails/square_stack.jpg" class="mockup-psd-thumb" alt="Square 3-Book Stack">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Square 3-Book Stack</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-layer-group"></i> Isometric Depth</span>
+                <span class="mockup-psd-title">3-Book Stack</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-layer-group"></i> 3.psd Isometric</span>
               </div>
             </button>
 
             <!-- 7. Ultimate 4-Book Collector Showcase -->
             <button type="button" class="mockup-psd-card" data-preset="studio_collector">
-              <img src="/images/psd_mockups/thumbnails/studio_collector.jpg" class="mockup-psd-thumb" alt="4-Book Collector Showcase">
+              <img src="/images/psd_mockups/thumbnails/studio_collector.jpg" class="mockup-psd-thumb" alt="4-Book Showcase">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">4-Book Showcase</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-crown"></i> Standing & Stacked</span>
+                <span class="mockup-psd-title">4-Book Studio</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-crown"></i> Stack & Stand</span>
               </div>
             </button>
 
-            <!-- 7. Front & Back Showcase (from front and back without spine.psd) -->
-            <button type="button" class="mockup-psd-card" data-preset="front_back_showcase">
-              <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" class="mockup-psd-thumb" alt="Front & Back Showcase">
+            <!-- 8. Open Spread Flatlay -->
+            <button type="button" class="mockup-psd-card" data-preset="open_spread">
+              <img src="/images/psd_mockups/thumbnails/open_spread.jpg" class="mockup-psd-thumb" alt="8.5x8.5 Open Spread">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Dual Standing Showcase</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-gem"></i> Glossy Floor Studio</span>
+                <span class="mockup-psd-title">Open Spread</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-book-journal-whills"></i> Full Jacket</span>
               </div>
             </button>
           </div>
