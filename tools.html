@@ -647,8 +647,17 @@
           </div>
           
           <div class="mockup-grid-psd" id="preset-buttons-container">
+            <!-- 0. Original PSD Top-Down -->
+            <button type="button" class="mockup-psd-card active" data-preset="book_mockup_1">
+              <img src="/images/psd_mockup_2/sample_cover.png" class="mockup-psd-thumb" alt="Original PSD">
+              <div class="mockup-psd-meta">
+                <span class="mockup-psd-title">Original PSD Tool</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-star"></i> Classic Flatlay</span>
+              </div>
+            </button>
+
             <!-- 1. Hardcover Standing -->
-            <button type="button" class="mockup-psd-card active" data-preset="hardcover_standing">
+            <button type="button" class="mockup-psd-card" data-preset="hardcover_standing">
               <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" class="mockup-psd-thumb" alt="Hardcover 3D Standing">
               <div class="mockup-psd-meta">
                 <span class="mockup-psd-title">Hardcover Standing</span>
@@ -1271,6 +1280,78 @@ document.addEventListener('DOMContentLoaded', () => {
           1207.66,
           1722.82
         ]
+      ],
+      "stackFront1": [
+        [
+          436.65,
+          880.9
+        ],
+        [
+          1411.18,
+          289.71
+        ],
+        [
+          2403.09,
+          880.08
+        ],
+        [
+          1440.37,
+          1606.52
+        ]
+      ],
+      "stackSpine1": [
+        [
+          436.32,
+          948.47
+        ],
+        [
+          433.56,
+          878.29
+        ],
+        [
+          1440.17,
+          1606.06
+        ],
+        [
+          1428.56,
+          1668.78
+        ]
+      ],
+      "stackFront2": [
+        [
+          433.97,
+          1001.62
+        ],
+        [
+          1163.48,
+          252.42
+        ],
+        [
+          2341.48,
+          645.71
+        ],
+        [
+          1731.81,
+          1517.71
+        ]
+      ],
+      "stackSpine2": [
+        [
+          438.57,
+          1071.59
+        ],
+        [
+          433.93,
+          1001.19
+        ],
+        [
+          1731.97,
+          1516.78
+        ],
+        [
+          1729.78,
+          1582.07
+        ]
       ]
     }
   },
@@ -1399,12 +1480,73 @@ document.addEventListener('DOMContentLoaded', () => {
           1283.46,
           2407.54
         ]
+      ],
+      "stackFront1": [
+        [
+          856.62,
+          1819.75
+        ],
+        [
+          1744.24,
+          1778.9
+        ],
+        [
+          2365.1,
+          1946.06
+        ],
+        [
+          1281.36,
+          2016.19
+        ]
+      ],
+      "stackFront2": [
+        [
+          858.94,
+          1976
+        ],
+        [
+          1748.16,
+          1925.66
+        ],
+        [
+          2365.61,
+          2131.58
+        ],
+        [
+          1283.06,
+          2215.52
+        ]
       ]
     }
   },
   "hardcover_flatlay": {
     "id": "hardcover_flatlay",
     "title": "6x9 Hardcover Studio Flatlay",
+    "category": "hardcover",
+    "aspect": "6x9",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front"
+    ],
+    "defaultBg": "#e9e9e9",
+    "layers": {
+      "backdrop": "images/psd_mockup_2/base_shadow.jpg",
+      "crease": "images/psd_mockup_2/cover_crease.png",
+      "highlights": "images/psd_mockup_2/cover_highlights.png"
+    },
+    "rects": {
+      "front": [
+        1025,
+        460,
+        958,
+        1353
+      ]
+    }
+  },
+  "book_mockup_1": {
+    "id": "book_mockup_1",
+    "title": "Original PSD Top-Down",
     "category": "hardcover",
     "aspect": "6x9",
     "width": 3000,
@@ -1460,7 +1602,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sampleThumbs = document.querySelectorAll('.sample-thumb');
 
   // State
-  let currentPresetId = 'hardcover_standing';
+  let currentPresetId = 'book_mockup_1';
   let bgMode = 'studio'; // 'studio', 'transparent', 'white', 'dark'
   let exportFormat = 'png'; // 'png' or 'jpeg'
   let spineColor = '#111827';
@@ -1616,7 +1758,16 @@ document.addEventListener('DOMContentLoaded', () => {
           dstData[dstIdx] = srcData[idx00] * w00 + srcData[idx10] * w10 + srcData[idx01] * w01 + srcData[idx11] * w11;
           dstData[dstIdx + 1] = srcData[idx00 + 1] * w00 + srcData[idx10 + 1] * w10 + srcData[idx01 + 1] * w01 + srcData[idx11 + 1] * w11;
           dstData[dstIdx + 2] = srcData[idx00 + 2] * w00 + srcData[idx10 + 2] * w10 + srcData[idx01 + 2] * w01 + srcData[idx11 + 2] * w11;
-          dstData[dstIdx + 3] = 255;
+          dstData[dstIdx + 3] = srcData[idx00 + 3] * w00 + srcData[idx10 + 3] * w10 + srcData[idx01 + 3] * w01 + srcData[idx11 + 3] * w11;
+        } else if (sx >= -1 && sx <= w && sy >= -1 && sy <= h) {
+          // Clamp to edge pixels to prevent transparent/black gaps
+          const cx = Math.max(0, Math.min(w - 1, Math.round(sx)));
+          const cy = Math.max(0, Math.min(h - 1, Math.round(sy)));
+          const idx = (cy * w + cx) * 4;
+          dstData[dstIdx] = srcData[idx];
+          dstData[dstIdx + 1] = srcData[idx + 1];
+          dstData[dstIdx + 2] = srcData[idx + 2];
+          dstData[dstIdx + 3] = srcData[idx + 3];
         }
       }
     }
@@ -1625,12 +1776,22 @@ document.addEventListener('DOMContentLoaded', () => {
     tempCanvas.width = qw; tempCanvas.height = qh;
     tempCanvas.getContext('2d').putImageData(outImgData, 0, 0);
 
+    // Expand the quad by a tiny fraction of a pixel to overlap adjacent quads and prevent white anti-aliasing seams
+    const cx = (scaledQuad[0][0] + scaledQuad[1][0] + scaledQuad[2][0] + scaledQuad[3][0]) / 4;
+    const cy = (scaledQuad[0][1] + scaledQuad[1][1] + scaledQuad[2][1] + scaledQuad[3][1]) / 4;
+    const expand = 0.6; // pixels
+    
     ctx.save();
     ctx.beginPath();
-    ctx.moveTo(scaledQuad[0][0], scaledQuad[0][1]);
-    ctx.lineTo(scaledQuad[1][0], scaledQuad[1][1]);
-    ctx.lineTo(scaledQuad[2][0], scaledQuad[2][1]);
-    ctx.lineTo(scaledQuad[3][0], scaledQuad[3][1]);
+    for (let i = 0; i < 4; i++) {
+      const dx = scaledQuad[i][0] - cx;
+      const dy = scaledQuad[i][1] - cy;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      const ex = scaledQuad[i][0] + (dx / len) * expand;
+      const ey = scaledQuad[i][1] + (dy / len) * expand;
+      if (i === 0) ctx.moveTo(ex, ey);
+      else ctx.lineTo(ex, ey);
+    }
     ctx.closePath();
     ctx.clip();
     ctx.drawImage(tempCanvas, minX, minY);
@@ -1719,8 +1880,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.quads.back) warpQuad(ctx, backArt, config.quads.back, scale);
         if (config.quads.spine) warpQuad(ctx, spineArt, config.quads.spine, scale);
         if (config.quads.backSpine) warpQuad(ctx, spineArt, config.quads.backSpine, scale);
-        if (config.quads.stackSpine1) warpQuad(ctx, spineArt, config.quads.stackSpine1, scale);
+        if (config.quads.stackFront2) warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
         if (config.quads.stackSpine2) warpQuad(ctx, spineArt, config.quads.stackSpine2, scale);
+        if (config.quads.stackFront1) warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
+        if (config.quads.stackSpine1) warpQuad(ctx, spineArt, config.quads.stackSpine1, scale);
         if (config.quads.front) warpQuad(ctx, frontArt, config.quads.front, scale);
       } else if (config.rects) {
         if (config.rects.back) {
