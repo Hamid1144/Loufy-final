@@ -60,6 +60,10 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
+  <!-- Cropper.js for Interactive Artwork Cropping -->
+  <link rel="stylesheet" href="/cropper.min.css">
+  <script src="/cropper.min.js"></script>
+  
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -354,6 +358,308 @@
     .minimal-clear-btn:hover {
       background: #ef4444;
       color: #fff;
+    }
+    .slot-card-thumb {
+      width: 28px;
+      height: 28px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #060a12;
+      display: none;
+    }
+    .minimal-crop-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(244, 180, 0, 0.15);
+      border: 1px solid rgba(244, 180, 0, 0.35);
+      color: #fde047;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .minimal-crop-btn:hover {
+      background: var(--accent);
+      color: #000;
+      box-shadow: 0 0 10px rgba(244, 180, 0, 0.4);
+    }
+
+    /* ── ARTWORK CROPPER MODAL ── */
+    .crop-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 8, 14, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: cropFadeIn 0.2s ease-out;
+    }
+    @keyframes cropFadeIn {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .crop-modal-dialog {
+      background: #0c1420;
+      border: 1px solid rgba(244, 180, 0, 0.3);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 840px;
+      max-height: 94vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(244, 180, 0, 0.15);
+      overflow: hidden;
+      font-family: 'Outfit', sans-serif;
+    }
+    .crop-modal-header {
+      padding: 12px 20px;
+      background: rgba(8, 13, 20, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .crop-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .crop-slot-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #fde047;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .crop-modal-title {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .crop-modal-hint {
+      font-size: 0.72rem;
+      color: #94a3b8;
+    }
+    .crop-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .crop-close-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #fff;
+    }
+    .crop-ratio-bar {
+      padding: 9px 18px;
+      background: rgba(15, 23, 42, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    .crop-ratio-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .crop-ratio-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .ratio-pill-btn {
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      color: #cbd5e1;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-family: 'Outfit', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .ratio-pill-btn:hover {
+      background: rgba(244, 180, 0, 0.15);
+      border-color: rgba(244, 180, 0, 0.4);
+      color: #fff;
+    }
+    .ratio-pill-btn.active {
+      background: rgba(244, 180, 0, 0.22);
+      border-color: var(--accent);
+      color: #fde047;
+      box-shadow: 0 0 10px rgba(244, 180, 0, 0.25);
+    }
+    .crop-canvas-wrapper {
+      height: 420px;
+      max-height: 52vh;
+      background: #04070d;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .crop-canvas-wrapper img {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+    }
+    .crop-toolbar {
+      padding: 8px 18px;
+      background: rgba(8, 13, 20, 0.8);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .crop-tools-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .crop-tool-btn {
+      padding: 5px 9px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #cbd5e1;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .crop-tool-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+    }
+    .crop-info-text {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      font-family: monospace;
+    }
+    .crop-modal-footer {
+      padding: 11px 18px;
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .crop-btn-cancel {
+      padding: 7px 15px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .crop-btn-cancel:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+    .crop-btn-skip {
+      padding: 7px 15px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .crop-btn-skip:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+    }
+    .crop-btn-apply {
+      padding: 7px 18px;
+      background: linear-gradient(135deg, #f4b400, #d97706);
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 15px rgba(244, 180, 0, 0.35);
+      transition: all 0.2s;
+    }
+    .crop-btn-apply:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    /* Cropper.js Custom Gold Theme */
+    .cropper-view-box {
+      outline: 2px solid #f4b400 !important;
+      outline-color: rgba(244, 180, 0, 0.95) !important;
+    }
+    .cropper-line {
+      background-color: #f4b400 !important;
+    }
+    .cropper-point {
+      background-color: #f4b400 !important;
+      width: 8px !important;
+      height: 8px !important;
+      border-radius: 2px !important;
+    }
+    .cropper-point.point-se {
+      width: 12px !important;
+      height: 12px !important;
+    }
+    .cropper-modal {
+      background-color: rgba(3, 7, 18, 0.82) !important;
+    }
+    .cropper-dashed {
+      border-color: rgba(244, 180, 0, 0.5) !important;
     }
 
     /* Auto-detect badge */
@@ -808,10 +1114,14 @@
                 <span class="slot-card-status" id="front-status-text">Default Sample</span>
               </div>
               <div class="slot-card-body">
+                <img id="front-thumb-preview" class="slot-card-thumb" alt="Front Preview">
                 <input type="file" id="front-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
                 <button type="button" class="minimal-upload-btn" id="btn-upload-front" onclick="document.getElementById('front-file-input').click()">
                   <i class="fa-solid fa-arrow-up-from-bracket"></i>
                   <span id="front-btn-label">Choose Front Cover</span>
+                </button>
+                <button type="button" class="minimal-crop-btn" id="crop-front-btn" title="Crop & Adjust Ratio">
+                  <i class="fa-solid fa-crop-simple"></i>
                 </button>
                 <button type="button" class="minimal-clear-btn" id="clear-front-btn" title="Reset Front Cover" style="display: none;">
                   <i class="fa-solid fa-xmark"></i>
@@ -826,10 +1136,14 @@
                 <span class="slot-card-status" id="back-status-text">Optional</span>
               </div>
               <div class="slot-card-body">
+                <img id="back-thumb-preview" class="slot-card-thumb" alt="Back Preview">
                 <input type="file" id="back-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
                 <button type="button" class="minimal-upload-btn" id="btn-upload-back" onclick="document.getElementById('back-file-input').click()">
                   <i class="fa-solid fa-arrow-up-from-bracket"></i>
                   <span id="back-btn-label">Choose Back Cover</span>
+                </button>
+                <button type="button" class="minimal-crop-btn" id="crop-back-btn" title="Crop & Adjust Ratio">
+                  <i class="fa-solid fa-crop-simple"></i>
                 </button>
                 <button type="button" class="minimal-clear-btn" id="clear-back-btn" title="Reset Back Cover" style="display: none;">
                   <i class="fa-solid fa-xmark"></i>
@@ -844,10 +1158,14 @@
                 <span class="slot-card-status" id="spine-status-text">Optional</span>
               </div>
               <div class="slot-card-body">
+                <img id="spine-thumb-preview" class="slot-card-thumb" alt="Spine Preview">
                 <input type="file" id="spine-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
                 <button type="button" class="minimal-upload-btn" id="btn-upload-spine" onclick="document.getElementById('spine-file-input').click()">
                   <i class="fa-solid fa-arrow-up-from-bracket"></i>
                   <span id="spine-btn-label">Choose Spine</span>
+                </button>
+                <button type="button" class="minimal-crop-btn" id="crop-spine-btn" title="Crop & Adjust Ratio">
+                  <i class="fa-solid fa-crop-simple"></i>
                 </button>
                 <button type="button" class="minimal-clear-btn" id="clear-spine-btn" title="Reset Spine" style="display: none;">
                   <i class="fa-solid fa-xmark"></i>
@@ -990,6 +1308,55 @@
 
   </div>
 </section>
+
+<!-- INTERACTIVE ARTWORK CROPPER MODAL -->
+<div id="art-crop-modal" class="crop-modal-backdrop" style="display: none;">
+  <div class="crop-modal-dialog">
+    <div class="crop-modal-header">
+      <div class="crop-header-left">
+        <span class="crop-slot-badge" id="crop-modal-slot-badge"><i class="fa-solid fa-book-open"></i> Front Cover Slot</span>
+        <h3 class="crop-modal-title" id="crop-modal-title">Crop Artwork</h3>
+        <span class="crop-modal-hint" id="crop-modal-hint">Choose exact mockup ratio or drag crop handles for custom framing</span>
+      </div>
+      <button type="button" class="crop-close-btn" id="crop-btn-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Aspect Ratio Selection Bar -->
+    <div class="crop-ratio-bar">
+      <span class="crop-ratio-label"><i class="fa-solid fa-shapes"></i> Aspect Ratio:</span>
+      <div class="crop-ratio-pills" id="crop-ratio-pills">
+        <!-- Injected dynamically by openCropModal: Exact Ratio, Custom, 6:9, etc. -->
+      </div>
+    </div>
+
+    <!-- Interactive Cropper Container -->
+    <div class="crop-canvas-wrapper">
+      <img id="crop-target-image" src="" alt="Artwork to crop">
+    </div>
+
+    <!-- Crop Toolbar & Zoom/Rotate Controls -->
+    <div class="crop-toolbar">
+      <div class="crop-tools-group">
+        <button type="button" class="crop-tool-btn" id="crop-tool-rotate-left" title="Rotate 90° Counter-Clockwise"><i class="fa-solid fa-rotate-left"></i> -90°</button>
+        <button type="button" class="crop-tool-btn" id="crop-tool-rotate-right" title="Rotate 90° Clockwise"><i class="fa-solid fa-rotate-right"></i> +90°</button>
+        <button type="button" class="crop-tool-btn" id="crop-tool-flip-h" title="Flip Horizontal"><i class="fa-solid fa-arrows-left-right"></i> Flip</button>
+        <button type="button" class="crop-tool-btn" id="crop-tool-zoom-in" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+        <button type="button" class="crop-tool-btn" id="crop-tool-zoom-out" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+        <button type="button" class="crop-tool-btn" id="crop-tool-reset" title="Reset Crop"><i class="fa-solid fa-arrow-rotate-left"></i> Reset</button>
+      </div>
+      <div class="crop-info-text" id="crop-dimensions-info">
+        Ready to crop
+      </div>
+    </div>
+
+    <!-- Modal Footer Actions -->
+    <div class="crop-modal-footer">
+      <button type="button" class="crop-btn-cancel" id="crop-btn-cancel">Cancel</button>
+      <button type="button" class="crop-btn-skip" id="crop-btn-skip">Use Full Image (No Crop)</button>
+      <button type="button" class="crop-btn-apply" id="crop-btn-apply"><i class="fa-solid fa-check"></i> Apply &amp; Set Artwork</button>
+    </div>
+  </div>
+</div>
 
 <!-- HOW IT WORKS & FAQ SECTION FOR SEO -->
 <section class="services" style="padding: 60px 0 40px; background: #080d14;">
@@ -1643,18 +2010,43 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   const frontBtnLabel = document.getElementById('front-btn-label');
   const clearFrontBtn = document.getElementById('clear-front-btn');
   const frontStatusText = document.getElementById('front-status-text');
+  const frontThumbPreview = document.getElementById('front-thumb-preview');
+  const cropFrontBtn = document.getElementById('crop-front-btn');
 
   const backInput = document.getElementById('back-file-input');
   const btnUploadBack = document.getElementById('btn-upload-back');
   const backBtnLabel = document.getElementById('back-btn-label');
   const clearBackBtn = document.getElementById('clear-back-btn');
   const backStatusText = document.getElementById('back-status-text');
+  const backThumbPreview = document.getElementById('back-thumb-preview');
+  const cropBackBtn = document.getElementById('crop-back-btn');
 
   const spineInput = document.getElementById('spine-file-input');
   const btnUploadSpine = document.getElementById('btn-upload-spine');
   const spineBtnLabel = document.getElementById('spine-btn-label');
   const clearSpineBtn = document.getElementById('clear-spine-btn');
   const spineStatusText = document.getElementById('spine-status-text');
+  const spineThumbPreview = document.getElementById('spine-thumb-preview');
+  const cropSpineBtn = document.getElementById('crop-spine-btn');
+
+  // Cropper Modal DOM
+  const cropModal = document.getElementById('art-crop-modal');
+  const cropModalTitle = document.getElementById('crop-modal-title');
+  const cropModalHint = document.getElementById('crop-modal-hint');
+  const cropModalSlotBadge = document.getElementById('crop-modal-slot-badge');
+  const cropRatioPills = document.getElementById('crop-ratio-pills');
+  const cropTargetImg = document.getElementById('crop-target-image');
+  const cropDimensionsInfo = document.getElementById('crop-dimensions-info');
+  const cropBtnClose = document.getElementById('crop-btn-close');
+  const cropBtnCancel = document.getElementById('crop-btn-cancel');
+  const cropBtnSkip = document.getElementById('crop-btn-skip');
+  const cropBtnApply = document.getElementById('crop-btn-apply');
+  const cropToolRotateLeft = document.getElementById('crop-tool-rotate-left');
+  const cropToolRotateRight = document.getElementById('crop-tool-rotate-right');
+  const cropToolFlipH = document.getElementById('crop-tool-flip-h');
+  const cropToolZoomIn = document.getElementById('crop-tool-zoom-in');
+  const cropToolZoomOut = document.getElementById('crop-tool-zoom-out');
+  const cropToolReset = document.getElementById('crop-tool-reset');
 
   const spineColorRow = document.getElementById('spine-color-row');
   const spineColorPicker = document.getElementById('spine-color-picker');
@@ -1705,6 +2097,25 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   let customFrontImg = null;
   let customSpineImg = null;
   let customBackImg = null;
+
+  // Raw source artworks for re-cropping anytime
+  const rawArtworks = {
+    front: null,
+    back: null,
+    spine: null
+  };
+  const rawFileNames = {
+    front: 'Custom Front',
+    back: 'Custom Back',
+    spine: 'Custom Spine'
+  };
+
+  // Cropper State
+  let activeCropper = null;
+  let currentCropSlot = 'front';
+  let currentCropDataUrl = null;
+  let currentCropFileName = '';
+  let activeCropRatio = NaN;
 
   // Render concurrency token
   let currentRenderId = 0;
@@ -2429,6 +2840,301 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     renderCurrentMockup();
   }
 
+  // ── MATHEMATICALLY EXACT SLOT ASPECT RATIO CALCULATION ──
+  function computeSlotAspectRatio(presetId, slot) {
+    const config = PSD_MANIFEST[presetId];
+    if (!config) return slot === 'spine' ? 0.07 : (2 / 3);
+
+    // 1. Direct bounding rects (e.g. front_back_showcase, square_flatlay)
+    if (config.rects && config.rects[slot]) {
+      const r = config.rects[slot];
+      if (r[2] && r[3]) return r[2] / r[3];
+    }
+
+    // 2. 3D perspective quads
+    if (config.quads && config.quads[slot]) {
+      const q = config.quads[slot];
+      const topW = Math.hypot(q[1][0] - q[0][0], q[1][1] - q[0][1]);
+      const botW = Math.hypot(q[2][0] - q[3][0], q[2][1] - q[3][1]);
+      const leftH = Math.hypot(q[3][0] - q[0][0], q[3][1] - q[0][1]);
+      const rightH = Math.hypot(q[2][0] - q[1][0], q[2][1] - q[1][1]);
+      const avgW = (topW + botW) / 2;
+      const avgH = (leftH + rightH) / 2;
+      if (avgH > 0) return avgW / avgH;
+    }
+
+    // 3. Fallbacks based on category/aspect
+    if (slot === 'spine') return 0.07;
+    if (config.aspect === '1:1' || config.aspect === '8.5x8.5') return 1;
+    if (config.aspect === '5x8') return 5 / 8;
+    return 2 / 3;
+  }
+
+  // ── INTERACTIVE ARTWORK CROP MODAL ENGINE ──
+  window.openCropModal = openCropModal;
+  function openCropModal(imgSrc, slot = 'front', fileName = '') {
+    if (!imgSrc || !cropModal) return;
+
+    currentCropSlot = slot;
+    currentCropDataUrl = imgSrc;
+    currentCropFileName = fileName || ('Custom ' + slot.charAt(0).toUpperCase() + slot.slice(1));
+
+    // Update Header Badges & Hints
+    if (cropModalSlotBadge) {
+      if (slot === 'front') {
+        cropModalSlotBadge.innerHTML = '<i class="fa-solid fa-book-open" style="color:var(--accent);"></i> Front Cover Slot';
+      } else if (slot === 'back') {
+        cropModalSlotBadge.innerHTML = '<i class="fa-solid fa-book" style="color:#60a5fa;"></i> Back Cover Slot';
+      } else {
+        cropModalSlotBadge.innerHTML = '<i class="fa-solid fa-grip-lines-vertical" style="color:#fde047;"></i> Book Spine Slot';
+      }
+    }
+    if (cropModalTitle) {
+      cropModalTitle.textContent = 'Crop ' + (slot === 'front' ? 'Front Cover' : slot === 'back' ? 'Back Cover' : 'Spine Artwork');
+    }
+    if (cropModalHint) {
+      cropModalHint.textContent = slot === 'spine'
+        ? 'Auto spine ratio locked to selected mockup. Select "Custom" to crop any spine strip width.'
+        : 'Exact mockup ratio locked by default for perfect fit. Select "Custom" for freeform crop.';
+    }
+
+    const exactRatio = computeSlotAspectRatio(currentPresetId, slot);
+    activeCropRatio = exactRatio;
+
+    // Generate Aspect Ratio Selection Pills
+    if (cropRatioPills) {
+      cropRatioPills.innerHTML = '';
+      let pills = [];
+
+      if (slot === 'spine') {
+        const spineRatioText = (1 / exactRatio).toFixed(1) + ':1';
+        pills = [
+          { label: 'Auto Spine (' + spineRatioText + ')', ratio: exactRatio, active: true },
+          { label: 'Custom / Freeform', ratio: NaN },
+          { label: '1:10 Spine', ratio: 0.1 },
+          { label: '1:15 Slim Spine', ratio: 0.0667 },
+          { label: 'Original Image', ratio: 'original' }
+        ];
+      } else {
+        const ratioText = exactRatio === 1 ? '1:1 Square' : (exactRatio < 0.65 ? '5:8 Novel' : '6:9 Book');
+        pills = [
+          { label: 'Exact Mockup (' + ratioText + ')', ratio: exactRatio, active: true },
+          { label: 'Custom / Freeform', ratio: NaN },
+          { label: '6:9 Book', ratio: 2 / 3 },
+          { label: '5:8 Novel', ratio: 5 / 8 },
+          { label: '1:1 Square', ratio: 1 },
+          { label: 'Original Image', ratio: 'original' }
+        ];
+      }
+
+      pills.forEach(p => {
+        const pillBtn = document.createElement('button');
+        pillBtn.type = 'button';
+        pillBtn.className = 'ratio-pill-btn' + (p.active ? ' active' : '');
+        pillBtn.textContent = p.label;
+        pillBtn.addEventListener('click', () => {
+          cropRatioPills.querySelectorAll('.ratio-pill-btn').forEach(b => b.classList.remove('active'));
+          pillBtn.classList.add('active');
+          if (!activeCropper) return;
+
+          if (p.ratio === 'original') {
+            const imgData = activeCropper.getImageData();
+            if (imgData && imgData.naturalHeight) {
+              activeCropper.setAspectRatio(imgData.naturalWidth / imgData.naturalHeight);
+            } else {
+              activeCropper.setAspectRatio(NaN);
+            }
+          } else {
+            activeCropper.setAspectRatio(p.ratio);
+          }
+        });
+        cropRatioPills.appendChild(pillBtn);
+      });
+    }
+
+    // Mount image and instantiate Cropper.js
+    if (cropTargetImg) {
+      if (activeCropper) {
+        activeCropper.destroy();
+        activeCropper = null;
+      }
+      cropTargetImg.src = imgSrc;
+      cropModal.style.display = 'flex';
+
+      const setupCropper = () => {
+        cropTargetImg.removeEventListener('load', setupCropper);
+        if (typeof Cropper === 'undefined') {
+          console.warn('Cropper.js not ready, using direct artwork load');
+          useFullImageArtwork();
+          return;
+        }
+
+        activeCropper = new Cropper(cropTargetImg, {
+          aspectRatio: exactRatio,
+          viewMode: 1,
+          autoCropArea: 0.96,
+          responsive: true,
+          restore: true,
+          checkCrossOrigin: false,
+          guides: true,
+          center: true,
+          highlight: false,
+          cropBoxMovable: true,
+          cropBoxResizable: true,
+          toggleDragModeOnDblclick: true,
+          crop(e) {
+            if (cropDimensionsInfo) {
+              const d = e.detail;
+              cropDimensionsInfo.textContent = Math.round(d.width) + ' × ' + Math.round(d.height) + ' px';
+            }
+          }
+        });
+      };
+
+      if (cropTargetImg.complete && cropTargetImg.naturalWidth > 0) {
+        setupCropper();
+      } else {
+        cropTargetImg.addEventListener('load', setupCropper);
+      }
+    }
+  }
+
+  function closeCropModal() {
+    if (activeCropper) {
+      activeCropper.destroy();
+      activeCropper = null;
+    }
+    if (cropModal) cropModal.style.display = 'none';
+  }
+
+  function applyCroppedArtwork() {
+    if (!activeCropper) {
+      useFullImageArtwork();
+      return;
+    }
+
+    const croppedCanvas = activeCropper.getCroppedCanvas({
+      imageSmoothingEnabled: true,
+      imageSmoothingQuality: 'high'
+    });
+
+    if (!croppedCanvas) {
+      closeCropModal();
+      return;
+    }
+
+    const slot = currentCropSlot;
+    const name = currentCropFileName;
+    rawArtworks[slot] = currentCropDataUrl;
+    rawFileNames[slot] = name;
+
+    const thumbUrl = croppedCanvas.toDataURL('image/jpeg', 0.85);
+
+    if (slot === 'front') {
+      setFrontArtwork(croppedCanvas, name);
+      if (frontThumbPreview) {
+        frontThumbPreview.src = thumbUrl;
+        frontThumbPreview.style.display = 'block';
+      }
+      if (cropFrontBtn) cropFrontBtn.style.display = 'inline-flex';
+    } else if (slot === 'back') {
+      setBackArtwork(croppedCanvas, name);
+      if (backThumbPreview) {
+        backThumbPreview.src = thumbUrl;
+        backThumbPreview.style.display = 'block';
+      }
+      if (cropBackBtn) cropBackBtn.style.display = 'inline-flex';
+    } else if (slot === 'spine') {
+      setSpineArtwork(croppedCanvas, name);
+      if (spineThumbPreview) {
+        spineThumbPreview.src = thumbUrl;
+        spineThumbPreview.style.display = 'block';
+      }
+      if (cropSpineBtn) cropSpineBtn.style.display = 'inline-flex';
+    }
+
+    closeCropModal();
+  }
+
+  function useFullImageArtwork() {
+    const slot = currentCropSlot;
+    const name = currentCropFileName;
+    rawArtworks[slot] = currentCropDataUrl;
+    rawFileNames[slot] = name;
+
+    const img = new Image();
+    img.onload = () => {
+      if (slot === 'front') {
+        if (img.width / img.height > 1.25) {
+          processUploadedArtwork(img, name);
+        } else {
+          setFrontArtwork(img, name);
+        }
+        if (frontThumbPreview) {
+          frontThumbPreview.src = currentCropDataUrl;
+          frontThumbPreview.style.display = 'block';
+        }
+        if (cropFrontBtn) cropFrontBtn.style.display = 'inline-flex';
+      } else if (slot === 'back') {
+        setBackArtwork(img, name);
+        if (backThumbPreview) {
+          backThumbPreview.src = currentCropDataUrl;
+          backThumbPreview.style.display = 'block';
+        }
+        if (cropBackBtn) cropBackBtn.style.display = 'inline-flex';
+      } else if (slot === 'spine') {
+        setSpineArtwork(img, name);
+        if (spineThumbPreview) {
+          spineThumbPreview.src = currentCropDataUrl;
+          spineThumbPreview.style.display = 'block';
+        }
+        if (cropSpineBtn) cropSpineBtn.style.display = 'inline-flex';
+      }
+      closeCropModal();
+    };
+    img.src = currentCropDataUrl;
+  }
+
+  // Wire Cropper Modal Action Buttons
+  if (cropBtnApply) cropBtnApply.addEventListener('click', applyCroppedArtwork);
+  if (cropBtnSkip) cropBtnSkip.addEventListener('click', useFullImageArtwork);
+  if (cropBtnCancel) cropBtnCancel.addEventListener('click', closeCropModal);
+  if (cropBtnClose) cropBtnClose.addEventListener('click', closeCropModal);
+  if (cropModal) {
+    cropModal.addEventListener('click', (e) => {
+      if (e.target === cropModal) closeCropModal();
+    });
+  }
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && cropModal && cropModal.style.display !== 'none') {
+      closeCropModal();
+    }
+  });
+
+  // Wire Cropper Toolbar Buttons
+  if (cropToolRotateLeft) {
+    cropToolRotateLeft.addEventListener('click', () => activeCropper && activeCropper.rotate(-90));
+  }
+  if (cropToolRotateRight) {
+    cropToolRotateRight.addEventListener('click', () => activeCropper && activeCropper.rotate(90));
+  }
+  if (cropToolFlipH) {
+    cropToolFlipH.addEventListener('click', () => {
+      if (!activeCropper) return;
+      const data = activeCropper.getData();
+      activeCropper.scaleX(data.scaleX === -1 ? 1 : -1);
+    });
+  }
+  if (cropToolZoomIn) {
+    cropToolZoomIn.addEventListener('click', () => activeCropper && activeCropper.zoom(0.1));
+  }
+  if (cropToolZoomOut) {
+    cropToolZoomOut.addEventListener('click', () => activeCropper && activeCropper.zoom(-0.1));
+  }
+  if (cropToolReset) {
+    cropToolReset.addEventListener('click', () => activeCropper && activeCropper.reset());
+  }
+
   // Dedicated Handlers for Setting Artwork Slots
   function setFrontArtwork(imgOrCanvas, name = 'Custom Front') {
     customFrontImg = imgOrCanvas;
@@ -2436,6 +3142,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (frontBtnLabel) frontBtnLabel.textContent = name;
     if (btnUploadFront) btnUploadFront.classList.add('has-file');
     if (clearFrontBtn) clearFrontBtn.style.display = 'flex';
+    if (cropFrontBtn) cropFrontBtn.style.display = 'inline-flex';
     if (frontStatusText) frontStatusText.textContent = (imgOrCanvas.width || '') + ' × ' + (imgOrCanvas.height || '') + ' px';
     if (autodetectStatus) autodetectStatus.style.display = 'none';
 
@@ -2464,6 +3171,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (backBtnLabel) backBtnLabel.textContent = name;
     if (btnUploadBack) btnUploadBack.classList.add('has-file');
     if (clearBackBtn) clearBackBtn.style.display = 'flex';
+    if (cropBackBtn) cropBackBtn.style.display = 'inline-flex';
     if (backStatusText) backStatusText.textContent = (imgOrCanvas.width || '') + ' × ' + (imgOrCanvas.height || '') + ' px';
     renderCurrentMockup();
   }
@@ -2475,25 +3183,18 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (spineBtnLabel) spineBtnLabel.textContent = name;
     if (btnUploadSpine) btnUploadSpine.classList.add('has-file');
     if (clearSpineBtn) clearSpineBtn.style.display = 'flex';
+    if (cropSpineBtn) cropSpineBtn.style.display = 'inline-flex';
     if (spineStatusText) spineStatusText.textContent = (imgOrCanvas.width || '') + ' × ' + (imgOrCanvas.height || '') + ' px';
     renderCurrentMockup();
   }
   window.setSpineArtwork = setSpineArtwork;
 
-  // Upload Handlers for Individual Slots
+  // Upload Handlers for Individual Slots: Read File & Open Crop Modal
   function handleFrontFile(file) {
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        if (img.width / img.height > 1.25) {
-          processUploadedArtwork(img, file.name);
-        } else {
-          setFrontArtwork(img, file.name);
-        }
-      };
-      img.src = e.target.result;
+      openCropModal(e.target.result, 'front', file.name);
     };
     reader.readAsDataURL(file);
   }
@@ -2502,9 +3203,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => setBackArtwork(img, file.name);
-      img.src = e.target.result;
+      openCropModal(e.target.result, 'back', file.name);
     };
     reader.readAsDataURL(file);
   }
@@ -2513,9 +3212,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => setSpineArtwork(img, file.name);
-      img.src = e.target.result;
+      openCropModal(e.target.result, 'spine', file.name);
     };
     reader.readAsDataURL(file);
   }
@@ -2528,10 +3225,20 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   });
 
-  // Wire Front Upload
+  // Wire Front Upload & Clear
   if (frontInput) {
     frontInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) handleFrontFile(e.target.files[0]);
+    });
+  }
+  if (cropFrontBtn) {
+    cropFrontBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (rawArtworks.front) {
+        openCropModal(rawArtworks.front, 'front', rawFileNames.front);
+      } else if (frontInput) {
+        frontInput.click();
+      }
     });
   }
   if (clearFrontBtn) {
@@ -2539,6 +3246,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.stopPropagation();
       customFrontImg = null;
       activeFrontImg = null;
+      rawArtworks.front = null;
+      if (frontThumbPreview) {
+        frontThumbPreview.src = '';
+        frontThumbPreview.style.display = 'none';
+      }
+      if (cropFrontBtn) cropFrontBtn.style.display = 'none';
       if (frontBtnLabel) frontBtnLabel.textContent = 'Choose Front Cover';
       if (btnUploadFront) btnUploadFront.classList.remove('has-file');
       if (clearFrontBtn) clearFrontBtn.style.display = 'none';
@@ -2549,10 +3262,20 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
-  // Wire Back Upload
+  // Wire Back Upload & Clear
   if (backInput) {
     backInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) handleBackFile(e.target.files[0]);
+    });
+  }
+  if (cropBackBtn) {
+    cropBackBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (rawArtworks.back) {
+        openCropModal(rawArtworks.back, 'back', rawFileNames.back);
+      } else if (backInput) {
+        backInput.click();
+      }
     });
   }
   if (clearBackBtn) {
@@ -2560,6 +3283,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.stopPropagation();
       customBackImg = null;
       activeBackImg = null;
+      rawArtworks.back = null;
+      if (backThumbPreview) {
+        backThumbPreview.src = '';
+        backThumbPreview.style.display = 'none';
+      }
+      if (cropBackBtn) cropBackBtn.style.display = 'none';
       if (backBtnLabel) backBtnLabel.textContent = 'Choose Back Cover';
       if (btnUploadBack) btnUploadBack.classList.remove('has-file');
       if (clearBackBtn) clearBackBtn.style.display = 'none';
@@ -2569,10 +3298,20 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
-  // Wire Spine Upload
+  // Wire Spine Upload & Clear
   if (spineInput) {
     spineInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) handleSpineFile(e.target.files[0]);
+    });
+  }
+  if (cropSpineBtn) {
+    cropSpineBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (rawArtworks.spine) {
+        openCropModal(rawArtworks.spine, 'spine', rawFileNames.spine);
+      } else if (spineInput) {
+        spineInput.click();
+      }
     });
   }
   if (clearSpineBtn) {
@@ -2580,6 +3319,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.stopPropagation();
       customSpineImg = null;
       activeSpineImg = null;
+      rawArtworks.spine = null;
+      if (spineThumbPreview) {
+        spineThumbPreview.src = '';
+        spineThumbPreview.style.display = 'none';
+      }
+      if (cropSpineBtn) cropSpineBtn.style.display = 'none';
       if (spineBtnLabel) spineBtnLabel.textContent = 'Choose Spine';
       if (btnUploadSpine) btnUploadSpine.classList.remove('has-file');
       if (clearSpineBtn) clearSpineBtn.style.display = 'none';
