@@ -1749,6 +1749,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const z = h6 * x + h7 * y + h8;
         const sx = (h0 * x + h1 * y + h2) / z;
         const sy = (h3 * x + h4 * y + h5) / z;
+        const dstIdx = (rowOffset + (x - minX)) * 4;
+
         if (sx >= 0 && sx < w - 1 && sy >= 0 && sy < h - 1) {
           const x0 = Math.floor(sx), y0 = Math.floor(sy);
           const x1 = x0 + 1, y1 = y0 + 1;
@@ -1756,7 +1758,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const w00 = (1 - fx) * (1 - fy), w10 = fx * (1 - fy), w01 = (1 - fx) * fy, w11 = fx * fy;
           const idx00 = (y0 * w + x0) * 4, idx10 = (y0 * w + x1) * 4;
           const idx01 = (y1 * w + x0) * 4, idx11 = (y1 * w + x1) * 4;
-          const dstIdx = (rowOffset + (x - minX)) * 4;
 
           dstData[dstIdx] = srcData[idx00] * w00 + srcData[idx10] * w10 + srcData[idx01] * w01 + srcData[idx11] * w11;
           dstData[dstIdx + 1] = srcData[idx00 + 1] * w00 + srcData[idx10 + 1] * w10 + srcData[idx01 + 1] * w01 + srcData[idx11 + 1] * w11;
