@@ -130,7 +130,8 @@
           1764.3
         ]
       ]
-    }
+    },
+    "quadsBlendMode": "overlay"
   },
   "front_back_showcase": {
     "id": "front_back_showcase",
@@ -404,7 +405,8 @@
           1582.07
         ]
       ]
-    }
+    },
+    "quadsBlendMode": "multiply"
   },
   "studio_collector": {
     "id": "studio_collector",
@@ -568,7 +570,8 @@
           2215.52
         ]
       ]
-    }
+    },
+    "quadsBlendMode": "overlay"
   },
   "hardcover_flatlay": {
     "id": "hardcover_flatlay",
