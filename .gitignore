@@ -3,3 +3,6 @@ wscript_test.txt
 backup_live/
 scratch/
 
+
+node_modules/
+Book mockups/

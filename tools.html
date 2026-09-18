@@ -751,8 +751,14 @@
           </div>
           
           <div class="mockup-grid-12">
-            <!-- 1. Open Full Wrap -->
-            <button type="button" class="mockup-card-btn active" data-preset="open-wrap">
+            <!-- 1. Real PSD Flat Lay (Exact Free_Book_Mockup_2) -->
+            <button type="button" class="mockup-card-btn active" data-preset="psd-flatlay">
+              <i class="fa-solid fa-crown text-warning"></i>
+              <span>PSD Studio 1:1</span>
+              <small>Exact Free_Book_Mockup_2</small>
+            </button>
+            <!-- 2. Open Full Wrap -->
+            <button type="button" class="mockup-card-btn" data-preset="open-wrap">
               <i class="fa-solid fa-book-journal-whills"></i>
               <span>Open Full Wrap</span>
               <small>Spread Face-Down (Full Jacket)</small>
@@ -1053,7 +1059,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // State
-  let currentPreset = 'open-wrap';
+  let currentPreset = 'psd-flatlay';
   let bgMode = 'light';
   let bookThickness = 0.45;
   let spineColor = '#111827';
@@ -1339,6 +1345,36 @@ document.addEventListener('DOMContentLoaded', () => {
   scene.add(modelGroup);
 
   const textureLoader = new THREE.TextureLoader();
+  // Preload Authentic Free_Book_Mockup_2 PSD Production Assets
+  const psdBaseShadow = new Image();
+  psdBaseShadow.crossOrigin = 'anonymous';
+  psdBaseShadow.src = 'images/psd_mockup_2/base_shadow.jpg';
+
+  const psdCoverCrease = new Image();
+  psdCoverCrease.crossOrigin = 'anonymous';
+  psdCoverCrease.src = 'images/psd_mockup_2/cover_crease.png';
+
+  const psdCoverHl = new Image();
+  psdCoverHl.crossOrigin = 'anonymous';
+  psdCoverHl.src = 'images/psd_mockup_2/cover_highlights.png';
+
+  const psdSampleCover = new Image();
+  psdSampleCover.crossOrigin = 'anonymous';
+  psdSampleCover.src = 'images/psd_mockup_2/sample_cover.png';
+
+  let psdAssetsReady = false;
+  let loadedCount = 0;
+  const checkPsdAssets = () => {
+    loadedCount++;
+    if (loadedCount >= 3) {
+      psdAssetsReady = true;
+      if (currentPreset === 'psd-flatlay') buildScene();
+    }
+  };
+  psdBaseShadow.onload = checkPsdAssets;
+  psdCoverCrease.onload = checkPsdAssets;
+  psdCoverHl.onload = checkPsdAssets;
+
 
   // 5. PROCEDURAL DEMO FULL WRAP COVERS
   const generateFantasyFullWrapCanvas = () => {
@@ -1716,6 +1752,10 @@ document.addEventListener('DOMContentLoaded', () => {
     modelGroup.rotation.set(0, 0, 0);
 
     switch (currentPreset) {
+      case 'psd-flatlay':
+        camera.position.set(0, 0, 5.0);
+        controls.target.set(0, 0, 0);
+        break;
       case 'open-wrap':
         camera.position.set(0, 5.4, 4.2);
         controls.target.set(0, -0.2, 0);
@@ -1793,7 +1833,53 @@ document.addEventListener('DOMContentLoaded', () => {
       const bookW = Number((bookH * effAspect).toFixed(3));
       const bookD = Math.max(0.18, bookThickness);
 
-      if (currentPreset === 'open-wrap') {
+            if (currentPreset === 'psd-flatlay') {
+        // ── 0. EXACT PHOTOSHOP PSD STUDIO FLAT LAY (Free_Book_Mockup_2.psd) ──
+        backdropMesh.visible = false;
+        floorMesh.visible = false;
+        shadowPlane.visible = false;
+
+        const psdCanvas = document.createElement('canvas');
+        psdCanvas.width = 2000;
+        psdCanvas.height = 1500;
+        const pCtx = psdCanvas.getContext('2d');
+        const s = 2000 / 3000;
+
+        // 1. Photographic studio background with real drop shadows
+        if (psdBaseShadow.complete && psdBaseShadow.naturalWidth > 0) {
+          pCtx.drawImage(psdBaseShadow, 0, 0, 2000, 1500);
+        } else {
+          pCtx.fillStyle = '#cccccc';
+          pCtx.fillRect(0, 0, 2000, 1500);
+        }
+
+        // 2. Draw user cover in exact PSD smart object slot: [1025, 460, 958, 1353]
+        const activeCoverImg = currentFrontImage || (frontTex ? frontTex.image : (psdSampleCover.complete ? psdSampleCover : null));
+        if (activeCoverImg) {
+          pCtx.drawImage(activeCoverImg, 1025 * s, 460 * s, 958 * s, 1353 * s);
+        }
+
+        // 3. Multiply real paper grain and spine hinge groove
+        if (psdCoverCrease.complete && psdCoverCrease.naturalWidth > 0) {
+          pCtx.globalCompositeOperation = 'multiply';
+          pCtx.drawImage(psdCoverCrease, 1025 * s, 460 * s, 958 * s, 1353 * s);
+        }
+
+        // 4. Screen authentic studio lighting and specular sheen
+        if (psdCoverHl.complete && psdCoverHl.naturalWidth > 0) {
+          pCtx.globalCompositeOperation = 'screen';
+          pCtx.drawImage(psdCoverHl, 1025 * s, 460 * s, 958 * s, 1353 * s);
+        }
+
+        pCtx.globalCompositeOperation = 'source-over';
+
+        const psdTex = new THREE.CanvasTexture(psdCanvas);
+        psdTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        const psdPlaneMat = new THREE.MeshBasicMaterial({ map: psdTex, depthWrite: false });
+        const psdPlaneMesh = new THREE.Mesh(new THREE.PlaneGeometry(6.67, 5.0), psdPlaneMat);
+        modelGroup.add(psdPlaneMesh);
+
+      } else if (currentPreset === 'open-wrap') {
         // ── 1. OPEN FULL WRAP (Face-Down Continuous Mesh - Ref: media_1789688687853.jpg) ──
         const openRoot = new THREE.Group();
         const wrapH = bookH;
@@ -2253,6 +2339,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 10. PRESET SELECTOR
   const presetLabels = {
+    'psd-flatlay': 'PSD Studio Flat Lay (Exact Free_Book_Mockup_2)',
     'open-wrap': 'Open Full Wrap (Spread Face-Down)',
     'tabletop': 'Tabletop 3D (Lying 35° Angle)',
     'standing-hard': 'Standing 6x9 Hardcover',
@@ -2576,6 +2663,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const downloadBtn = document.getElementById('download-mockup-btn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', () => {
+      if (currentPreset === 'psd-flatlay') {
+        // Native 3000x2250 Ultra-HD Photoshop Quality Export!
+        const dlCanvas = document.createElement('canvas');
+        dlCanvas.width = 3000;
+        dlCanvas.height = 2250;
+        const dlCtx = dlCanvas.getContext('2d');
+
+        if (psdBaseShadow.complete) dlCtx.drawImage(psdBaseShadow, 0, 0, 3000, 2250);
+        const activeCoverImg = currentFrontImage || (frontTex ? frontTex.image : psdSampleCover);
+        if (activeCoverImg) dlCtx.drawImage(activeCoverImg, 1025, 460, 958, 1353);
+
+        if (psdCoverCrease.complete) {
+          dlCtx.globalCompositeOperation = 'multiply';
+          dlCtx.drawImage(psdCoverCrease, 1025, 460, 958, 1353);
+        }
+        if (psdCoverHl.complete) {
+          dlCtx.globalCompositeOperation = 'screen';
+          dlCtx.drawImage(psdCoverHl, 1025, 460, 958, 1353);
+        }
+        dlCtx.globalCompositeOperation = 'source-over';
+
+        dlCanvas.toBlob((blob) => {
+          if (!blob) return;
+          const link = document.createElement('a');
+          link.download = 'loufy-psd-mockup-free-book-2-' + Date.now() + '.jpg';
+          link.href = URL.createObjectURL(blob);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(link.href);
+        }, 'image/jpeg', 0.95);
+        return;
+      }
+
       const exportWidth = 2400;
       const exportHeight = 1800;
 
