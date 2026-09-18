@@ -135,7 +135,7 @@
   },
   "front_back_showcase": {
     "id": "front_back_showcase",
-    "title": "Front & Back Studio Showcase",
+    "title": "Front & Back Showcase",
     "category": "showcase",
     "aspect": "6x9",
     "width": 1600,
@@ -572,31 +572,6 @@
       ]
     },
     "quadsBlendMode": "multiply"
-  },
-  "hardcover_flatlay": {
-    "id": "hardcover_flatlay",
-    "title": "6x9 Hardcover Studio Flatlay",
-    "category": "hardcover",
-    "aspect": "6x9",
-    "width": 3000,
-    "height": 2250,
-    "slots": [
-      "front"
-    ],
-    "defaultBg": "#e9e9e9",
-    "layers": {
-      "backdrop": "images/psd_mockup_2/base_shadow.jpg",
-      "crease": "images/psd_mockup_2/cover_crease.png",
-      "highlights": "images/psd_mockup_2/cover_highlights.png"
-    },
-    "rects": {
-      "front": [
-        1025,
-        460,
-        958,
-        1353
-      ]
-    }
   },
   "book_mockup_1": {
     "id": "book_mockup_1",

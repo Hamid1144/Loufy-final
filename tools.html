@@ -354,6 +354,61 @@
       justify-content: center;
     }
 
+    /* Studio Lighting & Shadows Tuning Sliders */
+    .slider-control-row {
+      margin-bottom: 7px;
+    }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.67rem;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 3px;
+    }
+    .slider-val {
+      font-family: monospace;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.72rem;
+    }
+    .studio-slider {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 2px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+    .studio-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(244, 180, 0, 0.6);
+      transition: transform 0.1s;
+    }
+    .studio-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+    .separate-slot-box.active-slot {
+      border-color: rgba(244, 180, 0, 0.6);
+      background: rgba(244, 180, 0, 0.05);
+    }
+    .slot-pill-badge {
+      font-size: 0.55rem;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: rgba(244, 180, 0, 0.2);
+      color: #fde047;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
     /* Color picker & slider compact */
     .spine-color-row {
       display: flex;
@@ -674,15 +729,6 @@
               </div>
             </button>
 
-            <!-- 3. Front & Back Showcase -->
-            <button type="button" class="mockup-psd-card" data-preset="front_back_showcase">
-              <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" class="mockup-psd-thumb" alt="Front & Back Showcase">
-              <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Front & Back Showcase</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-images"></i> Glossy Reflection</span>
-              </div>
-            </button>
-
             <!-- 4. Open Spread Flatlay -->
             <button type="button" class="mockup-psd-card" data-preset="open_spread">
               <img src="/images/psd_mockups/thumbnails/open_spread.jpg" class="mockup-psd-thumb" alt="8.5x8.5 Open Spread">
@@ -719,12 +765,12 @@
               </div>
             </button>
 
-            <!-- 8. Hardcover Flatlay Studio -->
-            <button type="button" class="mockup-psd-card" data-preset="hardcover_flatlay">
-              <img src="/images/psd_mockups/thumbnails/hardcover_flatlay.jpg" class="mockup-psd-thumb" alt="Hardcover Studio Flatlay">
+            <!-- 7. Front & Back Showcase (from front and back without spine.psd) -->
+            <button type="button" class="mockup-psd-card" data-preset="front_back_showcase">
+              <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" class="mockup-psd-thumb" alt="Front & Back Showcase">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Hardcover Flatlay</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-book"></i> Hinge Crease 1:1</span>
+                <span class="mockup-psd-title">Front & Back Showcase</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-images"></i> Studio Reflections</span>
               </div>
             </button>
           </div>
@@ -751,26 +797,32 @@
           </div>
 
           <!-- Optional manual Spine / Back slots -->
-          <div class="separate-slots-grid">
+          <div class="separate-slots-grid" id="separate-slots-container">
             <!-- Spine Slot -->
             <div class="separate-slot-box" id="spine-box" onclick="document.getElementById('spine-file-input').click()">
               <input type="file" id="spine-file-input" accept="image/*" style="display: none;">
-              <span class="separate-slot-title"><i class="fa-solid fa-grip-lines-vertical"></i> Custom Spine</span>
-              <span class="separate-slot-btn"><i class="fa-solid fa-plus"></i> Upload Spine</span>
+              <span class="separate-slot-title">
+                <i class="fa-solid fa-grip-lines-vertical" style="color: var(--accent);"></i> Custom Spine
+                <span class="slot-pill-badge" id="spine-slot-pill">Active</span>
+              </span>
+              <span class="separate-slot-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Spine</span>
               <div class="separate-thumb-wrap" id="spine-thumb-wrap">
                 <img id="spine-thumb-img" alt="Spine Preview">
-                <button type="button" class="separate-clear-btn" id="clear-spine-btn"><i class="fa-solid fa-xmark"></i></button>
+                <button type="button" class="separate-clear-btn" id="clear-spine-btn" title="Remove custom spine"><i class="fa-solid fa-xmark"></i></button>
               </div>
             </div>
 
             <!-- Back Slot -->
             <div class="separate-slot-box" id="back-box" onclick="document.getElementById('back-file-input').click()">
               <input type="file" id="back-file-input" accept="image/*" style="display: none;">
-              <span class="separate-slot-title"><i class="fa-solid fa-book"></i> Custom Back</span>
-              <span class="separate-slot-btn"><i class="fa-solid fa-plus"></i> Upload Back</span>
+              <span class="separate-slot-title">
+                <i class="fa-solid fa-book" style="color: var(--accent);"></i> Custom Back
+                <span class="slot-pill-badge" id="back-slot-pill">Active</span>
+              </span>
+              <span class="separate-slot-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Back</span>
               <div class="separate-thumb-wrap" id="back-thumb-wrap">
                 <img id="back-thumb-img" alt="Back Preview">
-                <button type="button" class="separate-clear-btn" id="clear-back-btn"><i class="fa-solid fa-xmark"></i></button>
+                <button type="button" class="separate-clear-btn" id="clear-back-btn" title="Remove custom back"><i class="fa-solid fa-xmark"></i></button>
               </div>
             </div>
           </div>
@@ -819,6 +871,38 @@
             <button type="button" class="toggle-pill" data-bg="transparent"><i class="fa-solid fa-border-none"></i> Transparent</button>
             <button type="button" class="toggle-pill" data-bg="white"><i class="fa-solid fa-circle"></i> White</button>
             <button type="button" class="toggle-pill" data-bg="dark"><i class="fa-solid fa-moon"></i> Dark</button>
+          </div>
+        </div>
+
+        <!-- 5. Studio Lighting & Shadows Tuning (Available for all mockups except Classic Flatlay) -->
+        <div class="tool-group" id="lighting-controls-group">
+          <div class="tool-label" style="display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fa-solid fa-sliders"></i> 4. Lighting & Shadows</span>
+            <button type="button" id="reset-lighting-btn" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; font-size: 0.62rem; cursor: pointer; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          </div>
+          
+          <div class="slider-control-row">
+            <div class="slider-header">
+              <span><i class="fa-solid fa-sun" style="color:#fde047;"></i> Light / Highlights</span>
+              <span id="light-val-display" class="slider-val">100%</span>
+            </div>
+            <input type="range" id="light-slider" min="30" max="180" value="100" class="studio-slider">
+          </div>
+
+          <div class="slider-control-row">
+            <div class="slider-header">
+              <span><i class="fa-solid fa-moon" style="color:#94a3b8;"></i> Shadow Depth</span>
+              <span id="shadow-val-display" class="slider-val">100%</span>
+            </div>
+            <input type="range" id="shadow-slider" min="0" max="200" value="100" class="studio-slider">
+          </div>
+
+          <div class="slider-control-row">
+            <div class="slider-header">
+              <span><i class="fa-solid fa-circle-half-stroke" style="color:#a5b4fc;"></i> Darkness / Shading</span>
+              <span id="darkness-val-display" class="slider-val">100%</span>
+            </div>
+            <input type="range" id="darkness-slider" min="30" max="180" value="100" class="studio-slider">
           </div>
         </div>
 
@@ -1084,7 +1168,7 @@ document.addEventListener('DOMContentLoaded', () => {
   },
   "front_back_showcase": {
     "id": "front_back_showcase",
-    "title": "Front & Back Studio Showcase",
+    "title": "Front & Back Showcase",
     "category": "showcase",
     "aspect": "6x9",
     "width": 1600,
@@ -1522,31 +1606,6 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     "quadsBlendMode": "multiply"
   },
-  "hardcover_flatlay": {
-    "id": "hardcover_flatlay",
-    "title": "6x9 Hardcover Studio Flatlay",
-    "category": "hardcover",
-    "aspect": "6x9",
-    "width": 3000,
-    "height": 2250,
-    "slots": [
-      "front"
-    ],
-    "defaultBg": "#e9e9e9",
-    "layers": {
-      "backdrop": "images/psd_mockup_2/base_shadow.jpg",
-      "crease": "images/psd_mockup_2/cover_crease.png",
-      "highlights": "images/psd_mockup_2/cover_highlights.png"
-    },
-    "rects": {
-      "front": [
-        1025,
-        460,
-        958,
-        1353
-      ]
-    }
-  },
   "book_mockup_1": {
     "id": "book_mockup_1",
     "title": "Original PSD Top-Down",
@@ -1598,6 +1657,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const clearBackBtn = document.getElementById('clear-back-btn');
   const spineColorPicker = document.getElementById('spine-color-picker');
   const spineColorVal = document.getElementById('spine-color-val');
+  const lightingControlsGroup = document.getElementById('lighting-controls-group');
+  const lightSlider = document.getElementById('light-slider');
+  const lightValDisplay = document.getElementById('light-val-display');
+  const shadowSlider = document.getElementById('shadow-slider');
+  const shadowValDisplay = document.getElementById('shadow-val-display');
+  const darknessSlider = document.getElementById('darkness-slider');
+  const darknessValDisplay = document.getElementById('darkness-val-display');
+  const resetLightingBtn = document.getElementById('reset-lighting-btn');
+  const spineSlotPill = document.getElementById('spine-slot-pill');
+  const backSlotPill = document.getElementById('back-slot-pill');
+
+  let lightLevel = 100;
+  let shadowLevel = 100;
+  let darknessLevel = 100;
   const downloadMockupBtn = document.getElementById('download-mockup-btn');
   const presetButtons = document.querySelectorAll('.mockup-psd-card');
   const bgButtons = document.querySelectorAll('[data-bg]');
@@ -1856,10 +1929,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Shadow in transparent mode
-      if (bgMode === 'transparent' && config.layers.shadow) {
-        const shImg = await preloadImage(config.layers.shadow);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (shImg) ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
+      if (config.layers.shadow) {
+        if (bgMode === 'transparent' || bgMode === 'white' || bgMode === 'dark' || bgMode === 'studio') {
+          const shImg = await preloadImage(config.layers.shadow);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (shImg) {
+            ctx.save();
+            ctx.globalAlpha = Math.min(1.0, shadowLevel / 100);
+            ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
       }
 
       // 2. Base Bodies (e.g. duo or collector stacked base)
@@ -1948,6 +2028,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
         if (shdImg) {
           ctx.save();
+          ctx.globalAlpha = Math.min(1.0, darknessLevel / 100);
           ctx.globalCompositeOperation = config.layers.shadingBlend || 'multiply';
           ctx.drawImage(shdImg, 0, 0, renderWidth, renderHeight);
           ctx.restore();
@@ -1978,6 +2059,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
         if (ltImg) {
           ctx.save();
+          ctx.globalAlpha = Math.min(1.0, lightLevel / 100);
           ctx.globalCompositeOperation = 'screen';
           ctx.drawImage(ltImg, 0, 0, renderWidth, renderHeight);
           ctx.restore();
@@ -1988,8 +2070,28 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
         if (hlImg) {
           ctx.save();
+          ctx.globalAlpha = Math.min(1.0, lightLevel / 100);
           ctx.globalCompositeOperation = 'screen';
           ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
+          ctx.restore();
+        }
+      }
+      // Apply overall darkness / lightness ambient overlay for non-classic mockups
+      if (currentPresetId !== 'book_mockup_1') {
+        if (lightLevel > 100) {
+          ctx.save();
+          ctx.globalAlpha = (lightLevel - 100) / 250;
+          ctx.globalCompositeOperation = 'screen';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, renderWidth, renderHeight);
+          ctx.restore();
+        }
+        if (darknessLevel > 100) {
+          ctx.save();
+          ctx.globalAlpha = (darknessLevel - 100) / 250;
+          ctx.globalCompositeOperation = 'multiply';
+          ctx.fillStyle = '#0f172a';
+          ctx.fillRect(0, 0, renderWidth, renderHeight);
           ctx.restore();
         }
       }
@@ -2024,11 +2126,24 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.toggle('active', btn.dataset.preset === currentPresetId);
     });
 
+    // Show Lighting & Shadows Tuning only for non-classic mockups
+    if (lightingControlsGroup) {
+      lightingControlsGroup.style.display = (currentPresetId === 'book_mockup_1') ? 'none' : 'block';
+    }
+
     const hasSpine = config.slots && config.slots.includes('spine');
     const hasBack = config.slots && config.slots.includes('back');
 
-    if (spineBox) spineBox.style.opacity = hasSpine ? '1' : '0.4';
-    if (backBox) backBox.style.opacity = hasBack ? '1' : '0.4';
+    if (spineBox) {
+      spineBox.style.display = hasSpine ? 'flex' : 'none';
+      spineBox.classList.toggle('active-slot', hasSpine);
+      if (spineSlotPill) spineSlotPill.style.display = hasSpine ? 'inline-block' : 'none';
+    }
+    if (backBox) {
+      backBox.style.display = hasBack ? 'flex' : 'none';
+      backBox.classList.toggle('active-slot', hasBack);
+      if (backSlotPill) backSlotPill.style.display = hasBack ? 'inline-block' : 'none';
+    }
 
     if (slotsSupportLabel) {
       if (hasSpine && hasBack) {
@@ -2316,6 +2431,41 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (sampleType === 'square') processUploadedArtwork(demoSquare);
     });
   });
+
+  // Wire Lighting & Shadow Tuning Sliders
+  if (lightSlider) {
+    lightSlider.addEventListener('input', (e) => {
+      lightLevel = parseInt(e.target.value);
+      if (lightValDisplay) lightValDisplay.textContent = lightLevel + '%';
+      renderCurrentMockup();
+    });
+  }
+  if (shadowSlider) {
+    shadowSlider.addEventListener('input', (e) => {
+      shadowLevel = parseInt(e.target.value);
+      if (shadowValDisplay) shadowValDisplay.textContent = shadowLevel + '%';
+      renderCurrentMockup();
+    });
+  }
+  if (darknessSlider) {
+    darknessSlider.addEventListener('input', (e) => {
+      darknessLevel = parseInt(e.target.value);
+      if (darknessValDisplay) darknessValDisplay.textContent = darknessLevel + '%';
+      renderCurrentMockup();
+    });
+  }
+  if (resetLightingBtn) {
+    resetLightingBtn.addEventListener('click', () => {
+      lightLevel = 100; shadowLevel = 100; darknessLevel = 100;
+      if (lightSlider) lightSlider.value = 100;
+      if (shadowSlider) shadowSlider.value = 100;
+      if (darknessSlider) darknessSlider.value = 100;
+      if (lightValDisplay) lightValDisplay.textContent = '100%';
+      if (shadowValDisplay) shadowValDisplay.textContent = '100%';
+      if (darknessValDisplay) darknessValDisplay.textContent = '100%';
+      renderCurrentMockup();
+    });
+  }
 
   // Wire Backdrop Mode Toggles
   bgButtons.forEach(btn => {
