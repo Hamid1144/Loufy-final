@@ -1314,128 +1314,76 @@ document.addEventListener('DOMContentLoaded', () => {
   },
   "square_stack": {
     "id": "square_stack",
-    "title": "8.5x8.5 Square 3-Book Stack",
+    "title": "Square 3-Book Stack",
     "category": "square",
-    "aspect": "8.5x8.5",
+    "aspect": "1:1",
     "width": 2800,
-    "height": 1960,
+    "height": 2550,
     "slots": [
-      "front",
-      "spine"
+      "front"
     ],
-    "defaultBg": "#ebedf0",
+    "defaultBg": "#e8e8e8",
     "layers": {
       "backdrop": "images/psd_mockups/square_stack/base_backdrop.jpg",
-      "body": "images/psd_mockups/square_stack/stack_body.png",
+      "shadow": "images/psd_mockups/square_stack/shadows.png",
+      "bodyBottom": "images/psd_mockups/square_stack/body_bottom.png",
+      "bodyMiddle": "images/psd_mockups/square_stack/body_middle.png",
+      "bodyTop": "images/psd_mockups/square_stack/body_top.png",
       "highlights": "images/psd_mockups/square_stack/highlights.png"
     },
     "quads": {
       "front": [
         [
-          491.74,
-          812.06
+          753.18,
+          583.62
         ],
         [
-          1602.79,
-          364.58
+          2138.49,
+          584.05
         ],
         [
-          2403.14,
-          1086.5
+          2141.28,
+          1972.18
         ],
         [
-          1214.28,
-          1662.67
-        ]
-      ],
-      "spine": [
-        [
-          486.01,
-          879.01
-        ],
-        [
-          483.26,
-          801.51
-        ],
-        [
-          1218.97,
-          1663
-        ],
-        [
-          1207.66,
-          1722.82
+          755.24,
+          1979.11
         ]
       ],
       "stackFront1": [
         [
-          436.65,
-          880.9
+          610.33,
+          729.19
         ],
         [
-          1411.18,
-          289.71
+          1981.86,
+          437.32
         ],
         [
-          2403.09,
-          880.08
+          2279,
+          1808.37
         ],
         [
-          1440.37,
-          1606.52
-        ]
-      ],
-      "stackSpine1": [
-        [
-          436.32,
-          948.47
-        ],
-        [
-          433.56,
-          878.29
-        ],
-        [
-          1440.17,
-          1606.06
-        ],
-        [
-          1428.56,
-          1668.78
+          908.18,
+          2110.34
         ]
       ],
       "stackFront2": [
         [
-          433.97,
-          1001.62
+          481.3,
+          980.31
         ],
         [
-          1163.48,
-          252.42
+          1734,
+          317.22
         ],
         [
-          2341.48,
-          645.71
+          2401.14,
+          1570.64
         ],
         [
-          1731.81,
-          1517.71
-        ]
-      ],
-      "stackSpine2": [
-        [
-          438.57,
-          1071.59
-        ],
-        [
-          433.93,
-          1001.19
-        ],
-        [
-          1731.97,
-          1516.78
-        ],
-        [
-          1729.78,
-          1582.07
+          1149.39,
+          2238.79
         ]
       ]
     },
@@ -1942,7 +1890,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      // 2. Base Bodies (e.g. duo or collector stacked base)
+      // 2. Resolve active artwork
+      const frontArt = activeFrontImg || createSolidArtwork('#1e293b', 1000, 1500, 'BOOK TITLE');
+      const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
+      const backArt = customBackImg || activeBackImg || createSolidArtwork(spineColor, 1000, 1500, '');
+
+      // 3. Base Bodies & Interleaved Stacked Covers (3.psd square stack & collector)
+      if (config.layers.bodyBottom) {
+        const bbImg = await preloadImage(config.layers.bodyBottom);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+        if (bbImg) ctx.drawImage(bbImg, 0, 0, renderWidth, renderHeight);
+        if (config.quads && config.quads.stackFront2) {
+          ctx.save();
+          ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
+          warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
+          ctx.restore();
+        }
+      }
+      if (config.layers.bodyMiddle) {
+        const bmImg = await preloadImage(config.layers.bodyMiddle);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+        if (bmImg) ctx.drawImage(bmImg, 0, 0, renderWidth, renderHeight);
+        if (config.quads && config.quads.stackFront1) {
+          ctx.save();
+          ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
+          warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
+          ctx.restore();
+        }
+      }
+      if (config.layers.bodyTop) {
+        const btImg = await preloadImage(config.layers.bodyTop);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+        if (btImg) ctx.drawImage(btImg, 0, 0, renderWidth, renderHeight);
+      }
       if (config.layers.bodies) {
         const bImg = await preloadImage(config.layers.bodies);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
@@ -1954,23 +1934,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (bbImg) ctx.drawImage(bbImg, 0, 0, renderWidth, renderHeight);
       }
 
-      // 3. Resolve active artwork
-      const frontArt = activeFrontImg || createSolidArtwork('#1e293b', 1000, 1500, 'BOOK TITLE');
-      const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
-      const backArt = customBackImg || activeBackImg || createSolidArtwork(spineColor, 1000, 1500, '');
-
-      // Set global blend mode for quads if specified
-      ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
-
       // 4. Draw Back/Bottom Quads
       if (config.quads) {
+        ctx.save();
+        ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
         if (config.quads.back) warpQuad(ctx, backArt, config.quads.back, scale);
         if (config.quads.spine) warpQuad(ctx, spineArt, config.quads.spine, scale);
         if (config.quads.backSpine) warpQuad(ctx, spineArt, config.quads.backSpine, scale);
-        if (config.quads.stackFront2) warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
+        if (!config.layers.bodyBottom && config.quads.stackFront2) warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
         if (config.quads.stackSpine2) warpQuad(ctx, spineArt, config.quads.stackSpine2, scale);
-        if (config.quads.stackFront1) warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
+        if (!config.layers.bodyMiddle && config.quads.stackFront1) warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
         if (config.quads.stackSpine1) warpQuad(ctx, spineArt, config.quads.stackSpine1, scale);
+        ctx.restore();
       } else if (config.rects) {
         if (config.rects.back) {
           const [rx, ry, rw, rh] = config.rects.back;
