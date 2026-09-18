@@ -769,8 +769,8 @@
             <button type="button" class="mockup-psd-card" data-preset="front_back_showcase">
               <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" class="mockup-psd-thumb" alt="Front & Back Showcase">
               <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Front & Back Showcase</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-images"></i> Studio Reflections</span>
+                <span class="mockup-psd-title">Dual Standing Showcase</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-gem"></i> Glossy Floor Studio</span>
               </div>
             </button>
           </div>
@@ -835,7 +835,41 @@
           </div>
         </div>
 
-        <!-- 3. Sample Demo Covers for Instant Test -->
+        <!-- 3. Artwork Fit & Framing Controls (Scale & Position) -->
+        <div class="tool-group" id="artwork-transform-group">
+          <div class="tool-label" style="display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fa-solid fa-arrows-up-down-left-right"></i> 3. Artwork Scale & Position</span>
+            <button type="button" id="reset-transform-btn" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; font-size: 0.62rem; cursor: pointer; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          </div>
+
+          <div class="slider-control-row">
+            <div class="slider-header">
+              <span><i class="fa-solid fa-magnifying-glass-plus" style="color:var(--accent);"></i> Artwork Zoom / Scale</span>
+              <span id="art-scale-val" class="slider-val">100%</span>
+            </div>
+            <input type="range" id="art-scale-slider" min="60" max="150" value="100" class="studio-slider">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div class="slider-control-row" style="margin-bottom: 0;">
+              <div class="slider-header">
+                <span><i class="fa-solid fa-arrows-left-right"></i> Shift X</span>
+                <span id="art-pos-x-val" class="slider-val">0%</span>
+              </div>
+              <input type="range" id="art-pos-x-slider" min="-40" max="40" value="0" class="studio-slider">
+            </div>
+
+            <div class="slider-control-row" style="margin-bottom: 0;">
+              <div class="slider-header">
+                <span><i class="fa-solid fa-arrows-up-down"></i> Shift Y</span>
+                <span id="art-pos-y-val" class="slider-val">0%</span>
+              </div>
+              <input type="range" id="art-pos-y-slider" min="-40" max="40" value="0" class="studio-slider">
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Sample Demo Covers for Instant Test -->
         <div class="tool-group">
           <div class="tool-label">
             <span><i class="fa-solid fa-sparkles"></i> Instant Demo Artworks</span>
@@ -864,7 +898,7 @@
         <!-- 4. Studio Environment & Lighting -->
         <div class="tool-group">
           <div class="tool-label">
-            <span><i class="fa-solid fa-sun"></i> 3. Studio Environment</span>
+            <span><i class="fa-solid fa-sun"></i> 4. Studio Environment</span>
           </div>
           <div class="btn-toggle-group">
             <button type="button" class="toggle-pill active" data-bg="studio"><i class="fa-solid fa-camera"></i> Studio PSD</button>
@@ -877,7 +911,7 @@
         <!-- 5. Studio Lighting & Shadows Tuning (Available for all mockups except Classic Flatlay) -->
         <div class="tool-group" id="lighting-controls-group">
           <div class="tool-label" style="display: flex; justify-content: space-between; align-items: center;">
-            <span><i class="fa-solid fa-sliders"></i> 4. Lighting & Shadows</span>
+            <span><i class="fa-solid fa-sliders"></i> 5. Lighting & Shadows</span>
             <button type="button" id="reset-lighting-btn" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; font-size: 0.62rem; cursor: pointer; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;"><i class="fa-solid fa-rotate-left"></i> Reset</button>
           </div>
           
@@ -1168,7 +1202,7 @@ document.addEventListener('DOMContentLoaded', () => {
   },
   "front_back_showcase": {
     "id": "front_back_showcase",
-    "title": "Front & Back Showcase",
+    "title": "Dual Standing Showcase (Front + Back)",
     "category": "showcase",
     "aspect": "6x9",
     "width": 1600,
@@ -1210,7 +1244,8 @@ document.addEventListener('DOMContentLoaded', () => {
         466,
         639
       ]
-    }
+    },
+    "description": "Dual book presentation with authentic glossy floor reflections, directional cast shadows, and hinge creases from front and back without spine.psd"
   },
   "open_spread": {
     "id": "open_spread",
@@ -1605,6 +1640,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const clearBackBtn = document.getElementById('clear-back-btn');
   const spineColorPicker = document.getElementById('spine-color-picker');
   const spineColorVal = document.getElementById('spine-color-val');
+  const artScaleSlider = document.getElementById('art-scale-slider');
+  const artScaleVal = document.getElementById('art-scale-val');
+  const artPosXSlider = document.getElementById('art-pos-x-slider');
+  const artPosXVal = document.getElementById('art-pos-x-val');
+  const artPosYSlider = document.getElementById('art-pos-y-slider');
+  const artPosYVal = document.getElementById('art-pos-y-val');
+  const resetTransformBtn = document.getElementById('reset-transform-btn');
+
+  let artScale = 100;
+  let artShiftX = 0;
+  let artShiftY = 0;
+
+  // Real-time interactive artwork framing and positioning helper
+  function getTransformedArtwork(srcCanvas) {
+    if (!srcCanvas) return srcCanvas;
+    if (artScale === 100 && artShiftX === 0 && artShiftY === 0) return srcCanvas;
+    
+    const w = srcCanvas.width || 1000, h = srcCanvas.height || 1500;
+    const out = document.createElement('canvas');
+    out.width = w; out.height = h;
+    const octx = out.getContext('2d');
+    
+    const s = artScale / 100;
+    const sw = w * s;
+    const sh = h * s;
+    const dx = (w - sw) / 2 + (artShiftX / 100) * w;
+    const dy = (h - sh) / 2 + (artShiftY / 100) * h;
+    
+    octx.drawImage(srcCanvas, dx, dy, sw, sh);
+    return out;
+  }
   const lightingControlsGroup = document.getElementById('lighting-controls-group');
   const lightSlider = document.getElementById('light-slider');
   const lightValDisplay = document.getElementById('light-val-display');
@@ -1890,10 +1956,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      // 2. Resolve active artwork
-      const frontArt = activeFrontImg || createSolidArtwork('#1e293b', 1000, 1500, 'BOOK TITLE');
+      // 2. Resolve active artwork with interactive scaling & positioning
+      const rawFront = activeFrontImg || createSolidArtwork('#1e293b', 1000, 1500, 'BOOK TITLE');
+      const frontArt = getTransformedArtwork(rawFront);
       const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
-      const backArt = customBackImg || activeBackImg || createSolidArtwork(spineColor, 1000, 1500, '');
+      const rawBack = customBackImg || activeBackImg || createSolidArtwork(spineColor, 1000, 1500, '');
+      const backArt = getTransformedArtwork(rawBack);
 
       // 3. Base Bodies & Interleaved Stacked Covers (3.psd square stack & collector)
       if (config.layers.bodyBottom) {
@@ -1974,27 +2042,37 @@ document.addEventListener('DOMContentLoaded', () => {
       // Reset to normal
       ctx.globalCompositeOperation = 'source-over';
 
-      // Draw Reflections (if any)
-      if (config.rects && config.reflections) {
-          ctx.save();
-          ctx.globalAlpha = 0.35;
-          if (config.reflections.back) {
-            const [rx, ry, rw, rh] = config.reflections.back;
-            ctx.save();
-            ctx.translate(rx * scale, (ry + rh) * scale);
-            ctx.scale(1, -1);
-            ctx.drawImage(backArt, 0, 0, rw * scale, rh * scale);
-            ctx.restore();
-          }
-          if (config.reflections.front) {
-            const [rx, ry, rw, rh] = config.reflections.front;
-            ctx.save();
-            ctx.translate(rx * scale, (ry + rh) * scale);
-            ctx.scale(1, -1);
-            ctx.drawImage(frontArt, 0, 0, rw * scale, rh * scale);
-            ctx.restore();
-          }
-          ctx.restore();
+      // Draw Reflections with vertical Fresnel fade (from front and back without spine.psd)
+      if (config.reflections) {
+        const drawFadedRef = (art, [rx, ry, rw, rh]) => {
+          const sw = Math.round(rw * scale);
+          const sh = Math.round(rh * scale);
+          if (sw <= 0 || sh <= 0) return;
+
+          const refCanvas = document.createElement('canvas');
+          refCanvas.width = sw;
+          refCanvas.height = sh;
+          const rctx = refCanvas.getContext('2d');
+          rctx.save();
+          rctx.translate(0, sh);
+          rctx.scale(1, -1);
+          rctx.drawImage(art, 0, 0, sw, sh);
+          rctx.restore();
+
+          // Authentic linear fade mask
+          rctx.globalCompositeOperation = 'destination-in';
+          const fadeGrad = rctx.createLinearGradient(0, 0, 0, sh);
+          fadeGrad.addColorStop(0, 'rgba(0,0,0,0.32)');
+          fadeGrad.addColorStop(0.4, 'rgba(0,0,0,0.12)');
+          fadeGrad.addColorStop(0.75, 'rgba(0,0,0,0)');
+          rctx.fillStyle = fadeGrad;
+          rctx.fillRect(0, 0, sw, sh);
+
+          ctx.drawImage(refCanvas, rx * scale, (ry + rh) * scale);
+        };
+
+        if (config.reflections.back) drawFadedRef(backArt, config.reflections.back);
+        if (config.reflections.front) drawFadedRef(frontArt, config.reflections.front);
       }
 
       // 6. Realistic Photoshop Shading & Texture Blending
@@ -2406,6 +2484,41 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (sampleType === 'square') processUploadedArtwork(demoSquare);
     });
   });
+
+  // Wire Artwork Scale & Position Sliders
+  if (artScaleSlider) {
+    artScaleSlider.addEventListener('input', (e) => {
+      artScale = parseInt(e.target.value);
+      if (artScaleVal) artScaleVal.textContent = artScale + '%';
+      renderCurrentMockup();
+    });
+  }
+  if (artPosXSlider) {
+    artPosXSlider.addEventListener('input', (e) => {
+      artShiftX = parseInt(e.target.value);
+      if (artPosXVal) artPosXVal.textContent = (artShiftX > 0 ? '+' : '') + artShiftX + '%';
+      renderCurrentMockup();
+    });
+  }
+  if (artPosYSlider) {
+    artPosYSlider.addEventListener('input', (e) => {
+      artShiftY = parseInt(e.target.value);
+      if (artPosYVal) artPosYVal.textContent = (artShiftY > 0 ? '+' : '') + artShiftY + '%';
+      renderCurrentMockup();
+    });
+  }
+  if (resetTransformBtn) {
+    resetTransformBtn.addEventListener('click', () => {
+      artScale = 100; artShiftX = 0; artShiftY = 0;
+      if (artScaleSlider) artScaleSlider.value = 100;
+      if (artPosXSlider) artPosXSlider.value = 0;
+      if (artPosYSlider) artPosYSlider.value = 0;
+      if (artScaleVal) artScaleVal.textContent = '100%';
+      if (artPosXVal) artPosXVal.textContent = '0%';
+      if (artPosYVal) artPosYVal.textContent = '0%';
+      renderCurrentMockup();
+    });
+  }
 
   // Wire Lighting & Shadow Tuning Sliders
   if (lightSlider) {

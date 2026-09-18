@@ -135,7 +135,7 @@
   },
   "front_back_showcase": {
     "id": "front_back_showcase",
-    "title": "Front & Back Showcase",
+    "title": "Dual Standing Showcase (Front + Back)",
     "category": "showcase",
     "aspect": "6x9",
     "width": 1600,
@@ -177,7 +177,8 @@
         466,
         639
       ]
-    }
+    },
+    "description": "Dual book presentation with authentic glossy floor reflections, directional cast shadows, and hinge creases from front and back without spine.psd"
   },
   "open_spread": {
     "id": "open_spread",
