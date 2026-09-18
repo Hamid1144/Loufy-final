@@ -264,36 +264,96 @@
       width: 100%;
     }
 
-    /* Dropzone Compact */
-    .primary-dropzone {
-      border: 2px dashed rgba(244, 180, 0, 0.4);
-      background: rgba(244, 180, 0, 0.03);
-      border-radius: 10px;
-      padding: 10px 12px;
-      text-align: center;
-      cursor: pointer;
+    /* Minimal Modular Upload Cards */
+    .upload-slots-container {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .slot-upload-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 7px 10px;
       transition: all 0.2s;
     }
-    .primary-dropzone:hover, .primary-dropzone.dragover {
-      border-color: var(--accent);
-      background: rgba(244, 180, 0, 0.08);
-      transform: scale(1.01);
+    .slot-upload-card:hover {
+      border-color: rgba(244, 180, 0, 0.35);
+      background: rgba(255, 255, 255, 0.05);
     }
-    .dropzone-icon {
-      font-size: 1.35rem;
-      color: var(--accent);
-      margin-bottom: 2px;
+    .slot-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
     }
-    .dropzone-title {
-      font-size: 0.8rem;
+    .slot-card-name {
+      font-size: 0.72rem;
       font-weight: 700;
-      color: #fff;
-      margin: 0;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    .dropzone-hint {
-      font-size: 0.65rem;
+    .slot-card-status {
+      font-size: 0.58rem;
       color: #94a3b8;
-      margin: 2px 0 0;
+      font-weight: 600;
+      font-family: monospace;
+    }
+    .slot-card-body {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .minimal-upload-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(244, 180, 0, 0.07);
+      border: 1px dashed rgba(244, 180, 0, 0.35);
+      color: #fde047;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 7px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .minimal-upload-btn:hover {
+      background: rgba(244, 180, 0, 0.16);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .minimal-upload-btn.has-file {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+    .minimal-clear-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .minimal-clear-btn:hover {
+      background: #ef4444;
+      color: #fff;
     }
 
     /* Auto-detect badge */
@@ -320,72 +380,76 @@
       color: #fde047;
     }
 
-    /* Separate Spine & Back Slots */
-    .separate-slots-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
+    /* Color picker compact */
+    .spine-color-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       margin-top: 5px;
+      padding: 4px 8px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
     }
-    .separate-slot-box {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px dashed rgba(255, 255, 255, 0.18);
-      border-radius: 8px;
-      padding: 6px;
-      text-align: center;
+    .spine-color-picker {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       cursor: pointer;
-      position: relative;
-      transition: all 0.2s;
+      background: none;
+      padding: 0;
     }
-    .separate-slot-box:hover {
-      border-color: var(--accent);
-      background: rgba(244, 180, 0, 0.05);
-    }
-    .separate-slot-title {
-      font-size: 0.66rem;
-      font-weight: 700;
-      color: #cbd5e1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-    }
-    .separate-slot-btn {
-      font-size: 0.62rem;
-      color: var(--accent);
-      margin-top: 3px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-weight: 600;
-    }
-    .separate-thumb-wrap {
-      position: relative;
-      display: none;
-      margin-top: 3px;
-    }
-    .separate-thumb-wrap img {
-      width: 100%;
-      height: 34px;
-      object-fit: contain;
-      border-radius: 4px;
-    }
-    .separate-clear-btn {
-      position: absolute;
-      top: -4px; right: -4px;
-      background: #ef4444;
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 14px; height: 14px;
-      font-size: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .spine-color-hex {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      font-family: monospace;
     }
 
-    /* Studio Lighting & Shadows Tuning Sliders */
+    /* Layer Pill Toggle in Section 3 */
+    .layer-tab-toggle {
+      display: flex;
+      gap: 5px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 3px;
+      border-radius: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 7px;
+    }
+    .layer-pill-btn {
+      flex: 1;
+      padding: 5px 8px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #94a3b8;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+    .layer-pill-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .layer-pill-btn.active {
+      background: rgba(24, 76, 58, 0.85);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px rgba(244, 180, 0, 0.25);
+    }
+    .editing-layer-notice {
+      font-size: 0.64rem;
+      color: #94a3b8;
+      margin-bottom: 5px;
+    }
+
+    /* Studio Sliders */
     .slider-control-row {
       margin-bottom: 7px;
     }
@@ -425,86 +489,6 @@
     }
     .studio-slider::-webkit-slider-thumb:hover {
       transform: scale(1.2);
-    }
-    .separate-slot-box.active-slot {
-      border-color: rgba(244, 180, 0, 0.6);
-      background: rgba(244, 180, 0, 0.05);
-    }
-    .slot-pill-badge {
-      font-size: 0.55rem;
-      padding: 1px 5px;
-      border-radius: 4px;
-      background: rgba(244, 180, 0, 0.2);
-      color: #fde047;
-      font-weight: 700;
-      margin-left: 4px;
-    }
-
-    /* Color picker & slider compact */
-    .spine-color-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 2px;
-    }
-    .spine-color-picker {
-      width: 24px;
-      height: 24px;
-      border-radius: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-      background: none;
-      padding: 0;
-    }
-    .spine-color-hex {
-      font-size: 0.7rem;
-      color: #94a3b8;
-      font-family: monospace;
-    }
-
-    /* Demo Covers Strip */
-    .sample-covers-strip {
-      display: flex;
-      gap: 6px;
-      margin-top: 4px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-    }
-    .sample-covers-strip::-webkit-scrollbar {
-      height: 3px;
-    }
-    .sample-thumb {
-      flex: 0 0 46px;
-      height: 60px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      cursor: pointer;
-      overflow: hidden;
-      position: relative;
-      transition: all 0.2s;
-    }
-    .sample-thumb:hover {
-      border-color: var(--accent);
-      transform: scale(1.05);
-    }
-    .sample-thumb.active {
-      border-color: var(--accent);
-      box-shadow: 0 0 10px rgba(244, 180, 0, 0.5);
-    }
-    .sample-thumb canvas, .sample-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .sample-badge {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      background: rgba(0, 0, 0, 0.75);
-      font-size: 0.52rem;
-      font-weight: 700;
-      text-align: center;
-      padding: 1px 0;
-      color: #fde047;
     }
 
     /* Toggle pills */
@@ -809,87 +793,119 @@
           </div>
         </div>
 
-        <!-- 2. Drop Artwork / Smart Detection -->
-        <div class="tool-group">
+        <!-- 2. Upload Artwork -->
+        <div class="tool-group" id="artwork-upload-group">
           <div class="tool-label">
             <span><i class="fa-solid fa-cloud-arrow-up"></i> 2. Upload Artwork</span>
-            <span class="badge-mini" id="slots-support-label">Smart Multi-Slot</span>
+            <span class="badge-mini" id="slots-support-label">Front Only</span>
           </div>
 
-          <div class="primary-dropzone" id="primary-dropzone" onclick="document.getElementById('cover-file-input').click()">
-            <input type="file" id="cover-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
-            <div class="dropzone-icon"><i class="fa-solid fa-file-image"></i></div>
-            <p class="dropzone-title">Click to Upload Cover or Full Wrap</p>
-            <p class="dropzone-hint">Supports JPEG, PNG, WEBP (Up to 8000px)</p>
+          <div class="upload-slots-container">
+            <!-- Front Cover Slot (Always shown) -->
+            <div class="slot-upload-card" id="slot-card-front">
+              <div class="slot-card-header">
+                <span class="slot-card-name"><i class="fa-solid fa-book-open" style="color: var(--accent);"></i> Front Cover</span>
+                <span class="slot-card-status" id="front-status-text">Default Sample</span>
+              </div>
+              <div class="slot-card-body">
+                <input type="file" id="front-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+                <button type="button" class="minimal-upload-btn" id="btn-upload-front" onclick="document.getElementById('front-file-input').click()">
+                  <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                  <span id="front-btn-label">Choose Front Cover</span>
+                </button>
+                <button type="button" class="minimal-clear-btn" id="clear-front-btn" title="Reset Front Cover" style="display: none;">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Back Cover Slot (Shown only when preset has back cover) -->
+            <div class="slot-upload-card" id="slot-card-back" style="display: none;">
+              <div class="slot-card-header">
+                <span class="slot-card-name"><i class="fa-solid fa-book" style="color: #60a5fa;"></i> Back Cover</span>
+                <span class="slot-card-status" id="back-status-text">Optional</span>
+              </div>
+              <div class="slot-card-body">
+                <input type="file" id="back-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+                <button type="button" class="minimal-upload-btn" id="btn-upload-back" onclick="document.getElementById('back-file-input').click()">
+                  <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                  <span id="back-btn-label">Choose Back Cover</span>
+                </button>
+                <button type="button" class="minimal-clear-btn" id="clear-back-btn" title="Reset Back Cover" style="display: none;">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Spine Slot (Shown only when preset has spine) -->
+            <div class="slot-upload-card" id="slot-card-spine" style="display: none;">
+              <div class="slot-card-header">
+                <span class="slot-card-name"><i class="fa-solid fa-grip-lines-vertical" style="color: #fde047;"></i> Spine</span>
+                <span class="slot-card-status" id="spine-status-text">Optional</span>
+              </div>
+              <div class="slot-card-body">
+                <input type="file" id="spine-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+                <button type="button" class="minimal-upload-btn" id="btn-upload-spine" onclick="document.getElementById('spine-file-input').click()">
+                  <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                  <span id="spine-btn-label">Choose Spine</span>
+                </button>
+                <button type="button" class="minimal-clear-btn" id="clear-spine-btn" title="Reset Spine" style="display: none;">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <!-- Smart auto-detection result badge -->
-          <div class="autodetect-badge" id="autodetect-status">
+          <!-- Auto-detection badge -->
+          <div class="autodetect-badge" id="autodetect-status" style="display: none;">
             <span><i class="fa-solid fa-wand-magic-sparkles"></i> <span id="detect-mode-text">Full Wrap Auto-Split Active</span></span>
-            <span id="detect-dim-text" style="font-family: monospace; font-weight: 700;">2400 × 1500 px</span>
+            <span id="detect-dim-text" style="font-family: monospace; font-weight: 700;"></span>
           </div>
 
-          <!-- Optional manual Spine / Back slots -->
-          <div class="separate-slots-grid" id="separate-slots-container">
-            <!-- Spine Slot -->
-            <div class="separate-slot-box" id="spine-box" onclick="document.getElementById('spine-file-input').click()">
-              <input type="file" id="spine-file-input" accept="image/*" style="display: none;">
-              <span class="separate-slot-title">
-                <i class="fa-solid fa-grip-lines-vertical" style="color: var(--accent);"></i> Custom Spine
-                <span class="slot-pill-badge" id="spine-slot-pill">Active</span>
-              </span>
-              <span class="separate-slot-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Spine</span>
-              <div class="separate-thumb-wrap" id="spine-thumb-wrap">
-                <img id="spine-thumb-img" alt="Spine Preview">
-                <button type="button" class="separate-clear-btn" id="clear-spine-btn" title="Remove custom spine"><i class="fa-solid fa-xmark"></i></button>
-              </div>
-            </div>
-
-            <!-- Back Slot -->
-            <div class="separate-slot-box" id="back-box" onclick="document.getElementById('back-file-input').click()">
-              <input type="file" id="back-file-input" accept="image/*" style="display: none;">
-              <span class="separate-slot-title">
-                <i class="fa-solid fa-book" style="color: var(--accent);"></i> Custom Back
-                <span class="slot-pill-badge" id="back-slot-pill">Active</span>
-              </span>
-              <span class="separate-slot-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Back</span>
-              <div class="separate-thumb-wrap" id="back-thumb-wrap">
-                <img id="back-thumb-img" alt="Back Preview">
-                <button type="button" class="separate-clear-btn" id="clear-back-btn" title="Remove custom back"><i class="fa-solid fa-xmark"></i></button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Spine fallback color if single cover uploaded -->
-          <div class="spine-color-row">
+          <!-- Spine fallback tone (only for spine mockups) -->
+          <div class="spine-color-row" id="spine-color-row" style="display: none;">
             <span style="font-size: 0.68rem; color: #94a3b8;"><i class="fa-solid fa-palette"></i> Spine Base Tone:</span>
             <input type="color" id="spine-color-picker" class="spine-color-picker" value="#111827">
             <span class="spine-color-hex" id="spine-color-val">#111827</span>
           </div>
         </div>
 
-        <!-- 3. Artwork Fit & Framing Controls (Scale & Position) -->
+        <!-- 3. Artwork Fit & Framing Controls -->
         <div class="tool-group" id="artwork-transform-group">
           <div class="tool-label" style="display: flex; justify-content: space-between; align-items: center;">
-            <span><i class="fa-solid fa-arrows-up-down-left-right"></i> 3. Artwork Scale & Position</span>
+            <span><i class="fa-solid fa-arrows-up-down-left-right"></i> 3. Artwork Fit & Framing</span>
             <button type="button" id="reset-transform-btn" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; font-size: 0.62rem; cursor: pointer; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          </div>
+
+          <!-- Layer Selector Toggle (Front Cover / Back Cover) - shown only when preset has back cover! -->
+          <div class="layer-tab-toggle" id="layer-tab-toggle" style="display: none;">
+            <button type="button" class="layer-pill-btn active" id="btn-layer-front" data-layer="front">
+              <i class="fa-solid fa-book-open"></i> Front Cover
+            </button>
+            <button type="button" class="layer-pill-btn" id="btn-layer-back" data-layer="back">
+              <i class="fa-solid fa-book"></i> Back Cover
+            </button>
+          </div>
+
+          <div class="editing-layer-notice" id="editing-layer-notice" style="display: none;">
+            Adjusting <strong id="editing-layer-name" style="color: var(--accent);">Front Cover</strong>:
           </div>
 
           <div class="slider-control-row">
             <div class="slider-header">
-              <span><i class="fa-solid fa-magnifying-glass-plus" style="color:var(--accent);"></i> Artwork Zoom / Scale</span>
+              <span><i class="fa-solid fa-magnifying-glass-plus" style="color:var(--accent);"></i> Zoom / Scale</span>
               <span id="art-scale-val" class="slider-val">100%</span>
             </div>
             <input type="range" id="art-scale-slider" min="60" max="150" value="100" class="studio-slider">
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 7px;">
             <div class="slider-control-row" style="margin-bottom: 0;">
               <div class="slider-header">
                 <span><i class="fa-solid fa-arrows-left-right"></i> Shift X</span>
                 <span id="art-pos-x-val" class="slider-val">0%</span>
               </div>
-              <input type="range" id="art-pos-x-slider" min="-40" max="40" value="0" class="studio-slider">
+              <input type="range" id="art-pos-x-slider" min="-50" max="50" value="0" class="studio-slider">
             </div>
 
             <div class="slider-control-row" style="margin-bottom: 0;">
@@ -897,38 +913,21 @@
                 <span><i class="fa-solid fa-arrows-up-down"></i> Shift Y</span>
                 <span id="art-pos-y-val" class="slider-val">0%</span>
               </div>
-              <input type="range" id="art-pos-y-slider" min="-40" max="40" value="0" class="studio-slider">
+              <input type="range" id="art-pos-y-slider" min="-50" max="50" value="0" class="studio-slider">
             </div>
+          </div>
+
+          <!-- Spine Width / Thickness Slider (shown only for spine mockups) -->
+          <div class="slider-control-row" id="spine-width-group" style="display: none; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px; margin-top: 4px;">
+            <div class="slider-header">
+              <span><i class="fa-solid fa-arrows-left-right-to-line" style="color:#fde047;"></i> Spine Width / Thickness</span>
+              <span id="spine-width-val" class="slider-val">100%</span>
+            </div>
+            <input type="range" id="spine-width-slider" min="40" max="200" value="100" class="studio-slider">
           </div>
         </div>
 
-        <!-- 4. Sample Demo Covers for Instant Test -->
-        <div class="tool-group">
-          <div class="tool-label">
-            <span><i class="fa-solid fa-sparkles"></i> Instant Demo Artworks</span>
-            <span class="badge-mini">Click to Try</span>
-          </div>
-          <div class="sample-covers-strip">
-            <div class="sample-thumb active" data-sample="fantasy" title="Fantasy Full Wrap">
-              <canvas id="demo-fantasy-thumb"></canvas>
-              <span class="sample-badge">Fantasy</span>
-            </div>
-            <div class="sample-thumb" data-sample="thriller" title="Thriller Full Wrap">
-              <canvas id="demo-thriller-thumb"></canvas>
-              <span class="sample-badge">Thriller</span>
-            </div>
-            <div class="sample-thumb" data-sample="modern" title="Modern Non-Fiction">
-              <canvas id="demo-modern-thumb"></canvas>
-              <span class="sample-badge">Modern</span>
-            </div>
-            <div class="sample-thumb" data-sample="square" title="Square Kids Storybook">
-              <canvas id="demo-square-thumb"></canvas>
-              <span class="sample-badge">Square</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 4. Studio Environment & Lighting -->
+        <!-- 4. Studio Environment -->
         <div class="tool-group">
           <div class="tool-label">
             <span><i class="fa-solid fa-sun"></i> 4. Studio Environment</span>
@@ -941,42 +940,10 @@
           </div>
         </div>
 
-        <!-- 5. Studio Lighting & Shadows Tuning (Available for all mockups except Classic Flatlay) -->
-        <div class="tool-group" id="lighting-controls-group">
-          <div class="tool-label" style="display: flex; justify-content: space-between; align-items: center;">
-            <span><i class="fa-solid fa-sliders"></i> 5. Lighting & Shadows</span>
-            <button type="button" id="reset-lighting-btn" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; font-size: 0.62rem; cursor: pointer; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;"><i class="fa-solid fa-rotate-left"></i> Reset</button>
-          </div>
-          
-          <div class="slider-control-row">
-            <div class="slider-header">
-              <span><i class="fa-solid fa-sun" style="color:#fde047;"></i> Light / Highlights</span>
-              <span id="light-val-display" class="slider-val">100%</span>
-            </div>
-            <input type="range" id="light-slider" min="30" max="180" value="100" class="studio-slider">
-          </div>
-
-          <div class="slider-control-row">
-            <div class="slider-header">
-              <span><i class="fa-solid fa-moon" style="color:#94a3b8;"></i> Shadow Depth</span>
-              <span id="shadow-val-display" class="slider-val">100%</span>
-            </div>
-            <input type="range" id="shadow-slider" min="0" max="200" value="100" class="studio-slider">
-          </div>
-
-          <div class="slider-control-row">
-            <div class="slider-header">
-              <span><i class="fa-solid fa-circle-half-stroke" style="color:#a5b4fc;"></i> Darkness / Shading</span>
-              <span id="darkness-val-display" class="slider-val">100%</span>
-            </div>
-            <input type="range" id="darkness-slider" min="30" max="180" value="100" class="studio-slider">
-          </div>
-        </div>
-
         <!-- 5. Export Format & Quality -->
         <div class="tool-group">
           <div class="tool-label">
-            <span><i class="fa-solid fa-download"></i> 4. Export Format</span>
+            <span><i class="fa-solid fa-download"></i> 5. Export Format</span>
           </div>
           <div class="btn-toggle-group">
             <button type="button" class="toggle-pill active" data-format="png"><i class="fa-solid fa-file-image"></i> PNG (Lossless)</button>
@@ -1655,30 +1622,51 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
-  // 2. DOM Elements (Queried once at top - avoids any Temporal Dead Zone errors)
+  // 2. DOM Elements (Queried cleanly at top)
   const viewportCanvas = document.getElementById('psd-canvas');
   const vctx = viewportCanvas ? viewportCanvas.getContext('2d') : null;
   const activeMockupTitle = document.getElementById('active-mockup-title');
   const viewportResBadge = document.getElementById('viewport-res-badge');
   const downloadInfoTitle = document.getElementById('download-info-title');
-  const spineBox = document.getElementById('spine-box');
-  const backBox = document.getElementById('back-box');
   const slotsSupportLabel = document.getElementById('slots-support-label');
   const autodetectStatus = document.getElementById('autodetect-status');
   const detectModeText = document.getElementById('detect-mode-text');
   const detectDimText = document.getElementById('detect-dim-text');
-  const primaryInput = document.getElementById('cover-file-input');
-  const primaryDropzone = document.getElementById('primary-dropzone');
-  const spineInput = document.getElementById('spine-file-input');
-  const spineThumbWrap = document.getElementById('spine-thumb-wrap');
-  const spineThumbImg = document.getElementById('spine-thumb-img');
-  const clearSpineBtn = document.getElementById('clear-spine-btn');
+
+  // Minimal Slot Cards & Inputs
+  const slotCardFront = document.getElementById('slot-card-front');
+  const slotCardBack = document.getElementById('slot-card-back');
+  const slotCardSpine = document.getElementById('slot-card-spine');
+
+  const frontInput = document.getElementById('front-file-input');
+  const btnUploadFront = document.getElementById('btn-upload-front');
+  const frontBtnLabel = document.getElementById('front-btn-label');
+  const clearFrontBtn = document.getElementById('clear-front-btn');
+  const frontStatusText = document.getElementById('front-status-text');
+
   const backInput = document.getElementById('back-file-input');
-  const backThumbWrap = document.getElementById('back-thumb-wrap');
-  const backThumbImg = document.getElementById('back-thumb-img');
+  const btnUploadBack = document.getElementById('btn-upload-back');
+  const backBtnLabel = document.getElementById('back-btn-label');
   const clearBackBtn = document.getElementById('clear-back-btn');
+  const backStatusText = document.getElementById('back-status-text');
+
+  const spineInput = document.getElementById('spine-file-input');
+  const btnUploadSpine = document.getElementById('btn-upload-spine');
+  const spineBtnLabel = document.getElementById('spine-btn-label');
+  const clearSpineBtn = document.getElementById('clear-spine-btn');
+  const spineStatusText = document.getElementById('spine-status-text');
+
+  const spineColorRow = document.getElementById('spine-color-row');
   const spineColorPicker = document.getElementById('spine-color-picker');
   const spineColorVal = document.getElementById('spine-color-val');
+
+  // Layer Selector & Transform Controls
+  const layerTabToggle = document.getElementById('layer-tab-toggle');
+  const btnLayerFront = document.getElementById('btn-layer-front');
+  const btnLayerBack = document.getElementById('btn-layer-back');
+  const editingLayerNotice = document.getElementById('editing-layer-notice');
+  const editingLayerName = document.getElementById('editing-layer-name');
+
   const artScaleSlider = document.getElementById('art-scale-slider');
   const artScaleVal = document.getElementById('art-scale-val');
   const artPosXSlider = document.getElementById('art-pos-x-slider');
@@ -1687,62 +1675,34 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   const artPosYVal = document.getElementById('art-pos-y-val');
   const resetTransformBtn = document.getElementById('reset-transform-btn');
 
-  let artScale = 100;
-  let artShiftX = 0;
-  let artShiftY = 0;
+  // Spine Width / Thickness Slider
+  const spineWidthGroup = document.getElementById('spine-width-group');
+  const spineWidthSlider = document.getElementById('spine-width-slider');
+  const spineWidthVal = document.getElementById('spine-width-val');
 
-  // Real-time interactive artwork framing and positioning helper
-  function getTransformedArtwork(srcCanvas) {
-    if (!srcCanvas) return srcCanvas;
-    if (artScale === 100 && artShiftX === 0 && artShiftY === 0) return srcCanvas;
-    
-    const w = srcCanvas.width || 1000, h = srcCanvas.height || 1500;
-    const out = document.createElement('canvas');
-    out.width = w; out.height = h;
-    const octx = out.getContext('2d');
-    
-    const s = artScale / 100;
-    const sw = w * s;
-    const sh = h * s;
-    const dx = (w - sw) / 2 + (artShiftX / 100) * w;
-    const dy = (h - sh) / 2 + (artShiftY / 100) * h;
-    
-    octx.drawImage(srcCanvas, dx, dy, sw, sh);
-    return out;
-  }
-  const lightingControlsGroup = document.getElementById('lighting-controls-group');
-  const lightSlider = document.getElementById('light-slider');
-  const lightValDisplay = document.getElementById('light-val-display');
-  const shadowSlider = document.getElementById('shadow-slider');
-  const shadowValDisplay = document.getElementById('shadow-val-display');
-  const darknessSlider = document.getElementById('darkness-slider');
-  const darknessValDisplay = document.getElementById('darkness-val-display');
-  const resetLightingBtn = document.getElementById('reset-lighting-btn');
-  const spineSlotPill = document.getElementById('spine-slot-pill');
-  const backSlotPill = document.getElementById('back-slot-pill');
-
-  let lightLevel = 100;
-  let shadowLevel = 100;
-  let darknessLevel = 100;
+  // Environment & Format
   const downloadMockupBtn = document.getElementById('download-mockup-btn');
   const presetButtons = document.querySelectorAll('.mockup-psd-card');
   const bgButtons = document.querySelectorAll('[data-bg]');
   const formatButtons = document.querySelectorAll('[data-format]');
-  const sampleThumbs = document.querySelectorAll('.sample-thumb');
 
   // State
   let currentPresetId = 'book_mockup_1';
   let bgMode = 'studio'; // 'studio', 'transparent', 'white', 'dark'
   let exportFormat = 'png'; // 'png' or 'jpeg'
   let spineColor = '#111827';
+  let spineWidth = 100; // 40% - 200%
 
-  // Artwork Slices & Images
+  // Independent layer transformations
+  let frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+  let backTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+  let currentEditLayer = 'front'; // 'front' or 'back'
+
+  // Artwork layers
   let activeFrontImg = null;
   let activeSpineImg = null;
   let activeBackImg = null;
-  let isFullWrap = true;
-
-  // Custom User Overrides
+  let customFrontImg = null;
   let customSpineImg = null;
   let customBackImg = null;
 
@@ -1838,9 +1798,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     ];
   }
 
-  // Fast Hardware-Clipped 4-Point Homography Warper (Sub-2ms execution, zero edge artifacts)
+  // Fast Hardware-Clipped 4-Point Homography Warper
   function warpQuad(ctx, img, quad, scale = 1) {
-    if (!img) return;
+    if (!img || !quad) return;
     const w = img.width || img.videoWidth;
     const h = img.height || img.videoHeight;
     if (!w || !h) return;
@@ -1848,88 +1808,168 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     const scaledQuad = quad.map(([x, y]) => [x * scale, y * scale]);
     const srcPts = [[0, 0], [w, 0], [w, h], [0, h]];
     const H = getHomography(srcPts, scaledQuad);
-    const invH = invert3x3(H);
-    if (!invH) return;
+    const Hinv = invert3x3(H);
+    if (!Hinv) return;
 
-    const minX = Math.max(0, Math.floor(Math.min(scaledQuad[0][0], scaledQuad[1][0], scaledQuad[2][0], scaledQuad[3][0])));
-    const maxX = Math.min(ctx.canvas.width, Math.ceil(Math.max(scaledQuad[0][0], scaledQuad[1][0], scaledQuad[2][0], scaledQuad[3][0])));
-    const minY = Math.max(0, Math.floor(Math.min(scaledQuad[0][1], scaledQuad[1][1], scaledQuad[2][1], scaledQuad[3][1])));
-    const maxY = Math.min(ctx.canvas.height, Math.ceil(Math.max(scaledQuad[0][1], scaledQuad[1][1], scaledQuad[2][1], scaledQuad[3][1])));
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    scaledQuad.forEach(([x, y]) => {
+      if (x < minX) minX = x;
+      if (x > maxX) maxX = x;
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
+    });
+    minX = Math.max(0, Math.floor(minX));
+    minY = Math.max(0, Math.floor(minY));
+    maxX = Math.min(ctx.canvas.width, Math.ceil(maxX));
+    maxY = Math.min(ctx.canvas.height, Math.ceil(maxY));
+    const rw = maxX - minX;
+    const rh = maxY - minY;
+    if (rw <= 0 || rh <= 0) return;
 
-    const qw = maxX - minX, qh = maxY - minY;
-    if (qw <= 0 || qh <= 0) return;
+    const [h0, h1, h2, h3, h4, h5, h6, h7, h8] = Hinv;
 
-    const sCanvas = document.createElement('canvas');
-    sCanvas.width = w; sCanvas.height = h;
-    const sctx = sCanvas.getContext('2d');
-    sctx.drawImage(img, 0, 0);
-    const srcData = sctx.getImageData(0, 0, w, h).data;
+    let srcData;
+    if (img instanceof HTMLCanvasElement) {
+      srcData = img.getContext('2d').getImageData(0, 0, w, h);
+    } else {
+      const tc = document.createElement('canvas');
+      tc.width = w; tc.height = h;
+      const tctx = tc.getContext('2d');
+      tctx.drawImage(img, 0, 0);
+      srcData = tctx.getImageData(0, 0, w, h);
+    }
+    const sPixels = srcData.data;
 
-    const outImgData = ctx.createImageData(qw, qh);
-    const dstData = outImgData.data;
+    const targetImgData = ctx.createImageData(rw, rh);
+    const dstPixels = targetImgData.data;
 
-    const [h0, h1, h2, h3, h4, h5, h6, h7, h8] = invH;
-    for (let y = minY; y < maxY; y++) {
-      const rowOffset = (y - minY) * qw;
-      for (let x = minX; x < maxX; x++) {
-        const z = h6 * x + h7 * y + h8;
-        const sx = (h0 * x + h1 * y + h2) / z;
-        const sy = (h3 * x + h4 * y + h5) / z;
-        const dstIdx = (rowOffset + (x - minX)) * 4;
+    function pointInQuad(x, y, poly) {
+      let inside = false;
+      for (let i = 0, j = 3; i < 4; j = i++) {
+        const xi = poly[i][0], yi = poly[i][1];
+        const xj = poly[j][0], yj = poly[j][1];
+        const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+      }
+      return inside;
+    }
 
-        if (sx >= 0 && sx < w - 1 && sy >= 0 && sy < h - 1) {
-          const x0 = Math.floor(sx), y0 = Math.floor(sy);
-          const x1 = x0 + 1, y1 = y0 + 1;
-          const fx = sx - x0, fy = sy - y0;
-          const w00 = (1 - fx) * (1 - fy), w10 = fx * (1 - fy), w01 = (1 - fx) * fy, w11 = fx * fy;
-          const idx00 = (y0 * w + x0) * 4, idx10 = (y0 * w + x1) * 4;
-          const idx01 = (y1 * w + x0) * 4, idx11 = (y1 * w + x1) * 4;
-
-          dstData[dstIdx] = srcData[idx00] * w00 + srcData[idx10] * w10 + srcData[idx01] * w01 + srcData[idx11] * w11;
-          dstData[dstIdx + 1] = srcData[idx00 + 1] * w00 + srcData[idx10 + 1] * w10 + srcData[idx01 + 1] * w01 + srcData[idx11 + 1] * w11;
-          dstData[dstIdx + 2] = srcData[idx00 + 2] * w00 + srcData[idx10 + 2] * w10 + srcData[idx01 + 2] * w01 + srcData[idx11 + 2] * w11;
-          dstData[dstIdx + 3] = srcData[idx00 + 3] * w00 + srcData[idx10 + 3] * w10 + srcData[idx01 + 3] * w01 + srcData[idx11 + 3] * w11;
-        } else if (sx >= -1 && sx <= w && sy >= -1 && sy <= h) {
-          // Clamp to edge pixels to prevent transparent/black gaps
-          const cx = Math.max(0, Math.min(w - 1, Math.round(sx)));
-          const cy = Math.max(0, Math.min(h - 1, Math.round(sy)));
-          const idx = (cy * w + cx) * 4;
-          dstData[dstIdx] = srcData[idx];
-          dstData[dstIdx + 1] = srcData[idx + 1];
-          dstData[dstIdx + 2] = srcData[idx + 2];
-          dstData[dstIdx + 3] = srcData[idx + 3];
+    let outIdx = 0;
+    for (let py = minY; py < maxY; py++) {
+      for (let px = minX; px < maxX; px++) {
+        if (!pointInQuad(px + 0.5, py + 0.5, scaledQuad)) {
+          outIdx += 4;
+          continue;
         }
+
+        const denom = h6 * px + h7 * py + h8;
+        const u = (h0 * px + h1 * py + h2) / denom;
+        const v = (h3 * px + h4 * py + h5) / denom;
+
+        if (u >= 0 && u < w - 1 && v >= 0 && v < h - 1) {
+          const u0 = u | 0, v0 = v | 0;
+          const u1 = u0 + 1, v1 = v0 + 1;
+          const du = u - u0, dv = v - v0;
+          const du1 = 1 - du, dv1 = 1 - dv;
+
+          const idx00 = (v0 * w + u0) * 4;
+          const idx10 = (v0 * w + u1) * 4;
+          const idx01 = (v1 * w + u0) * 4;
+          const idx11 = (v1 * w + u1) * 4;
+
+          const w00 = du1 * dv1, w10 = du * dv1, w01 = du1 * dv, w11 = du * dv;
+
+          dstPixels[outIdx]     = (sPixels[idx00] * w00 + sPixels[idx10] * w10 + sPixels[idx01] * w01 + sPixels[idx11] * w11) | 0;
+          dstPixels[outIdx + 1] = (sPixels[idx00+1] * w00 + sPixels[idx10+1] * w10 + sPixels[idx01+1] * w01 + sPixels[idx11+1] * w11) | 0;
+          dstPixels[outIdx + 2] = (sPixels[idx00+2] * w00 + sPixels[idx10+2] * w10 + sPixels[idx01+2] * w01 + sPixels[idx11+2] * w11) | 0;
+          dstPixels[outIdx + 3] = (sPixels[idx00+3] * w00 + sPixels[idx10+3] * w10 + sPixels[idx01+3] * w01 + sPixels[idx11+3] * w11) | 0;
+        }
+        outIdx += 4;
       }
     }
 
-    const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = qw; tempCanvas.height = qh;
-    tempCanvas.getContext('2d').putImageData(outImgData, 0, 0);
-
-    // Expand the quad by a tiny fraction of a pixel to overlap adjacent quads and prevent white anti-aliasing seams
-    const cx = (scaledQuad[0][0] + scaledQuad[1][0] + scaledQuad[2][0] + scaledQuad[3][0]) / 4;
-    const cy = (scaledQuad[0][1] + scaledQuad[1][1] + scaledQuad[2][1] + scaledQuad[3][1]) / 4;
-    const expand = 0.6; // pixels
-    
-    ctx.save();
-    ctx.beginPath();
-    for (let i = 0; i < 4; i++) {
-      const dx = scaledQuad[i][0] - cx;
-      const dy = scaledQuad[i][1] - cy;
-      const len = Math.sqrt(dx * dx + dy * dy) || 1;
-      const ex = scaledQuad[i][0] + (dx / len) * expand;
-      const ey = scaledQuad[i][1] + (dy / len) * expand;
-      if (i === 0) ctx.moveTo(ex, ey);
-      else ctx.lineTo(ex, ey);
-    }
-    ctx.closePath();
-    ctx.clip();
-    ctx.drawImage(tempCanvas, minX, minY);
-    ctx.restore();
+    const tempC = document.createElement('canvas');
+    tempC.width = rw; tempC.height = rh;
+    tempC.getContext('2d').putImageData(targetImgData, 0, 0);
+    ctx.drawImage(tempC, minX, minY);
   }
 
-  // Fallback solid artwork generator
-  function createSolidArtwork(color, w = 400, h = 2000, label = '') {
+  // Artwork Transformation Helper (Independent scale & shift for each layer)
+  function getTransformedArtwork(srcCanvas, transform) {
+    if (!srcCanvas) return srcCanvas;
+    const t = transform || { scale: 100, shiftX: 0, shiftY: 0 };
+    if (t.scale === 100 && t.shiftX === 0 && t.shiftY === 0) return srcCanvas;
+    
+    const w = srcCanvas.width || 1000, h = srcCanvas.height || 1500;
+    const out = document.createElement('canvas');
+    out.width = w; out.height = h;
+    const octx = out.getContext('2d');
+    
+    const s = t.scale / 100;
+    const sw = w * s;
+    const sh = h * s;
+    const dx = (w - sw) / 2 + (t.shiftX / 100) * w;
+    const dy = (h - sh) / 2 + (t.shiftY / 100) * h;
+    
+    octx.drawImage(srcCanvas, dx, dy, sw, sh);
+    return out;
+  }
+
+  // Dynamic Spine Width Scaler (Scales spine thickness realistically)
+  function getScaledSpineQuad(quad, ratio, anchor = 'right') {
+    if (!quad || ratio === 1) return quad;
+    const [p0, p1, p2, p3] = quad;
+    if (anchor === 'right') {
+      // Anchored to right edge (meets front cover)
+      return [
+        [p1[0] + (p0[0] - p1[0]) * ratio, p1[1] + (p0[1] - p1[1]) * ratio],
+        p1,
+        p2,
+        [p2[0] + (p3[0] - p2[0]) * ratio, p2[1] + (p3[1] - p2[1]) * ratio]
+      ];
+    } else if (anchor === 'left') {
+      // Anchored to left edge (meets back cover)
+      return [
+        p0,
+        [p0[0] + (p1[0] - p0[0]) * ratio, p0[1] + (p1[1] - p0[1]) * ratio],
+        [p3[0] + (p2[0] - p3[0]) * ratio, p3[1] + (p2[1] - p3[1]) * ratio],
+        p3
+      ];
+    } else if (anchor === 'center') {
+      // Anchored to spine centerline
+      const mTopX = (p0[0] + p1[0]) / 2, mTopY = (p0[1] + p1[1]) / 2;
+      const mBotX = (p3[0] + p2[0]) / 2, mBotY = (p3[1] + p2[1]) / 2;
+      return [
+        [mTopX + (p0[0] - mTopX) * ratio, mTopY + (p0[1] - mTopY) * ratio],
+        [mTopX + (p1[0] - mTopX) * ratio, mTopY + (p1[1] - mTopY) * ratio],
+        [mBotX + (p2[0] - mBotX) * ratio, mBotY + (p2[1] - mBotY) * ratio],
+        [mBotX + (p3[0] - mBotX) * ratio, mBotY + (p3[1] - mBotY) * ratio]
+      ];
+    }
+    return quad;
+  }
+
+  // Layer Selector Helper
+  function setEditLayer(layer) {
+    currentEditLayer = layer;
+    if (btnLayerFront) btnLayerFront.classList.toggle('active', layer === 'front');
+    if (btnLayerBack) btnLayerBack.classList.toggle('active', layer === 'back');
+    if (editingLayerName) {
+      editingLayerName.textContent = layer === 'front' ? 'Front Cover' : 'Back Cover';
+      editingLayerName.style.color = layer === 'front' ? 'var(--accent)' : '#60a5fa';
+    }
+
+    const t = layer === 'front' ? frontTransform : backTransform;
+    if (artScaleSlider) artScaleSlider.value = t.scale;
+    if (artScaleVal) artScaleVal.textContent = t.scale + '%';
+    if (artPosXSlider) artPosXSlider.value = t.shiftX;
+    if (artPosXVal) artPosXVal.textContent = (t.shiftX > 0 ? '+' : '') + t.shiftX + '%';
+    if (artPosYSlider) artPosYSlider.value = t.shiftY;
+    if (artPosYVal) artPosYVal.textContent = (t.shiftY > 0 ? '+' : '') + t.shiftY + '%';
+  }
+
+  // Default Canvas Generator
+  function createSolidArtwork(color, w, h, label = '') {
     const c = document.createElement('canvas');
     c.width = w; c.height = h;
     const ctx = c.getContext('2d');
@@ -1937,18 +1977,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     ctx.fillRect(0, 0, w, h);
     if (label) {
       ctx.save();
-      ctx.translate(w / 2, h / 2);
-      ctx.rotate(Math.PI / 2);
-      // Smart contrast text calculation
-      const hex = (color || '#1e293b').replace('#', '');
-      const r = parseInt(hex.substring(0, 2), 16) || 0;
-      const g = parseInt(hex.substring(2, 4), 16) || 0;
-      const b = parseInt(hex.substring(4, 6), 16) || 0;
-      const lum = (r * 299 + g * 587 + b * 114) / 1000;
-      ctx.fillStyle = lum > 150 ? '#0f172a' : '#ffffff';
-      ctx.font = 'bold 36px Outfit, sans-serif';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+      ctx.font = 'bold ' + Math.max(16, Math.round(w * 0.08)) + 'px Outfit, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(label, 0, 10);
+      ctx.fillText(label, w / 2, h / 2);
       ctx.restore();
     }
     return c;
@@ -1983,97 +2015,99 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         ctx.fillStyle = '#0b1320';
         ctx.fillRect(0, 0, renderWidth, renderHeight);
       } else {
-        // Transparent
         ctx.clearRect(0, 0, renderWidth, renderHeight);
       }
 
-      // Shadow in transparent mode
+      // Shadow layer
       if (config.layers.shadow) {
-        if (bgMode === 'transparent' || bgMode === 'white' || bgMode === 'dark' || bgMode === 'studio') {
-          const shImg = await preloadImage(config.layers.shadow);
-          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-          if (shImg) {
-            ctx.save();
-            ctx.globalAlpha = Math.min(1.0, shadowLevel / 100);
-            ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
-            ctx.restore();
-          }
+        const shImg = await preloadImage(config.layers.shadow);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+        if (shImg) {
+          ctx.save();
+          ctx.globalAlpha = 1.0;
+          ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
+          ctx.restore();
         }
       }
 
-      // 2. Resolve active artwork with interactive scaling & positioning
-      const rawFront = activeFrontImg || createSolidArtwork('#1e293b', 1000, 1500, 'BOOK TITLE');
-      const frontArt = getTransformedArtwork(rawFront);
+      // 2. Resolve active artwork with independent scaling & positioning
+      const rawFront = customFrontImg || activeFrontImg || createSolidArtwork('#1e293b', 1000, 1500, 'BOOK TITLE');
+      const frontArt = getTransformedArtwork(rawFront, frontTransform);
       const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
-      const rawBack = customBackImg || activeBackImg || activeFrontImg || createSolidArtwork(spineColor, 1000, 1500, '');
-      const backArt = getTransformedArtwork(rawBack);
+      const rawBack = customBackImg || activeBackImg || createSolidArtwork(spineColor, 1000, 1500, '');
+      const backArt = getTransformedArtwork(rawBack, backTransform);
+
+      const swRatio = spineWidth / 100;
 
       // 3. Realistic Layer Compositing Pipeline
       if (presetId === 'studio_collector' || presetId === 'spine_full_showcase') {
-        // --- AUTHENTIC 4-BOOK COLLECTOR PIPELINE (from Spine full book cover.psd) ---
-        // 1. Standing Back Book Base Volume & Spine Crease
+        // --- AUTHENTIC 4-BOOK COLLECTOR PIPELINE ---
         if (config.layers.backBookBase) {
           const bbbImg = await preloadImage(config.layers.backBookBase);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
           if (bbbImg) ctx.drawImage(bbbImg, 0, 0, renderWidth, renderHeight);
         }
-        // 2. Back Book Artwork (Cover + Spine)
+
         ctx.save();
         ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
         if (config.quads.back) warpQuad(ctx, backArt, config.quads.back, scale);
-        if (config.quads.backSpine) warpQuad(ctx, spineArt, config.quads.backSpine, scale);
+        if (config.quads.backSpine) {
+          const backSpineQ = getScaledSpineQuad(config.quads.backSpine, swRatio, 'left');
+          warpQuad(ctx, spineArt, backSpineQ, scale);
+        }
         ctx.restore();
 
-        // 3. Inter-Book Catch Shadows (Cast from stack and hero book)
         if (config.layers.interShadows) {
           const isImg = await preloadImage(config.layers.interShadows);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-          if (isImg) {
-            ctx.save();
-            ctx.globalAlpha = Math.min(1.0, shadowLevel / 100);
-            ctx.drawImage(isImg, 0, 0, renderWidth, renderHeight);
-            ctx.restore();
-          }
+          if (isImg) ctx.drawImage(isImg, 0, 0, renderWidth, renderHeight);
         }
 
-        // 4. Book 3 Base (Bottom stacked book with ivory paper pages)
+        // Book 3 Base
         if (config.layers.book3Base) {
           const b3Img = await preloadImage(config.layers.book3Base);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
           if (b3Img) ctx.drawImage(b3Img, 0, 0, renderWidth, renderHeight);
         }
-        // 5. Book 3 Artwork (stackFront2 + stackSpine2)
         ctx.save();
         ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
         if (config.quads.stackFront2) warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
-        if (config.quads.stackSpine2) warpQuad(ctx, spineArt, config.quads.stackSpine2, scale);
+        if (config.quads.stackSpine2) {
+          const sSpine2Q = getScaledSpineQuad(config.quads.stackSpine2, swRatio, 'left');
+          warpQuad(ctx, spineArt, sSpine2Q, scale);
+        }
         ctx.restore();
 
-        // 6. Book 2 Base (Top stacked book with ivory paper pages)
+        // Book 2 Base
         if (config.layers.book2Base) {
           const b2Img = await preloadImage(config.layers.book2Base);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
           if (b2Img) ctx.drawImage(b2Img, 0, 0, renderWidth, renderHeight);
         }
-        // 7. Book 2 Artwork (stackFront1 + stackSpine1)
         ctx.save();
         ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
         if (config.quads.stackFront1) warpQuad(ctx, frontArt, config.quads.stackFront1, scale);
-        if (config.quads.stackSpine1) warpQuad(ctx, spineArt, config.quads.stackSpine1, scale);
+        if (config.quads.stackSpine1) {
+          const sSpine1Q = getScaledSpineQuad(config.quads.stackSpine1, swRatio, 'left');
+          warpQuad(ctx, spineArt, sSpine1Q, scale);
+        }
         ctx.restore();
 
-        // 8. Book 1 Base (Standing hero book volume & hinge crease)
+        // Book 1 Base (Hero)
         if (config.layers.book1Base) {
           const b1Img = await preloadImage(config.layers.book1Base);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
           if (b1Img) ctx.drawImage(b1Img, 0, 0, renderWidth, renderHeight);
         }
-        // 9. Book 1 Artwork (Hero front cover + hero spine)
         ctx.save();
         ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
         if (config.quads.front) warpQuad(ctx, frontArt, config.quads.front, scale);
-        if (config.quads.spine) warpQuad(ctx, spineArt, config.quads.spine, scale);
+        if (config.quads.spine) {
+          const heroSpineQ = getScaledSpineQuad(config.quads.spine, swRatio, 'right');
+          warpQuad(ctx, spineArt, heroSpineQ, scale);
+        }
         ctx.restore();
+
       } else {
         // --- STANDARD PIPELINE FOR OTHER PRESETS ---
         if (config.layers.bodyBottom) {
@@ -2119,7 +2153,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           ctx.save();
           ctx.globalCompositeOperation = config.quadsBlendMode || 'source-over';
           if (config.quads.back) warpQuad(ctx, backArt, config.quads.back, scale);
-          if (config.quads.spine) warpQuad(ctx, spineArt, config.quads.spine, scale);
+          if (config.quads.spine) {
+            let sQ = config.quads.spine;
+            if (presetId === 'hardcover_standing') sQ = getScaledSpineQuad(config.quads.spine, swRatio, 'right');
+            else if (presetId === 'paperback_duo') sQ = getScaledSpineQuad(config.quads.spine, swRatio, 'left');
+            else if (presetId === 'open_spread') sQ = getScaledSpineQuad(config.quads.spine, swRatio, 'center');
+            warpQuad(ctx, spineArt, sQ, scale);
+          }
           if (config.quads.backSpine) warpQuad(ctx, spineArt, config.quads.backSpine, scale);
           if (!config.layers.bodyBottom && config.quads.stackFront2) warpQuad(ctx, frontArt, config.quads.stackFront2, scale);
           if (config.quads.stackSpine2) warpQuad(ctx, spineArt, config.quads.stackSpine2, scale);
@@ -2133,10 +2173,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           }
         }
 
-        // Reset to normal before drawing front body
         ctx.globalCompositeOperation = 'source-over';
 
-        // Front body overlay (for paperback duo)
         if (config.layers.frontBody) {
           const fbImg = await preloadImage(config.layers.frontBody);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
@@ -2152,10 +2190,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
       }
       
-      // Reset to normal
       ctx.globalCompositeOperation = 'source-over';
 
-      // Draw Reflections with vertical Fresnel fade (from front and back without spine.psd)
+      // Draw Reflections with vertical Fresnel fade (for front_back_showcase)
       if (config.reflections) {
         const drawFadedRef = (art, [rx, ry, rw, rh]) => {
           const sw = Math.round(rw * scale);
@@ -2172,7 +2209,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           rctx.drawImage(art, 0, 0, sw, sh);
           rctx.restore();
 
-          // Authentic linear fade mask
           rctx.globalCompositeOperation = 'destination-in';
           const fadeGrad = rctx.createLinearGradient(0, 0, 0, sh);
           fadeGrad.addColorStop(0, 'rgba(0,0,0,0.32)');
@@ -2188,13 +2224,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (config.reflections.front) drawFadedRef(frontArt, config.reflections.front);
       }
 
-      // 6. Realistic Photoshop Shading & Texture Blending
+      // Realistic Photoshop Shading & Texture Blending
       if (config.layers.shading) {
         const shdImg = await preloadImage(config.layers.shading);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
         if (shdImg) {
           ctx.save();
-          ctx.globalAlpha = Math.min(1.0, darknessLevel / 100);
           ctx.globalCompositeOperation = config.layers.shadingBlend || 'multiply';
           ctx.drawImage(shdImg, 0, 0, renderWidth, renderHeight);
           ctx.restore();
@@ -2225,7 +2260,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
         if (ltImg) {
           ctx.save();
-          ctx.globalAlpha = Math.min(1.0, lightLevel / 100);
+          ctx.globalAlpha = Math.min(1.0, 100 / 100);
           ctx.globalCompositeOperation = 'screen';
           ctx.drawImage(ltImg, 0, 0, renderWidth, renderHeight);
           ctx.restore();
@@ -2236,28 +2271,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
         if (hlImg) {
           ctx.save();
-          ctx.globalAlpha = Math.min(1.0, lightLevel / 100);
+          ctx.globalAlpha = Math.min(1.0, 100 / 100);
           ctx.globalCompositeOperation = 'screen';
           ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
-          ctx.restore();
-        }
-      }
-      // Apply overall darkness / lightness ambient overlay for non-classic mockups
-      if (currentPresetId !== 'book_mockup_1') {
-        if (lightLevel > 100) {
-          ctx.save();
-          ctx.globalAlpha = (lightLevel - 100) / 250;
-          ctx.globalCompositeOperation = 'screen';
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, renderWidth, renderHeight);
-          ctx.restore();
-        }
-        if (darknessLevel > 100) {
-          ctx.save();
-          ctx.globalAlpha = (darknessLevel - 100) / 250;
-          ctx.globalCompositeOperation = 'multiply';
-          ctx.fillStyle = '#0f172a';
-          ctx.fillRect(0, 0, renderWidth, renderHeight);
           ctx.restore();
         }
       }
@@ -2292,32 +2308,31 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       btn.classList.toggle('active', btn.dataset.preset === currentPresetId);
     });
 
-    // Show Lighting & Shadows Tuning only for non-classic mockups
-    if (lightingControlsGroup) {
-      lightingControlsGroup.style.display = (currentPresetId === 'book_mockup_1') ? 'none' : 'block';
-    }
-
     const hasSpine = config.slots && config.slots.includes('spine');
     const hasBack = config.slots && config.slots.includes('back');
 
-    if (spineBox) {
-      spineBox.style.display = hasSpine ? 'flex' : 'none';
-      spineBox.classList.toggle('active-slot', hasSpine);
-      if (spineSlotPill) spineSlotPill.style.display = hasSpine ? 'inline-block' : 'none';
-    }
-    if (backBox) {
-      backBox.style.display = hasBack ? 'flex' : 'none';
-      backBox.classList.toggle('active-slot', hasBack);
-      if (backSlotPill) backSlotPill.style.display = hasBack ? 'inline-block' : 'none';
+    // Contextual upload slots
+    if (slotCardBack) slotCardBack.style.display = hasBack ? 'block' : 'none';
+    if (slotCardSpine) slotCardSpine.style.display = hasSpine ? 'block' : 'none';
+    if (spineColorRow) spineColorRow.style.display = hasSpine ? 'flex' : 'none';
+
+    // Contextual framing sliders
+    if (spineWidthGroup) spineWidthGroup.style.display = hasSpine ? 'block' : 'none';
+    if (layerTabToggle) layerTabToggle.style.display = hasBack ? 'flex' : 'none';
+    if (editingLayerNotice) editingLayerNotice.style.display = hasBack ? 'block' : 'none';
+
+    // Reset editing layer to front if preset has no back cover
+    if (!hasBack && currentEditLayer !== 'front') {
+      setEditLayer('front');
     }
 
     if (slotsSupportLabel) {
       if (hasSpine && hasBack) {
-        slotsSupportLabel.textContent = 'Spine & Back Active';
-      } else if (hasSpine) {
-        slotsSupportLabel.textContent = 'Spine Active';
+        slotsSupportLabel.textContent = 'Front + Spine + Back';
       } else if (hasBack) {
-        slotsSupportLabel.textContent = 'Back Active';
+        slotsSupportLabel.textContent = 'Front + Back';
+      } else if (hasSpine) {
+        slotsSupportLabel.textContent = 'Front + Spine';
       } else {
         slotsSupportLabel.textContent = 'Front Only';
       }
@@ -2328,15 +2343,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
   // Smart Artwork Processor: Slices Full Wraps or uses Front Covers
   window.processUploadedArtwork = processUploadedArtwork;
-  function processUploadedArtwork(imgOrCanvas) {
+  function processUploadedArtwork(imgOrCanvas, fileName = 'Full Wrap') {
     if (!imgOrCanvas) return;
     const w = imgOrCanvas.width || imgOrCanvas.videoWidth;
     const h = imgOrCanvas.height || imgOrCanvas.videoHeight;
     const ratio = w / h;
 
     if (ratio > 1.25) {
-      isFullWrap = true;
       if (autodetectStatus) {
+        autodetectStatus.style.display = 'flex';
         autodetectStatus.className = 'autodetect-badge wrap-detected';
         if (detectModeText) detectModeText.textContent = 'Full Wrap Auto-Split Active';
         if (detectDimText) detectDimText.textContent = w + ' × ' + h + ' px';
@@ -2346,8 +2361,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const frontBackPercent = (1 - spineWidthPercent) / 2;
 
       const spineStart = Math.floor(w * frontBackPercent);
-      const spineWidth = Math.floor(w * spineWidthPercent);
-      const frontStart = spineStart + spineWidth;
+      const spineWidthPx = Math.floor(w * spineWidthPercent);
+      const frontStart = spineStart + spineWidthPx;
       const frontWidth = w - frontStart;
 
       // Slice Front
@@ -2355,32 +2370,47 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       fCanvas.width = frontWidth; fCanvas.height = h;
       fCanvas.getContext('2d').drawImage(imgOrCanvas, frontStart, 0, frontWidth, h, 0, 0, frontWidth, h);
       activeFrontImg = fCanvas;
+      customFrontImg = fCanvas;
 
       // Slice Spine
       const sCanvas = document.createElement('canvas');
-      sCanvas.width = spineWidth; sCanvas.height = h;
-      sCanvas.getContext('2d').drawImage(imgOrCanvas, spineStart, 0, spineWidth, h, 0, 0, spineWidth, h);
+      sCanvas.width = spineWidthPx; sCanvas.height = h;
+      sCanvas.getContext('2d').drawImage(imgOrCanvas, spineStart, 0, spineWidthPx, h, 0, 0, spineWidthPx, h);
       activeSpineImg = sCanvas;
+      customSpineImg = sCanvas;
 
       // Slice Back
       const bCanvas = document.createElement('canvas');
       bCanvas.width = spineStart; bCanvas.height = h;
       bCanvas.getContext('2d').drawImage(imgOrCanvas, 0, 0, spineStart, h, 0, 0, spineStart, h);
       activeBackImg = bCanvas;
+      customBackImg = bCanvas;
 
+      // Update slot UI
+      if (frontBtnLabel) frontBtnLabel.textContent = fileName + ' (Front)';
+      if (btnUploadFront) btnUploadFront.classList.add('has-file');
+      if (clearFrontBtn) clearFrontBtn.style.display = 'flex';
+      if (frontStatusText) frontStatusText.textContent = frontWidth + ' × ' + h + ' px';
+
+      if (backBtnLabel) backBtnLabel.textContent = fileName + ' (Back)';
+      if (btnUploadBack) btnUploadBack.classList.add('has-file');
+      if (clearBackBtn) clearBackBtn.style.display = 'flex';
+      if (backStatusText) backStatusText.textContent = spineStart + ' × ' + h + ' px';
+
+      if (spineBtnLabel) spineBtnLabel.textContent = fileName + ' (Spine)';
+      if (btnUploadSpine) btnUploadSpine.classList.add('has-file');
+      if (clearSpineBtn) clearSpineBtn.style.display = 'flex';
+      if (spineStatusText) spineStatusText.textContent = spineWidthPx + ' × ' + h + ' px';
     } else {
-      isFullWrap = false;
-      if (autodetectStatus) {
-        autodetectStatus.className = 'autodetect-badge single-detected';
-        if (detectModeText) detectModeText.textContent = 'Single Front Cover Detected';
-        if (detectDimText) detectDimText.textContent = w + ' × ' + h + ' px';
-      }
-
+      customFrontImg = imgOrCanvas;
       activeFrontImg = imgOrCanvas;
-      activeSpineImg = null;
-      activeBackImg = null;
+      if (frontBtnLabel) frontBtnLabel.textContent = fileName;
+      if (btnUploadFront) btnUploadFront.classList.add('has-file');
+      if (clearFrontBtn) clearFrontBtn.style.display = 'flex';
+      if (frontStatusText) frontStatusText.textContent = w + ' × ' + h + ' px';
+      if (autodetectStatus) autodetectStatus.style.display = 'none';
 
-      // Auto-sample spine color from edge of uploaded cover if not manually overridden
+      // Auto-sample spine color from edge if spine not manually uploaded
       try {
         if (!customSpineImg) {
           const sc = document.createElement('canvas');
@@ -2399,112 +2429,98 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     renderCurrentMockup();
   }
 
-  function handleFileSelect(file) {
+  // Dedicated Handlers for Setting Artwork Slots
+  function setFrontArtwork(imgOrCanvas, name = 'Custom Front') {
+    customFrontImg = imgOrCanvas;
+    activeFrontImg = imgOrCanvas;
+    if (frontBtnLabel) frontBtnLabel.textContent = name;
+    if (btnUploadFront) btnUploadFront.classList.add('has-file');
+    if (clearFrontBtn) clearFrontBtn.style.display = 'flex';
+    if (frontStatusText) frontStatusText.textContent = (imgOrCanvas.width || '') + ' × ' + (imgOrCanvas.height || '') + ' px';
+    if (autodetectStatus) autodetectStatus.style.display = 'none';
+
+    // Auto-sample spine color from edge if spine not manually uploaded
+    try {
+      if (!customSpineImg) {
+        const sc = document.createElement('canvas');
+        sc.width = 16; sc.height = 16;
+        const sctx = sc.getContext('2d');
+        sctx.drawImage(imgOrCanvas, 0, 0, 16, 16);
+        const p = sctx.getImageData(0, 8, 1, 1).data;
+        const hex = '#' + ((1 << 24) + (p[0] << 16) + (p[1] << 8) + p[2]).toString(16).slice(1);
+        spineColor = hex;
+        if (spineColorPicker) spineColorPicker.value = hex;
+        if (spineColorVal) spineColorVal.textContent = hex.toUpperCase();
+      }
+    } catch (e) {}
+
+    renderCurrentMockup();
+  }
+  window.setFrontArtwork = setFrontArtwork;
+
+  function setBackArtwork(imgOrCanvas, name = 'Custom Back') {
+    customBackImg = imgOrCanvas;
+    activeBackImg = imgOrCanvas;
+    if (backBtnLabel) backBtnLabel.textContent = name;
+    if (btnUploadBack) btnUploadBack.classList.add('has-file');
+    if (clearBackBtn) clearBackBtn.style.display = 'flex';
+    if (backStatusText) backStatusText.textContent = (imgOrCanvas.width || '') + ' × ' + (imgOrCanvas.height || '') + ' px';
+    renderCurrentMockup();
+  }
+  window.setBackArtwork = setBackArtwork;
+
+  function setSpineArtwork(imgOrCanvas, name = 'Custom Spine') {
+    customSpineImg = imgOrCanvas;
+    activeSpineImg = imgOrCanvas;
+    if (spineBtnLabel) spineBtnLabel.textContent = name;
+    if (btnUploadSpine) btnUploadSpine.classList.add('has-file');
+    if (clearSpineBtn) clearSpineBtn.style.display = 'flex';
+    if (spineStatusText) spineStatusText.textContent = (imgOrCanvas.width || '') + ' × ' + (imgOrCanvas.height || '') + ' px';
+    renderCurrentMockup();
+  }
+  window.setSpineArtwork = setSpineArtwork;
+
+  // Upload Handlers for Individual Slots
+  function handleFrontFile(file) {
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
-      img.onload = () => processUploadedArtwork(img);
+      img.onload = () => {
+        if (img.width / img.height > 1.25) {
+          processUploadedArtwork(img, file.name);
+        } else {
+          setFrontArtwork(img, file.name);
+        }
+      };
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   }
 
-  // Demo Artwork Generation (Instant Zero-Lag Local Canvases)
-  function createDemoArtwork(type) {
-    const canvas = document.createElement('canvas');
-    if (type === 'fantasy') {
-      canvas.width = 2400; canvas.height = 1500;
-      const ctx = canvas.getContext('2d');
-      const grad = ctx.createLinearGradient(0, 0, 2400, 1500);
-      grad.addColorStop(0, '#022c22'); grad.addColorStop(0.5, '#064e3b'); grad.addColorStop(1, '#0f172a');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, 2400, 1500);
-
-      ctx.fillStyle = '#fde047'; ctx.font = 'bold 88px Outfit, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText('CHRONICLES OF ELDON', 1800, 480);
-      ctx.fillStyle = '#94a3b8'; ctx.font = '40px Poppins, sans-serif';
-      ctx.fillText('AN EPIC FANTASY ADVENTURE', 1800, 560);
-      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 46px Outfit, sans-serif';
-      ctx.fillText('HAMID RAZA', 1800, 1340);
-
-      ctx.save(); ctx.translate(1200, 750); ctx.rotate(Math.PI / 2);
-      ctx.fillStyle = '#fde047'; ctx.font = 'bold 44px Outfit, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText('CHRONICLES OF ELDON  ★  HAMID RAZA', 0, 14);
-      ctx.restore();
-
-      ctx.fillStyle = '#ffffff'; ctx.font = '32px Poppins, sans-serif';
-      ctx.fillText('★★★★★ "AN INSTANT CLASSIC"', 600, 500);
-      ctx.fillStyle = '#cbd5e1'; ctx.font = '22px Poppins, sans-serif';
-      ctx.fillText('When darkness sweeps across Eldon,', 600, 600);
-      ctx.fillText('one young guardian must rise.', 600, 640);
-    } else if (type === 'thriller') {
-      canvas.width = 2400; canvas.height = 1500;
-      const ctx = canvas.getContext('2d');
-      const grad = ctx.createLinearGradient(0, 0, 2400, 1500);
-      grad.addColorStop(0, '#450a0a'); grad.addColorStop(0.5, '#18181b'); grad.addColorStop(1, '#09090b');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, 2400, 1500);
-
-      ctx.fillStyle = '#ef4444'; ctx.font = 'bold 96px Outfit, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText('THE SILENT WHISPER', 1800, 500);
-      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 48px Outfit, sans-serif';
-      ctx.fillText('HAMID RAZA', 1800, 1340);
-
-      ctx.save(); ctx.translate(1200, 750); ctx.rotate(Math.PI / 2);
-      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 44px Outfit, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText('THE SILENT WHISPER  ★  LOUFY', 0, 14);
-      ctx.restore();
-
-      ctx.fillStyle = '#fca5a5'; ctx.font = 'bold 36px Poppins, sans-serif';
-      ctx.fillText('EVERY SECRET HAS A DEADLINE', 600, 620);
-    } else if (type === 'modern') {
-      canvas.width = 1000; canvas.height = 1500;
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, 1000, 1500);
-      ctx.fillStyle = '#f4b400'; ctx.fillRect(60, 60, 880, 16);
-      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 64px Outfit, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText('THE MASTER', 500, 540);
-      ctx.fillText('ARCHITECT', 500, 620);
-      ctx.fillStyle = '#94a3b8'; ctx.font = '28px Poppins, sans-serif';
-      ctx.fillText('STRATEGIES FOR MODERN GROWTH', 500, 700);
-      ctx.fillStyle = '#f4b400'; ctx.font = 'bold 36px Outfit, sans-serif';
-      ctx.fillText('HAMID RAZA', 500, 1300);
-    } else if (type === 'square') {
-      canvas.width = 1400; canvas.height = 1400;
-      const ctx = canvas.getContext('2d');
-      const grad = ctx.createLinearGradient(0, 0, 1400, 1400);
-      grad.addColorStop(0, '#38bdf8'); grad.addColorStop(1, '#6366f1');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, 1400, 1400);
-
-      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 78px Outfit, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText('LITTLE BEAR\'S', 700, 520);
-      ctx.fillText('BIG JOURNEY', 700, 610);
-      ctx.fillStyle = '#fef08a'; ctx.font = 'bold 42px Poppins, sans-serif';
-      ctx.fillText('A BEDTIME STORYBOOK', 700, 700);
-      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 38px Outfit, sans-serif';
-      ctx.fillText('WRITTEN BY HAMID RAZA', 700, 1220);
-    }
-    return canvas;
+  function handleBackFile(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => setBackArtwork(img, file.name);
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 
-  // Draw Demo Thumbnails in sidebar
-  const demoFantasy = createDemoArtwork('fantasy');
-  const demoThriller = createDemoArtwork('thriller');
-  const demoModern = createDemoArtwork('modern');
-  const demoSquare = createDemoArtwork('square');
-
-  function drawThumb(canvasId, srcCanvas) {
-    const c = document.getElementById(canvasId);
-    if (!c) return;
-    c.width = 60; c.height = 80;
-    const ctx = c.getContext('2d');
-    ctx.drawImage(srcCanvas, 0, 0, 60, 80);
+  function handleSpineFile(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => setSpineArtwork(img, file.name);
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
   }
-  drawThumb('demo-fantasy-thumb', demoFantasy);
-  drawThumb('demo-thriller-thumb', demoThriller);
-  drawThumb('demo-modern-thumb', demoModern);
-  drawThumb('demo-square-thumb', demoSquare);
 
-  // Wire Preset Buttons
+  // Preset Buttons
   presetButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       currentPresetId = btn.dataset.preset;
@@ -2512,87 +2528,87 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   });
 
-  // Wire Primary Upload
-  if (primaryInput) {
-    primaryInput.addEventListener('change', (e) => {
-      if (e.target.files && e.target.files[0]) handleFileSelect(e.target.files[0]);
+  // Wire Front Upload
+  if (frontInput) {
+    frontInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) handleFrontFile(e.target.files[0]);
     });
   }
-
-  // Wire Dropzone
-  if (primaryDropzone) {
-    ['dragenter', 'dragover'].forEach(ev => {
-      primaryDropzone.addEventListener(ev, (e) => { e.preventDefault(); primaryDropzone.classList.add('dragover'); });
-    });
-    ['dragleave', 'drop'].forEach(ev => {
-      primaryDropzone.addEventListener(ev, (e) => { e.preventDefault(); primaryDropzone.classList.remove('dragover'); });
-    });
-    primaryDropzone.addEventListener('drop', (e) => {
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-        handleFileSelect(e.dataTransfer.files[0]);
-      }
-    });
-  }
-
-  // Wire Custom Spine Slot
-  if (spineInput) {
-    spineInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        const img = new Image();
-        img.onload = () => {
-          customSpineImg = img;
-          if (spineThumbImg) spineThumbImg.src = evt.target.result;
-          if (spineThumbWrap) spineThumbWrap.style.display = 'block';
-          renderCurrentMockup();
-        };
-        img.src = evt.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-  if (clearSpineBtn) {
-    clearSpineBtn.addEventListener('click', (e) => {
+  if (clearFrontBtn) {
+    clearFrontBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      customSpineImg = null;
-      if (spineThumbWrap) spineThumbWrap.style.display = 'none';
-      if (spineInput) spineInput.value = '';
+      customFrontImg = null;
+      activeFrontImg = null;
+      if (frontBtnLabel) frontBtnLabel.textContent = 'Choose Front Cover';
+      if (btnUploadFront) btnUploadFront.classList.remove('has-file');
+      if (clearFrontBtn) clearFrontBtn.style.display = 'none';
+      if (frontStatusText) frontStatusText.textContent = 'Default Sample';
+      if (autodetectStatus) autodetectStatus.style.display = 'none';
+      if (frontInput) frontInput.value = '';
       renderCurrentMockup();
     });
   }
 
-  // Wire Custom Back Slot
+  // Wire Back Upload
   if (backInput) {
     backInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        const img = new Image();
-        img.onload = () => {
-          customBackImg = img;
-          if (backThumbImg) backThumbImg.src = evt.target.result;
-          if (backThumbWrap) backThumbWrap.style.display = 'block';
-          renderCurrentMockup();
-        };
-        img.src = evt.target.result;
-      };
-      reader.readAsDataURL(file);
+      if (e.target.files && e.target.files[0]) handleBackFile(e.target.files[0]);
     });
   }
   if (clearBackBtn) {
     clearBackBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       customBackImg = null;
-      if (backThumbWrap) backThumbWrap.style.display = 'none';
+      activeBackImg = null;
+      if (backBtnLabel) backBtnLabel.textContent = 'Choose Back Cover';
+      if (btnUploadBack) btnUploadBack.classList.remove('has-file');
+      if (clearBackBtn) clearBackBtn.style.display = 'none';
+      if (backStatusText) backStatusText.textContent = 'Optional';
       if (backInput) backInput.value = '';
       renderCurrentMockup();
     });
   }
 
-  // Wire Spine Color Picker
+  // Wire Spine Upload
+  if (spineInput) {
+    spineInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) handleSpineFile(e.target.files[0]);
+    });
+  }
+  if (clearSpineBtn) {
+    clearSpineBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      customSpineImg = null;
+      activeSpineImg = null;
+      if (spineBtnLabel) spineBtnLabel.textContent = 'Choose Spine';
+      if (btnUploadSpine) btnUploadSpine.classList.remove('has-file');
+      if (clearSpineBtn) clearSpineBtn.style.display = 'none';
+      if (spineStatusText) spineStatusText.textContent = 'Optional';
+      if (spineInput) spineInput.value = '';
+      renderCurrentMockup();
+    });
+  }
+
+  // Wire Drag & Drop on Slot Cards
+  function wireCardDrop(card, handler) {
+    if (!card) return;
+    ['dragenter', 'dragover'].forEach(ev => {
+      card.addEventListener(ev, (e) => { e.preventDefault(); card.style.borderColor = 'var(--accent)'; });
+    });
+    ['dragleave', 'drop'].forEach(ev => {
+      card.addEventListener(ev, (e) => { e.preventDefault(); card.style.borderColor = ''; });
+    });
+    card.addEventListener('drop', (e) => {
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handler(e.dataTransfer.files[0]);
+      }
+    });
+  }
+  wireCardDrop(slotCardFront, handleFrontFile);
+  wireCardDrop(slotCardBack, handleBackFile);
+  wireCardDrop(slotCardSpine, handleSpineFile);
+
+  // Wire Spine Tone Picker
   if (spineColorPicker) {
     spineColorPicker.addEventListener('input', (e) => {
       spineColor = e.target.value;
@@ -2601,85 +2617,59 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
-  // Wire Demo Covers Clicks
-  sampleThumbs.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      sampleThumbs.forEach(t => t.classList.remove('active'));
-      thumb.classList.add('active');
-      const sampleType = thumb.dataset.sample;
-      if (sampleType === 'fantasy') processUploadedArtwork(demoFantasy);
-      else if (sampleType === 'thriller') processUploadedArtwork(demoThriller);
-      else if (sampleType === 'modern') processUploadedArtwork(demoModern);
-      else if (sampleType === 'square') processUploadedArtwork(demoSquare);
-    });
-  });
+  // Wire Layer Pill Buttons (Front / Back selector)
+  if (btnLayerFront) {
+    btnLayerFront.addEventListener('click', () => setEditLayer('front'));
+  }
+  if (btnLayerBack) {
+    btnLayerBack.addEventListener('click', () => setEditLayer('back'));
+  }
 
   // Wire Artwork Scale & Position Sliders
   if (artScaleSlider) {
     artScaleSlider.addEventListener('input', (e) => {
-      artScale = parseInt(e.target.value);
-      if (artScaleVal) artScaleVal.textContent = artScale + '%';
+      const val = parseInt(e.target.value);
+      if (currentEditLayer === 'front') frontTransform.scale = val;
+      else backTransform.scale = val;
+      if (artScaleVal) artScaleVal.textContent = val + '%';
       renderCurrentMockup();
     });
   }
   if (artPosXSlider) {
     artPosXSlider.addEventListener('input', (e) => {
-      artShiftX = parseInt(e.target.value);
-      if (artPosXVal) artPosXVal.textContent = (artShiftX > 0 ? '+' : '') + artShiftX + '%';
+      const val = parseInt(e.target.value);
+      if (currentEditLayer === 'front') frontTransform.shiftX = val;
+      else backTransform.shiftX = val;
+      if (artPosXVal) artPosXVal.textContent = (val > 0 ? '+' : '') + val + '%';
       renderCurrentMockup();
     });
   }
   if (artPosYSlider) {
     artPosYSlider.addEventListener('input', (e) => {
-      artShiftY = parseInt(e.target.value);
-      if (artPosYVal) artPosYVal.textContent = (artShiftY > 0 ? '+' : '') + artShiftY + '%';
+      const val = parseInt(e.target.value);
+      if (currentEditLayer === 'front') frontTransform.shiftY = val;
+      else backTransform.shiftY = val;
+      if (artPosYVal) artPosYVal.textContent = (val > 0 ? '+' : '') + val + '%';
       renderCurrentMockup();
     });
   }
   if (resetTransformBtn) {
     resetTransformBtn.addEventListener('click', () => {
-      artScale = 100; artShiftX = 0; artShiftY = 0;
-      if (artScaleSlider) artScaleSlider.value = 100;
-      if (artPosXSlider) artPosXSlider.value = 0;
-      if (artPosYSlider) artPosYSlider.value = 0;
-      if (artScaleVal) artScaleVal.textContent = '100%';
-      if (artPosXVal) artPosXVal.textContent = '0%';
-      if (artPosYVal) artPosYVal.textContent = '0%';
+      if (currentEditLayer === 'front') {
+        frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+      } else {
+        backTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+      }
+      setEditLayer(currentEditLayer);
       renderCurrentMockup();
     });
   }
 
-  // Wire Lighting & Shadow Tuning Sliders
-  if (lightSlider) {
-    lightSlider.addEventListener('input', (e) => {
-      lightLevel = parseInt(e.target.value);
-      if (lightValDisplay) lightValDisplay.textContent = lightLevel + '%';
-      renderCurrentMockup();
-    });
-  }
-  if (shadowSlider) {
-    shadowSlider.addEventListener('input', (e) => {
-      shadowLevel = parseInt(e.target.value);
-      if (shadowValDisplay) shadowValDisplay.textContent = shadowLevel + '%';
-      renderCurrentMockup();
-    });
-  }
-  if (darknessSlider) {
-    darknessSlider.addEventListener('input', (e) => {
-      darknessLevel = parseInt(e.target.value);
-      if (darknessValDisplay) darknessValDisplay.textContent = darknessLevel + '%';
-      renderCurrentMockup();
-    });
-  }
-  if (resetLightingBtn) {
-    resetLightingBtn.addEventListener('click', () => {
-      lightLevel = 100; shadowLevel = 100; darknessLevel = 100;
-      if (lightSlider) lightSlider.value = 100;
-      if (shadowSlider) shadowSlider.value = 100;
-      if (darknessSlider) darknessSlider.value = 100;
-      if (lightValDisplay) lightValDisplay.textContent = '100%';
-      if (shadowValDisplay) shadowValDisplay.textContent = '100%';
-      if (darknessValDisplay) darknessValDisplay.textContent = '100%';
+  // Wire Spine Width Slider
+  if (spineWidthSlider) {
+    spineWidthSlider.addEventListener('input', (e) => {
+      spineWidth = parseInt(e.target.value);
+      if (spineWidthVal) spineWidthVal.textContent = spineWidth + '%';
       renderCurrentMockup();
     });
   }
@@ -2743,8 +2733,36 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
-  // 7. Initial Kickoff: Set artwork to Fantasy demo wrap and render preset
-  processUploadedArtwork(demoFantasy);
+  // Initial Kickoff: Create an elegant default sample artwork in memory
+  function createDefaultSample() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 2400; canvas.height = 1500;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, 2400, 1500);
+    grad.addColorStop(0, '#022c22'); grad.addColorStop(0.5, '#064e3b'); grad.addColorStop(1, '#0f172a');
+    ctx.fillStyle = grad; ctx.fillRect(0, 0, 2400, 1500);
+
+    ctx.fillStyle = '#fde047'; ctx.font = 'bold 88px Outfit, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('CHRONICLES OF ELDON', 1800, 480);
+    ctx.fillStyle = '#94a3b8'; ctx.font = '40px Poppins, sans-serif';
+    ctx.fillText('AN EPIC FANTASY ADVENTURE', 1800, 560);
+    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 46px Outfit, sans-serif';
+    ctx.fillText('HAMID RAZA', 1800, 1340);
+
+    ctx.save(); ctx.translate(1200, 750); ctx.rotate(Math.PI / 2);
+    ctx.fillStyle = '#fde047'; ctx.font = 'bold 44px Outfit, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('CHRONICLES OF ELDON  ★  HAMID RAZA', 0, 14);
+    ctx.restore();
+
+    ctx.fillStyle = '#ffffff'; ctx.font = '32px Poppins, sans-serif';
+    ctx.fillText('★★★★★ "AN INSTANT CLASSIC"', 600, 500);
+    ctx.fillStyle = '#cbd5e1'; ctx.font = '22px Poppins, sans-serif';
+    ctx.fillText('When darkness sweeps across Eldon,', 600, 600);
+    ctx.fillText('one young guardian must rise.', 600, 640);
+    return canvas;
+  }
+
+  processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
   updateUIForPreset();
 
 });
