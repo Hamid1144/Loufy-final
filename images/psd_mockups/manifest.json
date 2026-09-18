@@ -131,7 +131,7 @@
         ]
       ]
     },
-    "quadsBlendMode": "overlay"
+    "quadsBlendMode": "multiply"
   },
   "front_back_showcase": {
     "id": "front_back_showcase",
@@ -571,7 +571,7 @@
         ]
       ]
     },
-    "quadsBlendMode": "overlay"
+    "quadsBlendMode": "multiply"
   },
   "hardcover_flatlay": {
     "id": "hardcover_flatlay",
