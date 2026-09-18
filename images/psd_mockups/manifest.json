@@ -1,0 +1,490 @@
+{
+  "hardcover_standing": {
+    "id": "hardcover_standing",
+    "title": "Hardcover 3D Standing (Front + Spine)",
+    "category": "hardcover",
+    "aspect": "6x9",
+    "width": 2000,
+    "height": 2000,
+    "slots": [
+      "front",
+      "spine"
+    ],
+    "defaultBg": "#ffffff",
+    "layers": {
+      "backdrop": "images/psd_mockups/hardcover_standing/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/hardcover_standing/shadow.png",
+      "shading": "images/psd_mockups/hardcover_standing/book_shading.png",
+      "shadingBlend": "multiply"
+    },
+    "quads": {
+      "front": [
+        [
+          583.27,
+          138.27
+        ],
+        [
+          1607.16,
+          184.72
+        ],
+        [
+          1598.37,
+          1798.93
+        ],
+        [
+          596.1,
+          1879.55
+        ]
+      ],
+      "spine": [
+        [
+          503.98,
+          161.42
+        ],
+        [
+          583.88,
+          138.3
+        ],
+        [
+          596.7,
+          1879.5
+        ],
+        [
+          518.16,
+          1858.03
+        ]
+      ]
+    }
+  },
+  "paperback_duo": {
+    "id": "paperback_duo",
+    "title": "5x8 Paperback Duo (Front + Back + Spine)",
+    "category": "paperback",
+    "aspect": "5x8",
+    "width": 3000,
+    "height": 2000,
+    "slots": [
+      "front",
+      "back",
+      "spine"
+    ],
+    "defaultBg": "#e6eaed",
+    "layers": {
+      "backdrop": "images/psd_mockups/paperback_duo/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/paperback_duo/shadow.png",
+      "backBody": "images/psd_mockups/paperback_duo/back_book_body.png",
+      "frontBody": "images/psd_mockups/paperback_duo/front_book_body.png"
+    },
+    "quads": {
+      "front": [
+        [
+          534.65,
+          257.55
+        ],
+        [
+          1415.8,
+          227.38
+        ],
+        [
+          1411.41,
+          1796.68
+        ],
+        [
+          548.17,
+          1713.05
+        ]
+      ],
+      "back": [
+        [
+          1445.94,
+          281.54
+        ],
+        [
+          2316.02,
+          257.8
+        ],
+        [
+          2308.67,
+          1764.36
+        ],
+        [
+          1464.66,
+          1693.5
+        ]
+      ],
+      "spine": [
+        [
+          2315.4,
+          257.82
+        ],
+        [
+          2393.13,
+          281.72
+        ],
+        [
+          2383.83,
+          1698.57
+        ],
+        [
+          2308.07,
+          1764.3
+        ]
+      ]
+    }
+  },
+  "front_back_showcase": {
+    "id": "front_back_showcase",
+    "title": "Front & Back Studio Showcase",
+    "category": "showcase",
+    "aspect": "6x9",
+    "width": 1600,
+    "height": 900,
+    "slots": [
+      "front",
+      "back"
+    ],
+    "defaultBg": "#ffffff",
+    "layers": {
+      "backdrop": "images/psd_mockups/front_back_showcase/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/front_back_showcase/shadows.png",
+      "lights": "images/psd_mockups/front_back_showcase/lights.png"
+    },
+    "rects": {
+      "front": [
+        863,
+        124,
+        461,
+        638
+      ],
+      "back": [
+        276,
+        125,
+        460,
+        636
+      ]
+    },
+    "reflections": {
+      "front": [
+        860,
+        763,
+        467,
+        641
+      ],
+      "back": [
+        273,
+        763,
+        466,
+        639
+      ]
+    }
+  },
+  "open_spread": {
+    "id": "open_spread",
+    "title": "8.5x8.5 Open Spread Flatlay",
+    "category": "paperback",
+    "aspect": "8.5x8.5",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front",
+      "back",
+      "spine"
+    ],
+    "defaultBg": "#e8eaec",
+    "layers": {
+      "backdrop": "images/psd_mockups/open_spread/base_backdrop.jpg",
+      "pages": "images/psd_mockups/open_spread/pages_edge.png",
+      "highlights": "images/psd_mockups/open_spread/highlights.png"
+    },
+    "quads": {
+      "back": [
+        [
+          528.4,
+          1247.9
+        ],
+        [
+          1222.7,
+          731.6
+        ],
+        [
+          1812.4,
+          1349.9
+        ],
+        [
+          1091.5,
+          1934.5
+        ]
+      ],
+      "spine": [
+        [
+          1220.7,
+          729.8
+        ],
+        [
+          1313,
+          686.7
+        ],
+        [
+          1849.2,
+          1242.4
+        ],
+        [
+          1757.6,
+          1292.2
+        ]
+      ],
+      "front": [
+        [
+          1300.9,
+          691.5
+        ],
+        [
+          1953.8,
+          455
+        ],
+        [
+          2553.8,
+          1014.8
+        ],
+        [
+          1898.3,
+          1312
+        ]
+      ]
+    }
+  },
+  "square_flatlay": {
+    "id": "square_flatlay",
+    "title": "8.5x8.5 Square Studio Flatlay",
+    "category": "square",
+    "aspect": "8.5x8.5",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front"
+    ],
+    "defaultBg": "#f0f0f2",
+    "layers": {
+      "backdrop": "images/psd_mockups/square_flatlay/base_backdrop.jpg",
+      "texture": "images/psd_mockups/square_flatlay/cover_texture.png",
+      "highlights": "images/psd_mockups/square_flatlay/highlights.png"
+    },
+    "rects": {
+      "front": [
+        938,
+        604,
+        1077,
+        1077
+      ]
+    }
+  },
+  "square_stack": {
+    "id": "square_stack",
+    "title": "8.5x8.5 Square 3-Book Stack",
+    "category": "square",
+    "aspect": "8.5x8.5",
+    "width": 2800,
+    "height": 1960,
+    "slots": [
+      "front",
+      "spine"
+    ],
+    "defaultBg": "#ebedf0",
+    "layers": {
+      "backdrop": "images/psd_mockups/square_stack/base_backdrop.jpg",
+      "body": "images/psd_mockups/square_stack/stack_body.png",
+      "highlights": "images/psd_mockups/square_stack/highlights.png"
+    },
+    "quads": {
+      "front": [
+        [
+          491.74,
+          812.06
+        ],
+        [
+          1602.79,
+          364.58
+        ],
+        [
+          2403.14,
+          1086.5
+        ],
+        [
+          1214.28,
+          1662.67
+        ]
+      ],
+      "spine": [
+        [
+          486.01,
+          879.01
+        ],
+        [
+          483.26,
+          801.51
+        ],
+        [
+          1218.97,
+          1663
+        ],
+        [
+          1207.66,
+          1722.82
+        ]
+      ]
+    }
+  },
+  "studio_collector": {
+    "id": "studio_collector",
+    "title": "Ultimate 4-Book Studio Showcase",
+    "category": "collector",
+    "aspect": "6x9",
+    "width": 4000,
+    "height": 2667,
+    "slots": [
+      "front",
+      "back",
+      "spine"
+    ],
+    "defaultBg": "#f8f9fa",
+    "layers": {
+      "backdrop": "images/psd_mockups/studio_collector/base_backdrop.jpg",
+      "bodies": "images/psd_mockups/studio_collector/book_bodies.png"
+    },
+    "quads": {
+      "front": [
+        [
+          1073.39,
+          299.13
+        ],
+        [
+          2123.36,
+          323.08
+        ],
+        [
+          2130.35,
+          1894.41
+        ],
+        [
+          1083.56,
+          1919.54
+        ]
+      ],
+      "spine": [
+        [
+          1047.07,
+          322.69
+        ],
+        [
+          1073.39,
+          299.13
+        ],
+        [
+          1083.56,
+          1919.54
+        ],
+        [
+          1057.94,
+          1901.38
+        ]
+      ],
+      "back": [
+        [
+          2061.15,
+          690.25
+        ],
+        [
+          3042.58,
+          660.84
+        ],
+        [
+          3022.34,
+          2240.92
+        ],
+        [
+          2041.91,
+          2169.83
+        ]
+      ],
+      "backSpine": [
+        [
+          3042.58,
+          660.84
+        ],
+        [
+          3079.44,
+          677.91
+        ],
+        [
+          3059.68,
+          2217.01
+        ],
+        [
+          3022.34,
+          2240.92
+        ]
+      ],
+      "stackSpine1": [
+        [
+          856.92,
+          1969.74
+        ],
+        [
+          856.62,
+          1819.75
+        ],
+        [
+          1281.36,
+          2016.19
+        ],
+        [
+          1282,
+          2209.45
+        ]
+      ],
+      "stackSpine2": [
+        [
+          860.98,
+          2126.71
+        ],
+        [
+          858.94,
+          1976
+        ],
+        [
+          1283.06,
+          2215.52
+        ],
+        [
+          1283.46,
+          2407.54
+        ]
+      ]
+    }
+  },
+  "hardcover_flatlay": {
+    "id": "hardcover_flatlay",
+    "title": "6x9 Hardcover Studio Flatlay",
+    "category": "hardcover",
+    "aspect": "6x9",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front"
+    ],
+    "defaultBg": "#e9e9e9",
+    "layers": {
+      "backdrop": "images/psd_mockup_2/base_shadow.jpg",
+      "crease": "images/psd_mockup_2/cover_crease.png",
+      "highlights": "images/psd_mockup_2/cover_highlights.png"
+    },
+    "rects": {
+      "front": [
+        1025,
+        460,
+        958,
+        1353
+      ]
+    }
+  }
+}

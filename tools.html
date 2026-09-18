@@ -6,25 +6,25 @@
   <meta http-equiv="Expires" content="0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free 3D Book Cover Mockup Generator | Hardcover, Paperback & eBook | Loufy Publisher</title>
+  <title>Free Studio Book Mockup Generator | Authentic Photoshop Quality | Loufy Publisher</title>
   
-  <meta name="description" content="Create photorealistic 3D book cover mockups online for free. Transform 2D flat covers into 3D Hardcover, Paperback, and Kindle eBook mockups with transparent PNG export.">
-  <meta name="keywords" content="3D Book Cover Mockup, Free Book Mockup Generator, 3D Hardcover Mockup, 3D Paperback Mockup, Kindle 3D Mockup, Book Cover Design Tool, Loufy Publisher">
+  <meta name="description" content="Generate 100% authentic studio-grade 3D book mockups online for free. Featuring real Photoshop PSD lighting, photographic drop shadows, hinge creases, and 4K transparent PNG export.">
+  <meta name="keywords" content="3D Book Cover Mockup, Free Book Mockup Generator, Photoshop Book Mockup, 3D Hardcover Mockup, 3D Paperback Mockup, Open Spread Mockup, Loufy Publisher">
   <link rel="canonical" href="https://loufypublisher.com/tools">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://loufypublisher.com/tools">
   <meta property="og:site_name" content="Loufy Publisher">
-  <meta property="og:title" content="Free 3D Book Cover Mockup Generator | Loufy Publisher">
-  <meta property="og:description" content="Instantly transform your flat 2D book covers into studio-quality 3D Hardcover, Paperback, and eBook mockups. Download high-res transparent PNGs for free.">
+  <meta property="og:title" content="Free Studio Book Mockup Generator | Loufy Publisher">
+  <meta property="og:description" content="Instantly transform flat 2D book covers into authentic studio-grade 3D Hardcover, Paperback, and Open Spread mockups with real photographic shadows and lighting.">
   <meta property="og:image" content="https://loufypublisher.com/favicon.png">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://loufypublisher.com/tools">
-  <meta name="twitter:title" content="Free 3D Book Cover Mockup Generator | Loufy Publisher">
-  <meta name="twitter:description" content="Instantly transform your flat 2D book covers into studio-quality 3D Hardcover, Paperback, and eBook mockups. Download high-res transparent PNGs for free.">
+  <meta name="twitter:title" content="Free Studio Book Mockup Generator | Loufy Publisher">
+  <meta name="twitter:description" content="Instantly transform flat 2D book covers into authentic studio-grade 3D Hardcover, Paperback, and Open Spread mockups.">
   <meta name="twitter:image" content="https://loufypublisher.com/favicon.png">
 
   <!-- Schema.org WebApplication Markup -->
@@ -32,9 +32,9 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Loufy 3D Book Cover Mockup Generator",
+    "name": "Loufy Studio Book Cover Mockup Generator",
     "url": "https://loufypublisher.com/tools",
-    "description": "Free web tool to generate photorealistic 3D book cover mockups for Hardcover, Paperback, and eBook titles with real-time 3D WebGL rendering.",
+    "description": "Free web tool to generate photorealistic studio book cover mockups with authentic Photoshop lighting, shadows, and high-resolution export.",
     "applicationCategory": "DesignApplication",
     "operatingSystem": "All",
     "offers": {
@@ -72,12 +72,8 @@
   <script src="bg-anim.js?v=3.33.0" defer></script>
   <script src="live-sync.js?v=3.33.0" defer></script>
 
-  <!-- Three.js & OrbitControls for Real 3D WebGL Rendering -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-
   <style>
-    /* ── 3D TOOL WORKSPACE STYLING ── */
+    /* ── PSD STUDIO TOOL WORKSPACE STYLING ── */
     .mockup-app-section {
       background: radial-gradient(circle at 50% 20%, rgba(24, 76, 58, 0.45), #080d14 70%);
       padding: 72px 0 12px;
@@ -126,22 +122,22 @@
       gap: 6px;
     }
 
-    /* Workspace: Fit on 1 Desktop Screen */
+    /* Workspace: 1 Desktop Screen Height */
     .mockup-workspace-grid {
       display: grid;
-      grid-template-columns: 385px 1fr;
+      grid-template-columns: 410px 1fr;
       gap: 14px;
       align-items: stretch;
       max-width: 1400px;
       margin: 0 auto;
       height: calc(100vh - 145px);
-      min-height: 520px;
-      max-height: 740px;
+      min-height: 540px;
+      max-height: 760px;
     }
 
-    /* Left Controls Sidebar (Scrolls cleanly if window is small) */
+    /* Left Sidebar */
     .mockup-sidebar-card {
-      background: rgba(15, 23, 42, 0.78);
+      background: rgba(15, 23, 42, 0.82);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 16px;
@@ -150,7 +146,7 @@
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
     .mockup-sidebar-card::-webkit-scrollbar {
       width: 5px;
@@ -161,21 +157,16 @@
     }
 
     .tool-group {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 9px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
-    .tool-group:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
     .tool-label {
       font-size: 0.76rem;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       font-weight: 700;
       color: var(--accent);
-      margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -187,81 +178,68 @@
       text-transform: none;
     }
 
-    /* Compact 3-Column Mockup Grid */
-    .mockup-grid-12 {
+    /* PSD Presets Grid: 2 Columns with Real Thumbnails */
+    .mockup-grid-psd {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 5px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
     }
-    .mockup-card-btn {
+    .mockup-psd-card {
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.09);
-      border-radius: 8px;
-      padding: 6px 4px;
-      color: #e2e8f0;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.71rem;
-      font-weight: 600;
+      border-radius: 10px;
+      padding: 6px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      transition: all 0.18s ease;
-      text-align: center;
-      line-height: 1.15;
+      gap: 5px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      text-align: left;
+      position: relative;
     }
-    .mockup-card-btn i {
-      font-size: 0.92rem;
-      color: #94a3b8;
-      transition: color 0.18s;
-    }
-    .mockup-card-btn:hover {
+    .mockup-psd-card:hover {
       background: rgba(244, 180, 0, 0.08);
       border-color: rgba(244, 180, 0, 0.4);
-      color: #fff;
+      transform: translateY(-2px);
     }
-    .mockup-card-btn.active {
-      background: rgba(24, 76, 58, 0.85);
+    .mockup-psd-card.active {
+      background: rgba(24, 76, 58, 0.9);
       border-color: var(--accent);
-      color: #fff;
-      box-shadow: 0 0 10px rgba(244, 180, 0, 0.28);
+      box-shadow: 0 0 14px rgba(244, 180, 0, 0.35);
     }
-    .mockup-card-btn.active i {
-      color: var(--accent);
-    }
-
-    /* Aspect Ratio Selector Pills */
-    .ratio-pill-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 4px;
-      margin-bottom: 6px;
-    }
-    .ratio-pill {
-      padding: 3px 7px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .mockup-psd-thumb {
+      width: 100%;
+      height: 60px;
       border-radius: 6px;
+      object-fit: cover;
+      background: #0b1320;
+    }
+    .mockup-psd-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .mockup-psd-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
+    .mockup-psd-card.active .mockup-psd-title {
+      color: #fde047;
+    }
+    .mockup-psd-tag {
+      font-size: 0.62rem;
       color: #94a3b8;
-      font-size: 0.68rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.18s ease;
-    }
-    .ratio-pill:hover {
-      background: rgba(244, 180, 0, 0.1);
-      color: #fff;
-      border-color: rgba(244, 180, 0, 0.35);
-    }
-    .ratio-pill.active {
-      background: rgba(24, 76, 58, 0.85);
-      border-color: var(--accent);
-      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    /* Drag and Drop Zone (Compact) */
+    /* Drag and Drop Zone */
     .upload-dropzone {
       border: 2px dashed rgba(244, 180, 0, 0.4);
       background: rgba(244, 180, 0, 0.03);
@@ -301,16 +279,16 @@
       margin-top: 2px;
     }
 
-    /* Detection Status Badge */
+    /* Auto-Detect Badge */
     .autodetect-badge {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 8px;
+      justify-content: space-between;
       border-radius: 6px;
-      font-size: 0.7rem;
-      margin-top: 5px;
-      font-weight: 500;
+      padding: 4px 8px;
+      font-size: 0.72rem;
+      margin-top: 4px;
+      font-weight: 600;
     }
     .autodetect-badge.wrap-detected {
       background: rgba(24, 76, 58, 0.6);
@@ -323,18 +301,26 @@
       color: #f4b400;
     }
 
-    /* Optional Separate Spine & Back Row */
+    /* Contextual Secondary Slots (Spine & Back) */
+    .slots-container {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
     .separate-covers-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 6px;
-      margin-top: 6px;
     }
     .separate-box {
       border: 1px dashed rgba(255, 255, 255, 0.15);
       background: rgba(255, 255, 255, 0.02);
-      border-radius: 8px;
-      padding: 6px;
+      border-radius: 6px;
+      padding: 5px;
       text-align: center;
       cursor: pointer;
       position: relative;
@@ -351,7 +337,7 @@
       cursor: pointer;
     }
     .separate-box .sep-label {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       color: #cbd5e1;
       display: flex;
       align-items: center;
@@ -366,26 +352,23 @@
     }
     .separate-thumb-wrap img {
       width: 100%;
-      height: 38px;
+      height: 34px;
       object-fit: contain;
       border-radius: 4px;
     }
     .separate-clear-btn {
       position: absolute;
-      top: -4px;
-      right: -4px;
+      top: -4px; right: -4px;
       background: #ef4444;
       color: #fff;
       border: none;
       border-radius: 50%;
-      width: 15px;
-      height: 15px;
-      font-size: 9px;
+      width: 14px; height: 14px;
+      font-size: 8px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      line-height: 1;
     }
 
     /* Color picker & slider compact */
@@ -393,119 +376,121 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 4px;
+      margin-top: 2px;
     }
     .spine-color-picker {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       cursor: pointer;
       background: none;
       padding: 0;
     }
     .spine-color-hex {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: #94a3b8;
       font-family: monospace;
     }
 
-    /* Demo Covers Carousel */
+    /* Demo Covers Strip */
     .sample-covers-strip {
       display: flex;
       gap: 6px;
-      margin-top: 5px;
+      margin-top: 4px;
       overflow-x: auto;
-      padding-bottom: 4px;
+      padding-bottom: 2px;
+    }
+    .sample-covers-strip::-webkit-scrollbar {
+      height: 3px;
     }
     .sample-thumb {
       flex: 0 0 46px;
       height: 60px;
-      border-radius: 5px;
-      overflow: hidden;
-      border: 2px solid transparent;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
       cursor: pointer;
+      overflow: hidden;
+      position: relative;
       transition: all 0.2s;
     }
-    .sample-thumb img {
+    .sample-thumb:hover {
+      border-color: var(--accent);
+      transform: scale(1.05);
+    }
+    .sample-thumb.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(244, 180, 0, 0.5);
+    }
+    .sample-thumb canvas, .sample-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    .sample-thumb:hover {
-      transform: scale(1.04);
-      border-color: rgba(244, 180, 0, 0.5);
-    }
-    .sample-thumb.active {
-      border-color: var(--accent);
-      box-shadow: 0 0 8px rgba(244, 180, 0, 0.4);
-    }
-
-    /* Range Sliders */
-    .slider-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 4px;
-      font-size: 0.75rem;
-      color: #94a3b8;
-    }
-    .custom-range {
-      width: 100%;
-      accent-color: var(--accent);
-      cursor: pointer;
-      height: 4px;
+    .sample-badge {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(0, 0, 0, 0.75);
+      font-size: 0.52rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 1px 0;
+      color: #fde047;
     }
 
-    /* Finish & Background Toggles */
+    /* Toggle pills */
     .btn-toggle-group {
       display: flex;
       gap: 5px;
     }
     .toggle-pill {
       flex: 1;
-      padding: 5px 8px;
-      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 4px;
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 6px;
       color: #cbd5e1;
-      font-size: 0.72rem;
+      font-size: 0.71rem;
       font-weight: 600;
       cursor: pointer;
-      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
       transition: all 0.18s;
+      font-family: 'Outfit', sans-serif;
     }
     .toggle-pill:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(244, 180, 0, 0.1);
+      border-color: rgba(244, 180, 0, 0.3);
       color: #fff;
     }
     .toggle-pill.active {
-      background: var(--accent);
-      color: var(--dark);
+      background: rgba(24, 76, 58, 0.85);
       border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 8px rgba(244, 180, 0, 0.25);
     }
 
-    /* Right 3D Viewport */
+    /* RIGHT: Viewport Card */
     .mockup-viewport-card {
-      background: rgba(11, 19, 31, 0.85);
+      background: rgba(15, 23, 42, 0.82);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 16px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
       display: flex;
       flex-direction: column;
-      height: 100%;
+      overflow: hidden;
+      position: relative;
     }
-
     .viewport-topbar {
-      padding: 10px 16px;
+      padding: 8px 14px;
+      background: rgba(8, 13, 20, 0.6);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: rgba(8, 13, 20, 0.6);
+      justify-content: space-between;
       flex-shrink: 0;
     }
     .viewport-topbar .status-pill {
@@ -522,8 +507,7 @@
     }
     .viewport-topbar .status-pill::before {
       content: '';
-      width: 5px;
-      height: 5px;
+      width: 5px; height: 5px;
       background: #4ade80;
       border-radius: 50%;
       display: inline-block;
@@ -537,7 +521,39 @@
       align-items: center;
       gap: 6px;
     }
+    .viewport-topbar .resolution-badge {
+      font-size: 0.68rem;
+      color: #f4b400;
+      background: rgba(244, 180, 0, 0.12);
+      border: 1px solid rgba(244, 180, 0, 0.3);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
 
+    /* PSD Canvas Container */
+    #psd-canvas-container {
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 50%, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.95));
+      padding: 12px;
+      overflow: hidden;
+    }
+    #psd-canvas {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      transition: opacity 0.2s ease;
+    }
+
+    /* Viewport Footer Download Bar */
     .viewport-footer-actions {
       padding: 10px 16px;
       background: rgba(8, 13, 20, 0.7);
@@ -546,6 +562,7 @@
       align-items: center;
       justify-content: space-between;
       flex-shrink: 0;
+      gap: 10px;
     }
     .viewport-footer-actions .download-info {
       font-size: 0.75rem;
@@ -558,13 +575,13 @@
       font-size: 0.82rem;
     }
     .download-primary-btn {
-      padding: 8px 18px;
+      padding: 8px 20px;
       background: var(--accent);
       color: var(--dark);
       border: none;
       border-radius: 8px;
       font-family: 'Outfit', sans-serif;
-      font-size: 0.84rem;
+      font-size: 0.86rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -574,7 +591,7 @@
     }
     .download-primary-btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(244, 180, 0, 0.35);
+      box-shadow: 0 6px 18px rgba(244, 180, 0, 0.35);
     }
     .download-primary-btn:active {
       transform: translateY(0);
@@ -589,114 +606,13 @@
       .mockup-sidebar-card {
         max-height: none;
       }
-      #three-canvas-container {
-        height: 440px !important;
-      }
-    }
-/* 3D Canvas Container */
-    #three-canvas-container {
-      width: 100%;
-      height: 540px;
-      position: relative;
-      cursor: grab;
-      user-select: none;
-      background: transparent;
-    }
-    #three-canvas-container:active {
-      cursor: grabbing;
-    }
-
-    /* Overlay Quick Camera Angles */
-    .viewport-camera-toolbar {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(10px);
-      padding: 6px 10px;
-      border-radius: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      z-index: 10;
-    }
-    .cam-btn {
-      background: transparent;
-      border: none;
-      color: #94a3b8;
-      padding: 6px 12px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .cam-btn:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
-    }
-    .cam-btn.active {
-      color: var(--dark);
-      background: var(--accent);
-      font-weight: 700;
-    }
-
-    /* Download Bar */
-    .viewport-footer-actions {
-      padding: 18px 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(8, 13, 20, 0.7);
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .download-primary-btn {
-      background: linear-gradient(135deg, #F4B400, #e09f00);
-      color: var(--dark);
-      font-weight: 800;
-      font-size: 1rem;
-      padding: 14px 28px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Outfit', sans-serif;
-      transition: all 0.25s ease;
-      box-shadow: 0 10px 25px rgba(244, 180, 0, 0.35);
-    }
-    .download-primary-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 30px rgba(244, 180, 0, 0.5);
-      filter: brightness(1.08);
-    }
-    .download-primary-btn:active {
-      transform: translateY(0);
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-      .mockup-workspace-grid {
-        grid-template-columns: 1fr;
-      }
-      #three-canvas-container {
-        height: 420px;
-      }
-      .mockup-header-intro h1 {
-        font-size: 2.3rem;
+      #psd-canvas-container {
+        min-height: 400px;
       }
     }
   </style>
 </head>
-<body class="tools-page">
+<body>
 
 <!-- GLOBAL LOADING SCREEN -->
 <div id="global-loader" class="global-loader">
@@ -712,7 +628,7 @@
 <li><a href="/">Home</a></li>
 <li><a href="/services">Services</a></li>
 <li><a href="/blogs">Blog</a></li>
-<li><a href="/tools" class="active">3D Mockups <span style="background:var(--accent);color:#0b1f17;font-size:0.65rem;font-weight:800;padding:2px 6px;border-radius:20px;vertical-align:middle;margin-left:3px;text-transform:uppercase;">3D</span></a></li>
+<li><a href="/tools" class="active">Mockup Studio <span style="background:var(--accent);color:#0b1f17;font-size:0.65rem;font-weight:800;padding:2px 6px;border-radius:20px;vertical-align:middle;margin-left:3px;text-transform:uppercase;">PSD</span></a></li>
 <li><a href="/about">About</a></li>
 <li><a href="/testimonials">Testimonials</a></li>
 <li><a href="/pricing">Pricing</a></li>
@@ -726,108 +642,103 @@
 </div>
 </nav>
 
-<!-- 3D MOCKUP GENERATOR APP SECTION -->
+<!-- PSD STUDIO MOCKUP APP SECTION -->
 <section class="mockup-app-section" id="mockup-tool">
   <div class="container">
     
     <!-- Intro Header -->
-    <div class="mockup-header-intro reveal">
-      <span class="section-tag" style="background:rgba(244,180,0,.15);color:var(--accent);"><i class="fa-solid fa-cube"></i> Free Creator Tool</span>
-      <h1>3D Book Cover <span class="highlight">Mockup Generator</span></h1>
-      <p>Transform your flat 2D book covers into studio-grade 3D Hardcovers, Paperbacks, and eBook tablet mockups. Rotate in 360°, customize spine &amp; thickness, and download transparent PNGs in seconds.</p>
+    <div class="mockup-header-intro">
+      <div class="title-group">
+        <span class="header-badge"><i class="fa-solid fa-crown"></i> Studio PSD Suite</span>
+        <h1>Studio Book Cover <span class="highlight">Mockup Generator</span></h1>
+      </div>
+      <p>100% Authentic Photoshop Studio Templates with Real Lighting, Shadows, and Ultra-HD Export.</p>
     </div>
 
     <!-- Main Tool Workspace Grid -->
-    <div class="mockup-workspace-grid reveal">
+    <div class="mockup-workspace-grid">
       
       <!-- LEFT: Controls & Customization Sidebar -->
       <div class="mockup-sidebar-card">
         
-        <!-- 1. Choose Mockup Style (12 Studio Angles) -->
+        <!-- 1. Choose Mockup Style (8 PSD Studio Templates) -->
         <div class="tool-group">
-          <div class="tool-label" style="display: flex; justify-content: space-between; align-items: center;">
-            <span><i class="fa-solid fa-layer-group"></i> 1. Select Mockup Style</span>
-            <span style="font-size: 0.7rem; color: #94a3b8; font-weight: 500;">12 Fixed Angles</span>
+          <div class="tool-label">
+            <span><i class="fa-solid fa-layer-group"></i> 1. Select Studio Mockup</span>
+            <span class="badge-mini">8 Authentic Templates</span>
           </div>
           
-          <div class="mockup-grid-12">
-            <!-- 1. Real PSD Flat Lay (Exact Free_Book_Mockup_2) -->
-            <button type="button" class="mockup-card-btn active" data-preset="psd-flatlay">
-              <i class="fa-solid fa-crown text-warning"></i>
-              <span>PSD Studio 1:1</span>
-              <small>Exact Free_Book_Mockup_2</small>
+          <div class="mockup-grid-psd" id="preset-buttons-container">
+            <!-- 1. Hardcover Standing -->
+            <button type="button" class="mockup-psd-card active" data-preset="hardcover_standing">
+              <img src="images/psd_mockups/thumbnails/hardcover_standing.jpg" class="mockup-psd-thumb" alt="Hardcover 3D Standing">
+              <div class="mockup-psd-meta">
+                <span class="mockup-psd-title">Hardcover Standing</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-bookmark"></i> 6x9 + 1.25" Spine</span>
+              </div>
             </button>
-            <!-- 2. Open Full Wrap -->
-            <button type="button" class="mockup-card-btn" data-preset="open-wrap">
-              <i class="fa-solid fa-book-journal-whills"></i>
-              <span>Open Full Wrap</span>
-              <small>Spread Face-Down (Full Jacket)</small>
+
+            <!-- 2. Paperback Duo -->
+            <button type="button" class="mockup-psd-card" data-preset="paperback_duo">
+              <img src="images/psd_mockups/thumbnails/paperback_duo.jpg" class="mockup-psd-thumb" alt="5x8 Paperback Duo">
+              <div class="mockup-psd-meta">
+                <span class="mockup-psd-title">5x8 Paperback Duo</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-book-open"></i> Front + Back + Spine</span>
+              </div>
             </button>
-            <!-- 2. Tabletop Paperback -->
-            <button type="button" class="mockup-card-btn" data-preset="tabletop">
-              <i class="fa-solid fa-book"></i>
-              <span>Tabletop 3D</span>
-              <small>Lying Angled 35° (Front + Spine)</small>
+
+            <!-- 3. Front & Back Showcase -->
+            <button type="button" class="mockup-psd-card" data-preset="front_back_showcase">
+              <img src="images/psd_mockups/thumbnails/front_back_showcase.jpg" class="mockup-psd-thumb" alt="Front & Back Showcase">
+              <div class="mockup-psd-meta">
+                <span class="mockup-psd-title">Front & Back Showcase</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-images"></i> Glossy Reflection</span>
+              </div>
             </button>
-            <!-- 3. Standing Hardcover -->
-            <button type="button" class="mockup-card-btn" data-preset="standing-hard">
-              <i class="fa-solid fa-book-bookmark"></i>
-              <span>Standing Hardcover</span>
-              <small>6x9 in with Spine &amp; Hinge Groove</small>
+
+            <!-- 4. Open Spread Flatlay -->
+            <button type="button" class="mockup-psd-card" data-preset="open_spread">
+              <img src="images/psd_mockups/thumbnails/open_spread.jpg" class="mockup-psd-thumb" alt="8.5x8.5 Open Spread">
+              <div class="mockup-psd-meta">
+                <span class="mockup-psd-title">8.5x8.5 Open Spread</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-book-journal-whills"></i> Full Open Jacket</span>
+              </div>
             </button>
-            <!-- 4. Standing Duo -->
-            <button type="button" class="mockup-card-btn" data-preset="standing-duo">
-              <i class="fa-solid fa-book-open"></i>
-              <span>Standing Duo</span>
-              <small>Front &amp; Back Side-by-Side</small>
+
+            <!-- 5. Square Studio Flatlay -->
+            <button type="button" class="mockup-psd-card" data-preset="square_flatlay">
+              <img src="images/psd_mockups/thumbnails/square_flatlay.jpg" class="mockup-psd-thumb" alt="8.5x8.5 Square Flatlay">
+              <div class="mockup-psd-meta">
+                <span class="mockup-psd-title">Square Flatlay (1:1)</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-shapes"></i> Linen Paper Grain</span>
+              </div>
             </button>
-            <!-- 5. Stacked Dual -->
-            <button type="button" class="mockup-card-btn" data-preset="stacked-dual">
-              <i class="fa-solid fa-layer-group"></i>
-              <span>Stacked Dual</span>
-              <small>Two Layered Paperbacks</small>
+
+            <!-- 6. Square 3-Book Stack -->
+            <button type="button" class="mockup-psd-card" data-preset="square_stack">
+              <img src="images/psd_mockups/thumbnails/square_stack.jpg" class="mockup-psd-thumb" alt="8.5x8.5 3-Book Stack">
+              <div class="mockup-psd-meta">
+                <span class="mockup-psd-title">Square 3-Book Stack</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-layer-group"></i> Isometric Depth</span>
+              </div>
             </button>
-            <!-- 6. Triple Stacked Square -->
-            <button type="button" class="mockup-card-btn" data-preset="stacked-square">
-              <i class="fa-solid fa-shapes"></i>
-              <span>Triple Square Stack</span>
-              <small>Coloring &amp; Children's Books</small>
+
+            <!-- 7. Ultimate 4-Book Collector Showcase -->
+            <button type="button" class="mockup-psd-card" data-preset="studio_collector">
+              <img src="images/psd_mockups/thumbnails/studio_collector.jpg" class="mockup-psd-thumb" alt="4-Book Collector Showcase">
+              <div class="mockup-psd-meta">
+                <span class="mockup-psd-title">4-Book Showcase</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-crown"></i> Standing & Stacked</span>
+              </div>
             </button>
-            <!-- 7. Top-Down Bird's Eye -->
-            <button type="button" class="mockup-card-btn" data-preset="topdown-stack">
-              <i class="fa-solid fa-arrows-to-eye"></i>
-              <span>Top-Down Flat Lay</span>
-              <small>Bird's Eye Fanned Stack</small>
-            </button>
-            <!-- 8. Amazon KDP Kindle -->
-            <button type="button" class="mockup-card-btn" data-preset="kindle">
-              <i class="fa-solid fa-tablet-screen-button"></i>
-              <span>Kindle Tablet</span>
-              <small>Real Amazon e-Reader with Glare</small>
-            </button>
-            <!-- 9. Duo Bundle -->
-            <button type="button" class="mockup-card-btn" data-preset="duo-bundle">
-              <i class="fa-solid fa-boxes-stacked"></i>
-              <span>Print + Kindle Bundle</span>
-              <small>Paperback Standing with Tablet</small>
-            </button>
-            <!-- 10. Frontal Straight-On -->
-            <button type="button" class="mockup-card-btn" data-preset="frontal">
-              <i class="fa-solid fa-square-full"></i>
-              <span>Frontal Straight 3D</span>
-              <small>Amazon Listing &amp; Catalog View</small>
-            </button>
-            <!-- 11. Spine Showcase -->
-            <button type="button" class="mockup-card-btn" data-preset="spine-showcase">
-              <i class="fa-solid fa-align-left"></i>
-              <span>Spine Showcase</span>
-              <small>Side Profile Typography View</small>
-            </button>
-            <!-- 12. Floating Isometric -->
-            <button type="button" class="mockup-card-btn" data-preset="floating">
-              <i class="fa-solid fa-compass-drafting"></i>
-              <span>Floating Isometric</span>
-              <small>Modern Floating Drop Shadow</small>
+
+            <!-- 8. Hardcover Flatlay Studio -->
+            <button type="button" class="mockup-psd-card" data-preset="hardcover_flatlay">
+              <img src="images/psd_mockups/thumbnails/hardcover_flatlay.jpg" class="mockup-psd-thumb" alt="Hardcover Studio Flatlay">
+              <div class="mockup-psd-meta">
+                <span class="mockup-psd-title">Hardcover Flatlay</span>
+                <span class="mockup-psd-tag"><i class="fa-solid fa-book"></i> Hinge Crease 1:1</span>
+              </div>
             </button>
           </div>
         </div>
@@ -835,149 +746,137 @@
         <!-- 2. Book Cover Artwork Uploads -->
         <div class="tool-group">
           <div class="tool-label">
-            <span><i class="fa-solid fa-cloud-arrow-up"></i> 2. Upload Book Artwork</span>
-            <span class="badge-mini" id="dimension-tag" style="font-size: 0.68rem; color: #f4b400; font-weight: 600;">Auto-Detecting</span>
+            <span><i class="fa-solid fa-cloud-arrow-up"></i> 2. Upload Artwork</span>
+            <span class="badge-mini" id="dimension-tag">Smart Auto-Detect</span>
           </div>
 
-          <!-- Quick Aspect Ratio Presets -->
-          <div class="ratio-pill-group" id="ratio-selector-bar">
-            <button type="button" class="ratio-pill active" data-ratio="auto" title="Automatically match uploaded image size"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto Fit</button>
-            <button type="button" class="ratio-pill" data-ratio="0.667" title="Standard 6x9 inches (2:3)">6x9 (2:3)</button>
-            <button type="button" class="ratio-pill" data-ratio="1.0" title="Square 8.5x8.5 inches (1:1)">8.5x8.5 (1:1)</button>
-            <button type="button" class="ratio-pill" data-ratio="0.773" title="Standard Letter 8.5x11 inches">8.5x11</button>
-            <button type="button" class="ratio-pill" data-ratio="0.700" title="Digest / Trade 7x10 inches">7x10</button>
-            <button type="button" class="ratio-pill" data-ratio="0.800" title="Workbook / Photo 8x10 inches">8x10</button>
-            <button type="button" class="ratio-pill" data-ratio="0.625" title="Pocket 5x8 inches">5x8</button>
-          </div>
-          
-          <!-- Primary Upload Box -->
-          <div class="upload-dropzone" id="cover-dropzone">
+          <!-- Primary Dropzone -->
+          <div class="upload-dropzone" id="primary-dropzone">
+            <input type="file" id="cover-file-input" accept="image/*,.psd">
             <i class="fa-solid fa-cloud-arrow-up"></i>
-            <p><strong>Click or Drag &amp; Drop Your Cover</strong></p>
-            <small>Supports Full Wrap Jacket or Front Cover (Auto-Detects)</small>
-            <input type="file" id="cover-file-input" accept="image/*">
+            <p>Upload Front Cover or Full Wrap</p>
+            <small>Auto-detects Full Wrap &amp; automatically splits into Front, Spine &amp; Back</small>
           </div>
 
-          <!-- Status Alert -->
-          <div id="autodetect-status" class="autodetect-badge wrap-detected" style="display: flex;">
-            <i class="fa-solid fa-circle-check"></i>
-            <span id="autodetect-msg">Full Wrap Detected — Auto-fitted to selected mockup.</span>
+          <!-- Auto-Detect Status Badge -->
+          <div class="autodetect-badge wrap-detected" id="autodetect-status">
+            <span><i class="fa-solid fa-wand-magic-sparkles"></i> <strong id="detect-mode-text">Full Wrap Auto-Split Active</strong></span>
+            <span style="font-size: 0.65rem; opacity: 0.85;" id="detect-dim-text">2048 x 1350 px</span>
           </div>
 
-          <!-- Optional Custom Spine & Back Upload Accordion/Row -->
-          <div style="margin-top: 14px; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px;">
-            <div style="font-size: 0.76rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">
-              <i class="fa-solid fa-sliders"></i> Optional Spine &amp; Back Artwork:
+          <!-- Optional Context-Aware Slots for Presets with Spine / Back -->
+          <div class="slots-container" id="secondary-slots-box">
+            <div style="font-size: 0.68rem; color: #94a3b8; font-weight: 600; display: flex; justify-content: space-between;">
+              <span>Separate Custom Slots (Optional):</span>
+              <span id="slots-support-label" style="color: #fde047;">Spine Supported</span>
             </div>
-            <div class="separate-dropzones-grid" style="margin-bottom: 0;">
-              <!-- Spine Input -->
-              <div class="separate-box" id="box-spine" style="min-height: 52px; padding: 4px;">
-                <button type="button" class="separate-clear-btn" data-target="spine" title="Clear">✕</button>
-                <div id="thumb-spine-wrap" style="display: none;"><img id="thumb-spine-img" class="box-thumb" alt="Spine" style="width: 32px; height: 48px;"></div>
-                <div id="icon-spine-wrap"><i class="fa-solid fa-align-left" style="font-size: 1rem; color: var(--accent); margin-bottom: 3px;"></i></div>
-                <div class="box-label" style="font-size: 0.72rem;">Spine Art</div>
-                <div class="box-sub" style="font-size: 0.62rem;">Optional</div>
-                <input type="file" id="sep-spine-input" accept="image/*">
+
+            <div class="separate-covers-row">
+              <!-- Custom Spine -->
+              <div class="separate-box" id="spine-box">
+                <input type="file" id="spine-file-input" accept="image/*">
+                <div class="sep-label"><i class="fa-solid fa-arrows-split-up-and-left"></i> Spine Art</div>
+                <div class="separate-thumb-wrap" id="spine-thumb-wrap">
+                  <img id="spine-thumb-img" src="" alt="Spine">
+                  <button type="button" class="separate-clear-btn" id="clear-spine-btn" title="Remove custom spine">×</button>
+                </div>
               </div>
-              <!-- Back Input -->
-              <div class="separate-box" id="box-back" style="min-height: 52px; padding: 4px;">
-                <button type="button" class="separate-clear-btn" data-target="back" title="Clear">✕</button>
-                <div id="thumb-back-wrap" style="display: none;"><img id="thumb-back-img" class="box-thumb" alt="Back" style="width: 32px; height: 48px;"></div>
-                <div id="icon-back-wrap"><i class="fa-solid fa-file-lines" style="font-size: 1rem; color: #34d399; margin-bottom: 3px;"></i></div>
-                <div class="box-label" style="font-size: 0.72rem;">Back Cover</div>
-                <div class="box-sub" style="font-size: 0.62rem;">Optional</div>
-                <input type="file" id="sep-back-input" accept="image/*">
+
+              <!-- Custom Back -->
+              <div class="separate-box" id="back-box">
+                <input type="file" id="back-file-input" accept="image/*">
+                <div class="sep-label"><i class="fa-solid fa-book"></i> Back Cover</div>
+                <div class="separate-thumb-wrap" id="back-thumb-wrap">
+                  <img id="back-thumb-img" src="" alt="Back">
+                  <button type="button" class="separate-clear-btn" id="clear-back-btn" title="Remove custom back">×</button>
+                </div>
               </div>
-              <!-- Spine Color Base -->
-              <div class="separate-box" style="min-height: 85px; padding: 8px 4px; cursor: default;">
-                <div style="font-size: 0.72rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px;">Spine Tint</div>
-                <input type="color" id="spine-color-input" value="#111827" style="width: 34px; height: 28px; border: none; border-radius: 4px; cursor: pointer; background: transparent;">
-                <span id="spine-color-hex" style="font-size: 0.65rem; font-family: monospace; color: #94a3b8; margin-top: 2px;">#111827</span>
-              </div>
+            </div>
+
+            <!-- Spine Default Accent Color -->
+            <div class="spine-color-row" id="spine-color-row">
+              <span style="font-size: 0.68rem; color: #94a3b8;">Spine Tone:</span>
+              <input type="color" id="spine-color-picker" class="spine-color-picker" value="#111827">
+              <span class="spine-color-hex" id="spine-color-val">#111827</span>
             </div>
           </div>
-          
-          <!-- Sample Covers Quick Selector -->
-          <div style="margin-top: 14px;">
-            <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 6px;">Or try one of our preloaded demo covers:</div>
-            <div class="samples-row">
-              <div class="sample-thumb active" data-sample="fantasy-wrap" title="Fantasy Full Wrap (Front + Spine + Back)">
-                <canvas id="thumb-canvas-fantasy" style="width: 100%; height: 100%; object-fit: cover;"></canvas>
+
+          <!-- Demo Covers Quick Selector -->
+          <div style="margin-top: 4px;">
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 4px;">Try instant preloaded demo covers:</div>
+            <div class="sample-covers-strip">
+              <div class="sample-thumb active" data-sample="fantasy" title="Fantasy Bestseller Full Wrap">
+                <canvas id="demo-fantasy-thumb"></canvas>
                 <span class="sample-badge">WRAP</span>
               </div>
-              <div class="sample-thumb" data-sample="thriller-wrap" title="Thriller Full Wrap (Front + Spine + Back)">
-                <canvas id="thumb-canvas-thriller" style="width: 100%; height: 100%; object-fit: cover;"></canvas>
+              <div class="sample-thumb" data-sample="thriller" title="Psychological Thriller Full Wrap">
+                <canvas id="demo-thriller-thumb"></canvas>
                 <span class="sample-badge">WRAP</span>
               </div>
-              <div class="sample-thumb" data-sample="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" title="Bestseller Front Only">
-                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=150&q=80" alt="Sample 1">
-                <span class="sample-badge front-badge">FRONT</span>
+              <div class="sample-thumb" data-sample="modern" title="Modern Non-Fiction Single Front">
+                <canvas id="demo-modern-thumb"></canvas>
+                <span class="sample-badge">FRONT</span>
               </div>
-              <div class="sample-thumb" data-sample="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=800&q=80" title="Non-Fiction Front Only">
-                <img src="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=150&q=80" alt="Sample 2">
-                <span class="sample-badge front-badge">FRONT</span>
+              <div class="sample-thumb" data-sample="square" title="8.5x8.5 Square Children's Book">
+                <canvas id="demo-square-thumb"></canvas>
+                <span class="sample-badge">1:1</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 3. Spine Thickness Adjustment -->
-        <div class="tool-group" id="spine-controls-group">
-          <div class="tool-label"><i class="fa-solid fa-sliders"></i> 3. Spine Depth / Thickness</div>
-          <div class="slider-row">
-            <span>Page Count</span>
-            <span id="thickness-display" style="font-weight: 700; color: #fff;">350 Pages</span>
-          </div>
-          <input type="range" id="thickness-slider" class="custom-range" min="0.2" max="0.9" step="0.04" value="0.45">
-        </div>
-
-        <!-- 4. Cover Material & Background -->
+        <!-- 3. Finish & Export Settings -->
         <div class="tool-group">
-          <div class="tool-label"><i class="fa-solid fa-wand-magic-sparkles"></i> 4. Finish &amp; Export Background</div>
-          
-          <div style="margin-bottom: 12px;">
-            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px;">Lamination Finish:</div>
+          <div class="tool-label"><i class="fa-solid fa-sliders"></i> 3. Backdrop &amp; Format</div>
+
+          <div style="margin-bottom: 6px;">
+            <div style="font-size: 0.74rem; color: #94a3b8; margin-bottom: 4px;">Backdrop Mode:</div>
             <div class="btn-toggle-group">
-              <button class="toggle-pill active" data-finish="glossy"><i class="fa-solid fa-sparkles"></i> Glossy Sheen</button>
-              <button class="toggle-pill" data-finish="matte"><i class="fa-solid fa-feather"></i> Velvet Matte</button>
+              <button class="toggle-pill active" data-bg="studio"><i class="fa-solid fa-camera"></i> Studio</button>
+              <button class="toggle-pill" data-bg="transparent"><i class="fa-solid fa-border-none"></i> Transparent</button>
+              <button class="toggle-pill" data-bg="white"><i class="fa-solid fa-circle" style="color:#ffffff;"></i> White</button>
+              <button class="toggle-pill" data-bg="dark"><i class="fa-solid fa-circle" style="color:#0f172a;"></i> Dark</button>
             </div>
           </div>
 
           <div>
-            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px;">Export Canvas Background:</div>
+            <div style="font-size: 0.74rem; color: #94a3b8; margin-bottom: 4px;">Download Format:</div>
             <div class="btn-toggle-group">
-              <button class="toggle-pill active" data-bg="light"><i class="fa-solid fa-sun" style="color:#f4b400;"></i> Studio Light</button>
-              <button class="toggle-pill" data-bg="transparent"><i class="fa-solid fa-border-none"></i> Transparent</button>
-              <button class="toggle-pill" data-bg="dark"><i class="fa-solid fa-circle" style="color:#0b1f17"></i> Studio Dark</button>
+              <button class="toggle-pill active" data-format="png"><i class="fa-solid fa-file-image"></i> PNG (Lossless)</button>
+              <button class="toggle-pill" data-format="jpeg"><i class="fa-solid fa-file-export"></i> JPEG (Print 4K)</button>
             </div>
           </div>
         </div>
 
       </div>
 
-      <!-- RIGHT: Interactive 3D WebGL Viewport -->
+      <!-- RIGHT: Studio PSD Viewport -->
       <div class="mockup-viewport-card">
         
-        <!-- Top status bar -->
+        <!-- Viewport Top Bar -->
         <div class="viewport-topbar">
-          <div class="status-pill"><i class="fa-solid fa-camera"></i> Studio Fixed Angle (PSD Quality)</div>
-          <div style="font-size: 0.8rem; color: #cbd5e1;" id="current-mockup-label">
-            <i class="fa-solid fa-image"></i> Mockup: <strong>Open Full Wrap</strong>
+          <div class="status-pill"><i class="fa-solid fa-check"></i> Photoshop 1:1 Studio Engine</div>
+          <div class="active-preset-name">
+            <i class="fa-solid fa-book-bookmark text-warning"></i>
+            <span id="active-mockup-title">Hardcover 3D Standing (Front + Spine)</span>
           </div>
+          <div class="resolution-badge" id="viewport-res-badge">2000 x 2000 Ultra-HD</div>
         </div>
 
-        <!-- The Three.js WebGL Container -->
-        <div id="three-canvas-container"></div>
+        <!-- Interactive Canvas Container -->
+        <div id="psd-canvas-container">
+          <canvas id="psd-canvas"></canvas>
+        </div>
 
-        <!-- Footer Actions Bar (Download) -->
+        <!-- Viewport Footer Download Bar -->
         <div class="viewport-footer-actions">
-          <div>
-            <div style="font-weight: 700; color: #fff; font-size: 0.95rem;">High-Resolution Render Ready</div>
-            <div style="font-size: 0.8rem; color: #94a3b8;">Commercial-grade 2400 x 1800 px with real contact shadow</div>
+          <div class="download-info">
+            <strong id="download-info-title">Studio High-Resolution Render Ready</strong>
+            <span id="download-info-sub">Commercial print-quality native export directly from PSD layer stack</span>
           </div>
 
           <button id="download-mockup-btn" class="download-primary-btn">
-            <i class="fa-solid fa-download"></i> Download 3D Mockup (PNG)
+            <i class="fa-solid fa-download"></i> Download Ultra-HD Mockup
           </button>
         </div>
 
@@ -988,7 +887,7 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS & AUTHOR VALUE SECTION -->
+<!-- HOW IT WORKS & VALUE SECTION -->
 <section class="services" style="background: #0b1f17; padding: 70px 0; border-top: 1px solid rgba(255,255,255,0.06);">
   <div class="container">
     <span class="section-tag reveal" style="background:rgba(244,180,0,.15);color:var(--accent)">How It Works</span>
@@ -997,20 +896,20 @@
     <div class="services-grid" style="margin-top: 40px;">
       <div class="service-card reveal">
         <div class="service-icon"><i class="fa-solid fa-layer-group"></i></div>
-        <h3>1. Pick Your Model</h3>
-        <p>Choose between 3D Hardcover, Paperback, Kindle eBook Tablet, or Duo bundle representations.</p>
+        <h3>1. Pick Your PSD Template</h3>
+        <p>Choose between 3D Standing Hardcovers, Paperback Duos, Open Spread Flatlays, or Multi-Book Showcases.</p>
       </div>
 
       <div class="service-card reveal">
-        <div class="service-icon"><i class="fa-solid fa-image"></i></div>
-        <h3>2. Upload Your Cover</h3>
-        <p>Drop your 2D book cover art. Our engine automatically wraps the spine and creates textured book pages.</p>
+        <div class="service-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+        <h3>2. Drop Your Artwork</h3>
+        <p>Upload a Front Cover or Full Wrap. Our engine auto-detects spine folds and wraps seamlessly in perspective.</p>
       </div>
 
       <div class="service-card reveal">
-        <div class="service-icon"><i class="fa-solid fa-cloud-arrow-down"></i></div>
-        <h3>3. Instant 4K Export</h3>
-        <p>Export a transparent PNG ready for Amazon A+ Content, social media teasers, and author websites.</p>
+        <div class="service-icon"><i class="fa-solid fa-crown"></i></div>
+        <h3>3. Instant 4K PSD Export</h3>
+        <p>Download full-resolution, commercial-grade PNG or JPEG with authentic photographic studio lighting.</p>
       </div>
     </div>
   </div>
@@ -1022,7 +921,7 @@
     <span class="section-tag reveal" style="background:rgba(244,180,0,.15);color:var(--accent)">Professional Services</span>
     <h2 class="section-title reveal" style="color: #fff;">Need a Bestselling Custom <span class="highlight">Book Cover?</span></h2>
     <p style="color: #cbd5e1; font-size: 1.1rem; line-height: 1.7; margin-bottom: 30px;" class="reveal">
-      Mockups make your cover shine, but the cover artwork itself must sell your book. Hamid Raza specializes in custom book cover design, Amazon KDP formatting, and complete launch marketing kits that convert browsers into buyers.
+      Mockups showcase your book, but custom artwork converts readers into buyers. Hamid Raza specializes in custom book cover design, Amazon KDP formatting, and complete launch marketing kits that make your book stand out.
     </p>
     <div class="reveal" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
       <a href="/portfolio/covers" class="btn btn-accent" style="padding: 14px 30px; font-weight: 700; color: #000;">View Portfolio <i class="fa-solid fa-arrow-right"></i></a>
@@ -1046,7 +945,7 @@
 <a href="https://www.facebook.com/share/1KPQAXoL8Y/" data-social="facebook" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-facebook-f"></i></a>
 </div>
 </div>
-<div class="footer-col reveal"><h4 data-admin-text="true">Quick Links</h4><a href="/" data-admin-text="true">Home</a><a href="/about" data-admin-text="true">About</a><a href="/portfolio" data-admin-text="true">Portfolio</a><a href="/blogs" data-admin-text="true">Blog</a><a href="/tools" data-admin-text="true">3D Mockups</a><a href="/contact" data-admin-text="true">Contact</a></div>
+<div class="footer-col reveal"><h4 data-admin-text="true">Quick Links</h4><a href="/" data-admin-text="true">Home</a><a href="/about" data-admin-text="true">About</a><a href="/portfolio" data-admin-text="true">Portfolio</a><a href="/blogs" data-admin-text="true">Blog</a><a href="/tools" data-admin-text="true">Mockup Studio</a><a href="/contact" data-admin-text="true">Contact</a></div>
 <div class="footer-col reveal"><h4 data-admin-text="true">Services</h4><a href="/portfolio/covers" data-admin-text="true">Book Cover Design</a><a href="/portfolio/formatting" data-admin-text="true">KDP Formatting</a><a href="/portfolio/a-plus-content" data-admin-text="true">A+ Content</a><a href="/portfolio/websites" data-admin-text="true">Websites</a></div>
 <div class="footer-col reveal"><h4 data-admin-text="true">Contact</h4><a href="mailto:razah3812@gmail.com" data-admin-text="true">razah3812@gmail.com</a><a href="#" data-admin-text="true">Pakistan</a></div>
 </div>
@@ -1054,1684 +953,1261 @@
 </div>
 </footer>
 
-<!-- ── THREE.JS 3D BOOK ENGINE JAVASCRIPT ── -->
+<!-- ── AUTHENTIC PHOTOSHOP PSD MOCKUP ENGINE JAVASCRIPT ── -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
+  // 1. Inlined Manifest for 8 Studio Templates
+  const PSD_MANIFEST = {
+  "hardcover_standing": {
+    "id": "hardcover_standing",
+    "title": "Hardcover 3D Standing (Front + Spine)",
+    "category": "hardcover",
+    "aspect": "6x9",
+    "width": 2000,
+    "height": 2000,
+    "slots": [
+      "front",
+      "spine"
+    ],
+    "defaultBg": "#ffffff",
+    "layers": {
+      "backdrop": "images/psd_mockups/hardcover_standing/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/hardcover_standing/shadow.png",
+      "shading": "images/psd_mockups/hardcover_standing/book_shading.png",
+      "shadingBlend": "multiply"
+    },
+    "quads": {
+      "front": [
+        [
+          583.27,
+          138.27
+        ],
+        [
+          1607.16,
+          184.72
+        ],
+        [
+          1598.37,
+          1798.93
+        ],
+        [
+          596.1,
+          1879.55
+        ]
+      ],
+      "spine": [
+        [
+          503.98,
+          161.42
+        ],
+        [
+          583.88,
+          138.3
+        ],
+        [
+          596.7,
+          1879.5
+        ],
+        [
+          518.16,
+          1858.03
+        ]
+      ]
+    }
+  },
+  "paperback_duo": {
+    "id": "paperback_duo",
+    "title": "5x8 Paperback Duo (Front + Back + Spine)",
+    "category": "paperback",
+    "aspect": "5x8",
+    "width": 3000,
+    "height": 2000,
+    "slots": [
+      "front",
+      "back",
+      "spine"
+    ],
+    "defaultBg": "#e6eaed",
+    "layers": {
+      "backdrop": "images/psd_mockups/paperback_duo/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/paperback_duo/shadow.png",
+      "backBody": "images/psd_mockups/paperback_duo/back_book_body.png",
+      "frontBody": "images/psd_mockups/paperback_duo/front_book_body.png"
+    },
+    "quads": {
+      "front": [
+        [
+          534.65,
+          257.55
+        ],
+        [
+          1415.8,
+          227.38
+        ],
+        [
+          1411.41,
+          1796.68
+        ],
+        [
+          548.17,
+          1713.05
+        ]
+      ],
+      "back": [
+        [
+          1445.94,
+          281.54
+        ],
+        [
+          2316.02,
+          257.8
+        ],
+        [
+          2308.67,
+          1764.36
+        ],
+        [
+          1464.66,
+          1693.5
+        ]
+      ],
+      "spine": [
+        [
+          2315.4,
+          257.82
+        ],
+        [
+          2393.13,
+          281.72
+        ],
+        [
+          2383.83,
+          1698.57
+        ],
+        [
+          2308.07,
+          1764.3
+        ]
+      ]
+    }
+  },
+  "front_back_showcase": {
+    "id": "front_back_showcase",
+    "title": "Front & Back Studio Showcase",
+    "category": "showcase",
+    "aspect": "6x9",
+    "width": 1600,
+    "height": 900,
+    "slots": [
+      "front",
+      "back"
+    ],
+    "defaultBg": "#ffffff",
+    "layers": {
+      "backdrop": "images/psd_mockups/front_back_showcase/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/front_back_showcase/shadows.png",
+      "lights": "images/psd_mockups/front_back_showcase/lights.png"
+    },
+    "rects": {
+      "front": [
+        863,
+        124,
+        461,
+        638
+      ],
+      "back": [
+        276,
+        125,
+        460,
+        636
+      ]
+    },
+    "reflections": {
+      "front": [
+        860,
+        763,
+        467,
+        641
+      ],
+      "back": [
+        273,
+        763,
+        466,
+        639
+      ]
+    }
+  },
+  "open_spread": {
+    "id": "open_spread",
+    "title": "8.5x8.5 Open Spread Flatlay",
+    "category": "paperback",
+    "aspect": "8.5x8.5",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front",
+      "back",
+      "spine"
+    ],
+    "defaultBg": "#e8eaec",
+    "layers": {
+      "backdrop": "images/psd_mockups/open_spread/base_backdrop.jpg",
+      "pages": "images/psd_mockups/open_spread/pages_edge.png",
+      "highlights": "images/psd_mockups/open_spread/highlights.png"
+    },
+    "quads": {
+      "back": [
+        [
+          528.4,
+          1247.9
+        ],
+        [
+          1222.7,
+          731.6
+        ],
+        [
+          1812.4,
+          1349.9
+        ],
+        [
+          1091.5,
+          1934.5
+        ]
+      ],
+      "spine": [
+        [
+          1220.7,
+          729.8
+        ],
+        [
+          1313,
+          686.7
+        ],
+        [
+          1849.2,
+          1242.4
+        ],
+        [
+          1757.6,
+          1292.2
+        ]
+      ],
+      "front": [
+        [
+          1300.9,
+          691.5
+        ],
+        [
+          1953.8,
+          455
+        ],
+        [
+          2553.8,
+          1014.8
+        ],
+        [
+          1898.3,
+          1312
+        ]
+      ]
+    }
+  },
+  "square_flatlay": {
+    "id": "square_flatlay",
+    "title": "8.5x8.5 Square Studio Flatlay",
+    "category": "square",
+    "aspect": "8.5x8.5",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front"
+    ],
+    "defaultBg": "#f0f0f2",
+    "layers": {
+      "backdrop": "images/psd_mockups/square_flatlay/base_backdrop.jpg",
+      "texture": "images/psd_mockups/square_flatlay/cover_texture.png",
+      "highlights": "images/psd_mockups/square_flatlay/highlights.png"
+    },
+    "rects": {
+      "front": [
+        938,
+        604,
+        1077,
+        1077
+      ]
+    }
+  },
+  "square_stack": {
+    "id": "square_stack",
+    "title": "8.5x8.5 Square 3-Book Stack",
+    "category": "square",
+    "aspect": "8.5x8.5",
+    "width": 2800,
+    "height": 1960,
+    "slots": [
+      "front",
+      "spine"
+    ],
+    "defaultBg": "#ebedf0",
+    "layers": {
+      "backdrop": "images/psd_mockups/square_stack/base_backdrop.jpg",
+      "body": "images/psd_mockups/square_stack/stack_body.png",
+      "highlights": "images/psd_mockups/square_stack/highlights.png"
+    },
+    "quads": {
+      "front": [
+        [
+          491.74,
+          812.06
+        ],
+        [
+          1602.79,
+          364.58
+        ],
+        [
+          2403.14,
+          1086.5
+        ],
+        [
+          1214.28,
+          1662.67
+        ]
+      ],
+      "spine": [
+        [
+          486.01,
+          879.01
+        ],
+        [
+          483.26,
+          801.51
+        ],
+        [
+          1218.97,
+          1663
+        ],
+        [
+          1207.66,
+          1722.82
+        ]
+      ]
+    }
+  },
+  "studio_collector": {
+    "id": "studio_collector",
+    "title": "Ultimate 4-Book Studio Showcase",
+    "category": "collector",
+    "aspect": "6x9",
+    "width": 4000,
+    "height": 2667,
+    "slots": [
+      "front",
+      "back",
+      "spine"
+    ],
+    "defaultBg": "#f8f9fa",
+    "layers": {
+      "backdrop": "images/psd_mockups/studio_collector/base_backdrop.jpg",
+      "bodies": "images/psd_mockups/studio_collector/book_bodies.png"
+    },
+    "quads": {
+      "front": [
+        [
+          1073.39,
+          299.13
+        ],
+        [
+          2123.36,
+          323.08
+        ],
+        [
+          2130.35,
+          1894.41
+        ],
+        [
+          1083.56,
+          1919.54
+        ]
+      ],
+      "spine": [
+        [
+          1047.07,
+          322.69
+        ],
+        [
+          1073.39,
+          299.13
+        ],
+        [
+          1083.56,
+          1919.54
+        ],
+        [
+          1057.94,
+          1901.38
+        ]
+      ],
+      "back": [
+        [
+          2061.15,
+          690.25
+        ],
+        [
+          3042.58,
+          660.84
+        ],
+        [
+          3022.34,
+          2240.92
+        ],
+        [
+          2041.91,
+          2169.83
+        ]
+      ],
+      "backSpine": [
+        [
+          3042.58,
+          660.84
+        ],
+        [
+          3079.44,
+          677.91
+        ],
+        [
+          3059.68,
+          2217.01
+        ],
+        [
+          3022.34,
+          2240.92
+        ]
+      ],
+      "stackSpine1": [
+        [
+          856.92,
+          1969.74
+        ],
+        [
+          856.62,
+          1819.75
+        ],
+        [
+          1281.36,
+          2016.19
+        ],
+        [
+          1282,
+          2209.45
+        ]
+      ],
+      "stackSpine2": [
+        [
+          860.98,
+          2126.71
+        ],
+        [
+          858.94,
+          1976
+        ],
+        [
+          1283.06,
+          2215.52
+        ],
+        [
+          1283.46,
+          2407.54
+        ]
+      ]
+    }
+  },
+  "hardcover_flatlay": {
+    "id": "hardcover_flatlay",
+    "title": "6x9 Hardcover Studio Flatlay",
+    "category": "hardcover",
+    "aspect": "6x9",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front"
+    ],
+    "defaultBg": "#e9e9e9",
+    "layers": {
+      "backdrop": "images/psd_mockup_2/base_shadow.jpg",
+      "crease": "images/psd_mockup_2/cover_crease.png",
+      "highlights": "images/psd_mockup_2/cover_highlights.png"
+    },
+    "rects": {
+      "front": [
+        1025,
+        460,
+        958,
+        1353
+      ]
+    }
+  }
+};
+
   // State
-  let currentPreset = 'psd-flatlay';
-  let bgMode = 'light';
-  let bookThickness = 0.45;
+  let currentPresetId = 'hardcover_standing';
+  let bgMode = 'studio'; // 'studio', 'transparent', 'white', 'dark'
+  let exportFormat = 'png'; // 'png' or 'jpeg'
   let spineColor = '#111827';
-  let coverFinish = 'glossy';
 
-  // Aspect Ratio & Dimensions State
-  let manualRatio = 'auto'; // 'auto' or numeric string like '0.667', '1.0'
-  let activeFrontAspect = 0.667; // Default 6x9 (2:3)
-  let activeWrapAspect = 1.52;
-  let autoDetectedLabel = '6x9 in (2:3 Standard)';
+  // Artwork Slices & Images
+  let activeFrontImg = null;
+  let activeSpineImg = null;
+  let activeBackImg = null;
+  let isFullWrap = true;
 
-  // Artwork Sources
-  let isWrapDetected = true;
-  let currentFullWrapCanvas = null;
-  let currentFrontImage = null;
-  let customSpineTex = null;
-  let customBackTex = null;
+  // Custom User Overrides
   let customSpineImg = null;
   let customBackImg = null;
 
-  const container = document.getElementById('three-canvas-container');
-  if (!container) return;
+  // Asset Cache
+  const imageCache = {};
+  function preloadImage(src) {
+    if (!src) return Promise.resolve(null);
+    if (imageCache[src]) return Promise.resolve(imageCache[src]);
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        imageCache[src] = img;
+        resolve(img);
+      };
+      img.onerror = () => {
+        console.warn('Failed to load asset:', src);
+        resolve(null);
+      };
+      img.src = src;
+    });
+  }
 
-  // 1. Initialize Three.js Scene
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
-
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
-  renderer.setSize(container.clientWidth, container.clientHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-  // ACES Filmic Tone Mapping - Eliminates harsh computer glares and white blowout!
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.02;
-  renderer.setClearColor(0xe2e8f0, 1);
-  container.appendChild(renderer.domElement);
-
-  // OrbitControls (Disabled by default - Fixed Studio PSD Alignment)
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.05;
-  controls.enabled = false;
-
-  // 2. Soft Photographic Studio Lighting (Warm Key, Cool Diffuse Fill, Subtle Rim)
-  const ambientLight = new THREE.AmbientLight(0xfffaf0, 0.88);
-  scene.add(ambientLight);
-
-  const keyLight = new THREE.DirectionalLight(0xfff8ee, 0.72);
-  keyLight.position.set(4, 7, 5);
-  keyLight.castShadow = true;
-  keyLight.shadow.mapSize.width = 2048;
-  keyLight.shadow.mapSize.height = 2048;
-  keyLight.shadow.camera.near = 1;
-  keyLight.shadow.camera.far = 20;
-  keyLight.shadow.bias = -0.0006;
-  scene.add(keyLight);
-
-  const fillLight = new THREE.DirectionalLight(0xf1f5f9, 0.42);
-  fillLight.position.set(-5, 4, 3);
-  scene.add(fillLight);
-
-  const rimLight = new THREE.DirectionalLight(0xffffff, 0.3);
-  rimLight.position.set(1, 6, -5);
-  scene.add(rimLight);
-
-  // 3. Studio Cyclorama Backdrop & Ground Shadow
-  const createStudioBackdropTexture = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-    const grad = ctx.createRadialGradient(256, 256, 40, 256, 256, 360);
-    grad.addColorStop(0, '#f8fafc');
-    grad.addColorStop(0.5, '#e2e8f0');
-    grad.addColorStop(1, '#cbd5e1');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 512, 512);
-    return new THREE.CanvasTexture(canvas);
-  };
-  const studioBackdropTex = createStudioBackdropTexture();
-
-  const backdropGeo = new THREE.PlaneGeometry(35, 25);
-  const backdropMat = new THREE.MeshBasicMaterial({ map: studioBackdropTex, depthWrite: false });
-  const backdropMesh = new THREE.Mesh(backdropGeo, backdropMat);
-  backdropMesh.position.set(0, 0, -5);
-  scene.add(backdropMesh);
-
-  // Seamless Studio Floor Plane
-  const floorGeo = new THREE.PlaneGeometry(60, 60);
-  const floorMat = new THREE.MeshBasicMaterial({ color: 0xe2e8f0, depthWrite: false });
-  const floorMesh = new THREE.Mesh(floorGeo, floorMat);
-  floorMesh.rotation.x = -Math.PI / 2;
-  floorMesh.position.y = -2.12;
-  scene.add(floorMesh);
-
-  // Soft Contact Drop Shadow
-  const createContactShadowTexture = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-    const grad = ctx.createRadialGradient(256, 256, 10, 256, 256, 250);
-    grad.addColorStop(0, 'rgba(15, 23, 42, 0.65)');
-    grad.addColorStop(0.35, 'rgba(15, 23, 42, 0.32)');
-    grad.addColorStop(0.7, 'rgba(15, 23, 42, 0.1)');
-    grad.addColorStop(1, 'rgba(15, 23, 42, 0)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 512, 512);
-    return new THREE.CanvasTexture(canvas);
-  };
-  const contactShadowTex = createContactShadowTexture();
-
-  const shadowGeo = new THREE.PlaneGeometry(7.5, 7.5);
-  const shadowMat = new THREE.MeshBasicMaterial({
-    map: contactShadowTex,
-    transparent: true,
-    opacity: 0.85,
-    depthWrite: false
+  // Preload all assets for all presets in parallel
+  Object.values(PSD_MANIFEST).forEach(conf => {
+    if (conf.layers) {
+      Object.values(conf.layers).forEach(src => {
+        if (typeof src === 'string' && src.endsWith('.png') || src.endsWith('.jpg')) {
+          preloadImage(src);
+        }
+      });
+    }
   });
-  const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
-  shadowPlane.rotation.x = -Math.PI / 2;
-  shadowPlane.position.y = -2.1;
-  scene.add(shadowPlane);
 
-  // 4. Procedural Paper Page Edges Texture
-  const createPagesTexture = () => {
+  // 2. Demo Artwork Generation (Instant Zero-Lag Local Canvases)
+  function createDemoArtwork(type) {
     const canvas = document.createElement('canvas');
-    canvas.width = 256;
-    canvas.height = 256;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#f8f6f0';
-    ctx.fillRect(0, 0, 256, 256);
+    if (type === 'fantasy') {
+      canvas.width = 2400; canvas.height = 1500;
+      const ctx = canvas.getContext('2d');
+      const grad = ctx.createLinearGradient(0, 0, 2400, 1500);
+      grad.addColorStop(0, '#022c22'); grad.addColorStop(0.5, '#064e3b'); grad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, 2400, 1500);
 
-    ctx.strokeStyle = '#ded8c8';
-    ctx.lineWidth = 1;
-    for (let i = 0; i < 256; i += 3) {
-      ctx.beginPath();
-      ctx.moveTo(0, i);
-      ctx.lineTo(256, i);
-      ctx.stroke();
+      // Gold Runes & Stars
+      ctx.fillStyle = '#fde047'; ctx.font = 'bold 88px Outfit, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('CHRONICLES OF ELDON', 1800, 480);
+      ctx.fillStyle = '#94a3b8'; ctx.font = '40px Poppins, sans-serif';
+      ctx.fillText('AN EPIC FANTASY ADVENTURE', 1800, 560);
+      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 46px Outfit, sans-serif';
+      ctx.fillText('HAMID RAZA', 1800, 1340);
+
+      // Spine
+      ctx.save(); ctx.translate(1200, 750); ctx.rotate(Math.PI / 2);
+      ctx.fillStyle = '#fde047'; ctx.font = 'bold 44px Outfit, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('CHRONICLES OF ELDON  ★  HAMID RAZA', 0, 14);
+      ctx.restore();
+
+      // Back
+      ctx.fillStyle = '#ffffff'; ctx.font = '32px Poppins, sans-serif';
+      ctx.fillText('★★★★★ "AN INSTANT CLASSIC"', 600, 500);
+      ctx.fillStyle = '#cbd5e1'; ctx.font = '22px Poppins, sans-serif';
+      ctx.fillText('When darkness sweeps across Eldon,', 600, 600);
+      ctx.fillText('one young guardian must rise.', 600, 640);
+    } else if (type === 'thriller') {
+      canvas.width = 2400; canvas.height = 1500;
+      const ctx = canvas.getContext('2d');
+      const grad = ctx.createLinearGradient(0, 0, 2400, 1500);
+      grad.addColorStop(0, '#450a0a'); grad.addColorStop(0.5, '#18181b'); grad.addColorStop(1, '#09090b');
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, 2400, 1500);
+
+      ctx.fillStyle = '#ef4444'; ctx.font = 'bold 96px Outfit, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('THE SILENT WHISPER', 1800, 500);
+      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 48px Outfit, sans-serif';
+      ctx.fillText('HAMID RAZA', 1800, 1340);
+
+      ctx.save(); ctx.translate(1200, 750); ctx.rotate(Math.PI / 2);
+      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 44px Outfit, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('THE SILENT WHISPER  ★  LOUFY', 0, 14);
+      ctx.restore();
+
+      ctx.fillStyle = '#fca5a5'; ctx.font = 'bold 36px Poppins, sans-serif';
+      ctx.fillText('EVERY SECRET HAS A DEADLINE', 600, 620);
+    } else if (type === 'modern') {
+      canvas.width = 1000; canvas.height = 1500;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, 1000, 1500);
+      ctx.fillStyle = '#f4b400'; ctx.fillRect(60, 60, 880, 16);
+      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 64px Outfit, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('THE MASTER', 500, 540);
+      ctx.fillText('ARCHITECT', 500, 620);
+      ctx.fillStyle = '#94a3b8'; ctx.font = '28px Poppins, sans-serif';
+      ctx.fillText('STRATEGIES FOR MODERN GROWTH', 500, 700);
+      ctx.fillStyle = '#f4b400'; ctx.font = 'bold 36px Outfit, sans-serif';
+      ctx.fillText('HAMID RAZA', 500, 1300);
+    } else if (type === 'square') {
+      canvas.width = 1400; canvas.height = 1400;
+      const ctx = canvas.getContext('2d');
+      const grad = ctx.createLinearGradient(0, 0, 1400, 1400);
+      grad.addColorStop(0, '#38bdf8'); grad.addColorStop(1, '#6366f1');
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, 1400, 1400);
+
+      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 78px Outfit, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('LITTLE BEAR\'S', 700, 520);
+      ctx.fillText('BIG JOURNEY', 700, 610);
+      ctx.fillStyle = '#fef08a'; ctx.font = 'bold 42px Poppins, sans-serif';
+      ctx.fillText('A BEDTIME STORYBOOK', 700, 700);
+      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 38px Outfit, sans-serif';
+      ctx.fillText('WRITTEN BY HAMID RAZA', 700, 1220);
     }
-    ctx.fillStyle = 'rgba(0,0,0,0.03)';
-    for (let i = 0; i < 15; i++) {
-      ctx.fillRect(0, Math.random() * 256, 256, 2);
-    }
-    return new THREE.CanvasTexture(canvas);
-  };
-  const pagesTexture = createPagesTexture();
+    return canvas;
+  }
 
-  // Procedural Spine Texture Generator
-  const createSpineTexture = (baseColor) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 128;
-    canvas.height = 1024;
-    const ctx = canvas.getContext('2d');
+  // Draw Demo Thumbnails in sidebar
+  const demoFantasy = createDemoArtwork('fantasy');
+  const demoThriller = createDemoArtwork('thriller');
+  const demoModern = createDemoArtwork('modern');
+  const demoSquare = createDemoArtwork('square');
 
-    ctx.fillStyle = baseColor || '#111827';
-    ctx.fillRect(0, 0, 128, 1024);
-
-    const grad = ctx.createLinearGradient(0, 0, 128, 0);
-    grad.addColorStop(0, 'rgba(0,0,0,0.45)');
-    grad.addColorStop(0.2, 'rgba(255,255,255,0.08)');
-    grad.addColorStop(0.5, 'rgba(255,255,255,0.18)');
-    grad.addColorStop(0.8, 'rgba(255,255,255,0.08)');
-    grad.addColorStop(1, 'rgba(0,0,0,0.45)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 128, 1024);
-
-    ctx.fillStyle = '#f4b400';
-    ctx.fillRect(10, 40, 108, 3);
-    ctx.fillRect(10, 980, 108, 3);
-
-    ctx.save();
-    ctx.translate(64, 512);
-    ctx.rotate(Math.PI / 2);
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 36px Outfit, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('LOUFY PUBLISHER', 0, 12);
-    ctx.restore();
-
-    return new THREE.CanvasTexture(canvas);
-  };
-
-  // Procedural Solid Back Texture Generator (Fixes ReferenceError!)
-  const createSolidBackTexture = (baseColor) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 1000;
-    canvas.height = 1500;
-    const ctx = canvas.getContext('2d');
-
-    ctx.fillStyle = baseColor || '#111827';
-    ctx.fillRect(0, 0, 1000, 1500);
-
-    // Decorative border
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(60, 60, 880, 1380);
-
-    // Gold 5-star rating
-    ctx.fillStyle = '#f4b400';
-    ctx.font = '42px Georgia, serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('★★★★★', 500, 320);
-
-    // Review quote
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 30px Outfit, sans-serif';
-    ctx.fillText('"AN UNFORGETTABLE MASTERPIECE"', 500, 395);
-
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '22px Outfit, sans-serif';
-    ctx.fillText('— The Global Literary Review', 500, 440);
-
-    // ISBN Barcode
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(580, 1180, 300, 180);
-    ctx.fillStyle = '#000000';
-    ctx.font = 'bold 16px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillText('ISBN 978-1-95382-01-9', 600, 1215);
-
-    for (let x = 600; x < 860; x += 5) {
-      const w = (x % 3 === 0) ? 3.5 : 1.8;
-      ctx.fillRect(x, 1230, w, 95);
-    }
-    ctx.fillText('$18.99 US / $24.99 CAN', 600, 1345);
-
-    const tex = new THREE.CanvasTexture(canvas);
-    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    return tex;
-  };
-
-  // Safe Texture Creation from Image
-  const createTextureFromImage = (img) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = img.naturalWidth || img.width || 800;
-    canvas.height = img.naturalHeight || img.height || 1200;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    const tex = new THREE.CanvasTexture(canvas);
-    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    return tex;
-  };
-
-  // Kindle Branding Logo Texture
-  const createKindleLogoTexture = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 256;
-    canvas.height = 64;
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, 256, 64);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
-    ctx.font = 'bold 28px Outfit, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('kindle', 128, 42);
-    return new THREE.CanvasTexture(canvas);
-  };
-  const kindleLogoTex = createKindleLogoTexture();
-
-  // Kindle Glass Sheen Glare Texture
-  const createGlassSheenTexture = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 256;
-    canvas.height = 256;
-    const ctx = canvas.getContext('2d');
-    const grad = ctx.createLinearGradient(0, 0, 256, 256);
-    grad.addColorStop(0, 'rgba(255,255,255,0)');
-    grad.addColorStop(0.35, 'rgba(255,255,255,0.02)');
-    grad.addColorStop(0.48, 'rgba(255,255,255,0.18)');
-    grad.addColorStop(0.55, 'rgba(255,255,255,0.06)');
-    grad.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 256, 256);
-    return new THREE.CanvasTexture(canvas);
-  };
-  const glassSheenTex = createGlassSheenTexture();
-
-  // Model Group
-  let modelGroup = new THREE.Group();
-  scene.add(modelGroup);
-
-  const textureLoader = new THREE.TextureLoader();
-  // Preload Authentic Free_Book_Mockup_2 PSD Production Assets
-  const psdBaseShadow = new Image();
-  psdBaseShadow.crossOrigin = 'anonymous';
-  psdBaseShadow.src = 'images/psd_mockup_2/base_shadow.jpg';
-
-  const psdCoverCrease = new Image();
-  psdCoverCrease.crossOrigin = 'anonymous';
-  psdCoverCrease.src = 'images/psd_mockup_2/cover_crease.png';
-
-  const psdCoverHl = new Image();
-  psdCoverHl.crossOrigin = 'anonymous';
-  psdCoverHl.src = 'images/psd_mockup_2/cover_highlights.png';
-
-  const psdSampleCover = new Image();
-  psdSampleCover.crossOrigin = 'anonymous';
-  psdSampleCover.src = 'images/psd_mockup_2/sample_cover.png';
-
-  let psdAssetsReady = false;
-  let loadedCount = 0;
-  const checkPsdAssets = () => {
-    loadedCount++;
-    if (loadedCount >= 3) {
-      psdAssetsReady = true;
-      if (currentPreset === 'psd-flatlay') buildScene();
-    }
-  };
-  psdBaseShadow.onload = checkPsdAssets;
-  psdCoverCrease.onload = checkPsdAssets;
-  psdCoverHl.onload = checkPsdAssets;
-
-
-  // 5. PROCEDURAL DEMO FULL WRAP COVERS
-  const generateFantasyFullWrapCanvas = () => {
-    const c = document.createElement('canvas');
-    c.width = 1600;
-    c.height = 1050;
+  function drawThumb(canvasId, srcCanvas) {
+    const c = document.getElementById(canvasId);
+    if (!c) return;
+    c.width = 60; c.height = 80;
     const ctx = c.getContext('2d');
+    ctx.drawImage(srcCanvas, 0, 0, 60, 80);
+  }
+  drawThumb('demo-fantasy-thumb', demoFantasy);
+  drawThumb('demo-thriller-thumb', demoThriller);
+  drawThumb('demo-modern-thumb', demoModern);
+  drawThumb('demo-square-thumb', demoSquare);
 
-    const grad = ctx.createLinearGradient(0, 0, 1600, 1050);
-    grad.addColorStop(0, '#041610');
-    grad.addColorStop(0.35, '#07241a');
-    grad.addColorStop(0.5, '#0a2e22');
-    grad.addColorStop(0.7, '#07241a');
-    grad.addColorStop(1, '#03120d');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 1600, 1050);
+  // Set initial artwork to Fantasy wrap
+  processUploadedArtwork(demoFantasy);
 
-    // Left: Back Cover
-    ctx.strokeStyle = 'rgba(244, 180, 0, 0.4)';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(60, 60, 610, 930);
+  // 3. Smart Artwork Processor: Slices Full Wraps or uses Front Covers
+  function processUploadedArtwork(imgOrCanvas) {
+    const w = imgOrCanvas.width || imgOrCanvas.videoWidth;
+    const h = imgOrCanvas.height || imgOrCanvas.videoHeight;
+    const ratio = w / h;
 
-    ctx.fillStyle = '#f4b400';
-    ctx.font = '28px Georgia, serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('★★★★★', 365, 160);
+    const detectStatus = document.getElementById('autodetect-status');
+    const detectModeText = document.getElementById('detect-mode-text');
+    const detectDimText = document.getElementById('detect-dim-text');
 
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 24px Outfit, sans-serif';
-    ctx.fillText('"A SPELLBINDING EPIC MASTERPIECE"', 365, 220);
+    if (ratio > 1.25) {
+      // Full Wrap Detected!
+      isFullWrap = true;
+      if (detectStatus) {
+        detectStatus.className = 'autodetect-badge wrap-detected';
+        detectModeText.textContent = 'Full Wrap Auto-Split Active';
+        detectDimText.textContent = w + ' × ' + h + ' px';
+      }
 
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '16px Outfit, sans-serif';
-    ctx.fillText('— The Fantasy Chronicle', 365, 260);
+      // Standard KDP Wrap layout:
+      // Left side: Back cover (~45% width)
+      // Center: Spine (~10% width)
+      // Right side: Front cover (~45% width)
+      const spineWidthPercent = 0.085;
+      const frontBackPercent = (1 - spineWidthPercent) / 2;
 
-    ctx.fillStyle = '#cbd5e1';
-    ctx.font = '14px Outfit, sans-serif';
-    const blurb = 'In an ancient realm forgotten by time, an untold prophecy awakens.';
-    ctx.fillText(blurb, 365, 330);
+      const spineStart = Math.floor(w * frontBackPercent);
+      const spineWidth = Math.floor(w * spineWidthPercent);
+      const frontStart = spineStart + spineWidth;
+      const frontWidth = w - frontStart;
 
-    // Barcode box
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(440, 810, 200, 120);
-    ctx.fillStyle = '#000000';
-    ctx.font = 'bold 11px monospace';
-    ctx.fillText('ISBN 978-0-12345-67-8', 455, 830);
-    for (let x = 455; x < 625; x += 4) {
-      const w = (x % 3 === 0) ? 2.5 : 1.2;
-      ctx.fillRect(x, 840, w, 65);
-    }
-    ctx.fillText('$19.99 US / $26.99 CAN', 455, 920);
+      // Slice Front
+      const fCanvas = document.createElement('canvas');
+      fCanvas.width = frontWidth; fCanvas.height = h;
+      fCanvas.getContext('2d').drawImage(imgOrCanvas, frontStart, 0, frontWidth, h, 0, 0, frontWidth, h);
+      activeFrontImg = fCanvas;
 
-    // Center: Spine
-    const spineGrad = ctx.createLinearGradient(730, 0, 870, 0);
-    spineGrad.addColorStop(0, 'rgba(0,0,0,0.6)');
-    spineGrad.addColorStop(0.5, 'rgba(255,255,255,0.08)');
-    spineGrad.addColorStop(1, 'rgba(0,0,0,0.6)');
-    ctx.fillStyle = spineGrad;
-    ctx.fillRect(730, 0, 140, 1050);
+      // Slice Spine
+      const sCanvas = document.createElement('canvas');
+      sCanvas.width = spineWidth; sCanvas.height = h;
+      sCanvas.getContext('2d').drawImage(imgOrCanvas, spineStart, 0, spineWidth, h, 0, 0, spineWidth, h);
+      activeSpineImg = sCanvas;
 
-    ctx.fillStyle = '#f4b400';
-    ctx.fillRect(740, 45, 120, 3);
-    ctx.fillRect(740, 995, 120, 3);
+      // Slice Back
+      const bCanvas = document.createElement('canvas');
+      bCanvas.width = spineStart; bCanvas.height = h;
+      bCanvas.getContext('2d').drawImage(imgOrCanvas, 0, 0, spineStart, h, 0, 0, spineStart, h);
+      activeBackImg = bCanvas;
 
-    ctx.save();
-    ctx.translate(800, 525);
-    ctx.rotate(Math.PI / 2);
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 32px Outfit, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('CHRONICLES OF ELDON', 0, 10);
-    ctx.restore();
-
-    // Right: Front Cover
-    ctx.strokeStyle = 'rgba(244, 180, 0, 0.45)';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(930, 60, 610, 930);
-
-    ctx.fillStyle = '#f4b400';
-    ctx.font = 'bold 18px Outfit, sans-serif';
-    ctx.letterSpacing = '4px';
-    ctx.textAlign = 'center';
-    ctx.fillText('#1 INTERNATIONAL BESTSELLER', 1235, 130);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '900 52px Outfit, sans-serif';
-    ctx.fillText('CHRONICLES', 1235, 230);
-    ctx.fillStyle = '#f4b400';
-    ctx.fillText('OF ELDON', 1235, 290);
-
-    ctx.fillStyle = '#cbd5e1';
-    ctx.font = 'italic 20px Georgia, serif';
-    ctx.fillText('The Shattered Throne', 1235, 345);
-
-    // Glowing emblem
-    ctx.beginPath();
-    ctx.arc(1235, 540, 110, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(244, 180, 0, 0.12)';
-    ctx.fill();
-    ctx.strokeStyle = '#f4b400';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(1235, 540, 85, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(74, 222, 128, 0.15)';
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(74, 222, 128, 0.7)';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 36px Outfit, sans-serif';
-    ctx.fillText('HAMID RAZA', 1235, 910);
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '14px Outfit, sans-serif';
-    ctx.fillText('LOUFY PUBLISHING', 1235, 940);
-
-    return c;
-  };
-
-  const generateThrillerFullWrapCanvas = () => {
-    const c = document.createElement('canvas');
-    c.width = 1600;
-    c.height = 1050;
-    const ctx = c.getContext('2d');
-
-    const grad = ctx.createLinearGradient(0, 0, 1600, 1050);
-    grad.addColorStop(0, '#110505');
-    grad.addColorStop(0.5, '#220808');
-    grad.addColorStop(1, '#0c0303');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 1600, 1050);
-
-    // Spine
-    ctx.fillStyle = 'rgba(0,0,0,0.7)';
-    ctx.fillRect(730, 0, 140, 1050);
-
-    ctx.fillStyle = '#ef4444';
-    ctx.fillRect(740, 45, 120, 3);
-    ctx.fillRect(740, 995, 120, 3);
-
-    ctx.save();
-    ctx.translate(800, 525);
-    ctx.rotate(Math.PI / 2);
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 32px Outfit, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('THE SILENT PROTOCOL', 0, 10);
-    ctx.restore();
-
-    // Front
-    ctx.fillStyle = '#ef4444';
-    ctx.font = 'bold 18px Outfit, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('A PULSE-POUNDING PSYCHOLOGICAL THRILLER', 1235, 130);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '900 56px Outfit, sans-serif';
-    ctx.fillText('THE SILENT', 1235, 230);
-    ctx.fillStyle = '#ef4444';
-    ctx.fillText('PROTOCOL', 1235, 290);
-
-    // Crosshair target
-    ctx.beginPath();
-    ctx.arc(1235, 540, 90, 0, Math.PI * 2);
-    ctx.strokeStyle = '#ef4444';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(1235, 420); ctx.lineTo(1235, 660);
-    ctx.moveTo(1115, 540); ctx.lineTo(1355, 540);
-    ctx.strokeStyle = 'rgba(239, 68, 68, 0.7)';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 36px Outfit, sans-serif';
-    ctx.fillText('HAMID RAZA', 1235, 910);
-
-    return c;
-  };
-
-  const renderThumbnails = () => {
-    const thumbFantasy = document.getElementById('thumb-canvas-fantasy');
-    if (thumbFantasy) {
-      thumbFantasy.width = 160;
-      thumbFantasy.height = 105;
-      const fCtx = thumbFantasy.getContext('2d');
-      fCtx.drawImage(generateFantasyFullWrapCanvas(), 0, 0, 160, 105);
-    }
-    const thumbThriller = document.getElementById('thumb-canvas-thriller');
-    if (thumbThriller) {
-      thumbThriller.width = 160;
-      thumbThriller.height = 105;
-      const tCtx = thumbThriller.getContext('2d');
-      tCtx.drawImage(generateThrillerFullWrapCanvas(), 0, 0, 160, 105);
-    }
-  };
-  renderThumbnails();
-
-  currentFullWrapCanvas = generateFantasyFullWrapCanvas();
-
-  // Helper: Compose Full Wrap from Single Front Cover
-  const composeFullWrapFromFront = (frontImg, baseColor, frontAspect) => {
-    const c = document.createElement('canvas');
-    const fAspect = frontAspect || 0.667;
-    const canvasH = 1050;
-    const frontW = Math.round(canvasH * fAspect);
-    const spineW = 140;
-    const backW = frontW;
-    const totalW = backW + spineW + frontW;
-
-    c.width = totalW;
-    c.height = canvasH;
-    const ctx = c.getContext('2d');
-
-    ctx.fillStyle = baseColor || '#111827';
-    ctx.fillRect(0, 0, totalW, canvasH);
-
-    // Draw Front
-    if (frontImg) {
-      ctx.drawImage(frontImg, backW + spineW, 0, frontW, canvasH);
-    }
-
-    // Draw Spine
-    if (customSpineImg) {
-      ctx.drawImage(customSpineImg, backW, 0, spineW, canvasH);
     } else {
-      const spineGrad = ctx.createLinearGradient(backW, 0, backW + spineW, 0);
-      spineGrad.addColorStop(0, 'rgba(0,0,0,0.5)');
-      spineGrad.addColorStop(0.5, 'rgba(255,255,255,0.15)');
-      spineGrad.addColorStop(1, 'rgba(0,0,0,0.5)');
-      ctx.fillStyle = spineGrad;
-      ctx.fillRect(backW, 0, spineW, canvasH);
+      // Single Front Cover Detected
+      isFullWrap = false;
+      if (detectStatus) {
+        detectStatus.className = 'autodetect-badge single-detected';
+        detectModeText.textContent = 'Single Front Cover Detected';
+        detectDimText.textContent = w + ' × ' + h + ' px';
+      }
 
-      ctx.fillStyle = '#f4b400';
-      ctx.fillRect(backW + 10, 45, spineW - 20, 4);
-      ctx.fillRect(backW + 10, canvasH - 55, spineW - 20, 4);
+      activeFrontImg = imgOrCanvas;
+      // Auto-generate matching spine and back if none custom provided
+      activeSpineImg = null;
+      activeBackImg = null;
+    }
 
+    renderCurrentMockup();
+  }
+
+  // 4. Mathematical 4-Point Homography Warp (Projective Transform)
+  function getHomography(srcPts, dstPts) {
+    const A = [], B = [];
+    for (let i = 0; i < 4; i++) {
+      const sx = srcPts[i][0], sy = srcPts[i][1];
+      const dx = dstPts[i][0], dy = dstPts[i][1];
+      A.push([sx, sy, 1, 0, 0, 0, -sx * dx, -sy * dy]);
+      B.push(dx);
+      A.push([0, 0, 0, sx, sy, 1, -sx * dy, -sy * dy]);
+      B.push(dy);
+    }
+    for (let i = 0; i < 8; i++) {
+      let maxRow = i;
+      for (let r = i + 1; r < 8; r++) {
+        if (Math.abs(A[r][i]) > Math.abs(A[maxRow][i])) maxRow = r;
+      }
+      [A[i], A[maxRow]] = [A[maxRow], A[i]];
+      [B[i], B[maxRow]] = [B[maxRow], B[i]];
+      for (let r = i + 1; r < 8; r++) {
+        const c = A[r][i] / A[i][i];
+        for (let k = i; k < 8; k++) A[r][k] -= c * A[i][k];
+        B[r] -= c * B[i];
+      }
+    }
+    const h = new Array(9);
+    h[8] = 1;
+    for (let i = 7; i >= 0; i--) {
+      let sum = B[i];
+      for (let k = i + 1; k < 8; k++) sum -= A[i][k] * h[k];
+      h[i] = sum / A[i][i];
+    }
+    return h;
+  }
+
+  function invert3x3(m) {
+    const [a, b, c, d, e, f, g, k, l] = m;
+    const A = e*l - f*k, B = -(d*l - f*g), C = d*k - e*g;
+    const D = -(b*l - c*k), E = a*l - c*g, F = -(a*k - b*g);
+    const G = b*f - c*e, H = -(a*f - c*d), K = a*e - b*d;
+    const det = a*A + b*B + c*C;
+    if (Math.abs(det) < 1e-12) return null;
+    const invDet = 1 / det;
+    return [
+      A*invDet, D*invDet, G*invDet,
+      B*invDet, E*invDet, H*invDet,
+      C*invDet, F*invDet, K*invDet
+    ];
+  }
+
+  function warpQuad(ctx, img, quad, scale = 1) {
+    if (!img) return;
+    const w = img.width, h = img.height;
+    if (!w || !h) return;
+
+    const scaledQuad = quad.map(([x, y]) => [x * scale, y * scale]);
+    const srcPts = [[0, 0], [w, 0], [w, h], [0, h]];
+    const H = getHomography(srcPts, scaledQuad);
+    const invH = invert3x3(H);
+    if (!invH) return;
+
+    const minX = Math.max(0, Math.floor(Math.min(scaledQuad[0][0], scaledQuad[1][0], scaledQuad[2][0], scaledQuad[3][0])));
+    const maxX = Math.min(ctx.canvas.width, Math.ceil(Math.max(scaledQuad[0][0], scaledQuad[1][0], scaledQuad[2][0], scaledQuad[3][0])));
+    const minY = Math.max(0, Math.floor(Math.min(scaledQuad[0][1], scaledQuad[1][1], scaledQuad[2][1], scaledQuad[3][1])));
+    const maxY = Math.min(ctx.canvas.height, Math.ceil(Math.max(scaledQuad[0][1], scaledQuad[1][1], scaledQuad[2][1], scaledQuad[3][1])));
+
+    const qw = maxX - minX, qh = maxY - minY;
+    if (qw <= 0 || qh <= 0) return;
+
+    // Source pixels
+    const sCanvas = document.createElement('canvas');
+    sCanvas.width = w; sCanvas.height = h;
+    const sctx = sCanvas.getContext('2d');
+    sctx.drawImage(img, 0, 0);
+    const srcData = sctx.getImageData(0, 0, w, h).data;
+
+    // Destination buffer
+    const outImgData = ctx.createImageData(qw, qh);
+    const dstData = outImgData.data;
+
+    function isInside(px, py) {
+      let inside = false;
+      for (let i = 0, j = 3; i < 4; j = i++) {
+        const xi = scaledQuad[i][0], yi = scaledQuad[i][1];
+        const xj = scaledQuad[j][0], yj = scaledQuad[j][1];
+        const intersect = ((yi > py) !== (yj > py)) && (px < (xj - xi) * (py - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+      }
+      return inside;
+    }
+
+    const [h0, h1, h2, h3, h4, h5, h6, h7, h8] = invH;
+    for (let y = minY; y < maxY; y++) {
+      const rowOffset = (y - minY) * qw;
+      for (let x = minX; x < maxX; x++) {
+        if (!isInside(x, y)) continue;
+        const z = h6 * x + h7 * y + h8;
+        const sx = (h0 * x + h1 * y + h2) / z;
+        const sy = (h3 * x + h4 * y + h5) / z;
+        if (sx >= 0 && sx < w - 1 && sy >= 0 && sy < h - 1) {
+          const x0 = Math.floor(sx), y0 = Math.floor(sy);
+          const x1 = x0 + 1, y1 = y0 + 1;
+          const fx = sx - x0, fy = sy - y0;
+          const w00 = (1 - fx) * (1 - fy), w10 = fx * (1 - fy), w01 = (1 - fx) * fy, w11 = fx * fy;
+          const idx00 = (y0 * w + x0) * 4, idx10 = (y0 * w + x1) * 4;
+          const idx01 = (y1 * w + x0) * 4, idx11 = (y1 * w + x1) * 4;
+          const dstIdx = (rowOffset + (x - minX)) * 4;
+
+          dstData[dstIdx] = srcData[idx00] * w00 + srcData[idx10] * w10 + srcData[idx01] * w01 + srcData[idx11] * w11;
+          dstData[dstIdx + 1] = srcData[idx00 + 1] * w00 + srcData[idx10 + 1] * w10 + srcData[idx01 + 1] * w01 + srcData[idx11 + 1] * w11;
+          dstData[dstIdx + 2] = srcData[idx00 + 2] * w00 + srcData[idx10 + 2] * w10 + srcData[idx01 + 2] * w01 + srcData[idx11 + 2] * w11;
+          dstData[dstIdx + 3] = srcData[idx00 + 3] * w00 + srcData[idx10 + 3] * w10 + srcData[idx01 + 3] * w01 + srcData[idx11 + 3] * w11;
+        }
+      }
+    }
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = qw; tempCanvas.height = qh;
+    tempCanvas.getContext('2d').putImageData(outImgData, 0, 0);
+    ctx.drawImage(tempCanvas, minX, minY);
+  }
+
+  // Helper to create solid color artwork for spine/back fallback
+  function createSolidArtwork(color, w = 400, h = 2000, label = '') {
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, w, h);
+    if (label) {
       ctx.save();
-      ctx.translate(backW + (spineW / 2), canvasH / 2);
+      ctx.translate(w / 2, h / 2);
       ctx.rotate(Math.PI / 2);
       ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 34px Outfit, sans-serif';
+      ctx.font = 'bold 36px Outfit, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('BESTSELLER EDITION', 0, 12);
+      ctx.fillText(label, 0, 10);
       ctx.restore();
     }
-
-    // Draw Back
-    if (customBackImg) {
-      ctx.drawImage(customBackImg, 0, 0, backW, canvasH);
-    } else {
-      ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(40, 40, backW - 80, canvasH - 80);
-
-      ctx.fillStyle = '#f4b400';
-      ctx.font = '28px Georgia, serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('★★★★★', backW / 2, 180);
-
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 22px Outfit, sans-serif';
-      ctx.fillText('"AN UNFORGETTABLE MASTERPIECE"', backW / 2, 230);
-
-      // Barcode box
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(backW - 230, canvasH - 170, 190, 110);
-      ctx.fillStyle = '#000000';
-      ctx.font = 'bold 11px monospace';
-      ctx.textAlign = 'left';
-      ctx.fillText('ISBN 978-1-95382-01-9', backW - 220, canvasH - 150);
-      for (let bx = backW - 220; bx < backW - 50; bx += 4) {
-        const w = (bx % 3 === 0) ? 2.5 : 1.2;
-        ctx.fillRect(bx, canvasH - 140, w, 60);
-      }
-    }
-
     return c;
-  };
+  }
 
-  // Helper: Slice Wrap into Front, Spine, Back Canvases
-  const sliceWrapCanvases = (sourceCanvasOrImg) => {
-    const totalW = sourceCanvasOrImg.naturalWidth || sourceCanvasOrImg.width;
-    const totalH = sourceCanvasOrImg.naturalHeight || sourceCanvasOrImg.height;
+  // 5. Master Mockup Renderer
+  const viewportCanvas = document.getElementById('psd-canvas');
+  const vctx = viewportCanvas.getContext('2d');
 
-    const spineW = Math.max(10, Math.round(totalW * 0.088));
-    const spineStartX = Math.max(0, Math.round((totalW - spineW) / 2));
-    const spineEndX = Math.min(totalW, spineStartX + spineW);
+  async function renderMockupToCanvas(targetCanvas, renderWidth, renderHeight) {
+    const config = PSD_MANIFEST[currentPresetId];
+    if (!config) return;
 
-    const backW = Math.max(10, spineStartX);
-    const frontW = Math.max(10, totalW - spineEndX);
+    targetCanvas.width = renderWidth;
+    targetCanvas.height = renderHeight;
+    const ctx = targetCanvas.getContext('2d');
+    const scale = renderWidth / config.width;
 
-    // Front Canvas
-    const frontC = document.createElement('canvas');
-    frontC.width = frontW;
-    frontC.height = totalH;
-    frontC.getContext('2d').drawImage(sourceCanvasOrImg, spineEndX, 0, frontW, totalH, 0, 0, frontW, totalH);
-
-    // Spine Canvas
-    const spineC = document.createElement('canvas');
-    spineC.width = spineW;
-    spineC.height = totalH;
-    spineC.getContext('2d').drawImage(sourceCanvasOrImg, spineStartX, 0, spineW, totalH, 0, 0, spineW, totalH);
-
-    // Back Canvas
-    const backC = document.createElement('canvas');
-    backC.width = backW;
-    backC.height = totalH;
-    backC.getContext('2d').drawImage(sourceCanvasOrImg, 0, 0, backW, totalH, 0, 0, backW, totalH);
-
-    const maxAniso = renderer.capabilities.getMaxAnisotropy();
-    const fTex = new THREE.CanvasTexture(frontC);
-    fTex.anisotropy = maxAniso;
-    const sTex = new THREE.CanvasTexture(spineC);
-    sTex.anisotropy = maxAniso;
-    const bTex = new THREE.CanvasTexture(backC);
-    bTex.anisotropy = maxAniso;
-
-    return { frontTex: fTex, spineTex: sTex, backTex: bTex };
-  };
-
-  // 6. RESOLVE TEXTURES PIPELINE
-  const resolveTextures = (onReady) => {
-    const maxAniso = renderer.capabilities.getMaxAnisotropy();
-
-    let fullWrapTex = null;
-    let frontTex = null;
-    let spineTex = null;
-    let backTex = null;
-
-    if (isWrapDetected && currentFullWrapCanvas) {
-      fullWrapTex = (currentFullWrapCanvas instanceof HTMLCanvasElement)
-        ? new THREE.CanvasTexture(currentFullWrapCanvas)
-        : createTextureFromImage(currentFullWrapCanvas);
-      fullWrapTex.anisotropy = maxAniso;
-
-      const sliced = sliceWrapCanvases(currentFullWrapCanvas);
-      frontTex = sliced.frontTex;
-      spineTex = sliced.spineTex;
-      backTex = sliced.backTex;
-    } else if (currentFrontImage) {
-      // Calculate front aspect
-      const effAspect = (manualRatio && manualRatio !== 'auto') ? parseFloat(manualRatio) : activeFrontAspect;
-      const composed = composeFullWrapFromFront(currentFrontImage, spineColor, effAspect);
-      fullWrapTex = new THREE.CanvasTexture(composed);
-      fullWrapTex.anisotropy = maxAniso;
-
-      frontTex = createTextureFromImage(currentFrontImage);
-      spineTex = createSpineTexture(spineColor);
-      backTex = createSolidBackTexture(spineColor);
+    // 1. Background
+    if (bgMode === 'studio') {
+      const bgImg = await preloadImage(config.layers.backdrop);
+      if (bgImg) {
+        ctx.drawImage(bgImg, 0, 0, renderWidth, renderHeight);
+      } else {
+        ctx.fillStyle = config.defaultBg || '#ffffff';
+        ctx.fillRect(0, 0, renderWidth, renderHeight);
+      }
+    } else if (bgMode === 'white') {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, renderWidth, renderHeight);
+    } else if (bgMode === 'dark') {
+      ctx.fillStyle = '#0b1320';
+      ctx.fillRect(0, 0, renderWidth, renderHeight);
     } else {
-      // Default sample fallback
-      const defWrap = generateFantasyFullWrapCanvas();
-      fullWrapTex = new THREE.CanvasTexture(defWrap);
-      fullWrapTex.anisotropy = maxAniso;
-
-      const sliced = sliceWrapCanvases(defWrap);
-      frontTex = sliced.frontTex;
-      spineTex = sliced.spineTex;
-      backTex = sliced.backTex;
+      // transparent
+      ctx.clearRect(0, 0, renderWidth, renderHeight);
     }
 
-    // Override with custom spine/back if uploaded
-    if (customSpineTex) spineTex = customSpineTex;
-    if (customBackTex) backTex = customBackTex;
-
-    onReady({ fullWrapTex, frontTex, spineTex, backTex });
-  };
-
-  // 7. CAMERA PRESET CALIBRATION (12 EXACT FIXED POSITIONS)
-  const applyCameraPreset = () => {
-    modelGroup.rotation.set(0, 0, 0);
-
-    switch (currentPreset) {
-      case 'psd-flatlay':
-        camera.position.set(0, 0, 5.0);
-        controls.target.set(0, 0, 0);
-        break;
-      case 'open-wrap':
-        camera.position.set(0, 5.4, 4.2);
-        controls.target.set(0, -0.2, 0);
-        break;
-      case 'tabletop':
-        camera.position.set(-0.2, 4.2, 4.8);
-        controls.target.set(0, -0.2, 0);
-        break;
-      case 'standing-hard':
-        camera.position.set(0.8, 0.2, 7.2);
-        controls.target.set(0, 0, 0);
-        break;
-      case 'standing-duo':
-        camera.position.set(0, 0.15, 7.6);
-        controls.target.set(0, 0, 0);
-        break;
-      case 'stacked-dual':
-        camera.position.set(2.5, 4.8, 4.4);
-        controls.target.set(0, -0.3, 0);
-        break;
-      case 'stacked-square':
-        camera.position.set(-0.2, 4.4, 4.8);
-        controls.target.set(0, -0.2, 0);
-        break;
-      case 'topdown-stack':
-        camera.position.set(0, 7.8, 0.05);
-        controls.target.set(0, 0, 0);
-        break;
-      case 'kindle':
-        camera.position.set(0, 0.2, 6.4);
-        controls.target.set(0, 0, 0);
-        break;
-      case 'duo-bundle':
-        camera.position.set(0.4, 0.1, 7.2);
-        controls.target.set(0, 0, 0);
-        break;
-      case 'frontal':
-        camera.position.set(0, 0.05, 6.8);
-        controls.target.set(0, 0, 0);
-        break;
-      case 'spine-showcase':
-        camera.position.set(0.2, 0.1, 6.2);
-        controls.target.set(0.3, 0, 0);
-        break;
-      case 'floating':
-        camera.position.set(3.4, 3.4, 5.2);
-        controls.target.set(0, 0.4, 0);
-        break;
+    // Shadow in transparent mode
+    if (bgMode === 'transparent' && config.layers.shadow) {
+      const shImg = await preloadImage(config.layers.shadow);
+      if (shImg) ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
     }
-    controls.update();
-  };
 
-  // 8. 12 MODEL CONSTRUCTION FUNCTIONS WITH DYNAMIC PROPORTIONS
-  const buildScene = () => {
-    while (modelGroup.children.length > 0) {
-      const obj = modelGroup.children[0];
-      if (obj.geometry) obj.geometry.dispose();
-      if (obj.material) {
-        if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
-        else obj.material.dispose();
+    // 2. Base Bodies (for collector or duo)
+    if (config.layers.bodies) {
+      const bImg = await preloadImage(config.layers.bodies);
+      if (bImg) ctx.drawImage(bImg, 0, 0, renderWidth, renderHeight);
+    }
+    if (config.layers.backBody) {
+      const bbImg = await preloadImage(config.layers.backBody);
+      if (bbImg) ctx.drawImage(bbImg, 0, 0, renderWidth, renderHeight);
+    }
+
+    // 3. Resolve active artwork
+    const frontArt = activeFrontImg || createSolidArtwork('#1e293b', 1000, 1500, 'BOOK TITLE');
+    const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
+    const backArt = customBackImg || activeBackImg || createSolidArtwork(spineColor, 1000, 1500, '');
+
+    // 4. Draw Quads / Rects
+    if (config.quads) {
+      // Back
+      if (config.quads.back) warpQuad(ctx, backArt, config.quads.back, scale);
+      // Spines
+      if (config.quads.spine) warpQuad(ctx, spineArt, config.quads.spine, scale);
+      if (config.quads.backSpine) warpQuad(ctx, spineArt, config.quads.backSpine, scale);
+      if (config.quads.stackSpine1) warpQuad(ctx, spineArt, config.quads.stackSpine1, scale);
+      if (config.quads.stackSpine2) warpQuad(ctx, spineArt, config.quads.stackSpine2, scale);
+      // Front
+      if (config.quads.front) warpQuad(ctx, frontArt, config.quads.front, scale);
+    } else if (config.rects) {
+      // Flat lay or showcase
+      if (config.rects.back) {
+        const [rx, ry, rw, rh] = config.rects.back;
+        ctx.drawImage(backArt, rx * scale, ry * scale, rw * scale, rh * scale);
       }
-      modelGroup.remove(obj);
+      if (config.rects.front) {
+        const [rx, ry, rw, rh] = config.rects.front;
+        ctx.drawImage(frontArt, rx * scale, ry * scale, rw * scale, rh * scale);
+      }
+      // Glossy Reflections for Showcase
+      if (config.reflections) {
+        ctx.save();
+        ctx.globalAlpha = 0.35;
+        if (config.reflections.back) {
+          const [rx, ry, rw, rh] = config.reflections.back;
+          ctx.save();
+          ctx.translate(rx * scale, (ry + rh) * scale);
+          ctx.scale(1, -1);
+          ctx.drawImage(backArt, 0, 0, rw * scale, rh * scale);
+          ctx.restore();
+        }
+        if (config.reflections.front) {
+          const [rx, ry, rw, rh] = config.reflections.front;
+          ctx.save();
+          ctx.translate(rx * scale, (ry + rh) * scale);
+          ctx.scale(1, -1);
+          ctx.drawImage(frontArt, 0, 0, rw * scale, rh * scale);
+          ctx.restore();
+        }
+        ctx.restore();
+      }
     }
 
-    applyCameraPreset();
+    // 5. Front Body overlay (for duo)
+    if (config.layers.frontBody) {
+      const fbImg = await preloadImage(config.layers.frontBody);
+      if (fbImg) ctx.drawImage(fbImg, 0, 0, renderWidth, renderHeight);
+    }
 
-    resolveTextures(({ fullWrapTex, frontTex, spineTex, backTex }) => {
-      // Material Finish
-      const roughnessVal = coverFinish === 'glossy' ? 0.35 : 0.65;
-      const metalnessVal = 0.02;
-
-      // Dynamic Book Dimensions based on Auto-Detected / Selected Aspect Ratio!
-      const effAspect = (manualRatio && manualRatio !== 'auto') ? parseFloat(manualRatio) : activeFrontAspect;
-      const bookH = 3.9;
-      const bookW = Number((bookH * effAspect).toFixed(3));
-      const bookD = Math.max(0.18, bookThickness);
-
-            if (currentPreset === 'psd-flatlay') {
-        // ── 0. EXACT PHOTOSHOP PSD STUDIO FLAT LAY (Free_Book_Mockup_2.psd) ──
-        backdropMesh.visible = false;
-        floorMesh.visible = false;
-        shadowPlane.visible = false;
-
-        const psdCanvas = document.createElement('canvas');
-        psdCanvas.width = 2000;
-        psdCanvas.height = 1500;
-        const pCtx = psdCanvas.getContext('2d');
-        const s = 2000 / 3000;
-
-        // 1. Photographic studio background with real drop shadows
-        if (psdBaseShadow.complete && psdBaseShadow.naturalWidth > 0) {
-          pCtx.drawImage(psdBaseShadow, 0, 0, 2000, 1500);
-        } else {
-          pCtx.fillStyle = '#cccccc';
-          pCtx.fillRect(0, 0, 2000, 1500);
-        }
-
-        // 2. Draw user cover in exact PSD smart object slot: [1025, 460, 958, 1353]
-        const activeCoverImg = currentFrontImage || (frontTex ? frontTex.image : (psdSampleCover.complete ? psdSampleCover : null));
-        if (activeCoverImg) {
-          pCtx.drawImage(activeCoverImg, 1025 * s, 460 * s, 958 * s, 1353 * s);
-        }
-
-        // 3. Multiply real paper grain and spine hinge groove
-        if (psdCoverCrease.complete && psdCoverCrease.naturalWidth > 0) {
-          pCtx.globalCompositeOperation = 'multiply';
-          pCtx.drawImage(psdCoverCrease, 1025 * s, 460 * s, 958 * s, 1353 * s);
-        }
-
-        // 4. Screen authentic studio lighting and specular sheen
-        if (psdCoverHl.complete && psdCoverHl.naturalWidth > 0) {
-          pCtx.globalCompositeOperation = 'screen';
-          pCtx.drawImage(psdCoverHl, 1025 * s, 460 * s, 958 * s, 1353 * s);
-        }
-
-        pCtx.globalCompositeOperation = 'source-over';
-
-        const psdTex = new THREE.CanvasTexture(psdCanvas);
-        psdTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-        const psdPlaneMat = new THREE.MeshBasicMaterial({ map: psdTex, depthWrite: false });
-        const psdPlaneMesh = new THREE.Mesh(new THREE.PlaneGeometry(6.67, 5.0), psdPlaneMat);
-        modelGroup.add(psdPlaneMesh);
-
-      } else if (currentPreset === 'open-wrap') {
-        // ── 1. OPEN FULL WRAP (Face-Down Continuous Mesh - Ref: media_1789688687853.jpg) ──
-        const openRoot = new THREE.Group();
-        const wrapH = bookH;
-        const wrapW = isWrapDetected ? (wrapH * activeWrapAspect) : (bookW * 2 + 0.35);
-
-        // Continuous curved mesh mapping the entire full wrap seamlessly
-        const wrapGeo = new THREE.PlaneGeometry(wrapW, wrapH, 40, 10);
-        const pos = wrapGeo.attributes.position;
-        const spineHalf = (wrapW * 0.06);
-
-        for (let i = 0; i < pos.count; i++) {
-          const x = pos.getX(i);
-          const absX = Math.abs(x);
-          let z = 0;
-          if (absX < spineHalf) {
-            z = 0.25 * (1 - Math.pow(absX / spineHalf, 2));
-          } else {
-            const dist = absX - spineHalf;
-            z = Math.max(0, 0.25 * Math.exp(-dist * 2.0));
-          }
-          pos.setZ(i, z);
-        }
-        wrapGeo.computeVertexNormals();
-
-        const wrapMat = new THREE.MeshStandardMaterial({
-          map: fullWrapTex,
-          roughness: roughnessVal,
-          metalness: metalnessVal,
-          side: THREE.DoubleSide
-        });
-        const wrapMesh = new THREE.Mesh(wrapGeo, wrapMat);
-        wrapMesh.castShadow = true;
-        openRoot.add(wrapMesh);
-
-        // Underneath page wedges peeking out realistically
-        const pageBlockW = Math.max(1.0, (wrapW / 2) - 0.3);
-        const pagesGeoLeft = new THREE.BoxGeometry(pageBlockW, bookH - 0.2, 0.22);
-        const pagesMat = new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 });
-        const pagesLeft = new THREE.Mesh(pagesGeoLeft, pagesMat);
-        pagesLeft.position.set(-(wrapW / 4), 0, -0.12);
-        pagesLeft.rotation.y = 0.08;
-        openRoot.add(pagesLeft);
-
-        const pagesGeoRight = new THREE.BoxGeometry(pageBlockW, bookH - 0.2, 0.22);
-        const pagesRight = new THREE.Mesh(pagesGeoRight, pagesMat);
-        pagesRight.position.set(wrapW / 4, 0, -0.12);
-        pagesRight.rotation.y = -0.08;
-        openRoot.add(pagesRight);
-
-        // Lay flat on table angled at 3/4 perspective
-        openRoot.position.set(0, -0.4, 0);
-        openRoot.rotation.set(-Math.PI / 2 + 0.25, 0, -0.48);
-        modelGroup.add(openRoot);
-
-        shadowPlane.position.set(0, -2.08, 0);
-        shadowPlane.scale.set(1.4, 1.4, 1.4);
-
-      } else if (currentPreset === 'tabletop') {
-        // ── 2. TABLETOP 3D (Lying Angled 35° Paperback - Ref: media_1789687493295.jpg) ──
-        const bookRoot = new THREE.Group();
-        const pbGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const pbMaterials = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }), // Right (fore-edge)
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }), // Left (Spine)
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }), // Top
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }), // Bottom
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }), // Front Cover
-          new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.9 }) // Back (flat against table)
-        ];
-        const pbMesh = new THREE.Mesh(pbGeo, pbMaterials);
-        pbMesh.castShadow = true;
-        bookRoot.add(pbMesh);
-
-        bookRoot.position.set(0, -0.6, 0);
-        bookRoot.rotation.order = 'YXZ';
-        bookRoot.rotation.set(-Math.PI / 2 + 0.32, 0.48, 0);
-        modelGroup.add(bookRoot);
-
-        shadowPlane.position.set(0.1, -2.08, 0.1);
-        shadowPlane.scale.set(1.2, 1.2, 1.2);
-
-      } else if (currentPreset === 'standing-hard') {
-        // ── 3. STANDING HARDCOVER (CoverVault Style - Ref: media_1789688701189.png) ──
-        const bookRoot = new THREE.Group();
-        
-        // Inner pages block
-        const pageW = bookW - 0.12;
-        const pageH = bookH - 0.16;
-        const pageD = bookD - 0.08;
-        const pageGeo = new THREE.BoxGeometry(pageW, pageH, pageD);
-        const pageMat = new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.9 });
-        const pageMesh = new THREE.Mesh(pageGeo, pageMat);
-        pageMesh.position.set(0.06, 0, 0);
-        bookRoot.add(pageMesh);
-
-        // Case-bound boards with overhanging lip
-        const coverGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const coverMaterials = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
-        ];
-        const coverMesh = new THREE.Mesh(coverGeo, coverMaterials);
-        coverMesh.castShadow = true;
-        bookRoot.add(coverMesh);
-
-        // Spine Hinge Groove Line
-        const hingeGeo = new THREE.BoxGeometry(0.03, bookH, 0.02);
-        const hingeMat = new THREE.MeshBasicMaterial({ color: 0x050505 });
-        const hinge = new THREE.Mesh(hingeGeo, hingeMat);
-        hinge.position.set(-(bookW / 2) + 0.18, 0, (bookD / 2) + 0.005);
-        bookRoot.add(hinge);
-
-        bookRoot.position.set(-0.2, 0, 0);
-        bookRoot.rotation.y = -0.24;
-        modelGroup.add(bookRoot);
-
-        shadowPlane.position.set(-0.4, -2.08, -0.2);
-        shadowPlane.scale.set(1.1, 1.1, 1.1);
-
-      } else if (currentPreset === 'standing-duo') {
-        // ── 4. STANDING DUO (Front & Back Side-by-Side) ──
-        const leftBook = new THREE.Group();
-        const leftGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const leftMats = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
-        ];
-        const leftMesh = new THREE.Mesh(leftGeo, leftMats);
-        leftMesh.castShadow = true;
-        leftBook.add(leftMesh);
-        leftBook.position.set(-(bookW * 0.55), -0.1, 0.1);
-        leftBook.rotation.y = -0.22;
-        modelGroup.add(leftBook);
-
-        const rightBook = new THREE.Group();
-        const rightGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const rightMats = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
-        ];
-        const rightMesh = new THREE.Mesh(rightGeo, rightMats);
-        rightMesh.castShadow = true;
-        rightBook.add(rightMesh);
-        rightBook.position.set(bookW * 0.52, -0.1, -0.25);
-        rightBook.rotation.y = Math.PI - 0.22;
-        modelGroup.add(rightBook);
-
-        shadowPlane.position.set(0, -2.08, 0);
-        shadowPlane.scale.set(1.4, 1.0, 1.0);
-
-      } else if (currentPreset === 'stacked-dual') {
-        // ── 5. STACKED DUAL PAPERBACKS ──
-        const bottomBook = new THREE.Group();
-        const bGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const bMats = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
-        ];
-        const bMesh = new THREE.Mesh(bGeo, bMats);
-        bMesh.castShadow = true;
-        bottomBook.add(bMesh);
-        bottomBook.position.set(0, -0.7, 0);
-        bottomBook.rotation.set(-Math.PI / 2 + 0.16, 0, -0.4);
-        modelGroup.add(bottomBook);
-
-        const topBook = new THREE.Group();
-        const tGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const tMats = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ color: 0x18181b })
-        ];
-        const tMesh = new THREE.Mesh(tGeo, tMats);
-        tMesh.castShadow = true;
-        topBook.add(tMesh);
-        topBook.position.set(0.08, -0.7 + bookD, -0.05);
-        topBook.rotation.set(-Math.PI / 2 + 0.16, 0, -0.58);
-        modelGroup.add(topBook);
-
-        shadowPlane.position.set(0, -2.08, 0);
-        shadowPlane.scale.set(1.2, 1.2, 1.2);
-
-      } else if (currentPreset === 'stacked-square') {
-        // ── 6. TRIPLE STACKED BOOKS (Ref: media_1789688715829.jpg) ──
-        const fanAngles = [0.35, 0.45, 0.55];
-        for (let i = 0; i < 3; i++) {
-          const sqBook = new THREE.Group();
-          const sqGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-          const sqMats = [
-            new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-            new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-            new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-            new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-            new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-            new THREE.MeshStandardMaterial({ color: 0x18181b })
-          ];
-          const sqMesh = new THREE.Mesh(sqGeo, sqMats);
-          sqMesh.castShadow = true;
-          sqBook.add(sqMesh);
-
-          sqBook.rotation.order = 'YXZ';
-          sqBook.position.set((i - 1) * 0.08, -0.6 + (i * (bookD + 0.02)), (i - 1) * 0.06);
-          sqBook.rotation.set(-Math.PI / 2 + 0.32, fanAngles[i], 0);
-          modelGroup.add(sqBook);
-        }
-
-        shadowPlane.position.set(0, -2.08, 0);
-        shadowPlane.scale.set(1.3, 1.3, 1.3);
-
-      } else if (currentPreset === 'topdown-stack') {
-        // ── 7. TOP-DOWN FLAT LAY (Ref: media_1789688737544.png) ──
-        const angles = [0.22, -0.16, 0.0];
-        for (let i = 0; i < 3; i++) {
-          const flatBook = new THREE.Group();
-          const fGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-          const fMats = [
-            new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-            new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-            new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-            new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-            new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-            new THREE.MeshStandardMaterial({ color: 0x18181b })
-          ];
-          const fMesh = new THREE.Mesh(fGeo, fMats);
-          fMesh.castShadow = true;
-          flatBook.add(fMesh);
-
-          flatBook.position.set(0, -0.6 + (i * (bookD + 0.02)), 0);
-          flatBook.rotation.set(-Math.PI / 2, 0, angles[i]);
-          modelGroup.add(flatBook);
-        }
-
-        shadowPlane.position.set(0, -2.08, 0);
-        shadowPlane.scale.set(1.2, 1.2, 1.2);
-
-      } else if (currentPreset === 'kindle') {
-        // ── 8. AMAZON KDP KINDLE TABLET ──
-        const tabletRoot = new THREE.Group();
-        const screenW = bookW * 0.94;
-        const screenH = bookH * 0.94;
-        const tabW = screenW + 0.48;
-        const tabH = screenH + 0.84;
-        const tabD = 0.14;
-
-        const chassisGeo = new THREE.BoxGeometry(tabW, tabH, tabD);
-        const chassisMat = new THREE.MeshStandardMaterial({
-          color: 0x131921,
-          roughness: 0.45,
-          metalness: 0.55
-        });
-        const chassisMesh = new THREE.Mesh(chassisGeo, chassisMat);
-        chassisMesh.castShadow = true;
-        tabletRoot.add(chassisMesh);
-
-        // Screen Surface
-        const screenGeo = new THREE.PlaneGeometry(screenW, screenH);
-        const screenMat = new THREE.MeshStandardMaterial({
-          map: frontTex,
-          roughness: 0.15,
-          metalness: 0.05
-        });
-        const screenMesh = new THREE.Mesh(screenGeo, screenMat);
-        screenMesh.position.set(0, 0.14, (tabD / 2) + 0.005);
-        tabletRoot.add(screenMesh);
-
-        // Screen Glass Sheen Glare
-        const sheenGeo = new THREE.PlaneGeometry(screenW, screenH);
-        const sheenMat = new THREE.MeshBasicMaterial({
-          map: glassSheenTex,
-          transparent: true,
-          opacity: 0.65,
-          blending: THREE.AdditiveBlending
-        });
-        const sheenMesh = new THREE.Mesh(sheenGeo, sheenMat);
-        sheenMesh.position.set(0, 0.14, (tabD / 2) + 0.007);
-        tabletRoot.add(sheenMesh);
-
-        // Embossed Kindle Logo
-        const logoGeo = new THREE.PlaneGeometry(0.85, 0.22);
-        const logoMat = new THREE.MeshBasicMaterial({
-          map: kindleLogoTex,
-          transparent: true,
-          opacity: 0.75
-        });
-        const logoMesh = new THREE.Mesh(logoGeo, logoMat);
-        logoMesh.position.set(0, -(tabH / 2) + 0.25, (tabD / 2) + 0.006);
-        tabletRoot.add(logoMesh);
-
-        // Camera Sensor
-        const camDotGeo = new THREE.CircleGeometry(0.04, 16);
-        const camDotMat = new THREE.MeshBasicMaterial({ color: 0x050505 });
-        const camDot = new THREE.Mesh(camDotGeo, camDotMat);
-        camDot.position.set(0, (tabH / 2) - 0.15, (tabD / 2) + 0.006);
-        tabletRoot.add(camDot);
-
-        tabletRoot.position.set(0, -0.1, 0);
-        tabletRoot.rotation.set(-0.12, -0.18, -0.03);
-        modelGroup.add(tabletRoot);
-
-        shadowPlane.position.set(0, -2.08, 0);
-        shadowPlane.scale.set(1.0, 1.0, 1.0);
-
-      } else if (currentPreset === 'duo-bundle') {
-        // ── 9. PRINT + KINDLE DUO BUNDLE ──
-        const bookRoot = new THREE.Group();
-        const coverGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const coverMats = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
-        ];
-        const coverMesh = new THREE.Mesh(coverGeo, coverMats);
-        coverMesh.castShadow = true;
-        bookRoot.add(coverMesh);
-        bookRoot.position.set(-bookW * 0.45, 0.1, -0.5);
-        bookRoot.rotation.y = -0.38;
-        modelGroup.add(bookRoot);
-
-        // Kindle Tablet in front
-        const tabletRoot = new THREE.Group();
-        const kW = bookW * 0.85;
-        const kH = bookH * 0.85;
-        const tabD = 0.1;
-        const chassisMesh = new THREE.Mesh(
-          new THREE.BoxGeometry(kW, kH, tabD),
-          new THREE.MeshStandardMaterial({ color: 0x131921, roughness: 0.45, metalness: 0.55 })
-        );
-        chassisMesh.castShadow = true;
-        tabletRoot.add(chassisMesh);
-
-        const screenMesh = new THREE.Mesh(
-          new THREE.PlaneGeometry(kW - 0.22, kH - 0.26),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: 0.15, metalness: 0.05 })
-        );
-        screenMesh.position.z = (tabD / 2) + 0.005;
-        tabletRoot.add(screenMesh);
-
-        tabletRoot.position.set(bookW * 0.38, -0.3, 0.7);
-        tabletRoot.rotation.set(-0.06, -0.2, -0.04);
-        modelGroup.add(tabletRoot);
-
-        shadowPlane.position.set(0, -2.08, 0);
-        shadowPlane.scale.set(1.4, 1.2, 1.2);
-
-      } else if (currentPreset === 'frontal') {
-        // ── 10. FRONTAL STRAIGHT-ON 3D ──
-        const bookRoot = new THREE.Group();
-        const pbGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const pbMats = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
-        ];
-        const pbMesh = new THREE.Mesh(pbGeo, pbMats);
-        pbMesh.castShadow = true;
-        bookRoot.add(pbMesh);
-
-        bookRoot.position.set(0, 0, 0);
-        bookRoot.rotation.y = -0.1;
-        modelGroup.add(bookRoot);
-
-        shadowPlane.position.set(0, -2.08, 0);
-        shadowPlane.scale.set(1.1, 1.1, 1.1);
-
-      } else if (currentPreset === 'spine-showcase') {
-        // ── 11. SPINE SHOWCASE (Side Profile) ──
-        const bookRoot = new THREE.Group();
-        const pbGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const pbMats = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
-        ];
-        const pbMesh = new THREE.Mesh(pbGeo, pbMats);
-        pbMesh.castShadow = true;
-        bookRoot.add(pbMesh);
-
-        bookRoot.position.set(0.4, 0, 0);
-        bookRoot.rotation.y = -1.15;
-        modelGroup.add(bookRoot);
-
-        shadowPlane.position.set(0, -2.08, 0);
-        shadowPlane.scale.set(1.1, 1.1, 1.1);
-
-      } else if (currentPreset === 'floating') {
-        // ── 12. ISOMETRIC FLOATING 3D BOOK ──
-        const bookRoot = new THREE.Group();
-        const pbGeo = new THREE.BoxGeometry(bookW, bookH, bookD);
-        const pbMats = [
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: spineTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: pagesTexture, roughness: 0.85 }),
-          new THREE.MeshStandardMaterial({ map: frontTex, roughness: roughnessVal, metalness: metalnessVal }),
-          new THREE.MeshStandardMaterial({ map: backTex, roughness: roughnessVal, metalness: metalnessVal })
-        ];
-        const pbMesh = new THREE.Mesh(pbGeo, pbMats);
-        pbMesh.castShadow = true;
-        bookRoot.add(pbMesh);
-
-        bookRoot.position.set(0, 0.4, 0);
-        bookRoot.rotation.set(0.35, -0.55, 0.2);
-        modelGroup.add(bookRoot);
-
-        shadowPlane.position.set(0, -2.08, 0);
-        shadowPlane.scale.set(1.25, 1.25, 1.25);
+    // 6. Realistic Photoshop Shading & Texture Blending
+    if (config.layers.shading) {
+      const shdImg = await preloadImage(config.layers.shading);
+      if (shdImg) {
+        ctx.save();
+        ctx.globalCompositeOperation = config.layers.shadingBlend || 'multiply';
+        ctx.drawImage(shdImg, 0, 0, renderWidth, renderHeight);
+        ctx.restore();
       }
+    }
+    if (config.layers.crease) {
+      const crImg = await preloadImage(config.layers.crease);
+      if (crImg) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'multiply';
+        ctx.drawImage(crImg, 0, 0, renderWidth, renderHeight);
+        ctx.restore();
+      }
+    }
+    if (config.layers.texture) {
+      const txImg = await preloadImage(config.layers.texture);
+      if (txImg) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'multiply';
+        ctx.drawImage(txImg, 0, 0, renderWidth, renderHeight);
+        ctx.restore();
+      }
+    }
+    if (config.layers.lights) {
+      const ltImg = await preloadImage(config.layers.lights);
+      if (ltImg) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'screen';
+        ctx.drawImage(ltImg, 0, 0, renderWidth, renderHeight);
+        ctx.restore();
+      }
+    }
+    if (config.layers.highlights) {
+      const hlImg = await preloadImage(config.layers.highlights);
+      if (hlImg) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'screen';
+        ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
+        ctx.restore();
+      }
+    }
+  }
 
-      renderer.render(scene, camera);
+  // Interactive Live Preview Render (Scales smoothly to viewport container)
+  function renderCurrentMockup() {
+    const config = PSD_MANIFEST[currentPresetId];
+    if (!config) return;
+
+    // Viewport resolution ~1000px max for instant 60fps responsiveness
+    const previewScale = Math.min(1000 / config.width, 750 / config.height, 1);
+    const pw = Math.round(config.width * previewScale);
+    const ph = Math.round(config.height * previewScale);
+
+    renderMockupToCanvas(viewportCanvas, pw, ph);
+  }
+
+  // 6. UI Interactions & Reactive Slots Updating
+  function updateUIForPreset() {
+    const config = PSD_MANIFEST[currentPresetId];
+    if (!config) return;
+
+    // Update Topbar
+    const titleEl = document.getElementById('active-mockup-title');
+    const resEl = document.getElementById('viewport-res-badge');
+    const downloadTitle = document.getElementById('download-info-title');
+    if (titleEl) titleEl.textContent = config.title;
+    if (resEl) resEl.textContent = config.width + ' × ' + config.height + ' Ultra-HD';
+    if (downloadTitle) downloadTitle.textContent = config.title + ' Ready (' + config.width + ' × ' + config.height + ' px)';
+
+    // Update active button
+    document.querySelectorAll('.mockup-psd-card').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.preset === currentPresetId);
     });
-  };
 
-  // Initial Build
-  buildScene();
+    // Reactive Slot Highlighting
+    const spineBox = document.getElementById('spine-box');
+    const backBox = document.getElementById('back-box');
+    const slotsLabel = document.getElementById('slots-support-label');
+    const hasSpine = config.slots.includes('spine');
+    const hasBack = config.slots.includes('back');
 
-  // 9. ANIMATION LOOP
-  const animate = () => {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-  };
-  animate();
+    if (spineBox) spineBox.style.opacity = hasSpine ? '1' : '0.4';
+    if (backBox) backBox.style.opacity = hasBack ? '1' : '0.4';
 
-  // Window Resize
-  window.addEventListener('resize', () => {
-    camera.aspect = container.clientWidth / container.clientHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(container.clientWidth, container.clientHeight);
-  });
+    if (hasSpine && hasBack) {
+      slotsLabel.textContent = 'Spine & Back Active';
+    } else if (hasSpine) {
+      slotsLabel.textContent = 'Spine Active';
+    } else if (hasBack) {
+      slotsLabel.textContent = 'Back Active';
+    } else {
+      slotsLabel.textContent = 'Front Only';
+    }
 
-  // 10. PRESET SELECTOR
-  const presetLabels = {
-    'psd-flatlay': 'PSD Studio Flat Lay (Exact Free_Book_Mockup_2)',
-    'open-wrap': 'Open Full Wrap (Spread Face-Down)',
-    'tabletop': 'Tabletop 3D (Lying 35° Angle)',
-    'standing-hard': 'Standing 6x9 Hardcover',
-    'standing-duo': 'Standing Duo (Front & Back)',
-    'stacked-dual': 'Stacked Dual Paperbacks',
-    'stacked-square': 'Triple Stacked Square Books',
-    'topdown-stack': "Top-Down Flat Lay (Bird's Eye)",
-    'kindle': 'Amazon KDP Kindle Tablet',
-    'duo-bundle': 'Print + Kindle Duo Bundle',
-    'frontal': 'Frontal Straight-On 3D',
-    'spine-showcase': 'Spine Profile Close-Up',
-    'floating': 'Isometric Floating 3D Book'
-  };
+    renderCurrentMockup();
+  }
 
-  document.querySelectorAll('.mockup-card-btn').forEach(btn => {
+  // Preset button clicks
+  document.querySelectorAll('.mockup-psd-card').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.mockup-card-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentPreset = btn.getAttribute('data-preset');
-
-      const labelEl = document.getElementById('current-mockup-label');
-      if (labelEl) {
-        labelEl.innerHTML = '<i class="fa-solid fa-image"></i> Mockup: <strong>' + (presetLabels[currentPreset] || currentPreset) + '</strong>';
-      }
-
-      const spineControls = document.getElementById('spine-controls-group');
-      if (spineControls) {
-        spineControls.style.display = (currentPreset === 'kindle' || currentPreset === 'topdown-stack') ? 'none' : 'block';
-      }
-
-      buildScene();
+      currentPresetId = btn.dataset.preset;
+      updateUIForPreset();
     });
   });
 
-  // 11. ASPECT RATIO TOOLBAR LISTENER
-  document.querySelectorAll('.ratio-pill').forEach(pill => {
-    pill.addEventListener('click', () => {
-      document.querySelectorAll('.ratio-pill').forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      manualRatio = pill.getAttribute('data-ratio');
+  // Primary Artwork Upload
+  const primaryInput = document.getElementById('cover-file-input');
+  const primaryDropzone = document.getElementById('primary-dropzone');
 
-      const dimTag = document.getElementById('dimension-tag');
-      if (dimTag) {
-        if (manualRatio === 'auto') {
-          dimTag.textContent = autoDetectedLabel;
-        } else {
-          dimTag.textContent = 'Forced: ' + pill.textContent;
-        }
-      }
-
-      buildScene();
-    });
-  });
-
-  // 12. COVER UPLOAD HANDLER (WITH AUTO DIMENSION & RATIO PICKING!)
-  const handleCoverUpload = (file) => {
+  function handleFileSelect(file) {
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
-      img.onload = () => {
-        const w = img.naturalWidth;
-        const h = img.naturalHeight;
-        const aspect = w / h;
-        const statusBadge = document.getElementById('autodetect-status');
-        const statusMsg = document.getElementById('autodetect-msg');
-        const dimTag = document.getElementById('dimension-tag');
-
-        if (aspect >= 1.15) {
-          // Full Wrap Detected!
-          isWrapDetected = true;
-          currentFullWrapCanvas = img;
-          currentFrontImage = null;
-
-          const spineW = Math.max(10, Math.round(w * 0.088));
-          const frontW = (w - spineW) / 2;
-          activeFrontAspect = frontW / h;
-          activeWrapAspect = aspect;
-          autoDetectedLabel = 'Full Wrap (' + w + 'x' + h + 'px)';
-
-          if (statusBadge) {
-            statusBadge.style.display = 'flex';
-            statusBadge.className = 'autodetect-badge wrap-detected';
-          }
-          if (statusMsg) {
-            statusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Full Wrap Detected!</strong> (' + w + 'x' + h + 'px) — 3D shape auto-fitted.';
-          }
-        } else {
-          // Single Front Cover Detected!
-          isWrapDetected = false;
-          currentFrontImage = img;
-          currentFullWrapCanvas = null;
-
-          activeFrontAspect = aspect;
-          activeWrapAspect = (aspect * 2) + 0.15;
-
-          // Classify format
-          let formatName = w + 'x' + h + 'px';
-          if (Math.abs(aspect - 1.0) < 0.06) formatName = '8.5x8.5 in Square (1:1)';
-          else if (Math.abs(aspect - 0.667) < 0.05) formatName = '6x9 in (2:3 Standard)';
-          else if (Math.abs(aspect - 0.773) < 0.05) formatName = '8.5x11 in Letter';
-          else if (Math.abs(aspect - 0.700) < 0.05) formatName = '7x10 in';
-          else if (Math.abs(aspect - 0.800) < 0.05) formatName = '8x10 in';
-          else if (Math.abs(aspect - 0.625) < 0.05) formatName = '5x8 in Pocket';
-
-          autoDetectedLabel = formatName;
-
-          if (statusBadge) {
-            statusBadge.style.display = 'flex';
-            statusBadge.className = 'autodetect-badge single-detected';
-          }
-          if (statusMsg) {
-            statusMsg.innerHTML = '<i class="fa-solid fa-file-image"></i> <strong>Front Cover Detected:</strong> ' + formatName + ' — 3D Mockup adjusted automatically.';
-          }
-        }
-
-        if (dimTag && manualRatio === 'auto') {
-          dimTag.textContent = autoDetectedLabel;
-        }
-
-        document.querySelectorAll('.sample-thumb').forEach(t => t.classList.remove('active'));
-        buildScene();
-      };
+      img.onload = () => processUploadedArtwork(img);
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
-  };
+  }
 
-  const fileInput = document.getElementById('cover-file-input');
-  if (fileInput) {
-    fileInput.addEventListener('change', (e) => {
-      if (e.target.files && e.target.files[0]) handleCoverUpload(e.target.files[0]);
+  if (primaryInput) {
+    primaryInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) handleFileSelect(e.target.files[0]);
     });
   }
 
-  // Drag & Drop
-  const dropzone = document.getElementById('cover-dropzone');
-  if (dropzone) {
-    ['dragenter', 'dragover'].forEach(name => {
-      dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+  // Drag and Drop
+  if (primaryDropzone) {
+    ['dragenter', 'dragover'].forEach(ev => {
+      primaryDropzone.addEventListener(ev, (e) => { e.preventDefault(); primaryDropzone.classList.add('dragover'); });
     });
-    ['dragleave', 'drop'].forEach(name => {
-      dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); });
+    ['dragleave', 'drop'].forEach(ev => {
+      primaryDropzone.addEventListener(ev, (e) => { e.preventDefault(); primaryDropzone.classList.remove('dragover'); });
     });
-    dropzone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('dragover');
-      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
-        handleCoverUpload(e.dataTransfer.files[0]);
+    primaryDropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleFileSelect(e.dataTransfer.files[0]);
       }
     });
   }
 
-  // Separate Spine & Back Inputs
-  const setupSeparateInput = (inputId, boxId, thumbWrapId, thumbImgId, iconWrapId, onLoaded, onCleared) => {
-    const input = document.getElementById(inputId);
-    const box = document.getElementById(boxId);
-    const thumbWrap = document.getElementById(thumbWrapId);
-    const thumbImg = document.getElementById(thumbImgId);
-    const iconWrap = document.getElementById(iconWrapId);
-    const clearBtn = box ? box.querySelector('.separate-clear-btn') : null;
+  // Custom Spine Slot
+  const spineInput = document.getElementById('spine-file-input');
+  const spineThumbWrap = document.getElementById('spine-thumb-wrap');
+  const spineThumbImg = document.getElementById('spine-thumb-img');
+  const clearSpineBtn = document.getElementById('clear-spine-btn');
 
-    if (!input || !box) return;
-
-    const processFile = (file) => {
-      if (!file || !file.type.startsWith('image/')) return;
+  if (spineInput) {
+    spineInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = (evt) => {
         const img = new Image();
         img.onload = () => {
-          const tex = createTextureFromImage(img);
-          onLoaded(tex, img);
-          buildScene();
+          customSpineImg = img;
+          spineThumbImg.src = evt.target.result;
+          spineThumbWrap.style.display = 'block';
+          renderCurrentMockup();
         };
-        img.src = e.target.result;
-
-        if (thumbImg) thumbImg.src = e.target.result;
-        if (thumbWrap) thumbWrap.style.display = 'block';
-        if (iconWrap) iconWrap.style.display = 'none';
-        box.classList.add('has-image');
+        img.src = evt.target.result;
       };
       reader.readAsDataURL(file);
-    };
-
-    input.addEventListener('change', (e) => {
-      if (e.target.files && e.target.files[0]) processFile(e.target.files[0]);
     });
+  }
+  if (clearSpineBtn) {
+    clearSpineBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      customSpineImg = null;
+      spineThumbWrap.style.display = 'none';
+      spineInput.value = '';
+      renderCurrentMockup();
+    });
+  }
 
-    if (clearBtn) {
-      clearBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        onCleared();
-        if (thumbWrap) thumbWrap.style.display = 'none';
-        if (iconWrap) iconWrap.style.display = 'block';
-        box.classList.remove('has-image');
-        input.value = '';
-        buildScene();
-      });
-    }
-  };
+  // Custom Back Slot
+  const backInput = document.getElementById('back-file-input');
+  const backThumbWrap = document.getElementById('back-thumb-wrap');
+  const backThumbImg = document.getElementById('back-thumb-img');
+  const clearBackBtn = document.getElementById('clear-back-btn');
 
-  setupSeparateInput('sep-spine-input', 'box-spine', 'thumb-spine-wrap', 'thumb-spine-img', 'icon-spine-wrap', (tex, img) => { customSpineTex = tex; customSpineImg = img; }, () => { customSpineTex = null; customSpineImg = null; });
-  setupSeparateInput('sep-back-input', 'box-back', 'thumb-back-wrap', 'thumb-back-img', 'icon-back-wrap', (tex, img) => { customBackTex = tex; customBackImg = img; }, () => { customBackTex = null; customBackImg = null; });
+  if (backInput) {
+    backInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        const img = new Image();
+        img.onload = () => {
+          customBackImg = img;
+          backThumbImg.src = evt.target.result;
+          backThumbWrap.style.display = 'block';
+          renderCurrentMockup();
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  if (clearBackBtn) {
+    clearBackBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      customBackImg = null;
+      backThumbWrap.style.display = 'none';
+      backInput.value = '';
+      renderCurrentMockup();
+    });
+  }
 
-  // Sample Covers
+  // Spine Color Picker
+  const colorPicker = document.getElementById('spine-color-picker');
+  const colorVal = document.getElementById('spine-color-val');
+  if (colorPicker) {
+    colorPicker.addEventListener('input', (e) => {
+      spineColor = e.target.value;
+      if (colorVal) colorVal.textContent = spineColor;
+      renderCurrentMockup();
+    });
+  }
+
+  // Demo Covers Clicks
   document.querySelectorAll('.sample-thumb').forEach(thumb => {
     thumb.addEventListener('click', () => {
       document.querySelectorAll('.sample-thumb').forEach(t => t.classList.remove('active'));
       thumb.classList.add('active');
-
-      const sampleType = thumb.getAttribute('data-sample');
-      const statusBadge = document.getElementById('autodetect-status');
-      const statusMsg = document.getElementById('autodetect-msg');
-      const dimTag = document.getElementById('dimension-tag');
-
-      if (sampleType === 'fantasy-wrap') {
-        isWrapDetected = true;
-        currentFullWrapCanvas = generateFantasyFullWrapCanvas();
-        currentFrontImage = null;
-        activeFrontAspect = 0.667;
-        activeWrapAspect = 1.52;
-        autoDetectedLabel = 'Fantasy Wrap (1600x1050px)';
-        if (statusBadge) statusBadge.style.display = 'flex';
-        if (statusMsg) statusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Fantasy Full Wrap Loaded</strong> — Front, Spine &amp; Back active.';
-      } else if (sampleType === 'thriller-wrap') {
-        isWrapDetected = true;
-        currentFullWrapCanvas = generateThrillerFullWrapCanvas();
-        currentFrontImage = null;
-        activeFrontAspect = 0.667;
-        activeWrapAspect = 1.52;
-        autoDetectedLabel = 'Thriller Wrap (1600x1050px)';
-        if (statusBadge) statusBadge.style.display = 'flex';
-        if (statusMsg) statusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Thriller Full Wrap Loaded</strong> — Front, Spine &amp; Back active.';
-      } else {
-        isWrapDetected = false;
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = () => {
-          currentFrontImage = img;
-          currentFullWrapCanvas = null;
-          activeFrontAspect = img.naturalWidth / img.naturalHeight;
-          activeWrapAspect = (activeFrontAspect * 2) + 0.15;
-          autoDetectedLabel = 'Cover Sample';
-          if (dimTag) dimTag.textContent = autoDetectedLabel;
-          buildScene();
-        };
-        img.src = 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop';
-        if (statusBadge) statusBadge.style.display = 'flex';
-        if (statusMsg) statusMsg.innerHTML = '<i class="fa-solid fa-file-image"></i> <strong>Single Front Cover Loaded</strong>';
-        return;
-      }
-
-      if (dimTag) dimTag.textContent = autoDetectedLabel;
-      buildScene();
+      const sampleType = thumb.dataset.sample;
+      if (sampleType === 'fantasy') processUploadedArtwork(demoFantasy);
+      else if (sampleType === 'thriller') processUploadedArtwork(demoThriller);
+      else if (sampleType === 'modern') processUploadedArtwork(demoModern);
+      else if (sampleType === 'square') processUploadedArtwork(demoSquare);
     });
   });
 
-  // Thickness Slider
-  const thickSlider = document.getElementById('thickness-slider');
-  const thickDisplay = document.getElementById('thickness-display');
-  if (thickSlider) {
-    thickSlider.addEventListener('input', (e) => {
-      bookThickness = parseFloat(e.target.value);
-      if (thickDisplay) thickDisplay.textContent = bookThickness.toFixed(2) + ' in';
-      buildScene();
-    });
-  }
-
-  // Spine Color
-  const spineColorInput = document.getElementById('spine-color-input');
-  const spineColorHex = document.getElementById('spine-color-hex');
-  if (spineColorInput) {
-    spineColorInput.addEventListener('input', (e) => {
-      spineColor = e.target.value;
-      if (spineColorHex) spineColorHex.textContent = spineColor;
-      buildScene();
-    });
-  }
-
-  // Finish Toggles
-  document.querySelectorAll('[data-finish]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('[data-finish]').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      coverFinish = btn.getAttribute('data-finish');
-      buildScene();
-    });
-  });
-
-  // Background Mode (Studio Light, Transparent, Studio Dark)
+  // Backdrop Mode Toggles
   document.querySelectorAll('[data-bg]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('[data-bg]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      bgMode = btn.getAttribute('data-bg');
-
-      if (bgMode === 'light') {
-        scene.background = null;
-        backdropMesh.visible = true;
-        floorMesh.visible = true;
-        renderer.setClearColor(0xe2e8f0, 1);
-        shadowPlane.material.opacity = 0.85;
-      } else if (bgMode === 'transparent') {
-        scene.background = null;
-        backdropMesh.visible = false;
-        floorMesh.visible = false;
-        renderer.setClearColor(0x000000, 0);
-        shadowPlane.material.opacity = 0.75;
-      } else if (bgMode === 'dark') {
-        scene.background = new THREE.Color(0x080e18);
-        backdropMesh.visible = false;
-        floorMesh.visible = false;
-        renderer.setClearColor(0x080e18, 1);
-        shadowPlane.material.opacity = 0.9;
-      }
-      renderer.render(scene, camera);
+      bgMode = btn.dataset.bg;
+      renderCurrentMockup();
     });
   });
 
-  // 13. HIGH-RESOLUTION PNG DOWNLOAD (2400x1800 Studio Quality)
+  // Export Format Toggles
+  document.querySelectorAll('[data-format]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-format]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      exportFormat = btn.dataset.format;
+    });
+  });
+
+  // 7. Full Native Ultra-HD Download
   const downloadBtn = document.getElementById('download-mockup-btn');
   if (downloadBtn) {
-    downloadBtn.addEventListener('click', () => {
-      if (currentPreset === 'psd-flatlay') {
-        // Native 3000x2250 Ultra-HD Photoshop Quality Export!
-        const dlCanvas = document.createElement('canvas');
-        dlCanvas.width = 3000;
-        dlCanvas.height = 2250;
-        const dlCtx = dlCanvas.getContext('2d');
+    downloadBtn.addEventListener('click', async () => {
+      const config = PSD_MANIFEST[currentPresetId];
+      if (!config) return;
 
-        if (psdBaseShadow.complete) dlCtx.drawImage(psdBaseShadow, 0, 0, 3000, 2250);
-        const activeCoverImg = currentFrontImage || (frontTex ? frontTex.image : psdSampleCover);
-        if (activeCoverImg) dlCtx.drawImage(activeCoverImg, 1025, 460, 958, 1353);
+      const origText = downloadBtn.innerHTML;
+      downloadBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating 4K...';
+      downloadBtn.disabled = true;
 
-        if (psdCoverCrease.complete) {
-          dlCtx.globalCompositeOperation = 'multiply';
-          dlCtx.drawImage(psdCoverCrease, 1025, 460, 958, 1353);
+      setTimeout(async () => {
+        try {
+          const exportCanvas = document.createElement('canvas');
+          await renderMockupToCanvas(exportCanvas, config.width, config.height);
+
+          const mimeType = (exportFormat === 'jpeg' && bgMode !== 'transparent') ? 'image/jpeg' : 'image/png';
+          const ext = mimeType === 'image/jpeg' ? 'jpg' : 'png';
+
+          exportCanvas.toBlob((blob) => {
+            downloadBtn.innerHTML = origText;
+            downloadBtn.disabled = false;
+            if (!blob) return;
+
+            const link = document.createElement('a');
+            link.download = 'loufy-studio-mockup-' + currentPresetId + '-' + config.width + 'x' + config.height + '.' + ext;
+            link.href = URL.createObjectURL(blob);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+          }, mimeType, 0.94);
+        } catch (err) {
+          console.error('Download error:', err);
+          downloadBtn.innerHTML = origText;
+          downloadBtn.disabled = false;
         }
-        if (psdCoverHl.complete) {
-          dlCtx.globalCompositeOperation = 'screen';
-          dlCtx.drawImage(psdCoverHl, 1025, 460, 958, 1353);
-        }
-        dlCtx.globalCompositeOperation = 'source-over';
-
-        dlCanvas.toBlob((blob) => {
-          if (!blob) return;
-          const link = document.createElement('a');
-          link.download = 'loufy-psd-mockup-free-book-2-' + Date.now() + '.jpg';
-          link.href = URL.createObjectURL(blob);
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(link.href);
-        }, 'image/jpeg', 0.95);
-        return;
-      }
-
-      const exportWidth = 2400;
-      const exportHeight = 1800;
-
-      const origW = container.clientWidth;
-      const origH = container.clientHeight;
-      const origPixelRatio = renderer.getPixelRatio();
-
-      renderer.setPixelRatio(1);
-      renderer.setSize(exportWidth, exportHeight, false);
-      camera.aspect = exportWidth / exportHeight;
-      camera.updateProjectionMatrix();
-
-      renderer.render(scene, camera);
-
-      const mimeType = (bgMode === 'transparent') ? 'image/png' : 'image/jpeg';
-      const fileExt = (bgMode === 'transparent') ? 'png' : 'jpg';
-
-      renderer.domElement.toBlob((blob) => {
-        renderer.setPixelRatio(origPixelRatio);
-        renderer.setSize(origW, origH, false);
-        camera.aspect = origW / origH;
-        camera.updateProjectionMatrix();
-        renderer.render(scene, camera);
-
-        if (!blob) return;
-        const link = document.createElement('a');
-        link.download = 'loufy-book-mockup-' + currentPreset + '-' + Date.now() + '.' + fileExt;
-        link.href = URL.createObjectURL(blob);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(link.href);
-      }, mimeType, 0.95);
+      }, 50);
     });
   }
+
+  // Initial render
+  updateUIForPreset();
 
 });
 </script>
