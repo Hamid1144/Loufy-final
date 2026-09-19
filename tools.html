@@ -214,10 +214,10 @@
       color: #ea580c;
     }
 
-    /* STEP 1: Quick Mockup Presets Row (All 8 Mockups in 4x2 Grid) */
+    /* STEP 1: Quick Mockup Presets Row (All 9 Mockups in 3x3 Grid) */
     .quick-mockup-row {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 4px;
     }
     .mockup-style-card {
@@ -1512,7 +1512,7 @@
                 <span class="step-subtitle">Select a style for your book cover.</span>
               </div>
             </div>
-            <span class="step-badge" style="font-size: 0.65rem; font-weight: 600; color: #f97316; background: rgba(249,115,22,0.1); padding: 2px 8px; border-radius: 9999px; border: 1px solid rgba(249,115,22,0.2);">8 Templates</span>
+            <span class="step-badge" style="font-size: 0.65rem; font-weight: 600; color: #f97316; background: rgba(249,115,22,0.1); padding: 2px 8px; border-radius: 9999px; border: 1px solid rgba(249,115,22,0.2);">9 Templates</span>
           </div>
 
           <!-- All 8 Authentic Mockups in 4x2 Grid -->
@@ -1587,6 +1587,15 @@
                 <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Book">
               </div>
               <span class="style-card-label">Open Book</span>
+            </button>
+
+            <!-- 9. Brochure Spread -->
+            <button type="button" class="mockup-style-card" data-preset="brochure_spread" title="A4 Open Spread Flatlay">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockups/thumbnails/brochure_spread.jpg" alt="Brochure Spread">
+              </div>
+              <span class="style-card-label">Brochure Spread</span>
             </button>
           </div>
         </div>
@@ -1900,6 +1909,13 @@
         <img src="/images/psd_mockups/thumbnails/open_spread.jpg" class="modal-card-thumb" alt="Open Spread Flatlay">
         <span class="modal-card-title">Open Spread</span>
         <span class="modal-card-tag"><i class="fa-solid fa-book-journal-whills"></i> Full Jacket</span>
+      </div>
+
+      <!-- 9. A4 Brochure Spread -->
+      <div class="modal-mockup-card" data-preset="brochure_spread">
+        <img src="/images/psd_mockups/thumbnails/brochure_spread.jpg" class="modal-card-thumb" alt="A4 Brochure Spread">
+        <span class="modal-card-title">Brochure Spread</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-book-open"></i> A4 Open Pages</span>
       </div>
     </div>
   </div>
@@ -2467,6 +2483,58 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     }
   },
+  "brochure_spread": {
+    "id": "brochure_spread",
+    "title": "A4 Open Spread Flatlay",
+    "category": "brochure",
+    "aspect": "a4",
+    "width": 4000,
+    "height": 3000,
+    "slots": [
+      "front",
+      "back"
+    ],
+    "defaultBg": "#e6dce6",
+    "layers": {
+      "backdrop": "images/psd_mockups/brochure_spread/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/brochure_spread/shadow.png",
+      "cover": "images/psd_mockups/brochure_spread/cover.png",
+      "pages": "images/psd_mockups/brochure_spread/pages.png",
+      "spread_shading": "images/psd_mockups/brochure_spread/spread_shading.png",
+      "highlights": "images/psd_mockups/brochure_spread/highlights.jpg",
+      "leftSilhouette": "images/psd_mockups/brochure_spread/left_silhouette.png",
+      "rightSilhouette": "images/psd_mockups/brochure_spread/right_silhouette.png"
+    },
+    "quads": {
+      "back": [
+        [721.8, 514.7],
+        [1879.8, 506.2],
+        [1875.5, 2491.8],
+        [724.0, 2476.0]
+      ],
+      "front": [
+        [1864.8, 571.2],
+        [3221.9, 575.1],
+        [3216.7, 2446.1],
+        [1864.3, 2446.7]
+      ]
+    },
+    "mesh": {
+      "left": [
+        [721.77, 514.67], [1105.79, 498.80], [1492.96, 482.77], [1879.83, 506.22],
+        [723.68, 1176.45], [1109.86, 1178.16], [1495.86, 1178.67], [1881.80, 1178.68],
+        [723.99, 1827.31], [1109.93, 1827.35], [1495.87, 1827.36], [1881.80, 1827.36],
+        [724.00, 2476.00], [1108.45, 2491.79], [1490.78, 2512.10], [1875.48, 2491.79]
+      ],
+      "right": [
+        [1864.81, 571.18], [2317.03, 561.03], [2770.83, 573.05], [3221.87, 575.13],
+        [1864.00, 1195.61], [2317.03, 1195.65], [2769.71, 1195.71], [3222.82, 1197.30],
+        [1864.02, 1828.78], [2317.03, 1829.94], [2769.13, 1826.37], [3221.64, 1826.26],
+        [1864.29, 2446.68], [2316.42, 2467.70], [2766.97, 2446.14], [3216.74, 2446.10]
+      ]
+    },
+    "description": "Authentic A4 Perfect Binding Brochure & Magazine Open Spread flatlay with natural page curvature, deep gutter crease shading, and specular highlights."
+  },
   "square_flatlay": {
     "id": "square_flatlay",
     "title": "8.5x8.5 Square Studio Flatlay",
@@ -2858,7 +2926,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
   // Environment & Format
   const downloadMockupBtn = document.getElementById('download-mockup-btn');
-  const presetButtons = document.querySelectorAll('.mockup-psd-card');
+  const presetButtons = document.querySelectorAll('.mockup-style-card, .modal-mockup-card');
   const bgButtons = document.querySelectorAll('[data-bg]');
   const formatButtons = document.querySelectorAll('[data-format]');
 
@@ -3089,6 +3157,38 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     ctx.drawImage(tempC, minX, minY);
   }
 
+  // High-Fidelity 16-Point / 9-Patch Bicubic Mesh Warper
+  function warpMeshGrid(ctx, img, gridPts, scale = 1) {
+    if (!img || !gridPts || gridPts.length < 16) return;
+    const w = img.width || img.videoWidth;
+    const h = img.height || img.videoHeight;
+    if (!w || !h) return;
+
+    for (let r = 0; r < 3; r++) {
+      for (let c = 0; c < 3; c++) {
+        const sx0 = (c / 3) * w;
+        const sy0 = (r / 3) * h;
+        const sx1 = ((c + 1) / 3) * w;
+        const sy1 = ((r + 1) / 3) * h;
+
+        const pTL = gridPts[r * 4 + c];
+        const pTR = gridPts[r * 4 + c + 1];
+        const pBR = gridPts[(r + 1) * 4 + c + 1];
+        const pBL = gridPts[(r + 1) * 4 + c];
+
+        const sw = Math.ceil(sx1 - sx0);
+        const sh = Math.ceil(sy1 - sy0);
+        const sliceCanvas = document.createElement('canvas');
+        sliceCanvas.width = sw;
+        sliceCanvas.height = sh;
+        const sctx = sliceCanvas.getContext('2d');
+        sctx.drawImage(img, sx0, sy0, sw, sh, 0, 0, sw, sh);
+
+        warpQuad(ctx, sliceCanvas, [pTL, pTR, pBR, pBL], scale);
+      }
+    }
+  }
+
   // Artwork Transformation Helper (Independent scale & shift for each layer)
   function getTransformedArtwork(srcCanvas, transform) {
     if (!srcCanvas) return srcCanvas;
@@ -3206,9 +3306,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       } else if (bgMode === 'white') {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, renderWidth, renderHeight);
+      } else if (bgMode === 'light') {
+        ctx.fillStyle = '#f1f5f9';
+        ctx.fillRect(0, 0, renderWidth, renderHeight);
       } else if (bgMode === 'dark') {
         ctx.fillStyle = '#0b1320';
         ctx.fillRect(0, 0, renderWidth, renderHeight);
+      } else if (bgMode === 'custom' && config.customBackdropImg) {
+        ctx.drawImage(config.customBackdropImg, 0, 0, renderWidth, renderHeight);
       } else {
         ctx.clearRect(0, 0, renderWidth, renderHeight);
       }
@@ -3220,6 +3325,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (shImg) {
           ctx.save();
           ctx.globalAlpha = 1.0;
+          ctx.globalCompositeOperation = bgMode === 'transparent' ? 'source-over' : 'multiply';
           ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
           ctx.restore();
         }
@@ -3229,13 +3335,83 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const rawFront = customFrontImg || activeFrontImg || createSolidArtwork('#1e293b', 1000, 1500, 'BOOK TITLE');
       const frontArt = getTransformedArtwork(rawFront, frontTransform);
       const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
-      const rawBack = customBackImg || activeBackImg || createSolidArtwork(spineColor, 1000, 1500, '');
+      const rawBack = customBackImg || activeBackImg || (presetId === 'brochure_spread' ? rawFront : createSolidArtwork(spineColor, 1000, 1500, ''));
       const backArt = getTransformedArtwork(rawBack, backTransform);
 
       const swRatio = spineWidth / 100;
 
       // 3. Realistic Layer Compositing Pipeline
-      if (presetId === 'studio_collector' || presetId === 'spine_full_showcase') {
+      if (presetId === 'brochure_spread') {
+        // --- AUTHENTIC A4 BROCHURE OPEN SPREAD PIPELINE ---
+        if (config.layers.cover) {
+          const cvImg = await preloadImage(config.layers.cover);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (cvImg) ctx.drawImage(cvImg, 0, 0, renderWidth, renderHeight);
+        }
+        if (config.layers.pages) {
+          const pgImg = await preloadImage(config.layers.pages);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (pgImg) ctx.drawImage(pgImg, 0, 0, renderWidth, renderHeight);
+        }
+
+        // Left Page (Back Slot) Warped & Masked
+        const leftGridPts = config.mesh.left;
+        const lSilImg = await preloadImage(config.layers.leftSilhouette);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+
+        const lArtCanv = document.createElement('canvas');
+        lArtCanv.width = renderWidth;
+        lArtCanv.height = renderHeight;
+        const lActx = lArtCanv.getContext('2d');
+        warpMeshGrid(lActx, backArt, leftGridPts, scale);
+        if (lSilImg) {
+          lActx.globalCompositeOperation = 'destination-in';
+          lActx.drawImage(lSilImg, 0, 0, renderWidth, renderHeight);
+        }
+        ctx.drawImage(lArtCanv, 0, 0);
+
+        // Right Page (Front Slot) Warped & Masked
+        const rightGridPts = config.mesh.right;
+        const rSilImg = await preloadImage(config.layers.rightSilhouette);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+
+        const rArtCanv = document.createElement('canvas');
+        rArtCanv.width = renderWidth;
+        rArtCanv.height = renderHeight;
+        const rActx = rArtCanv.getContext('2d');
+        warpMeshGrid(rActx, frontArt, rightGridPts, scale);
+        if (rSilImg) {
+          rActx.globalCompositeOperation = 'destination-in';
+          rActx.drawImage(rSilImg, 0, 0, renderWidth, renderHeight);
+        }
+        ctx.drawImage(rArtCanv, 0, 0);
+
+        // Paper Gutter Crease & Ambient Shading (Multiply)
+        if (config.layers.spread_shading) {
+          const shdImg = await preloadImage(config.layers.spread_shading);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (shdImg) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'multiply';
+            ctx.drawImage(shdImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+
+        // Specular Sheen & Highlights (Screen)
+        if (config.layers.highlights) {
+          const hlImg = await preloadImage(config.layers.highlights);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (hlImg) {
+            ctx.save();
+            ctx.globalAlpha = 1.0;
+            ctx.globalCompositeOperation = 'screen';
+            ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+        return;
+      } else if (presetId === 'studio_collector' || presetId === 'spine_full_showcase') {
         // --- AUTHENTIC 4-BOOK COLLECTOR PIPELINE ---
         if (config.layers.backBookBase) {
           const bbbImg = await preloadImage(config.layers.backBookBase);
@@ -3526,13 +3702,28 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (layerTabToggle) layerTabToggle.style.display = hasBack ? 'flex' : 'none';
     if (editingLayerNotice) editingLayerNotice.style.display = hasBack ? 'block' : 'none';
 
+    // Contextual slot button labels
+    if (currentPresetId === 'brochure_spread') {
+      if (frontBtnLabel && !customFrontImg && !activeFrontImg) frontBtnLabel.textContent = 'Right Page';
+      if (backBtnLabel && !customBackImg && !activeBackImg) backBtnLabel.textContent = 'Left Page';
+      if (btnLayerFront) btnLayerFront.textContent = 'Right Page';
+      if (btnLayerBack) btnLayerBack.textContent = 'Left Page';
+    } else {
+      if (frontBtnLabel && !customFrontImg && !activeFrontImg) frontBtnLabel.textContent = 'Front Cover';
+      if (backBtnLabel && !customBackImg && !activeBackImg) backBtnLabel.textContent = 'Back Cover';
+      if (btnLayerFront) btnLayerFront.textContent = 'Front Cover';
+      if (btnLayerBack) btnLayerBack.textContent = 'Back Cover';
+    }
+
     // Reset editing layer to front if preset has no back cover
     if (!hasBack && currentEditLayer !== 'front') {
       setEditLayer('front');
     }
 
     if (slotsSupportLabel) {
-      if (hasSpine && hasBack) {
+      if (currentPresetId === 'brochure_spread') {
+        slotsSupportLabel.textContent = 'Left Page + Right Page';
+      } else if (hasSpine && hasBack) {
         slotsSupportLabel.textContent = 'Front + Spine + Back';
       } else if (hasBack) {
         slotsSupportLabel.textContent = 'Front + Back';
@@ -3562,13 +3753,54 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (detectDimText) detectDimText.textContent = w + ' × ' + h + ' px';
       }
 
-      const spineWidthPercent = 0.085;
-      const frontBackPercent = (1 - spineWidthPercent) / 2;
+      const conf = PSD_MANIFEST[currentPresetId];
+      const hasSpine = conf && conf.slots && conf.slots.includes('spine');
 
-      const spineStart = Math.floor(w * frontBackPercent);
-      const spineWidthPx = Math.floor(w * spineWidthPercent);
-      const frontStart = spineStart + spineWidthPx;
-      const frontWidth = w - frontStart;
+      if (!hasSpine && currentPresetId === 'brochure_spread') {
+        const halfWidth = Math.floor(w / 2);
+
+        // Slice Left Page (Back slot)
+        const bCanvas = document.createElement('canvas');
+        bCanvas.width = halfWidth; bCanvas.height = h;
+        bCanvas.getContext('2d').drawImage(imgOrCanvas, 0, 0, halfWidth, h, 0, 0, halfWidth, h);
+        activeBackImg = bCanvas;
+        customBackImg = bCanvas;
+
+        // Slice Right Page (Front slot)
+        const fCanvas = document.createElement('canvas');
+        fCanvas.width = w - halfWidth; fCanvas.height = h;
+        fCanvas.getContext('2d').drawImage(imgOrCanvas, halfWidth, 0, w - halfWidth, h, 0, 0, w - halfWidth, h);
+        activeFrontImg = fCanvas;
+        customFrontImg = fCanvas;
+
+        // Update slot UI
+        if (frontBtnLabel) frontBtnLabel.textContent = fileName + ' (Right Page)';
+        if (btnUploadFront) btnUploadFront.classList.add('has-file');
+        if (clearFrontBtn) clearFrontBtn.style.display = 'flex';
+        if (frontThumbPreview) {
+          frontThumbPreview.src = fCanvas.toDataURL();
+          frontThumbPreview.style.display = 'block';
+        }
+        if (cropFrontBtn) cropFrontBtn.style.display = 'inline-flex';
+        if (frontStatusText) frontStatusText.textContent = (w - halfWidth) + ' × ' + h + ' px';
+
+        if (backBtnLabel) backBtnLabel.textContent = fileName + ' (Left Page)';
+        if (btnUploadBack) btnUploadBack.classList.add('has-file');
+        if (clearBackBtn) clearBackBtn.style.display = 'flex';
+        if (backThumbPreview) {
+          backThumbPreview.src = bCanvas.toDataURL();
+          backThumbPreview.style.display = 'block';
+        }
+        if (cropBackBtn) cropBackBtn.style.display = 'inline-flex';
+        if (backStatusText) backStatusText.textContent = halfWidth + ' × ' + h + ' px';
+      } else {
+        const spineWidthPercent = 0.085;
+        const frontBackPercent = (1 - spineWidthPercent) / 2;
+
+        const spineStart = Math.floor(w * frontBackPercent);
+        const spineWidthPx = Math.floor(w * spineWidthPercent);
+        const frontStart = spineStart + spineWidthPx;
+        const frontWidth = w - frontStart;
 
       // Slice Front
       const fCanvas = document.createElement('canvas');
@@ -3606,7 +3838,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       if (btnUploadSpine) btnUploadSpine.classList.add('has-file');
       if (clearSpineBtn) clearSpineBtn.style.display = 'flex';
       if (spineStatusText) spineStatusText.textContent = spineWidthPx + ' × ' + h + ' px';
-    } else {
+    }
+  } else {
       customFrontImg = imgOrCanvas;
       activeFrontImg = imgOrCanvas;
       if (frontBtnLabel) frontBtnLabel.textContent = fileName;
@@ -3653,7 +3886,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     let ratio = 2 / 3;
 
     // 1. Direct bounding rects (e.g. front_back_showcase, square_flatlay, book_mockup_1)
-    if (config.rects && config.rects[slot]) {
+    if (presetId === 'brochure_spread') {
+      width = 1654;
+      height = 2339;
+      ratio = 1654 / 2339;
+      aspectLabel = 'A4 Brochure Page';
+    } else if (config.rects && config.rects[slot]) {
       const r = config.rects[slot];
       width = Math.round(r[2]);
       height = Math.round(r[3]);
@@ -3682,7 +3920,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     }
 
     let aspectLabel = '';
-    if (slot === 'spine') {
+    if (presetId === 'brochure_spread') {
+      aspectLabel = 'A4 Brochure Page';
+    } else if (slot === 'spine') {
       const mult = width > 0 ? (height / width).toFixed(1) : '15';
       aspectLabel = `Spine 1:${mult}`;
     } else if (Math.abs(ratio - 1.0) < 0.04) {
@@ -3697,7 +3937,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       aspectLabel = `${ratio.toFixed(2)} Exact Fit`;
     }
 
-    const slotLabel = slot === 'spine' ? 'Book Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover');
+    const slotLabel = presetId === 'brochure_spread'
+      ? (slot === 'back' ? 'Left Page' : 'Right Page')
+      : (slot === 'spine' ? 'Book Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover'));
 
     return {
       ratio,
