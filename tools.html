@@ -214,17 +214,17 @@
       color: #ea580c;
     }
 
-    /* STEP 1: Quick Mockup Presets Row */
+    /* STEP 1: Quick Mockup Presets Row (All 8 Mockups in 4x2 Grid) */
     .quick-mockup-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 5px;
+      gap: 4px;
     }
     .mockup-style-card {
       background: #f8fafc;
       border: 1.5px solid #e2e8f0;
-      border-radius: 9px;
-      padding: 4px 3px 3px;
+      border-radius: 8px;
+      padding: 3px 2px 2px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -241,21 +241,21 @@
     .mockup-style-card.active {
       border-color: #f97316;
       background: #ffffff;
-      box-shadow: 0 0 0 1px #f97316, 0 3px 8px rgba(249, 115, 22, 0.15);
+      box-shadow: 0 0 0 1px #f97316, 0 2px 6px rgba(249, 115, 22, 0.15);
     }
     .style-check-icon {
       position: absolute;
-      top: 3px;
-      right: 3px;
-      width: 14px;
-      height: 14px;
+      top: 2px;
+      right: 2px;
+      width: 13px;
+      height: 13px;
       background: #f97316;
       color: #fff;
       border-radius: 50%;
       display: none;
       align-items: center;
       justify-content: center;
-      font-size: 0.48rem;
+      font-size: 0.44rem;
       box-shadow: 0 1px 3px rgba(249, 115, 22, 0.4);
     }
     .mockup-style-card.active .style-check-icon {
@@ -263,8 +263,8 @@
     }
     .style-thumb-box {
       width: 100%;
-      height: 46px;
-      border-radius: 5px;
+      height: 32px;
+      border-radius: 4px;
       background: #edf2f7;
       display: flex;
       align-items: center;
@@ -278,10 +278,13 @@
       object-fit: cover;
     }
     .style-card-label {
-      font-size: 0.63rem;
+      font-size: 0.58rem;
       font-weight: 600;
       color: #334155;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
     .mockup-style-card.active .style-card-label {
       color: #0f172a;
@@ -554,18 +557,19 @@
       font-weight: 700;
     }
 
-    /* ── ARTWORK CROPPER MODAL ── */
+    /* ── REDESIGNED LIGHT 3-COLUMN SMART CROP MODAL ── */
     .crop-modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(4, 8, 14, 0.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       z-index: 99999;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 16px;
+      box-sizing: border-box;
       animation: cropFadeIn 0.2s ease-out;
     }
     @keyframes cropFadeIn {
@@ -573,79 +577,68 @@
       to { opacity: 1; transform: scale(1); }
     }
     .crop-modal-dialog {
-      background: #0c1420;
-      border: 1px solid rgba(244, 180, 0, 0.3);
-      border-radius: 16px;
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
       width: 100%;
-      max-width: 840px;
-      max-height: 94vh;
+      max-width: 1080px;
+      height: 86vh;
+      max-height: 720px;
+      min-height: 520px;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(244, 180, 0, 0.15);
+      box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.22);
       overflow: hidden;
       font-family: 'Outfit', sans-serif;
+      color: #0f172a;
     }
     .crop-modal-header {
       padding: 12px 20px;
-      background: rgba(8, 13, 20, 0.9);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid #f1f5f9;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
       flex-shrink: 0;
+      background: #ffffff;
     }
     .crop-header-left {
       display: flex;
-      flex-direction: column;
-      gap: 3px;
+      align-items: center;
+      gap: 12px;
       min-width: 0;
     }
-    .crop-badge-row {
+    .crop-header-brand-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      justify-content: center;
+      padding-right: 12px;
+      border-right: 1px solid #e2e8f0;
+      flex-shrink: 0;
     }
-    .crop-slot-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: #fde047;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      background: rgba(244, 180, 0, 0.12);
-      border: 1px solid rgba(244, 180, 0, 0.35);
-      border-radius: 4px;
-      padding: 1px 7px;
+    .crop-header-logo-img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
     }
-    .crop-target-spec-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.64rem;
-      font-weight: 700;
-      color: #93c5fd;
-      background: rgba(59, 130, 246, 0.15);
-      border: 1px solid rgba(59, 130, 246, 0.35);
-      border-radius: 4px;
-      padding: 1px 7px;
-      font-family: monospace;
+    .crop-header-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
     }
     .crop-modal-title {
       margin: 0;
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      color: #0f172a;
+      line-height: 1.2;
     }
-    .crop-modal-hint {
+    .crop-modal-subtitle {
+      margin: 0;
       font-size: 0.72rem;
-      color: #94a3b8;
+      color: #64748b;
+      line-height: 1.2;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -656,260 +649,435 @@
       gap: 10px;
       flex-shrink: 0;
     }
-    .crop-slot-switch-group {
-      display: flex;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 7px;
-      padding: 2px;
-      gap: 3px;
-    }
-    .crop-slot-switch-btn {
-      padding: 4px 9px;
-      font-size: 0.68rem;
+    .crop-target-badge {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 0.74rem;
       font-weight: 600;
-      color: #94a3b8;
-      background: transparent;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.18s;
-      font-family: 'Outfit', sans-serif;
+      color: #334155;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
+      font-family: 'Outfit', sans-serif;
     }
-    .crop-slot-switch-btn:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
-    }
-    .crop-slot-switch-btn.active {
-      color: #000;
-      background: #f4b400;
-      font-weight: 700;
-      box-shadow: 0 0 8px rgba(244, 180, 0, 0.3);
-    }
-    .crop-close-btn {
+    .crop-modal-close-btn {
+      background: #f1f5f9;
+      border: none;
+      border-radius: 8px;
       width: 32px;
       height: 32px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #94a3b8;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.85rem;
-      transition: all 0.2s;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.15s;
     }
-    .crop-close-btn:hover {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: #ef4444;
-      color: #fff;
+    .crop-modal-close-btn:hover {
+      background: #fee2e2;
+      color: #ef4444;
     }
-    .crop-ratio-bar {
-      padding: 9px 18px;
-      background: rgba(15, 23, 42, 0.75);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+    /* 3-Column Body Grid */
+    .crop-modal-body-grid {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) 220px;
+      gap: 14px;
+      padding: 12px 18px;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      background: #ffffff;
+      box-sizing: border-box;
+    }
+    .crop-section-heading {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    /* Left Column: Presets */
+    .crop-col-presets {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .crop-presets-scroll-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      overflow-y: auto;
+      flex: 1;
+      padding-right: 4px;
+      min-height: 0;
+      scrollbar-width: thin;
+    }
+    .crop-preset-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      padding: 6px 8px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 8px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
+      font-family: 'Outfit', sans-serif;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .crop-preset-card:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+    .crop-preset-card.active {
+      background: #fff7ed;
+      border: 1.5px solid #f97316;
+      box-shadow: 0 0 0 1px #f97316;
+    }
+    .preset-card-icon-wrap {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: #edf2f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      font-size: 0.78rem;
       flex-shrink: 0;
     }
-    .crop-ratio-label {
+    .preset-card-icon-wrap.orange, .crop-preset-card.active .preset-card-icon-wrap {
+      background: rgba(249, 115, 22, 0.15);
+      color: #ea580c;
+    }
+    .preset-card-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .preset-card-name {
       font-size: 0.72rem;
       font-weight: 700;
-      color: #cbd5e1;
+      color: #1e293b;
+      line-height: 1.2;
+    }
+    .preset-card-desc {
+      font-size: 0.62rem;
+      color: #64748b;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Original Image Box */
+    .crop-orig-image-card {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 8px;
+      margin-top: 6px;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 8px;
+      flex-shrink: 0;
+      background: #ffffff;
     }
-    .crop-ratio-pills {
+    .crop-orig-thumb {
+      width: 36px;
+      height: 46px;
+      border-radius: 5px;
+      border: 1px solid #e2e8f0;
+      object-fit: cover;
+      background: #f1f5f9;
+      flex-shrink: 0;
+    }
+    .crop-orig-meta {
       display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
     }
-    .ratio-pill-btn {
-      padding: 4px 10px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 6px;
-      color: #cbd5e1;
-      font-size: 0.72rem;
+    .crop-orig-title {
+      font-size: 0.70rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .crop-orig-dims {
+      font-size: 0.62rem;
+      color: #64748b;
+      font-family: monospace;
+    }
+    .crop-replace-btn {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      padding: 2px 7px;
+      font-size: 0.64rem;
       font-weight: 600;
+      color: #334155;
       cursor: pointer;
-      transition: all 0.18s;
-      font-family: 'Outfit', sans-serif;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      margin-top: 2px;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.15s;
     }
-    .ratio-pill-btn:hover {
-      background: rgba(244, 180, 0, 0.15);
-      border-color: rgba(244, 180, 0, 0.4);
-      color: #fff;
+    .crop-replace-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
     }
-    .ratio-pill-btn.active {
-      background: rgba(244, 180, 0, 0.22);
-      border-color: var(--accent);
-      color: #fde047;
-      box-shadow: 0 0 10px rgba(244, 180, 0, 0.25);
-    }
-    .ratio-pill-btn.exact-pill {
-      border-color: rgba(244, 180, 0, 0.4);
-      color: #fde047;
-      font-weight: 700;
-    }
-    .ratio-pill-btn.custom-pill {
-      border-color: rgba(147, 197, 253, 0.35);
-      color: #93c5fd;
-    }
-    .crop-canvas-wrapper {
-      height: 420px;
-      max-height: 52vh;
-      background: #04070d;
+
+    /* Middle Column: Viewport */
+    .crop-col-viewport {
       position: relative;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      height: 100%;
+      min-height: 0;
+    }
+    .crop-viewport-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 0.70rem;
+      font-weight: 700;
+      color: #475569;
+      font-family: monospace;
+      pointer-events: none;
+    }
+    .crop-canvas-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
     .crop-canvas-wrapper img {
       max-width: 100%;
       max-height: 100%;
       display: block;
     }
-    .crop-toolbar {
-      padding: 8px 18px;
-      background: rgba(8, 13, 20, 0.8);
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+    /* Right Column: Controls */
+    .crop-col-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      min-height: 0;
+      padding-left: 2px;
+      scrollbar-width: thin;
+    }
+    .crop-ctrl-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .crop-ctrl-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      flex-shrink: 0;
     }
-    .crop-tools-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .crop-tool-btn {
-      padding: 5px 9px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      color: #cbd5e1;
+    .crop-ctrl-label {
       font-size: 0.72rem;
-      cursor: pointer;
-      transition: all 0.18s;
+      font-weight: 600;
+      color: #475569;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
-    .crop-tool-btn:hover {
-      background: rgba(255, 255, 255, 0.14);
-      color: #fff;
-    }
-    .crop-tool-btn.active {
-      background: rgba(244, 180, 0, 0.22);
-      border-color: var(--accent);
-      color: #fde047;
+    .crop-ctrl-readout {
+      font-size: 0.70rem;
       font-weight: 700;
-      box-shadow: 0 0 8px rgba(244, 180, 0, 0.25);
-    }
-    .crop-info-text {
-      font-size: 0.7rem;
-      color: #94a3b8;
+      color: #f97316;
       font-family: monospace;
     }
-    .crop-modal-footer {
-      padding: 11px 18px;
-      background: rgba(15, 23, 42, 0.95);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    .crop-range-slider {
+      width: 100%;
+      height: 4px;
+      background: #e2e8f0;
+      border-radius: 2px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+    .crop-range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #f97316;
+      cursor: pointer;
+    }
+    .crop-ctrl-2col-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .crop-action-pill-btn {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 7px;
+      padding: 5px 4px;
+      font-size: 0.66rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.15s;
+    }
+    .crop-action-pill-btn:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+    .crop-dpad-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      margin: 2px 0;
+    }
+    .crop-dpad-mid-row {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .crop-dpad-btn {
+      width: 30px;
+      height: 26px;
+      border-radius: 5px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #475569;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      transition: all 0.15s;
+    }
+    .crop-dpad-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .crop-full-reset-btn {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-family: 'Outfit', sans-serif;
+      margin-top: 4px;
+      transition: all 0.15s;
+    }
+    .crop-full-reset-btn:hover {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: #ef4444;
+    }
+
+    /* Modal Bottombar */
+    .crop-modal-bottombar {
+      padding: 10px 20px;
+      border-top: 1px solid #f1f5f9;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       gap: 10px;
       flex-shrink: 0;
+      background: #ffffff;
     }
-    .crop-btn-cancel {
-      padding: 7px 15px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 8px;
-      color: #cbd5e1;
-      font-size: 0.78rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .crop-btn-cancel:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
-    }
-    .crop-btn-skip {
-      padding: 7px 15px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
-      color: #e2e8f0;
-      font-size: 0.78rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .crop-btn-skip:hover {
-      background: rgba(255, 255, 255, 0.16);
-      color: #fff;
-    }
-    .crop-btn-apply {
-      padding: 7px 18px;
-      background: linear-gradient(135deg, #f4b400, #d97706);
-      border: none;
-      border-radius: 8px;
-      color: #000;
+    .crop-btn-cancel-light {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      padding: 8px 18px;
       font-size: 0.82rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Outfit', sans-serif;
+    }
+    .crop-btn-cancel-light:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .crop-btn-apply-primary {
+      background: #f97316;
+      border: none;
+      border-radius: 9px;
+      padding: 8px 22px;
+      font-size: 0.84rem;
       font-weight: 700;
+      color: #ffffff;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 4px 15px rgba(244, 180, 0, 0.35);
-      transition: all 0.2s;
+      box-shadow: 0 3px 10px rgba(249, 115, 22, 0.28);
+      transition: all 0.18s;
+      font-family: 'Outfit', sans-serif;
     }
-    .crop-btn-apply:hover {
-      filter: brightness(1.1);
-      transform: translateY(-1px);
+    .crop-btn-apply-primary:hover {
+      background: #ea580c;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.38);
     }
 
-    /* Cropper.js Custom Gold Theme */
+    /* Cropper.js Custom Orange Theme (matching reference circular handles) */
     .cropper-view-box {
-      outline: 2px solid #f4b400 !important;
-      outline-color: rgba(244, 180, 0, 0.95) !important;
+      outline: 2px solid #f97316 !important;
+      outline-color: #f97316 !important;
     }
     .cropper-line {
-      background-color: #f4b400 !important;
+      background-color: #f97316 !important;
     }
     .cropper-point {
-      background-color: #f4b400 !important;
-      width: 8px !important;
-      height: 8px !important;
-      border-radius: 2px !important;
-    }
-    .cropper-point.point-se {
-      width: 12px !important;
-      height: 12px !important;
+      background-color: #f97316 !important;
+      width: 10px !important;
+      height: 10px !important;
+      border-radius: 50% !important;
+      border: 1.5px solid #ffffff !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.35) !important;
+      opacity: 1 !important;
     }
     .cropper-modal {
-      background-color: rgba(3, 7, 18, 0.82) !important;
+      background-color: rgba(15, 23, 42, 0.55) !important;
     }
     .cropper-dashed {
-      border-color: rgba(244, 180, 0, 0.5) !important;
+      border-color: rgba(255, 255, 255, 0.6) !important;
     }
 
     /* Auto-detect badge */
@@ -1344,10 +1512,10 @@
                 <span class="step-subtitle">Select a style for your book cover.</span>
               </div>
             </div>
-            <button type="button" class="view-all-btn" id="btn-view-all-mockups">View all <i class="fa-solid fa-arrow-right"></i></button>
+            <span class="step-badge" style="font-size: 0.65rem; font-weight: 600; color: #f97316; background: rgba(249,115,22,0.1); padding: 2px 8px; border-radius: 9999px; border: 1px solid rgba(249,115,22,0.2);">8 Templates</span>
           </div>
 
-          <!-- Quick Mockup Styles Row -->
+          <!-- All 8 Authentic Mockups in 4x2 Grid -->
           <div class="quick-mockup-row" id="quick-preset-row">
             <!-- 1. Top View -->
             <button type="button" class="mockup-style-card active" data-preset="book_mockup_1" title="Original PSD Top-Down">
@@ -1367,16 +1535,52 @@
               <span class="style-card-label">Standing</span>
             </button>
 
-            <!-- 3. Stacked -->
+            <!-- 3. Paperback Duo -->
+            <button type="button" class="mockup-style-card" data-preset="paperback_duo" title="Paperback Front & Back Duo">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" alt="Paperback Duo">
+              </div>
+              <span class="style-card-label">Paperback Duo</span>
+            </button>
+
+            <!-- 4. Dual Showcase -->
+            <button type="button" class="mockup-style-card" data-preset="front_back_showcase" title="Dual Standing Showcase">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" alt="Dual Showcase">
+              </div>
+              <span class="style-card-label">Dual Showcase</span>
+            </button>
+
+            <!-- 5. Square Flatlay -->
+            <button type="button" class="mockup-style-card" data-preset="square_flatlay" title="Square 8.5x8.5 Flatlay">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" alt="Square Flatlay">
+              </div>
+              <span class="style-card-label">Square Flatlay</span>
+            </button>
+
+            <!-- 6. Stacked -->
             <button type="button" class="mockup-style-card" data-preset="square_stack" title="Square 3-Book Stack">
               <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
               <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/square_stack.jpg" alt="Stacked">
+                <img src="/images/psd_mockups/thumbnails/square_stack.jpg" alt="3-Book Stack">
               </div>
-              <span class="style-card-label">Stacked</span>
+              <span class="style-card-label">3-Book Stack</span>
             </button>
 
-            <!-- 4. Open Book -->
+            <!-- 7. 4-Book Studio -->
+            <button type="button" class="mockup-style-card" data-preset="studio_collector" title="4-Book Studio Suite">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockups/thumbnails/spine_full_showcase.jpg" alt="4-Book Studio">
+              </div>
+              <span class="style-card-label">4-Book Studio</span>
+            </button>
+
+            <!-- 8. Open Book -->
             <button type="button" class="mockup-style-card" data-preset="open_spread" title="Open Spread Flatlay">
               <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
               <div class="style-thumb-box">
@@ -1473,9 +1677,14 @@
             <button type="button" class="step-reset-btn" id="reset-transform-btn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
           </div>
 
-          <!-- 6 Crop & Position Action Buttons -->
+          <!-- 6 Crop & Position Action Buttons with Auto Fit -->
           <div class="crop-tools-row">
-            <button type="button" class="crop-fit-btn active" id="btn-fit-fill" title="Fill cover area">
+            <button type="button" class="crop-fit-btn active" id="btn-fit-autofit" title="Auto Fit artwork to mockup canvas">
+              <i class="fa-solid fa-wand-magic-sparkles crop-fit-icon" style="color: #f97316;"></i>
+              <span class="crop-fit-label">Auto Fit</span>
+            </button>
+
+            <button type="button" class="crop-fit-btn" id="btn-fit-fill" title="Fill cover area">
               <i class="fa-solid fa-expand crop-fit-icon"></i>
               <span class="crop-fit-label">Fill</span>
             </button>
@@ -1490,7 +1699,7 @@
               <span class="crop-fit-label">Center</span>
             </button>
 
-            <button type="button" class="crop-fit-btn" id="btn-fit-custom" title="Custom Crop Modal">
+            <button type="button" class="crop-fit-btn" id="btn-fit-custom" title="Custom Crop & Presets Modal">
               <i class="fa-solid fa-crop-simple crop-fit-icon"></i>
               <span class="crop-fit-label">Custom</span>
             </button>
@@ -1498,11 +1707,6 @@
             <button type="button" class="crop-fit-btn" id="btn-fit-square" title="Square 1:1 Framing">
               <i class="fa-regular fa-square crop-fit-icon"></i>
               <span class="crop-fit-label">Square</span>
-            </button>
-
-            <button type="button" class="crop-fit-btn" id="btn-fit-23" title="Standard 2:3 Book Ratio">
-              <i class="fa-solid fa-file-lines crop-fit-icon"></i>
-              <span class="crop-fit-label">2:3 Ratio</span>
             </button>
           </div>
 
@@ -1701,68 +1905,234 @@
   </div>
 </div>
 
-<!-- INTERACTIVE ARTWORK CROPPER MODAL -->
+<!-- REDESIGNED SMART CROP & UPLOAD MODAL (Matching Reference) -->
 <div id="art-crop-modal" class="crop-modal-backdrop" style="display: none;">
   <div class="crop-modal-dialog">
+    
+    <!-- Modal Header -->
     <div class="crop-modal-header">
       <div class="crop-header-left">
-        <div class="crop-badge-row">
-          <span class="crop-slot-badge" id="crop-modal-slot-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> SMART CROP AUTO-DETECTED</span>
-          <span class="crop-target-spec-tag" id="crop-modal-target-spec"><i class="fa-solid fa-crosshairs"></i> Target Area: 856 × 1269 px</span>
+        <div class="crop-header-brand-wrap">
+          <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy" class="crop-header-logo-img">
         </div>
-        <h3 class="crop-modal-title" id="crop-modal-title">Crop Artwork</h3>
-        <span class="crop-modal-hint" id="crop-modal-hint">Preselected exact mockup ratio. Adjust framing, zoom, or pick a preset below.</span>
+        <div class="crop-header-text">
+          <h3 class="crop-modal-title" id="crop-modal-title">Crop Artwork for Front Cover</h3>
+          <p class="crop-modal-subtitle" id="crop-modal-hint">Adjust the artwork to fit the exact front cover area (958 × 1353 px). You can crop, zoom, or choose a preset below.</p>
+        </div>
       </div>
       <div class="crop-header-right">
-        <div class="crop-slot-switch-group" id="crop-slot-switch-group">
-          <!-- Injected dynamically: [ Front Cover ] [ Spine ] [ Back Cover ] -->
+        <div class="crop-target-badge">
+          <i class="fa-solid fa-crosshairs" style="color: #64748b;"></i>
+          <span id="crop-modal-target-spec">Target Area: 958 × 1353 px (6:9)</span>
         </div>
-        <button type="button" class="crop-close-btn" id="crop-btn-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="crop-modal-close-btn" id="crop-btn-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
       </div>
     </div>
 
-    <!-- Aspect Ratio Selection Bar -->
-    <div class="crop-ratio-bar">
-      <span class="crop-ratio-label"><i class="fa-solid fa-shapes"></i> Crop Presets:</span>
-      <div class="crop-ratio-pills" id="crop-ratio-pills">
-        <!-- Injected dynamically by openCropModal: Exact Ratio, Custom, 6:9, 5:8, 1:1, etc. -->
+    <!-- 3-Column Modal Body -->
+    <div class="crop-modal-body-grid">
+      
+      <!-- LEFT COLUMN: Presets & Original Image Card -->
+      <div class="crop-col-presets">
+        <div class="crop-section-heading">Crop Presets</div>
+        <div class="crop-presets-scroll-list" id="crop-presets-list">
+          <!-- 1. Auto Fit (Featured) -->
+          <button type="button" class="crop-preset-card active" data-preset="autofit" id="crop-preset-autofit">
+            <div class="preset-card-icon-wrap orange">
+              <i class="fa-solid fa-expand"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">Auto Fit</span>
+              <span class="preset-card-desc">Automatically fit and center the image</span>
+            </div>
+          </button>
+
+          <!-- 2. Exact Mockup Fit -->
+          <button type="button" class="crop-preset-card" data-preset="exact" id="crop-preset-exact">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-regular fa-image"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">Exact Mockup Fit</span>
+              <span class="preset-card-desc" id="preset-exact-dim">958 × 1353 px</span>
+            </div>
+          </button>
+
+          <!-- 3. Custom / Freeform -->
+          <button type="button" class="crop-preset-card" data-preset="custom" id="crop-preset-custom">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-solid fa-crop-simple"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">Custom / Freeform</span>
+              <span class="preset-card-desc">Draw your own crop</span>
+            </div>
+          </button>
+
+          <!-- 4. 6:9 Standard Book -->
+          <button type="button" class="crop-preset-card" data-preset="6:9">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-regular fa-rectangle-vertical"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">6:9 Standard Book</span>
+              <span class="preset-card-desc">1:1.50</span>
+            </div>
+          </button>
+
+          <!-- 5. 5:8 Trade Novel -->
+          <button type="button" class="crop-preset-card" data-preset="5:8">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-regular fa-rectangle-vertical"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">5:8 Trade Novel</span>
+              <span class="preset-card-desc">1:1.60</span>
+            </div>
+          </button>
+
+          <!-- 6. 1:1 Square Album -->
+          <button type="button" class="crop-preset-card" data-preset="1:1">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-regular fa-square"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">1:1 Square Album</span>
+              <span class="preset-card-desc">1:1.00</span>
+            </div>
+          </button>
+
+          <!-- 7. 5.5:8.5 Digest Fiction -->
+          <button type="button" class="crop-preset-card" data-preset="5.5:8.5">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-regular fa-envelope"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">5.5:8.5 Digest Fiction</span>
+              <span class="preset-card-desc">1:1.55</span>
+            </div>
+          </button>
+
+          <!-- 8. A4 / A5 Standard -->
+          <button type="button" class="crop-preset-card" data-preset="a4">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-regular fa-file"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">A4 / A5 Standard</span>
+              <span class="preset-card-desc">1:1.41</span>
+            </div>
+          </button>
+
+          <!-- 9. Full Original Image -->
+          <button type="button" class="crop-preset-card" data-preset="full">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-regular fa-images"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">Full Original Image</span>
+              <span class="preset-card-desc">No crop (use full image)</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Original Image Preview & Replace Box -->
+        <div class="crop-orig-image-card">
+          <img id="crop-orig-thumb" class="crop-orig-thumb" alt="Original Cover" src="">
+          <div class="crop-orig-meta">
+            <span class="crop-orig-title">Original Image</span>
+            <span class="crop-orig-dims" id="crop-orig-dims">1200 × 1600 px</span>
+            <button type="button" class="crop-replace-btn" id="crop-replace-trigger">
+              <i class="fa-solid fa-cloud-arrow-up"></i> Replace Image
+            </button>
+            <input type="file" id="crop-replace-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- Interactive Cropper Container -->
-    <div class="crop-canvas-wrapper">
-      <img id="crop-target-image" src="" alt="Artwork to crop">
-    </div>
-
-    <!-- Crop Toolbar & Zoom/Rotate Controls -->
-    <div class="crop-toolbar">
-      <div class="crop-tools-group">
-        <button type="button" class="crop-tool-btn active" id="crop-mode-crop" title="Crop Selection Box"><i class="fa-solid fa-crop-simple"></i> Crop Box</button>
-        <button type="button" class="crop-tool-btn" id="crop-mode-move" title="Pan / Move Artwork"><i class="fa-solid fa-up-down-left-right"></i> Pan Image</button>
-
-        <div style="width: 1px; height: 18px; background: rgba(255,255,255,0.15); margin: 0 4px;"></div>
-
-        <button type="button" class="crop-tool-btn" id="crop-tool-zoom-out" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-        <button type="button" class="crop-tool-btn" id="crop-tool-zoom-in" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-
-        <div style="width: 1px; height: 18px; background: rgba(255,255,255,0.15); margin: 0 4px;"></div>
-
-        <button type="button" class="crop-tool-btn" id="crop-tool-rotate-left" title="Rotate 90° Counter-Clockwise"><i class="fa-solid fa-rotate-left"></i> -90°</button>
-        <button type="button" class="crop-tool-btn" id="crop-tool-rotate-right" title="Rotate 90° Clockwise"><i class="fa-solid fa-rotate-right"></i> +90°</button>
-        <button type="button" class="crop-tool-btn" id="crop-tool-flip-h" title="Flip Horizontal"><i class="fa-solid fa-arrows-left-right"></i> Flip</button>
-        <button type="button" class="crop-tool-btn" id="crop-tool-reset" title="Reset Crop &amp; Zoom"><i class="fa-solid fa-arrow-rotate-left"></i> Reset</button>
+      <!-- MIDDLE COLUMN: Interactive Cropper Viewport -->
+      <div class="crop-col-viewport">
+        <div class="crop-viewport-badge" id="crop-viewport-dim-badge">958 × 1353 px</div>
+        <div class="crop-canvas-wrapper" id="crop-canvas-wrapper">
+          <img id="crop-target-image" src="" alt="Crop Artwork">
+        </div>
       </div>
-      <div class="crop-info-text" id="crop-dimensions-info">
-        Ready to crop
+
+      <!-- RIGHT COLUMN: Image Controls -->
+      <div class="crop-col-controls">
+        <div class="crop-section-heading">Image Controls</div>
+
+        <!-- Zoom Control -->
+        <div class="crop-ctrl-item">
+          <div class="crop-ctrl-header">
+            <span class="crop-ctrl-label"><i class="fa-solid fa-magnifying-glass"></i> Zoom</span>
+            <span class="crop-ctrl-readout" id="crop-zoom-readout">100%</span>
+          </div>
+          <input type="range" id="crop-zoom-slider" min="50" max="300" value="100" class="crop-range-slider">
+        </div>
+
+        <!-- Rotate Slider -->
+        <div class="crop-ctrl-item">
+          <div class="crop-ctrl-header">
+            <span class="crop-ctrl-label"><i class="fa-solid fa-rotate"></i> Rotate</span>
+            <span class="crop-ctrl-readout" id="crop-rotate-readout">0°</span>
+          </div>
+          <input type="range" id="crop-rotate-slider" min="-180" max="180" value="0" class="crop-range-slider">
+        </div>
+
+        <!-- Rotate Buttons -->
+        <div class="crop-ctrl-2col-row">
+          <button type="button" class="crop-action-pill-btn" id="crop-btn-rot-left">
+            <i class="fa-solid fa-rotate-left"></i> Rotate Left
+          </button>
+          <button type="button" class="crop-action-pill-btn" id="crop-btn-rot-right">
+            <i class="fa-solid fa-rotate-right"></i> Rotate Right
+          </button>
+        </div>
+
+        <!-- Flip Buttons -->
+        <div class="crop-ctrl-item" style="margin-top: 2px;">
+          <span class="crop-ctrl-label" style="display: block; margin-bottom: 6px;"><i class="fa-solid fa-arrows-left-right"></i> Flip</span>
+          <div class="crop-ctrl-2col-row">
+            <button type="button" class="crop-action-pill-btn" id="crop-btn-flip-h">
+              <i class="fa-solid fa-arrows-left-right"></i> Flip Horizontal
+            </button>
+            <button type="button" class="crop-action-pill-btn" id="crop-btn-flip-v">
+              <i class="fa-solid fa-arrows-up-down"></i> Flip Vertical
+            </button>
+          </div>
+        </div>
+
+        <!-- Position (D-Pad) -->
+        <div class="crop-ctrl-item" style="margin-top: 2px;">
+          <span class="crop-ctrl-label" style="display: block; margin-bottom: 6px;"><i class="fa-solid fa-arrows-up-down-left-right"></i> Position</span>
+          <div class="crop-dpad-container">
+            <button type="button" class="crop-dpad-btn up" id="crop-dpad-up" title="Move Up"><i class="fa-solid fa-chevron-up"></i></button>
+            <div class="crop-dpad-mid-row">
+              <button type="button" class="crop-dpad-btn left" id="crop-dpad-left" title="Move Left"><i class="fa-solid fa-chevron-left"></i></button>
+              <button type="button" class="crop-dpad-btn center" id="crop-dpad-center" title="Center Artwork"><i class="fa-solid fa-circle-dot"></i></button>
+              <button type="button" class="crop-dpad-btn right" id="crop-dpad-right" title="Move Right"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <button type="button" class="crop-dpad-btn down" id="crop-dpad-down" title="Move Down"><i class="fa-solid fa-chevron-down"></i></button>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <button type="button" class="crop-full-reset-btn" id="crop-btn-reset-all">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
       </div>
+
     </div>
 
     <!-- Modal Footer Actions -->
-    <div class="crop-modal-footer">
-      <button type="button" class="crop-btn-cancel" id="crop-btn-cancel">Cancel</button>
-      <button type="button" class="crop-btn-skip" id="crop-btn-skip">Use Full Image (No Crop)</button>
-      <button type="button" class="crop-btn-apply" id="crop-btn-apply"><i class="fa-solid fa-check"></i> <span id="crop-apply-label">Apply &amp; Set Artwork</span></button>
+    <div class="crop-modal-bottombar">
+      <button type="button" class="crop-btn-cancel-light" id="crop-btn-cancel">Cancel</button>
+      <button type="button" class="crop-btn-apply-primary" id="crop-btn-apply">
+        <i class="fa-solid fa-check"></i> <span id="crop-apply-label">Apply &amp; Set Front Cover</span>
+      </button>
     </div>
+
   </div>
 </div>
 
@@ -3334,7 +3704,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     return getSlotTargetSpecs(presetId, slot).ratio;
   }
 
-  // ── SMART ARTWORK CROP MODAL ENGINE ──
+  // ── SMART ARTWORK CROP MODAL ENGINE (Reference Matching) ──
   window.openCropModal = openCropModal;
   function openCropModal(imgSrc, slot = 'front', fileName = '') {
     if (!imgSrc || !cropModal) return;
@@ -3347,112 +3717,60 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     const specs = getSlotTargetSpecs(currentPresetId, slot);
     activeCropRatio = specs.ratio;
 
-    // Header Badges & Hints
-    if (cropModalSlotBadge) {
-      const badgeIcon = slot === 'spine' ? 'fa-grip-lines-vertical' : (slot === 'back' ? 'fa-book' : 'fa-book-open');
-      cropModalSlotBadge.innerHTML = `<i class="fa-solid ${badgeIcon}"></i> ${specs.slotLabel.toUpperCase()} AUTO-DETECTED`;
-    }
+    // Header Meta & Hints
     if (cropModalTargetSpec) {
-      cropModalTargetSpec.innerHTML = `<i class="fa-solid fa-crosshairs"></i> Target Area: <strong>${specs.width} × ${specs.height} px</strong> (${specs.aspectLabel})`;
+      cropModalTargetSpec.textContent = `Target Area: ${specs.width} × ${specs.height} px (${specs.aspectLabel || 'Auto'})`;
     }
     if (cropModalTitle) {
       cropModalTitle.textContent = `Crop Artwork for ${specs.slotLabel}`;
     }
     if (cropModalHint) {
-      cropModalHint.textContent = `Preselected exact ${specs.mockupTitle} proportions (${specs.width} × ${specs.height} px). Adjust framing, zoom, or pick a preset below.`;
+      cropModalHint.textContent = `Adjust the artwork to fit the exact ${specs.slotLabel.toLowerCase()} area (${specs.width} × ${specs.height} px). You can crop, zoom, or choose a preset below.`;
     }
     if (cropApplyLabel) {
       cropApplyLabel.textContent = `Apply & Set ${specs.slotLabel}`;
     }
 
-    // Dynamic Slot Switcher in Crop Dialog Header
-    if (cropSlotSwitchGroup) {
-      cropSlotSwitchGroup.innerHTML = '';
-      const config = PSD_MANIFEST[currentPresetId];
-      const availableSlots = (config && config.slots) ? config.slots : ['front'];
-
-      if (availableSlots.length > 1) {
-        availableSlots.forEach(s => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'crop-slot-switch-btn' + (s === slot ? ' active' : '');
-          const icon = s === 'spine' ? 'fa-grip-lines-vertical' : (s === 'back' ? 'fa-book' : 'fa-book-open');
-          const lbl = s === 'spine' ? 'Spine' : (s === 'back' ? 'Back Cover' : 'Front Cover');
-          btn.innerHTML = `<i class="fa-solid ${icon}"></i> ${lbl}`;
-          btn.addEventListener('click', () => {
-            if (s !== currentCropSlot) {
-              openCropModal(currentCropDataUrl, s, currentCropFileName);
-            }
-          });
-          cropSlotSwitchGroup.appendChild(btn);
-        });
-        cropSlotSwitchGroup.style.display = 'flex';
-      } else {
-        cropSlotSwitchGroup.style.display = 'none';
-      }
+    // Viewport Dimension Badge
+    const viewportDimBadge = document.getElementById('crop-viewport-dim-badge');
+    if (viewportDimBadge) {
+      viewportDimBadge.textContent = `${specs.width} × ${specs.height} px`;
     }
 
-    // 5 to 6 Ready-Made Crop Presets + Custom Crop Option
-    if (cropRatioPills) {
-      cropRatioPills.innerHTML = '';
-      let pills = [];
-
-      if (slot === 'spine') {
-        pills = [
-          { label: `★ Exact Spine Fit (${specs.width}×${specs.height})`, ratio: specs.ratio, active: true, isExact: true },
-          { label: '⛶ Custom / Freeform Spine', ratio: NaN, isCustom: true },
-          { label: 'Standard Spine 1:10 (200-300 pgs)', ratio: 0.10 },
-          { label: 'Slim / Novella 1:15 (100-150 pgs)', ratio: 0.0667 },
-          { label: 'Thick / Hardcover 1:8 (400+ pgs)', ratio: 0.125 },
-          { label: 'Ultra-Thin 1:22 (<100 pgs)', ratio: 0.0455 },
-          { label: '↔ Full Original Image', ratio: 'original' }
-        ];
-      } else {
-        pills = [
-          { label: `★ Exact Mockup Fit (${specs.width}×${specs.height})`, ratio: specs.ratio, active: true, isExact: true },
-          { label: '⛶ Custom / Freeform Crop', ratio: NaN, isCustom: true },
-          { label: '6:9 Standard Book (1:1.50)', ratio: 2 / 3 },
-          { label: '5:8 Trade Novel (1:1.60)', ratio: 5 / 8 },
-          { label: '1:1 Square Album (1:1.00)', ratio: 1.0 },
-          { label: '5.5:8.5 Digest Fiction (1:1.55)', ratio: 5.5 / 8.5 },
-          { label: 'A4 / A5 Standard (1:1.41)', ratio: 1 / 1.4142 },
-          { label: '↔ Full Original Image', ratio: 'original' }
-        ];
-      }
-
-      pills.forEach(p => {
-        const pillBtn = document.createElement('button');
-        pillBtn.type = 'button';
-        let cls = 'ratio-pill-btn';
-        if (p.active) cls += ' active';
-        if (p.isExact) cls += ' exact-pill';
-        if (p.isCustom) cls += ' custom-pill';
-        pillBtn.className = cls;
-        pillBtn.textContent = p.label;
-
-        pillBtn.addEventListener('click', () => {
-          cropRatioPills.querySelectorAll('.ratio-pill-btn').forEach(b => b.classList.remove('active'));
-          pillBtn.classList.add('active');
-          if (!activeCropper) return;
-
-          if (p.ratio === 'original') {
-            const imgData = activeCropper.getImageData();
-            if (imgData && imgData.naturalHeight) {
-              activeCropper.setAspectRatio(imgData.naturalWidth / imgData.naturalHeight);
-            } else {
-              activeCropper.setAspectRatio(NaN);
-            }
-          } else {
-            activeCropper.setAspectRatio(p.ratio);
-          }
-        });
-        cropRatioPills.appendChild(pillBtn);
-      });
+    // Preset Exact Dimension Label
+    const presetExactDim = document.getElementById('preset-exact-dim');
+    if (presetExactDim) {
+      presetExactDim.textContent = `${specs.width} × ${specs.height} px`;
     }
 
-    // Default drag mode to crop box handles
-    if (cropModeCrop) cropModeCrop.classList.add('active');
-    if (cropModeMove) cropModeMove.classList.remove('active');
+    // Original Image Box (Thumb & Dims)
+    const cropOrigThumb = document.getElementById('crop-orig-thumb');
+    const cropOrigDims = document.getElementById('crop-orig-dims');
+    if (cropOrigThumb) cropOrigThumb.src = imgSrc;
+
+    const sourceProbeImg = new Image();
+    sourceProbeImg.onload = () => {
+      if (cropOrigDims) {
+        cropOrigDims.textContent = `${sourceProbeImg.naturalWidth} × ${sourceProbeImg.naturalHeight} px`;
+      }
+    };
+    sourceProbeImg.src = imgSrc;
+
+    // Reset Sliders to Default
+    const cropZoomSlider = document.getElementById('crop-zoom-slider');
+    const cropZoomReadout = document.getElementById('crop-zoom-readout');
+    const cropRotateSlider = document.getElementById('crop-rotate-slider');
+    const cropRotateReadout = document.getElementById('crop-rotate-readout');
+
+    if (cropZoomSlider) cropZoomSlider.value = 100;
+    if (cropZoomReadout) cropZoomReadout.textContent = '100%';
+    if (cropRotateSlider) cropRotateSlider.value = 0;
+    if (cropRotateReadout) cropRotateReadout.textContent = '0°';
+
+    // Set Active Preset to Auto Fit
+    document.querySelectorAll('.crop-preset-card').forEach(card => card.classList.remove('active'));
+    const autoFitCard = document.getElementById('crop-preset-autofit');
+    if (autoFitCard) autoFitCard.classList.add('active');
 
     // Mount image and instantiate Cropper.js
     if (cropTargetImg) {
@@ -3474,7 +3792,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         activeCropper = new Cropper(cropTargetImg, {
           aspectRatio: specs.ratio,
           viewMode: 1,
-          autoCropArea: 0.96,
+          autoCropArea: 0.98,
           responsive: true,
           restore: true,
           checkCrossOrigin: false,
@@ -3485,13 +3803,24 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           cropBoxResizable: true,
           toggleDragModeOnDblclick: true,
           dragMode: 'crop',
+          ready() {
+            // Auto Fit: Center and set optimal crop area
+            activeCropper.setAspectRatio(specs.ratio);
+          },
+          zoom(e) {
+            if (cropZoomSlider && cropZoomReadout) {
+              const currentScale = Math.round(e.detail.ratio * 100);
+              cropZoomSlider.value = Math.min(300, Math.max(50, currentScale));
+              cropZoomReadout.textContent = cropZoomSlider.value + '%';
+            }
+          },
           crop(e) {
-            if (cropDimensionsInfo) {
+            const viewportBadge = document.getElementById('crop-viewport-dim-badge');
+            if (viewportBadge) {
               const d = e.detail;
               const w = Math.round(d.width);
               const h = Math.round(d.height);
-              const r = h > 0 ? (w / h).toFixed(2) : '-';
-              cropDimensionsInfo.innerHTML = `Target: <strong>${specs.width}×${specs.height} px</strong> | Selected Crop: <strong>${w} × ${h} px</strong> (Ratio: ${r})`;
+              viewportBadge.textContent = `${w} × ${h} px`;
             }
           }
         });
@@ -3503,6 +3832,168 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         cropTargetImg.addEventListener('load', setupCropper);
       }
     }
+  }
+
+  // Preset Cards Click Handlers
+  document.querySelectorAll('.crop-preset-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.crop-preset-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      if (!activeCropper) return;
+
+      const pType = card.dataset.preset;
+      const specs = getSlotTargetSpecs(currentPresetId, currentCropSlot);
+
+      if (pType === 'autofit') {
+        activeCropper.setAspectRatio(specs.ratio);
+        activeCropper.reset();
+        if (document.getElementById('crop-zoom-slider')) document.getElementById('crop-zoom-slider').value = 100;
+        if (document.getElementById('crop-zoom-readout')) document.getElementById('crop-zoom-readout').textContent = '100%';
+        if (document.getElementById('crop-rotate-slider')) document.getElementById('crop-rotate-slider').value = 0;
+        if (document.getElementById('crop-rotate-readout')) document.getElementById('crop-rotate-readout').textContent = '0°';
+      } else if (pType === 'exact') {
+        activeCropper.setAspectRatio(specs.ratio);
+      } else if (pType === 'custom') {
+        activeCropper.setAspectRatio(NaN);
+      } else if (pType === '6:9') {
+        activeCropper.setAspectRatio(2 / 3);
+      } else if (pType === '5:8') {
+        activeCropper.setAspectRatio(5 / 8);
+      } else if (pType === '1:1') {
+        activeCropper.setAspectRatio(1.0);
+      } else if (pType === '5.5:8.5') {
+        activeCropper.setAspectRatio(5.5 / 8.5);
+      } else if (pType === 'a4') {
+        activeCropper.setAspectRatio(1 / 1.4142);
+      } else if (pType === 'full') {
+        const imgData = activeCropper.getImageData();
+        if (imgData && imgData.naturalHeight) {
+          activeCropper.setAspectRatio(imgData.naturalWidth / imgData.naturalHeight);
+        } else {
+          activeCropper.setAspectRatio(NaN);
+        }
+      }
+    });
+  });
+
+  // Replace Image Trigger & Native Input
+  const cropReplaceTrigger = document.getElementById('crop-replace-trigger');
+  const cropReplaceInput = document.getElementById('crop-replace-file-input');
+  if (cropReplaceTrigger && cropReplaceInput) {
+    cropReplaceTrigger.addEventListener('click', () => cropReplaceInput.click());
+    cropReplaceInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          openCropModal(ev.target.result, currentCropSlot, file.name);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Right Column Controls: Zoom Slider
+  const cropZoomSlider = document.getElementById('crop-zoom-slider');
+  const cropZoomReadout = document.getElementById('crop-zoom-readout');
+  if (cropZoomSlider) {
+    cropZoomSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      if (cropZoomReadout) cropZoomReadout.textContent = val + '%';
+      if (activeCropper) activeCropper.zoomTo(val / 100);
+    });
+  }
+
+  // Right Column Controls: Rotate Slider
+  const cropRotateSlider = document.getElementById('crop-rotate-slider');
+  const cropRotateReadout = document.getElementById('crop-rotate-readout');
+  if (cropRotateSlider) {
+    cropRotateSlider.addEventListener('input', (e) => {
+      const deg = parseInt(e.target.value);
+      if (cropRotateReadout) cropRotateReadout.textContent = deg + '°';
+      if (activeCropper) activeCropper.rotateTo(deg);
+    });
+  }
+
+  // Rotate Left & Right
+  const cropBtnRotLeft = document.getElementById('crop-btn-rot-left');
+  const cropBtnRotRight = document.getElementById('crop-btn-rot-right');
+  if (cropBtnRotLeft) {
+    cropBtnRotLeft.addEventListener('click', () => {
+      if (!activeCropper) return;
+      activeCropper.rotate(-90);
+      const d = activeCropper.getData();
+      if (cropRotateSlider) cropRotateSlider.value = d.rotate || 0;
+      if (cropRotateReadout) cropRotateReadout.textContent = (d.rotate || 0) + '°';
+    });
+  }
+  if (cropBtnRotRight) {
+    cropBtnRotRight.addEventListener('click', () => {
+      if (!activeCropper) return;
+      activeCropper.rotate(90);
+      const d = activeCropper.getData();
+      if (cropRotateSlider) cropRotateSlider.value = d.rotate || 0;
+      if (cropRotateReadout) cropRotateReadout.textContent = (d.rotate || 0) + '°';
+    });
+  }
+
+  // Flip Horizontal & Vertical
+  const cropBtnFlipH = document.getElementById('crop-btn-flip-h');
+  const cropBtnFlipV = document.getElementById('crop-btn-flip-v');
+  if (cropBtnFlipH) {
+    cropBtnFlipH.addEventListener('click', () => {
+      if (!activeCropper) return;
+      const data = activeCropper.getData();
+      activeCropper.scaleX(data.scaleX === -1 ? 1 : -1);
+    });
+  }
+  if (cropBtnFlipV) {
+    cropBtnFlipV.addEventListener('click', () => {
+      if (!activeCropper) return;
+      const data = activeCropper.getData();
+      activeCropper.scaleY(data.scaleY === -1 ? 1 : -1);
+    });
+  }
+
+  // D-Pad Position Controls
+  const dpadUp = document.getElementById('crop-dpad-up');
+  const dpadDown = document.getElementById('crop-dpad-down');
+  const dpadLeft = document.getElementById('crop-dpad-left');
+  const dpadRight = document.getElementById('crop-dpad-right');
+  const dpadCenter = document.getElementById('crop-dpad-center');
+
+  if (dpadUp) dpadUp.addEventListener('click', () => activeCropper && activeCropper.move(0, -12));
+  if (dpadDown) dpadDown.addEventListener('click', () => activeCropper && activeCropper.move(0, 12));
+  if (dpadLeft) dpadLeft.addEventListener('click', () => activeCropper && activeCropper.move(-12, 0));
+  if (dpadRight) dpadRight.addEventListener('click', () => activeCropper && activeCropper.move(12, 0));
+  if (dpadCenter) {
+    dpadCenter.addEventListener('click', () => {
+      if (!activeCropper) return;
+      const c = activeCropper.getContainerData();
+      const b = activeCropper.getCropBoxData();
+      activeCropper.setCropBoxData({
+        left: (c.width - b.width) / 2,
+        top: (c.height - b.height) / 2
+      });
+    });
+  }
+
+  // Full Reset Button
+  const cropBtnResetAll = document.getElementById('crop-btn-reset-all');
+  if (cropBtnResetAll) {
+    cropBtnResetAll.addEventListener('click', () => {
+      if (!activeCropper) return;
+      const specs = getSlotTargetSpecs(currentPresetId, currentCropSlot);
+      activeCropper.reset();
+      activeCropper.setAspectRatio(specs.ratio);
+      if (cropZoomSlider) cropZoomSlider.value = 100;
+      if (cropZoomReadout) cropZoomReadout.textContent = '100%';
+      if (cropRotateSlider) cropRotateSlider.value = 0;
+      if (cropRotateReadout) cropRotateReadout.textContent = '0°';
+      document.querySelectorAll('.crop-preset-card').forEach(c => c.classList.remove('active'));
+      const autoFitCard = document.getElementById('crop-preset-autofit');
+      if (autoFitCard) autoFitCard.classList.add('active');
+    });
   }
 
   function closeCropModal() {
@@ -3603,7 +4094,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
   // Wire Cropper Modal Action Buttons
   if (cropBtnApply) cropBtnApply.addEventListener('click', applyCroppedArtwork);
-  if (cropBtnSkip) cropBtnSkip.addEventListener('click', useFullImageArtwork);
   if (cropBtnCancel) cropBtnCancel.addEventListener('click', closeCropModal);
   if (cropBtnClose) cropBtnClose.addEventListener('click', closeCropModal);
   if (cropModal) {
@@ -3616,58 +4106,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       closeCropModal();
     }
   });
-
-  // Wire Cropper Drag Mode (Crop Box vs Pan Artwork)
-  if (cropModeCrop) {
-    cropModeCrop.addEventListener('click', () => {
-      if (!activeCropper) return;
-      activeCropper.setDragMode('crop');
-      cropModeCrop.classList.add('active');
-      if (cropModeMove) cropModeMove.classList.remove('active');
-    });
-  }
-  if (cropModeMove) {
-    cropModeMove.addEventListener('click', () => {
-      if (!activeCropper) return;
-      activeCropper.setDragMode('move');
-      cropModeMove.classList.add('active');
-      if (cropModeCrop) cropModeCrop.classList.remove('active');
-    });
-  }
-
-  // Wire Cropper Toolbar Buttons
-  if (cropToolRotateLeft) {
-    cropToolRotateLeft.addEventListener('click', () => activeCropper && activeCropper.rotate(-90));
-  }
-  if (cropToolRotateRight) {
-    cropToolRotateRight.addEventListener('click', () => activeCropper && activeCropper.rotate(90));
-  }
-  if (cropToolFlipH) {
-    cropToolFlipH.addEventListener('click', () => {
-      if (!activeCropper) return;
-      const data = activeCropper.getData();
-      activeCropper.scaleX(data.scaleX === -1 ? 1 : -1);
-    });
-  }
-  if (cropToolZoomIn) {
-    cropToolZoomIn.addEventListener('click', () => activeCropper && activeCropper.zoom(0.1));
-  }
-  if (cropToolZoomOut) {
-    cropToolZoomOut.addEventListener('click', () => activeCropper && activeCropper.zoom(-0.1));
-  }
-  if (cropToolReset) {
-    cropToolReset.addEventListener('click', () => {
-      if (!activeCropper) return;
-      activeCropper.reset();
-      const specs = getSlotTargetSpecs(currentPresetId, currentCropSlot);
-      activeCropper.setAspectRatio(specs.ratio);
-      if (cropRatioPills) {
-        cropRatioPills.querySelectorAll('.ratio-pill-btn').forEach((b, i) => {
-          b.classList.toggle('active', i === 0);
-        });
-      }
-    });
-  }
 
   // Dedicated Handlers for Setting Artwork Slots
   function setFrontArtwork(imgOrCanvas, name = 'Custom Front') {
@@ -3855,8 +4293,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   if (cropFrontBtn) {
     cropFrontBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (rawArtworks.front) {
-        openCropModal(rawArtworks.front, 'front', rawFileNames.front);
+      const src = rawArtworks.front || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
+      if (src) {
+        openCropModal(src, 'front', rawFileNames.front || 'Front Cover Artwork');
       } else if (frontInput) {
         frontInput.click();
       }
@@ -3891,8 +4330,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   if (cropBackBtn) {
     cropBackBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (rawArtworks.back) {
-        openCropModal(rawArtworks.back, 'back', rawFileNames.back);
+      const src = rawArtworks.back || (customBackImg ? (customBackImg.src || (customBackImg.toDataURL ? customBackImg.toDataURL() : null)) : null) || rawArtworks.front || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
+      if (src) {
+        openCropModal(src, 'back', rawFileNames.back || 'Back Cover Artwork');
       } else if (backInput) {
         backInput.click();
       }
@@ -3926,8 +4366,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   if (cropSpineBtn) {
     cropSpineBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (rawArtworks.spine) {
-        openCropModal(rawArtworks.spine, 'spine', rawFileNames.spine);
+      const src = rawArtworks.spine || (customSpineImg ? (customSpineImg.src || (customSpineImg.toDataURL ? customSpineImg.toDataURL() : null)) : null) || rawArtworks.front || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
+      if (src) {
+        openCropModal(src, 'spine', rawFileNames.spine || 'Spine Artwork');
       } else if (spineInput) {
         spineInput.click();
       }
