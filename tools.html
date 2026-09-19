@@ -337,7 +337,7 @@
       align-items: center;
       justify-content: center;
       gap: 4px;
-      padding: 4px 5px;
+      padding: 4px 6px;
       border-radius: 6px;
       border: 1px solid #e2e8f0;
       background: #f8fafc;
@@ -348,6 +348,19 @@
       transition: all 0.15s;
       font-family: 'Outfit', sans-serif;
       min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      flex-wrap: nowrap;
+    }
+    .slot-pill-btn span[id$="-btn-label"] {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 65px;
+      display: inline-block;
+    }
+    .slot-pill-btn i, .slot-pill-thumb, .slot-pill-crop-btn, .slot-pill-clear-btn {
+      flex-shrink: 0;
     }
     .slot-pill-btn:hover {
       background: #f1f5f9;
@@ -3332,10 +3345,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
 
       // 2. Resolve active artwork with independent scaling & positioning
-      const rawFront = customFrontImg || activeFrontImg || createSolidArtwork('#1e293b', 1000, 1500, 'BOOK TITLE');
+      const rawFront = customFrontImg || activeFrontImg || createSolidArtwork('#1e293b', 1654, 2339, presetId === 'brochure_spread' ? 'RIGHT PAGE' : 'BOOK TITLE');
       const frontArt = getTransformedArtwork(rawFront, frontTransform);
       const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
-      const rawBack = customBackImg || activeBackImg || (presetId === 'brochure_spread' ? rawFront : createSolidArtwork(spineColor, 1000, 1500, ''));
+      const rawBack = customBackImg || activeBackImg || (presetId === 'brochure_spread' ? createSolidArtwork('#1e293b', 1654, 2339, 'LEFT PAGE') : createSolidArtwork(spineColor, 1000, 1500, ''));
       const backArt = getTransformedArtwork(rawBack, backTransform);
 
       const swRatio = spineWidth / 100;
@@ -3702,15 +3715,27 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (layerTabToggle) layerTabToggle.style.display = hasBack ? 'flex' : 'none';
     if (editingLayerNotice) editingLayerNotice.style.display = hasBack ? 'block' : 'none';
 
-    // Contextual slot button labels
+    // Contextual slot button labels and flex ordering
     if (currentPresetId === 'brochure_spread') {
-      if (frontBtnLabel && !customFrontImg && !activeFrontImg) frontBtnLabel.textContent = 'Right Page';
-      if (backBtnLabel && !customBackImg && !activeBackImg) backBtnLabel.textContent = 'Left Page';
+      if (slotCardBack) slotCardBack.style.order = '1';
+      if (slotCardFront) slotCardFront.style.order = '2';
+      if (frontBtnLabel) {
+        frontBtnLabel.textContent = rawFileNames.front ? rawFileNames.front : (customFrontImg ? 'Right Page' : 'Right Page');
+      }
+      if (backBtnLabel) {
+        backBtnLabel.textContent = rawFileNames.back ? rawFileNames.back : (customBackImg ? 'Left Page' : 'Left Page');
+      }
       if (btnLayerFront) btnLayerFront.textContent = 'Right Page';
       if (btnLayerBack) btnLayerBack.textContent = 'Left Page';
     } else {
-      if (frontBtnLabel && !customFrontImg && !activeFrontImg) frontBtnLabel.textContent = 'Front Cover';
-      if (backBtnLabel && !customBackImg && !activeBackImg) backBtnLabel.textContent = 'Back Cover';
+      if (slotCardFront) slotCardFront.style.order = '1';
+      if (slotCardBack) slotCardBack.style.order = '2';
+      if (frontBtnLabel) {
+        frontBtnLabel.textContent = rawFileNames.front ? rawFileNames.front : (customFrontImg ? 'Front Cover' : 'Front Cover');
+      }
+      if (backBtnLabel) {
+        backBtnLabel.textContent = rawFileNames.back ? rawFileNames.back : (customBackImg ? 'Back Cover' : 'Back Cover');
+      }
       if (btnLayerFront) btnLayerFront.textContent = 'Front Cover';
       if (btnLayerBack) btnLayerBack.textContent = 'Back Cover';
     }
@@ -3733,6 +3758,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotsSupportLabel.textContent = 'Front Only';
       }
     }
+
+    setActiveSlot(activeUploadSlot);
 
     renderCurrentMockup();
   }
@@ -3884,6 +3911,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     let width = 1200;
     let height = 1800;
     let ratio = 2 / 3;
+    let aspectLabel = '';
 
     // 1. Direct bounding rects (e.g. front_back_showcase, square_flatlay, book_mockup_1)
     if (presetId === 'brochure_spread') {
@@ -3919,7 +3947,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
     }
 
-    let aspectLabel = '';
     if (presetId === 'brochure_spread') {
       aspectLabel = 'A4 Brochure Page';
     } else if (slot === 'spine') {
@@ -4363,7 +4390,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   function setFrontArtwork(imgOrCanvas, name = 'Custom Front') {
     customFrontImg = imgOrCanvas;
     activeFrontImg = imgOrCanvas;
-    if (frontBtnLabel) frontBtnLabel.textContent = name;
+    rawFileNames.front = name;
+    if (frontBtnLabel) {
+      frontBtnLabel.textContent = currentPresetId === 'brochure_spread' ? ('Right: ' + name) : name;
+    }
     if (btnUploadFront) btnUploadFront.classList.add('has-file');
     if (clearFrontBtn) clearFrontBtn.style.display = 'flex';
     if (cropFrontBtn) cropFrontBtn.style.display = 'inline-flex';
@@ -4372,7 +4402,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     // Auto-sample spine color from edge if spine not manually uploaded
     try {
-      if (!customSpineImg) {
+      if (!customSpineImg && currentPresetId !== 'brochure_spread') {
         const sc = document.createElement('canvas');
         sc.width = 16; sc.height = 16;
         const sctx = sc.getContext('2d');
@@ -4392,7 +4422,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   function setBackArtwork(imgOrCanvas, name = 'Custom Back') {
     customBackImg = imgOrCanvas;
     activeBackImg = imgOrCanvas;
-    if (backBtnLabel) backBtnLabel.textContent = name;
+    rawFileNames.back = name;
+    if (backBtnLabel) {
+      backBtnLabel.textContent = currentPresetId === 'brochure_spread' ? ('Left: ' + name) : name;
+    }
     if (btnUploadBack) btnUploadBack.classList.add('has-file');
     if (clearBackBtn) clearBackBtn.style.display = 'flex';
     if (cropBackBtn) cropBackBtn.style.display = 'inline-flex';
@@ -4404,6 +4437,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   function setSpineArtwork(imgOrCanvas, name = 'Custom Spine') {
     customSpineImg = imgOrCanvas;
     activeSpineImg = imgOrCanvas;
+    rawFileNames.spine = name;
     if (spineBtnLabel) spineBtnLabel.textContent = name;
     if (btnUploadSpine) btnUploadSpine.classList.add('has-file');
     if (clearSpineBtn) clearSpineBtn.style.display = 'flex';
@@ -4413,12 +4447,20 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   window.setSpineArtwork = setSpineArtwork;
 
-  // Upload Handlers for Individual Slots: Read File & Open Crop Modal
+  // Upload Handlers for Individual Slots: Read File & Open Crop Modal or Auto-Split
   function handleFrontFile(file) {
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      openCropModal(e.target.result, 'front', file.name);
+      const img = new Image();
+      img.onload = () => {
+        if (currentPresetId === 'brochure_spread' && (img.width / img.height > 1.25)) {
+          processUploadedArtwork(img, file.name);
+        } else {
+          openCropModal(e.target.result, 'front', file.name);
+        }
+      };
+      img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   }
@@ -4427,7 +4469,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      openCropModal(e.target.result, 'back', file.name);
+      const img = new Image();
+      img.onload = () => {
+        if (currentPresetId === 'brochure_spread' && (img.width / img.height > 1.25)) {
+          processUploadedArtwork(img, file.name);
+        } else {
+          openCropModal(e.target.result, 'back', file.name);
+        }
+      };
+      img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   }
@@ -4451,14 +4501,41 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       if (c) c.classList.toggle('active', c.dataset.slot === slot);
     });
     const dropTitle = document.querySelector('.dropzone-title');
-    const label = slot === 'spine' ? 'Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover');
+    let label = 'Front Cover';
+    if (currentPresetId === 'brochure_spread') {
+      label = slot === 'back' ? 'Left Page' : 'Right Page';
+    } else {
+      label = slot === 'spine' ? 'Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover');
+    }
     if (dropTitle) dropTitle.textContent = `Drag & drop ${label} here`;
   }
   window.setActiveSlot = setActiveSlot;
 
-  if (slotCardFront) slotCardFront.addEventListener('click', () => setActiveSlot('front'));
-  if (slotCardBack) slotCardBack.addEventListener('click', () => setActiveSlot('back'));
-  if (slotCardSpine) slotCardSpine.addEventListener('click', () => setActiveSlot('spine'));
+  if (slotCardFront) {
+    slotCardFront.addEventListener('click', () => {
+      setActiveSlot('front');
+      if (frontInput) frontInput.click();
+    });
+  }
+  if (slotCardBack) {
+    slotCardBack.addEventListener('click', () => {
+      setActiveSlot('back');
+      if (backInput) backInput.click();
+    });
+  }
+  if (slotCardSpine) {
+    slotCardSpine.addEventListener('click', () => {
+      setActiveSlot('spine');
+      if (spineInput) spineInput.click();
+    });
+  }
+
+  // Clear file input values on click so selecting the same file triggers change reliably
+  [frontInput, backInput, spineInput].forEach(inp => {
+    if (inp) {
+      inp.addEventListener('click', () => { inp.value = ''; });
+    }
+  });
 
   // Main Upload Dropzone Click & Drag/Drop
   const coverDropzone = document.getElementById('cover-dropzone');
@@ -4499,9 +4576,19 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.preventDefault();
       if (e.dataTransfer.files && e.dataTransfer.files[0]) {
         const file = e.dataTransfer.files[0];
-        if (activeUploadSlot === 'spine') handleSpineFile(file);
-        else if (activeUploadSlot === 'back') handleBackFile(file);
-        else handleFrontFile(file);
+        if (currentPresetId === 'brochure_spread') {
+          const rect = canvasContainer.getBoundingClientRect();
+          const dropX = e.clientX - rect.left;
+          if (dropX < rect.width / 2) {
+            handleBackFile(file);
+          } else {
+            handleFrontFile(file);
+          }
+        } else {
+          if (activeUploadSlot === 'spine') handleSpineFile(file);
+          else if (activeUploadSlot === 'back') handleBackFile(file);
+          else handleFrontFile(file);
+        }
       }
     });
   }
@@ -4559,12 +4646,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customFrontImg = null;
       activeFrontImg = null;
       rawArtworks.front = null;
+      rawFileNames.front = currentPresetId === 'brochure_spread' ? 'Right Page' : 'Front Cover';
       if (frontThumbPreview) {
         frontThumbPreview.src = '';
         frontThumbPreview.style.display = 'none';
       }
       if (cropFrontBtn) cropFrontBtn.style.display = 'none';
-      if (frontBtnLabel) frontBtnLabel.textContent = 'Front Cover';
+      if (frontBtnLabel) frontBtnLabel.textContent = currentPresetId === 'brochure_spread' ? 'Right Page' : 'Front Cover';
       if (clearFrontBtn) clearFrontBtn.style.display = 'none';
       if (frontStatusText) frontStatusText.textContent = 'Default Sample';
       if (autodetectStatus) autodetectStatus.style.display = 'none';
@@ -4584,7 +4672,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.stopPropagation();
       const src = rawArtworks.back || (customBackImg ? (customBackImg.src || (customBackImg.toDataURL ? customBackImg.toDataURL() : null)) : null) || rawArtworks.front || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
       if (src) {
-        openCropModal(src, 'back', rawFileNames.back || 'Back Cover Artwork');
+        openCropModal(src, 'back', rawFileNames.back || (currentPresetId === 'brochure_spread' ? 'Left Page Artwork' : 'Back Cover Artwork'));
       } else if (backInput) {
         backInput.click();
       }
@@ -4596,12 +4684,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customBackImg = null;
       activeBackImg = null;
       rawArtworks.back = null;
+      rawFileNames.back = currentPresetId === 'brochure_spread' ? 'Left Page' : 'Back Cover';
       if (backThumbPreview) {
         backThumbPreview.src = '';
         backThumbPreview.style.display = 'none';
       }
       if (cropBackBtn) cropBackBtn.style.display = 'none';
-      if (backBtnLabel) backBtnLabel.textContent = 'Back Cover';
+      if (backBtnLabel) backBtnLabel.textContent = currentPresetId === 'brochure_spread' ? 'Left Page' : 'Back Cover';
       if (clearBackBtn) clearBackBtn.style.display = 'none';
       if (backStatusText) backStatusText.textContent = 'Optional';
       if (backInput) backInput.value = '';
