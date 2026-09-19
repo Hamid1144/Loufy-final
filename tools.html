@@ -77,317 +77,481 @@
   <script src="/live-sync.js?v=3.33.0" defer></script>
 
   <style>
-    /* ── PSD STUDIO TOOL WORKSPACE STYLING ── */
+    /* ── MODERN LIGHT PSD STUDIO WORKSPACE STYLING ── */
     .mockup-app-section {
-      background: radial-gradient(circle at 50% 20%, rgba(24, 76, 58, 0.45), #080d14 70%);
-      padding: 72px 0 12px;
-      min-height: 100vh;
-      color: #fff;
-    }
-
-    .mockup-header-intro {
+      background: #f1f5f9;
+      padding: 10px 16px 12px;
+      min-height: calc(100vh - 81px);
+      box-sizing: border-box;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
-      max-width: 1400px;
-      margin: 0 auto 10px;
-      padding: 0 4px;
-    }
-    .mockup-header-intro .title-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .mockup-header-intro h1 {
-      font-size: 1.35rem;
-      font-weight: 800;
-      margin: 0;
       font-family: 'Outfit', sans-serif;
-      letter-spacing: -0.02em;
+      color: #0f172a;
     }
-    .mockup-header-intro .header-badge {
-      background: linear-gradient(135deg, #f4b400, #f59e0b);
-      color: #0b1320;
-      font-size: 0.68rem;
-      font-weight: 800;
-      padding: 3px 9px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .mockup-header-intro p {
-      margin: 0;
-      color: #94a3b8;
-      font-size: 0.8rem;
-    }
-
-    /* Main Desktop App Grid: Viewport + Sidebar fits on single screen */
-    .mockup-workspace-grid {
-      display: grid;
-      grid-template-columns: 410px 1fr;
-      gap: 14px;
-      max-width: 1400px;
+    .mockup-main-container {
+      width: 100%;
+      max-width: 1440px;
       margin: 0 auto;
-      height: calc(100vh - 120px);
-      min-height: 560px;
-      max-height: 820px;
+      height: 100%;
     }
 
-    /* LEFT: Sidebar Card */
-    .mockup-sidebar-card {
-      background: rgba(15, 23, 42, 0.82);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      overflow-y: auto;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    }
-    .mockup-sidebar-card::-webkit-scrollbar {
-      width: 5px;
-    }
-    .mockup-sidebar-card::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.18);
-      border-radius: 4px;
-    }
-
-    .tool-group {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 10px;
-      padding: 9px 11px;
-    }
-    .tool-label {
-      font-size: 0.74rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #94a3b8;
-      margin-bottom: 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .tool-label .badge-mini {
-      font-size: 0.65rem;
-      background: rgba(244, 180, 0, 0.16);
-      color: var(--accent);
-      padding: 1px 6px;
-      border-radius: 10px;
-      font-weight: 600;
-    }
-
-    /* 8 PSD Mockup Presets 4x2 Grid (Guaranteed Zero-Overflow) */
-    .mockup-grid-psd {
+    /* Master Card Container (Guaranteed Zero-Scroll on Desktop) */
+    .mockup-workspace-card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 6px;
-      width: 100%;
+      grid-template-columns: 370px minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
+      gap: 18px;
+      padding: 14px 18px;
+      height: calc(100vh - 105px);
+      min-height: 520px;
+      max-height: 780px;
       box-sizing: border-box;
-    }
-    .mockup-psd-card {
-      min-width: 0;
-      width: 100%;
-      box-sizing: border-box;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      padding: 5px 3px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      position: relative;
       overflow: hidden;
     }
-    .mockup-psd-card:hover {
-      background: rgba(255, 255, 255, 0.09);
-      border-color: rgba(244, 180, 0, 0.4);
-      transform: translateY(-2px);
+
+    /* LEFT: Sidebar Controls Column */
+    .sidebar-controls-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      height: 100%;
+      min-height: 0;
+      max-height: 100%;
+      gap: 10px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      box-sizing: border-box;
+      scrollbar-width: none;
     }
-    .mockup-psd-card.active {
-      background: rgba(24, 76, 58, 0.6);
-      border-color: var(--accent);
-      box-shadow: 0 0 14px rgba(244, 180, 0, 0.3);
+    .sidebar-controls-col::-webkit-scrollbar {
+      display: none;
     }
-    .preset-badge-new {
+
+    .studio-step-section {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .step-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .step-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .step-num-badge {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      border-radius: 50%;
+      background: #f97316;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      box-shadow: 0 2px 5px rgba(249, 115, 22, 0.3);
+    }
+    .step-text-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .step-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.15;
+    }
+    .step-subtitle {
+      font-size: 0.67rem;
+      color: #64748b;
+      line-height: 1.15;
+    }
+    .view-all-btn {
+      background: none;
+      border: none;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #0f172a;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0;
+      transition: color 0.15s;
+      font-family: 'Outfit', sans-serif;
+    }
+    .view-all-btn:hover {
+      color: #f97316;
+    }
+    .step-reset-btn {
+      background: none;
+      border: none;
+      font-size: 0.70rem;
+      font-weight: 600;
+      color: #f97316;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+    .step-reset-btn:hover {
+      color: #ea580c;
+    }
+
+    /* STEP 1: Quick Mockup Presets Row */
+    .quick-mockup-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+    .mockup-style-card {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 9px;
+      padding: 4px 3px 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+    }
+    .mockup-style-card:hover {
+      border-color: #cbd5e1;
+      background: #f1f5f9;
+      transform: translateY(-1px);
+    }
+    .mockup-style-card.active {
+      border-color: #f97316;
+      background: #ffffff;
+      box-shadow: 0 0 0 1px #f97316, 0 3px 8px rgba(249, 115, 22, 0.15);
+    }
+    .style-check-icon {
       position: absolute;
       top: 3px;
       right: 3px;
-      background: linear-gradient(135deg, #f59e0b, #eab308);
-      color: #0b1f17;
-      font-size: 0.52rem;
-      font-weight: 800;
-      padding: 1px 4px;
-      border-radius: 3px;
-      letter-spacing: 0.04em;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.6);
-      z-index: 2;
-      line-height: 1;
-    }
-    .mockup-psd-thumb {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 5px;
-      background: #000;
-      display: block;
-    }
-    .mockup-psd-meta {
-      width: 100%;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-      overflow: hidden;
-    }
-    .mockup-psd-title {
-      font-size: 0.64rem;
-      font-weight: 700;
+      width: 14px;
+      height: 14px;
+      background: #f97316;
       color: #fff;
-      line-height: 1.15;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
-      width: 100%;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.48rem;
+      box-shadow: 0 1px 3px rgba(249, 115, 22, 0.4);
     }
-    .mockup-psd-tag {
-      font-size: 0.53rem;
-      color: #94a3b8;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
+    .mockup-style-card.active .style-check-icon {
+      display: flex;
+    }
+    .style-thumb-box {
       width: 100%;
+      height: 46px;
+      border-radius: 5px;
+      background: #edf2f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 2px;
+    }
+    .style-thumb-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .style-card-label {
+      font-size: 0.63rem;
+      font-weight: 600;
+      color: #334155;
+      white-space: nowrap;
+    }
+    .mockup-style-card.active .style-card-label {
+      color: #0f172a;
+      font-weight: 700;
     }
 
-    /* Minimal Modular Upload Cards */
-    .upload-slots-container {
+    /* STEP 2: Upload Dropzone & Multi-Slot Cards */
+    .upload-dropzone {
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 12px;
+      background: #fcfdfd;
+      padding: 10px 8px;
       display: flex;
       flex-direction: column;
-      gap: 7px;
-    }
-    .slot-upload-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      padding: 7px 10px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
       transition: all 0.2s;
+      gap: 2px;
     }
-    .slot-upload-card:hover {
-      border-color: rgba(244, 180, 0, 0.35);
-      background: rgba(255, 255, 255, 0.05);
+    .upload-dropzone:hover, .upload-dropzone.dragover {
+      border-color: #f97316;
+      background: #fff7ed;
     }
-    .slot-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 5px;
+    .dropzone-cloud-icon {
+      color: #f97316;
+      font-size: 1.45rem;
+      margin-bottom: 2px;
     }
-    .slot-card-name {
-      font-size: 0.72rem;
+    .dropzone-title {
+      font-size: 0.76rem;
       font-weight: 700;
-      color: #e2e8f0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: #1e293b;
     }
-    .slot-card-status {
-      font-size: 0.58rem;
+    .dropzone-sub {
+      font-size: 0.65rem;
       color: #94a3b8;
-      font-weight: 600;
-      font-family: monospace;
     }
-    .slot-card-body {
+
+    /* Compact Multi-Slot Switcher (Front / Back / Spine) */
+    .compact-slot-pills {
       display: flex;
-      align-items: center;
-      gap: 6px;
+      gap: 4px;
+      margin-top: 3px;
     }
-    .minimal-upload-btn {
+    .slot-pill-btn {
       flex: 1;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      background: rgba(244, 180, 0, 0.07);
-      border: 1px dashed rgba(244, 180, 0, 0.35);
-      color: #fde047;
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 7px 10px;
+      gap: 4px;
+      padding: 4px 5px;
       border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #475569;
+      font-size: 0.66rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
       font-family: 'Outfit', sans-serif;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      min-width: 0;
+    }
+    .slot-pill-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .slot-pill-btn.active {
+      background: #fff7ed;
+      border-color: #f97316;
+      color: #ea580c;
+      font-weight: 700;
+    }
+    .slot-pill-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+      object-fit: cover;
+      display: none;
+    }
+    .slot-pill-crop-btn {
+      background: rgba(249, 115, 22, 0.12);
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      padding: 1px 4px;
+      color: #ea580c;
+      font-size: 0.62rem;
+      display: none;
+    }
+    .slot-pill-clear-btn {
+      background: rgba(239, 68, 68, 0.12);
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      padding: 1px 4px;
+      color: #ef4444;
+      font-size: 0.62rem;
+      display: none;
+    }
+    .slot-pill-crop-btn:hover { background: #f97316; color: #fff; }
+    .slot-pill-clear-btn:hover { background: #ef4444; color: #fff; }
+
+    /* Spine Width Slider Row */
+    .spine-width-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 3px 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 7px;
+      margin-top: 2px;
+    }
+    .spine-width-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 4px;
       white-space: nowrap;
     }
-    .minimal-upload-btn:hover {
-      background: rgba(244, 180, 0, 0.16);
-      border-color: var(--accent);
-      color: #fff;
-    }
-    .minimal-upload-btn.has-file {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      color: #34d399;
-    }
-    .minimal-clear-btn {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #f87171;
+    .spine-width-input {
+      flex: 1;
+      height: 3px;
+      background: #e2e8f0;
+      border-radius: 2px;
+      outline: none;
+      -webkit-appearance: none;
       cursor: pointer;
+    }
+    .spine-width-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #f97316;
+      cursor: pointer;
+    }
+    .spine-width-readout {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #f97316;
+      font-family: monospace;
+      white-space: nowrap;
+    }
+
+    /* STEP 3: Crop & Position 6-Button Row */
+    .crop-tools-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 5px;
+    }
+    .crop-fit-btn {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      padding: 7px 2px 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.18s;
+      color: #475569;
+      font-family: 'Outfit', sans-serif;
+    }
+    .crop-fit-btn:hover {
+      border-color: #cbd5e1;
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .crop-fit-btn.active {
+      border: 1.5px solid #f97316;
+      background: #fff7ed;
+      color: #ea580c;
+      box-shadow: 0 2px 6px rgba(249, 115, 22, 0.12);
+    }
+    .crop-fit-icon {
+      font-size: 0.88rem;
+    }
+    .crop-fit-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    /* STEP 4: Background Style 6-Card Row */
+    .bg-style-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 5px;
+    }
+    .bg-choice-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      padding: 4px 2px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-family: 'Outfit', sans-serif;
+    }
+    .bg-choice-card:hover {
+      border-color: #cbd5e1;
+      background: #f1f5f9;
+    }
+    .bg-choice-card.active {
+      border: 2px solid #f97316;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(249, 115, 22, 0.15);
+    }
+    .bg-preview-swatch {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 5px;
+      margin-bottom: 3px;
+      border: 1px solid rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.72rem;
-      transition: all 0.2s;
-      flex-shrink: 0;
     }
-    .minimal-clear-btn:hover {
-      background: #ef4444;
-      color: #fff;
+    .bg-preview-swatch.swatch-studio {
+      background: radial-gradient(circle, #f1f5f9, #cfd8dc);
     }
-    .slot-card-thumb {
-      width: 28px;
-      height: 28px;
-      border-radius: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      object-fit: cover;
-      flex-shrink: 0;
-      background: #060a12;
-      display: none;
+    .bg-preview-swatch.swatch-studio i {
+      font-size: 0.75rem;
+      color: #475569;
     }
-    .minimal-crop-btn {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      background: rgba(244, 180, 0, 0.15);
-      border: 1px solid rgba(244, 180, 0, 0.35);
-      color: #fde047;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.72rem;
-      transition: all 0.2s;
-      flex-shrink: 0;
+    .bg-preview-swatch.swatch-trans {
+      background-image: 
+        linear-gradient(45deg, #cbd5e1 25%, transparent 25%), 
+        linear-gradient(-45deg, #cbd5e1 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #cbd5e1 75%), 
+        linear-gradient(-45deg, transparent 75%, #cbd5e1 75%);
+      background-size: 8px 8px;
+      background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+      background-color: #ffffff;
     }
-    .minimal-crop-btn:hover {
-      background: var(--accent);
-      color: #000;
-      box-shadow: 0 0 10px rgba(244, 180, 0, 0.4);
+    .bg-preview-swatch.swatch-white {
+      background: #ffffff;
+    }
+    .bg-preview-swatch.swatch-light {
+      background: linear-gradient(135deg, #ffffff, #e2e8f0);
+    }
+    .bg-preview-swatch.swatch-dark {
+      background: #1e293b;
+    }
+    .bg-preview-swatch.swatch-custom {
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 0.75rem;
+    }
+    .bg-choice-label {
+      font-size: 0.61rem;
+      font-weight: 600;
+      color: #475569;
+      line-height: 1;
+    }
+    .bg-choice-card.active .bg-choice-label {
+      color: #0f172a;
+      font-weight: 700;
     }
 
     /* ── ARTWORK CROPPER MODAL ── */
@@ -772,282 +936,360 @@
       color: #fde047;
     }
 
-    /* Color picker compact */
+    /* Color picker compact inline */
     .spine-color-row {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      margin-top: 5px;
-      padding: 4px 8px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 6px;
+      gap: 4px;
+      margin: 0 0 0 6px;
+      padding: 0;
+      background: none;
+      border: none;
     }
     .spine-color-picker {
-      width: 24px;
-      height: 24px;
-      border-radius: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
       cursor: pointer;
       background: none;
       padding: 0;
     }
     .spine-color-hex {
-      font-size: 0.7rem;
-      color: #94a3b8;
+      font-size: 0.65rem;
+      color: #64748b;
       font-family: monospace;
     }
 
-    /* Layer Pill Toggle in Section 3 */
-    .layer-tab-toggle {
-      display: flex;
-      gap: 5px;
-      background: rgba(0, 0, 0, 0.25);
-      padding: 3px;
-      border-radius: 7px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      margin-bottom: 7px;
-    }
-    .layer-pill-btn {
-      flex: 1;
-      padding: 5px 8px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: #94a3b8;
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 5px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: all 0.2s;
-      font-family: 'Outfit', sans-serif;
-    }
-    .layer-pill-btn:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.04);
-    }
-    .layer-pill-btn.active {
-      background: rgba(24, 76, 58, 0.85);
-      color: #fff;
-      border-color: var(--accent);
-      box-shadow: 0 0 8px rgba(244, 180, 0, 0.25);
-    }
-    .editing-layer-notice {
-      font-size: 0.64rem;
-      color: #94a3b8;
-      margin-bottom: 5px;
-    }
-
-    /* Studio Sliders */
-    .slider-control-row {
-      margin-bottom: 7px;
-    }
-    .slider-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.67rem;
-      font-weight: 600;
-      color: #94a3b8;
-      margin-bottom: 3px;
-    }
-    .slider-val {
-      font-family: monospace;
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 0.72rem;
-    }
-    .studio-slider {
-      width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 2px;
-      outline: none;
-      -webkit-appearance: none;
-      cursor: pointer;
-    }
-    .studio-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      background: var(--accent);
-      cursor: pointer;
-      box-shadow: 0 0 6px rgba(244, 180, 0, 0.6);
-      transition: transform 0.1s;
-    }
-    .studio-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
-    }
-
-    /* Toggle pills */
-    .btn-toggle-group {
-      display: flex;
-      gap: 5px;
-    }
-    .toggle-pill {
-      flex: 1;
-      padding: 6px 4px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      color: #cbd5e1;
-      font-size: 0.71rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: all 0.18s;
-      font-family: 'Outfit', sans-serif;
-    }
-    .toggle-pill:hover {
-      background: rgba(244, 180, 0, 0.1);
-      border-color: rgba(244, 180, 0, 0.3);
-      color: #fff;
-    }
-    .toggle-pill.active {
-      background: rgba(24, 76, 58, 0.85);
-      border-color: var(--accent);
-      color: #fff;
-      box-shadow: 0 0 8px rgba(244, 180, 0, 0.25);
-    }
-
-    /* RIGHT: Viewport Card */
-    .mockup-viewport-card {
-      background: rgba(15, 23, 42, 0.82);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    /* RIGHT: Preview Viewport Column */
+    .preview-viewport-col {
       display: flex;
       flex-direction: column;
+      height: 100%;
+      min-height: 0;
+      max-height: 100%;
+      gap: 10px;
+      min-width: 0;
+      box-sizing: border-box;
       overflow: hidden;
-      position: relative;
     }
-    .viewport-topbar {
-      padding: 8px 14px;
-      background: rgba(8, 13, 20, 0.6);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    /* Viewport Topbar */
+    .preview-topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 0 4px;
       flex-shrink: 0;
     }
-    .viewport-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #fff;
+    .preview-topbar-left {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .viewport-res-badge {
-      font-size: 0.65rem;
-      background: rgba(244, 180, 0, 0.18);
-      color: #fde047;
-      border: 1px solid rgba(244, 180, 0, 0.3);
-      padding: 2px 7px;
+    .preview-label-bold {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+    }
+    .preview-specs-pill {
+      font-size: 0.74rem;
+      color: #64748b;
+      font-weight: 500;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 2px 8px;
       border-radius: 12px;
-      font-weight: 700;
     }
-    .viewport-controls {
+    .preview-topbar-tools {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 14px;
+    }
+    .viewport-tool-link {
+      background: none;
+      border: none;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0;
+      transition: color 0.15s;
+      font-family: 'Outfit', sans-serif;
+    }
+    .viewport-tool-link:hover {
+      color: #f97316;
     }
 
     /* Master Canvas Container (Centerpiece) */
     #psd-canvas-container {
-      flex: 1;
+      flex: 1 1 0;
+      min-height: 0;
+      height: 0;
+      background: #eaedf1;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-image: 
-        linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%), 
-        linear-gradient(-45deg, rgba(255,255,255,0.03) 25%, transparent 25%), 
-        linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.03) 75%), 
-        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.03) 75%);
-      background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-      background-color: #0c121e;
       position: relative;
       overflow: hidden;
-      padding: 12px;
+      padding: 14px;
+      box-sizing: border-box;
     }
-
     #psd-canvas {
       max-width: 100%;
       max-height: 100%;
+      width: auto;
+      height: auto;
       object-fit: contain;
-      filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));
+      filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.16));
       border-radius: 6px;
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Viewport Bottombar & Export Button */
-    .viewport-bottombar {
-      padding: 10px 16px;
-      background: rgba(8, 13, 20, 0.75);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    /* Viewport Bottombar */
+    .preview-bottombar {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 0 4px;
+      gap: 12px;
       flex-shrink: 0;
     }
-    .download-info {
+    .bottom-meta-wrap {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      min-width: 0;
     }
-    .download-info-title {
-      font-size: 0.78rem;
+    .bottom-mockup-title {
+      font-size: 0.95rem;
       font-weight: 700;
-      color: #fff;
+      color: #0f172a;
+      margin: 0;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .download-info-sub {
-      font-size: 0.65rem;
-      color: #94a3b8;
+    .bottom-mockup-sub {
+      font-size: 0.72rem;
+      color: #64748b;
+      margin: 2px 0 0;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Download Primary CTA with Dropdown */
+    .download-action-group {
+      display: flex;
+      align-items: center;
+      position: relative;
+      flex-shrink: 0;
     }
     .download-primary-btn {
-      background: linear-gradient(135deg, #f4b400, #eab308);
-      color: #0b1320;
+      background: #f97316;
+      color: #ffffff;
       font-family: 'Outfit', sans-serif;
-      font-weight: 800;
-      font-size: 0.88rem;
-      padding: 9px 24px;
+      font-weight: 700;
+      font-size: 0.86rem;
+      padding: 9px 18px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px 0 0 10px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(244, 180, 0, 0.35);
-      transition: all 0.2s;
+      gap: 7px;
+      box-shadow: 0 3px 12px rgba(249, 115, 22, 0.28);
+      transition: all 0.18s;
     }
     .download-primary-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(244, 180, 0, 0.5);
+      background: #ea580c;
+      box-shadow: 0 5px 16px rgba(249, 115, 22, 0.38);
     }
-    .download-primary-btn:active {
-      transform: translateY(0);
+    .download-caret-btn {
+      background: #f97316;
+      color: #ffffff;
+      border: none;
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 0 10px 10px 0;
+      padding: 9px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      box-shadow: 0 3px 12px rgba(249, 115, 22, 0.28);
+      transition: background 0.18s;
+    }
+    .download-caret-btn:hover {
+      background: #ea580c;
+    }
+    .download-format-menu {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      right: 0;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      padding: 6px;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 175px;
+      z-index: 100;
+    }
+    .download-format-menu.show {
+      display: flex;
+    }
+    .format-menu-item {
+      padding: 7px 10px;
+      border-radius: 6px;
+      border: none;
+      background: none;
+      color: #334155;
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.15s;
+    }
+    .format-menu-item:hover, .format-menu-item.active {
+      background: #fff7ed;
+      color: #ea580c;
+    }
+
+    /* All 8 Mockups Modal */
+    .all-mockups-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(8px);
+      z-index: 99998;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .all-mockups-dialog {
+      background: #ffffff;
+      border-radius: 20px;
+      max-width: 820px;
+      width: 100%;
+      max-height: 88vh;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: 'Outfit', sans-serif;
+    }
+    .all-mockups-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .all-mockups-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .all-mockups-close {
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      color: #64748b;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .all-mockups-close:hover {
+      color: #0f172a;
+    }
+    .all-mockups-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 18px 20px;
+      overflow-y: auto;
+    }
+    .modal-mockup-card {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+    .modal-mockup-card:hover {
+      border-color: #f97316;
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.12);
+    }
+    .modal-mockup-card.active {
+      border-color: #f97316;
+      box-shadow: 0 0 0 1px #f97316;
+      background: #fff;
+    }
+    .modal-card-thumb {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .modal-card-title {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+    .modal-card-tag {
+      font-size: 0.62rem;
+      color: #64748b;
     }
 
     @media (max-width: 1024px) {
-      .mockup-workspace-grid {
+      .mockup-workspace-card {
         grid-template-columns: 1fr;
         height: auto;
         max-height: none;
       }
-      .mockup-sidebar-card {
-        max-height: none;
+      .sidebar-controls-col {
+        overflow: visible;
       }
       #psd-canvas-container {
         min-height: 400px;
+      }
+      .all-mockups-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -1084,291 +1326,268 @@
 
 <!-- PSD STUDIO MOCKUP APP SECTION -->
 <section class="mockup-app-section" id="mockup-tool">
-  <div class="container">
+  <div class="mockup-main-container">
     
-    <!-- Intro Header -->
-    <div class="mockup-header-intro">
-      <div class="title-group">
-        <span class="header-badge"><i class="fa-solid fa-crown"></i> Studio PSD Suite</span>
-        <h1>Studio Book Cover <span class="highlight">Mockup Generator</span></h1>
-      </div>
-      <p>100% Authentic Photoshop Studio Templates with Real Lighting, Shadows, and Ultra-HD Export.</p>
-    </div>
-
-    <!-- Main Tool Workspace Grid -->
-    <div class="mockup-workspace-grid">
+    <!-- Master Workspace Card -->
+    <div class="mockup-workspace-card">
       
-      <!-- LEFT: Controls & Customization Sidebar -->
-      <div class="mockup-sidebar-card">
+      <!-- LEFT: Controls Column (4 Numbered Steps) -->
+      <div class="sidebar-controls-col">
         
-        <!-- 1. Choose Mockup Style (8 PSD Studio Templates) -->
-        <div class="tool-group">
-          <div class="tool-label">
-            <span><i class="fa-solid fa-layer-group"></i> 1. Select Studio Mockup</span>
-            <span class="badge-mini">8 Authentic Templates</span>
+        <!-- STEP 1: Choose Mockup -->
+        <div class="studio-step-section">
+          <div class="step-header-row">
+            <div class="step-header-left">
+              <span class="step-num-badge">1</span>
+              <div class="step-text-wrap">
+                <span class="step-title">Choose Mockup</span>
+                <span class="step-subtitle">Select a style for your book cover.</span>
+              </div>
+            </div>
+            <button type="button" class="view-all-btn" id="btn-view-all-mockups">View all <i class="fa-solid fa-arrow-right"></i></button>
           </div>
-          
-          <div class="mockup-grid-psd" id="preset-buttons-container">
-            <!-- 1. Original PSD Top-Down -->
-            <button type="button" class="mockup-psd-card active" data-preset="book_mockup_1">
-              <img src="/images/psd_mockup_2/sample_cover.png" class="mockup-psd-thumb" alt="Original PSD">
-              <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Original PSD</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-star"></i> Classic Flat</span>
+
+          <!-- Quick Mockup Styles Row -->
+          <div class="quick-mockup-row" id="quick-preset-row">
+            <!-- 1. Top View -->
+            <button type="button" class="mockup-style-card active" data-preset="book_mockup_1" title="Original PSD Top-Down">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockup_2/sample_cover.png" alt="Top View">
               </div>
+              <span class="style-card-label">Top View</span>
             </button>
 
-            <!-- 2. Hardcover Standing -->
-            <button type="button" class="mockup-psd-card" data-preset="hardcover_standing">
-              <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" class="mockup-psd-thumb" alt="Hardcover 3D Standing">
-              <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Hardcover</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-bookmark"></i> 6x9 Standing</span>
+            <!-- 2. Standing -->
+            <button type="button" class="mockup-style-card" data-preset="hardcover_standing" title="Hardcover 3D Standing">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" alt="Standing">
               </div>
+              <span class="style-card-label">Standing</span>
             </button>
 
-            <!-- 3. Paperback Duo -->
-            <button type="button" class="mockup-psd-card" data-preset="paperback_duo">
-              <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" class="mockup-psd-thumb" alt="5x8 Paperback Duo">
-              <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Paperback Duo</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-book-open"></i> Front & Back</span>
+            <!-- 3. Stacked -->
+            <button type="button" class="mockup-style-card" data-preset="square_stack" title="Square 3-Book Stack">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockups/thumbnails/square_stack.jpg" alt="Stacked">
               </div>
+              <span class="style-card-label">Stacked</span>
             </button>
 
-            <!-- 4. Dual Standing Showcase (Front + Back) - from front and back without spine.psd -->
-            <button type="button" class="mockup-psd-card" data-preset="front_back_showcase" style="border-color: rgba(244, 180, 0, 0.4); background: rgba(244, 180, 0, 0.04);">
-              <span class="preset-badge-new">NEW</span>
-              <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" class="mockup-psd-thumb" alt="Dual Standing Showcase">
-              <div class="mockup-psd-meta">
-                <span class="mockup-psd-title" style="color: #fde047;">Dual Showcase</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-gem" style="color: #f4b400;"></i> Floor Reflection</span>
+            <!-- 4. Open Book -->
+            <button type="button" class="mockup-style-card" data-preset="open_spread" title="Open Spread Flatlay">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Book">
               </div>
-            </button>
-
-            <!-- 5. Square Studio Flatlay -->
-            <button type="button" class="mockup-psd-card" data-preset="square_flatlay">
-              <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" class="mockup-psd-thumb" alt="Square Flatlay">
-              <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Square Flatlay</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-shapes"></i> 8.5x8.5 Flat</span>
-              </div>
-            </button>
-
-            <!-- 6. Square 3-Book Stack (from 3.psd) -->
-            <button type="button" class="mockup-psd-card" data-preset="square_stack">
-              <img src="/images/psd_mockups/thumbnails/square_stack.jpg" class="mockup-psd-thumb" alt="Square 3-Book Stack">
-              <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">3-Book Stack</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-layer-group"></i> 3.psd Isometric</span>
-              </div>
-            </button>
-
-            <!-- 7. Ultimate 4-Book Collector Showcase (from Spine full book cover.psd) -->
-            <button type="button" class="mockup-psd-card" data-preset="studio_collector" style="border-color: rgba(244, 180, 0, 0.4); background: rgba(244, 180, 0, 0.04);">
-              <span class="preset-badge-new">NEW</span>
-              <img src="/images/psd_mockups/thumbnails/spine_full_showcase.jpg" class="mockup-psd-thumb" alt="4-Book Spine Showcase">
-              <div class="mockup-psd-meta">
-                <span class="mockup-psd-title" style="color: #fde047;">4-Book Studio</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-crown" style="color: #f4b400;"></i> Full Spine Suite</span>
-              </div>
-            </button>
-
-            <!-- 8. Open Spread Flatlay -->
-            <button type="button" class="mockup-psd-card" data-preset="open_spread">
-              <img src="/images/psd_mockups/thumbnails/open_spread.jpg" class="mockup-psd-thumb" alt="8.5x8.5 Open Spread">
-              <div class="mockup-psd-meta">
-                <span class="mockup-psd-title">Open Spread</span>
-                <span class="mockup-psd-tag"><i class="fa-solid fa-book-journal-whills"></i> Full Jacket</span>
-              </div>
+              <span class="style-card-label">Open Book</span>
             </button>
           </div>
         </div>
 
-        <!-- 2. Upload Artwork -->
-        <div class="tool-group" id="artwork-upload-group">
-          <div class="tool-label">
-            <span><i class="fa-solid fa-cloud-arrow-up"></i> 2. Upload Artwork</span>
-            <span class="badge-mini" id="slots-support-label">Front Only</span>
+        <!-- STEP 2: Upload Your Cover -->
+        <div class="studio-step-section">
+          <div class="step-header-row">
+            <div class="step-header-left">
+              <span class="step-num-badge">2</span>
+              <div class="step-text-wrap">
+                <span class="step-title">Upload Your Cover</span>
+                <span class="step-subtitle">Add your book cover design (PNG, JPG, or PSD).</span>
+              </div>
+            </div>
           </div>
 
-          <div class="upload-slots-container">
-            <!-- Front Cover Slot (Always shown) -->
-            <div class="slot-upload-card" id="slot-card-front">
-              <div class="slot-card-header">
-                <span class="slot-card-name"><i class="fa-solid fa-book-open" style="color: var(--accent);"></i> Front Cover</span>
-                <span class="slot-card-status" id="front-status-text">Default Sample</span>
-              </div>
-              <div class="slot-card-body">
-                <img id="front-thumb-preview" class="slot-card-thumb" alt="Front Preview">
-                <input type="file" id="front-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
-                <button type="button" class="minimal-upload-btn" id="btn-upload-front" onclick="document.getElementById('front-file-input').click()">
-                  <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                  <span id="front-btn-label">Choose Front Cover</span>
-                </button>
-                <button type="button" class="minimal-crop-btn" id="crop-front-btn" title="Crop & Adjust Ratio">
-                  <i class="fa-solid fa-crop-simple"></i>
-                </button>
-                <button type="button" class="minimal-clear-btn" id="clear-front-btn" title="Reset Front Cover" style="display: none;">
-                  <i class="fa-solid fa-xmark"></i>
-                </button>
-              </div>
-            </div>
+          <!-- Minimalist Dashed Dropzone -->
+          <div class="upload-dropzone" id="cover-dropzone">
+            <i class="fa-solid fa-cloud-arrow-up dropzone-cloud-icon"></i>
+            <span class="dropzone-title">Drag &amp; drop your cover here</span>
+            <span class="dropzone-sub">or click to browse</span>
+          </div>
 
-            <!-- Back Cover Slot (Shown only when preset has back cover) -->
-            <div class="slot-upload-card" id="slot-card-back" style="display: none;">
-              <div class="slot-card-header">
-                <span class="slot-card-name"><i class="fa-solid fa-book" style="color: #60a5fa;"></i> Back Cover</span>
-                <span class="slot-card-status" id="back-status-text">Optional</span>
-              </div>
-              <div class="slot-card-body">
-                <img id="back-thumb-preview" class="slot-card-thumb" alt="Back Preview">
-                <input type="file" id="back-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
-                <button type="button" class="minimal-upload-btn" id="btn-upload-back" onclick="document.getElementById('back-file-input').click()">
-                  <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                  <span id="back-btn-label">Choose Back Cover</span>
-                </button>
-                <button type="button" class="minimal-crop-btn" id="crop-back-btn" title="Crop & Adjust Ratio">
-                  <i class="fa-solid fa-crop-simple"></i>
-                </button>
-                <button type="button" class="minimal-clear-btn" id="clear-back-btn" title="Reset Back Cover" style="display: none;">
-                  <i class="fa-solid fa-xmark"></i>
-                </button>
-              </div>
-            </div>
+          <!-- Hidden Native File Inputs -->
+          <input type="file" id="front-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+          <input type="file" id="back-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+          <input type="file" id="spine-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
 
-            <!-- Spine Slot (Shown only when preset has spine) -->
-            <div class="slot-upload-card" id="slot-card-spine" style="display: none;">
-              <div class="slot-card-header">
-                <span class="slot-card-name"><i class="fa-solid fa-grip-lines-vertical" style="color: #fde047;"></i> Spine</span>
-                <span class="slot-card-status" id="spine-status-text">Optional</span>
-              </div>
-              <div class="slot-card-body">
-                <img id="spine-thumb-preview" class="slot-card-thumb" alt="Spine Preview">
-                <input type="file" id="spine-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
-                <button type="button" class="minimal-upload-btn" id="btn-upload-spine" onclick="document.getElementById('spine-file-input').click()">
-                  <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                  <span id="spine-btn-label">Choose Spine</span>
-                </button>
-                <button type="button" class="minimal-crop-btn" id="crop-spine-btn" title="Crop & Adjust Ratio">
-                  <i class="fa-solid fa-crop-simple"></i>
-                </button>
-                <button type="button" class="minimal-clear-btn" id="clear-spine-btn" title="Reset Spine" style="display: none;">
-                  <i class="fa-solid fa-xmark"></i>
-                </button>
-              </div>
+          <!-- Modular Slot Switcher Pills (Front / Back / Spine) -->
+          <div class="compact-slot-pills" id="compact-slot-pills">
+            <!-- Front Pill -->
+            <button type="button" class="slot-pill-btn active" id="slot-card-front" data-slot="front">
+              <i class="fa-solid fa-book-open" style="color: #f97316;"></i>
+              <img id="front-thumb-preview" class="slot-pill-thumb" alt="Front Preview">
+              <span id="front-btn-label">Front Cover</span>
+              <span id="crop-front-btn" class="slot-pill-crop-btn" title="Crop &amp; Adjust"><i class="fa-solid fa-crop-simple"></i></span>
+              <span id="clear-front-btn" class="slot-pill-clear-btn" title="Reset Front"><i class="fa-solid fa-xmark"></i></span>
+            </button>
+
+            <!-- Back Pill (Shown only when preset has back cover) -->
+            <button type="button" class="slot-pill-btn" id="slot-card-back" data-slot="back" style="display: none;">
+              <i class="fa-solid fa-book" style="color: #3b82f6;"></i>
+              <img id="back-thumb-preview" class="slot-pill-thumb" alt="Back Preview">
+              <span id="back-btn-label">Back Cover</span>
+              <span id="crop-back-btn" class="slot-pill-crop-btn" title="Crop &amp; Adjust"><i class="fa-solid fa-crop-simple"></i></span>
+              <span id="clear-back-btn" class="slot-pill-clear-btn" title="Reset Back"><i class="fa-solid fa-xmark"></i></span>
+            </button>
+
+            <!-- Spine Pill (Shown only when preset has spine) -->
+            <button type="button" class="slot-pill-btn" id="slot-card-spine" data-slot="spine" style="display: none;">
+              <i class="fa-solid fa-grip-lines-vertical" style="color: #eab308;"></i>
+              <img id="spine-thumb-preview" class="slot-pill-thumb" alt="Spine Preview">
+              <span id="spine-btn-label">Spine</span>
+              <span id="crop-spine-btn" class="slot-pill-crop-btn" title="Crop &amp; Adjust"><i class="fa-solid fa-crop-simple"></i></span>
+              <span id="clear-spine-btn" class="slot-pill-clear-btn" title="Reset Spine"><i class="fa-solid fa-xmark"></i></span>
+            </button>
+          </div>
+
+          <!-- Spine Width & Base Tone Inline Controls (shown only for spine mockups) -->
+          <div class="spine-width-row" id="spine-width-group" style="display: none;">
+            <span class="spine-width-label"><i class="fa-solid fa-arrows-left-right-to-line" style="color:#f97316;"></i> Spine Width</span>
+            <input type="range" id="spine-width-slider" min="40" max="200" value="100" class="spine-width-input">
+            <span id="spine-width-val" class="spine-width-readout">100%</span>
+            <div class="spine-color-row" id="spine-color-row" style="display: none;">
+              <span style="font-size: 0.62rem; color: #64748b;" title="Base Tone"><i class="fa-solid fa-palette"></i></span>
+              <input type="color" id="spine-color-picker" class="spine-color-picker" value="#111827" title="Select Spine Base Tone">
+              <span class="spine-color-hex" id="spine-color-val" style="display: none;">#111827</span>
             </div>
           </div>
 
           <!-- Auto-detection badge -->
           <div class="autodetect-badge" id="autodetect-status" style="display: none;">
-            <span><i class="fa-solid fa-wand-magic-sparkles"></i> <span id="detect-mode-text">Full Wrap Auto-Split Active</span></span>
+            <span><i class="fa-solid fa-wand-magic-sparkles"></i> <span id="detect-mode-text">Full Wrap Auto-Split</span></span>
             <span id="detect-dim-text" style="font-family: monospace; font-weight: 700;"></span>
           </div>
-
-          <!-- Spine fallback tone (only for spine mockups) -->
-          <div class="spine-color-row" id="spine-color-row" style="display: none;">
-            <span style="font-size: 0.68rem; color: #94a3b8;"><i class="fa-solid fa-palette"></i> Spine Base Tone:</span>
-            <input type="color" id="spine-color-picker" class="spine-color-picker" value="#111827">
-            <span class="spine-color-hex" id="spine-color-val">#111827</span>
-          </div>
         </div>
 
-        <!-- 3. Artwork Fit & Framing Controls -->
-        <div class="tool-group" id="artwork-transform-group">
-          <div class="tool-label" style="display: flex; justify-content: space-between; align-items: center;">
-            <span><i class="fa-solid fa-arrows-up-down-left-right"></i> 3. Artwork Fit & Framing</span>
-            <button type="button" id="reset-transform-btn" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; font-size: 0.62rem; cursor: pointer; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;"><i class="fa-solid fa-rotate-left"></i> Reset</button>
-          </div>
-
-          <!-- Layer Selector Toggle (Front Cover / Back Cover) - shown only when preset has back cover! -->
-          <div class="layer-tab-toggle" id="layer-tab-toggle" style="display: none;">
-            <button type="button" class="layer-pill-btn active" id="btn-layer-front" data-layer="front">
-              <i class="fa-solid fa-book-open"></i> Front Cover
-            </button>
-            <button type="button" class="layer-pill-btn" id="btn-layer-back" data-layer="back">
-              <i class="fa-solid fa-book"></i> Back Cover
-            </button>
-          </div>
-
-          <div class="editing-layer-notice" id="editing-layer-notice" style="display: none;">
-            Adjusting <strong id="editing-layer-name" style="color: var(--accent);">Front Cover</strong>:
-          </div>
-
-          <div class="slider-control-row">
-            <div class="slider-header">
-              <span><i class="fa-solid fa-magnifying-glass-plus" style="color:var(--accent);"></i> Zoom / Scale</span>
-              <span id="art-scale-val" class="slider-val">100%</span>
-            </div>
-            <input type="range" id="art-scale-slider" min="60" max="150" value="100" class="studio-slider">
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 7px;">
-            <div class="slider-control-row" style="margin-bottom: 0;">
-              <div class="slider-header">
-                <span><i class="fa-solid fa-arrows-left-right"></i> Shift X</span>
-                <span id="art-pos-x-val" class="slider-val">0%</span>
+        <!-- STEP 3: Crop & Position -->
+        <div class="studio-step-section">
+          <div class="step-header-row">
+            <div class="step-header-left">
+              <span class="step-num-badge">3</span>
+              <div class="step-text-wrap">
+                <span class="step-title">Crop &amp; Position</span>
+                <span class="step-subtitle">Adjust how your cover fits the mockup.</span>
               </div>
-              <input type="range" id="art-pos-x-slider" min="-50" max="50" value="0" class="studio-slider">
             </div>
+            <button type="button" class="step-reset-btn" id="reset-transform-btn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          </div>
 
-            <div class="slider-control-row" style="margin-bottom: 0;">
-              <div class="slider-header">
-                <span><i class="fa-solid fa-arrows-up-down"></i> Shift Y</span>
-                <span id="art-pos-y-val" class="slider-val">0%</span>
+          <!-- 6 Crop & Position Action Buttons -->
+          <div class="crop-tools-row">
+            <button type="button" class="crop-fit-btn active" id="btn-fit-fill" title="Fill cover area">
+              <i class="fa-solid fa-expand crop-fit-icon"></i>
+              <span class="crop-fit-label">Fill</span>
+            </button>
+
+            <button type="button" class="crop-fit-btn" id="btn-fit-contain" title="Fit within bounds">
+              <i class="fa-solid fa-compress crop-fit-icon"></i>
+              <span class="crop-fit-label">Fit</span>
+            </button>
+
+            <button type="button" class="crop-fit-btn" id="btn-fit-center" title="Center artwork">
+              <i class="fa-solid fa-crosshairs crop-fit-icon"></i>
+              <span class="crop-fit-label">Center</span>
+            </button>
+
+            <button type="button" class="crop-fit-btn" id="btn-fit-custom" title="Custom Crop Modal">
+              <i class="fa-solid fa-crop-simple crop-fit-icon"></i>
+              <span class="crop-fit-label">Custom</span>
+            </button>
+
+            <button type="button" class="crop-fit-btn" id="btn-fit-square" title="Square 1:1 Framing">
+              <i class="fa-regular fa-square crop-fit-icon"></i>
+              <span class="crop-fit-label">Square</span>
+            </button>
+
+            <button type="button" class="crop-fit-btn" id="btn-fit-23" title="Standard 2:3 Book Ratio">
+              <i class="fa-solid fa-file-lines crop-fit-icon"></i>
+              <span class="crop-fit-label">2:3 Ratio</span>
+            </button>
+          </div>
+
+          <!-- Hidden compatibility bindings for script math -->
+          <div style="display: none;">
+            <input type="range" id="art-scale-slider" min="60" max="150" value="100">
+            <span id="art-scale-val">100%</span>
+            <input type="range" id="art-pos-x-slider" min="-50" max="50" value="0">
+            <span id="art-pos-x-val">0%</span>
+            <input type="range" id="art-pos-y-slider" min="-50" max="50" value="0">
+            <span id="art-pos-y-val">0%</span>
+            <div id="layer-tab-toggle">
+              <button id="btn-layer-front" data-layer="front"></button>
+              <button id="btn-layer-back" data-layer="back"></button>
+            </div>
+            <div id="editing-layer-notice"><span id="editing-layer-name">Front Cover</span></div>
+            <span id="slots-support-label"></span>
+            <span id="front-status-text"></span><span id="back-status-text"></span><span id="spine-status-text"></span>
+            <button id="btn-upload-front"></button><button id="btn-upload-back"></button><button id="btn-upload-spine"></button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Background -->
+        <div class="studio-step-section">
+          <div class="step-header-row">
+            <div class="step-header-left">
+              <span class="step-num-badge">4</span>
+              <div class="step-text-wrap">
+                <span class="step-title">Background</span>
+                <span class="step-subtitle">Choose a background style.</span>
               </div>
-              <input type="range" id="art-pos-y-slider" min="-50" max="50" value="0" class="studio-slider">
             </div>
           </div>
 
-          <!-- Spine Width / Thickness Slider (shown only for spine mockups) -->
-          <div class="slider-control-row" id="spine-width-group" style="display: none; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px; margin-top: 4px;">
-            <div class="slider-header">
-              <span><i class="fa-solid fa-arrows-left-right-to-line" style="color:#fde047;"></i> Spine Width / Thickness</span>
-              <span id="spine-width-val" class="slider-val">100%</span>
-            </div>
-            <input type="range" id="spine-width-slider" min="40" max="200" value="100" class="studio-slider">
-          </div>
-        </div>
+          <!-- 6 Background Choice Cards -->
+          <div class="bg-style-row">
+            <button type="button" class="bg-choice-card active" data-bg="studio" title="Authentic Studio PSD Background">
+              <div class="bg-preview-swatch swatch-studio"><i class="fa-solid fa-book"></i></div>
+              <span class="bg-choice-label">Studio</span>
+            </button>
 
-        <!-- 4. Studio Environment -->
-        <div class="tool-group">
-          <div class="tool-label">
-            <span><i class="fa-solid fa-sun"></i> 4. Studio Environment</span>
-          </div>
-          <div class="btn-toggle-group">
-            <button type="button" class="toggle-pill active" data-bg="studio"><i class="fa-solid fa-camera"></i> Studio PSD</button>
-            <button type="button" class="toggle-pill" data-bg="transparent"><i class="fa-solid fa-border-none"></i> Transparent</button>
-            <button type="button" class="toggle-pill" data-bg="white"><i class="fa-solid fa-circle"></i> White</button>
-            <button type="button" class="toggle-pill" data-bg="dark"><i class="fa-solid fa-moon"></i> Dark</button>
-          </div>
-        </div>
+            <button type="button" class="bg-choice-card" data-bg="transparent" title="Transparent PNG with Realistic Shadows">
+              <div class="bg-preview-swatch swatch-trans"></div>
+              <span class="bg-choice-label">Transparent</span>
+            </button>
 
-        <!-- 5. Export Format & Quality -->
-        <div class="tool-group">
-          <div class="tool-label">
-            <span><i class="fa-solid fa-download"></i> 5. Export Format</span>
-          </div>
-          <div class="btn-toggle-group">
-            <button type="button" class="toggle-pill active" data-format="png"><i class="fa-solid fa-file-image"></i> PNG (Lossless)</button>
-            <button type="button" class="toggle-pill" data-format="jpeg"><i class="fa-solid fa-file-lines"></i> JPEG (Studio HQ)</button>
+            <button type="button" class="bg-choice-card" data-bg="white" title="Pure Studio White">
+              <div class="bg-preview-swatch swatch-white"></div>
+              <span class="bg-choice-label">White</span>
+            </button>
+
+            <button type="button" class="bg-choice-card" data-bg="light" title="Soft Light Gray Gradient">
+              <div class="bg-preview-swatch swatch-light"></div>
+              <span class="bg-choice-label">Light</span>
+            </button>
+
+            <button type="button" class="bg-choice-card" data-bg="dark" title="Dark Slate Studio">
+              <div class="bg-preview-swatch swatch-dark"></div>
+              <span class="bg-choice-label">Dark</span>
+            </button>
+
+            <button type="button" class="bg-choice-card" data-bg="custom" id="btn-bg-custom" title="Custom Background Color / Image">
+              <div class="bg-preview-swatch swatch-custom"><i class="fa-regular fa-image"></i></div>
+              <span class="bg-choice-label">Custom</span>
+            </button>
+            <input type="file" id="custom-bg-input" accept="image/*" style="display: none;">
+            <input type="color" id="custom-bg-color-picker" style="display: none;" value="#e2e8f0">
           </div>
         </div>
 
       </div>
 
       <!-- RIGHT: Interactive Live Canvas Viewport -->
-      <div class="mockup-viewport-card">
+      <div class="preview-viewport-col">
         
         <!-- Viewport Topbar -->
-        <div class="viewport-topbar">
-          <div class="viewport-title">
-            <i class="fa-solid fa-eye" style="color: var(--accent);"></i>
-            <span id="active-mockup-title">Hardcover Standing (Front + Spine)</span>
-            <span class="viewport-res-badge" id="viewport-res-badge">2000 × 2000 Ultra-HD</span>
+        <div class="preview-topbar">
+          <div class="preview-topbar-left">
+            <span class="preview-label-bold">Preview</span>
+            <span class="preview-specs-pill" id="viewport-res-badge">3000 × 2250 px • Ultra HD</span>
           </div>
-          <div class="viewport-controls">
-            <span style="font-size: 0.68rem; color: #94a3b8;"><i class="fa-solid fa-bolt" style="color: #fde047;"></i> Realtime 60FPS</span>
+          <div class="preview-topbar-tools">
+            <button type="button" class="viewport-tool-link" id="btn-tool-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom</button>
+            <button type="button" class="viewport-tool-link" id="btn-tool-rotate"><i class="fa-solid fa-rotate-right"></i> Rotate</button>
+            <button type="button" class="viewport-tool-link" id="btn-tool-fullscreen"><i class="fa-solid fa-expand"></i> Fullscreen</button>
           </div>
         </div>
 
@@ -1378,14 +1597,32 @@
         </div>
 
         <!-- Viewport Bottombar / Download action -->
-        <div class="viewport-bottombar">
-          <div class="download-info">
-            <span class="download-info-title" id="download-info-title">Hardcover Standing Ready (2000 × 2000 px)</span>
-            <span class="download-info-sub"><i class="fa-solid fa-shield-check" style="color: #4ade80;"></i> Commercial Use Free • Authentic Photoshop Lighting &amp; Shadows</span>
+        <div class="preview-bottombar">
+          <div class="bottom-meta-wrap">
+            <h3 class="bottom-mockup-title" id="active-mockup-title">Original PSD Top-Down Ready</h3>
+            <p class="bottom-mockup-sub" id="download-info-sub">Commercial Use • Realistic Lighting • High Resolution</p>
+            <span id="download-info-title" style="display: none;"></span>
           </div>
-          <button type="button" class="download-primary-btn" id="download-mockup-btn">
-            <i class="fa-solid fa-download"></i> Download Ultra-HD Mockup
-          </button>
+          <div class="download-action-group">
+            <button type="button" class="download-primary-btn" id="download-mockup-btn">
+              <i class="fa-solid fa-download"></i> Download Mockup
+            </button>
+            <button type="button" class="download-caret-btn" id="download-format-btn" title="Choose format">
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="download-format-menu" id="download-format-menu">
+              <button type="button" class="format-menu-item active" data-format="png">
+                <span>PNG (Lossless)</span><i class="fa-solid fa-check format-check"></i>
+              </button>
+              <button type="button" class="format-menu-item" data-format="jpeg">
+                <span>JPEG (Studio HQ)</span>
+              </button>
+              <button type="button" class="format-menu-item" id="btn-export-4k">
+                <span>4K Ultra-HD Export</span>
+                <span style="font-size:0.6rem;background:#f97316;color:#fff;padding:1px 5px;border-radius:10px;font-weight:700;">PRO</span>
+              </button>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -1394,6 +1631,75 @@
 
   </div>
 </section>
+
+<!-- ALL 8 AUTHENTIC MOCKUPS MODAL ("View all ->") -->
+<div id="all-mockups-modal" class="all-mockups-modal">
+  <div class="all-mockups-dialog">
+    <div class="all-mockups-header">
+      <h3 class="all-mockups-title">
+        <i class="fa-solid fa-layer-group" style="color: #f97316;"></i> All 8 Authentic Studio Templates
+      </h3>
+      <button type="button" class="all-mockups-close" id="btn-close-all-mockups" title="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="all-mockups-grid" id="all-mockups-grid">
+      <!-- 1. Original PSD Top-Down -->
+      <div class="modal-mockup-card active" data-preset="book_mockup_1">
+        <img src="/images/psd_mockup_2/sample_cover.png" class="modal-card-thumb" alt="Original PSD">
+        <span class="modal-card-title">Original PSD</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-star"></i> Classic Flat</span>
+      </div>
+
+      <!-- 2. Hardcover Standing -->
+      <div class="modal-mockup-card" data-preset="hardcover_standing">
+        <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" class="modal-card-thumb" alt="Hardcover Standing">
+        <span class="modal-card-title">Hardcover Standing</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-bookmark"></i> 6x9 Standing</span>
+      </div>
+
+      <!-- 3. Paperback Duo -->
+      <div class="modal-mockup-card" data-preset="paperback_duo">
+        <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" class="modal-card-thumb" alt="Paperback Duo">
+        <span class="modal-card-title">Paperback Duo</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-book-open"></i> Front &amp; Back</span>
+      </div>
+
+      <!-- 4. Dual Standing Showcase -->
+      <div class="modal-mockup-card" data-preset="front_back_showcase">
+        <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" class="modal-card-thumb" alt="Dual Standing Showcase">
+        <span class="modal-card-title">Dual Showcase</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-gem"></i> Floor Reflection</span>
+      </div>
+
+      <!-- 5. Square Flatlay -->
+      <div class="modal-mockup-card" data-preset="square_flatlay">
+        <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" class="modal-card-thumb" alt="Square Flatlay">
+        <span class="modal-card-title">Square Flatlay</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-shapes"></i> 8.5x8.5 Flat</span>
+      </div>
+
+      <!-- 6. Square 3-Book Stack -->
+      <div class="modal-mockup-card" data-preset="square_stack">
+        <img src="/images/psd_mockups/thumbnails/square_stack.jpg" class="modal-card-thumb" alt="Square 3-Book Stack">
+        <span class="modal-card-title">3-Book Stack</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-layer-group"></i> 3.psd Isometric</span>
+      </div>
+
+      <!-- 7. 4-Book Studio Suite -->
+      <div class="modal-mockup-card" data-preset="studio_collector">
+        <img src="/images/psd_mockups/thumbnails/spine_full_showcase.jpg" class="modal-card-thumb" alt="4-Book Studio Suite">
+        <span class="modal-card-title">4-Book Studio</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-crown"></i> Full Spine Suite</span>
+      </div>
+
+      <!-- 8. Open Spread Flatlay -->
+      <div class="modal-mockup-card" data-preset="open_spread">
+        <img src="/images/psd_mockups/thumbnails/open_spread.jpg" class="modal-card-thumb" alt="Open Spread Flatlay">
+        <span class="modal-card-title">Open Spread</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-book-journal-whills"></i> Full Jacket</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- INTERACTIVE ARTWORK CROPPER MODAL -->
 <div id="art-crop-modal" class="crop-modal-backdrop" style="display: none;">
@@ -3445,10 +3751,97 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     reader.readAsDataURL(file);
   }
 
-  // Preset Buttons
-  presetButtons.forEach(btn => {
+  // Active Slot State ('front', 'back', or 'spine')
+  let activeUploadSlot = 'front';
+
+  function setActiveSlot(slot) {
+    activeUploadSlot = slot;
+    const cards = [slotCardFront, slotCardBack, slotCardSpine];
+    cards.forEach(c => {
+      if (c) c.classList.toggle('active', c.dataset.slot === slot);
+    });
+    const dropTitle = document.querySelector('.dropzone-title');
+    const label = slot === 'spine' ? 'Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover');
+    if (dropTitle) dropTitle.textContent = `Drag & drop ${label} here`;
+  }
+  window.setActiveSlot = setActiveSlot;
+
+  if (slotCardFront) slotCardFront.addEventListener('click', () => setActiveSlot('front'));
+  if (slotCardBack) slotCardBack.addEventListener('click', () => setActiveSlot('back'));
+  if (slotCardSpine) slotCardSpine.addEventListener('click', () => setActiveSlot('spine'));
+
+  // Main Upload Dropzone Click & Drag/Drop
+  const coverDropzone = document.getElementById('cover-dropzone');
+  if (coverDropzone) {
+    coverDropzone.addEventListener('click', () => {
+      if (activeUploadSlot === 'spine' && spineInput) spineInput.click();
+      else if (activeUploadSlot === 'back' && backInput) backInput.click();
+      else if (frontInput) frontInput.click();
+    });
+    ['dragenter', 'dragover'].forEach(ev => {
+      coverDropzone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        coverDropzone.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(ev => {
+      coverDropzone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        coverDropzone.classList.remove('dragover');
+      });
+    });
+    coverDropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        const file = e.dataTransfer.files[0];
+        if (activeUploadSlot === 'spine') handleSpineFile(file);
+        else if (activeUploadSlot === 'back') handleBackFile(file);
+        else handleFrontFile(file);
+      }
+    });
+  }
+
+  // Viewport Canvas Container Drag & Drop
+  if (canvasContainer) {
+    ['dragenter', 'dragover'].forEach(ev => {
+      canvasContainer.addEventListener(ev, (e) => { e.preventDefault(); });
+    });
+    canvasContainer.addEventListener('drop', (e) => {
+      e.preventDefault();
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        const file = e.dataTransfer.files[0];
+        if (activeUploadSlot === 'spine') handleSpineFile(file);
+        else if (activeUploadSlot === 'back') handleBackFile(file);
+        else handleFrontFile(file);
+      }
+    });
+  }
+
+  // "View all ->" Modal Controls
+  const btnViewAll = document.getElementById('btn-view-all-mockups');
+  const allMockupsModal = document.getElementById('all-mockups-modal');
+  const btnCloseAllMockups = document.getElementById('btn-close-all-mockups');
+
+  if (btnViewAll && allMockupsModal) {
+    btnViewAll.addEventListener('click', () => {
+      allMockupsModal.style.display = 'flex';
+    });
+  }
+  if (btnCloseAllMockups && allMockupsModal) {
+    btnCloseAllMockups.addEventListener('click', () => {
+      allMockupsModal.style.display = 'none';
+    });
+  }
+  if (allMockupsModal) {
+    allMockupsModal.addEventListener('click', (e) => {
+      if (e.target === allMockupsModal) allMockupsModal.style.display = 'none';
+    });
+  }
+
+  // All Preset Buttons (Quick Row + Modal Cards)
+  document.querySelectorAll('[data-preset]').forEach(btn => {
     btn.addEventListener('click', () => {
       currentPresetId = btn.dataset.preset;
+      if (allMockupsModal) allMockupsModal.style.display = 'none';
       updateUIForPreset();
     });
   });
@@ -3480,8 +3873,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         frontThumbPreview.style.display = 'none';
       }
       if (cropFrontBtn) cropFrontBtn.style.display = 'none';
-      if (frontBtnLabel) frontBtnLabel.textContent = 'Choose Front Cover';
-      if (btnUploadFront) btnUploadFront.classList.remove('has-file');
+      if (frontBtnLabel) frontBtnLabel.textContent = 'Front Cover';
       if (clearFrontBtn) clearFrontBtn.style.display = 'none';
       if (frontStatusText) frontStatusText.textContent = 'Default Sample';
       if (autodetectStatus) autodetectStatus.style.display = 'none';
@@ -3517,8 +3909,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         backThumbPreview.style.display = 'none';
       }
       if (cropBackBtn) cropBackBtn.style.display = 'none';
-      if (backBtnLabel) backBtnLabel.textContent = 'Choose Back Cover';
-      if (btnUploadBack) btnUploadBack.classList.remove('has-file');
+      if (backBtnLabel) backBtnLabel.textContent = 'Back Cover';
       if (clearBackBtn) clearBackBtn.style.display = 'none';
       if (backStatusText) backStatusText.textContent = 'Optional';
       if (backInput) backInput.value = '';
@@ -3553,8 +3944,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         spineThumbPreview.style.display = 'none';
       }
       if (cropSpineBtn) cropSpineBtn.style.display = 'none';
-      if (spineBtnLabel) spineBtnLabel.textContent = 'Choose Spine';
-      if (btnUploadSpine) btnUploadSpine.classList.remove('has-file');
+      if (spineBtnLabel) spineBtnLabel.textContent = 'Spine';
       if (clearSpineBtn) clearSpineBtn.style.display = 'none';
       if (spineStatusText) spineStatusText.textContent = 'Optional';
       if (spineInput) spineInput.value = '';
@@ -3562,78 +3952,11 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
-  // Wire Drag & Drop on Slot Cards
-  function wireCardDrop(card, handler) {
-    if (!card) return;
-    ['dragenter', 'dragover'].forEach(ev => {
-      card.addEventListener(ev, (e) => { e.preventDefault(); card.style.borderColor = 'var(--accent)'; });
-    });
-    ['dragleave', 'drop'].forEach(ev => {
-      card.addEventListener(ev, (e) => { e.preventDefault(); card.style.borderColor = ''; });
-    });
-    card.addEventListener('drop', (e) => {
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-        handler(e.dataTransfer.files[0]);
-      }
-    });
-  }
-  wireCardDrop(slotCardFront, handleFrontFile);
-  wireCardDrop(slotCardBack, handleBackFile);
-  wireCardDrop(slotCardSpine, handleSpineFile);
-
   // Wire Spine Tone Picker
   if (spineColorPicker) {
     spineColorPicker.addEventListener('input', (e) => {
       spineColor = e.target.value;
       if (spineColorVal) spineColorVal.textContent = spineColor;
-      renderCurrentMockup();
-    });
-  }
-
-  // Wire Layer Pill Buttons (Front / Back selector)
-  if (btnLayerFront) {
-    btnLayerFront.addEventListener('click', () => setEditLayer('front'));
-  }
-  if (btnLayerBack) {
-    btnLayerBack.addEventListener('click', () => setEditLayer('back'));
-  }
-
-  // Wire Artwork Scale & Position Sliders
-  if (artScaleSlider) {
-    artScaleSlider.addEventListener('input', (e) => {
-      const val = parseInt(e.target.value);
-      if (currentEditLayer === 'front') frontTransform.scale = val;
-      else backTransform.scale = val;
-      if (artScaleVal) artScaleVal.textContent = val + '%';
-      renderCurrentMockup();
-    });
-  }
-  if (artPosXSlider) {
-    artPosXSlider.addEventListener('input', (e) => {
-      const val = parseInt(e.target.value);
-      if (currentEditLayer === 'front') frontTransform.shiftX = val;
-      else backTransform.shiftX = val;
-      if (artPosXVal) artPosXVal.textContent = (val > 0 ? '+' : '') + val + '%';
-      renderCurrentMockup();
-    });
-  }
-  if (artPosYSlider) {
-    artPosYSlider.addEventListener('input', (e) => {
-      const val = parseInt(e.target.value);
-      if (currentEditLayer === 'front') frontTransform.shiftY = val;
-      else backTransform.shiftY = val;
-      if (artPosYVal) artPosYVal.textContent = (val > 0 ? '+' : '') + val + '%';
-      renderCurrentMockup();
-    });
-  }
-  if (resetTransformBtn) {
-    resetTransformBtn.addEventListener('click', () => {
-      if (currentEditLayer === 'front') {
-        frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
-      } else {
-        backTransform = { scale: 100, shiftX: 0, shiftY: 0 };
-      }
-      setEditLayer(currentEditLayer);
       renderCurrentMockup();
     });
   }
@@ -3647,24 +3970,190 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
-  // Wire Backdrop Mode Toggles
-  bgButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      bgButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      bgMode = btn.dataset.bg;
+  // Step 3: Crop & Position 6 Buttons
+  const btnFitFill = document.getElementById('btn-fit-fill');
+  const btnFitContain = document.getElementById('btn-fit-contain');
+  const btnFitCenter = document.getElementById('btn-fit-center');
+  const btnFitCustom = document.getElementById('btn-fit-custom');
+  const btnFitSquare = document.getElementById('btn-fit-square');
+  const btnFit23 = document.getElementById('btn-fit-23');
+  const cropFitButtons = document.querySelectorAll('.crop-fit-btn');
+
+  function activateFitButton(activeBtn) {
+    cropFitButtons.forEach(b => b.classList.remove('active'));
+    if (activeBtn) activeBtn.classList.add('active');
+  }
+
+  if (btnFitFill) {
+    btnFitFill.addEventListener('click', () => {
+      activateFitButton(btnFitFill);
+      frontTransform = { scale: 108, shiftX: 0, shiftY: 0 };
       renderCurrentMockup();
     });
-  });
+  }
+  if (btnFitContain) {
+    btnFitContain.addEventListener('click', () => {
+      activateFitButton(btnFitContain);
+      frontTransform = { scale: 92, shiftX: 0, shiftY: 0 };
+      renderCurrentMockup();
+    });
+  }
+  if (btnFitCenter) {
+    btnFitCenter.addEventListener('click', () => {
+      activateFitButton(btnFitCenter);
+      frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+      renderCurrentMockup();
+    });
+  }
+  if (btnFitCustom) {
+    btnFitCustom.addEventListener('click', () => {
+      activateFitButton(btnFitCustom);
+      const src = rawArtworks[activeUploadSlot] || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
+      if (src) {
+        openCropModal(src, activeUploadSlot, rawFileNames[activeUploadSlot] || 'Custom Artwork');
+      } else {
+        if (activeUploadSlot === 'spine' && spineInput) spineInput.click();
+        else if (activeUploadSlot === 'back' && backInput) backInput.click();
+        else if (frontInput) frontInput.click();
+      }
+    });
+  }
+  if (btnFitSquare) {
+    btnFitSquare.addEventListener('click', () => {
+      activateFitButton(btnFitSquare);
+      const src = rawArtworks[activeUploadSlot] || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
+      if (src) {
+        openCropModal(src, activeUploadSlot, rawFileNames[activeUploadSlot] || 'Square Artwork');
+        setTimeout(() => {
+          if (activeCropper) activeCropper.setAspectRatio(1.0);
+        }, 80);
+      }
+    });
+  }
+  if (btnFit23) {
+    btnFit23.addEventListener('click', () => {
+      activateFitButton(btnFit23);
+      const src = rawArtworks[activeUploadSlot] || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
+      if (src) {
+        openCropModal(src, activeUploadSlot, rawFileNames[activeUploadSlot] || '2:3 Artwork');
+        setTimeout(() => {
+          if (activeCropper) activeCropper.setAspectRatio(2 / 3);
+        }, 80);
+      }
+    });
+  }
+  if (resetTransformBtn) {
+    resetTransformBtn.addEventListener('click', () => {
+      frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+      backTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+      activateFitButton(btnFitCenter);
+      renderCurrentMockup();
+    });
+  }
 
-  // Wire Export Format Toggles
-  formatButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      formatButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      exportFormat = btn.dataset.format;
+  // Step 4: Background Style 6-Card Row
+  const bgCards = document.querySelectorAll('.bg-choice-card');
+  const customBgInput = document.getElementById('custom-bg-input');
+
+  bgCards.forEach(card => {
+    card.addEventListener('click', () => {
+      bgCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      const bg = card.dataset.bg;
+      if (bg === 'custom') {
+        if (customBgInput) customBgInput.click();
+      } else {
+        bgMode = bg;
+        renderCurrentMockup();
+      }
     });
   });
+  if (customBgInput) {
+    customBgInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            bgMode = 'custom';
+            PSD_MANIFEST[currentPresetId].customBackdropImg = img;
+            renderCurrentMockup();
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+  }
+
+  // Preview Toolbar Tools (Zoom, Rotate, Fullscreen)
+  let previewZoomState = false;
+  let previewRotateDeg = 0;
+  const btnToolZoom = document.getElementById('btn-tool-zoom');
+  const btnToolRotate = document.getElementById('btn-tool-rotate');
+  const btnToolFullscreen = document.getElementById('btn-tool-fullscreen');
+
+  function updateCanvasTransform() {
+    if (!viewportCanvas) return;
+    const parts = [];
+    if (previewZoomState) parts.push('scale(1.25)');
+    if (previewRotateDeg !== 0) parts.push(`rotate(${previewRotateDeg}deg)`);
+    viewportCanvas.style.transform = parts.length ? parts.join(' ') : 'scale(1)';
+  }
+
+  if (btnToolZoom) {
+    btnToolZoom.addEventListener('click', () => {
+      previewZoomState = !previewZoomState;
+      updateCanvasTransform();
+      btnToolZoom.style.color = previewZoomState ? '#f97316' : '';
+    });
+  }
+  if (btnToolRotate) {
+    btnToolRotate.addEventListener('click', () => {
+      previewRotateDeg = (previewRotateDeg + 90) % 360;
+      updateCanvasTransform();
+    });
+  }
+  if (btnToolFullscreen && canvasContainer) {
+    btnToolFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        canvasContainer.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    });
+  }
+
+  // Download Split Button & Format Menu
+  const downloadFormatBtn = document.getElementById('download-format-btn');
+  const downloadFormatMenu = document.getElementById('download-format-menu');
+  const btnExport4k = document.getElementById('btn-export-4k');
+
+  if (downloadFormatBtn && downloadFormatMenu) {
+    downloadFormatBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      downloadFormatMenu.classList.toggle('show');
+    });
+  }
+  document.addEventListener('click', (e) => {
+    if (downloadFormatMenu && !downloadFormatMenu.contains(e.target) && e.target !== downloadFormatBtn) {
+      downloadFormatMenu.classList.remove('show');
+    }
+  });
+  document.querySelectorAll('.format-menu-item[data-format]').forEach(item => {
+    item.addEventListener('click', () => {
+      exportFormat = item.dataset.format;
+      document.querySelectorAll('.format-menu-item[data-format]').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      if (downloadFormatMenu) downloadFormatMenu.classList.remove('show');
+    });
+  });
+  if (btnExport4k) {
+    btnExport4k.addEventListener('click', () => {
+      if (downloadFormatMenu) downloadFormatMenu.classList.remove('show');
+      if (downloadMockupBtn) downloadMockupBtn.click();
+    });
+  }
 
   // Wire Full Native Ultra-HD Download
   if (downloadMockupBtn) {
