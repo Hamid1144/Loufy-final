@@ -2421,12 +2421,12 @@ document.addEventListener('DOMContentLoaded', () => {
           731.6
         ],
         [
-          1812.4,
-          1349.9
+          1757.6,
+          1292.2
         ],
         [
-          1091.5,
-          1934.5
+          1059.0,
+          1860.0
         ]
       ],
       "spine": [
@@ -2457,12 +2457,12 @@ document.addEventListener('DOMContentLoaded', () => {
           455
         ],
         [
-          2553.8,
-          1014.8
+          2465.0,
+          970.0
         ],
         [
-          1898.3,
-          1312
+          1849.2,
+          1242.4
         ]
       ]
     }
@@ -3458,6 +3458,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           ctx.globalAlpha = Math.min(1.0, 100 / 100);
           ctx.globalCompositeOperation = 'screen';
           ctx.drawImage(ltImg, 0, 0, renderWidth, renderHeight);
+          ctx.restore();
+        }
+      }
+      if (config.layers.pages) {
+        const pgImg = await preloadImage(config.layers.pages);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+        if (pgImg) {
+          ctx.save();
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.drawImage(pgImg, 0, 0, renderWidth, renderHeight);
           ctx.restore();
         }
       }
