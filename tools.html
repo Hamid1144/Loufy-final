@@ -434,7 +434,14 @@
     .crop-header-left {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
+      min-width: 0;
+    }
+    .crop-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .crop-slot-badge {
       display: inline-flex;
@@ -445,16 +452,79 @@
       color: #fde047;
       text-transform: uppercase;
       letter-spacing: 0.06em;
+      background: rgba(244, 180, 0, 0.12);
+      border: 1px solid rgba(244, 180, 0, 0.35);
+      border-radius: 4px;
+      padding: 1px 7px;
+    }
+    .crop-target-spec-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.64rem;
+      font-weight: 700;
+      color: #93c5fd;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-family: monospace;
     }
     .crop-modal-title {
       margin: 0;
       font-size: 1.05rem;
       font-weight: 700;
       color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .crop-modal-hint {
       font-size: 0.72rem;
       color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .crop-header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .crop-slot-switch-group {
+      display: flex;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 7px;
+      padding: 2px;
+      gap: 3px;
+    }
+    .crop-slot-switch-btn {
+      padding: 4px 9px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #94a3b8;
+      background: transparent;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-family: 'Outfit', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .crop-slot-switch-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .crop-slot-switch-btn.active {
+      color: #000;
+      background: #f4b400;
+      font-weight: 700;
+      box-shadow: 0 0 8px rgba(244, 180, 0, 0.3);
     }
     .crop-close-btn {
       width: 32px;
@@ -525,6 +595,15 @@
       color: #fde047;
       box-shadow: 0 0 10px rgba(244, 180, 0, 0.25);
     }
+    .ratio-pill-btn.exact-pill {
+      border-color: rgba(244, 180, 0, 0.4);
+      color: #fde047;
+      font-weight: 700;
+    }
+    .ratio-pill-btn.custom-pill {
+      border-color: rgba(147, 197, 253, 0.35);
+      color: #93c5fd;
+    }
     .crop-canvas-wrapper {
       height: 420px;
       max-height: 52vh;
@@ -571,6 +650,13 @@
     .crop-tool-btn:hover {
       background: rgba(255, 255, 255, 0.14);
       color: #fff;
+    }
+    .crop-tool-btn.active {
+      background: rgba(244, 180, 0, 0.22);
+      border-color: var(--accent);
+      color: #fde047;
+      font-weight: 700;
+      box-shadow: 0 0 8px rgba(244, 180, 0, 0.25);
     }
     .crop-info-text {
       font-size: 0.7rem;
@@ -1314,18 +1400,26 @@
   <div class="crop-modal-dialog">
     <div class="crop-modal-header">
       <div class="crop-header-left">
-        <span class="crop-slot-badge" id="crop-modal-slot-badge"><i class="fa-solid fa-book-open"></i> Front Cover Slot</span>
+        <div class="crop-badge-row">
+          <span class="crop-slot-badge" id="crop-modal-slot-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> SMART CROP AUTO-DETECTED</span>
+          <span class="crop-target-spec-tag" id="crop-modal-target-spec"><i class="fa-solid fa-crosshairs"></i> Target Area: 856 × 1269 px</span>
+        </div>
         <h3 class="crop-modal-title" id="crop-modal-title">Crop Artwork</h3>
-        <span class="crop-modal-hint" id="crop-modal-hint">Choose exact mockup ratio or drag crop handles for custom framing</span>
+        <span class="crop-modal-hint" id="crop-modal-hint">Preselected exact mockup ratio. Adjust framing, zoom, or pick a preset below.</span>
       </div>
-      <button type="button" class="crop-close-btn" id="crop-btn-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="crop-header-right">
+        <div class="crop-slot-switch-group" id="crop-slot-switch-group">
+          <!-- Injected dynamically: [ Front Cover ] [ Spine ] [ Back Cover ] -->
+        </div>
+        <button type="button" class="crop-close-btn" id="crop-btn-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
     </div>
 
     <!-- Aspect Ratio Selection Bar -->
     <div class="crop-ratio-bar">
-      <span class="crop-ratio-label"><i class="fa-solid fa-shapes"></i> Aspect Ratio:</span>
+      <span class="crop-ratio-label"><i class="fa-solid fa-shapes"></i> Crop Presets:</span>
       <div class="crop-ratio-pills" id="crop-ratio-pills">
-        <!-- Injected dynamically by openCropModal: Exact Ratio, Custom, 6:9, etc. -->
+        <!-- Injected dynamically by openCropModal: Exact Ratio, Custom, 6:9, 5:8, 1:1, etc. -->
       </div>
     </div>
 
@@ -1337,12 +1431,20 @@
     <!-- Crop Toolbar & Zoom/Rotate Controls -->
     <div class="crop-toolbar">
       <div class="crop-tools-group">
+        <button type="button" class="crop-tool-btn active" id="crop-mode-crop" title="Crop Selection Box"><i class="fa-solid fa-crop-simple"></i> Crop Box</button>
+        <button type="button" class="crop-tool-btn" id="crop-mode-move" title="Pan / Move Artwork"><i class="fa-solid fa-up-down-left-right"></i> Pan Image</button>
+
+        <div style="width: 1px; height: 18px; background: rgba(255,255,255,0.15); margin: 0 4px;"></div>
+
+        <button type="button" class="crop-tool-btn" id="crop-tool-zoom-out" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+        <button type="button" class="crop-tool-btn" id="crop-tool-zoom-in" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+
+        <div style="width: 1px; height: 18px; background: rgba(255,255,255,0.15); margin: 0 4px;"></div>
+
         <button type="button" class="crop-tool-btn" id="crop-tool-rotate-left" title="Rotate 90° Counter-Clockwise"><i class="fa-solid fa-rotate-left"></i> -90°</button>
         <button type="button" class="crop-tool-btn" id="crop-tool-rotate-right" title="Rotate 90° Clockwise"><i class="fa-solid fa-rotate-right"></i> +90°</button>
         <button type="button" class="crop-tool-btn" id="crop-tool-flip-h" title="Flip Horizontal"><i class="fa-solid fa-arrows-left-right"></i> Flip</button>
-        <button type="button" class="crop-tool-btn" id="crop-tool-zoom-in" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-        <button type="button" class="crop-tool-btn" id="crop-tool-zoom-out" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-        <button type="button" class="crop-tool-btn" id="crop-tool-reset" title="Reset Crop"><i class="fa-solid fa-arrow-rotate-left"></i> Reset</button>
+        <button type="button" class="crop-tool-btn" id="crop-tool-reset" title="Reset Crop &amp; Zoom"><i class="fa-solid fa-arrow-rotate-left"></i> Reset</button>
       </div>
       <div class="crop-info-text" id="crop-dimensions-info">
         Ready to crop
@@ -1353,7 +1455,7 @@
     <div class="crop-modal-footer">
       <button type="button" class="crop-btn-cancel" id="crop-btn-cancel">Cancel</button>
       <button type="button" class="crop-btn-skip" id="crop-btn-skip">Use Full Image (No Crop)</button>
-      <button type="button" class="crop-btn-apply" id="crop-btn-apply"><i class="fa-solid fa-check"></i> Apply &amp; Set Artwork</button>
+      <button type="button" class="crop-btn-apply" id="crop-btn-apply"><i class="fa-solid fa-check"></i> <span id="crop-apply-label">Apply &amp; Set Artwork</span></button>
     </div>
   </div>
 </div>
@@ -2034,6 +2136,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   const cropModalTitle = document.getElementById('crop-modal-title');
   const cropModalHint = document.getElementById('crop-modal-hint');
   const cropModalSlotBadge = document.getElementById('crop-modal-slot-badge');
+  const cropModalTargetSpec = document.getElementById('crop-modal-target-spec');
+  const cropSlotSwitchGroup = document.getElementById('crop-slot-switch-group');
   const cropRatioPills = document.getElementById('crop-ratio-pills');
   const cropTargetImg = document.getElementById('crop-target-image');
   const cropDimensionsInfo = document.getElementById('crop-dimensions-info');
@@ -2041,12 +2145,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   const cropBtnCancel = document.getElementById('crop-btn-cancel');
   const cropBtnSkip = document.getElementById('crop-btn-skip');
   const cropBtnApply = document.getElementById('crop-btn-apply');
+  const cropApplyLabel = document.getElementById('crop-apply-label');
+  const cropModeCrop = document.getElementById('crop-mode-crop');
+  const cropModeMove = document.getElementById('crop-mode-move');
   const cropToolRotateLeft = document.getElementById('crop-tool-rotate-left');
   const cropToolRotateRight = document.getElementById('crop-tool-rotate-right');
   const cropToolFlipH = document.getElementById('crop-tool-flip-h');
   const cropToolZoomIn = document.getElementById('crop-tool-zoom-in');
   const cropToolZoomOut = document.getElementById('crop-tool-zoom-out');
   const cropToolReset = document.getElementById('crop-tool-reset');
+  const canvasContainer = document.getElementById('psd-canvas-container');
 
   const spineColorRow = document.getElementById('spine-color-row');
   const spineColorPicker = document.getElementById('spine-color-picker');
@@ -2840,37 +2948,87 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     renderCurrentMockup();
   }
 
-  // ── MATHEMATICALLY EXACT SLOT ASPECT RATIO CALCULATION ──
-  function computeSlotAspectRatio(presetId, slot) {
+  // ── MATHEMATICALLY EXACT SLOT TARGET SPECS & ASPECT RATIO DETECTION ──
+  function getSlotTargetSpecs(presetId, slot) {
     const config = PSD_MANIFEST[presetId];
-    if (!config) return slot === 'spine' ? 0.07 : (2 / 3);
-
-    // 1. Direct bounding rects (e.g. front_back_showcase, square_flatlay)
-    if (config.rects && config.rects[slot]) {
-      const r = config.rects[slot];
-      if (r[2] && r[3]) return r[2] / r[3];
+    if (!config) {
+      return {
+        ratio: slot === 'spine' ? 0.07 : (2 / 3),
+        width: slot === 'spine' ? 80 : 1200,
+        height: slot === 'spine' ? 1600 : 1800,
+        slotLabel: slot === 'spine' ? 'Book Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover'),
+        mockupTitle: 'Book Mockup',
+        aspectLabel: slot === 'spine' ? '1:14 Slim Spine' : '6:9 Standard Book'
+      };
     }
 
-    // 2. 3D perspective quads
-    if (config.quads && config.quads[slot]) {
+    let width = 1200;
+    let height = 1800;
+    let ratio = 2 / 3;
+
+    // 1. Direct bounding rects (e.g. front_back_showcase, square_flatlay, book_mockup_1)
+    if (config.rects && config.rects[slot]) {
+      const r = config.rects[slot];
+      width = Math.round(r[2]);
+      height = Math.round(r[3]);
+      if (height > 0) ratio = width / height;
+    } else if (config.quads && config.quads[slot]) {
+      // 2. 3D perspective quads (e.g. hardcover_standing, paperback_duo, studio_collector, open_spread)
       const q = config.quads[slot];
       const topW = Math.hypot(q[1][0] - q[0][0], q[1][1] - q[0][1]);
       const botW = Math.hypot(q[2][0] - q[3][0], q[2][1] - q[3][1]);
       const leftH = Math.hypot(q[3][0] - q[0][0], q[3][1] - q[0][1]);
       const rightH = Math.hypot(q[2][0] - q[1][0], q[2][1] - q[1][1]);
-      const avgW = (topW + botW) / 2;
-      const avgH = (leftH + rightH) / 2;
-      if (avgH > 0) return avgW / avgH;
+      width = Math.round((topW + botW) / 2);
+      height = Math.round((leftH + rightH) / 2);
+      if (height > 0) ratio = width / height;
+    } else {
+      // 3. Fallbacks based on category/aspect
+      if (slot === 'spine') {
+        width = 80; height = 1600; ratio = 0.05;
+      } else if (config.aspect === '1:1' || config.aspect === '8.5x8.5') {
+        width = 1200; height = 1200; ratio = 1.0;
+      } else if (config.aspect === '5x8') {
+        width = 1000; height = 1600; ratio = 5 / 8;
+      } else {
+        width = 1200; height = 1800; ratio = 2 / 3;
+      }
     }
 
-    // 3. Fallbacks based on category/aspect
-    if (slot === 'spine') return 0.07;
-    if (config.aspect === '1:1' || config.aspect === '8.5x8.5') return 1;
-    if (config.aspect === '5x8') return 5 / 8;
-    return 2 / 3;
+    let aspectLabel = '';
+    if (slot === 'spine') {
+      const mult = width > 0 ? (height / width).toFixed(1) : '15';
+      aspectLabel = `Spine 1:${mult}`;
+    } else if (Math.abs(ratio - 1.0) < 0.04) {
+      aspectLabel = '1:1 Square Album';
+    } else if (Math.abs(ratio - 0.625) < 0.04) {
+      aspectLabel = '5:8 Trade Novel';
+    } else if (Math.abs(ratio - 0.667) < 0.04) {
+      aspectLabel = '6:9 Standard Book';
+    } else if (Math.abs(ratio - 0.72) < 0.04) {
+      aspectLabel = '6:9 Dual Showcase';
+    } else {
+      aspectLabel = `${ratio.toFixed(2)} Exact Fit`;
+    }
+
+    const slotLabel = slot === 'spine' ? 'Book Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover');
+
+    return {
+      ratio,
+      width,
+      height,
+      slotLabel,
+      mockupTitle: config.title || presetId,
+      aspectLabel
+    };
   }
 
-  // ── INTERACTIVE ARTWORK CROP MODAL ENGINE ──
+  // Backward compatibility helper
+  function computeSlotAspectRatio(presetId, slot) {
+    return getSlotTargetSpecs(presetId, slot).ratio;
+  }
+
+  // ── SMART ARTWORK CROP MODAL ENGINE ──
   window.openCropModal = openCropModal;
   function openCropModal(imgSrc, slot = 'front', fileName = '') {
     if (!imgSrc || !cropModal) return;
@@ -2879,59 +3037,93 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     currentCropDataUrl = imgSrc;
     currentCropFileName = fileName || ('Custom ' + slot.charAt(0).toUpperCase() + slot.slice(1));
 
-    // Update Header Badges & Hints
+    // Automatically detect exact dimensions and aspect ratio of target area
+    const specs = getSlotTargetSpecs(currentPresetId, slot);
+    activeCropRatio = specs.ratio;
+
+    // Header Badges & Hints
     if (cropModalSlotBadge) {
-      if (slot === 'front') {
-        cropModalSlotBadge.innerHTML = '<i class="fa-solid fa-book-open" style="color:var(--accent);"></i> Front Cover Slot';
-      } else if (slot === 'back') {
-        cropModalSlotBadge.innerHTML = '<i class="fa-solid fa-book" style="color:#60a5fa;"></i> Back Cover Slot';
-      } else {
-        cropModalSlotBadge.innerHTML = '<i class="fa-solid fa-grip-lines-vertical" style="color:#fde047;"></i> Book Spine Slot';
-      }
+      const badgeIcon = slot === 'spine' ? 'fa-grip-lines-vertical' : (slot === 'back' ? 'fa-book' : 'fa-book-open');
+      cropModalSlotBadge.innerHTML = `<i class="fa-solid ${badgeIcon}"></i> ${specs.slotLabel.toUpperCase()} AUTO-DETECTED`;
+    }
+    if (cropModalTargetSpec) {
+      cropModalTargetSpec.innerHTML = `<i class="fa-solid fa-crosshairs"></i> Target Area: <strong>${specs.width} × ${specs.height} px</strong> (${specs.aspectLabel})`;
     }
     if (cropModalTitle) {
-      cropModalTitle.textContent = 'Crop ' + (slot === 'front' ? 'Front Cover' : slot === 'back' ? 'Back Cover' : 'Spine Artwork');
+      cropModalTitle.textContent = `Crop Artwork for ${specs.slotLabel}`;
     }
     if (cropModalHint) {
-      cropModalHint.textContent = slot === 'spine'
-        ? 'Auto spine ratio locked to selected mockup. Select "Custom" to crop any spine strip width.'
-        : 'Exact mockup ratio locked by default for perfect fit. Select "Custom" for freeform crop.';
+      cropModalHint.textContent = `Preselected exact ${specs.mockupTitle} proportions (${specs.width} × ${specs.height} px). Adjust framing, zoom, or pick a preset below.`;
+    }
+    if (cropApplyLabel) {
+      cropApplyLabel.textContent = `Apply & Set ${specs.slotLabel}`;
     }
 
-    const exactRatio = computeSlotAspectRatio(currentPresetId, slot);
-    activeCropRatio = exactRatio;
+    // Dynamic Slot Switcher in Crop Dialog Header
+    if (cropSlotSwitchGroup) {
+      cropSlotSwitchGroup.innerHTML = '';
+      const config = PSD_MANIFEST[currentPresetId];
+      const availableSlots = (config && config.slots) ? config.slots : ['front'];
 
-    // Generate Aspect Ratio Selection Pills
+      if (availableSlots.length > 1) {
+        availableSlots.forEach(s => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'crop-slot-switch-btn' + (s === slot ? ' active' : '');
+          const icon = s === 'spine' ? 'fa-grip-lines-vertical' : (s === 'back' ? 'fa-book' : 'fa-book-open');
+          const lbl = s === 'spine' ? 'Spine' : (s === 'back' ? 'Back Cover' : 'Front Cover');
+          btn.innerHTML = `<i class="fa-solid ${icon}"></i> ${lbl}`;
+          btn.addEventListener('click', () => {
+            if (s !== currentCropSlot) {
+              openCropModal(currentCropDataUrl, s, currentCropFileName);
+            }
+          });
+          cropSlotSwitchGroup.appendChild(btn);
+        });
+        cropSlotSwitchGroup.style.display = 'flex';
+      } else {
+        cropSlotSwitchGroup.style.display = 'none';
+      }
+    }
+
+    // 5 to 6 Ready-Made Crop Presets + Custom Crop Option
     if (cropRatioPills) {
       cropRatioPills.innerHTML = '';
       let pills = [];
 
       if (slot === 'spine') {
-        const spineRatioText = (1 / exactRatio).toFixed(1) + ':1';
         pills = [
-          { label: 'Auto Spine (' + spineRatioText + ')', ratio: exactRatio, active: true },
-          { label: 'Custom / Freeform', ratio: NaN },
-          { label: '1:10 Spine', ratio: 0.1 },
-          { label: '1:15 Slim Spine', ratio: 0.0667 },
-          { label: 'Original Image', ratio: 'original' }
+          { label: `★ Exact Spine Fit (${specs.width}×${specs.height})`, ratio: specs.ratio, active: true, isExact: true },
+          { label: '⛶ Custom / Freeform Spine', ratio: NaN, isCustom: true },
+          { label: 'Standard Spine 1:10 (200-300 pgs)', ratio: 0.10 },
+          { label: 'Slim / Novella 1:15 (100-150 pgs)', ratio: 0.0667 },
+          { label: 'Thick / Hardcover 1:8 (400+ pgs)', ratio: 0.125 },
+          { label: 'Ultra-Thin 1:22 (<100 pgs)', ratio: 0.0455 },
+          { label: '↔ Full Original Image', ratio: 'original' }
         ];
       } else {
-        const ratioText = exactRatio === 1 ? '1:1 Square' : (exactRatio < 0.65 ? '5:8 Novel' : '6:9 Book');
         pills = [
-          { label: 'Exact Mockup (' + ratioText + ')', ratio: exactRatio, active: true },
-          { label: 'Custom / Freeform', ratio: NaN },
-          { label: '6:9 Book', ratio: 2 / 3 },
-          { label: '5:8 Novel', ratio: 5 / 8 },
-          { label: '1:1 Square', ratio: 1 },
-          { label: 'Original Image', ratio: 'original' }
+          { label: `★ Exact Mockup Fit (${specs.width}×${specs.height})`, ratio: specs.ratio, active: true, isExact: true },
+          { label: '⛶ Custom / Freeform Crop', ratio: NaN, isCustom: true },
+          { label: '6:9 Standard Book (1:1.50)', ratio: 2 / 3 },
+          { label: '5:8 Trade Novel (1:1.60)', ratio: 5 / 8 },
+          { label: '1:1 Square Album (1:1.00)', ratio: 1.0 },
+          { label: '5.5:8.5 Digest Fiction (1:1.55)', ratio: 5.5 / 8.5 },
+          { label: 'A4 / A5 Standard (1:1.41)', ratio: 1 / 1.4142 },
+          { label: '↔ Full Original Image', ratio: 'original' }
         ];
       }
 
       pills.forEach(p => {
         const pillBtn = document.createElement('button');
         pillBtn.type = 'button';
-        pillBtn.className = 'ratio-pill-btn' + (p.active ? ' active' : '');
+        let cls = 'ratio-pill-btn';
+        if (p.active) cls += ' active';
+        if (p.isExact) cls += ' exact-pill';
+        if (p.isCustom) cls += ' custom-pill';
+        pillBtn.className = cls;
         pillBtn.textContent = p.label;
+
         pillBtn.addEventListener('click', () => {
           cropRatioPills.querySelectorAll('.ratio-pill-btn').forEach(b => b.classList.remove('active'));
           pillBtn.classList.add('active');
@@ -2952,6 +3144,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       });
     }
 
+    // Default drag mode to crop box handles
+    if (cropModeCrop) cropModeCrop.classList.add('active');
+    if (cropModeMove) cropModeMove.classList.remove('active');
+
     // Mount image and instantiate Cropper.js
     if (cropTargetImg) {
       if (activeCropper) {
@@ -2970,7 +3166,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
 
         activeCropper = new Cropper(cropTargetImg, {
-          aspectRatio: exactRatio,
+          aspectRatio: specs.ratio,
           viewMode: 1,
           autoCropArea: 0.96,
           responsive: true,
@@ -2982,10 +3178,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           cropBoxMovable: true,
           cropBoxResizable: true,
           toggleDragModeOnDblclick: true,
+          dragMode: 'crop',
           crop(e) {
             if (cropDimensionsInfo) {
               const d = e.detail;
-              cropDimensionsInfo.textContent = Math.round(d.width) + ' × ' + Math.round(d.height) + ' px';
+              const w = Math.round(d.width);
+              const h = Math.round(d.height);
+              const r = h > 0 ? (w / h).toFixed(2) : '-';
+              cropDimensionsInfo.innerHTML = `Target: <strong>${specs.width}×${specs.height} px</strong> | Selected Crop: <strong>${w} × ${h} px</strong> (Ratio: ${r})`;
             }
           }
         });
@@ -3111,6 +3311,24 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     }
   });
 
+  // Wire Cropper Drag Mode (Crop Box vs Pan Artwork)
+  if (cropModeCrop) {
+    cropModeCrop.addEventListener('click', () => {
+      if (!activeCropper) return;
+      activeCropper.setDragMode('crop');
+      cropModeCrop.classList.add('active');
+      if (cropModeMove) cropModeMove.classList.remove('active');
+    });
+  }
+  if (cropModeMove) {
+    cropModeMove.addEventListener('click', () => {
+      if (!activeCropper) return;
+      activeCropper.setDragMode('move');
+      cropModeMove.classList.add('active');
+      if (cropModeCrop) cropModeCrop.classList.remove('active');
+    });
+  }
+
   // Wire Cropper Toolbar Buttons
   if (cropToolRotateLeft) {
     cropToolRotateLeft.addEventListener('click', () => activeCropper && activeCropper.rotate(-90));
@@ -3132,7 +3350,17 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     cropToolZoomOut.addEventListener('click', () => activeCropper && activeCropper.zoom(-0.1));
   }
   if (cropToolReset) {
-    cropToolReset.addEventListener('click', () => activeCropper && activeCropper.reset());
+    cropToolReset.addEventListener('click', () => {
+      if (!activeCropper) return;
+      activeCropper.reset();
+      const specs = getSlotTargetSpecs(currentPresetId, currentCropSlot);
+      activeCropper.setAspectRatio(specs.ratio);
+      if (cropRatioPills) {
+        cropRatioPills.querySelectorAll('.ratio-pill-btn').forEach((b, i) => {
+          b.classList.toggle('active', i === 0);
+        });
+      }
+    });
   }
 
   // Dedicated Handlers for Setting Artwork Slots
