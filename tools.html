@@ -214,11 +214,16 @@
       color: #ea580c;
     }
 
-    /* STEP 1: Quick Mockup Presets Row (All 9 Mockups in 3x3 Grid) */
+    /* STEP 1: Quick Mockup Presets Row (All 10 Mockups in 5x2 Grid) */
     .quick-mockup-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 4px;
+    }
+    @media (max-width: 480px) {
+      .quick-mockup-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
     .mockup-style-card {
       background: #f8fafc;
@@ -1525,10 +1530,10 @@
                 <span class="step-subtitle">Select a style for your book cover.</span>
               </div>
             </div>
-            <span class="step-badge" style="font-size: 0.65rem; font-weight: 600; color: #f97316; background: rgba(249,115,22,0.1); padding: 2px 8px; border-radius: 9999px; border: 1px solid rgba(249,115,22,0.2);">9 Templates</span>
+            <span class="step-badge" style="font-size: 0.65rem; font-weight: 600; color: #f97316; background: rgba(249,115,22,0.1); padding: 2px 8px; border-radius: 9999px; border: 1px solid rgba(249,115,22,0.2);">10 Templates</span>
           </div>
 
-          <!-- All 8 Authentic Mockups in 4x2 Grid -->
+          <!-- All 10 Authentic Mockups in 5x2 Grid -->
           <div class="quick-mockup-row" id="quick-preset-row">
             <!-- 1. Top View -->
             <button type="button" class="mockup-style-card active" data-preset="book_mockup_1" title="Original PSD Top-Down">
@@ -1593,13 +1598,13 @@
               <span class="style-card-label">4-Book Studio</span>
             </button>
 
-            <!-- 8. Open Book -->
+            <!-- 8. Open Jacket -->
             <button type="button" class="mockup-style-card" data-preset="open_spread" title="Open Spread Flatlay">
               <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
               <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Book">
+                <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Jacket">
               </div>
-              <span class="style-card-label">Open Book</span>
+              <span class="style-card-label">Jacket</span>
             </button>
 
             <!-- 9. Brochure Spread -->
@@ -1608,7 +1613,16 @@
               <div class="style-thumb-box">
                 <img src="/images/psd_mockups/thumbnails/brochure_spread.jpg" alt="Brochure Spread">
               </div>
-              <span class="style-card-label">Brochure Spread</span>
+              <span class="style-card-label">Brochure</span>
+            </button>
+
+            <!-- 10. Open Book Spread -->
+            <button type="button" class="mockup-style-card" data-preset="open_book" title="Open Book Spread Flatlay">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockups/thumbnails/open_book.jpg" alt="Open Book">
+              </div>
+              <span class="style-card-label">Open Book</span>
             </button>
           </div>
         </div>
@@ -1929,6 +1943,13 @@
         <img src="/images/psd_mockups/thumbnails/brochure_spread.jpg" class="modal-card-thumb" alt="A4 Brochure Spread">
         <span class="modal-card-title">Brochure Spread</span>
         <span class="modal-card-tag"><i class="fa-solid fa-book-open"></i> A4 Open Pages</span>
+      </div>
+
+      <!-- 10. Open Book Flatlay -->
+      <div class="modal-mockup-card" data-preset="open_book">
+        <img src="/images/psd_mockups/thumbnails/open_book.jpg" class="modal-card-thumb" alt="Open Book Flatlay">
+        <span class="modal-card-title">Open Book</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-book-open"></i> Dual Page Book</span>
       </div>
     </div>
   </div>
@@ -2547,6 +2568,58 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     },
     "description": "Authentic A4 Perfect Binding Brochure & Magazine Open Spread flatlay with natural page curvature, deep gutter crease shading, and specular highlights."
+  },
+  "open_book": {
+    "id": "open_book",
+    "title": "Open Book Spread Flatlay",
+    "category": "book",
+    "aspect": "spread",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front",
+      "back"
+    ],
+    "defaultBg": "#d8d8d8",
+    "layers": {
+      "backdrop": "images/psd_mockups/open_book/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/open_book/shadow.png",
+      "cover": "images/psd_mockups/open_book/cover.png",
+      "pages": "images/psd_mockups/open_book/pages.png",
+      "spread_shading": "images/psd_mockups/open_book/spread_shading.png",
+      "highlights": "images/psd_mockups/open_book/highlights.jpg",
+      "leftSilhouette": "images/psd_mockups/open_book/left_silhouette.png",
+      "rightSilhouette": "images/psd_mockups/open_book/right_silhouette.png"
+    },
+    "quads": {
+      "back": [
+        [419.54, 358.84],
+        [1518.13, 364.17],
+        [1519.49, 2007.51],
+        [420.48, 2008.23]
+      ],
+      "front": [
+        [1518.0, 342.0],
+        [2621.0, 342.0],
+        [2621.0, 2022.0],
+        [1518.0, 2022.0]
+      ]
+    },
+    "mesh": {
+      "left": [
+        [419.54, 358.84], [779.99, 356.25], [1148.5, 344.33], [1518.13, 364.17],
+        [422.21, 911.68], [773.63, 910.89], [1144.69, 912.29], [1516.33, 913.98],
+        [423.49, 1462.26], [772.67, 1466.35], [1146.51, 1466.76], [1519.37, 1464.65],
+        [420.48, 2008.23], [772.67, 2021.96], [1152.83, 2039.59], [1519.49, 2007.51]
+      ],
+      "right": [
+        [1518.0, 342.0], [1886.63, 303.61], [2248.33, 334.24], [2621.0, 342.0],
+        [1518.0, 902.0], [1885.87, 893.78], [2253.34, 901.66], [2621.0, 902.0],
+        [1518.0, 1462.0], [1885.67, 1461.79], [2253.33, 1461.99], [2621.0, 1462.0],
+        [1518.0, 2022.0], [1887.67, 2059.68], [2252.83, 2036.12], [2621.0, 2022.0]
+      ]
+    },
+    "description": "Authentic Open Book Spread flatlay with realistic curved pages, spine crease shading, and overhead studio lighting."
   },
   "square_flatlay": {
     "id": "square_flatlay",
@@ -3345,17 +3418,18 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
 
       // 2. Resolve active artwork with independent scaling & positioning
-      const rawFront = customFrontImg || activeFrontImg || createSolidArtwork('#1e293b', 1654, 2339, presetId === 'brochure_spread' ? 'RIGHT PAGE' : 'BOOK TITLE');
+      const isSpreadPreset = (presetId === 'brochure_spread' || presetId === 'open_book');
+      const rawFront = customFrontImg || activeFrontImg || createSolidArtwork('#1e293b', 1654, 2339, isSpreadPreset ? 'RIGHT PAGE' : 'BOOK TITLE');
       const frontArt = getTransformedArtwork(rawFront, frontTransform);
       const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
-      const rawBack = customBackImg || activeBackImg || (presetId === 'brochure_spread' ? createSolidArtwork('#1e293b', 1654, 2339, 'LEFT PAGE') : createSolidArtwork(spineColor, 1000, 1500, ''));
+      const rawBack = customBackImg || activeBackImg || (isSpreadPreset ? createSolidArtwork('#1e293b', 1654, 2339, 'LEFT PAGE') : createSolidArtwork(spineColor, 1000, 1500, ''));
       const backArt = getTransformedArtwork(rawBack, backTransform);
 
       const swRatio = spineWidth / 100;
 
       // 3. Realistic Layer Compositing Pipeline
-      if (presetId === 'brochure_spread') {
-        // --- AUTHENTIC A4 BROCHURE OPEN SPREAD PIPELINE ---
+      if (presetId === 'brochure_spread' || presetId === 'open_book') {
+        // --- AUTHENTIC A4 BROCHURE / OPEN BOOK SPREAD PIPELINE ---
         if (config.layers.cover) {
           const cvImg = await preloadImage(config.layers.cover);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
@@ -3417,7 +3491,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
           if (hlImg) {
             ctx.save();
-            ctx.globalAlpha = 1.0;
+            ctx.globalAlpha = presetId === 'open_book' ? 0.55 : 1.0;
             ctx.globalCompositeOperation = 'screen';
             ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
             ctx.restore();
@@ -3716,7 +3790,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (editingLayerNotice) editingLayerNotice.style.display = hasBack ? 'block' : 'none';
 
     // Contextual slot button labels and flex ordering
-    if (currentPresetId === 'brochure_spread') {
+    if (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') {
       if (slotCardBack) slotCardBack.style.order = '1';
       if (slotCardFront) slotCardFront.style.order = '2';
       if (frontBtnLabel) {
@@ -3746,7 +3820,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     }
 
     if (slotsSupportLabel) {
-      if (currentPresetId === 'brochure_spread') {
+      if (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') {
         slotsSupportLabel.textContent = 'Left Page + Right Page';
       } else if (hasSpine && hasBack) {
         slotsSupportLabel.textContent = 'Front + Spine + Back';
@@ -3783,7 +3857,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const conf = PSD_MANIFEST[currentPresetId];
       const hasSpine = conf && conf.slots && conf.slots.includes('spine');
 
-      if (!hasSpine && currentPresetId === 'brochure_spread') {
+      if (!hasSpine && (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book')) {
         const halfWidth = Math.floor(w / 2);
 
         // Slice Left Page (Back slot)
@@ -3919,6 +3993,11 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       height = 2339;
       ratio = 1654 / 2339;
       aspectLabel = 'A4 Brochure Page';
+    } else if (presetId === 'open_book') {
+      width = 1167;
+      height = 1654;
+      ratio = 1167 / 1654;
+      aspectLabel = 'Book Page';
     } else if (config.rects && config.rects[slot]) {
       const r = config.rects[slot];
       width = Math.round(r[2]);
@@ -3949,6 +4028,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     if (presetId === 'brochure_spread') {
       aspectLabel = 'A4 Brochure Page';
+    } else if (presetId === 'open_book') {
+      aspectLabel = 'Book Page';
     } else if (slot === 'spine') {
       const mult = width > 0 ? (height / width).toFixed(1) : '15';
       aspectLabel = `Spine 1:${mult}`;
@@ -3964,7 +4045,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       aspectLabel = `${ratio.toFixed(2)} Exact Fit`;
     }
 
-    const slotLabel = presetId === 'brochure_spread'
+    const slotLabel = (presetId === 'brochure_spread' || presetId === 'open_book')
       ? (slot === 'back' ? 'Left Page' : 'Right Page')
       : (slot === 'spine' ? 'Book Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover'));
 
@@ -4392,7 +4473,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     activeFrontImg = imgOrCanvas;
     rawFileNames.front = name;
     if (frontBtnLabel) {
-      frontBtnLabel.textContent = currentPresetId === 'brochure_spread' ? ('Right: ' + name) : name;
+      frontBtnLabel.textContent = (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') ? ('Right: ' + name) : name;
     }
     if (btnUploadFront) btnUploadFront.classList.add('has-file');
     if (clearFrontBtn) clearFrontBtn.style.display = 'flex';
@@ -4402,7 +4483,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     // Auto-sample spine color from edge if spine not manually uploaded
     try {
-      if (!customSpineImg && currentPresetId !== 'brochure_spread') {
+      if (!customSpineImg && currentPresetId !== 'brochure_spread' && currentPresetId !== 'open_book') {
         const sc = document.createElement('canvas');
         sc.width = 16; sc.height = 16;
         const sctx = sc.getContext('2d');
@@ -4424,7 +4505,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     activeBackImg = imgOrCanvas;
     rawFileNames.back = name;
     if (backBtnLabel) {
-      backBtnLabel.textContent = currentPresetId === 'brochure_spread' ? ('Left: ' + name) : name;
+      backBtnLabel.textContent = (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') ? ('Left: ' + name) : name;
     }
     if (btnUploadBack) btnUploadBack.classList.add('has-file');
     if (clearBackBtn) clearBackBtn.style.display = 'flex';
@@ -4454,7 +4535,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        if (currentPresetId === 'brochure_spread' && (img.width / img.height > 1.25)) {
+        if ((currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') && (img.width / img.height > 1.25)) {
           processUploadedArtwork(img, file.name);
         } else {
           openCropModal(e.target.result, 'front', file.name);
@@ -4471,7 +4552,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        if (currentPresetId === 'brochure_spread' && (img.width / img.height > 1.25)) {
+        if ((currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') && (img.width / img.height > 1.25)) {
           processUploadedArtwork(img, file.name);
         } else {
           openCropModal(e.target.result, 'back', file.name);
@@ -4502,7 +4583,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
     const dropTitle = document.querySelector('.dropzone-title');
     let label = 'Front Cover';
-    if (currentPresetId === 'brochure_spread') {
+    if (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') {
       label = slot === 'back' ? 'Left Page' : 'Right Page';
     } else {
       label = slot === 'spine' ? 'Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover');
@@ -4576,7 +4657,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.preventDefault();
       if (e.dataTransfer.files && e.dataTransfer.files[0]) {
         const file = e.dataTransfer.files[0];
-        if (currentPresetId === 'brochure_spread') {
+        if (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') {
           const rect = canvasContainer.getBoundingClientRect();
           const dropX = e.clientX - rect.left;
           if (dropX < rect.width / 2) {
@@ -4646,13 +4727,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customFrontImg = null;
       activeFrontImg = null;
       rawArtworks.front = null;
-      rawFileNames.front = currentPresetId === 'brochure_spread' ? 'Right Page' : 'Front Cover';
+      rawFileNames.front = (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') ? 'Right Page' : 'Front Cover';
       if (frontThumbPreview) {
         frontThumbPreview.src = '';
         frontThumbPreview.style.display = 'none';
       }
       if (cropFrontBtn) cropFrontBtn.style.display = 'none';
-      if (frontBtnLabel) frontBtnLabel.textContent = currentPresetId === 'brochure_spread' ? 'Right Page' : 'Front Cover';
+      if (frontBtnLabel) frontBtnLabel.textContent = (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') ? 'Right Page' : 'Front Cover';
       if (clearFrontBtn) clearFrontBtn.style.display = 'none';
       if (frontStatusText) frontStatusText.textContent = 'Default Sample';
       if (autodetectStatus) autodetectStatus.style.display = 'none';
@@ -4672,7 +4753,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.stopPropagation();
       const src = rawArtworks.back || (customBackImg ? (customBackImg.src || (customBackImg.toDataURL ? customBackImg.toDataURL() : null)) : null) || rawArtworks.front || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
       if (src) {
-        openCropModal(src, 'back', rawFileNames.back || (currentPresetId === 'brochure_spread' ? 'Left Page Artwork' : 'Back Cover Artwork'));
+        openCropModal(src, 'back', rawFileNames.back || ((currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') ? 'Left Page Artwork' : 'Back Cover Artwork'));
       } else if (backInput) {
         backInput.click();
       }
@@ -4684,13 +4765,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customBackImg = null;
       activeBackImg = null;
       rawArtworks.back = null;
-      rawFileNames.back = currentPresetId === 'brochure_spread' ? 'Left Page' : 'Back Cover';
+      rawFileNames.back = (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') ? 'Left Page' : 'Back Cover';
       if (backThumbPreview) {
         backThumbPreview.src = '';
         backThumbPreview.style.display = 'none';
       }
       if (cropBackBtn) cropBackBtn.style.display = 'none';
-      if (backBtnLabel) backBtnLabel.textContent = currentPresetId === 'brochure_spread' ? 'Left Page' : 'Back Cover';
+      if (backBtnLabel) backBtnLabel.textContent = (currentPresetId === 'brochure_spread' || currentPresetId === 'open_book') ? 'Left Page' : 'Back Cover';
       if (clearBackBtn) clearBackBtn.style.display = 'none';
       if (backStatusText) backStatusText.textContent = 'Optional';
       if (backInput) backInput.value = '';
