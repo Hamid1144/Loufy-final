@@ -227,7 +227,7 @@
       box-sizing: border-box;
     }
 
-    /* 1. Far-Left Navigation Rail */
+    /* 1. Left Navigation Rail (4 Focused Buttons) */
     .studio-nav-rail {
       width: 72px;
       min-width: 72px;
@@ -237,8 +237,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px 6px;
-      gap: 14px;
+      padding: 18px 6px;
+      gap: 16px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.02);
     }
     .rail-btn {
@@ -258,7 +258,7 @@
       transition: all 0.15s ease;
     }
     .rail-btn i {
-      font-size: 1.15rem;
+      font-size: 1.18rem;
     }
     .rail-btn span {
       font-size: 0.65rem;
@@ -274,29 +274,47 @@
       box-shadow: 0 4px 12px rgba(255, 90, 31, 0.28);
     }
 
-    /* 2. Left Drawer Panel (Templates Panel) */
+    /* 2. Left Drawer Panel (Hosts 4 Switchable Views) */
     .studio-drawer-panel {
-      width: 270px;
-      min-width: 270px;
+      width: 275px;
+      min-width: 275px;
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 18px;
       display: flex;
       flex-direction: column;
       padding: 18px 16px;
-      gap: 14px;
+      gap: 12px;
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .drawer-view {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      height: 100%;
+      min-height: 0;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      padding-right: 2px;
+    }
+    .drawer-view.active {
+      display: flex;
     }
     .drawer-header-title {
       font-size: 1.15rem;
       font-weight: 700;
       color: #0f172a;
       letter-spacing: -0.01em;
+      margin-bottom: 2px;
+      flex-shrink: 0;
     }
+
+    /* Drawer View 1: Templates */
     .drawer-search-box {
       position: relative;
       width: 100%;
+      flex-shrink: 0;
     }
     .drawer-search-box i {
       position: absolute;
@@ -326,6 +344,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      flex-shrink: 0;
     }
     .cat-pill-btn {
       background: #f1f5f9;
@@ -355,7 +374,6 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
-      padding-right: 4px;
       min-height: 0;
       scrollbar-width: thin;
     }
@@ -429,6 +447,242 @@
     }
     .template-card-btn.active .template-card-check {
       display: flex;
+    }
+
+    /* Drawer View 2: Upload Slots */
+    .slot-item-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .slot-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .slot-item-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .slot-item-badge {
+      font-size: 0.62rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: #64748b;
+    }
+    .slot-item-body {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slot-thumb-preview {
+      width: 44px;
+      height: 54px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #e2e8f0;
+      border: 1px solid #cbd5e1;
+      flex-shrink: 0;
+    }
+    .slot-item-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .slot-item-specs {
+      font-size: 0.68rem;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .slot-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .slot-action-btn {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: inherit;
+      transition: all 0.12s;
+    }
+    .slot-action-btn:hover {
+      background: #fff7ed;
+      border-color: #ff5a1f;
+      color: #ff5a1f;
+    }
+    .slot-clear-btn {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 4px 6px;
+      font-size: 0.68rem;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .slot-clear-btn:hover {
+      color: #ef4444;
+      background: #fee2e2;
+      border-color: #fca5a5;
+    }
+
+    /* Drawer View 3: Backgrounds */
+    .bg-presets-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .bg-preset-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+    .bg-preset-card:hover {
+      border-color: #cbd5e1;
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+    .bg-preset-card.active {
+      border: 2px solid #ff5a1f;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(255, 90, 31, 0.15);
+    }
+    .bg-preset-thumb {
+      width: 100%;
+      height: 56px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      position: relative;
+    }
+    .bg-preset-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #334155;
+    }
+    .bg-preset-card.active .bg-preset-label {
+      color: #ff5a1f;
+      font-weight: 700;
+    }
+    /* Checkerboard for Transparent */
+    .thumb-transparent {
+      background-image: linear-gradient(45deg, #e2e8f0 25%, transparent 25%), linear-gradient(-45deg, #e2e8f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e2e8f0 75%), linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+      background-color: #ffffff;
+    }
+    .thumb-studio {
+      background: radial-gradient(circle at center, #ffffff 0%, #dedede 100%);
+    }
+    .thumb-white {
+      background: #ffffff;
+    }
+    .thumb-light {
+      background: linear-gradient(135deg, #ffffff, #e2e8f0);
+    }
+    .thumb-dark {
+      background: #1e293b;
+    }
+    .thumb-wood {
+      background: url('/images/psd_mockups/backgrounds/wood_desk.jpg') center/cover no-repeat;
+    }
+    .thumb-concrete {
+      background: url('/images/psd_mockups/backgrounds/concrete_stone.jpg') center/cover no-repeat;
+    }
+    .thumb-warm {
+      background: radial-gradient(circle at center, #fff5eb 0%, #fed7aa 100%);
+    }
+
+    /* Drawer View 4: Adjustments */
+    .adj-group {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .adj-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .adj-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .adj-val-readout {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #64748b;
+      font-family: monospace;
+    }
+    .adj-range-input {
+      width: 100%;
+      height: 5px;
+      border-radius: 3px;
+      accent-color: #ff5a1f;
+      outline: none;
+      cursor: pointer;
+    }
+    .btn-reset-adj {
+      margin-top: 4px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .btn-reset-adj:hover {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: #ef4444;
     }
 
     /* 3. Center Canvas Viewport */
@@ -1486,142 +1740,403 @@
   <!-- MAIN APP WORKSPACE (4 COLUMNS) -->
   <main class="studio-workspace-body">
 
-    <!-- 1. LEFT NAVIGATION RAIL -->
+    <!-- 1. LEFT NAVIGATION RAIL (4 FOCUSED TABS, ELEMENTS REMOVED) -->
     <nav class="studio-nav-rail">
       <button type="button" class="rail-btn active" data-rail-tab="templates" title="Templates">
         <i class="fa-solid fa-table-cells-large"></i>
         <span>Templates</span>
       </button>
-      <button type="button" class="rail-btn" data-rail-tab="upload" title="Upload">
+      <button type="button" class="rail-btn" data-rail-tab="upload" title="Upload Slots">
         <i class="fa-solid fa-cloud-arrow-up"></i>
         <span>Upload</span>
       </button>
-      <button type="button" class="rail-btn" data-rail-tab="background" title="Background">
+      <button type="button" class="rail-btn" data-rail-tab="background" title="Backgrounds">
         <i class="fa-solid fa-paintbrush"></i>
         <span>Background</span>
       </button>
-      <button type="button" class="rail-btn" data-rail-tab="adjust" title="Adjust">
+      <button type="button" class="rail-btn" data-rail-tab="adjust" title="Adjustments">
         <i class="fa-solid fa-sliders"></i>
         <span>Adjust</span>
       </button>
-      <button type="button" class="rail-btn" data-rail-tab="elements" title="Elements">
-        <i class="fa-solid fa-cube"></i>
-        <span>Elements</span>
-      </button>
     </nav>
 
-    <!-- 2. LEFT DRAWER PANEL (TEMPLATES) -->
+    <!-- 2. LEFT DRAWER PANEL (HOSTS 4 DYNAMIC VIEWS) -->
     <aside class="studio-drawer-panel">
-      <div class="drawer-header-title">Templates</div>
-      
-      <!-- Search Input -->
-      <div class="drawer-search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="template-search-input" class="drawer-search-input" placeholder="Search mockups...">
+
+      <!-- VIEW 1: TEMPLATES -->
+      <div class="drawer-view active" id="drawer-view-templates">
+        <div class="drawer-header-title">Templates</div>
+        
+        <!-- Search Input -->
+        <div class="drawer-search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="template-search-input" class="drawer-search-input" placeholder="Search mockups...">
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="drawer-cat-pills">
+          <button type="button" class="cat-pill-btn active" data-cat="all">All</button>
+          <button type="button" class="cat-pill-btn" data-cat="paperback">Paperback</button>
+          <button type="button" class="cat-pill-btn" data-cat="hardcover">Hardcover</button>
+          <button type="button" class="cat-pill-btn" data-cat="open_book">Open Book</button>
+          <button type="button" class="cat-pill-btn" data-cat="stack">Stack</button>
+          <button type="button" class="cat-pill-btn" data-cat="magazine">Magazine</button>
+        </div>
+
+        <!-- 2-Column Mockup Grid (All 10 Templates) -->
+        <div class="drawer-templates-grid" id="drawer-templates-grid">
+          <button type="button" class="template-card-btn active" data-preset="hardcover_standing" data-cat="hardcover">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" alt="Standing">
+            </div>
+            <span class="template-card-label">Standing</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="paperback_duo" data-cat="paperback">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" alt="Paperback Duo">
+            </div>
+            <span class="template-card-label">Paperback Duo</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="book_mockup_1" data-cat="hardcover">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockup_2/sample_cover.png" alt="Hardcover">
+            </div>
+            <span class="template-card-label">Hardcover</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="open_book" data-cat="open_book">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/open_book.jpg" alt="Open Book">
+            </div>
+            <span class="template-card-label">Open Book</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="studio_collector" data-cat="stack">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/spine_full_showcase.jpg" alt="Stack of Books">
+            </div>
+            <span class="template-card-label">Stack of Books</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="square_stack" data-cat="stack">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/square_stack.jpg" alt="3-Book Stack">
+            </div>
+            <span class="template-card-label">3-Book Stack</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="square_flatlay" data-cat="paperback">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" alt="Flat Lay">
+            </div>
+            <span class="template-card-label">Flat Lay</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="square_open_book" data-cat="open_book">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/square_open_book.jpg" alt="Square Open">
+            </div>
+            <span class="template-card-label">Square Open</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="open_spread" data-cat="open_book magazine">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Spread">
+            </div>
+            <span class="template-card-label">Open Spread</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="front_back_showcase" data-cat="hardcover">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" alt="Dual Showcase">
+            </div>
+            <span class="template-card-label">Dual Showcase</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Category Filter Pills -->
-      <div class="drawer-cat-pills">
-        <button type="button" class="cat-pill-btn active" data-cat="all">All</button>
-        <button type="button" class="cat-pill-btn" data-cat="paperback">Paperback</button>
-        <button type="button" class="cat-pill-btn" data-cat="hardcover">Hardcover</button>
-        <button type="button" class="cat-pill-btn" data-cat="open_book">Open Book</button>
-        <button type="button" class="cat-pill-btn" data-cat="stack">Stack</button>
-        <button type="button" class="cat-pill-btn" data-cat="magazine">Magazine</button>
+      <!-- VIEW 2: UPLOAD ARTWORK (SEPARATE FRONT, BACK, SPINE SLOTS) -->
+      <div class="drawer-view" id="drawer-view-upload">
+        <div class="drawer-header-title">Upload Artwork</div>
+        <p style="font-size:0.72rem;color:#64748b;margin-top:-6px;">Upload Front, Back, or Spine individually.</p>
+
+        <!-- Hidden Native File Inputs for Slots -->
+        <input type="file" id="upload-slot-front-input" accept="image/png, image/jpeg, image/webp" style="display:none;">
+        <input type="file" id="upload-slot-back-input" accept="image/png, image/jpeg, image/webp" style="display:none;">
+        <input type="file" id="upload-slot-spine-input" accept="image/png, image/jpeg, image/webp" style="display:none;">
+
+        <!-- 1. Front Cover Slot Card -->
+        <div class="slot-item-card">
+          <div class="slot-item-header">
+            <span class="slot-item-title"><i class="fa-solid fa-book" style="color:#ff5a1f;"></i> Front Cover</span>
+            <span class="slot-item-badge">Main / Required</span>
+          </div>
+          <div class="slot-item-body">
+            <img src="/images/psd_mockup_2/sample_cover.png" class="slot-thumb-preview" id="slot-front-thumb" alt="Front Preview">
+            <div class="slot-item-info">
+              <span class="slot-item-specs" id="slot-front-specs">Front • Sample Cover</span>
+              <div class="slot-btn-group">
+                <button type="button" class="slot-action-btn" id="btn-upload-slot-front">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                </button>
+                <button type="button" class="slot-action-btn" id="btn-crop-slot-front" title="Crop & Adjust">
+                  <i class="fa-solid fa-crop-simple"></i> Crop
+                </button>
+                <button type="button" class="slot-clear-btn" id="btn-clear-slot-front" title="Reset Front">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Back Cover Slot Card -->
+        <div class="slot-item-card">
+          <div class="slot-item-header">
+            <span class="slot-item-title"><i class="fa-solid fa-book-open" style="color:#3b82f6;"></i> Back Cover</span>
+            <span class="slot-item-badge">Optional / Dual Slot</span>
+          </div>
+          <div class="slot-item-body">
+            <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" class="slot-thumb-preview" id="slot-back-thumb" alt="Back Preview">
+            <div class="slot-item-info">
+              <span class="slot-item-specs" id="slot-back-specs">Back • Optional</span>
+              <div class="slot-btn-group">
+                <button type="button" class="slot-action-btn" id="btn-upload-slot-back">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                </button>
+                <button type="button" class="slot-action-btn" id="btn-crop-slot-back" title="Crop & Adjust">
+                  <i class="fa-solid fa-crop-simple"></i> Crop
+                </button>
+                <button type="button" class="slot-clear-btn" id="btn-clear-slot-back" title="Reset Back">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Spine Slot Card -->
+        <div class="slot-item-card">
+          <div class="slot-item-header">
+            <span class="slot-item-title"><i class="fa-solid fa-grip-lines-vertical" style="color:#eab308;"></i> Book Spine</span>
+            <span class="slot-item-badge">Auto / Custom</span>
+          </div>
+          <div class="slot-item-body">
+            <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" class="slot-thumb-preview" id="slot-spine-thumb" alt="Spine Preview">
+            <div class="slot-item-info">
+              <span class="slot-item-specs">Spine Width: <strong id="drawer-spine-width-val">100%</strong></span>
+              <input type="range" id="drawer-spine-width-slider" min="40" max="200" value="100" class="adj-range-input" style="margin:2px 0;">
+              <div class="slot-btn-group">
+                <button type="button" class="slot-action-btn" id="btn-upload-slot-spine">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                </button>
+                <button type="button" class="slot-action-btn" id="btn-crop-slot-spine" title="Crop Spine">
+                  <i class="fa-solid fa-crop-simple"></i> Crop
+                </button>
+                <input type="color" id="drawer-spine-color-picker" value="#111827" style="width:24px;height:24px;border:none;border-radius:4px;cursor:pointer;" title="Base Tone">
+                <button type="button" class="slot-clear-btn" id="btn-clear-slot-spine" title="Reset Spine">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Full Wrap Auto-Split Option -->
+        <div class="cover-dropzone-box" id="drawer-fullwrap-dropzone" style="padding:14px 10px;margin-top:2px;">
+          <i class="fa-solid fa-wand-magic-sparkles" style="color:#ff5a1f;font-size:1.1rem;"></i>
+          <span class="upload-box-title" style="font-size:0.8rem;">Full Wrap Auto-Split</span>
+          <span class="upload-box-sub">Drop full jacket to slice Front, Spine &amp; Back</span>
+          <input type="file" id="drawer-fullwrap-input" accept="image/*" style="display:none;">
+        </div>
       </div>
 
-      <!-- 2-Column Mockup Grid (All 10 Templates) -->
-      <div class="drawer-templates-grid" id="drawer-templates-grid">
-        <!-- 1. Standing -->
-        <button type="button" class="template-card-btn active" data-preset="hardcover_standing" data-cat="hardcover">
-          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-          <div class="template-card-thumb-wrap">
-            <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" alt="Standing">
-          </div>
-          <span class="template-card-label">Standing</span>
-        </button>
+      <!-- VIEW 3: BACKGROUNDS (TRANSPARENT PNG + 7 PRESETS + CUSTOM) -->
+      <div class="drawer-view" id="drawer-view-background">
+        <div class="drawer-header-title">Backgrounds</div>
+        <p style="font-size:0.72rem;color:#64748b;margin-top:-6px;">Select transparent cutout or studio setting.</p>
 
-        <!-- 2. Paperback Duo -->
-        <button type="button" class="template-card-btn" data-preset="paperback_duo" data-cat="paperback">
-          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-          <div class="template-card-thumb-wrap">
-            <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" alt="Paperback Duo">
+        <div class="bg-presets-grid">
+          <!-- 1. Transparent PNG -->
+          <div class="bg-preset-card" data-bg="transparent" title="Transparent PNG with Realistic Shadow">
+            <div class="bg-preset-thumb thumb-transparent"></div>
+            <span class="bg-preset-label">Transparent</span>
           </div>
-          <span class="template-card-label">Paperback Duo</span>
-        </button>
 
-        <!-- 3. Hardcover -->
-        <button type="button" class="template-card-btn" data-preset="book_mockup_1" data-cat="hardcover">
-          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-          <div class="template-card-thumb-wrap">
-            <img src="/images/psd_mockup_2/sample_cover.png" alt="Hardcover">
+          <!-- 2. Studio Neutral -->
+          <div class="bg-preset-card active" data-bg="studio" title="Authentic Studio Lighting">
+            <div class="bg-preset-thumb thumb-studio"></div>
+            <span class="bg-preset-label">Studio</span>
           </div>
-          <span class="template-card-label">Hardcover</span>
-        </button>
 
-        <!-- 4. Open Book -->
-        <button type="button" class="template-card-btn" data-preset="open_book" data-cat="open_book">
-          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-          <div class="template-card-thumb-wrap">
-            <img src="/images/psd_mockups/thumbnails/open_book.jpg" alt="Open Book">
+          <!-- 3. Pure White -->
+          <div class="bg-preset-card" data-bg="white" title="Pure Clean White">
+            <div class="bg-preset-thumb thumb-white"></div>
+            <span class="bg-preset-label">Pure White</span>
           </div>
-          <span class="template-card-label">Open Book</span>
-        </button>
 
-        <!-- 5. Stack of Books -->
-        <button type="button" class="template-card-btn" data-preset="studio_collector" data-cat="stack">
-          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-          <div class="template-card-thumb-wrap">
-            <img src="/images/psd_mockups/thumbnails/spine_full_showcase.jpg" alt="Stack of Books">
+          <!-- 4. Soft Light Gray -->
+          <div class="bg-preset-card" data-bg="light" title="Soft Light Gray Gradient">
+            <div class="bg-preset-thumb thumb-light"></div>
+            <span class="bg-preset-label">Light Gray</span>
           </div>
-          <span class="template-card-label">Stack of Books</span>
-        </button>
 
-        <!-- 6. 3-Book Stack -->
-        <button type="button" class="template-card-btn" data-preset="square_stack" data-cat="stack">
-          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-          <div class="template-card-thumb-wrap">
-            <img src="/images/psd_mockups/thumbnails/square_stack.jpg" alt="3-Book Stack">
+          <!-- 5. Dark Slate -->
+          <div class="bg-preset-card" data-bg="dark" title="Dark Slate Studio">
+            <div class="bg-preset-thumb thumb-dark"></div>
+            <span class="bg-preset-label">Dark Slate</span>
           </div>
-          <span class="template-card-label">3-Book Stack</span>
-        </button>
 
-        <!-- 7. Flat Lay -->
-        <button type="button" class="template-card-btn" data-preset="square_flatlay" data-cat="paperback">
-          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-          <div class="template-card-thumb-wrap">
-            <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" alt="Flat Lay">
+          <!-- 6. Warm Wood Desk -->
+          <div class="bg-preset-card" data-bg="wood" title="Natural Warm Wood Tabletop">
+            <div class="bg-preset-thumb thumb-wood"></div>
+            <span class="bg-preset-label">Warm Wood</span>
           </div>
-          <span class="template-card-label">Flat Lay</span>
-        </button>
 
-        <!-- 8. Square Open -->
-        <button type="button" class="template-card-btn" data-preset="square_open_book" data-cat="open_book">
-          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-          <div class="template-card-thumb-wrap">
-            <img src="/images/psd_mockups/thumbnails/square_open_book.jpg" alt="Square Open">
+          <!-- 7. Minimalist Concrete -->
+          <div class="bg-preset-card" data-bg="concrete" title="Minimalist Architectural Stone">
+            <div class="bg-preset-thumb thumb-concrete"></div>
+            <span class="bg-preset-label">Concrete</span>
           </div>
-          <span class="template-card-label">Square Open</span>
-        </button>
 
-        <!-- 9. Open Spread -->
-        <button type="button" class="template-card-btn" data-preset="open_spread" data-cat="open_book magazine">
-          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-          <div class="template-card-thumb-wrap">
-            <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Spread">
+          <!-- 8. Warm Studio Glow -->
+          <div class="bg-preset-card" data-bg="warm" title="Warm Terracotta Aesthetic">
+            <div class="bg-preset-thumb thumb-warm"></div>
+            <span class="bg-preset-label">Warm Glow</span>
           </div>
-          <span class="template-card-label">Open Spread</span>
-        </button>
+        </div>
 
-        <!-- 10. Dual Showcase -->
-        <button type="button" class="template-card-btn" data-preset="front_back_showcase" data-cat="hardcover">
-          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-          <div class="template-card-thumb-wrap">
-            <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" alt="Dual Showcase">
+        <!-- Custom Color & Custom Upload -->
+        <button type="button" class="bg-custom-btn" id="btn-drawer-custom-color" style="margin-top:4px;">
+          <span class="rainbow-wheel-icon"></span> Custom Hex Color
+        </button>
+        <input type="color" id="drawer-color-picker" style="display:none;" value="#e2e8f0">
+
+        <button type="button" class="bg-custom-btn" id="btn-drawer-upload-bg">
+          <i class="fa-regular fa-image" style="color:#ff5a1f;"></i> Upload Custom Photo
+        </button>
+        <input type="file" id="drawer-bg-file-input" accept="image/*" style="display:none;">
+      </div>
+
+      <!-- VIEW 4: ADJUSTMENTS (10 REAL-TIME CONTROLS) -->
+      <div class="drawer-view" id="drawer-view-adjust">
+        <div class="drawer-header-title">Adjustments</div>
+        <p style="font-size:0.72rem;color:#64748b;margin-top:-6px;">Fine-tune lighting, tone, and perspective.</p>
+
+        <!-- 1. Shadows -->
+        <div class="adj-group">
+          <div class="adj-header-row">
+            <span class="adj-label"><i class="fa-solid fa-moon" style="color:#ff5a1f;"></i> Shadows</span>
+            <label class="switch-toggle" style="transform:scale(0.85);">
+              <input type="checkbox" id="adj-shadow-toggle" checked>
+              <span class="switch-slider"></span>
+            </label>
           </div>
-          <span class="template-card-label">Dual Showcase</span>
+          <div class="adj-header-row" style="margin-top:2px;">
+            <input type="range" min="0" max="100" value="70" class="adj-range-input" id="adj-shadow-slider">
+            <span class="adj-val-readout" id="adj-shadow-val" style="margin-left:8px;">70%</span>
+          </div>
+        </div>
+
+        <!-- 2. Highlights / Gloss -->
+        <div class="adj-group">
+          <div class="adj-header-row">
+            <span class="adj-label"><i class="fa-solid fa-sun" style="color:#f59e0b;"></i> Highlights / Gloss</span>
+            <span class="adj-val-readout" id="adj-highlight-val">100%</span>
+          </div>
+          <input type="range" min="0" max="150" value="100" class="adj-range-input" id="adj-highlight-slider">
+        </div>
+
+        <!-- 3. Brightness -->
+        <div class="adj-group">
+          <div class="adj-header-row">
+            <span class="adj-label"><i class="fa-solid fa-circle-half-stroke" style="color:#6366f1;"></i> Brightness</span>
+            <span class="adj-val-readout" id="adj-brightness-val">0%</span>
+          </div>
+          <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="adj-brightness-slider">
+        </div>
+
+        <!-- 4. Contrast -->
+        <div class="adj-group">
+          <div class="adj-header-row">
+            <span class="adj-label"><i class="fa-solid fa-circle-radiation" style="color:#8b5cf6;"></i> Contrast</span>
+            <span class="adj-val-readout" id="adj-contrast-val">100%</span>
+          </div>
+          <input type="range" min="50" max="150" value="100" class="adj-range-input" id="adj-contrast-slider">
+        </div>
+
+        <!-- 5. Saturation -->
+        <div class="adj-group">
+          <div class="adj-header-row">
+            <span class="adj-label"><i class="fa-solid fa-droplet" style="color:#ec4899;"></i> Saturation</span>
+            <span class="adj-val-readout" id="adj-saturation-val">100%</span>
+          </div>
+          <input type="range" min="0" max="200" value="100" class="adj-range-input" id="adj-saturation-slider">
+        </div>
+
+        <!-- 6. Warmth / Tone -->
+        <div class="adj-group">
+          <div class="adj-header-row">
+            <span class="adj-label"><i class="fa-solid fa-temperature-half" style="color:#ea580c;"></i> Warmth</span>
+            <span class="adj-val-readout" id="adj-warmth-val">0</span>
+          </div>
+          <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="adj-warmth-slider">
+        </div>
+
+        <!-- 7. Vignette -->
+        <div class="adj-group">
+          <div class="adj-header-row">
+            <span class="adj-label"><i class="fa-regular fa-circle-dot" style="color:#475569;"></i> Vignette Depth</span>
+            <span class="adj-val-readout" id="adj-vignette-val">0%</span>
+          </div>
+          <input type="range" min="0" max="100" value="0" class="adj-range-input" id="adj-vignette-slider">
+        </div>
+
+        <!-- 8. 3D Tilt / Angle -->
+        <div class="adj-group">
+          <div class="adj-header-row">
+            <span class="adj-label"><i class="fa-solid fa-cubes" style="color:#0ea5e9;"></i> 3D Tilt Angle</span>
+            <span class="adj-val-readout" id="adj-tilt-val">0°</span>
+          </div>
+          <input type="range" min="-20" max="20" value="0" class="adj-range-input" id="adj-tilt-slider">
+        </div>
+
+        <!-- 9. Spine Width -->
+        <div class="adj-group">
+          <div class="adj-header-row">
+            <span class="adj-label"><i class="fa-solid fa-arrows-left-right-to-line" style="color:#10b981;"></i> Spine Width</span>
+            <span class="adj-val-readout" id="adj-spine-val">100%</span>
+          </div>
+          <input type="range" min="40" max="200" value="100" class="adj-range-input" id="adj-spine-slider">
+        </div>
+
+        <!-- 10. Artwork Scale -->
+        <div class="adj-group">
+          <div class="adj-header-row">
+            <span class="adj-label"><i class="fa-solid fa-expand" style="color:#14b8a6;"></i> Artwork Scale</span>
+            <span class="adj-val-readout" id="adj-scale-val">100%</span>
+          </div>
+          <input type="range" min="60" max="150" value="100" class="adj-range-input" id="adj-scale-slider">
+        </div>
+
+        <!-- Reset Button -->
+        <button type="button" class="btn-reset-adj" id="btn-reset-all-adjustments">
+          <i class="fa-solid fa-rotate-left"></i> Reset All Adjustments
         </button>
       </div>
+
     </aside>
 
     <!-- 3. CENTER CANVAS VIEWPORT -->
@@ -1844,14 +2359,14 @@
       <div class="help-step-badge">2</div>
       <div class="help-step-text">
         <h4>Upload Your Artwork</h4>
-        <p>Drag and drop your front cover or spread (PNG, JPG, PSD). Smart cropper auto-fits it in true perspective.</p>
+        <p>Upload Front, Back, or Spine individually, or drop a full wrap to auto-slice with smart cropper.</p>
       </div>
     </div>
     <div class="help-step-item">
       <div class="help-step-badge">3</div>
       <div class="help-step-text">
-        <h4>Adjust Background &amp; Shadows</h4>
-        <p>Pick Studio, White, Light, Dark or custom colors. Tweak realistic drop shadows with the interactive slider.</p>
+        <h4>Adjust Background &amp; Lighting</h4>
+        <p>Choose transparent PNG, studio gradients, wood or concrete textures, and tweak 10 real-time adjustments.</p>
       </div>
     </div>
     <div class="help-step-item">
@@ -2097,6 +2612,8 @@
 
 
 
+
+
 <!-- ── AUTHENTIC PHOTOSHOP PSD MOCKUP ENGINE JAVASCRIPT ── -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -2104,6 +2621,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Global Interactive Shadow State
   let shadowEnabled = true;
   let shadowOpacity = 0.70;
+
+  // Global Adjustments State
+  let highlightOpacity = 1.0;
+  let adjBrightness = 0;   // -50 to +50
+  let adjContrast = 100;   // 50 to 150
+  let adjSaturation = 100; // 0 to 200
+  let adjWarmth = 0;       // -50 to +50
+  let adjVignette = 0;     // 0 to 100
+  let adjTilt = 0;         // -20 to +20
+  let adjScale = 100;      // 60 to 150
+
+  // Global Background Custom State
+  let customBgColor = null;
+  let customBgImg = null;
 
   // Global View Zoom & Transform State
   let zoomLevel = 100;
@@ -3244,19 +3775,37 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, renderWidth, renderHeight);
       } else if (bgMode === 'light') {
-        ctx.fillStyle = '#f1f5f9';
+        const grad = ctx.createLinearGradient(0, 0, renderWidth, renderHeight);
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(1, '#e2e8f0');
+        ctx.fillStyle = grad;
         ctx.fillRect(0, 0, renderWidth, renderHeight);
       } else if (bgMode === 'dark') {
-        ctx.fillStyle = '#0b1320';
+        ctx.fillStyle = '#1e293b';
         ctx.fillRect(0, 0, renderWidth, renderHeight);
-      } else if (bgMode === 'custom' && config.customBackdropImg) {
-        ctx.drawImage(config.customBackdropImg, 0, 0, renderWidth, renderHeight);
+      } else if (bgMode === 'warm') {
+        const grad = ctx.createRadialGradient(renderWidth/2, renderHeight/2, renderWidth*0.1, renderWidth/2, renderHeight/2, renderWidth*0.8);
+        grad.addColorStop(0, '#fff5eb');
+        grad.addColorStop(1, '#fed7aa');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, renderWidth, renderHeight);
+      } else if (bgMode === 'wood') {
+        const woodImg = await preloadImage('images/psd_mockups/backgrounds/wood_desk.jpg');
+        if (woodImg) ctx.drawImage(woodImg, 0, 0, renderWidth, renderHeight);
+      } else if (bgMode === 'concrete') {
+        const concImg = await preloadImage('images/psd_mockups/backgrounds/concrete_stone.jpg');
+        if (concImg) ctx.drawImage(concImg, 0, 0, renderWidth, renderHeight);
+      } else if (bgMode === 'custom' && customBgImg) {
+        ctx.drawImage(customBgImg, 0, 0, renderWidth, renderHeight);
+      } else if (bgMode === 'custom') {
+        ctx.fillStyle = customBgColor || '#e2e8f0';
+        ctx.fillRect(0, 0, renderWidth, renderHeight);
       } else {
         ctx.clearRect(0, 0, renderWidth, renderHeight);
       }
 
       // Shadow layer
-      if (config.layers.shadow && shadowEnabled) {
+      if (config.layers.shadow && shadowEnabled && shadowOpacity > 0) {
         const shImg = await preloadImage(config.layers.shadow);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
         if (shImg) {
@@ -3339,12 +3888,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
 
         // Specular Sheen & Highlights (Screen)
-        if (config.layers.highlights) {
+        if (config.layers.highlights && highlightOpacity > 0) {
           const hlImg = await preloadImage(config.layers.highlights);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
           if (hlImg) {
             ctx.save();
-            ctx.globalAlpha = 0.55;
+            ctx.globalAlpha = highlightOpacity;
             ctx.globalCompositeOperation = 'screen';
             ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
             ctx.restore();
@@ -3597,6 +4146,38 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
           ctx.restore();
         }
+      }
+          // Post-Processing Vignette Overlay
+      if (adjVignette > 0 && bgMode !== 'transparent') {
+        ctx.save();
+        ctx.globalCompositeOperation = 'multiply';
+        const vig = ctx.createRadialGradient(renderWidth/2, renderHeight/2, renderWidth*0.25, renderWidth/2, renderHeight/2, renderWidth*0.75);
+        vig.addColorStop(0, 'rgba(0,0,0,0)');
+        vig.addColorStop(1, 'rgba(0,0,0,' + ((adjVignette / 100) * 0.85) + ')');
+        ctx.fillStyle = vig;
+        ctx.fillRect(0, 0, renderWidth, renderHeight);
+        ctx.restore();
+      }
+
+      // Live CSS Filters on Viewport Canvas
+      const canvasEl = document.getElementById('psd-canvas');
+      if (canvasEl && targetCanvas === viewportCanvas) {
+        const filterStr = 'brightness(' + (100 + adjBrightness) + '%) contrast(' + adjContrast + '%) saturate(' + adjSaturation + '%) hue-rotate(' + (adjWarmth * 0.5) + 'deg)';
+        canvasEl.style.filter = filterStr + ' drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22))';
+      }
+
+      // Render filter onto Export Canvas (non-viewport)
+      if (targetCanvas !== viewportCanvas && (adjBrightness !== 0 || adjContrast !== 100 || adjSaturation !== 100 || adjWarmth !== 0)) {
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = renderWidth;
+        tempCanvas.height = renderHeight;
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCtx.drawImage(targetCanvas, 0, 0);
+        ctx.clearRect(0, 0, renderWidth, renderHeight);
+        ctx.save();
+        ctx.filter = 'brightness(' + (100 + adjBrightness) + '%) contrast(' + adjContrast + '%) saturate(' + adjSaturation + '%) hue-rotate(' + (adjWarmth * 0.5) + 'deg)';
+        ctx.drawImage(tempCanvas, 0, 0);
+        ctx.restore();
       }
     } catch (err) {
       console.error('Error in renderMockupToCanvas:', err);
@@ -4944,29 +5525,30 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   updateUIForPreset();
 
 
-  // ── NEW STUDIO UI EVENT LISTENERS & WIRING ──
+  
+  // ── ADVANCED SAAS STUDIO EVENT LISTENERS & DRAWER SWITCHING ──
 
-  // Left Nav Rail
+  // 1. Navigation Rail View Switcher (Templates, Upload, Background, Adjust)
   const railBtns = document.querySelectorAll('.rail-btn');
+  const drawerViews = document.querySelectorAll('.drawer-view');
+
+  function switchDrawerView(tabName) {
+    railBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.railTab === tabName);
+    });
+    drawerViews.forEach(view => {
+      view.classList.toggle('active', view.id === 'drawer-view-' + tabName);
+    });
+  }
+
   railBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      railBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
       const tab = btn.dataset.railTab;
-      if (tab === 'templates') {
-        const drawer = document.querySelector('.studio-drawer-panel');
-        if (drawer) drawer.style.display = 'flex';
-      } else if (tab === 'upload') {
-        document.getElementById('cover-dropzone')?.click();
-      } else if (tab === 'background') {
-        document.querySelector('.bg-swatches-row')?.scrollIntoView({ behavior: 'smooth' });
-      } else if (tab === 'adjust') {
-        document.querySelector('.shadow-slider-row')?.scrollIntoView({ behavior: 'smooth' });
-      }
+      switchDrawerView(tab);
     });
   });
 
-  // Templates Drawer Search & Category Filters
+  // 2. Templates Drawer Search & Category Filters
   const tSearchInput = document.getElementById('template-search-input');
   const catPills = document.querySelectorAll('.cat-pill-btn');
   const templateCards = document.querySelectorAll('.template-card-btn');
@@ -5007,11 +5589,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       card.classList.add('active');
       currentPresetId = pid;
       updateUIForPreset();
+      updateAllSlotCardsUI();
       updateCoverCardUI();
     });
   });
 
-  // Floating Toolbar (Zoom, Rotate, Fit, Center)
+  // 3. Floating Toolbar (Zoom, Rotate, Fit, Center)
   const floatZoomVal = document.getElementById('float-zoom-val');
   const btnFloatZoomIn = document.getElementById('btn-float-zoom-in');
   const btnFloatZoomOut = document.getElementById('btn-float-zoom-out');
@@ -5023,7 +5606,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     const canvas = document.getElementById('psd-canvas');
     if (!canvas) return;
     if (floatZoomVal) floatZoomVal.textContent = zoomLevel + '%';
-    canvas.style.transform = 'scale(' + (zoomLevel / 100) + ') rotate(' + canvasRotation + 'deg)';
+    canvas.style.transform = 'scale(' + (zoomLevel / 100) + ') rotate(' + canvasRotation + 'deg) perspective(1000px) rotateY(' + adjTilt + 'deg)';
   }
 
   if (btnFloatZoomIn) {
@@ -5042,6 +5625,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     btnFloatFit.addEventListener('click', () => {
       zoomLevel = 100;
       canvasRotation = 0;
+      adjTilt = 0;
+      if (document.getElementById('adj-tilt-slider')) document.getElementById('adj-tilt-slider').value = 0;
+      if (document.getElementById('adj-tilt-val')) document.getElementById('adj-tilt-val').textContent = '0°';
       updateFloatingTransform();
     });
   }
@@ -5049,6 +5635,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     btnFloatCenter.addEventListener('click', () => {
       zoomLevel = 100;
       canvasRotation = 0;
+      adjTilt = 0;
       updateFloatingTransform();
     });
   }
@@ -5059,7 +5646,232 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
-  // Cover File Card Elements & Sync
+  // 4. Dedicated Upload View (Front, Back, Spine & Full Wrap)
+  const frontSlotInput = document.getElementById('upload-slot-front-input');
+  const backSlotInput = document.getElementById('upload-slot-back-input');
+  const spineSlotInput = document.getElementById('upload-slot-spine-input');
+
+  const btnUploadSlotFront = document.getElementById('btn-upload-slot-front');
+  const btnCropSlotFront = document.getElementById('btn-crop-slot-front');
+  const btnClearSlotFront = document.getElementById('btn-clear-slot-front');
+  const slotFrontThumb = document.getElementById('slot-front-thumb');
+  const slotFrontSpecs = document.getElementById('slot-front-specs');
+
+  const btnUploadSlotBack = document.getElementById('btn-upload-slot-back');
+  const btnCropSlotBack = document.getElementById('btn-crop-slot-back');
+  const btnClearSlotBack = document.getElementById('btn-clear-slot-back');
+  const slotBackThumb = document.getElementById('slot-back-thumb');
+  const slotBackSpecs = document.getElementById('slot-back-specs');
+
+  const btnUploadSlotSpine = document.getElementById('btn-upload-slot-spine');
+  const btnCropSlotSpine = document.getElementById('btn-crop-slot-spine');
+  const btnClearSlotSpine = document.getElementById('btn-clear-slot-spine');
+  const slotSpineThumb = document.getElementById('slot-spine-thumb');
+  const drawerSpineWidthSlider = document.getElementById('drawer-spine-width-slider');
+  const drawerSpineWidthVal = document.getElementById('drawer-spine-width-val');
+  const drawerSpineColorPicker = document.getElementById('drawer-spine-color-picker');
+
+  const fullwrapDropzone = document.getElementById('drawer-fullwrap-dropzone');
+  const fullwrapInput = document.getElementById('drawer-fullwrap-input');
+
+  function updateAllSlotCardsUI() {
+    // Front Slot UI
+    if (slotFrontThumb) {
+      if (customFrontImg && customFrontImg.src) {
+        slotFrontThumb.src = customFrontImg.src;
+      } else if (activeFrontImg && activeFrontImg.src) {
+        slotFrontThumb.src = activeFrontImg.src;
+      } else {
+        slotFrontThumb.src = '/images/psd_mockup_2/sample_cover.png';
+      }
+    }
+    if (slotFrontSpecs) {
+      const conf = PSD_MANIFEST[currentPresetId];
+      const isSpread = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book');
+      slotFrontSpecs.textContent = isSpread ? 'Right Page • ' + (rawFileNames.front || 'Sample') : 'Front • ' + (rawFileNames.front || 'Sample');
+    }
+
+    // Back Slot UI
+    if (slotBackThumb) {
+      if (customBackImg && customBackImg.src) {
+        slotBackThumb.src = customBackImg.src;
+      } else if (activeBackImg && activeBackImg.src) {
+        slotBackThumb.src = activeBackImg.src;
+      } else {
+        slotBackThumb.src = '/images/psd_mockups/thumbnails/paperback_duo.jpg';
+      }
+    }
+    if (slotBackSpecs) {
+      const isSpread = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book');
+      slotBackSpecs.textContent = isSpread ? 'Left Page • ' + (rawFileNames.back || 'Sample') : 'Back • ' + (rawFileNames.back || 'Optional');
+    }
+
+    // Spine Slot UI
+    if (slotSpineThumb) {
+      if (customSpineImg && customSpineImg.src) {
+        slotSpineThumb.src = customSpineImg.src;
+      } else if (activeSpineImg && activeSpineImg.src) {
+        slotSpineThumb.src = activeSpineImg.src;
+      } else {
+        slotSpineThumb.src = '/images/psd_mockups/thumbnails/hardcover_standing.jpg';
+      }
+    }
+
+    // Sync Spine Width & Tone
+    if (drawerSpineWidthSlider) drawerSpineWidthSlider.value = spineWidth;
+    if (drawerSpineWidthVal) drawerSpineWidthVal.textContent = spineWidth + '%';
+    if (drawerSpineColorPicker) drawerSpineColorPicker.value = spineColor;
+
+    updateCoverCardUI();
+  }
+
+  // Front slot buttons
+  if (btnUploadSlotFront && frontSlotInput) {
+    btnUploadSlotFront.addEventListener('click', () => frontSlotInput.click());
+    frontSlotInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleFrontFile(e.target.files[0]);
+        updateAllSlotCardsUI();
+      }
+    });
+  }
+  if (btnCropSlotFront) {
+    btnCropSlotFront.addEventListener('click', () => {
+      const src = (customFrontImg && customFrontImg.src) || (activeFrontImg && activeFrontImg.src);
+      if (src) openCropModal(src, 'front', rawFileNames.front || 'Front Cover');
+    });
+  }
+  if (btnClearSlotFront) {
+    btnClearSlotFront.addEventListener('click', () => {
+      customFrontImg = null;
+      activeFrontImg = null;
+      rawArtworks.front = null;
+      rawFileNames.front = 'cover.jpg';
+      processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
+      updateAllSlotCardsUI();
+      renderCurrentMockup();
+    });
+  }
+
+  // Back slot buttons
+  if (btnUploadSlotBack && backSlotInput) {
+    btnUploadSlotBack.addEventListener('click', () => backSlotInput.click());
+    backSlotInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleBackFile(e.target.files[0]);
+        updateAllSlotCardsUI();
+      }
+    });
+  }
+  if (btnCropSlotBack) {
+    btnCropSlotBack.addEventListener('click', () => {
+      const src = (customBackImg && customBackImg.src) || (activeBackImg && activeBackImg.src);
+      if (src) openCropModal(src, 'back', rawFileNames.back || 'Back Cover');
+    });
+  }
+  if (btnClearSlotBack) {
+    btnClearSlotBack.addEventListener('click', () => {
+      customBackImg = null;
+      activeBackImg = null;
+      rawArtworks.back = null;
+      rawFileNames.back = 'Back Cover';
+      updateAllSlotCardsUI();
+      renderCurrentMockup();
+    });
+  }
+
+  // Spine slot buttons
+  if (btnUploadSlotSpine && spineSlotInput) {
+    btnUploadSlotSpine.addEventListener('click', () => spineSlotInput.click());
+    spineSlotInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const img = new Image();
+          img.onload = () => {
+            setSpineArtwork(img, file.name);
+            updateAllSlotCardsUI();
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+  if (btnCropSlotSpine) {
+    btnCropSlotSpine.addEventListener('click', () => {
+      const src = (customSpineImg && customSpineImg.src) || (activeSpineImg && activeSpineImg.src);
+      if (src) openCropModal(src, 'spine', rawFileNames.spine || 'Spine Artwork');
+    });
+  }
+  if (btnClearSlotSpine) {
+    btnClearSlotSpine.addEventListener('click', () => {
+      customSpineImg = null;
+      activeSpineImg = null;
+      rawArtworks.spine = null;
+      rawFileNames.spine = 'Spine';
+      updateAllSlotCardsUI();
+      renderCurrentMockup();
+    });
+  }
+
+  if (drawerSpineWidthSlider && drawerSpineWidthVal) {
+    drawerSpineWidthSlider.addEventListener('input', (e) => {
+      spineWidth = parseInt(e.target.value, 10);
+      drawerSpineWidthVal.textContent = spineWidth + '%';
+      renderCurrentMockup();
+    });
+  }
+  if (drawerSpineColorPicker) {
+    drawerSpineColorPicker.addEventListener('input', (e) => {
+      spineColor = e.target.value;
+      renderCurrentMockup();
+    });
+  }
+
+  // Full Wrap Dropzone in Upload Drawer
+  if (fullwrapDropzone && fullwrapInput) {
+    fullwrapDropzone.addEventListener('click', () => fullwrapInput.click());
+    fullwrapInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const img = new Image();
+          img.onload = () => {
+            processUploadedArtwork(img, file.name);
+            updateAllSlotCardsUI();
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    ['dragenter', 'dragover'].forEach(evt => {
+      fullwrapDropzone.addEventListener(evt, e => { e.preventDefault(); fullwrapDropzone.classList.add('dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(evt => {
+      fullwrapDropzone.addEventListener(evt, e => { e.preventDefault(); fullwrapDropzone.classList.remove('dragover'); });
+    });
+    fullwrapDropzone.addEventListener('drop', e => {
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        const file = e.dataTransfer.files[0];
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const img = new Image();
+          img.onload = () => {
+            processUploadedArtwork(img, file.name);
+            updateAllSlotCardsUI();
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Cover Card Elements & Sync (in Right Inspector)
   const fileItemCard = document.getElementById('uploaded-file-card');
   const fileItemThumb = document.getElementById('file-item-thumb');
   const fileItemName = document.getElementById('file-item-name');
@@ -5089,8 +5901,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       rawArtworks.front = null;
       rawFileNames.front = 'cover.jpg';
       processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
-      updateCoverCardUI();
-      renderMockupToCanvas();
+      updateAllSlotCardsUI();
+      renderCurrentMockup();
     });
   }
 
@@ -5100,62 +5912,261 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       if (src) {
         openCropModal(src, 'front', rawFileNames.front || 'Cover Artwork');
       } else {
-        document.getElementById('front-file-input')?.click();
+        frontSlotInput?.click();
       }
     });
   }
 
-  // Background Swatches & Custom Picker
+  // 5. Backgrounds Drawer View (Transparent + 7 Presets + Custom)
+  const bgPresetCards = document.querySelectorAll('.bg-preset-card');
   const bgSwatches = document.querySelectorAll('.bg-swatch-card');
-  const btnCustomBg = document.getElementById('btn-custom-bg-picker');
-  const customColorPicker = document.getElementById('custom-bg-color-picker');
+  const btnDrawerCustomColor = document.getElementById('btn-drawer-custom-color');
+  const drawerColorPicker = document.getElementById('drawer-color-picker');
+  const btnDrawerUploadBg = document.getElementById('btn-drawer-upload-bg');
+  const drawerBgFileInput = document.getElementById('drawer-bg-file-input');
 
-  bgSwatches.forEach(swatch => {
-    swatch.addEventListener('click', () => {
-      bgSwatches.forEach(s => s.classList.remove('active'));
-      swatch.classList.add('active');
-      bgMode = swatch.dataset.bg;
-      renderMockupToCanvas();
+  function setAppBackground(mode) {
+    bgMode = mode;
+    bgPresetCards.forEach(c => c.classList.toggle('active', c.dataset.bg === mode));
+    bgSwatches.forEach(s => s.classList.toggle('active', s.dataset.bg === mode));
+    renderCurrentMockup();
+  }
+
+  bgPresetCards.forEach(card => {
+    card.addEventListener('click', () => {
+      setAppBackground(card.dataset.bg);
     });
   });
 
-  if (btnCustomBg && customColorPicker) {
-    btnCustomBg.addEventListener('click', () => {
-      customColorPicker.click();
+  bgSwatches.forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      setAppBackground(swatch.dataset.bg);
     });
-    customColorPicker.addEventListener('input', (e) => {
-      bgMode = 'custom';
-      const conf = PSD_MANIFEST[currentPresetId];
-      if (conf) {
-        conf.defaultBg = e.target.value;
-      }
-      bgSwatches.forEach(s => s.classList.remove('active'));
-      renderMockupToCanvas();
+  });
+
+  if (btnDrawerCustomColor && drawerColorPicker) {
+    btnDrawerCustomColor.addEventListener('click', () => drawerColorPicker.click());
+    drawerColorPicker.addEventListener('input', (e) => {
+      customBgColor = e.target.value;
+      customBgImg = null;
+      setAppBackground('custom');
     });
   }
 
-  // Shadows Toggle & Slider
+  if (btnDrawerUploadBg && drawerBgFileInput) {
+    btnDrawerUploadBg.addEventListener('click', () => drawerBgFileInput.click());
+    drawerBgFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const img = new Image();
+          img.onload = () => {
+            customBgImg = img;
+            setAppBackground('custom');
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // 6. Adjustments Drawer View (10 Controls & Live Redraw)
   const shadowRangeSlider = document.getElementById('shadow-range-slider');
   const shadowToggle = document.getElementById('shadow-toggle');
   const shadowPercentageVal = document.getElementById('shadow-percentage-val');
 
-  if (shadowRangeSlider && shadowPercentageVal) {
-    shadowRangeSlider.addEventListener('input', (e) => {
-      const val = parseInt(e.target.value, 10);
-      shadowOpacity = val / 100;
-      shadowPercentageVal.textContent = val + '%';
-      renderMockupToCanvas();
+  const adjShadowSlider = document.getElementById('adj-shadow-slider');
+  const adjShadowVal = document.getElementById('adj-shadow-val');
+  const adjShadowToggle = document.getElementById('adj-shadow-toggle');
+
+  const adjHighlightSlider = document.getElementById('adj-highlight-slider');
+  const adjHighlightVal = document.getElementById('adj-highlight-val');
+
+  const adjBrightSlider = document.getElementById('adj-brightness-slider');
+  const adjBrightVal = document.getElementById('adj-brightness-val');
+
+  const adjContrastSlider = document.getElementById('adj-contrast-slider');
+  const adjContrastVal = document.getElementById('adj-contrast-val');
+
+  const adjSatSlider = document.getElementById('adj-saturation-slider');
+  const adjSatVal = document.getElementById('adj-saturation-val');
+
+  const adjWarmthSlider = document.getElementById('adj-warmth-slider');
+  const adjWarmthVal = document.getElementById('adj-warmth-val');
+
+  const adjVignetteSlider = document.getElementById('adj-vignette-slider');
+  const adjVignetteVal = document.getElementById('adj-vignette-val');
+
+  const adjTiltSlider = document.getElementById('adj-tilt-slider');
+  const adjTiltVal = document.getElementById('adj-tilt-val');
+
+  const adjSpineSlider = document.getElementById('adj-spine-slider');
+  const adjSpineVal = document.getElementById('adj-spine-val');
+
+  const adjScaleSlider = document.getElementById('adj-scale-slider');
+  const adjScaleVal = document.getElementById('adj-scale-val');
+
+  const btnResetAllAdjustments = document.getElementById('btn-reset-all-adjustments');
+
+  // Sync Shadows across drawer & inspector
+  function setShadowValue(val) {
+    shadowOpacity = val / 100;
+    if (shadowPercentageVal) shadowPercentageVal.textContent = val + '%';
+    if (adjShadowVal) adjShadowVal.textContent = val + '%';
+    if (shadowRangeSlider) shadowRangeSlider.value = val;
+    if (adjShadowSlider) adjShadowSlider.value = val;
+    renderCurrentMockup();
+  }
+
+  function setShadowToggle(enabled) {
+    shadowEnabled = enabled;
+    if (shadowToggle) shadowToggle.checked = enabled;
+    if (adjShadowToggle) adjShadowToggle.checked = enabled;
+    renderCurrentMockup();
+  }
+
+  if (shadowRangeSlider) shadowRangeSlider.addEventListener('input', e => setShadowValue(parseInt(e.target.value, 10)));
+  if (adjShadowSlider) adjShadowSlider.addEventListener('input', e => setShadowValue(parseInt(e.target.value, 10)));
+  if (shadowToggle) shadowToggle.addEventListener('change', e => setShadowToggle(e.target.checked));
+  if (adjShadowToggle) adjShadowToggle.addEventListener('change', e => setShadowToggle(e.target.checked));
+
+  // Highlights
+  if (adjHighlightSlider && adjHighlightVal) {
+    adjHighlightSlider.addEventListener('input', e => {
+      highlightOpacity = parseInt(e.target.value, 10) / 100;
+      adjHighlightVal.textContent = e.target.value + '%';
+      renderCurrentMockup();
     });
   }
 
-  if (shadowToggle) {
-    shadowToggle.addEventListener('change', (e) => {
-      shadowEnabled = e.target.checked;
-      renderMockupToCanvas();
+  // Brightness
+  if (adjBrightSlider && adjBrightVal) {
+    adjBrightSlider.addEventListener('input', e => {
+      adjBrightness = parseInt(e.target.value, 10);
+      adjBrightVal.textContent = (adjBrightness > 0 ? '+' : '') + adjBrightness + '%';
+      renderCurrentMockup();
     });
   }
 
-  // Book Angle Cards
+  // Contrast
+  if (adjContrastSlider && adjContrastVal) {
+    adjContrastSlider.addEventListener('input', e => {
+      adjContrast = parseInt(e.target.value, 10);
+      adjContrastVal.textContent = adjContrast + '%';
+      renderCurrentMockup();
+    });
+  }
+
+  // Saturation
+  if (adjSatSlider && adjSatVal) {
+    adjSatSlider.addEventListener('input', e => {
+      adjSaturation = parseInt(e.target.value, 10);
+      adjSatVal.textContent = adjSaturation + '%';
+      renderCurrentMockup();
+    });
+  }
+
+  // Warmth
+  if (adjWarmthSlider && adjWarmthVal) {
+    adjWarmthSlider.addEventListener('input', e => {
+      adjWarmth = parseInt(e.target.value, 10);
+      adjWarmthVal.textContent = (adjWarmth > 0 ? '+' : '') + adjWarmth;
+      renderCurrentMockup();
+    });
+  }
+
+  // Vignette
+  if (adjVignetteSlider && adjVignetteVal) {
+    adjVignetteSlider.addEventListener('input', e => {
+      adjVignette = parseInt(e.target.value, 10);
+      adjVignetteVal.textContent = adjVignette + '%';
+      renderCurrentMockup();
+    });
+  }
+
+  // 3D Tilt
+  if (adjTiltSlider && adjTiltVal) {
+    adjTiltSlider.addEventListener('input', e => {
+      adjTilt = parseInt(e.target.value, 10);
+      adjTiltVal.textContent = (adjTilt > 0 ? '+' : '') + adjTilt + '°';
+      updateFloatingTransform();
+    });
+  }
+
+  // Spine Width
+  if (adjSpineSlider && adjSpineVal) {
+    adjSpineSlider.addEventListener('input', e => {
+      spineWidth = parseInt(e.target.value, 10);
+      adjSpineVal.textContent = spineWidth + '%';
+      if (drawerSpineWidthSlider) drawerSpineWidthSlider.value = spineWidth;
+      if (drawerSpineWidthVal) drawerSpineWidthVal.textContent = spineWidth + '%';
+      renderCurrentMockup();
+    });
+  }
+
+  // Scale / Framing
+  if (adjScaleSlider && adjScaleVal) {
+    adjScaleSlider.addEventListener('input', e => {
+      adjScale = parseInt(e.target.value, 10);
+      adjScaleVal.textContent = adjScale + '%';
+      frontTransform.scale = adjScale / 100;
+      backTransform.scale = adjScale / 100;
+      renderCurrentMockup();
+    });
+  }
+
+  // Reset All Adjustments
+  if (btnResetAllAdjustments) {
+    btnResetAllAdjustments.addEventListener('click', () => {
+      setShadowValue(70);
+      setShadowToggle(true);
+
+      highlightOpacity = 1.0;
+      if (adjHighlightSlider) adjHighlightSlider.value = 100;
+      if (adjHighlightVal) adjHighlightVal.textContent = '100%';
+
+      adjBrightness = 0;
+      if (adjBrightSlider) adjBrightSlider.value = 0;
+      if (adjBrightVal) adjBrightVal.textContent = '0%';
+
+      adjContrast = 100;
+      if (adjContrastSlider) adjContrastSlider.value = 100;
+      if (adjContrastVal) adjContrastVal.textContent = '100%';
+
+      adjSaturation = 100;
+      if (adjSatSlider) adjSatSlider.value = 100;
+      if (adjSatVal) adjSatVal.textContent = '100%';
+
+      adjWarmth = 0;
+      if (adjWarmthSlider) adjWarmthSlider.value = 0;
+      if (adjWarmthVal) adjWarmthVal.textContent = '0';
+
+      adjVignette = 0;
+      if (adjVignetteSlider) adjVignetteSlider.value = 0;
+      if (adjVignetteVal) adjVignetteVal.textContent = '0%';
+
+      adjTilt = 0;
+      if (adjTiltSlider) adjTiltSlider.value = 0;
+      if (adjTiltVal) adjTiltVal.textContent = '0°';
+
+      spineWidth = 100;
+      if (adjSpineSlider) adjSpineSlider.value = 100;
+      if (adjSpineVal) adjSpineVal.textContent = '100%';
+
+      adjScale = 100;
+      if (adjScaleSlider) adjScaleSlider.value = 100;
+      if (adjScaleVal) adjScaleVal.textContent = '100%';
+      frontTransform.scale = 1.0;
+      backTransform.scale = 1.0;
+
+      updateFloatingTransform();
+      renderCurrentMockup();
+    });
+  }
+
+  // 7. Book Angle Cards (in Inspector)
   const angleCards = document.querySelectorAll('.angle-card-btn');
   angleCards.forEach(card => {
     card.addEventListener('click', () => {
@@ -5163,20 +6174,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       card.classList.add('active');
       const angle = parseInt(card.dataset.angle, 10);
       bookAngleIndex = angle;
-      const canvas = document.getElementById('psd-canvas');
-      if (canvas) {
-        const perspectiveRotations = [
-          'perspective(1000px) rotateY(0deg)',
-          'perspective(1000px) rotateY(-8deg)',
-          'perspective(1000px) rotateY(10deg)',
-          'perspective(1000px) rotateX(12deg)'
-        ];
-        canvas.style.transform = (perspectiveRotations[angle] || '') + ' scale(' + (zoomLevel / 100) + ') rotate(' + canvasRotation + 'deg)';
-      }
+      const perspectiveAngles = [0, -8, 8, 14];
+      adjTilt = perspectiveAngles[angle] || 0;
+      if (adjTiltSlider) adjTiltSlider.value = adjTilt;
+      if (adjTiltVal) adjTiltVal.textContent = (adjTilt > 0 ? '+' : '') + adjTilt + '°';
+      updateFloatingTransform();
     });
   });
 
-  // Top Header Actions (Help, Reset, Export Dropdown)
+  // 8. Top Header Actions (Help, Reset, Export Dropdown)
   const btnHdrHelp = document.getElementById('btn-hdr-help');
   const btnCloseHelp = document.getElementById('btn-close-help');
   const helpModal = document.getElementById('studio-help-modal');
@@ -5205,15 +6211,40 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
+  async function triggerMockupExport(format = 'png', targetDimension = null) {
+    const config = PSD_MANIFEST[currentPresetId];
+    if (!config) return;
+
+    const w = targetDimension || config.width;
+    const h = targetDimension ? Math.round(targetDimension * (config.height / config.width)) : config.height;
+
+    const exportCanvas = document.createElement('canvas');
+    await renderMockupToCanvas(exportCanvas, w, h, currentPresetId);
+
+    const mimeType = (format === 'jpeg' && bgMode !== 'transparent') ? 'image/jpeg' : 'image/png';
+    const ext = mimeType === 'image/jpeg' ? 'jpg' : 'png';
+
+    exportCanvas.toBlob((blob) => {
+      if (!blob) return;
+      const link = document.createElement('a');
+      link.download = 'loufy-studio-mockup-' + currentPresetId + '-' + w + 'x' + h + '.' + ext;
+      link.href = URL.createObjectURL(blob);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }, mimeType, 0.95);
+  }
+
   exportItems.forEach(item => {
     item.addEventListener('click', () => {
       const format = item.dataset.format;
       if (format === '4k') {
-        downloadHighRes(4000);
+        triggerMockupExport('png', 4000);
       } else if (format === 'jpeg') {
-        downloadMockup('image/jpeg');
+        triggerMockupExport('jpeg');
       } else {
-        downloadMockup('image/png');
+        triggerMockupExport('png');
       }
       if (hdrExportMenu) hdrExportMenu.style.display = 'none';
     });
@@ -5223,18 +6254,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     btnHdrReset.addEventListener('click', () => {
       zoomLevel = 100;
       canvasRotation = 0;
-      shadowEnabled = true;
-      shadowOpacity = 0.70;
-      if (shadowRangeSlider) shadowRangeSlider.value = 70;
-      if (shadowPercentageVal) shadowPercentageVal.textContent = '70%';
-      if (shadowToggle) shadowToggle.checked = true;
-      bgMode = 'studio';
-      bgSwatches.forEach(s => s.classList.toggle('active', s.dataset.bg === 'studio'));
+      setShadowValue(70);
+      setShadowToggle(true);
+      setAppBackground('studio');
       angleCards.forEach((c, idx) => c.classList.toggle('active', idx === 0));
       updateFloatingTransform();
       processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
-      updateCoverCardUI();
-      renderMockupToCanvas();
+      updateAllSlotCardsUI();
+      renderCurrentMockup();
     });
   }
 
@@ -5244,7 +6271,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     templateCards.forEach(c => c.classList.remove('active'));
     activeTCard.classList.add('active');
   }
-  updateCoverCardUI();
+  updateAllSlotCardsUI();
 
 });
 </script>
