@@ -214,11 +214,16 @@
       color: #ea580c;
     }
 
-    /* STEP 1: Quick Mockup Presets Row (All 9 Mockups in 3x3 Grid) */
+    /* STEP 1: Quick Mockup Presets Row (All 10 Mockups in 5x2 Grid) */
     .quick-mockup-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 4px;
+    }
+    @media (max-width: 480px) {
+      .quick-mockup-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
     .mockup-style-card {
       background: #f8fafc;
@@ -1525,10 +1530,10 @@
                 <span class="step-subtitle">Select a style for your book cover.</span>
               </div>
             </div>
-            <span class="step-badge" style="font-size: 0.65rem; font-weight: 600; color: #f97316; background: rgba(249,115,22,0.1); padding: 2px 8px; border-radius: 9999px; border: 1px solid rgba(249,115,22,0.2);">9 Templates</span>
+            <span class="step-badge" style="font-size: 0.65rem; font-weight: 600; color: #f97316; background: rgba(249,115,22,0.1); padding: 2px 8px; border-radius: 9999px; border: 1px solid rgba(249,115,22,0.2);">10 Templates</span>
           </div>
 
-          <!-- All 9 Authentic Mockups in 3x3 Grid -->
+          <!-- All 10 Authentic Mockups in 5x2 Grid -->
           <div class="quick-mockup-row" id="quick-preset-row">
             <!-- 1. Top View -->
             <button type="button" class="mockup-style-card active" data-preset="book_mockup_1" title="Original PSD Top-Down">
@@ -1609,6 +1614,15 @@
                 <img src="/images/psd_mockups/thumbnails/open_book.jpg" alt="Open Book">
               </div>
               <span class="style-card-label">Open Book</span>
+            </button>
+
+            <!-- 10. Square Open Book Spread -->
+            <button type="button" class="mockup-style-card" data-preset="square_open_book" title="Square Open Book Flatlay">
+              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
+              <div class="style-thumb-box">
+                <img src="/images/psd_mockups/thumbnails/square_open_book.jpg" alt="Square Open Book">
+              </div>
+              <span class="style-card-label">Square Open</span>
             </button>
           </div>
         </div>
@@ -1929,6 +1943,13 @@
         <img src="/images/psd_mockups/thumbnails/open_book.jpg" class="modal-card-thumb" alt="Open Book Flatlay">
         <span class="modal-card-title">Open Book</span>
         <span class="modal-card-tag"><i class="fa-solid fa-book-open"></i> Dual Page Book</span>
+      </div>
+
+      <!-- 10. Square Open Book Flatlay -->
+      <div class="modal-mockup-card" data-preset="square_open_book">
+        <img src="/images/psd_mockups/thumbnails/square_open_book.jpg" class="modal-card-thumb" alt="Square Open Book Flatlay">
+        <span class="modal-card-title">Square Open Book</span>
+        <span class="modal-card-tag"><i class="fa-solid fa-book-open"></i> 1:1 Square Spread</span>
       </div>
     </div>
   </div>
@@ -2547,6 +2568,58 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     },
     "description": "Authentic Open Book Spread flatlay with realistic curved pages, spine crease shading, and overhead studio lighting."
+  },
+  "square_open_book": {
+    "id": "square_open_book",
+    "title": "Square Open Book Flatlay",
+    "category": "square",
+    "aspect": "1:1",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front",
+      "back"
+    ],
+    "defaultBg": "#dedede",
+    "layers": {
+      "backdrop": "images/psd_mockups/square_open_book/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/square_open_book/shadow.png",
+      "cover": "images/psd_mockups/square_open_book/cover.png",
+      "pages": "images/psd_mockups/square_open_book/pages.png",
+      "spread_shading": "images/psd_mockups/square_open_book/spread_shading.png",
+      "highlights": "images/psd_mockups/square_open_book/highlights.jpg",
+      "leftSilhouette": "images/psd_mockups/square_open_book/left_silhouette.png",
+      "rightSilhouette": "images/psd_mockups/square_open_book/right_silhouette.png"
+    },
+    "quads": {
+      "back": [
+        [595.0, 676.61],
+        [1518.0, 676.61],
+        [1518.0, 1657.17],
+        [595.0, 1663.36]
+      ],
+      "front": [
+        [1517.0, 676.89],
+        [2430.0, 676.89],
+        [2430.0, 1661.89],
+        [1517.0, 1661.89]
+      ]
+    },
+    "mesh": {
+      "left": [
+        [595.0, 676.61], [902.67, 676.61], [1209.93, 657.55], [1518.0, 676.61],
+        [595.0, 1005.53], [902.67, 1005.53], [1210.33, 1005.53], [1518.0, 1005.53],
+        [595.0, 1334.44], [902.67, 1334.44], [1210.33, 1334.44], [1518.0, 1334.44],
+        [595.0, 1663.36], [902.93, 1666.81], [1209.6, 1674.05], [1518.0, 1657.17]
+      ],
+      "right": [
+        [1517.0, 676.89], [1821.0, 656.31], [2127.0, 670.07], [2430.0, 676.89],
+        [1517.0, 1005.22], [1821.33, 1005.22], [2125.67, 1005.22], [2430.0, 1005.22],
+        [1517.0, 1333.56], [1821.33, 1333.56], [2125.67, 1333.56], [2430.0, 1333.56],
+        [1517.0, 1661.89], [1820.67, 1681.2], [2125.0, 1674.14], [2430.0, 1661.89]
+      ]
+    },
+    "description": "Authentic Square Open Book Spread flatlay (PSD 14) with 1:1 square pages, physical paper stack, and gentle 3D page curvature."
   },
   "square_flatlay": {
     "id": "square_flatlay",
@@ -3345,17 +3418,19 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
 
       // 2. Resolve active artwork with independent scaling & positioning
-      const isSpreadPreset = (presetId === 'open_book');
-      const rawFront = customFrontImg || activeFrontImg || createSolidArtwork('#1e293b', 1654, 2339, isSpreadPreset ? 'RIGHT PAGE' : 'BOOK TITLE');
+      const isSpreadPreset = (presetId === 'open_book' || presetId === 'square_open_book');
+      const spreadW = (presetId === 'square_open_book') ? 1166 : 1654;
+      const spreadH = (presetId === 'square_open_book') ? 1166 : 2339;
+      const rawFront = customFrontImg || activeFrontImg || createSolidArtwork('#1e293b', spreadW, spreadH, isSpreadPreset ? 'RIGHT PAGE' : 'BOOK TITLE');
       const frontArt = getTransformedArtwork(rawFront, frontTransform);
       const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
-      const rawBack = customBackImg || activeBackImg || (isSpreadPreset ? createSolidArtwork('#1e293b', 1654, 2339, 'LEFT PAGE') : createSolidArtwork(spineColor, 1000, 1500, ''));
+      const rawBack = customBackImg || activeBackImg || (isSpreadPreset ? createSolidArtwork('#1e293b', spreadW, spreadH, 'LEFT PAGE') : createSolidArtwork(spineColor, 1000, 1500, ''));
       const backArt = getTransformedArtwork(rawBack, backTransform);
 
       const swRatio = spineWidth / 100;
 
       // 3. Realistic Layer Compositing Pipeline
-      if (presetId === 'open_book') {
+      if (presetId === 'open_book' || presetId === 'square_open_book') {
         // --- AUTHENTIC OPEN BOOK SPREAD PIPELINE ---
         if (config.layers.cover) {
           const cvImg = await preloadImage(config.layers.cover);
@@ -3717,7 +3792,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (editingLayerNotice) editingLayerNotice.style.display = hasBack ? 'block' : 'none';
 
     // Contextual slot button labels and flex ordering
-    if (currentPresetId === 'open_book') {
+    if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
       if (slotCardBack) slotCardBack.style.order = '1';
       if (slotCardFront) slotCardFront.style.order = '2';
       if (frontBtnLabel) {
@@ -3747,7 +3822,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     }
 
     if (slotsSupportLabel) {
-      if (currentPresetId === 'open_book') {
+      if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
         slotsSupportLabel.textContent = 'Left Page + Right Page';
       } else if (hasSpine && hasBack) {
         slotsSupportLabel.textContent = 'Front + Spine + Back';
@@ -3784,7 +3859,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const conf = PSD_MANIFEST[currentPresetId];
       const hasSpine = conf && conf.slots && conf.slots.includes('spine');
 
-      if (!hasSpine && currentPresetId === 'open_book') {
+      if (!hasSpine && (currentPresetId === 'open_book' || currentPresetId === 'square_open_book')) {
         const halfWidth = Math.floor(w / 2);
 
         // Slice Left Page (Back slot)
@@ -3920,6 +3995,11 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       height = 1654;
       ratio = 1167 / 1654;
       aspectLabel = 'Book Page';
+    } else if (presetId === 'square_open_book') {
+      width = 1166;
+      height = 1166;
+      ratio = 1.0;
+      aspectLabel = '1:1 Square Page';
     } else if (config.rects && config.rects[slot]) {
       const r = config.rects[slot];
       width = Math.round(r[2]);
@@ -3950,6 +4030,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     if (presetId === 'open_book') {
       aspectLabel = 'Book Page';
+    } else if (presetId === 'square_open_book') {
+      aspectLabel = '1:1 Square Page';
     } else if (slot === 'spine') {
       const mult = width > 0 ? (height / width).toFixed(1) : '15';
       aspectLabel = `Spine 1:${mult}`;
@@ -3965,7 +4047,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       aspectLabel = `${ratio.toFixed(2)} Exact Fit`;
     }
 
-    const slotLabel = (presetId === 'open_book')
+    const slotLabel = (presetId === 'open_book' || presetId === 'square_open_book')
       ? (slot === 'back' ? 'Left Page' : 'Right Page')
       : (slot === 'spine' ? 'Book Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover'));
 
@@ -4393,7 +4475,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     activeFrontImg = imgOrCanvas;
     rawFileNames.front = name;
     if (frontBtnLabel) {
-      frontBtnLabel.textContent = (currentPresetId === 'open_book') ? ('Right: ' + name) : name;
+      frontBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? ('Right: ' + name) : name;
     }
     if (btnUploadFront) btnUploadFront.classList.add('has-file');
     if (clearFrontBtn) clearFrontBtn.style.display = 'flex';
@@ -4403,7 +4485,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     // Auto-sample spine color from edge if spine not manually uploaded
     try {
-      if (!customSpineImg && currentPresetId !== 'open_book') {
+      if (!customSpineImg && currentPresetId !== 'open_book' && currentPresetId !== 'square_open_book') {
         const sc = document.createElement('canvas');
         sc.width = 16; sc.height = 16;
         const sctx = sc.getContext('2d');
@@ -4425,7 +4507,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     activeBackImg = imgOrCanvas;
     rawFileNames.back = name;
     if (backBtnLabel) {
-      backBtnLabel.textContent = (currentPresetId === 'open_book') ? ('Left: ' + name) : name;
+      backBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? ('Left: ' + name) : name;
     }
     if (btnUploadBack) btnUploadBack.classList.add('has-file');
     if (clearBackBtn) clearBackBtn.style.display = 'flex';
@@ -4455,7 +4537,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        if (currentPresetId === 'open_book' && (img.width / img.height > 1.25)) {
+        if ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book') && (img.width / img.height > 1.25)) {
           processUploadedArtwork(img, file.name);
         } else {
           openCropModal(e.target.result, 'front', file.name);
@@ -4472,7 +4554,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        if (currentPresetId === 'open_book' && (img.width / img.height > 1.25)) {
+        if ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book') && (img.width / img.height > 1.25)) {
           processUploadedArtwork(img, file.name);
         } else {
           openCropModal(e.target.result, 'back', file.name);
@@ -4503,7 +4585,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
     const dropTitle = document.querySelector('.dropzone-title');
     let label = 'Front Cover';
-    if (currentPresetId === 'open_book') {
+    if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
       label = slot === 'back' ? 'Left Page' : 'Right Page';
     } else {
       label = slot === 'spine' ? 'Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover');
@@ -4577,7 +4659,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.preventDefault();
       if (e.dataTransfer.files && e.dataTransfer.files[0]) {
         const file = e.dataTransfer.files[0];
-        if (currentPresetId === 'open_book') {
+        if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
           const rect = canvasContainer.getBoundingClientRect();
           const dropX = e.clientX - rect.left;
           if (dropX < rect.width / 2) {
@@ -4647,13 +4729,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customFrontImg = null;
       activeFrontImg = null;
       rawArtworks.front = null;
-      rawFileNames.front = (currentPresetId === 'open_book') ? 'Right Page' : 'Front Cover';
+      rawFileNames.front = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? 'Right Page' : 'Front Cover';
       if (frontThumbPreview) {
         frontThumbPreview.src = '';
         frontThumbPreview.style.display = 'none';
       }
       if (cropFrontBtn) cropFrontBtn.style.display = 'none';
-      if (frontBtnLabel) frontBtnLabel.textContent = (currentPresetId === 'open_book') ? 'Right Page' : 'Front Cover';
+      if (frontBtnLabel) frontBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? 'Right Page' : 'Front Cover';
       if (clearFrontBtn) clearFrontBtn.style.display = 'none';
       if (frontStatusText) frontStatusText.textContent = 'Default Sample';
       if (autodetectStatus) autodetectStatus.style.display = 'none';
@@ -4673,7 +4755,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.stopPropagation();
       const src = rawArtworks.back || (customBackImg ? (customBackImg.src || (customBackImg.toDataURL ? customBackImg.toDataURL() : null)) : null) || rawArtworks.front || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
       if (src) {
-        openCropModal(src, 'back', rawFileNames.back || ((currentPresetId === 'open_book') ? 'Left Page Artwork' : 'Back Cover Artwork'));
+        openCropModal(src, 'back', rawFileNames.back || ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? 'Left Page Artwork' : 'Back Cover Artwork'));
       } else if (backInput) {
         backInput.click();
       }
@@ -4685,13 +4767,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customBackImg = null;
       activeBackImg = null;
       rawArtworks.back = null;
-      rawFileNames.back = (currentPresetId === 'open_book') ? 'Left Page' : 'Back Cover';
+      rawFileNames.back = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? 'Left Page' : 'Back Cover';
       if (backThumbPreview) {
         backThumbPreview.src = '';
         backThumbPreview.style.display = 'none';
       }
       if (cropBackBtn) cropBackBtn.style.display = 'none';
-      if (backBtnLabel) backBtnLabel.textContent = (currentPresetId === 'open_book') ? 'Left Page' : 'Back Cover';
+      if (backBtnLabel) backBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? 'Left Page' : 'Back Cover';
       if (clearBackBtn) clearBackBtn.style.display = 'none';
       if (backStatusText) backStatusText.textContent = 'Optional';
       if (backInput) backInput.value = '';
