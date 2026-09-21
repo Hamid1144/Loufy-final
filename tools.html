@@ -6,35 +6,28 @@
   <meta http-equiv="Expires" content="0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Studio Book Mockup Generator | Authentic Photoshop Quality | Loufy Publisher</title>
+  <title>Mockup Studio | Loufy Publisher</title>
   
-  <meta name="description" content="Generate 100% authentic studio-grade 3D book mockups online for free. Featuring real Photoshop PSD lighting, photographic drop shadows, hinge creases, and 4K transparent PNG export.">
-  <meta name="keywords" content="3D Book Cover Mockup, Free Book Mockup Generator, Photoshop Book Mockup, 3D Hardcover Mockup, 3D Paperback Mockup, Open Spread Mockup, Loufy Publisher">
+  <meta name="description" content="Create stunning book mockups in seconds with authentic Photoshop PSD quality, photographic drop shadows, and 4K export.">
+  <meta name="keywords" content="Book Mockup, Book Cover Mockup, 3D Book Mockup Generator, Loufy Publisher">
   <link rel="canonical" href="https://loufypublisher.com/tools">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://loufypublisher.com/tools">
   <meta property="og:site_name" content="Loufy Publisher">
-  <meta property="og:title" content="Free Studio Book Mockup Generator | Loufy Publisher">
-  <meta property="og:description" content="Instantly transform flat 2D book covers into authentic studio-grade 3D Hardcover, Paperback, and Open Spread mockups with real photographic shadows and lighting.">
+  <meta property="og:title" content="Mockup Studio | Loufy Publisher">
+  <meta property="og:description" content="Create stunning book mockups in seconds. Authentic 3D lighting, realistic shadows, and 4K transparent PNG export.">
   <meta property="og:image" content="https://loufypublisher.com/favicon.png">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://loufypublisher.com/tools">
-  <meta name="twitter:title" content="Free Studio Book Mockup Generator | Loufy Publisher">
-  <meta name="twitter:description" content="Instantly transform flat 2D book covers into authentic studio-grade 3D Hardcover, Paperback, and Open Spread mockups.">
-  <meta name="twitter:image" content="https://loufypublisher.com/favicon.png">
 
   <!-- Schema.org WebApplication Markup -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Loufy Studio Book Cover Mockup Generator",
+    "name": "Loufy Studio Book Mockup Generator",
     "url": "https://loufypublisher.com/tools",
-    "description": "Free web tool to generate photorealistic studio book cover mockups with authentic Photoshop lighting, shadows, and high-resolution export.",
+    "description": "Create stunning book mockups in seconds with authentic Photoshop lighting and shadows.",
     "applicationCategory": "DesignApplication",
     "operatingSystem": "All",
     "offers": {
@@ -53,10 +46,6 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/favicon.png?v=3.29.0">
 
-  <!-- CSS Styling -->
-  <link rel="stylesheet" href="/style.css?v=5.4.6">
-  <link rel="stylesheet" href="/admin.css?v=3.31.0">
-  
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
@@ -64,226 +53,354 @@
   <link rel="stylesheet" href="/cropper.min.css">
   <script src="/cropper.min.js"></script>
   
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Inter & Outfit & Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Supabase & Clients -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script src="/db.js?v=3.31.0" defer></script>
-  <script src="/script.js?v=3.37.0" defer></script>
-  <script src="/bg-anim.js?v=3.33.0" defer></script>
-  <script src="/live-sync.js?v=3.33.0" defer></script>
-
   <style>
-    /* ── MODERN LIGHT PSD STUDIO WORKSPACE STYLING ── */
-    .mockup-app-section {
-      background: #f1f5f9;
-      padding: 10px 16px 12px;
-      min-height: calc(100vh - 81px);
+    /* ── RESET & BASE APP CONTAINER ── */
+    *, *::before, *::after {
       box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      font-family: 'Outfit', sans-serif;
-      color: #0f172a;
+      margin: 0;
+      padding: 0;
     }
-    .mockup-main-container {
+    html, body {
       width: 100%;
-      max-width: 1440px;
-      margin: 0 auto;
       height: 100%;
-    }
-
-    /* Master Card Container (Guaranteed Zero-Scroll on Desktop) */
-    .mockup-workspace-card {
-      background: #ffffff;
-      border-radius: 20px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
-      display: grid;
-      grid-template-columns: 370px minmax(0, 1fr);
-      grid-template-rows: minmax(0, 1fr);
-      gap: 18px;
-      padding: 14px 18px;
-      height: calc(100vh - 105px);
-      min-height: 520px;
-      max-height: 780px;
-      box-sizing: border-box;
       overflow: hidden;
+      font-family: 'Outfit', 'Inter', sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* LEFT: Sidebar Controls Column */
-    .sidebar-controls-col {
+    .studio-app-root {
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      height: 100%;
-      min-height: 0;
-      max-height: 100%;
-      gap: 10px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      box-sizing: border-box;
-      scrollbar-width: none;
-    }
-    .sidebar-controls-col::-webkit-scrollbar {
-      display: none;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #f1f5f9;
     }
 
-    .studio-step-section {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .step-header-row {
+    /* ── TOP HEADER / NAVBAR ── */
+    .studio-header {
+      height: 64px;
+      min-height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
+      padding: 0 24px;
+      z-index: 100;
     }
-    .step-header-left {
+    .studio-header-left {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 16px;
     }
-    .step-num-badge {
-      width: 20px;
-      height: 20px;
-      min-width: 20px;
-      border-radius: 50%;
-      background: #f97316;
-      color: #ffffff;
-      font-size: 0.72rem;
-      font-weight: 700;
+    .studio-brand-logo {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-family: 'Outfit', sans-serif;
-      box-shadow: 0 2px 5px rgba(249, 115, 22, 0.3);
+      gap: 10px;
+      text-decoration: none;
+      color: #0f172a;
     }
-    .step-text-wrap {
-      display: flex;
-      flex-direction: column;
+    .studio-brand-logo img {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
     }
-    .step-title {
-      font-size: 0.84rem;
+    .studio-header-divider {
+      width: 1px;
+      height: 24px;
+      background: #e2e8f0;
+    }
+    .studio-header-title {
+      font-size: 1.12rem;
       font-weight: 700;
       color: #0f172a;
-      line-height: 1.15;
+      letter-spacing: -0.01em;
     }
-    .step-subtitle {
-      font-size: 0.67rem;
+    .studio-header-tagline {
+      font-size: 0.85rem;
       color: #64748b;
-      line-height: 1.15;
-    }
-    .view-all-btn {
-      background: none;
-      border: none;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #0f172a;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 0;
-      transition: color 0.15s;
-      font-family: 'Outfit', sans-serif;
-    }
-    .view-all-btn:hover {
-      color: #f97316;
-    }
-    .step-reset-btn {
-      background: none;
-      border: none;
-      font-size: 0.70rem;
-      font-weight: 600;
-      color: #f97316;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      padding: 0;
-      font-family: 'Outfit', sans-serif;
-    }
-    .step-reset-btn:hover {
-      color: #ea580c;
+      font-weight: 400;
     }
 
-    /* STEP 1: Quick Mockup Presets Row (All 10 Mockups in 5x2 Grid) */
-    .quick-mockup-row {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 4px;
+    .studio-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    @media (max-width: 480px) {
-      .quick-mockup-row {
-        grid-template-columns: repeat(3, 1fr);
-      }
+    .hdr-btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
     }
-    .mockup-style-card {
+    .hdr-btn-ghost:hover {
       background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
+      border-color: #cbd5e1;
+      color: #0f172a;
+    }
+    .hdr-export-dropdown-wrap {
+      position: relative;
+    }
+    .hdr-btn-export-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ff5a1f;
+      border: none;
+      color: #ffffff;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 14px rgba(255, 90, 31, 0.28);
+      transition: all 0.15s ease;
+    }
+    .hdr-btn-export-primary:hover {
+      background: #ea4a10;
+      box-shadow: 0 6px 18px rgba(255, 90, 31, 0.35);
+      transform: translateY(-1px);
+    }
+    .hdr-export-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+      width: 230px;
+      padding: 6px;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 1000;
+    }
+    .hdr-export-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 9px 12px;
+      background: none;
+      border: none;
       border-radius: 8px;
-      padding: 3px 2px 2px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #1e293b;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+      transition: background 0.12s;
+    }
+    .hdr-export-item:hover {
+      background: #fff7ed;
+      color: #ff5a1f;
+    }
+
+    /* ── MAIN STUDIO WORKSPACE LAYOUT (4-COLUMN / ZERO-SCROLL) ── */
+    .studio-workspace-body {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+      padding: 12px 18px;
+      gap: 14px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    /* 1. Far-Left Navigation Rail */
+    .studio-nav-rail {
+      width: 72px;
+      min-width: 72px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-      text-align: center;
+      padding: 16px 6px;
+      gap: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
     }
-    .mockup-style-card:hover {
-      border-color: #cbd5e1;
+    .rail-btn {
+      width: 58px;
+      height: 56px;
+      background: transparent;
+      border: none;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: #64748b;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+    .rail-btn i {
+      font-size: 1.15rem;
+    }
+    .rail-btn span {
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+    .rail-btn:hover {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    .rail-btn.active {
+      background: #ff5a1f;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(255, 90, 31, 0.28);
+    }
+
+    /* 2. Left Drawer Panel (Templates Panel) */
+    .studio-drawer-panel {
+      width: 270px;
+      min-width: 270px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      padding: 18px 16px;
+      gap: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .drawer-header-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+    }
+    .drawer-search-box {
+      position: relative;
+      width: 100%;
+    }
+    .drawer-search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+    .drawer-search-input {
+      width: 100%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 9px 12px 9px 34px;
+      font-size: 0.82rem;
+      color: #0f172a;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .drawer-search-input:focus {
+      border-color: #ff5a1f;
+      background: #ffffff;
+    }
+    .drawer-cat-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .cat-pill-btn {
       background: #f1f5f9;
+      border: 1px solid transparent;
+      border-radius: 9999px;
+      padding: 5px 12px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.12s ease;
+    }
+    .cat-pill-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .cat-pill-btn.active {
+      background: #ff5a1f;
+      color: #ffffff;
+      border-color: #ff5a1f;
+      box-shadow: 0 2px 8px rgba(255, 90, 31, 0.25);
+    }
+    .drawer-templates-grid {
+      flex: 1;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding-right: 4px;
+      min-height: 0;
+      scrollbar-width: thin;
+    }
+    .template-card-btn {
+      position: relative;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-align: center;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+    .template-card-btn:hover {
+      background: #ffffff;
+      border-color: #cbd5e1;
       transform: translateY(-1px);
     }
-    .mockup-style-card.active {
-      border-color: #f97316;
+    .template-card-btn.active {
       background: #ffffff;
-      box-shadow: 0 0 0 1px #f97316, 0 2px 6px rgba(249, 115, 22, 0.15);
+      border: 2px solid #ff5a1f;
+      box-shadow: 0 4px 14px rgba(255, 90, 31, 0.15);
     }
-    .style-check-icon {
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      width: 13px;
-      height: 13px;
-      background: #f97316;
-      color: #fff;
-      border-radius: 50%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.44rem;
-      box-shadow: 0 1px 3px rgba(249, 115, 22, 0.4);
-    }
-    .mockup-style-card.active .style-check-icon {
-      display: flex;
-    }
-    .style-thumb-box {
+    .template-card-thumb-wrap {
       width: 100%;
-      height: 32px;
-      border-radius: 4px;
-      background: #edf2f7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 76px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 2px;
+      background: #eef2f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .style-thumb-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .template-card-thumb-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
-    .style-card-label {
-      font-size: 0.58rem;
+    .template-card-label {
+      font-size: 0.72rem;
       font-weight: 600;
       color: #334155;
       white-space: nowrap;
@@ -291,291 +408,572 @@
       text-overflow: ellipsis;
       max-width: 100%;
     }
-    .mockup-style-card.active .style-card-label {
-      color: #0f172a;
+    .template-card-btn.active .template-card-label {
+      color: #ff5a1f;
       font-weight: 700;
     }
-
-    /* STEP 2: Upload Dropzone & Multi-Slot Cards */
-    .upload-dropzone {
-      border: 1.5px dashed #cbd5e1;
-      border-radius: 12px;
-      background: #fcfdfd;
-      padding: 10px 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      gap: 2px;
-    }
-    .upload-dropzone:hover, .upload-dropzone.dragover {
-      border-color: #f97316;
-      background: #fff7ed;
-    }
-    .dropzone-cloud-icon {
-      color: #f97316;
-      font-size: 1.45rem;
-      margin-bottom: 2px;
-    }
-    .dropzone-title {
-      font-size: 0.76rem;
-      font-weight: 700;
-      color: #1e293b;
-    }
-    .dropzone-sub {
-      font-size: 0.65rem;
-      color: #94a3b8;
-    }
-
-    /* Compact Multi-Slot Switcher (Front / Back / Spine) */
-    .compact-slot-pills {
-      display: flex;
-      gap: 4px;
-      margin-top: 3px;
-    }
-    .slot-pill-btn {
-      flex: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      padding: 4px 6px;
-      border-radius: 6px;
-      border: 1px solid #e2e8f0;
-      background: #f8fafc;
-      color: #475569;
-      font-size: 0.66rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s;
-      font-family: 'Outfit', sans-serif;
-      min-width: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      flex-wrap: nowrap;
-    }
-    .slot-pill-btn span[id$="-btn-label"] {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 65px;
-      display: inline-block;
-    }
-    .slot-pill-btn i, .slot-pill-thumb, .slot-pill-crop-btn, .slot-pill-clear-btn {
-      flex-shrink: 0;
-    }
-    .slot-pill-btn:hover {
-      background: #f1f5f9;
-      color: #0f172a;
-    }
-    .slot-pill-btn.active {
-      background: #fff7ed;
-      border-color: #f97316;
-      color: #ea580c;
-      font-weight: 700;
-    }
-    .slot-pill-thumb {
-      width: 14px;
-      height: 14px;
-      border-radius: 2px;
-      object-fit: cover;
-      display: none;
-    }
-    .slot-pill-crop-btn {
-      background: rgba(249, 115, 22, 0.12);
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      padding: 1px 4px;
-      color: #ea580c;
-      font-size: 0.62rem;
-      display: none;
-    }
-    .slot-pill-clear-btn {
-      background: rgba(239, 68, 68, 0.12);
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      padding: 1px 4px;
-      color: #ef4444;
-      font-size: 0.62rem;
-      display: none;
-    }
-    .slot-pill-crop-btn:hover { background: #f97316; color: #fff; }
-    .slot-pill-clear-btn:hover { background: #ef4444; color: #fff; }
-
-    /* Spine Width Slider Row */
-    .spine-width-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 3px 8px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 7px;
-      margin-top: 2px;
-    }
-    .spine-width-label {
-      font-size: 0.65rem;
-      font-weight: 600;
-      color: #475569;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-    }
-    .spine-width-input {
-      flex: 1;
-      height: 3px;
-      background: #e2e8f0;
-      border-radius: 2px;
-      outline: none;
-      -webkit-appearance: none;
-      cursor: pointer;
-    }
-    .spine-width-input::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 11px;
-      height: 11px;
+    .template-card-check {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 17px;
+      height: 17px;
+      background: #ff5a1f;
+      color: #ffffff;
       border-radius: 50%;
-      background: #f97316;
-      cursor: pointer;
-    }
-    .spine-width-readout {
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: #f97316;
-      font-family: monospace;
-      white-space: nowrap;
-    }
-
-    /* STEP 3: Crop & Position 6-Button Row */
-    .crop-tools-row {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 5px;
-    }
-    .crop-fit-btn {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 9px;
-      padding: 7px 2px 5px;
-      display: flex;
-      flex-direction: column;
+      display: none;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      cursor: pointer;
-      transition: all 0.18s;
-      color: #475569;
-      font-family: 'Outfit', sans-serif;
+      font-size: 0.55rem;
+      box-shadow: 0 2px 6px rgba(255, 90, 31, 0.4);
     }
-    .crop-fit-btn:hover {
-      border-color: #cbd5e1;
-      background: #f1f5f9;
-      color: #0f172a;
-    }
-    .crop-fit-btn.active {
-      border: 1.5px solid #f97316;
-      background: #fff7ed;
-      color: #ea580c;
-      box-shadow: 0 2px 6px rgba(249, 115, 22, 0.12);
-    }
-    .crop-fit-icon {
-      font-size: 0.88rem;
-    }
-    .crop-fit-label {
-      font-size: 0.62rem;
-      font-weight: 600;
-      line-height: 1;
+    .template-card-btn.active .template-card-check {
+      display: flex;
     }
 
-    /* STEP 4: Background Style 6-Card Row */
-    .bg-style-row {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 5px;
-    }
-    .bg-choice-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 9px;
-      padding: 4px 2px 4px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      transition: all 0.18s;
-      font-family: 'Outfit', sans-serif;
-    }
-    .bg-choice-card:hover {
-      border-color: #cbd5e1;
-      background: #f1f5f9;
-    }
-    .bg-choice-card.active {
-      border: 2px solid #f97316;
-      background: #ffffff;
-      box-shadow: 0 2px 6px rgba(249, 115, 22, 0.15);
-    }
-    .bg-preview-swatch {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border-radius: 5px;
-      margin-bottom: 3px;
-      border: 1px solid rgba(0,0,0,0.06);
+    /* 3. Center Canvas Viewport */
+    .studio-canvas-viewport {
+      flex: 1;
+      min-width: 0;
+      background: #e2e8f0;
+      border-radius: 20px;
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.04);
     }
-    .bg-preview-swatch.swatch-studio {
-      background: radial-gradient(circle, #f1f5f9, #cfd8dc);
+    #psd-canvas-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      box-sizing: border-box;
+      overflow: hidden;
     }
-    .bg-preview-swatch.swatch-studio i {
-      font-size: 0.75rem;
-      color: #475569;
+    #psd-canvas {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22));
+      border-radius: 4px;
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .bg-preview-swatch.swatch-trans {
-      background-image: 
-        linear-gradient(45deg, #cbd5e1 25%, transparent 25%), 
-        linear-gradient(-45deg, #cbd5e1 25%, transparent 25%), 
-        linear-gradient(45deg, transparent 75%, #cbd5e1 75%), 
-        linear-gradient(-45deg, transparent 75%, #cbd5e1 75%);
-      background-size: 8px 8px;
-      background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
-      background-color: #ffffff;
-    }
-    .bg-preview-swatch.swatch-white {
+
+    /* Floating Pill Toolbar */
+    .floating-canvas-bar {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 9999px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 20;
     }
-    .bg-preview-swatch.swatch-light {
-      background: linear-gradient(135deg, #ffffff, #e2e8f0);
+    .float-ctrl-btn {
+      background: none;
+      border: none;
+      color: #334155;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 6px;
+      border-radius: 6px;
+      font-family: inherit;
+      transition: all 0.12s;
     }
-    .bg-preview-swatch.swatch-dark {
-      background: #1e293b;
+    .float-ctrl-btn:hover {
+      color: #ff5a1f;
+      background: #fff7ed;
     }
-    .bg-preview-swatch.swatch-custom {
+    .float-zoom-readout {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #0f172a;
+      min-width: 44px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .float-bar-divider {
+      width: 1px;
+      height: 18px;
+      background: #e2e8f0;
+    }
+    .float-tool-link {
+      background: none;
+      border: none;
+      color: #334155;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: inherit;
+      transition: all 0.12s;
+    }
+    .float-tool-link:hover {
+      color: #ff5a1f;
+      background: #fff7ed;
+    }
+
+    /* 4. Right Inspector Panel */
+    .studio-inspector-panel {
+      width: 290px;
+      min-width: 290px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      padding: 18px;
+      gap: 18px;
+      overflow-y: auto;
+      min-height: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      scrollbar-width: thin;
+    }
+    .inspector-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .inspector-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+    }
+    .inspector-row-between {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Cover Upload Dropzone */
+    .cover-dropzone-box {
+      border: 1.5px dashed #cbd5e1;
       background: #f8fafc;
-      color: #64748b;
-      font-size: 0.75rem;
+      border-radius: 14px;
+      padding: 18px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
     }
-    .bg-choice-label {
-      font-size: 0.61rem;
+    .cover-dropzone-box:hover, .cover-dropzone-box.dragover {
+      background: #fff7ed;
+      border-color: #ff5a1f;
+    }
+    .upload-squircle-icon {
+      width: 36px;
+      height: 36px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff5a1f;
+      font-size: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .upload-box-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .upload-box-sub {
+      font-size: 0.68rem;
+      color: #64748b;
+    }
+
+    /* Slot switcher tabs (for dual/triple slots) */
+    .slot-tabs-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .slot-tab-btn {
+      flex: 1;
+      padding: 6px 4px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.7rem;
       font-weight: 600;
       color: #475569;
-      line-height: 1;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+      transition: all 0.12s;
     }
-    .bg-choice-card.active .bg-choice-label {
-      color: #0f172a;
+    .slot-tab-btn.active {
+      background: #ffefe8;
+      border-color: #ff5a1f;
+      color: #ff5a1f;
       font-weight: 700;
     }
 
-    /* ── REDESIGNED LIGHT 3-COLUMN SMART CROP MODAL ── */
+    /* Uploaded File Item Card */
+    .uploaded-file-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .file-card-thumb {
+      width: 38px;
+      height: 48px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #e2e8f0;
+      border: 1px solid #cbd5e1;
+      flex-shrink: 0;
+    }
+    .file-card-meta {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .file-card-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .file-card-size {
+      font-size: 0.68rem;
+      color: #64748b;
+    }
+    .file-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .file-card-check {
+      color: #10b981;
+      font-size: 0.95rem;
+    }
+    .file-card-trash {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 0.88rem;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.12s;
+    }
+    .file-card-trash:hover {
+      color: #ef4444;
+    }
+
+    /* Background Swatches */
+    .bg-swatches-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .bg-swatch-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 6px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+    .bg-swatch-card:hover {
+      border-color: #cbd5e1;
+    }
+    .bg-swatch-card.active {
+      border: 2px solid #ff5a1f;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(255, 90, 31, 0.18);
+    }
+    .bg-swatch-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .swatch-studio {
+      background: radial-gradient(circle at center, #ffffff 0%, #dedede 100%);
+    }
+    .swatch-white {
+      background: #ffffff;
+    }
+    .swatch-light {
+      background: linear-gradient(135deg, #ffffff, #e2e8f0);
+    }
+    .swatch-dark {
+      background: #1e293b;
+    }
+    .bg-swatch-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #475569;
+    }
+    .bg-swatch-card.active .bg-swatch-label {
+      color: #ff5a1f;
+      font-weight: 700;
+    }
+
+    /* Custom Color Button */
+    .bg-custom-btn {
+      width: 100%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .bg-custom-btn:hover {
+      background: #ffffff;
+      border-color: #cbd5e1;
+    }
+    .rainbow-wheel-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+      border: 1px solid rgba(0,0,0,0.1);
+      display: inline-block;
+    }
+
+    /* Shadows Toggle & Slider */
+    .switch-toggle {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 22px;
+    }
+    .switch-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1;
+      transition: .2s;
+      border-radius: 22px;
+    }
+    .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+    .switch-toggle input:checked + .switch-slider {
+      background-color: #ff5a1f;
+    }
+    .switch-toggle input:checked + .switch-slider:before {
+      transform: translateX(16px);
+    }
+    .shadow-slider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .orange-range-input {
+      flex: 1;
+      accent-color: #ff5a1f;
+      height: 6px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .slider-readout {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #64748b;
+      min-width: 38px;
+      text-align: right;
+    }
+
+    /* Book Angle Cards */
+    .angle-cards-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .angle-card-btn {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .angle-card-btn:hover {
+      border-color: #cbd5e1;
+      background: #ffffff;
+    }
+    .angle-card-btn.active {
+      border: 2px solid #ff5a1f;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(255, 90, 31, 0.18);
+    }
+    .angle-card-btn img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    /* Primary Download Button */
+    .btn-download-full {
+      width: 100%;
+      background: #ff5a1f;
+      border: none;
+      border-radius: 12px;
+      padding: 13px 18px;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      font-family: inherit;
+      box-shadow: 0 6px 20px rgba(255, 90, 31, 0.32);
+      transition: all 0.15s ease;
+      margin-top: auto;
+    }
+    .btn-download-full:hover {
+      background: #ea4a10;
+      box-shadow: 0 8px 25px rgba(255, 90, 31, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* ── BOTTOM APP FOOTER ── */
+    .studio-footer {
+      height: 38px;
+      min-height: 38px;
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      font-size: 0.78rem;
+      color: #64748b;
+    }
+
+    /* ── HELP MODAL ── */
+    .help-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .help-modal-dialog {
+      background: #ffffff;
+      border-radius: 20px;
+      max-width: 540px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+    }
+    .help-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .help-modal-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .help-step-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .help-step-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #ffefe8;
+      color: #ff5a1f;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .help-step-text h4 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+    .help-step-text p {
+      font-size: 0.8rem;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    /* ── PRESERVED CROP MODAL STYLES ── */
     .crop-modal-backdrop {
       position: fixed;
       inset: 0;
@@ -598,94 +996,84 @@
       background: #ffffff;
       border-radius: 20px;
       border: 1px solid #e2e8f0;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
       width: 100%;
-      max-width: 1080px;
-      height: 86vh;
-      max-height: 720px;
-      min-height: 520px;
+      max-width: 1100px;
+      height: 88vh;
+      max-height: 740px;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.22);
       overflow: hidden;
       font-family: 'Outfit', sans-serif;
-      color: #0f172a;
     }
     .crop-modal-header {
-      padding: 12px 20px;
-      border-bottom: 1px solid #f1f5f9;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      flex-shrink: 0;
+      padding: 12px 20px;
+      border-bottom: 1px solid #e2e8f0;
       background: #ffffff;
+      flex-shrink: 0;
     }
     .crop-header-left {
       display: flex;
       align-items: center;
       gap: 12px;
-      min-width: 0;
     }
     .crop-header-brand-wrap {
+      width: 36px;
+      height: 36px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-right: 12px;
-      border-right: 1px solid #e2e8f0;
-      flex-shrink: 0;
     }
     .crop-header-logo-img {
-      height: 28px;
+      height: 20px;
       width: auto;
       object-fit: contain;
     }
     .crop-header-text {
       display: flex;
       flex-direction: column;
-      gap: 2px;
-      min-width: 0;
     }
     .crop-modal-title {
-      margin: 0;
       font-size: 0.98rem;
       font-weight: 700;
       color: #0f172a;
+      margin: 0;
       line-height: 1.2;
     }
     .crop-modal-subtitle {
-      margin: 0;
       font-size: 0.72rem;
       color: #64748b;
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      margin: 2px 0 0;
     }
     .crop-header-right {
       display: flex;
       align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
+      gap: 12px;
     }
     .crop-target-badge {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 5px 12px;
-      font-size: 0.74rem;
-      font-weight: 600;
-      color: #334155;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 6px;
-      font-family: 'Outfit', sans-serif;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #334155;
     }
     .crop-modal-close-btn {
-      background: #f1f5f9;
-      border: none;
-      border-radius: 8px;
       width: 32px;
       height: 32px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -697,8 +1085,6 @@
       background: #fee2e2;
       color: #ef4444;
     }
-
-    /* 3-Column Body Grid */
     .crop-modal-body-grid {
       display: grid;
       grid-template-columns: 220px minmax(0, 1fr) 220px;
@@ -717,8 +1103,6 @@
       margin-bottom: 8px;
       display: block;
     }
-
-    /* Left Column: Presets */
     .crop-col-presets {
       display: flex;
       flex-direction: column;
@@ -748,34 +1132,33 @@
       cursor: pointer;
       text-align: left;
       transition: all 0.15s;
-      font-family: 'Outfit', sans-serif;
-      width: 100%;
-      box-sizing: border-box;
     }
     .crop-preset-card:hover {
-      background: #f1f5f9;
+      background: #ffffff;
       border-color: #cbd5e1;
     }
     .crop-preset-card.active {
       background: #fff7ed;
-      border: 1.5px solid #f97316;
-      box-shadow: 0 0 0 1px #f97316;
+      border-color: #f97316;
+      box-shadow: 0 1px 3px rgba(249, 115, 22, 0.12);
     }
     .preset-card-icon-wrap {
-      width: 26px;
-      height: 26px;
-      border-radius: 6px;
-      background: #edf2f7;
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 0.76rem;
       color: #64748b;
-      font-size: 0.78rem;
       flex-shrink: 0;
     }
     .preset-card-icon-wrap.orange, .crop-preset-card.active .preset-card-icon-wrap {
-      background: rgba(249, 115, 22, 0.15);
-      color: #ea580c;
+      background: #f97316;
+      color: #ffffff;
+      border-color: #f97316;
     }
     .preset-card-info {
       display: flex;
@@ -785,36 +1168,33 @@
     .preset-card-name {
       font-size: 0.72rem;
       font-weight: 700;
-      color: #1e293b;
-      line-height: 1.2;
-    }
-    .preset-card-desc {
-      font-size: 0.62rem;
-      color: #64748b;
-      line-height: 1.2;
+      color: #0f172a;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
-    /* Original Image Box */
+    .preset-card-desc {
+      font-size: 0.62rem;
+      color: #64748b;
+    }
     .crop-orig-image-card {
-      border-top: 1px solid #f1f5f9;
-      padding-top: 8px;
-      margin-top: 6px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 8px;
       display: flex;
-      align-items: center;
       gap: 8px;
+      align-items: center;
+      margin-top: 8px;
       flex-shrink: 0;
-      background: #ffffff;
     }
     .crop-orig-thumb {
-      width: 36px;
-      height: 46px;
-      border-radius: 5px;
-      border: 1px solid #e2e8f0;
+      width: 44px;
+      height: 56px;
       object-fit: cover;
-      background: #f1f5f9;
+      border-radius: 6px;
+      background: #e2e8f0;
+      border: 1px solid #cbd5e1;
       flex-shrink: 0;
     }
     .crop-orig-meta {
@@ -822,9 +1202,10 @@
       flex-direction: column;
       gap: 2px;
       min-width: 0;
+      flex: 1;
     }
     .crop-orig-title {
-      font-size: 0.70rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: #0f172a;
     }
@@ -834,54 +1215,52 @@
       font-family: monospace;
     }
     .crop-replace-btn {
-      background: #f1f5f9;
+      margin-top: 4px;
+      background: #ffffff;
       border: 1px solid #e2e8f0;
-      border-radius: 5px;
-      padding: 2px 7px;
-      font-size: 0.64rem;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 0.65rem;
       font-weight: 600;
       color: #334155;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      margin-top: 2px;
-      font-family: 'Outfit', sans-serif;
+      align-self: flex-start;
       transition: all 0.15s;
     }
     .crop-replace-btn:hover {
-      background: #e2e8f0;
-      color: #0f172a;
+      background: #f1f5f9;
+      color: #f97316;
     }
-
-    /* Middle Column: Viewport */
     .crop-col-viewport {
-      position: relative;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      overflow: hidden;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100%;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      padding: 12px;
+      box-sizing: border-box;
       min-height: 0;
     }
     .crop-viewport-badge {
       position: absolute;
       top: 10px;
-      right: 10px;
-      z-index: 10;
-      background: rgba(255, 255, 255, 0.88);
+      left: 10px;
+      background: rgba(15, 23, 42, 0.75);
       backdrop-filter: blur(4px);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 6px;
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 600;
       padding: 3px 8px;
-      font-size: 0.70rem;
-      font-weight: 700;
-      color: #475569;
-      font-family: monospace;
-      pointer-events: none;
+      border-radius: 6px;
+      z-index: 10;
+      letter-spacing: 0.02em;
     }
     .crop-canvas-wrapper {
       width: 100%;
@@ -896,21 +1275,20 @@
       max-height: 100%;
       display: block;
     }
-
-    /* Right Column: Controls */
     .crop-col-controls {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      overflow-y: auto;
+      height: 100%;
       min-height: 0;
-      padding-left: 2px;
+      overflow-y: auto;
+      padding-right: 4px;
       scrollbar-width: thin;
     }
     .crop-ctrl-item {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 4px;
     }
     .crop-ctrl-header {
       display: flex;
@@ -920,32 +1298,24 @@
     .crop-ctrl-label {
       font-size: 0.72rem;
       font-weight: 600;
-      color: #475569;
-      display: inline-flex;
+      color: #334155;
+      display: flex;
       align-items: center;
       gap: 5px;
     }
     .crop-ctrl-readout {
-      font-size: 0.70rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      color: #f97316;
+      color: #64748b;
       font-family: monospace;
     }
     .crop-range-slider {
       width: 100%;
       height: 4px;
-      background: #e2e8f0;
       border-radius: 2px;
+      background: #e2e8f0;
       outline: none;
-      -webkit-appearance: none;
-      cursor: pointer;
-    }
-    .crop-range-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #f97316;
+      accent-color: #f97316;
       cursor: pointer;
     }
     .crop-ctrl-2col-row {
@@ -956,22 +1326,22 @@
     .crop-action-pill-btn {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
-      border-radius: 7px;
-      padding: 5px 4px;
-      font-size: 0.66rem;
+      border-radius: 8px;
+      padding: 6px 4px;
+      font-size: 0.68rem;
       font-weight: 600;
       color: #334155;
       cursor: pointer;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      font-family: 'Outfit', sans-serif;
+      gap: 5px;
       transition: all 0.15s;
     }
     .crop-action-pill-btn:hover {
-      background: #f1f5f9;
+      background: #ffffff;
       border-color: #cbd5e1;
+      color: #0f172a;
     }
     .crop-dpad-container {
       display: flex;
@@ -986,38 +1356,38 @@
       gap: 3px;
     }
     .crop-dpad-btn {
-      width: 30px;
-      height: 26px;
-      border-radius: 5px;
-      border: 1px solid #e2e8f0;
+      width: 28px;
+      height: 28px;
       background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: #475569;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .crop-dpad-btn:hover {
+      background: #ffffff;
+      border-color: #f97316;
+      color: #f97316;
+    }
+    .crop-full-reset-btn {
+      margin-top: auto;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #64748b;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.68rem;
-      transition: all 0.15s;
-    }
-    .crop-dpad-btn:hover {
-      background: #e2e8f0;
-      color: #0f172a;
-    }
-    .crop-full-reset-btn {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 7px 12px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #475569;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       gap: 5px;
-      font-family: 'Outfit', sans-serif;
-      margin-top: 4px;
       transition: all 0.15s;
     }
     .crop-full-reset-btn:hover {
@@ -1025,29 +1395,26 @@
       border-color: #fca5a5;
       color: #ef4444;
     }
-
-    /* Modal Bottombar */
     .crop-modal-bottombar {
-      padding: 10px 20px;
-      border-top: 1px solid #f1f5f9;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       gap: 10px;
-      flex-shrink: 0;
+      padding: 10px 20px;
+      border-top: 1px solid #e2e8f0;
       background: #ffffff;
+      flex-shrink: 0;
     }
     .crop-btn-cancel-light {
-      background: #f8fafc;
+      background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 9px;
-      padding: 8px 18px;
-      font-size: 0.82rem;
+      padding: 7px 16px;
+      font-size: 0.8rem;
       font-weight: 600;
       color: #475569;
       cursor: pointer;
       transition: all 0.15s;
-      font-family: 'Outfit', sans-serif;
     }
     .crop-btn-cancel-light:hover {
       background: #f1f5f9;
@@ -1057,899 +1424,441 @@
       background: #f97316;
       border: none;
       border-radius: 9px;
-      padding: 8px 22px;
-      font-size: 0.84rem;
+      padding: 7px 20px;
+      font-size: 0.82rem;
       font-weight: 700;
       color: #ffffff;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 3px 10px rgba(249, 115, 22, 0.28);
-      transition: all 0.18s;
-      font-family: 'Outfit', sans-serif;
+      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.25);
+      transition: all 0.15s;
     }
     .crop-btn-apply-primary:hover {
       background: #ea580c;
-      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.38);
-    }
-
-    /* Cropper.js Custom Orange Theme (matching reference circular handles) */
-    .cropper-view-box {
-      outline: 2px solid #f97316 !important;
-      outline-color: #f97316 !important;
-    }
-    .cropper-line {
-      background-color: #f97316 !important;
-    }
-    .cropper-point {
-      background-color: #f97316 !important;
-      width: 10px !important;
-      height: 10px !important;
-      border-radius: 50% !important;
-      border: 1.5px solid #ffffff !important;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.35) !important;
-      opacity: 1 !important;
-    }
-    .cropper-modal {
-      background-color: rgba(15, 23, 42, 0.55) !important;
-    }
-    .cropper-dashed {
-      border-color: rgba(255, 255, 255, 0.6) !important;
-    }
-
-    /* Auto-detect badge */
-    .autodetect-badge {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      padding: 4px 8px;
-      border-radius: 6px;
-      margin-top: 6px;
-      font-size: 0.68rem;
-      color: #86efac;
-    }
-    .autodetect-badge.single-detected {
-      background: rgba(56, 189, 248, 0.12);
-      border-color: rgba(56, 189, 248, 0.3);
-      color: #7dd3fc;
-    }
-    .autodetect-badge.wrap-detected {
-      background: rgba(234, 179, 8, 0.15);
-      border-color: rgba(234, 179, 8, 0.4);
-      color: #fde047;
-    }
-
-    /* Color picker compact inline */
-    .spine-color-row {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin: 0 0 0 6px;
-      padding: 0;
-      background: none;
-      border: none;
-    }
-    .spine-color-picker {
-      width: 18px;
-      height: 18px;
-      border-radius: 4px;
-      border: 1px solid #cbd5e1;
-      cursor: pointer;
-      background: none;
-      padding: 0;
-    }
-    .spine-color-hex {
-      font-size: 0.65rem;
-      color: #64748b;
-      font-family: monospace;
-    }
-
-    /* RIGHT: Preview Viewport Column */
-    .preview-viewport-col {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      min-height: 0;
-      max-height: 100%;
-      gap: 10px;
-      min-width: 0;
-      box-sizing: border-box;
-      overflow: hidden;
-    }
-
-    /* Viewport Topbar */
-    .preview-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 4px;
-      flex-shrink: 0;
-    }
-    .preview-topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .preview-label-bold {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.01em;
-    }
-    .preview-specs-pill {
-      font-size: 0.74rem;
-      color: #64748b;
-      font-weight: 500;
-      background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      padding: 2px 8px;
-      border-radius: 12px;
-    }
-    .preview-topbar-tools {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .viewport-tool-link {
-      background: none;
-      border: none;
-      font-size: 0.76rem;
-      font-weight: 600;
-      color: #475569;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 0;
-      transition: color 0.15s;
-      font-family: 'Outfit', sans-serif;
-    }
-    .viewport-tool-link:hover {
-      color: #f97316;
-    }
-
-    /* Master Canvas Container (Centerpiece) */
-    #psd-canvas-container {
-      flex: 1 1 0;
-      min-height: 0;
-      height: 0;
-      background: #eaedf1;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      padding: 14px;
-      box-sizing: border-box;
-    }
-    #psd-canvas {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.16));
-      border-radius: 6px;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* Viewport Bottombar */
-    .preview-bottombar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 4px;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-    .bottom-meta-wrap {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-    .bottom-mockup-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #0f172a;
-      margin: 0;
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .bottom-mockup-sub {
-      font-size: 0.72rem;
-      color: #64748b;
-      margin: 2px 0 0;
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* Download Primary CTA with Dropdown */
-    .download-action-group {
-      display: flex;
-      align-items: center;
-      position: relative;
-      flex-shrink: 0;
-    }
-    .download-primary-btn {
-      background: #f97316;
-      color: #ffffff;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: 0.86rem;
-      padding: 9px 18px;
-      border: none;
-      border-radius: 10px 0 0 10px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      box-shadow: 0 3px 12px rgba(249, 115, 22, 0.28);
-      transition: all 0.18s;
-    }
-    .download-primary-btn:hover {
-      background: #ea580c;
-      box-shadow: 0 5px 16px rgba(249, 115, 22, 0.38);
-    }
-    .download-caret-btn {
-      background: #f97316;
-      color: #ffffff;
-      border: none;
-      border-left: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 0 10px 10px 0;
-      padding: 9px 10px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      box-shadow: 0 3px 12px rgba(249, 115, 22, 0.28);
-      transition: background 0.18s;
-    }
-    .download-caret-btn:hover {
-      background: #ea580c;
-    }
-    .download-format-menu {
-      position: absolute;
-      bottom: calc(100% + 6px);
-      right: 0;
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-      padding: 6px;
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      min-width: 175px;
-      z-index: 100;
-    }
-    .download-format-menu.show {
-      display: flex;
-    }
-    .format-menu-item {
-      padding: 7px 10px;
-      border-radius: 6px;
-      border: none;
-      background: none;
-      color: #334155;
-      font-size: 0.74rem;
-      font-weight: 600;
-      text-align: left;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: 'Outfit', sans-serif;
-      transition: all 0.15s;
-    }
-    .format-menu-item:hover, .format-menu-item.active {
-      background: #fff7ed;
-      color: #ea580c;
-    }
-
-    /* All 8 Mockups Modal */
-    .all-mockups-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(8px);
-      z-index: 99998;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      animation: modalFadeIn 0.2s ease-out;
-    }
-    @keyframes modalFadeIn {
-      from { opacity: 0; transform: scale(0.98); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    .all-mockups-dialog {
-      background: #ffffff;
-      border-radius: 20px;
-      max-width: 820px;
-      width: 100%;
-      max-height: 88vh;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      font-family: 'Outfit', sans-serif;
-    }
-    .all-mockups-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .all-mockups-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #0f172a;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .all-mockups-close {
-      background: none;
-      border: none;
-      font-size: 1.1rem;
-      color: #64748b;
-      cursor: pointer;
-      padding: 4px;
-    }
-    .all-mockups-close:hover {
-      color: #0f172a;
-    }
-    .all-mockups-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      padding: 18px 20px;
-      overflow-y: auto;
-    }
-    .modal-mockup-card {
-      background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 8px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-    }
-    .modal-mockup-card:hover {
-      border-color: #f97316;
-      background: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.12);
-    }
-    .modal-mockup-card.active {
-      border-color: #f97316;
-      box-shadow: 0 0 0 1px #f97316;
-      background: #fff;
-    }
-    .modal-card-thumb {
-      width: 100%;
-      aspect-ratio: 1/1;
-      border-radius: 8px;
-      object-fit: cover;
-    }
-    .modal-card-title {
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: #0f172a;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
-    }
-    .modal-card-tag {
-      font-size: 0.62rem;
-      color: #64748b;
-    }
-
-    @media (max-width: 1024px) {
-      .mockup-workspace-card {
-        grid-template-columns: 1fr;
-        height: auto;
-        max-height: none;
-      }
-      .sidebar-controls-col {
-        overflow: visible;
-      }
-      #psd-canvas-container {
-        min-height: 400px;
-      }
-      .all-mockups-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
     }
   </style>
 </head>
 <body>
 
-<!-- GLOBAL LOADING SCREEN -->
-<div id="global-loader" class="global-loader">
-  <div class="loader-spinner"></div>
-  <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Logo" class="loader-logo">
-</div>
+<div class="studio-app-root">
 
-<!-- NAVBAR -->
-<nav class="navbar scrolled">
-<div class="container">
-<a href="/" class="logo" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Loufy Publisher" class="logo-img"></a>
-<ul class="nav-links">
-<li><a href="/">Home</a></li>
-<li><a href="/services">Services</a></li>
-<li><a href="/blogs">Blog</a></li>
-<li><a href="/tools" class="active">Mockup Studio <span style="background:var(--accent);color:#0b1f17;font-size:0.65rem;font-weight:800;padding:2px 6px;border-radius:20px;vertical-align:middle;margin-left:3px;text-transform:uppercase;">PSD</span></a></li>
-<li><a href="/about">About</a></li>
-<li><a href="/testimonials">Testimonials</a></li>
-<li><a href="/pricing">Pricing</a></li>
-<li><a href="/contact">Contact</a></li>
-</ul>
-<div class="nav-actions">
-<a href="/portfolio" class="btn btn-accent btn-jitter nav-portfolio-btn" style="padding:10px 24px;font-size:.85rem;color:var(--dark);font-weight:700" data-admin-text="true">Portfolio</a>
-<a href="/contact" class="btn btn-primary" style="padding:10px 24px;font-size:.85rem" data-admin-text="true">Hire Me</a>
-</div>
-<button class="hamburger"><span></span><span></span><span></span></button>
-</div>
-</nav>
+  <!-- TOP APP HEADER -->
+  <header class="studio-header">
+    <div class="studio-header-left">
+      <a href="/" class="studio-brand-logo">
+        <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Loufy Publisher">
+      </a>
+      <span class="studio-header-divider"></span>
+      <span class="studio-header-title">Mockup Studio</span>
+      <span class="studio-header-divider"></span>
+      <span class="studio-header-tagline">Create stunning book mockups in seconds</span>
+    </div>
 
-<!-- PSD STUDIO MOCKUP APP SECTION -->
-<section class="mockup-app-section" id="mockup-tool">
-  <div class="mockup-main-container">
-    
-    <!-- Master Workspace Card -->
-    <div class="mockup-workspace-card">
+    <div class="studio-header-right">
+      <button type="button" class="hdr-btn-ghost" id="btn-hdr-help">
+        <i class="fa-regular fa-circle-question"></i> Help
+      </button>
+      <button type="button" class="hdr-btn-ghost" id="btn-hdr-reset">
+        <i class="fa-solid fa-rotate-right"></i> Reset
+      </button>
+      <div class="hdr-export-dropdown-wrap">
+        <button type="button" class="hdr-btn-export-primary" id="btn-hdr-export">
+          <i class="fa-solid fa-cloud-arrow-down"></i> Export Mockup <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;margin-left:3px;"></i>
+        </button>
+        <div class="hdr-export-menu" id="hdr-export-menu">
+          <button type="button" class="hdr-export-item" data-format="png">
+            <span>High-Res PNG (Transparent)</span><i class="fa-regular fa-file-image"></i>
+          </button>
+          <button type="button" class="hdr-export-item" data-format="jpeg">
+            <span>Studio JPEG (With BG)</span><i class="fa-regular fa-image"></i>
+          </button>
+          <button type="button" class="hdr-export-item" data-format="4k">
+            <span>4K Ultra-HD Export</span><i class="fa-solid fa-crown" style="color:#f97316;"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP WORKSPACE (4 COLUMNS) -->
+  <main class="studio-workspace-body">
+
+    <!-- 1. LEFT NAVIGATION RAIL -->
+    <nav class="studio-nav-rail">
+      <button type="button" class="rail-btn active" data-rail-tab="templates" title="Templates">
+        <i class="fa-solid fa-table-cells-large"></i>
+        <span>Templates</span>
+      </button>
+      <button type="button" class="rail-btn" data-rail-tab="upload" title="Upload">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <span>Upload</span>
+      </button>
+      <button type="button" class="rail-btn" data-rail-tab="background" title="Background">
+        <i class="fa-solid fa-paintbrush"></i>
+        <span>Background</span>
+      </button>
+      <button type="button" class="rail-btn" data-rail-tab="adjust" title="Adjust">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Adjust</span>
+      </button>
+      <button type="button" class="rail-btn" data-rail-tab="elements" title="Elements">
+        <i class="fa-solid fa-cube"></i>
+        <span>Elements</span>
+      </button>
+    </nav>
+
+    <!-- 2. LEFT DRAWER PANEL (TEMPLATES) -->
+    <aside class="studio-drawer-panel">
+      <div class="drawer-header-title">Templates</div>
       
-      <!-- LEFT: Controls Column (4 Numbered Steps) -->
-      <div class="sidebar-controls-col">
-        
-        <!-- STEP 1: Choose Mockup -->
-        <div class="studio-step-section">
-          <div class="step-header-row">
-            <div class="step-header-left">
-              <span class="step-num-badge">1</span>
-              <div class="step-text-wrap">
-                <span class="step-title">Choose Mockup</span>
-                <span class="step-subtitle">Select a style for your book cover.</span>
-              </div>
-            </div>
-            <span class="step-badge" style="font-size: 0.65rem; font-weight: 600; color: #f97316; background: rgba(249,115,22,0.1); padding: 2px 8px; border-radius: 9999px; border: 1px solid rgba(249,115,22,0.2);">10 Templates</span>
-          </div>
-
-          <!-- All 10 Authentic Mockups in 5x2 Grid -->
-          <div class="quick-mockup-row" id="quick-preset-row">
-            <!-- 1. Top View -->
-            <button type="button" class="mockup-style-card active" data-preset="book_mockup_1" title="Original PSD Top-Down">
-              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="style-thumb-box">
-                <img src="/images/psd_mockup_2/sample_cover.png" alt="Top View">
-              </div>
-              <span class="style-card-label">Top View</span>
-            </button>
-
-            <!-- 2. Standing -->
-            <button type="button" class="mockup-style-card" data-preset="hardcover_standing" title="Hardcover 3D Standing">
-              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" alt="Standing">
-              </div>
-              <span class="style-card-label">Standing</span>
-            </button>
-
-            <!-- 3. Paperback Duo -->
-            <button type="button" class="mockup-style-card" data-preset="paperback_duo" title="Paperback Front & Back Duo">
-              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" alt="Paperback Duo">
-              </div>
-              <span class="style-card-label">Paperback Duo</span>
-            </button>
-
-            <!-- 4. Dual Showcase -->
-            <button type="button" class="mockup-style-card" data-preset="front_back_showcase" title="Dual Standing Showcase">
-              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" alt="Dual Showcase">
-              </div>
-              <span class="style-card-label">Dual Showcase</span>
-            </button>
-
-            <!-- 5. Square Flatlay -->
-            <button type="button" class="mockup-style-card" data-preset="square_flatlay" title="Square 8.5x8.5 Flatlay">
-              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" alt="Square Flatlay">
-              </div>
-              <span class="style-card-label">Square Flatlay</span>
-            </button>
-
-            <!-- 6. Stacked -->
-            <button type="button" class="mockup-style-card" data-preset="square_stack" title="Square 3-Book Stack">
-              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/square_stack.jpg" alt="3-Book Stack">
-              </div>
-              <span class="style-card-label">3-Book Stack</span>
-            </button>
-
-            <!-- 7. 4-Book Studio -->
-            <button type="button" class="mockup-style-card" data-preset="studio_collector" title="4-Book Studio Suite">
-              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/spine_full_showcase.jpg" alt="4-Book Studio">
-              </div>
-              <span class="style-card-label">4-Book Studio</span>
-            </button>
-
-            <!-- 8. Open Jacket -->
-            <button type="button" class="mockup-style-card" data-preset="open_spread" title="Open Spread Flatlay">
-              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Jacket">
-              </div>
-              <span class="style-card-label">Jacket</span>
-            </button>
-
-            <!-- 9. Open Book Spread -->
-            <button type="button" class="mockup-style-card" data-preset="open_book" title="Open Book Spread Flatlay">
-              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/open_book.jpg" alt="Open Book">
-              </div>
-              <span class="style-card-label">Open Book</span>
-            </button>
-
-            <!-- 10. Square Open Book Spread -->
-            <button type="button" class="mockup-style-card" data-preset="square_open_book" title="Square Open Book Flatlay">
-              <div class="style-check-icon"><i class="fa-solid fa-check"></i></div>
-              <div class="style-thumb-box">
-                <img src="/images/psd_mockups/thumbnails/square_open_book.jpg" alt="Square Open Book">
-              </div>
-              <span class="style-card-label">Square Open</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- STEP 2: Upload Your Cover -->
-        <div class="studio-step-section">
-          <div class="step-header-row">
-            <div class="step-header-left">
-              <span class="step-num-badge">2</span>
-              <div class="step-text-wrap">
-                <span class="step-title">Upload Your Cover</span>
-                <span class="step-subtitle">Add your book cover design (PNG, JPG, or PSD).</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Minimalist Dashed Dropzone -->
-          <div class="upload-dropzone" id="cover-dropzone">
-            <i class="fa-solid fa-cloud-arrow-up dropzone-cloud-icon"></i>
-            <span class="dropzone-title">Drag &amp; drop your cover here</span>
-            <span class="dropzone-sub">or click to browse</span>
-          </div>
-
-          <!-- Hidden Native File Inputs -->
-          <input type="file" id="front-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
-          <input type="file" id="back-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
-          <input type="file" id="spine-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
-
-          <!-- Modular Slot Switcher Pills (Front / Back / Spine) -->
-          <div class="compact-slot-pills" id="compact-slot-pills">
-            <!-- Front Pill -->
-            <button type="button" class="slot-pill-btn active" id="slot-card-front" data-slot="front">
-              <i class="fa-solid fa-book-open" style="color: #f97316;"></i>
-              <img id="front-thumb-preview" class="slot-pill-thumb" alt="Front Preview">
-              <span id="front-btn-label">Front Cover</span>
-              <span id="crop-front-btn" class="slot-pill-crop-btn" title="Crop &amp; Adjust"><i class="fa-solid fa-crop-simple"></i></span>
-              <span id="clear-front-btn" class="slot-pill-clear-btn" title="Reset Front"><i class="fa-solid fa-xmark"></i></span>
-            </button>
-
-            <!-- Back Pill (Shown only when preset has back cover) -->
-            <button type="button" class="slot-pill-btn" id="slot-card-back" data-slot="back" style="display: none;">
-              <i class="fa-solid fa-book" style="color: #3b82f6;"></i>
-              <img id="back-thumb-preview" class="slot-pill-thumb" alt="Back Preview">
-              <span id="back-btn-label">Back Cover</span>
-              <span id="crop-back-btn" class="slot-pill-crop-btn" title="Crop &amp; Adjust"><i class="fa-solid fa-crop-simple"></i></span>
-              <span id="clear-back-btn" class="slot-pill-clear-btn" title="Reset Back"><i class="fa-solid fa-xmark"></i></span>
-            </button>
-
-            <!-- Spine Pill (Shown only when preset has spine) -->
-            <button type="button" class="slot-pill-btn" id="slot-card-spine" data-slot="spine" style="display: none;">
-              <i class="fa-solid fa-grip-lines-vertical" style="color: #eab308;"></i>
-              <img id="spine-thumb-preview" class="slot-pill-thumb" alt="Spine Preview">
-              <span id="spine-btn-label">Spine</span>
-              <span id="crop-spine-btn" class="slot-pill-crop-btn" title="Crop &amp; Adjust"><i class="fa-solid fa-crop-simple"></i></span>
-              <span id="clear-spine-btn" class="slot-pill-clear-btn" title="Reset Spine"><i class="fa-solid fa-xmark"></i></span>
-            </button>
-          </div>
-
-          <!-- Spine Width & Base Tone Inline Controls (shown only for spine mockups) -->
-          <div class="spine-width-row" id="spine-width-group" style="display: none;">
-            <span class="spine-width-label"><i class="fa-solid fa-arrows-left-right-to-line" style="color:#f97316;"></i> Spine Width</span>
-            <input type="range" id="spine-width-slider" min="40" max="200" value="100" class="spine-width-input">
-            <span id="spine-width-val" class="spine-width-readout">100%</span>
-            <div class="spine-color-row" id="spine-color-row" style="display: none;">
-              <span style="font-size: 0.62rem; color: #64748b;" title="Base Tone"><i class="fa-solid fa-palette"></i></span>
-              <input type="color" id="spine-color-picker" class="spine-color-picker" value="#111827" title="Select Spine Base Tone">
-              <span class="spine-color-hex" id="spine-color-val" style="display: none;">#111827</span>
-            </div>
-          </div>
-
-          <!-- Auto-detection badge -->
-          <div class="autodetect-badge" id="autodetect-status" style="display: none;">
-            <span><i class="fa-solid fa-wand-magic-sparkles"></i> <span id="detect-mode-text">Full Wrap Auto-Split</span></span>
-            <span id="detect-dim-text" style="font-family: monospace; font-weight: 700;"></span>
-          </div>
-        </div>
-
-        <!-- STEP 3: Crop & Position -->
-        <div class="studio-step-section">
-          <div class="step-header-row">
-            <div class="step-header-left">
-              <span class="step-num-badge">3</span>
-              <div class="step-text-wrap">
-                <span class="step-title">Crop &amp; Position</span>
-                <span class="step-subtitle">Adjust how your cover fits the mockup.</span>
-              </div>
-            </div>
-            <button type="button" class="step-reset-btn" id="reset-transform-btn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
-          </div>
-
-          <!-- 6 Crop & Position Action Buttons with Auto Fit -->
-          <div class="crop-tools-row">
-            <button type="button" class="crop-fit-btn active" id="btn-fit-autofit" title="Auto Fit artwork to mockup canvas">
-              <i class="fa-solid fa-wand-magic-sparkles crop-fit-icon" style="color: #f97316;"></i>
-              <span class="crop-fit-label">Auto Fit</span>
-            </button>
-
-            <button type="button" class="crop-fit-btn" id="btn-fit-fill" title="Fill cover area">
-              <i class="fa-solid fa-expand crop-fit-icon"></i>
-              <span class="crop-fit-label">Fill</span>
-            </button>
-
-            <button type="button" class="crop-fit-btn" id="btn-fit-contain" title="Fit within bounds">
-              <i class="fa-solid fa-compress crop-fit-icon"></i>
-              <span class="crop-fit-label">Fit</span>
-            </button>
-
-            <button type="button" class="crop-fit-btn" id="btn-fit-center" title="Center artwork">
-              <i class="fa-solid fa-crosshairs crop-fit-icon"></i>
-              <span class="crop-fit-label">Center</span>
-            </button>
-
-            <button type="button" class="crop-fit-btn" id="btn-fit-custom" title="Custom Crop & Presets Modal">
-              <i class="fa-solid fa-crop-simple crop-fit-icon"></i>
-              <span class="crop-fit-label">Custom</span>
-            </button>
-
-            <button type="button" class="crop-fit-btn" id="btn-fit-square" title="Square 1:1 Framing">
-              <i class="fa-regular fa-square crop-fit-icon"></i>
-              <span class="crop-fit-label">Square</span>
-            </button>
-          </div>
-
-          <!-- Hidden compatibility bindings for script math -->
-          <div style="display: none;">
-            <input type="range" id="art-scale-slider" min="60" max="150" value="100">
-            <span id="art-scale-val">100%</span>
-            <input type="range" id="art-pos-x-slider" min="-50" max="50" value="0">
-            <span id="art-pos-x-val">0%</span>
-            <input type="range" id="art-pos-y-slider" min="-50" max="50" value="0">
-            <span id="art-pos-y-val">0%</span>
-            <div id="layer-tab-toggle">
-              <button id="btn-layer-front" data-layer="front"></button>
-              <button id="btn-layer-back" data-layer="back"></button>
-            </div>
-            <div id="editing-layer-notice"><span id="editing-layer-name">Front Cover</span></div>
-            <span id="slots-support-label"></span>
-            <span id="front-status-text"></span><span id="back-status-text"></span><span id="spine-status-text"></span>
-            <button id="btn-upload-front"></button><button id="btn-upload-back"></button><button id="btn-upload-spine"></button>
-          </div>
-        </div>
-
-        <!-- STEP 4: Background -->
-        <div class="studio-step-section">
-          <div class="step-header-row">
-            <div class="step-header-left">
-              <span class="step-num-badge">4</span>
-              <div class="step-text-wrap">
-                <span class="step-title">Background</span>
-                <span class="step-subtitle">Choose a background style.</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- 6 Background Choice Cards -->
-          <div class="bg-style-row">
-            <button type="button" class="bg-choice-card active" data-bg="studio" title="Authentic Studio PSD Background">
-              <div class="bg-preview-swatch swatch-studio"><i class="fa-solid fa-book"></i></div>
-              <span class="bg-choice-label">Studio</span>
-            </button>
-
-            <button type="button" class="bg-choice-card" data-bg="transparent" title="Transparent PNG with Realistic Shadows">
-              <div class="bg-preview-swatch swatch-trans"></div>
-              <span class="bg-choice-label">Transparent</span>
-            </button>
-
-            <button type="button" class="bg-choice-card" data-bg="white" title="Pure Studio White">
-              <div class="bg-preview-swatch swatch-white"></div>
-              <span class="bg-choice-label">White</span>
-            </button>
-
-            <button type="button" class="bg-choice-card" data-bg="light" title="Soft Light Gray Gradient">
-              <div class="bg-preview-swatch swatch-light"></div>
-              <span class="bg-choice-label">Light</span>
-            </button>
-
-            <button type="button" class="bg-choice-card" data-bg="dark" title="Dark Slate Studio">
-              <div class="bg-preview-swatch swatch-dark"></div>
-              <span class="bg-choice-label">Dark</span>
-            </button>
-
-            <button type="button" class="bg-choice-card" data-bg="custom" id="btn-bg-custom" title="Custom Background Color / Image">
-              <div class="bg-preview-swatch swatch-custom"><i class="fa-regular fa-image"></i></div>
-              <span class="bg-choice-label">Custom</span>
-            </button>
-            <input type="file" id="custom-bg-input" accept="image/*" style="display: none;">
-            <input type="color" id="custom-bg-color-picker" style="display: none;" value="#e2e8f0">
-          </div>
-        </div>
-
+      <!-- Search Input -->
+      <div class="drawer-search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="template-search-input" class="drawer-search-input" placeholder="Search mockups...">
       </div>
 
-      <!-- RIGHT: Interactive Live Canvas Viewport -->
-      <div class="preview-viewport-col">
-        
-        <!-- Viewport Topbar -->
-        <div class="preview-topbar">
-          <div class="preview-topbar-left">
-            <span class="preview-label-bold">Preview</span>
-            <span class="preview-specs-pill" id="viewport-res-badge">3000 × 2250 px • Ultra HD</span>
-          </div>
-          <div class="preview-topbar-tools">
-            <button type="button" class="viewport-tool-link" id="btn-tool-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom</button>
-            <button type="button" class="viewport-tool-link" id="btn-tool-rotate"><i class="fa-solid fa-rotate-right"></i> Rotate</button>
-            <button type="button" class="viewport-tool-link" id="btn-tool-fullscreen"><i class="fa-solid fa-expand"></i> Fullscreen</button>
-          </div>
-        </div>
-
-        <!-- Canvas Container -->
-        <div id="psd-canvas-container">
-          <canvas id="psd-canvas"></canvas>
-        </div>
-
-        <!-- Viewport Bottombar / Download action -->
-        <div class="preview-bottombar">
-          <div class="bottom-meta-wrap">
-            <h3 class="bottom-mockup-title" id="active-mockup-title">Original PSD Top-Down Ready</h3>
-            <p class="bottom-mockup-sub" id="download-info-sub">Commercial Use • Realistic Lighting • High Resolution</p>
-            <span id="download-info-title" style="display: none;"></span>
-          </div>
-          <div class="download-action-group">
-            <button type="button" class="download-primary-btn" id="download-mockup-btn">
-              <i class="fa-solid fa-download"></i> Download Mockup
-            </button>
-            <button type="button" class="download-caret-btn" id="download-format-btn" title="Choose format">
-              <i class="fa-solid fa-chevron-down"></i>
-            </button>
-            <div class="download-format-menu" id="download-format-menu">
-              <button type="button" class="format-menu-item active" data-format="png">
-                <span>PNG (Lossless)</span><i class="fa-solid fa-check format-check"></i>
-              </button>
-              <button type="button" class="format-menu-item" data-format="jpeg">
-                <span>JPEG (Studio HQ)</span>
-              </button>
-              <button type="button" class="format-menu-item" id="btn-export-4k">
-                <span>4K Ultra-HD Export</span>
-                <span style="font-size:0.6rem;background:#f97316;color:#fff;padding:1px 5px;border-radius:10px;font-weight:700;">PRO</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
+      <!-- Category Filter Pills -->
+      <div class="drawer-cat-pills">
+        <button type="button" class="cat-pill-btn active" data-cat="all">All</button>
+        <button type="button" class="cat-pill-btn" data-cat="paperback">Paperback</button>
+        <button type="button" class="cat-pill-btn" data-cat="hardcover">Hardcover</button>
+        <button type="button" class="cat-pill-btn" data-cat="open_book">Open Book</button>
+        <button type="button" class="cat-pill-btn" data-cat="stack">Stack</button>
+        <button type="button" class="cat-pill-btn" data-cat="magazine">Magazine</button>
       </div>
 
+      <!-- 2-Column Mockup Grid (All 10 Templates) -->
+      <div class="drawer-templates-grid" id="drawer-templates-grid">
+        <!-- 1. Standing -->
+        <button type="button" class="template-card-btn active" data-preset="hardcover_standing" data-cat="hardcover">
+          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+          <div class="template-card-thumb-wrap">
+            <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" alt="Standing">
+          </div>
+          <span class="template-card-label">Standing</span>
+        </button>
+
+        <!-- 2. Paperback Duo -->
+        <button type="button" class="template-card-btn" data-preset="paperback_duo" data-cat="paperback">
+          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+          <div class="template-card-thumb-wrap">
+            <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" alt="Paperback Duo">
+          </div>
+          <span class="template-card-label">Paperback Duo</span>
+        </button>
+
+        <!-- 3. Hardcover -->
+        <button type="button" class="template-card-btn" data-preset="book_mockup_1" data-cat="hardcover">
+          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+          <div class="template-card-thumb-wrap">
+            <img src="/images/psd_mockup_2/sample_cover.png" alt="Hardcover">
+          </div>
+          <span class="template-card-label">Hardcover</span>
+        </button>
+
+        <!-- 4. Open Book -->
+        <button type="button" class="template-card-btn" data-preset="open_book" data-cat="open_book">
+          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+          <div class="template-card-thumb-wrap">
+            <img src="/images/psd_mockups/thumbnails/open_book.jpg" alt="Open Book">
+          </div>
+          <span class="template-card-label">Open Book</span>
+        </button>
+
+        <!-- 5. Stack of Books -->
+        <button type="button" class="template-card-btn" data-preset="studio_collector" data-cat="stack">
+          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+          <div class="template-card-thumb-wrap">
+            <img src="/images/psd_mockups/thumbnails/spine_full_showcase.jpg" alt="Stack of Books">
+          </div>
+          <span class="template-card-label">Stack of Books</span>
+        </button>
+
+        <!-- 6. 3-Book Stack -->
+        <button type="button" class="template-card-btn" data-preset="square_stack" data-cat="stack">
+          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+          <div class="template-card-thumb-wrap">
+            <img src="/images/psd_mockups/thumbnails/square_stack.jpg" alt="3-Book Stack">
+          </div>
+          <span class="template-card-label">3-Book Stack</span>
+        </button>
+
+        <!-- 7. Flat Lay -->
+        <button type="button" class="template-card-btn" data-preset="square_flatlay" data-cat="paperback">
+          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+          <div class="template-card-thumb-wrap">
+            <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" alt="Flat Lay">
+          </div>
+          <span class="template-card-label">Flat Lay</span>
+        </button>
+
+        <!-- 8. Square Open -->
+        <button type="button" class="template-card-btn" data-preset="square_open_book" data-cat="open_book">
+          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+          <div class="template-card-thumb-wrap">
+            <img src="/images/psd_mockups/thumbnails/square_open_book.jpg" alt="Square Open">
+          </div>
+          <span class="template-card-label">Square Open</span>
+        </button>
+
+        <!-- 9. Open Spread -->
+        <button type="button" class="template-card-btn" data-preset="open_spread" data-cat="open_book magazine">
+          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+          <div class="template-card-thumb-wrap">
+            <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Spread">
+          </div>
+          <span class="template-card-label">Open Spread</span>
+        </button>
+
+        <!-- 10. Dual Showcase -->
+        <button type="button" class="template-card-btn" data-preset="front_back_showcase" data-cat="hardcover">
+          <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+          <div class="template-card-thumb-wrap">
+            <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" alt="Dual Showcase">
+          </div>
+          <span class="template-card-label">Dual Showcase</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- 3. CENTER CANVAS VIEWPORT -->
+    <section class="studio-canvas-viewport">
+      <div id="psd-canvas-container">
+        <canvas id="psd-canvas"></canvas>
+      </div>
+
+      <!-- Floating Canvas Toolbar -->
+      <div class="floating-canvas-bar">
+        <button type="button" class="float-ctrl-btn" id="btn-float-zoom-out" title="Zoom Out">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+        <span class="float-zoom-readout" id="float-zoom-val">100%</span>
+        <button type="button" class="float-ctrl-btn" id="btn-float-zoom-in" title="Zoom In">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+
+        <span class="float-bar-divider"></span>
+
+        <button type="button" class="float-tool-link" id="btn-float-rotate">
+          <i class="fa-solid fa-rotate"></i> Rotate
+        </button>
+        <button type="button" class="float-tool-link" id="btn-float-fit">
+          <i class="fa-solid fa-expand"></i> Fit
+        </button>
+        <button type="button" class="float-tool-link" id="btn-float-center">
+          <i class="fa-solid fa-crosshairs"></i> Center
+        </button>
+      </div>
+    </section>
+
+    <!-- 4. RIGHT INSPECTOR PANEL -->
+    <aside class="studio-inspector-panel">
+
+      <!-- SECTION: COVER -->
+      <div class="inspector-section">
+        <h3 class="inspector-heading">Cover</h3>
+
+        <!-- Dotted Upload Dropzone -->
+        <div class="cover-dropzone-box" id="cover-dropzone">
+          <div class="upload-squircle-icon">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          </div>
+          <span class="upload-box-title">Upload Book Cover</span>
+          <span class="upload-box-sub">PNG, JPG or PSD (Max 10MB)</span>
+        </div>
+
+        <!-- Hidden Native File Inputs -->
+        <input type="file" id="front-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+        <input type="file" id="back-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+        <input type="file" id="spine-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+
+        <!-- Slot Switcher Tabs (for dual/triple slots) -->
+        <div class="slot-tabs-row" id="compact-slot-pills" style="display: none;">
+          <button type="button" class="slot-tab-btn active" id="slot-card-front" data-slot="front">Front</button>
+          <button type="button" class="slot-tab-btn" id="slot-card-back" data-slot="back" style="display: none;">Back</button>
+          <button type="button" class="slot-tab-btn" id="slot-card-spine" data-slot="spine" style="display: none;">Spine</button>
+        </div>
+
+        <!-- Uploaded File Card -->
+        <div class="uploaded-file-card" id="uploaded-file-card" style="cursor: pointer;" title="Click to Crop / Adjust">
+          <img src="/images/psd_mockup_2/sample_cover.png" class="file-card-thumb" id="file-item-thumb" alt="Cover Preview">
+          <div class="file-card-meta">
+            <span class="file-card-name" id="file-item-name">cover.jpg</span>
+            <span class="file-card-size" id="file-item-size">1.2 MB</span>
+          </div>
+          <div class="file-card-actions">
+            <span class="file-card-check" id="file-item-status"><i class="fa-solid fa-circle-check"></i></span>
+            <button type="button" class="file-card-trash" id="file-item-delete" title="Remove Artwork">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: BACKGROUND -->
+      <div class="inspector-section">
+        <h3 class="inspector-heading">Background</h3>
+
+        <div class="bg-swatches-row">
+          <button type="button" class="bg-swatch-card active" data-bg="studio" title="Studio Gradient">
+            <div class="bg-swatch-box swatch-studio"></div>
+            <span class="bg-swatch-label">Studio</span>
+          </button>
+          <button type="button" class="bg-swatch-card" data-bg="white" title="Pure White">
+            <div class="bg-swatch-box swatch-white"></div>
+            <span class="bg-swatch-label">White</span>
+          </button>
+          <button type="button" class="bg-swatch-card" data-bg="light" title="Light Gray">
+            <div class="bg-swatch-box swatch-light"></div>
+            <span class="bg-swatch-label">Light</span>
+          </button>
+          <button type="button" class="bg-swatch-card" data-bg="dark" title="Dark Slate">
+            <div class="bg-swatch-box swatch-dark"></div>
+            <span class="bg-swatch-label">Dark</span>
+          </button>
+        </div>
+
+        <button type="button" class="bg-custom-btn" id="btn-custom-bg-picker">
+          <span class="rainbow-wheel-icon"></span> Custom
+        </button>
+        <input type="color" id="custom-bg-color-picker" style="display: none;" value="#e2e8f0">
+        <input type="file" id="custom-bg-input" accept="image/*" style="display: none;">
+      </div>
+
+      <!-- SECTION: SHADOWS -->
+      <div class="inspector-section">
+        <div class="inspector-row-between">
+          <h3 class="inspector-heading">Shadows</h3>
+          <label class="switch-toggle" title="Toggle Shadows">
+            <input type="checkbox" id="shadow-toggle" checked>
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <div class="shadow-slider-row">
+          <input type="range" min="0" max="100" value="70" class="orange-range-input" id="shadow-range-slider">
+          <span class="slider-readout" id="shadow-percentage-val">70%</span>
+        </div>
+      </div>
+
+      <!-- SECTION: BOOK ANGLE -->
+      <div class="inspector-section">
+        <h3 class="inspector-heading">Book Angle</h3>
+        <div class="angle-cards-row">
+          <button type="button" class="angle-card-btn active" data-angle="0" title="Front View">
+            <img src="/images/psd_mockup_2/sample_cover.png" alt="Front Angle">
+          </button>
+          <button type="button" class="angle-card-btn" data-angle="1" title="3/4 Angle">
+            <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" alt="3/4 Angle">
+          </button>
+          <button type="button" class="angle-card-btn" data-angle="2" title="Side View">
+            <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" alt="Side Angle">
+          </button>
+          <button type="button" class="angle-card-btn" data-angle="3" title="Top View">
+            <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" alt="Top Angle">
+          </button>
+        </div>
+      </div>
+
+      <!-- PRIMARY DOWNLOAD CTA -->
+      <button type="button" class="btn-download-full" id="download-mockup-btn">
+        <i class="fa-solid fa-arrow-down-to-line"></i> Download Mockup
+      </button>
+
+      <!-- Compatibility elements for existing JS engine -->
+      <div style="display: none;">
+        <span id="active-mockup-title">Standing</span>
+        <span id="download-info-sub">Commercial Use</span>
+        <span id="download-info-title"></span>
+        <span id="viewport-res-badge">3000 × 2250 px</span>
+        <button id="download-format-btn"></button>
+        <div id="download-format-menu"></div>
+        <button id="btn-export-4k"></button>
+        <span id="front-btn-label">Front Cover</span>
+        <span id="back-btn-label">Back Cover</span>
+        <span id="spine-btn-label">Spine</span>
+        <img id="front-thumb-preview">
+        <img id="back-thumb-preview">
+        <img id="spine-thumb-preview">
+        <span id="clear-front-btn"></span>
+        <span id="clear-back-btn"></span>
+        <span id="clear-spine-btn"></span>
+        <span id="crop-front-btn"></span>
+        <span id="crop-back-btn"></span>
+        <span id="crop-spine-btn"></span>
+        <div id="spine-width-group">
+          <input type="range" id="spine-width-slider" value="100">
+          <span id="spine-width-val">100%</span>
+        </div>
+        <div id="spine-color-row">
+          <input type="color" id="spine-color-picker" value="#111827">
+          <span id="spine-color-val">#111827</span>
+        </div>
+        <div id="autodetect-status">
+          <span id="detect-mode-text"></span>
+          <span id="detect-dim-text"></span>
+        </div>
+        <button id="reset-transform-btn"></button>
+        <button id="btn-fit-autofit"></button>
+        <button id="btn-fit-fill"></button>
+        <button id="btn-fit-contain"></button>
+        <button id="btn-fit-center"></button>
+        <button id="btn-fit-custom"></button>
+        <button id="btn-fit-square"></button>
+        <button id="btn-tool-zoom"></button>
+        <button id="btn-tool-rotate"></button>
+        <button id="btn-tool-fullscreen"></button>
+        <div id="all-mockups-modal"><div id="all-mockups-grid"></div><button id="btn-close-all-mockups"></button></div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- 5. BOTTOM APP FOOTER -->
+  <footer class="studio-footer">
+    <span>© 2024 Loufy Publisher. All rights reserved.</span>
+    <span>Simple tools for better books.</span>
+  </footer>
+
+</div>
+
+<!-- HELP MODAL -->
+<div class="help-modal-backdrop" id="studio-help-modal">
+  <div class="help-modal-dialog">
+    <div class="help-modal-header">
+      <div class="help-modal-title"><i class="fa-regular fa-circle-question" style="color: #ff5a1f;"></i> How to Use Mockup Studio</div>
+      <button type="button" class="crop-modal-close-btn" id="btn-close-help" title="Close"><i class="fa-solid fa-xmark"></i></button>
     </div>
-
-  </div>
-</section>
-
-<!-- ALL 8 AUTHENTIC MOCKUPS MODAL ("View all ->") -->
-<div id="all-mockups-modal" class="all-mockups-modal">
-  <div class="all-mockups-dialog">
-    <div class="all-mockups-header">
-      <h3 class="all-mockups-title">
-        <i class="fa-solid fa-layer-group" style="color: #f97316;"></i> All 8 Authentic Studio Templates
-      </h3>
-      <button type="button" class="all-mockups-close" id="btn-close-all-mockups" title="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div class="help-step-item">
+      <div class="help-step-badge">1</div>
+      <div class="help-step-text">
+        <h4>Choose a Template</h4>
+        <p>Browse through 10 authentic studio templates (Standing, Hardcover, Open Book, Stack, etc.) in the left panel.</p>
+      </div>
     </div>
-    <div class="all-mockups-grid" id="all-mockups-grid">
-      <!-- 1. Original PSD Top-Down -->
-      <div class="modal-mockup-card active" data-preset="book_mockup_1">
-        <img src="/images/psd_mockup_2/sample_cover.png" class="modal-card-thumb" alt="Original PSD">
-        <span class="modal-card-title">Original PSD</span>
-        <span class="modal-card-tag"><i class="fa-solid fa-star"></i> Classic Flat</span>
+    <div class="help-step-item">
+      <div class="help-step-badge">2</div>
+      <div class="help-step-text">
+        <h4>Upload Your Artwork</h4>
+        <p>Drag and drop your front cover or spread (PNG, JPG, PSD). Smart cropper auto-fits it in true perspective.</p>
       </div>
-
-      <!-- 2. Hardcover Standing -->
-      <div class="modal-mockup-card" data-preset="hardcover_standing">
-        <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" class="modal-card-thumb" alt="Hardcover Standing">
-        <span class="modal-card-title">Hardcover Standing</span>
-        <span class="modal-card-tag"><i class="fa-solid fa-bookmark"></i> 6x9 Standing</span>
+    </div>
+    <div class="help-step-item">
+      <div class="help-step-badge">3</div>
+      <div class="help-step-text">
+        <h4>Adjust Background &amp; Shadows</h4>
+        <p>Pick Studio, White, Light, Dark or custom colors. Tweak realistic drop shadows with the interactive slider.</p>
       </div>
-
-      <!-- 3. Paperback Duo -->
-      <div class="modal-mockup-card" data-preset="paperback_duo">
-        <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" class="modal-card-thumb" alt="Paperback Duo">
-        <span class="modal-card-title">Paperback Duo</span>
-        <span class="modal-card-tag"><i class="fa-solid fa-book-open"></i> Front &amp; Back</span>
-      </div>
-
-      <!-- 4. Dual Standing Showcase -->
-      <div class="modal-mockup-card" data-preset="front_back_showcase">
-        <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" class="modal-card-thumb" alt="Dual Standing Showcase">
-        <span class="modal-card-title">Dual Showcase</span>
-        <span class="modal-card-tag"><i class="fa-solid fa-gem"></i> Floor Reflection</span>
-      </div>
-
-      <!-- 5. Square Flatlay -->
-      <div class="modal-mockup-card" data-preset="square_flatlay">
-        <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" class="modal-card-thumb" alt="Square Flatlay">
-        <span class="modal-card-title">Square Flatlay</span>
-        <span class="modal-card-tag"><i class="fa-solid fa-shapes"></i> 8.5x8.5 Flat</span>
-      </div>
-
-      <!-- 6. Square 3-Book Stack -->
-      <div class="modal-mockup-card" data-preset="square_stack">
-        <img src="/images/psd_mockups/thumbnails/square_stack.jpg" class="modal-card-thumb" alt="Square 3-Book Stack">
-        <span class="modal-card-title">3-Book Stack</span>
-        <span class="modal-card-tag"><i class="fa-solid fa-layer-group"></i> 3.psd Isometric</span>
-      </div>
-
-      <!-- 7. 4-Book Studio Suite -->
-      <div class="modal-mockup-card" data-preset="studio_collector">
-        <img src="/images/psd_mockups/thumbnails/spine_full_showcase.jpg" class="modal-card-thumb" alt="4-Book Studio Suite">
-        <span class="modal-card-title">4-Book Studio</span>
-        <span class="modal-card-tag"><i class="fa-solid fa-crown"></i> Full Spine Suite</span>
-      </div>
-
-      <!-- 8. Open Spread Flatlay -->
-      <div class="modal-mockup-card" data-preset="open_spread">
-        <img src="/images/psd_mockups/thumbnails/open_spread.jpg" class="modal-card-thumb" alt="Open Spread Flatlay">
-        <span class="modal-card-title">Open Spread</span>
-        <span class="modal-card-tag"><i class="fa-solid fa-book-journal-whills"></i> Full Jacket</span>
-      </div>
-
-      <!-- 9. Open Book Flatlay -->
-      <div class="modal-mockup-card" data-preset="open_book">
-        <img src="/images/psd_mockups/thumbnails/open_book.jpg" class="modal-card-thumb" alt="Open Book Flatlay">
-        <span class="modal-card-title">Open Book</span>
-        <span class="modal-card-tag"><i class="fa-solid fa-book-open"></i> Dual Page Book</span>
-      </div>
-
-      <!-- 10. Square Open Book Flatlay -->
-      <div class="modal-mockup-card" data-preset="square_open_book">
-        <img src="/images/psd_mockups/thumbnails/square_open_book.jpg" class="modal-card-thumb" alt="Square Open Book Flatlay">
-        <span class="modal-card-title">Square Open Book</span>
-        <span class="modal-card-tag"><i class="fa-solid fa-book-open"></i> 1:1 Square Spread</span>
+    </div>
+    <div class="help-step-item">
+      <div class="help-step-badge">4</div>
+      <div class="help-step-text">
+        <h4>Download High-Resolution</h4>
+        <p>Click "Download Mockup" or use "Export Mockup" at the top to get lossless transparent PNG or 4K composites.</p>
       </div>
     </div>
   </div>
@@ -2186,78 +2095,20 @@
   </div>
 </div>
 
-<!-- HOW IT WORKS & FAQ SECTION FOR SEO -->
-<section class="services" style="padding: 60px 0 40px; background: #080d14;">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-tag" style="background:rgba(244,180,0,.15);color:var(--accent)">How It Works</span>
-      <h2 class="section-title">Photorealistic 3D Mockups in <span class="highlight">Three Simple Steps</span></h2>
-      <p class="section-subtitle">No Photoshop needed. Generate publisher-quality 3D mockups directly in your web browser.</p>
-    </div>
-    
-    <div class="services-grid" style="margin-top: 40px;">
-      <div class="service-card reveal">
-        <div class="service-icon"><i class="fa-solid fa-layer-group"></i></div>
-        <h3>1. Pick Your PSD Template</h3>
-        <p>Choose between 3D Standing Hardcovers, Paperback Duos, Open Spread Flatlays, or Multi-Book Showcases.</p>
-      </div>
 
-      <div class="service-card reveal">
-        <div class="service-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-        <h3>2. Drop Your Artwork</h3>
-        <p>Upload a Front Cover or Full Wrap. Our engine auto-detects spine folds and wraps seamlessly in perspective.</p>
-      </div>
-
-      <div class="service-card reveal">
-        <div class="service-icon"><i class="fa-solid fa-crown"></i></div>
-        <h3>3. Instant 4K PSD Export</h3>
-        <p>Download full-resolution, commercial-grade PNG or JPEG with authentic photographic studio lighting.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CALL TO ACTION FOR LOUFY PUBLISHER DESIGN SERVICES -->
-<section class="pricing" style="background: radial-gradient(circle, rgba(24,76,58,0.9), #080d14); padding: 80px 0;">
-  <div class="container" style="text-align: center; max-width: 800px;">
-    <span class="section-tag reveal" style="background:rgba(244,180,0,.15);color:var(--accent)">Professional Services</span>
-    <h2 class="section-title reveal" style="color: #fff;">Need a Bestselling Custom <span class="highlight">Book Cover?</span></h2>
-    <p style="color: #cbd5e1; font-size: 1.1rem; line-height: 1.7; margin-bottom: 30px;" class="reveal">
-      Mockups showcase your book, but custom artwork converts readers into buyers. Hamid Raza specializes in custom book cover design, Amazon KDP formatting, and complete launch marketing kits that make your book stand out.
-    </p>
-    <div class="reveal" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-      <a href="/portfolio/covers" class="btn btn-accent" style="padding: 14px 30px; font-weight: 700; color: #000;">View Portfolio <i class="fa-solid fa-arrow-right"></i></a>
-      <a href="/contact" class="btn btn-primary" style="padding: 14px 30px;">Get Free Consultation <i class="fa-solid fa-paper-plane"></i></a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-<div class="container">
-<div class="footer-grid">
-<div class="footer-brand reveal">
-<a href="index.html" class="logo" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher" class="logo-img"></a>
-<p data-admin-text="true">Professional Book Cover Designer &amp; Amazon KDP Expert. Creating premium designs that help authors stand out and succeed.</p>
-<div class="social-icons" style="margin-top:16px">
-<a href="https://x.com/mr_loufy" data-social="twitter" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-x-twitter"></i></a>
-<a href="https://www.instagram.com/loufy_publisher" data-social="instagram" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-instagram"></i></a>
-<a href="https://www.linkedin.com/in/hamid-r-753208282" data-social="linkedin" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-linkedin-in"></i></a>
-<a href="https://www.tiktok.com/@loufy_publisher" data-social="behance" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-tiktok"></i></a>
-<a href="https://www.facebook.com/share/1KPQAXoL8Y/" data-social="facebook" target="_blank" style="background:rgba(255,255,255,.1);color:var(--white)"><i class="fa-brands fa-facebook-f"></i></a>
-</div>
-</div>
-<div class="footer-col reveal"><h4 data-admin-text="true">Quick Links</h4><a href="/" data-admin-text="true">Home</a><a href="/about" data-admin-text="true">About</a><a href="/portfolio" data-admin-text="true">Portfolio</a><a href="/blogs" data-admin-text="true">Blog</a><a href="/tools" data-admin-text="true">Mockup Studio</a><a href="/contact" data-admin-text="true">Contact</a></div>
-<div class="footer-col reveal"><h4 data-admin-text="true">Services</h4><a href="/portfolio/covers" data-admin-text="true">Book Cover Design</a><a href="/portfolio/formatting" data-admin-text="true">KDP Formatting</a><a href="/portfolio/a-plus-content" data-admin-text="true">A+ Content</a><a href="/portfolio/websites" data-admin-text="true">Websites</a></div>
-<div class="footer-col reveal"><h4 data-admin-text="true">Contact</h4><a href="mailto:razah3812@gmail.com" data-admin-text="true">razah3812@gmail.com</a><a href="#" data-admin-text="true">Pakistan</a></div>
-</div>
-<div class="footer-bottom" data-admin-text="true"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher" style="height: 18px; vertical-align: middle; margin-right: 8px; margin-top: -2px; opacity: 0.8;">© 2026 Hamid Raza. All Rights Reserved.</div>
-</div>
-</footer>
 
 <!-- ── AUTHENTIC PHOTOSHOP PSD MOCKUP ENGINE JAVASCRIPT ── -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
+  // Global Interactive Shadow State
+  let shadowEnabled = true;
+  let shadowOpacity = 0.70;
+
+  // Global View Zoom & Transform State
+  let zoomLevel = 100;
+  let canvasRotation = 0;
+  let bookAngleIndex = 0;
 
   // 1. Inlined Manifest for 8 Studio Templates
   const PSD_MANIFEST = {
@@ -3405,12 +3256,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
 
       // Shadow layer
-      if (config.layers.shadow) {
+      if (config.layers.shadow && shadowEnabled) {
         const shImg = await preloadImage(config.layers.shadow);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
         if (shImg) {
           ctx.save();
-          ctx.globalAlpha = 1.0;
+          ctx.globalAlpha = shadowOpacity;
           ctx.globalCompositeOperation = bgMode === 'transparent' ? 'source-over' : 'multiply';
           ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
           ctx.restore();
@@ -5092,8 +4943,310 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
   updateUIForPreset();
 
+
+  // ── NEW STUDIO UI EVENT LISTENERS & WIRING ──
+
+  // Left Nav Rail
+  const railBtns = document.querySelectorAll('.rail-btn');
+  railBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      railBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tab = btn.dataset.railTab;
+      if (tab === 'templates') {
+        const drawer = document.querySelector('.studio-drawer-panel');
+        if (drawer) drawer.style.display = 'flex';
+      } else if (tab === 'upload') {
+        document.getElementById('cover-dropzone')?.click();
+      } else if (tab === 'background') {
+        document.querySelector('.bg-swatches-row')?.scrollIntoView({ behavior: 'smooth' });
+      } else if (tab === 'adjust') {
+        document.querySelector('.shadow-slider-row')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Templates Drawer Search & Category Filters
+  const tSearchInput = document.getElementById('template-search-input');
+  const catPills = document.querySelectorAll('.cat-pill-btn');
+  const templateCards = document.querySelectorAll('.template-card-btn');
+  let activeCat = 'all';
+
+  function filterTemplates() {
+    const q = (tSearchInput ? tSearchInput.value : '').toLowerCase().trim();
+    templateCards.forEach(card => {
+      const cardCat = (card.dataset.cat || '').toLowerCase();
+      const cardLabel = (card.querySelector('.template-card-label')?.textContent || '').toLowerCase();
+      const presetId = (card.dataset.preset || '').toLowerCase();
+
+      const matchesCat = (activeCat === 'all') || cardCat.includes(activeCat);
+      const matchesQuery = !q || cardLabel.includes(q) || presetId.includes(q);
+
+      card.style.display = (matchesCat && matchesQuery) ? 'flex' : 'none';
+    });
+  }
+
+  if (tSearchInput) {
+    tSearchInput.addEventListener('input', filterTemplates);
+  }
+
+  catPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      catPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeCat = pill.dataset.cat || 'all';
+      filterTemplates();
+    });
+  });
+
+  templateCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const pid = card.dataset.preset;
+      if (!pid) return;
+      templateCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      currentPresetId = pid;
+      updateUIForPreset();
+      updateCoverCardUI();
+    });
+  });
+
+  // Floating Toolbar (Zoom, Rotate, Fit, Center)
+  const floatZoomVal = document.getElementById('float-zoom-val');
+  const btnFloatZoomIn = document.getElementById('btn-float-zoom-in');
+  const btnFloatZoomOut = document.getElementById('btn-float-zoom-out');
+  const btnFloatRotate = document.getElementById('btn-float-rotate');
+  const btnFloatFit = document.getElementById('btn-float-fit');
+  const btnFloatCenter = document.getElementById('btn-float-center');
+
+  function updateFloatingTransform() {
+    const canvas = document.getElementById('psd-canvas');
+    if (!canvas) return;
+    if (floatZoomVal) floatZoomVal.textContent = zoomLevel + '%';
+    canvas.style.transform = 'scale(' + (zoomLevel / 100) + ') rotate(' + canvasRotation + 'deg)';
+  }
+
+  if (btnFloatZoomIn) {
+    btnFloatZoomIn.addEventListener('click', () => {
+      zoomLevel = Math.min(250, zoomLevel + 10);
+      updateFloatingTransform();
+    });
+  }
+  if (btnFloatZoomOut) {
+    btnFloatZoomOut.addEventListener('click', () => {
+      zoomLevel = Math.max(30, zoomLevel - 10);
+      updateFloatingTransform();
+    });
+  }
+  if (btnFloatFit) {
+    btnFloatFit.addEventListener('click', () => {
+      zoomLevel = 100;
+      canvasRotation = 0;
+      updateFloatingTransform();
+    });
+  }
+  if (btnFloatCenter) {
+    btnFloatCenter.addEventListener('click', () => {
+      zoomLevel = 100;
+      canvasRotation = 0;
+      updateFloatingTransform();
+    });
+  }
+  if (btnFloatRotate) {
+    btnFloatRotate.addEventListener('click', () => {
+      canvasRotation = (canvasRotation + 90) % 360;
+      updateFloatingTransform();
+    });
+  }
+
+  // Cover File Card Elements & Sync
+  const fileItemCard = document.getElementById('uploaded-file-card');
+  const fileItemThumb = document.getElementById('file-item-thumb');
+  const fileItemName = document.getElementById('file-item-name');
+  const fileItemSize = document.getElementById('file-item-size');
+  const fileItemDelete = document.getElementById('file-item-delete');
+
+  function updateCoverCardUI() {
+    if (fileItemName) {
+      fileItemName.textContent = rawFileNames.front || 'cover.jpg';
+    }
+    if (fileItemThumb) {
+      if (customFrontImg && customFrontImg.src) {
+        fileItemThumb.src = customFrontImg.src;
+      } else if (activeFrontImg && activeFrontImg.src) {
+        fileItemThumb.src = activeFrontImg.src;
+      } else {
+        fileItemThumb.src = '/images/psd_mockup_2/sample_cover.png';
+      }
+    }
+  }
+
+  if (fileItemDelete) {
+    fileItemDelete.addEventListener('click', (e) => {
+      e.stopPropagation();
+      customFrontImg = null;
+      activeFrontImg = null;
+      rawArtworks.front = null;
+      rawFileNames.front = 'cover.jpg';
+      processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
+      updateCoverCardUI();
+      renderMockupToCanvas();
+    });
+  }
+
+  if (fileItemCard) {
+    fileItemCard.addEventListener('click', () => {
+      const src = (customFrontImg && customFrontImg.src) || (activeFrontImg && activeFrontImg.src);
+      if (src) {
+        openCropModal(src, 'front', rawFileNames.front || 'Cover Artwork');
+      } else {
+        document.getElementById('front-file-input')?.click();
+      }
+    });
+  }
+
+  // Background Swatches & Custom Picker
+  const bgSwatches = document.querySelectorAll('.bg-swatch-card');
+  const btnCustomBg = document.getElementById('btn-custom-bg-picker');
+  const customColorPicker = document.getElementById('custom-bg-color-picker');
+
+  bgSwatches.forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      bgSwatches.forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+      bgMode = swatch.dataset.bg;
+      renderMockupToCanvas();
+    });
+  });
+
+  if (btnCustomBg && customColorPicker) {
+    btnCustomBg.addEventListener('click', () => {
+      customColorPicker.click();
+    });
+    customColorPicker.addEventListener('input', (e) => {
+      bgMode = 'custom';
+      const conf = PSD_MANIFEST[currentPresetId];
+      if (conf) {
+        conf.defaultBg = e.target.value;
+      }
+      bgSwatches.forEach(s => s.classList.remove('active'));
+      renderMockupToCanvas();
+    });
+  }
+
+  // Shadows Toggle & Slider
+  const shadowRangeSlider = document.getElementById('shadow-range-slider');
+  const shadowToggle = document.getElementById('shadow-toggle');
+  const shadowPercentageVal = document.getElementById('shadow-percentage-val');
+
+  if (shadowRangeSlider && shadowPercentageVal) {
+    shadowRangeSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      shadowOpacity = val / 100;
+      shadowPercentageVal.textContent = val + '%';
+      renderMockupToCanvas();
+    });
+  }
+
+  if (shadowToggle) {
+    shadowToggle.addEventListener('change', (e) => {
+      shadowEnabled = e.target.checked;
+      renderMockupToCanvas();
+    });
+  }
+
+  // Book Angle Cards
+  const angleCards = document.querySelectorAll('.angle-card-btn');
+  angleCards.forEach(card => {
+    card.addEventListener('click', () => {
+      angleCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      const angle = parseInt(card.dataset.angle, 10);
+      bookAngleIndex = angle;
+      const canvas = document.getElementById('psd-canvas');
+      if (canvas) {
+        const perspectiveRotations = [
+          'perspective(1000px) rotateY(0deg)',
+          'perspective(1000px) rotateY(-8deg)',
+          'perspective(1000px) rotateY(10deg)',
+          'perspective(1000px) rotateX(12deg)'
+        ];
+        canvas.style.transform = (perspectiveRotations[angle] || '') + ' scale(' + (zoomLevel / 100) + ') rotate(' + canvasRotation + 'deg)';
+      }
+    });
+  });
+
+  // Top Header Actions (Help, Reset, Export Dropdown)
+  const btnHdrHelp = document.getElementById('btn-hdr-help');
+  const btnCloseHelp = document.getElementById('btn-close-help');
+  const helpModal = document.getElementById('studio-help-modal');
+  const btnHdrReset = document.getElementById('btn-hdr-reset');
+  const btnHdrExport = document.getElementById('btn-hdr-export');
+  const hdrExportMenu = document.getElementById('hdr-export-menu');
+  const exportItems = document.querySelectorAll('.hdr-export-item');
+
+  if (btnHdrHelp && helpModal) {
+    btnHdrHelp.addEventListener('click', () => { helpModal.style.display = 'flex'; });
+  }
+  if (btnCloseHelp && helpModal) {
+    btnCloseHelp.addEventListener('click', () => { helpModal.style.display = 'none'; });
+  }
+  if (helpModal) {
+    helpModal.addEventListener('click', (e) => { if (e.target === helpModal) helpModal.style.display = 'none'; });
+  }
+
+  if (btnHdrExport && hdrExportMenu) {
+    btnHdrExport.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hdrExportMenu.style.display = (hdrExportMenu.style.display === 'flex') ? 'none' : 'flex';
+    });
+    document.addEventListener('click', () => {
+      hdrExportMenu.style.display = 'none';
+    });
+  }
+
+  exportItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const format = item.dataset.format;
+      if (format === '4k') {
+        downloadHighRes(4000);
+      } else if (format === 'jpeg') {
+        downloadMockup('image/jpeg');
+      } else {
+        downloadMockup('image/png');
+      }
+      if (hdrExportMenu) hdrExportMenu.style.display = 'none';
+    });
+  });
+
+  if (btnHdrReset) {
+    btnHdrReset.addEventListener('click', () => {
+      zoomLevel = 100;
+      canvasRotation = 0;
+      shadowEnabled = true;
+      shadowOpacity = 0.70;
+      if (shadowRangeSlider) shadowRangeSlider.value = 70;
+      if (shadowPercentageVal) shadowPercentageVal.textContent = '70%';
+      if (shadowToggle) shadowToggle.checked = true;
+      bgMode = 'studio';
+      bgSwatches.forEach(s => s.classList.toggle('active', s.dataset.bg === 'studio'));
+      angleCards.forEach((c, idx) => c.classList.toggle('active', idx === 0));
+      updateFloatingTransform();
+      processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
+      updateCoverCardUI();
+      renderMockupToCanvas();
+    });
+  }
+
+  // Initial Sync of active preset to template cards
+  const activeTCard = document.querySelector('.template-card-btn[data-preset="' + currentPresetId + '"]');
+  if (activeTCard) {
+    templateCards.forEach(c => c.classList.remove('active'));
+    activeTCard.classList.add('active');
+  }
+  updateCoverCardUI();
+
 });
 </script>
-
 </body>
 </html>
