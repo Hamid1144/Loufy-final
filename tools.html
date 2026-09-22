@@ -337,36 +337,39 @@
       color: #0f172a;
       width: 100%;
     }
+    
+    /* Category Filter Pills (Properly Arranged with Clean 2-Row Wrap) */
     .drawer-cat-pills {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-      scrollbar-width: none;
+      margin-bottom: 2px;
     }
-    .drawer-cat-pills::-webkit-scrollbar { display: none; }
     .cat-pill-btn {
-      padding: 5px 12px;
-      border-radius: 9999px;
+      padding: 4px 11px;
+      border-radius: 20px;
       border: 1px solid #e2e8f0;
       background: #ffffff;
-      color: #64748b;
+      color: #475569;
       font-size: 0.72rem;
       font-weight: 600;
       white-space: nowrap;
       cursor: pointer;
       font-family: inherit;
       transition: all 0.15s ease;
+      line-height: 1.3;
     }
     .cat-pill-btn:hover {
       border-color: #cbd5e1;
       color: #0f172a;
+      background: #f8fafc;
     }
     .cat-pill-btn.active {
       background: #ff5a1f;
       border-color: #ff5a1f;
       color: #ffffff;
+      box-shadow: 0 2px 6px rgba(255, 90, 31, 0.25);
     }
     .templates-cards-grid {
       display: grid;
@@ -511,12 +514,13 @@
       position: relative;
     }
     #psd-canvas {
-      max-width: 92%;
-      max-height: 92%;
+      max-width: 94%;
+      max-height: 94%;
       object-fit: contain;
       filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22));
       transition: transform 0.15s ease, filter 0.15s ease;
       transform-origin: center center;
+      image-rendering: -webkit-optimize-contrast;
     }
 
     /* Floating Canvas Toolbar */
@@ -1083,7 +1087,7 @@
           <input type="text" id="template-search-input" class="drawer-search-input" placeholder="Search mockups...">
         </div>
 
-        <!-- Category Filter Pills -->
+        <!-- Category Filter Pills (Clean 2-Row Wrap, No Cutoffs) -->
         <div class="drawer-cat-pills">
           <button type="button" class="cat-pill-btn active" data-cat="all">All</button>
           <button type="button" class="cat-pill-btn" data-cat="paperback">Paperback</button>
@@ -1318,10 +1322,10 @@
       </div>
     </section>
 
-    <!-- 4. RIGHT INSPECTOR PANEL (HOSTS ARTWORK, BACKGROUNDS, SHADOWS, ANGLES) -->
+    <!-- 4. RIGHT INSPECTOR PANEL (HOSTS ARTWORK, BACKGROUNDS, DUAL COLORS, SHADOWS, ANGLES) -->
     <aside class="studio-inspector-panel">
 
-      <!-- SECTION: ARTWORK & COVERS (SEPARATE FRONT, BACK, SPINE SLOTS) -->
+      <!-- SECTION: ARTWORK & COVERS (SEPARATE FRONT, BACK, SPINE SLOTS + SHIFT SLIDERS) -->
       <div class="inspector-section">
         <div class="inspector-row-between">
           <h3 class="inspector-heading">Artwork &amp; Covers</h3>
@@ -1356,6 +1360,12 @@
               </div>
             </div>
           </div>
+          <!-- Front Shift Left/Right Slider -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;border-top:1px dashed #e2e8f0;padding-top:5px;">
+            <span style="font-size:0.68rem;font-weight:600;color:#64748b;"><i class="fa-solid fa-arrows-left-right" style="color:#ff5a1f;"></i> Shift Left / Right</span>
+            <span style="font-size:0.68rem;font-weight:700;color:#ff5a1f;" id="front-shift-val">0%</span>
+          </div>
+          <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="front-shift-slider" style="margin:2px 0;" title="Shift Front Cover Left or Right">
         </div>
 
         <!-- 2. Back Cover Slot Card -->
@@ -1381,6 +1391,12 @@
               </div>
             </div>
           </div>
+          <!-- Back Shift Left/Right Slider -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;border-top:1px dashed #e2e8f0;padding-top:5px;">
+            <span style="font-size:0.68rem;font-weight:600;color:#64748b;"><i class="fa-solid fa-arrows-left-right" style="color:#3b82f6;"></i> Shift Left / Right</span>
+            <span style="font-size:0.68rem;font-weight:700;color:#3b82f6;" id="back-shift-val">0%</span>
+          </div>
+          <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="back-shift-slider" style="margin:2px 0;" title="Shift Back Cover Left or Right">
         </div>
 
         <!-- 3. Spine Slot Card -->
@@ -1488,6 +1504,48 @@
             <i class="fa-regular fa-image" style="color:#ff5a1f;"></i> Upload Photo
           </button>
           <input type="file" id="drawer-bg-file-input" accept="image/*" style="display:none;">
+        </div>
+      </div>
+
+      <!-- SECTION: DUAL SHOWCASE COLORS (ONLY DISPLAYED WHEN DUAL SHOWCASE PRESET IS ACTIVE) -->
+      <div class="inspector-section" id="dual-showcase-colors-section" style="display: none;">
+        <div class="inspector-row-between">
+          <h3 class="inspector-heading"><i class="fa-solid fa-palette" style="color:#ff5a1f;"></i> Showcase Colors</h3>
+          <span style="font-size:0.65rem;color:#ff5a1f;font-weight:700;background:#fff7ed;padding:2px 6px;border-radius:6px;">Dual Backdrop</span>
+        </div>
+        <p style="font-size:0.7rem;color:#64748b;margin-top:-6px;">Customize wall &amp; floor colors for this mockup.</p>
+
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <!-- Wall Color -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+            <span style="font-size:0.75rem;font-weight:700;color:#334155;display:flex;align-items:center;gap:6px;">
+              <i class="fa-solid fa-square" id="dual-wall-color-icon" style="color:#2b4a6f;font-size:0.85rem;"></i> Wall Color
+            </span>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:0.7rem;font-weight:600;color:#64748b;" id="dual-wall-color-val">#2b4a6f</span>
+              <input type="color" id="dual-wall-color-picker" value="#2b4a6f" style="width:26px;height:26px;border:none;border-radius:6px;cursor:pointer;">
+            </div>
+          </div>
+
+          <!-- Floor Color -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+            <span style="font-size:0.75rem;font-weight:700;color:#334155;display:flex;align-items:center;gap:6px;">
+              <i class="fa-solid fa-square" id="dual-floor-color-icon" style="color:#e8e2dc;font-size:0.85rem;"></i> Floor Color
+            </span>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:0.7rem;font-weight:600;color:#64748b;" id="dual-floor-color-val">#e8e2dc</span>
+              <input type="color" id="dual-floor-color-picker" value="#e8e2dc" style="width:26px;height:26px;border:none;border-radius:6px;cursor:pointer;">
+            </div>
+          </div>
+
+          <!-- Preset Wall/Floor Color Combos -->
+          <div style="display:flex;gap:5px;margin-top:2px;">
+            <button type="button" class="dual-combo-btn" data-wall="#2b4a6f" data-floor="#e8e2dc" title="Classic Navy &amp; Marble" style="flex:1;padding:4px;border:1px solid #cbd5e1;border-radius:6px;cursor:pointer;background:linear-gradient(to bottom, #2b4a6f 60%, #e8e2dc 40%);height:26px;"></button>
+            <button type="button" class="dual-combo-btn" data-wall="#1e293b" data-floor="#f1f5f9" title="Dark Slate &amp; White" style="flex:1;padding:4px;border:1px solid #cbd5e1;border-radius:6px;cursor:pointer;background:linear-gradient(to bottom, #1e293b 60%, #f1f5f9 40%);height:26px;"></button>
+            <button type="button" class="dual-combo-btn" data-wall="#334155" data-floor="#d7ccc8" title="Charcoal &amp; Warm Wood" style="flex:1;padding:4px;border:1px solid #cbd5e1;border-radius:6px;cursor:pointer;background:linear-gradient(to bottom, #334155 60%, #d7ccc8 40%);height:26px;"></button>
+            <button type="button" class="dual-combo-btn" data-wall="#78350f" data-floor="#fef3c7" title="Warm Terracotta &amp; Sand" style="flex:1;padding:4px;border:1px solid #cbd5e1;border-radius:6px;cursor:pointer;background:linear-gradient(to bottom, #78350f 60%, #fef3c7 40%);height:26px;"></button>
+            <button type="button" class="dual-combo-btn" data-wall="#14532d" data-floor="#f0fdf4" title="Forest Green &amp; Light" style="flex:1;padding:4px;border:1px solid #cbd5e1;border-radius:6px;cursor:pointer;background:linear-gradient(to bottom, #14532d 60%, #f0fdf4 40%);height:26px;"></button>
+          </div>
         </div>
       </div>
 
@@ -1814,6 +1872,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let adjVignette = 0;     // 0 to 100
   let adjTilt = 0;         // -20 to +20
   let adjScale = 100;      // 60 to 150
+
+  // Global Dual Showcase Background Colors (Specific to front_back_showcase)
+  let dualShowcaseWallColor = '#2b4a6f';
+  let dualShowcaseFloorColor = '#e8e2dc';
 
   // Global Background Custom State
   let customBgColor = null;
@@ -2850,6 +2912,17 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     const out = document.createElement('canvas');
     out.width = w; out.height = h;
     const octx = out.getContext('2d');
+    octx.imageSmoothingEnabled = true;
+    octx.imageSmoothingQuality = 'high';
+
+    try {
+      const sctx = srcCanvas.getContext ? srcCanvas.getContext('2d') : null;
+      if (sctx) {
+        const p = sctx.getImageData(0, 0, 1, 1).data;
+        octx.fillStyle = 'rgba(' + p[0] + ',' + p[1] + ',' + p[2] + ',' + (p[3]/255) + ')';
+        octx.fillRect(0, 0, w, h);
+      }
+    } catch (e) {}
     
     const s = t.scale / 100;
     const sw = w * s;
@@ -2945,7 +3018,32 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const scale = renderWidth / config.width;
 
       // 1. Background
-      if (bgMode === 'studio') {
+      if (presetId === 'front_back_showcase' && bgMode === 'studio') {
+        const wallH = 684 * scale;
+        // 1. Wall (Top portion)
+        ctx.fillStyle = dualShowcaseWallColor || '#2b4a6f';
+        ctx.fillRect(0, 0, renderWidth, wallH);
+
+        // 2. Horizon divider line
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.fillRect(0, wallH - 1, renderWidth, 3 * scale);
+
+        // 3. Floor (Bottom portion)
+        const floorH = renderHeight - wallH;
+        const floorGrad = ctx.createLinearGradient(0, wallH, 0, renderHeight);
+        const fBase = dualShowcaseFloorColor || '#e8e2dc';
+        floorGrad.addColorStop(0, fBase);
+        floorGrad.addColorStop(1, adjustColorBrightness(fBase, -12));
+        ctx.fillStyle = floorGrad;
+        ctx.fillRect(0, wallH, renderWidth, floorH);
+
+        // 4. Floor ambient light vignette
+        const floorVig = ctx.createRadialGradient(renderWidth * 0.5, wallH + floorH * 0.4, renderWidth * 0.1, renderWidth * 0.5, wallH + floorH * 0.4, renderWidth * 0.6);
+        floorVig.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+        floorVig.addColorStop(1, 'rgba(0, 0, 0, 0.08)');
+        ctx.fillStyle = floorVig;
+        ctx.fillRect(0, wallH, renderWidth, floorH);
+      } else if (bgMode === 'studio') {
         const bgImg = await preloadImage(config.layers.backdrop);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
         if (bgImg) {
@@ -3373,11 +3471,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     const config = PSD_MANIFEST[currentPresetId];
     if (!config) return;
 
-    const previewScale = Math.min(1000 / config.width, 750 / config.height, 1);
-    const pw = Math.round(config.width * previewScale);
-    const ph = Math.round(config.height * previewScale);
-
-    renderMockupToCanvas(viewportCanvas, pw, ph, currentPresetId);
+    // 100% Native Full Resolution for Export-Fidelity Viewport
+    renderMockupToCanvas(viewportCanvas, config.width, config.height, currentPresetId);
   }
 
   // Update UI Elements & Slot Status for Preset
@@ -3389,6 +3484,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (viewportResBadge) viewportResBadge.textContent = config.width + ' × ' + config.height + ' Ultra-HD';
     if (downloadInfoTitle) downloadInfoTitle.textContent = config.title + ' Ready (' + config.width + ' × ' + config.height + ' px)';
 
+    const dualColorsSection = document.getElementById('dual-showcase-colors-section');
+    if (dualColorsSection) {
+      dualColorsSection.style.display = (currentPresetId === 'front_back_showcase') ? 'flex' : 'none';
+    }
     presetButtons.forEach(btn => {
       btn.classList.toggle('active', btn.dataset.preset === currentPresetId);
     });
@@ -4711,6 +4810,20 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   
   // ── ADVANCED SAAS STUDIO EVENT LISTENERS & DRAWER SWITCHING ──
 
+  // Color brightness adjuster helper
+  function adjustColorBrightness(hex, percent) {
+    if (!hex || typeof hex !== 'string') return hex;
+    let num = parseInt(hex.replace('#', ''), 16);
+    if (isNaN(num)) return hex;
+    let r = (num >> 16) + Math.round(255 * (percent / 100));
+    let g = ((num >> 8) & 0x00FF) + Math.round(255 * (percent / 100));
+    let b = (num & 0x0000FF) + Math.round(255 * (percent / 100));
+    r = Math.min(255, Math.max(0, r));
+    g = Math.min(255, Math.max(0, g));
+    b = Math.min(255, Math.max(0, b));
+    return '#' + (0x1000000 + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
+
   // 1. Navigation Rail View Switcher (Templates & Adjust on Left Rail)
   const railBtns = document.querySelectorAll('.rail-btn');
   const drawerViews = document.querySelectorAll('.drawer-view');
@@ -4838,6 +4951,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   const btnCropSlotFront = document.getElementById('btn-crop-slot-front');
   const btnClearSlotFront = document.getElementById('btn-clear-slot-front');
   const frontSlotInput = document.getElementById('upload-slot-front-input');
+  const frontShiftSlider = document.getElementById('front-shift-slider');
+  const frontShiftVal = document.getElementById('front-shift-val');
 
   const slotBackThumb = document.getElementById('slot-back-thumb');
   const slotBackSpecs = document.getElementById('slot-back-specs');
@@ -4845,6 +4960,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   const btnCropSlotBack = document.getElementById('btn-crop-slot-back');
   const btnClearSlotBack = document.getElementById('btn-clear-slot-back');
   const backSlotInput = document.getElementById('upload-slot-back-input');
+  const backShiftSlider = document.getElementById('back-shift-slider');
+  const backShiftVal = document.getElementById('back-shift-val');
 
   const slotSpineThumb = document.getElementById('slot-spine-thumb');
   const btnUploadSlotSpine = document.getElementById('btn-upload-slot-spine');
@@ -4904,9 +5021,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (drawerSpineWidthSlider) drawerSpineWidthSlider.value = spineWidth;
     if (drawerSpineWidthVal) drawerSpineWidthVal.textContent = spineWidth + '%';
     if (drawerSpineColorPicker) drawerSpineColorPicker.value = spineColor;
+
+    // Sync Front & Back Shifts
+    if (frontShiftSlider) frontShiftSlider.value = frontTransform.shiftX || 0;
+    if (frontShiftVal) frontShiftVal.textContent = ((frontTransform.shiftX || 0) > 0 ? '+' : '') + (frontTransform.shiftX || 0) + '%';
+    if (backShiftSlider) backShiftSlider.value = backTransform.shiftX || 0;
+    if (backShiftVal) backShiftVal.textContent = ((backTransform.shiftX || 0) > 0 ? '+' : '') + (backTransform.shiftX || 0) + '%';
   }
 
-  // Front slot buttons
+  // Front slot buttons & Shift Slider
   if (btnUploadSlotFront && frontSlotInput) {
     btnUploadSlotFront.addEventListener('click', () => frontSlotInput.click());
     frontSlotInput.addEventListener('change', (e) => {
@@ -4928,13 +5051,22 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       activeFrontImg = null;
       rawArtworks.front = null;
       rawFileNames.front = 'cover.jpg';
+      frontTransform.shiftX = 0;
       processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
       updateAllSlotCardsUI();
       renderCurrentMockup();
     });
   }
+  if (frontShiftSlider && frontShiftVal) {
+    frontShiftSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      frontTransform.shiftX = val;
+      frontShiftVal.textContent = (val > 0 ? '+' : '') + val + '%';
+      renderCurrentMockup();
+    });
+  }
 
-  // Back slot buttons
+  // Back slot buttons & Shift Slider
   if (btnUploadSlotBack && backSlotInput) {
     btnUploadSlotBack.addEventListener('click', () => backSlotInput.click());
     backSlotInput.addEventListener('change', (e) => {
@@ -4956,7 +5088,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       activeBackImg = null;
       rawArtworks.back = null;
       rawFileNames.back = 'Back Cover';
+      backTransform.shiftX = 0;
       updateAllSlotCardsUI();
+      renderCurrentMockup();
+    });
+  }
+  if (backShiftSlider && backShiftVal) {
+    backShiftSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      backTransform.shiftX = val;
+      backShiftVal.textContent = (val > 0 ? '+' : '') + val + '%';
       renderCurrentMockup();
     });
   }
@@ -5153,7 +5294,46 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
-  // 6. Left Drawer View: Adjustments Controls (10 Parameters + Master Reset)
+  // 6. Right Inspector: Dual Showcase Custom Colors (Wall & Floor)
+  const dualWallColorPicker = document.getElementById('dual-wall-color-picker');
+  const dualWallColorVal = document.getElementById('dual-wall-color-val');
+  const dualWallColorIcon = document.getElementById('dual-wall-color-icon');
+  const dualFloorColorPicker = document.getElementById('dual-floor-color-picker');
+  const dualFloorColorVal = document.getElementById('dual-floor-color-val');
+  const dualFloorColorIcon = document.getElementById('dual-floor-color-icon');
+  const dualComboBtns = document.querySelectorAll('.dual-combo-btn');
+
+  function setDualShowcaseColors(wall, floor) {
+    dualShowcaseWallColor = wall;
+    dualShowcaseFloorColor = floor;
+    if (dualWallColorPicker) dualWallColorPicker.value = wall;
+    if (dualWallColorVal) dualWallColorVal.textContent = wall;
+    if (dualWallColorIcon) dualWallColorIcon.style.color = wall;
+    if (dualFloorColorPicker) dualFloorColorPicker.value = floor;
+    if (dualFloorColorVal) dualFloorColorVal.textContent = floor;
+    if (dualFloorColorIcon) dualFloorColorIcon.style.color = floor;
+    renderCurrentMockup();
+  }
+
+  if (dualWallColorPicker) {
+    dualWallColorPicker.addEventListener('input', (e) => {
+      setDualShowcaseColors(e.target.value, dualShowcaseFloorColor);
+    });
+  }
+  if (dualFloorColorPicker) {
+    dualFloorColorPicker.addEventListener('input', (e) => {
+      setDualShowcaseColors(dualShowcaseWallColor, e.target.value);
+    });
+  }
+  dualComboBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const w = btn.dataset.wall;
+      const f = btn.dataset.floor;
+      if (w && f) setDualShowcaseColors(w, f);
+    });
+  });
+
+  // 7. Left Drawer View: Adjustments Controls (10 Parameters + Master Reset)
   const shadowRangeSlider = document.getElementById('shadow-range-slider');
   const shadowToggle = document.getElementById('shadow-toggle');
   const shadowPercentageVal = document.getElementById('shadow-percentage-val');
@@ -5343,12 +5523,21 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       frontTransform.scale = 1.0;
       backTransform.scale = 1.0;
 
+      frontTransform.shiftX = 0;
+      backTransform.shiftX = 0;
+      if (frontShiftSlider) frontShiftSlider.value = 0;
+      if (frontShiftVal) frontShiftVal.textContent = '0%';
+      if (backShiftSlider) backShiftSlider.value = 0;
+      if (backShiftVal) backShiftVal.textContent = '0%';
+
+      setDualShowcaseColors('#2b4a6f', '#e8e2dc');
+
       updateFloatingTransform();
       renderCurrentMockup();
     });
   }
 
-  // 7. Book Angle Cards (in Inspector)
+  // 8. Book Angle Cards (in Inspector)
   const angleCards = document.querySelectorAll('.angle-card-btn');
   angleCards.forEach(card => {
     card.addEventListener('click', () => {
@@ -5364,7 +5553,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   });
 
-  // 8. Top Header Actions & Export Function
+  // 9. Top Header Actions & Export Function
   const btnHdrHelp = document.getElementById('btn-hdr-help');
   const btnCloseHelp = document.getElementById('btn-close-help');
   const helpModal = document.getElementById('studio-help-modal');
