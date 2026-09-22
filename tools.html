@@ -4282,12 +4282,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       if (cropBackBtn) cropBackBtn.style.display = 'inline-flex';
     } else if (slot === 'spine') {
       setSpineArtwork(croppedCanvas, name);
+      const spineThumbPreview = document.getElementById('spine-thumb-preview');
       if (spineThumbPreview) {
         spineThumbPreview.src = thumbUrl;
         spineThumbPreview.style.display = 'block';
       }
+      const cropSpineBtn = document.getElementById('crop-spine-btn');
       if (cropSpineBtn) cropSpineBtn.style.display = 'inline-flex';
     }
+    
+    updateAllSlotCardsUI();
 
     closeCropModal();
   }
@@ -4326,6 +4330,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
         if (cropSpineBtn) cropSpineBtn.style.display = 'inline-flex';
       }
+      
+      updateAllSlotCardsUI();
       closeCropModal();
     };
     img.src = currentCropDataUrl;
@@ -5291,6 +5297,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       if (e.target.files && e.target.files[0]) {
         handleFrontFile(e.target.files[0]);
         updateAllSlotCardsUI();
+        frontSlotInput.value = '';
       }
     });
   }
@@ -5327,6 +5334,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       if (e.target.files && e.target.files[0]) {
         handleBackFile(e.target.files[0]);
         updateAllSlotCardsUI();
+        backSlotInput.value = '';
       }
     });
   }
@@ -5372,6 +5380,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
               setSpineArtwork(img, file.name);
             }
             updateAllSlotCardsUI();
+            spineSlotInput.value = '';
           };
           img.src = ev.target.result;
         };
