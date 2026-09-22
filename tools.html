@@ -5172,12 +5172,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     }
 
     if (slotFrontThumb) {
-      if (customFrontImg && customFrontImg.src) {
-        slotFrontThumb.src = customFrontImg.src;
+      if (customFrontImg) {
+        slotFrontThumb.src = customFrontImg.src || (customFrontImg.toDataURL ? customFrontImg.toDataURL() : '');
       } else if (isMag) {
         slotFrontThumb.src = '/images/psd_mockups/magazine_turning_spread/sample_right.png';
-      } else if (activeFrontImg && activeFrontImg.src) {
-        slotFrontThumb.src = activeFrontImg.src;
+      } else if (activeFrontImg) {
+        slotFrontThumb.src = activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : '');
       } else {
         slotFrontThumb.src = '/images/psd_mockup_2/sample_cover.png';
       }
@@ -5208,12 +5208,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     }
 
     if (slotBackThumb) {
-      if (customBackImg && customBackImg.src) {
-        slotBackThumb.src = customBackImg.src;
+      if (customBackImg) {
+        slotBackThumb.src = customBackImg.src || (customBackImg.toDataURL ? customBackImg.toDataURL() : '');
       } else if (isMag) {
         slotBackThumb.src = '/images/psd_mockups/magazine_turning_spread/sample_left.png';
-      } else if (activeBackImg && activeBackImg.src) {
-        slotBackThumb.src = activeBackImg.src;
+      } else if (activeBackImg) {
+        slotBackThumb.src = activeBackImg.src || (activeBackImg.toDataURL ? activeBackImg.toDataURL() : '');
       } else {
         slotBackThumb.src = '/images/psd_mockups/thumbnails/paperback_duo.jpg';
       }
@@ -5305,9 +5305,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customFrontImg = null;
       activeFrontImg = null;
       rawArtworks.front = null;
-      rawFileNames.front = 'cover.jpg';
+      rawFileNames.front = null;
       frontTransform.shiftX = 0;
-      processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
       updateAllSlotCardsUI();
       renderCurrentMockup();
     });
@@ -5342,7 +5341,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customBackImg = null;
       activeBackImg = null;
       rawArtworks.back = null;
-      rawFileNames.back = 'Back Cover';
+      rawFileNames.back = null;
       backTransform.shiftX = 0;
       updateAllSlotCardsUI();
       renderCurrentMockup();
