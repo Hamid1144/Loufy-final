@@ -1171,6 +1171,13 @@
             <span class="template-card-label">Open Spread</span>
           </button>
 
+                    <button type="button" class="template-card-btn" data-preset="magazine_turning_spread" data-cat="magazine open_book">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/magazine_turning_spread.jpg" alt="Turning Spread">
+            </div>
+            <span class="template-card-label">Turning Spread</span>
+          </button>
           <button type="button" class="template-card-btn" data-preset="front_back_showcase" data-cat="hardcover">
             <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
             <div class="template-card-thumb-wrap">
@@ -2196,6 +2203,48 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     "description": "Authentic Open Book Spread flatlay with realistic curved pages, spine crease shading, and overhead studio lighting."
   },
+  "magazine_turning_spread": {
+    "id": "magazine_turning_spread",
+    "title": "Magazine Turning Spread (Open + Turning Page)",
+    "category": "magazine",
+    "aspect": "A4",
+    "width": 2200,
+    "height": 1600,
+    "slots": [
+      "front",
+      "back",
+      "spine"
+    ],
+    "defaultBg": "#dedede",
+    "layers": {
+      "backdrop": "images/psd_mockups/magazine_turning_spread/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/magazine_turning_spread/shadow.png",
+      "magazine": "images/psd_mockups/magazine_turning_spread/magazine.png",
+      "cover_color": "images/psd_mockups/magazine_turning_spread/cover_color.png",
+      "highlights": "images/psd_mockups/magazine_turning_spread/highlights.png"
+    },
+    "quads": {
+      "left": [
+        [1071.12, 389.86],
+        [1432.53, 671.86],
+        [791.10, 1186.95],
+        [278.00, 937.00]
+      ],
+      "middle": [
+        [1163.29, 33.85],
+        [1510.10, 621.68],
+        [720.63, 1272.59],
+        [521.25, 642.99]
+      ],
+      "right": [
+        [1537.03, 572.60],
+        [1988.81, 942.30],
+        [1394.55, 1488.88],
+        [770.23, 1167.03]
+      ]
+    },
+    "description": "Authentic dynamic open magazine spread with an airborne, curling middle page rising from the spine in 3D perspective."
+  },
   "square_open_book": {
     "id": "square_open_book",
     "title": "Square Open Book Flatlay",
@@ -2662,17 +2711,21 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   let customFrontImg = null;
   let customSpineImg = null;
   let customBackImg = null;
+  let activeMidImg = null;
+  let customMidImg = null;
 
   // Raw source artworks for re-cropping anytime
   const rawArtworks = {
     front: null,
     back: null,
-    spine: null
+    spine: null,
+    middle: null
   };
   const rawFileNames = {
     front: 'Custom Front',
     back: 'Custom Back',
-    spine: 'Custom Spine'
+    spine: 'Custom Spine',
+    middle: 'Turning Page'
   };
 
   // Cropper State
@@ -3111,7 +3164,75 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const swRatio = spineWidth / 100;
 
       // 3. Realistic Layer Compositing Pipeline
-      if (presetId === 'open_book' || presetId === 'square_open_book') {
+            if (presetId === 'magazine_turning_spread') {
+        // --- AUTHENTIC MAGAZINE TURNING SPREAD PIPELINE ---
+        const magImg = await preloadImage(config.layers.magazine);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+        if (magImg) ctx.drawImage(magImg, 0, 0, renderWidth, renderHeight);
+
+        // Pages buffer clipped to magazine base
+        const pagesBuf = document.createElement('canvas');
+        pagesBuf.width = renderWidth;
+        pagesBuf.height = renderHeight;
+        const pctx = pagesBuf.getContext('2d');
+
+        // Resolve 3 page artworks:
+        // Left Page: backArt (Slot 2) or default sample_left
+        // Right Page: frontArt (Slot 1) or default sample_right
+        // Middle Page: customMidImg || activeMidImg || sample_middle
+        const defLeft = await preloadImage('images/psd_mockups/magazine_turning_spread/sample_left.png');
+        const defMid = await preloadImage('images/psd_mockups/magazine_turning_spread/sample_middle.png');
+        const defRight = await preloadImage('images/psd_mockups/magazine_turning_spread/sample_right.png');
+
+        const resolvedLeft = customBackImg ? backArt : (defLeft || backArt);
+        const resolvedRight = customFrontImg ? frontArt : (defRight || frontArt);
+        const rawMid = customMidImg ? customMidImg : (defMid || activeMidImg);
+        const resolvedMid = rawMid ? getTransformedArtwork(rawMid, { scale: 100, shiftX: 0, shiftY: 0 }) : null;
+
+        // Draw Left, Middle, Right pages to pages buffer
+        if (resolvedLeft) warpQuad(pctx, resolvedLeft, config.quads.left, scale);
+        if (resolvedMid) warpQuad(pctx, resolvedMid, config.quads.middle, scale);
+        if (resolvedRight) warpQuad(pctx, resolvedRight, config.quads.right, scale);
+
+        // Clip to Magazine 3D body cutout
+        if (magImg) {
+          pctx.save();
+          pctx.globalCompositeOperation = 'destination-in';
+          pctx.drawImage(magImg, 0, 0, renderWidth, renderHeight);
+          pctx.restore();
+        }
+
+        // Composite pages onto main canvas with MULTIPLY
+        ctx.save();
+        ctx.globalCompositeOperation = 'multiply';
+        ctx.drawImage(pagesBuf, 0, 0);
+        ctx.restore();
+
+        // Cover Color overlay (Linear Burn / Multiply)
+        if (config.layers.cover_color) {
+          const covImg = await preloadImage(config.layers.cover_color);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (covImg) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'multiply';
+            ctx.drawImage(covImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+
+        // Specular Highlights & Sheen
+        if (config.layers.highlights && highlightOpacity > 0) {
+          const hlImg = await preloadImage(config.layers.highlights);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (hlImg) {
+            ctx.save();
+            ctx.globalAlpha = highlightOpacity;
+            ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+        return;
+      } else if (presetId === 'open_book' || presetId === 'square_open_book') {
         // --- AUTHENTIC OPEN BOOK SPREAD PIPELINE ---
         if (config.layers.cover) {
           const cvImg = await preloadImage(config.layers.cover);
@@ -3506,9 +3627,25 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (editingLayerNotice) editingLayerNotice.style.display = hasBack ? 'block' : 'none';
 
     // Contextual slot button labels and flex ordering
-    if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
+    if (currentPresetId === 'magazine_turning_spread') {
+      if (slotCardBack) slotCardBack.style.order = '1';
+      if (slotCardSpine) slotCardSpine.style.order = '2';
+      if (slotCardFront) slotCardFront.style.order = '3';
+      if (frontBtnLabel) {
+        frontBtnLabel.textContent = rawFileNames.front ? rawFileNames.front : (customFrontImg ? 'Right Page' : 'Right Page');
+      }
+      if (backBtnLabel) {
+        backBtnLabel.textContent = rawFileNames.back ? rawFileNames.back : (customBackImg ? 'Left Page' : 'Left Page');
+      }
+      if (spineBtnLabel) {
+        spineBtnLabel.textContent = rawFileNames.middle ? rawFileNames.middle : (customMidImg ? 'Turning Page' : 'Turning Page');
+      }
+      if (btnLayerFront) btnLayerFront.textContent = 'Right Page';
+      if (btnLayerBack) btnLayerBack.textContent = 'Left Page';
+    } else if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
       if (slotCardBack) slotCardBack.style.order = '1';
       if (slotCardFront) slotCardFront.style.order = '2';
+      if (slotCardSpine) slotCardSpine.style.order = '3';
       if (frontBtnLabel) {
         frontBtnLabel.textContent = rawFileNames.front ? rawFileNames.front : (customFrontImg ? 'Right Page' : 'Right Page');
       }
@@ -3520,11 +3657,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     } else {
       if (slotCardFront) slotCardFront.style.order = '1';
       if (slotCardBack) slotCardBack.style.order = '2';
+      if (slotCardSpine) slotCardSpine.style.order = '3';
       if (frontBtnLabel) {
         frontBtnLabel.textContent = rawFileNames.front ? rawFileNames.front : (customFrontImg ? 'Front Cover' : 'Front Cover');
       }
       if (backBtnLabel) {
         backBtnLabel.textContent = rawFileNames.back ? rawFileNames.back : (customBackImg ? 'Back Cover' : 'Back Cover');
+      }
+      if (spineBtnLabel) {
+        spineBtnLabel.textContent = rawFileNames.spine ? rawFileNames.spine : (customSpineImg ? 'Book Spine' : 'Book Spine');
       }
       if (btnLayerFront) btnLayerFront.textContent = 'Front Cover';
       if (btnLayerBack) btnLayerBack.textContent = 'Back Cover';
@@ -3536,7 +3677,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     }
 
     if (slotsSupportLabel) {
-      if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
+      if (currentPresetId === 'magazine_turning_spread') {
+        slotsSupportLabel.textContent = 'Left Page + Turning Page + Right Page';
+      } else if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
         slotsSupportLabel.textContent = 'Left Page + Right Page';
       } else if (hasSpine && hasBack) {
         slotsSupportLabel.textContent = 'Front + Spine + Back';
@@ -3704,7 +3847,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     let aspectLabel = '';
 
     // 1. Direct bounding rects (e.g. front_back_showcase, square_flatlay, book_mockup_1)
-    if (presetId === 'open_book') {
+    if (presetId === 'magazine_turning_spread') {
+      // All 3 page slots use A4 portrait aspect
+      width = 1654;
+      height = 2339;
+      ratio = 1654 / 2339;
+      aspectLabel = 'A4 Magazine Page';
+    } else if (presetId === 'open_book') {
       width = 1167;
       height = 1654;
       ratio = 1167 / 1654;
@@ -3761,9 +3910,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       aspectLabel = `${ratio.toFixed(2)} Exact Fit`;
     }
 
-    const slotLabel = (presetId === 'open_book' || presetId === 'square_open_book')
-      ? (slot === 'back' ? 'Left Page' : 'Right Page')
-      : (slot === 'spine' ? 'Book Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover'));
+    let slotLabel;
+    if (presetId === 'magazine_turning_spread') {
+      if (slot === 'middle') slotLabel = 'Turning Page';
+      else if (slot === 'back') slotLabel = 'Left Page';
+      else slotLabel = 'Right Page';
+    } else if (presetId === 'open_book' || presetId === 'square_open_book') {
+      slotLabel = slot === 'back' ? 'Left Page' : 'Right Page';
+    } else {
+      slotLabel = slot === 'spine' ? 'Book Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover');
+    }
 
     return {
       ratio,
@@ -4110,6 +4266,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         frontThumbPreview.style.display = 'block';
       }
       if (cropFrontBtn) cropFrontBtn.style.display = 'inline-flex';
+    } else if (slot === 'middle') {
+      setMiddleArtwork(croppedCanvas, name);
+      // Update the spine/middle slot thumbnail
+      const slotSpineThumb = document.getElementById('slot-spine-thumb');
+      if (slotSpineThumb) {
+        slotSpineThumb.src = thumbUrl;
+      }
     } else if (slot === 'back') {
       setBackArtwork(croppedCanvas, name);
       if (backThumbPreview) {
@@ -4243,6 +4406,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     renderCurrentMockup();
   }
   window.setSpineArtwork = setSpineArtwork;
+
+  function setMiddleArtwork(imgOrCanvas, name = 'Turning Page') {
+    customMidImg = imgOrCanvas;
+    activeMidImg = imgOrCanvas;
+    rawFileNames.middle = name;
+    renderCurrentMockup();
+  }
+  window.setMiddleArtwork = setMiddleArtwork;
 
   // Upload Handlers for Individual Slots: Read File & Open Crop Modal or Auto-Split
   function handleFrontFile(file) {
@@ -4976,10 +5147,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   const fullwrapInput = document.getElementById('drawer-fullwrap-input');
 
   function updateAllSlotCardsUI() {
+    const isSpread = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'magazine_turning_spread');
+    const isMag = (currentPresetId === 'magazine_turning_spread');
+
     // Front Slot UI
     if (slotFrontThumb) {
       if (customFrontImg && customFrontImg.src) {
         slotFrontThumb.src = customFrontImg.src;
+      } else if (isMag) {
+        slotFrontThumb.src = '/images/psd_mockups/magazine_turning_spread/sample_right.png';
       } else if (activeFrontImg && activeFrontImg.src) {
         slotFrontThumb.src = activeFrontImg.src;
       } else {
@@ -4987,14 +5163,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
     }
     if (slotFrontSpecs) {
-      const isSpread = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book');
-      slotFrontSpecs.textContent = isSpread ? 'Right Page • ' + (rawFileNames.front || 'Sample') : 'Front • ' + (rawFileNames.front || 'Sample');
+      slotFrontSpecs.textContent = isMag ? 'Right Page (Spread) • ' + (rawFileNames.front || 'Sample') : (isSpread ? 'Right Page • ' + (rawFileNames.front || 'Sample') : 'Front • ' + (rawFileNames.front || 'Sample'));
     }
 
     // Back Slot UI
     if (slotBackThumb) {
       if (customBackImg && customBackImg.src) {
         slotBackThumb.src = customBackImg.src;
+      } else if (isMag) {
+        slotBackThumb.src = '/images/psd_mockups/magazine_turning_spread/sample_left.png';
       } else if (activeBackImg && activeBackImg.src) {
         slotBackThumb.src = activeBackImg.src;
       } else {
@@ -5002,18 +5179,51 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
     }
     if (slotBackSpecs) {
-      const isSpread = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book');
-      slotBackSpecs.textContent = isSpread ? 'Left Page • ' + (rawFileNames.back || 'Sample') : 'Back • ' + (rawFileNames.back || 'Optional');
+      slotBackSpecs.textContent = isMag ? 'Left Page (Spread) • ' + (rawFileNames.back || 'Sample') : (isSpread ? 'Left Page • ' + (rawFileNames.back || 'Sample') : 'Back • ' + (rawFileNames.back || 'Optional'));
     }
 
-    // Spine Slot UI
-    if (slotSpineThumb) {
-      if (customSpineImg && customSpineImg.src) {
-        slotSpineThumb.src = customSpineImg.src;
-      } else if (activeSpineImg && activeSpineImg.src) {
-        slotSpineThumb.src = activeSpineImg.src;
+    // Spine / Middle Slot UI
+    const isMagTurning = (currentPresetId === 'magazine_turning_spread');
+    const spineCard = document.querySelector('#slot-spine-thumb')?.closest('.slot-item-card');
+    if (spineCard) {
+      const sTitle = spineCard.querySelector('.slot-item-title');
+      const sBadge = spineCard.querySelector('.slot-item-badge');
+      const sSpecs = spineCard.querySelector('.slot-item-specs');
+      const sSlider = document.getElementById('drawer-spine-width-slider');
+      const sColorPicker = document.getElementById('drawer-spine-color-picker');
+
+      if (isMagTurning) {
+        if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#10b981;"></i> Turning Page';
+        if (sBadge) sBadge.textContent = 'Curled 3D';
+        if (sSpecs) sSpecs.textContent = 'Middle Page • ' + (rawFileNames.middle || 'Sample');
+        if (sSlider) sSlider.style.display = 'none';
+        if (sColorPicker) sColorPicker.style.display = 'none';
       } else {
-        slotSpineThumb.src = '/images/psd_mockups/thumbnails/hardcover_standing.jpg';
+        if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-grip-lines-vertical" style="color:#eab308;"></i> Book Spine';
+        if (sBadge) sBadge.textContent = 'Auto / Custom';
+        if (sSpecs) sSpecs.innerHTML = 'Spine Width: <strong id="drawer-spine-width-val">' + spineWidth + '%</strong>';
+        if (sSlider) sSlider.style.display = 'block';
+        if (sColorPicker) sColorPicker.style.display = 'inline-block';
+      }
+    }
+
+    if (slotSpineThumb) {
+      if (isMagTurning) {
+        if (customMidImg && customMidImg.src) {
+          slotSpineThumb.src = customMidImg.src;
+        } else if (activeMidImg && activeMidImg.src) {
+          slotSpineThumb.src = activeMidImg.src;
+        } else {
+          slotSpineThumb.src = '/images/psd_mockups/magazine_turning_spread/sample_middle.png';
+        }
+      } else {
+        if (customSpineImg && customSpineImg.src) {
+          slotSpineThumb.src = customSpineImg.src;
+        } else if (activeSpineImg && activeSpineImg.src) {
+          slotSpineThumb.src = activeSpineImg.src;
+        } else {
+          slotSpineThumb.src = '/images/psd_mockups/thumbnails/hardcover_standing.jpg';
+        }
       }
     }
 
@@ -5112,7 +5322,11 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         reader.onload = ev => {
           const img = new Image();
           img.onload = () => {
-            setSpineArtwork(img, file.name);
+            if (currentPresetId === 'magazine_turning_spread') {
+              setMiddleArtwork(img, file.name);
+            } else {
+              setSpineArtwork(img, file.name);
+            }
             updateAllSlotCardsUI();
           };
           img.src = ev.target.result;
@@ -5123,16 +5337,28 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotSpine) {
     btnCropSlotSpine.addEventListener('click', () => {
-      const src = (customSpineImg && customSpineImg.src) || (activeSpineImg && activeSpineImg.src);
-      if (src) openCropModal(src, 'spine', rawFileNames.spine || 'Spine Artwork');
+      if (currentPresetId === 'magazine_turning_spread') {
+        const src = (customMidImg && customMidImg.src) || (activeMidImg && activeMidImg.src);
+        if (src) openCropModal(src, 'middle', rawFileNames.middle || 'Turning Page Artwork');
+      } else {
+        const src = (customSpineImg && customSpineImg.src) || (activeSpineImg && activeSpineImg.src);
+        if (src) openCropModal(src, 'spine', rawFileNames.spine || 'Spine Artwork');
+      }
     });
   }
   if (btnClearSlotSpine) {
     btnClearSlotSpine.addEventListener('click', () => {
-      customSpineImg = null;
-      activeSpineImg = null;
-      rawArtworks.spine = null;
-      rawFileNames.spine = 'Spine';
+      if (currentPresetId === 'magazine_turning_spread') {
+        customMidImg = null;
+        activeMidImg = null;
+        rawArtworks.middle = null;
+        rawFileNames.middle = 'Turning Page';
+      } else {
+        customSpineImg = null;
+        activeSpineImg = null;
+        rawArtworks.spine = null;
+        rawFileNames.spine = 'Spine';
+      }
       updateAllSlotCardsUI();
       renderCurrentMockup();
     });
@@ -5644,6 +5870,18 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   updateAllSlotCardsUI();
 
+  // Internal test & inspection hook
+  window.__app = {
+    PSD_MANIFEST,
+    renderMockupToCanvas,
+    renderCurrentMockup,
+    updateUIForPreset,
+    updateAllSlotCardsUI,
+    imageCache,
+    get currentPresetId() { return currentPresetId; },
+    set currentPresetId(v) { currentPresetId = v; },
+    get currentRenderId() { return currentRenderId; }
+  };
 });
 </script>
 </body>
