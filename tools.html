@@ -1345,7 +1345,7 @@
         <input type="file" id="upload-slot-spine-input" accept="image/png, image/jpeg, image/webp" style="display:none;">
 
         <!-- 1. Front Cover Slot Card -->
-        <div class="slot-item-card">
+        <div class="slot-item-card" id="slot-card-front">
           <div class="slot-item-header">
             <span class="slot-item-title"><i class="fa-solid fa-book" style="color:#ff5a1f;"></i> Front Cover</span>
             <span class="slot-item-badge">Main / Required</span>
@@ -1376,7 +1376,7 @@
         </div>
 
         <!-- 2. Back Cover Slot Card -->
-        <div class="slot-item-card">
+        <div class="slot-item-card" id="slot-card-back">
           <div class="slot-item-header">
             <span class="slot-item-title"><i class="fa-solid fa-book-open" style="color:#3b82f6;"></i> Back Cover</span>
             <span class="slot-item-badge">Optional / Dual</span>
@@ -1407,7 +1407,7 @@
         </div>
 
         <!-- 3. Spine Slot Card -->
-        <div class="slot-item-card">
+        <div class="slot-item-card" id="slot-card-spine">
           <div class="slot-item-header">
             <span class="slot-item-title"><i class="fa-solid fa-grip-lines-vertical" style="color:#eab308;"></i> Book Spine</span>
             <span class="slot-item-badge">Auto / Custom</span>
@@ -5151,6 +5151,26 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     const isMag = (currentPresetId === 'magazine_turning_spread');
 
     // Front Slot UI
+    const frontCard = document.querySelector('#slot-front-thumb')?.closest('.slot-item-card');
+    if (frontCard) {
+      const fTitle = frontCard.querySelector('.slot-item-title');
+      const fBadge = frontCard.querySelector('.slot-item-badge');
+      if (isMag) {
+        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#ff5a1f;"></i> Right Page';
+        if (fBadge) fBadge.textContent = 'Spread';
+      } else if (isSpread) {
+        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#ff5a1f;"></i> Right Page';
+        if (fBadge) fBadge.textContent = 'Main / Required';
+      } else {
+        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-book" style="color:#ff5a1f;"></i> Front Cover';
+        if (fBadge) fBadge.textContent = 'Main / Required';
+      }
+    }
+    if (frontShiftSlider) {
+      frontShiftSlider.style.display = isMag ? 'none' : 'block';
+      if (frontShiftSlider.previousElementSibling) frontShiftSlider.previousElementSibling.style.display = isMag ? 'none' : 'flex';
+    }
+
     if (slotFrontThumb) {
       if (customFrontImg && customFrontImg.src) {
         slotFrontThumb.src = customFrontImg.src;
@@ -5163,10 +5183,30 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
     }
     if (slotFrontSpecs) {
-      slotFrontSpecs.textContent = isMag ? 'Right Page (Spread) • ' + (rawFileNames.front || 'Sample') : (isSpread ? 'Right Page • ' + (rawFileNames.front || 'Sample') : 'Front • ' + (rawFileNames.front || 'Sample'));
+      slotFrontSpecs.textContent = isMag ? 'Right Page • ' + (rawFileNames.front || 'Sample') : (isSpread ? 'Right Page • ' + (rawFileNames.front || 'Sample') : 'Front • ' + (rawFileNames.front || 'Sample'));
     }
 
     // Back Slot UI
+    const backCard = document.querySelector('#slot-back-thumb')?.closest('.slot-item-card');
+    if (backCard) {
+      const bTitle = backCard.querySelector('.slot-item-title');
+      const bBadge = backCard.querySelector('.slot-item-badge');
+      if (isMag) {
+        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#3b82f6;"></i> Left Page';
+        if (bBadge) bBadge.textContent = 'Spread';
+      } else if (isSpread) {
+        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#3b82f6;"></i> Left Page';
+        if (bBadge) bBadge.textContent = 'Dual Spread';
+      } else {
+        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-book-open" style="color:#3b82f6;"></i> Back Cover';
+        if (bBadge) bBadge.textContent = 'Optional / Dual';
+      }
+    }
+    if (backShiftSlider) {
+      backShiftSlider.style.display = isMag ? 'none' : 'block';
+      if (backShiftSlider.previousElementSibling) backShiftSlider.previousElementSibling.style.display = isMag ? 'none' : 'flex';
+    }
+
     if (slotBackThumb) {
       if (customBackImg && customBackImg.src) {
         slotBackThumb.src = customBackImg.src;
@@ -5179,7 +5219,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
     }
     if (slotBackSpecs) {
-      slotBackSpecs.textContent = isMag ? 'Left Page (Spread) • ' + (rawFileNames.back || 'Sample') : (isSpread ? 'Left Page • ' + (rawFileNames.back || 'Sample') : 'Back • ' + (rawFileNames.back || 'Optional'));
+      slotBackSpecs.textContent = isMag ? 'Left Page • ' + (rawFileNames.back || 'Sample') : (isSpread ? 'Left Page • ' + (rawFileNames.back || 'Sample') : 'Back • ' + (rawFileNames.back || 'Optional'));
     }
 
     // Spine / Middle Slot UI
@@ -5193,9 +5233,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const sColorPicker = document.getElementById('drawer-spine-color-picker');
 
       if (isMagTurning) {
-        if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#10b981;"></i> Turning Page';
+        if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#10b981;"></i> Middle Page';
         if (sBadge) sBadge.textContent = 'Curled 3D';
-        if (sSpecs) sSpecs.textContent = 'Middle Page • ' + (rawFileNames.middle || 'Sample');
+        if (sSpecs) sSpecs.textContent = 'Turning Page • ' + (rawFileNames.middle || 'Sample');
         if (sSlider) sSlider.style.display = 'none';
         if (sColorPicker) sColorPicker.style.display = 'none';
       } else {
@@ -5205,6 +5245,11 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (sSlider) sSlider.style.display = 'block';
         if (sColorPicker) sColorPicker.style.display = 'inline-block';
       }
+    }
+
+    // Toggle Full Wrap dropzone
+    if (fullwrapDropzone) {
+      fullwrapDropzone.style.display = isMag ? 'none' : 'block';
     }
 
     if (slotSpineThumb) {
