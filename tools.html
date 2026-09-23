@@ -2356,10 +2356,10 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     "mesh": {
       "middle": [
-        [1100.00, -30.00], [1223.33, 213.33], [1366.67, 416.67], [1530.00, 580.00], 
-        [963.33, 233.33], [1045.56, 426.67], [1127.78, 620.00], [1250.00, 823.33], 
-        [726.67, 466.67], [797.78, 665.00], [868.89, 863.33], [970.00, 1066.67], 
-        [450.00, 700.00], [550.00, 863.33], [630.00, 1066.67], [690.00, 1310.00]
+        [1163.00, 33.00], [1287.67, 212.67], [1412.33, 392.33], [1537.00, 572.00], 
+        [898.67, 247.00], [1032.89, 424.44], [1167.11, 600.89], [1281.33, 770.33], 
+        [684.33, 481.00], [803.11, 645.22], [921.89, 809.44], [1025.67, 968.67], 
+        [490.00, 720.00], [583.33, 869.00], [676.67, 1018.00], [770.00, 1167.00]
       ]
     },
     "quads": {
@@ -2370,10 +2370,10 @@ document.addEventListener('DOMContentLoaded', () => {
         [278.00, 937.00]
       ],
       "middle": [
-        [1100.00, -30.00],
-        [1530.00, 580.00],
-        [690.00, 1310.00],
-        [450.00, 700.00]
+        [1163.00, 33.00],
+        [1537.28, 572.24],
+        [770.23, 1167.03],
+        [490.00, 720.00]
       ],
       "right": [
         [1537.03, 572.60],
@@ -3307,7 +3307,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         // --- AUTHENTIC MAGAZINE TURNING SPREAD PIPELINE ---
         const magImg = await preloadImage(config.layers.magazine);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (magImg) ctx.drawImage(magImg, 0, 0, renderWidth, renderHeight);
+        // removed magImg white base to fix halo
 
         // Pages buffer clipped to magazine base
         const pagesBuf = document.createElement('canvas');
@@ -3349,7 +3349,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
         // Composite pages onto main canvas with MULTIPLY
         ctx.save();
-        ctx.globalCompositeOperation = 'multiply';
+        ctx.globalCompositeOperation = 'source-over';
         ctx.drawImage(pagesBuf, 0, 0);
         ctx.restore();
 
