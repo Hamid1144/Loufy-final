@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -3307,18 +3307,11 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         // --- AUTHENTIC MAGAZINE TURNING SPREAD PIPELINE ---
         const magImg = await preloadImage(config.layers.magazine);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        // removed magImg white base to fix halo
-
-        // Pages buffer clipped to magazine base
-        const pagesBuf = document.createElement('canvas');
-        pagesBuf.width = renderWidth;
-        pagesBuf.height = renderHeight;
-        const pctx = pagesBuf.getContext('2d');
+        // Per-page clipping rendering pipeline
+        // Each page renders to its own canvas, clipped to its own quad polygon
+        // then clipped with magazine.png, to prevent cross-page artwork bleeding.
 
         // Resolve 3 page artworks:
-        // Left Page: backArt (Slot 2) or default sample_left
-        // Right Page: frontArt (Slot 1) or default sample_right
-        // Middle Page: customMidImg || activeMidImg || sample_middle
         const defLeft = await preloadImage('images/psd_mockups/magazine_turning_spread/sample_left.png');
         const defMid = await preloadImage('images/psd_mockups/magazine_turning_spread/sample_middle.png');
         const defRight = await preloadImage('images/psd_mockups/magazine_turning_spread/sample_right.png');
@@ -3328,30 +3321,56 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         const rawMid = customMidImg ? customMidImg : (defMid || activeMidImg);
         const resolvedMid = rawMid ? getTransformedArtwork(rawMid, { scale: 100, shiftX: 0, shiftY: 0 }) : null;
 
-        // Draw Left, Right, then Middle (Middle goes on top of the left page curve)
-        if (resolvedLeft) warpQuad(pctx, resolvedLeft, config.quads.left, scale);
-        if (resolvedRight) warpQuad(pctx, resolvedRight, config.quads.right, scale);
-        if (resolvedMid) {
-          if (config.mesh && config.mesh.middle) {
-            warpMeshGrid(pctx, resolvedMid, config.mesh.middle, scale);
-          } else {
-            warpQuad(pctx, resolvedMid, config.quads.middle, scale);
+        // Helper: render one page to its own canvas, clipped to its quad polygon + magazine mask
+        function renderPageClipped(art, quad, useMesh, meshPts) {
+          const buf = document.createElement('canvas');
+          buf.width = renderWidth; buf.height = renderHeight;
+          const bctx = buf.getContext('2d');
+
+          // Step 1: Set up clip path from quad polygon to confine artwork to THIS page only
+          bctx.save();
+          bctx.beginPath();
+          const q = quad;
+          bctx.moveTo(q[0][0] * scale, q[0][1] * scale);
+          for (let i = 1; i < q.length; i++) {
+            bctx.lineTo(q[i][0] * scale, q[i][1] * scale);
           }
+          bctx.closePath();
+          bctx.clip();
+
+          // Step 2: Draw the warped artwork inside the clip
+          if (useMesh && meshPts) {
+            warpMeshGrid(bctx, art, meshPts, scale);
+          } else {
+            warpQuad(bctx, art, quad, scale);
+          }
+          bctx.restore();
+
+          // Step 3: Additionally clip to magazine body mask (curved edges)
+          if (magImg) {
+            bctx.save();
+            bctx.globalCompositeOperation = 'destination-in';
+            bctx.drawImage(magImg, 0, 0, renderWidth, renderHeight);
+            bctx.restore();
+          }
+
+          return buf;
         }
 
-        // Clip to Magazine 3D body cutout
-        if (magImg) {
-          pctx.save();
-          pctx.globalCompositeOperation = 'destination-in';
-          pctx.drawImage(magImg, 0, 0, renderWidth, renderHeight);
-          pctx.restore();
+        // Draw pages in correct z-order: Left (bottom), Right (middle), Middle/turning (top)
+        if (resolvedLeft) {
+          const leftBuf = renderPageClipped(resolvedLeft, config.quads.left, false, null);
+          ctx.drawImage(leftBuf, 0, 0);
         }
-
-        // Composite pages onto main canvas with MULTIPLY
-        ctx.save();
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.drawImage(pagesBuf, 0, 0);
-        ctx.restore();
+        if (resolvedRight) {
+          const rightBuf = renderPageClipped(resolvedRight, config.quads.right, false, null);
+          ctx.drawImage(rightBuf, 0, 0);
+        }
+        if (resolvedMid) {
+          const hasMesh = config.mesh && config.mesh.middle;
+          const midBuf = renderPageClipped(resolvedMid, config.quads.middle, hasMesh, hasMesh ? config.mesh.middle : null);
+          ctx.drawImage(midBuf, 0, 0);
+        }
 
         // Cover Color overlay (Linear Burn / Multiply)
         if (config.layers.cover_color) {
