@@ -1098,6 +1098,7 @@
 
 
   </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
 
@@ -1422,9 +1423,9 @@
         </div>
 
         <!-- Hidden Native File Inputs for Slots -->
-        <input type="file" id="upload-slot-front-input" accept="image/png, image/jpeg, image/webp" style="display:none;">
-        <input type="file" id="upload-slot-back-input" accept="image/png, image/jpeg, image/webp" style="display:none;">
-        <input type="file" id="upload-slot-spine-input" accept="image/png, image/jpeg, image/webp" style="display:none;">
+        <input type="file" id="upload-slot-front-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display:none;">
+        <input type="file" id="upload-slot-back-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display:none;">
+        <input type="file" id="upload-slot-spine-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display:none;">
 
         <!-- 1. Front Cover Slot Card -->
         <div class="slot-item-card" id="slot-card-front">
@@ -1522,7 +1523,7 @@
             <span class="upload-box-title" style="font-size:0.78rem;">Full Wrap Auto-Split</span>
           </div>
           <span class="upload-box-sub" style="font-size:0.68rem;">Drop full jacket to slice Front, Spine &amp; Back</span>
-          <input type="file" id="drawer-fullwrap-input" accept="image/*" style="display:none;">
+          <input type="file" id="drawer-fullwrap-input" accept="image/*, application/pdf" style="display:none;">
         </div>
       </div>
 
@@ -1592,7 +1593,7 @@
           <button type="button" class="drawer-action-btn" id="btn-drawer-upload-bg" style="flex:1;padding:7px 8px;font-size:0.72rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
             <i class="fa-regular fa-image" style="color:#ff5a1f;"></i> Upload Photo
           </button>
-          <input type="file" id="drawer-bg-file-input" accept="image/*" style="display:none;">
+          <input type="file" id="drawer-bg-file-input" accept="image/*, application/pdf" style="display:none;">
         </div>
       </div>
 
@@ -1849,7 +1850,7 @@
             <button type="button" class="crop-replace-btn" id="crop-replace-trigger">
               <i class="fa-solid fa-cloud-arrow-up"></i> Replace Image
             </button>
-            <input type="file" id="crop-replace-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+            <input type="file" id="crop-replace-file-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display: none;">
           </div>
         </div>
       </div>
@@ -1947,6 +1948,54 @@
 <!-- ── AUTHENTIC PHOTOSHOP PSD MOCKUP ENGINE JAVASCRIPT ── -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
+  // PDF.js Initialization for PDF upload support
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+
+  window.processUploadedFileToImage = async function(file) {
+    return new Promise((resolve, reject) => {
+      if (file.type === 'application/pdf') {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          try {
+            const typedarray = new Uint8Array(e.target.result);
+            const pdf = await pdfjsLib.getDocument(typedarray).promise;
+            const page = await pdf.getPage(1); // Render first page
+            const scale = 3.0; // High quality scale
+            const viewport = page.getViewport({ scale: scale });
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = canvas.toDataURL('image/jpeg', 0.95);
+          } catch (err) {
+            console.error('PDF parsing error:', err);
+            reject(err);
+          }
+        };
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+      } else if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      } else {
+        reject(new Error('Unsupported file format. Please upload an image or PDF.'));
+      }
+    });
+  };
 
   // Global Interactive Shadow State
   let shadowEnabled = true;
@@ -4199,11 +4248,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     cropReplaceInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          openCropModal(ev.target.result, currentCropSlot, file.name);
-        };
-        reader.readAsDataURL(file);
+        window.processUploadedFileToImage(file).then(img => {
+          openCropModal(img.src, currentCropSlot, file.name);
+        }).catch(err => {
+          console.error(err);
+          alert('Error loading file. Please try a valid image or PDF.');
+        });
       }
     });
   }
@@ -4505,47 +4555,45 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   window.setMiddleArtwork = setMiddleArtwork;
 
   // Upload Handlers for Individual Slots: Read File & Open Crop Modal or Auto-Split
-  function handleFrontFile(file) {
-    if (!file || !file.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        if ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book') && (img.width / img.height > 1.25)) {
-          processUploadedArtwork(img, file.name);
-        } else {
-          openCropModal(e.target.result, 'front', file.name);
-        }
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
+  async function handleFrontFile(file) {
+    if (!file) return;
+    try {
+      const img = await window.processUploadedFileToImage(file);
+      if ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book') && (img.width / img.height > 1.25)) {
+        processUploadedArtwork(img, file.name);
+      } else {
+        openCropModal(img.src, 'front', file.name);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error loading file. Please try a valid image or PDF.');
+    }
   }
 
-  function handleBackFile(file) {
-    if (!file || !file.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        if ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book') && (img.width / img.height > 1.25)) {
-          processUploadedArtwork(img, file.name);
-        } else {
-          openCropModal(e.target.result, 'back', file.name);
-        }
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
+  async function handleBackFile(file) {
+    if (!file) return;
+    try {
+      const img = await window.processUploadedFileToImage(file);
+      if ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book') && (img.width / img.height > 1.25)) {
+        processUploadedArtwork(img, file.name);
+      } else {
+        openCropModal(img.src, 'back', file.name);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error loading file. Please try a valid image or PDF.');
+    }
   }
 
-  function handleSpineFile(file) {
-    if (!file || !file.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      openCropModal(e.target.result, 'spine', file.name);
-    };
-    reader.readAsDataURL(file);
+  async function handleSpineFile(file) {
+    if (!file) return;
+    try {
+      const img = await window.processUploadedFileToImage(file);
+      openCropModal(img.src, 'spine', file.name);
+    } catch (e) {
+      console.error(e);
+      alert('Error loading file. Please try a valid image or PDF.');
+    }
   }
 
   // Active Slot State ('front', 'back', or 'spine')
@@ -4910,17 +4958,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   if (customBgInput) {
     customBgInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          const img = new Image();
-          img.onload = () => {
-            bgMode = 'custom';
-            PSD_MANIFEST[currentPresetId].customBackdropImg = img;
-            renderCurrentMockup();
-          };
-          img.src = ev.target.result;
-        };
-        reader.readAsDataURL(e.target.files[0]);
+        window.processUploadedFileToImage(e.target.files[0]).then(img => {
+          bgMode = 'custom';
+          PSD_MANIFEST[currentPresetId].customBackdropImg = img;
+          renderCurrentMockup();
+        }).catch(err => {
+          console.error(err);
+          alert('Error loading background image or PDF.');
+        });
       }
     });
   }
@@ -5453,21 +5498,18 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     spineSlotInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = ev => {
-          const img = new Image();
-          img.onload = () => {
-            if (currentPresetId === 'magazine_turning_spread') {
-              setMiddleArtwork(img, file.name);
-            } else {
-              setSpineArtwork(img, file.name);
-            }
-            updateAllSlotCardsUI();
-            spineSlotInput.value = '';
-          };
-          img.src = ev.target.result;
-        };
-        reader.readAsDataURL(file);
+        window.processUploadedFileToImage(file).then(img => {
+          if (currentPresetId === 'magazine_turning_spread') {
+            setMiddleArtwork(img, file.name);
+          } else {
+            setSpineArtwork(img, file.name);
+          }
+          updateAllSlotCardsUI();
+          spineSlotInput.value = '';
+        }).catch(err => {
+          console.error(err);
+          alert('Error loading file. Please try a valid image or PDF.');
+        });
       }
     });
   }
@@ -5536,17 +5578,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
-  function handleFullWrapFile(file) {
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = new Image();
-      img.onload = () => {
-        sliceAndApplyFullWrap(img, file.name);
-        updateAllSlotCardsUI();
-      };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
+  async function handleFullWrapFile(file) {
+    if (!file) return;
+    try {
+      const img = await window.processUploadedFileToImage(file);
+      sliceAndApplyFullWrap(img, file.name);
+      updateAllSlotCardsUI();
+    } catch (e) {
+      console.error(e);
+      alert('Error loading file. Please try a valid image or PDF.');
+    }
   }
 
   function sliceAndApplyFullWrap(wrapImg, fileName) {
@@ -5642,16 +5683,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     drawerBgFileInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = ev => {
-          const img = new Image();
-          img.onload = () => {
-            customBgImg = img;
-            setAppBackground('custom');
-          };
-          img.src = ev.target.result;
-        };
-        reader.readAsDataURL(file);
+        window.processUploadedFileToImage(file).then(img => {
+          customBgImg = img;
+          setAppBackground('custom');
+        }).catch(err => {
+          console.error(err);
+          alert('Error loading background image or PDF.');
+        });
       }
     });
   }
