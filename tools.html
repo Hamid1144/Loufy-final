@@ -2354,6 +2354,14 @@ document.addEventListener('DOMContentLoaded', () => {
       "cover_color": "images/psd_mockups/magazine_turning_spread/cover_color.png",
       "highlights": "images/psd_mockups/magazine_turning_spread/highlights.png"
     },
+    "mesh": {
+      "middle": [
+        [1100.00, -30.00], [1223.33, 213.33], [1366.67, 416.67], [1530.00, 580.00], 
+        [963.33, 233.33], [1045.56, 426.67], [1127.78, 620.00], [1250.00, 823.33], 
+        [726.67, 466.67], [797.78, 665.00], [868.89, 863.33], [970.00, 1066.67], 
+        [450.00, 700.00], [550.00, 863.33], [630.00, 1066.67], [690.00, 1310.00]
+      ]
+    },
     "quads": {
       "left": [
         [1071.12, 389.86],
@@ -3320,10 +3328,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         const rawMid = customMidImg ? customMidImg : (defMid || activeMidImg);
         const resolvedMid = rawMid ? getTransformedArtwork(rawMid, { scale: 100, shiftX: 0, shiftY: 0 }) : null;
 
-        // Draw Left, Middle, Right pages to pages buffer
+        // Draw Left, Right, then Middle (Middle goes on top of the left page curve)
         if (resolvedLeft) warpQuad(pctx, resolvedLeft, config.quads.left, scale);
-        if (resolvedMid) warpQuad(pctx, resolvedMid, config.quads.middle, scale);
         if (resolvedRight) warpQuad(pctx, resolvedRight, config.quads.right, scale);
+        if (resolvedMid) {
+          if (config.mesh && config.mesh.middle) {
+            warpMeshGrid(pctx, resolvedMid, config.mesh.middle, scale);
+          } else {
+            warpQuad(pctx, resolvedMid, config.quads.middle, scale);
+          }
+        }
 
         // Clip to Magazine 3D body cutout
         if (magImg) {
