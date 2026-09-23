@@ -2313,10 +2313,10 @@ document.addEventListener('DOMContentLoaded', () => {
         [278.00, 937.00]
       ],
       "middle": [
-        [1163.29, 33.85],
-        [1510.10, 621.68],
-        [720.63, 1272.59],
-        [521.25, 642.99]
+        [1100.00, -30.00],
+        [1530.00, 580.00],
+        [690.00, 1310.00],
+        [450.00, 700.00]
       ],
       "right": [
         [1537.03, 572.60],
@@ -3309,6 +3309,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           if (hlImg) {
             ctx.save();
             ctx.globalAlpha = highlightOpacity;
+            ctx.globalCompositeOperation = 'screen';
             ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
             ctx.restore();
           }
