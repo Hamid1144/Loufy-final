@@ -1285,6 +1285,14 @@
             </div>
             <span class="template-card-label">US Letter Brochure</span>
           </button>
+
+          <button type="button" class="template-card-btn" data-preset="square_book_12" data-cat="paperback stack">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/square_book_12.jpg" alt="Square Stack">
+            </div>
+            <span class="template-card-label">Square Stack</span>
+          </button>
         </div>
       </div>
 
@@ -2927,6 +2935,56 @@ document.addEventListener('DOMContentLoaded', () => {
         [1435.58, 2310.13]
       ]
     }
+  },
+  "square_book_12": {
+    "id": "square_book_12",
+    "title": "Square Book Stack",
+    "category": "stack",
+    "aspect": "1:1",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front",
+      "spine",
+      "back"
+    ],
+    "defaultBg": "#e3e3e3",
+    "layers": {
+      "backdrop": "images/psd_mockups/square_book_12/base_backdrop.jpg",
+      "shadows": "images/psd_mockups/square_book_12/shadows.png",
+      "glueAndPages": "images/psd_mockups/square_book_12/glue_and_pages.png",
+      "bottomCoverBase": "images/psd_mockups/square_book_12/bottom_cover_base.png",
+      "topCoverBase": "images/psd_mockups/square_book_12/top_cover_base.png",
+      "highlights": "images/psd_mockups/square_book_12/highlights.png",
+      "sampleFront": "images/psd_mockups/square_book_12/sample_front.png",
+      "sampleSpine": "images/psd_mockups/square_book_12/sample_spine.png"
+    },
+    "quads": {
+      "front": [
+        [781.00, 825.50],
+        [1694.50, 456.00],
+        [2246.50, 1134.00],
+        [1275.00, 1571.50]
+      ],
+      "spine": [
+        [787.30, 911.36],
+        [781.11, 825.14],
+        [1274.20, 1571.19],
+        [1277.79, 1660.60]
+      ],
+      "bottomFront": [
+        [758.24, 1147.59],
+        [1431.61, 552.80],
+        [2244.73, 1018.02],
+        [1593.76, 1694.83]
+      ],
+      "bottomSpine": [
+        [769.82, 1237.25],
+        [758.67, 1147.83],
+        [1594.15, 1694.04],
+        [1593.61, 1782.46]
+      ]
+    }
   }
 };
 PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
@@ -4029,6 +4087,83 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
           ctx.restore();
         }
+      } else if (presetId === 'square_book_12') {
+        // --- AUTHENTIC SQUARE_BOOK_12.PSD (2-BOOK STAGGERED SQUARE STACK) PIPELINE ---
+        const [gluePagesImg, bottomBaseImg, topBaseImg, hlImg, defFront, defSpine] = await Promise.all([
+          preloadImage(config.layers.glueAndPages),
+          preloadImage(config.layers.bottomCoverBase),
+          preloadImage(config.layers.topCoverBase),
+          preloadImage(config.layers.highlights),
+          preloadImage(config.layers.sampleFront),
+          preloadImage(config.layers.sampleSpine)
+        ]);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+
+        // Step 1: Draw [1.1.0] Glue & [1.2.0] Pages (Milled paper sheet striations + cardstock lip)
+        if (gluePagesImg) {
+          ctx.drawImage(gluePagesImg, 0, 0, renderWidth, renderHeight);
+        }
+
+        // Step 2: Resolve Top Book, Bottom Book, and Spine Artworks (Cover1.psb 1166x1166 & Edge1.psb 174x1166)
+        const resolvedTopFront = customFrontImg ? frontArt : getTransformedArtwork(defFront || rawFront, frontTransform);
+        const resolvedBotFront = customBackImg  ? backArt  : (customFrontImg ? frontArt : getTransformedArtwork(defFront || rawFront, backTransform));
+        const resolvedSpine    = customSpineImg ? spineArt : (customFrontImg ? spineArt : getTransformedArtwork(defSpine || spineArt, { scale: frontTransform.scale, shiftX: 0, shiftY: 0 }));
+
+        const botSpineQuad = getScaledSpineQuad(config.quads.bottomSpine, swRatio, 'left');
+        const topSpineQuad = getScaledSpineQuad(config.quads.spine, swRatio, 'left');
+
+        // Step 3: Render Bottom Book ([1.3.0] Base + [1.3.1] Cover + [1.3.2] Edge clipped in Linear Burn)
+        const bLayer = document.createElement('canvas');
+        bLayer.width = renderWidth; bLayer.height = renderHeight;
+        const bctx = bLayer.getContext('2d');
+        warpQuad(bctx, resolvedBotFront, config.quads.bottomFront, scale);
+        warpQuad(bctx, resolvedSpine, botSpineQuad, scale);
+        if (bottomBaseImg) {
+          bctx.globalCompositeOperation = 'destination-in';
+          bctx.drawImage(bottomBaseImg, 0, 0, renderWidth, renderHeight);
+          if (effShadow > 0) {
+            bctx.save();
+            bctx.globalAlpha = Math.min(1.0, effShadow);
+            bctx.globalCompositeOperation = 'multiply';
+            bctx.drawImage(bottomBaseImg, 0, 0, renderWidth, renderHeight);
+            bctx.globalAlpha = Math.min(0.42, effShadow * 0.38);
+            bctx.globalCompositeOperation = 'color-burn';
+            bctx.drawImage(bottomBaseImg, 0, 0, renderWidth, renderHeight);
+            bctx.restore();
+          }
+        }
+        ctx.drawImage(bLayer, 0, 0);
+
+        // Step 4: Render Top Hero Book ([1.3.3] Base + [1.3.4] Cover + [1.3.5] Edge clipped in Linear Burn)
+        const tLayer = document.createElement('canvas');
+        tLayer.width = renderWidth; tLayer.height = renderHeight;
+        const tctx = tLayer.getContext('2d');
+        warpQuad(tctx, resolvedTopFront, config.quads.front, scale);
+        warpQuad(tctx, resolvedSpine, topSpineQuad, scale);
+        if (topBaseImg) {
+          tctx.globalCompositeOperation = 'destination-in';
+          tctx.drawImage(topBaseImg, 0, 0, renderWidth, renderHeight);
+          if (effShadow > 0) {
+            tctx.save();
+            tctx.globalAlpha = Math.min(1.0, effShadow);
+            tctx.globalCompositeOperation = 'multiply';
+            tctx.drawImage(topBaseImg, 0, 0, renderWidth, renderHeight);
+            tctx.globalAlpha = Math.min(0.36, effShadow * 0.32);
+            tctx.globalCompositeOperation = 'color-burn';
+            tctx.drawImage(topBaseImg, 0, 0, renderWidth, renderHeight);
+            tctx.restore();
+          }
+        }
+        ctx.drawImage(tLayer, 0, 0);
+
+        // Step 5: Render [1.4.0] Highlights (Matte Cardstock Fiber Grain + Spine Ridge Specular Sheen in Screen)
+        if (hlImg && highlightOpacity > 0) {
+          ctx.save();
+          ctx.globalAlpha = highlightOpacity;
+          ctx.globalCompositeOperation = 'screen';
+          ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
+          ctx.restore();
+        }
       } else if (presetId === 'studio_collector' || presetId === 'spine_full_showcase') {
         // --- AUTHENTIC 4-BOOK COLLECTOR PIPELINE ---
         if (config.layers.backBookBase) {
@@ -4187,7 +4322,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       ctx.globalCompositeOperation = 'source-over';
 
       // Apply standard reflections, shading, crease, texture, lights, and highlights for presets not handled by specialized spread pipelines
-      if (!['book_spread_8', 'soft_cover_v01', 'us_letter_brochure_02', 'magazine_turning_spread', 'open_book', 'square_open_book'].includes(presetId)) {
+      if (!['book_spread_8', 'soft_cover_v01', 'us_letter_brochure_02', 'square_book_12', 'magazine_turning_spread', 'open_book', 'square_open_book'].includes(presetId)) {
         // Draw Reflections with vertical Fresnel fade (for front_back_showcase)
         if (config.reflections) {
           const drawFadedRef = (art, [rx, ry, rw, rh]) => {
@@ -4667,6 +4802,18 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       height = 1166;
       ratio = 1.0;
       aspectLabel = '1:1 Square Page';
+    } else if (presetId === 'square_book_12') {
+      if (slot === 'spine') {
+        width = 174;
+        height = 1166;
+        ratio = 174 / 1166;
+        aspectLabel = 'Spine 1:6.7';
+      } else {
+        width = 1166;
+        height = 1166;
+        ratio = 1.0;
+        aspectLabel = '1:1 Square Book';
+      }
     } else if (config.rects && config.rects[slot]) {
       const r = config.rects[slot];
       width = Math.round(r[2]);
@@ -6005,6 +6152,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotFrontThumb.src = '/images/psd_mockups/soft_cover_v01/sample_front.png';
       } else if (currentPresetId === 'us_letter_brochure_02') {
         slotFrontThumb.src = '/images/psd_mockups/us_letter_brochure_02/sample_front.png';
+      } else if (currentPresetId === 'square_book_12') {
+        slotFrontThumb.src = '/images/psd_mockups/square_book_12/sample_front.png';
       } else if (activeFrontImg) {
         slotFrontThumb.src = activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : '');
       } else {
@@ -6050,6 +6199,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotBackThumb.src = '/images/psd_mockups/soft_cover_v01/sample_front.png';
       } else if (currentPresetId === 'us_letter_brochure_02') {
         slotBackThumb.src = '/images/psd_mockups/us_letter_brochure_02/sample_back.png';
+      } else if (currentPresetId === 'square_book_12') {
+        slotBackThumb.src = '/images/psd_mockups/square_book_12/sample_front.png';
       } else if (activeBackImg) {
         slotBackThumb.src = activeBackImg.src || (activeBackImg.toDataURL ? activeBackImg.toDataURL() : '');
       } else {
@@ -6123,6 +6274,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           slotSpineThumb.src = '/images/psd_mockups/book_spread_8/sample_spine.png';
         } else if (currentPresetId === 'soft_cover_v01' && !customFrontImg) {
           slotSpineThumb.src = '/images/psd_mockups/soft_cover_v01/sample_spine.png';
+        } else if (currentPresetId === 'square_book_12' && !customFrontImg) {
+          slotSpineThumb.src = '/images/psd_mockups/square_book_12/sample_spine.png';
         } else if (activeSpineImg && activeSpineImg.src) {
           slotSpineThumb.src = activeSpineImg.src;
         } else {
@@ -6156,7 +6309,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotFront) {
     btnCropSlotFront.addEventListener('click', () => {
-      const src = (customFrontImg && customFrontImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_front.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_front.png' : (activeFrontImg && activeFrontImg.src))));
+      const src = (customFrontImg && customFrontImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_front.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_front.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_front.png' : (activeFrontImg && activeFrontImg.src)))));
       if (src) openCropModal(src, 'front', rawFileNames.front || 'Front Cover');
     });
   }
@@ -6193,7 +6346,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotBack) {
     btnCropSlotBack.addEventListener('click', () => {
-      const src = (customBackImg && customBackImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_back.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_back.png' : (activeBackImg && activeBackImg.src))));
+      const src = (customBackImg && customBackImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_back.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_back.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_front.png' : (activeBackImg && activeBackImg.src)))));
       if (src) openCropModal(src, 'back', rawFileNames.back || 'Back Cover');
     });
   }
@@ -6244,7 +6397,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         const src = (customMidImg && customMidImg.src) || (activeMidImg && activeMidImg.src);
         if (src) openCropModal(src, 'middle', rawFileNames.middle || 'Turning Page Artwork');
       } else {
-        const src = (customSpineImg && customSpineImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_spine.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_spine.png' : (activeSpineImg && activeSpineImg.src)));
+        const src = (customSpineImg && customSpineImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_spine.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_spine.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_spine.png' : (activeSpineImg && activeSpineImg.src))));
         if (src) openCropModal(src, 'spine', rawFileNames.spine || 'Spine Artwork');
       }
     });
