@@ -1254,6 +1254,13 @@
             <span class="template-card-label">Open Spread</span>
           </button>
 
+          <button type="button" class="template-card-btn" data-preset="book_spread_8" data-cat="paperback open_book">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/book_spread_8.jpg" alt="Cover Spread">
+            </div>
+            <span class="template-card-label">Cover Spread</span>
+          </button>
 
           <button type="button" class="template-card-btn" data-preset="front_back_showcase" data-cat="hardcover">
             <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
@@ -2276,6 +2283,65 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     }
   },
+  "book_spread_8": {
+    "id": "book_spread_8",
+    "title": "Paperback Cover Spread (Front + Spine + Back)",
+    "category": "paperback",
+    "aspect": "6x9",
+    "width": 3000,
+    "height": 2250,
+    "slots": [
+      "front",
+      "back",
+      "spine"
+    ],
+    "defaultBg": "#e6e6e6",
+    "layers": {
+      "backdrop": "images/psd_mockups/book_spread_8/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/book_spread_8/shadows.png",
+      "pages": "images/psd_mockups/book_spread_8/pages.png",
+      "cover_base": "images/psd_mockups/book_spread_8/cover_base.png",
+      "back_mask": "images/psd_mockups/book_spread_8/back_mask.png",
+      "front_mask": "images/psd_mockups/book_spread_8/front_mask.png",
+      "spine_mask": "images/psd_mockups/book_spread_8/spine_mask.png",
+      "highlights": "images/psd_mockups/book_spread_8/highlights.png"
+    },
+    "mesh": {
+      "back": [
+        [702.5, 1348.06], [840.61, 1193.27], [979.15, 1038.32], [1118.15, 821.65],
+        [963.81, 1523.21], [1104.11, 1361.11], [1242.22, 1200.22], [1380.86, 977.56],
+        [1226.48, 1698.45], [1365.22, 1528.89], [1503.45, 1361.78], [1643.83, 1136.74],
+        [1488.81, 1871.36], [1627.99, 1697.87], [1766.98, 1523.95], [1905.49, 1295.84]
+      ],
+      "front": [
+        [1169.52, 780.65], [1303.29, 720.24], [1437.35, 618.47], [1571.88, 499.77],
+        [1429.23, 938.56], [1562.34, 873.0], [1693.0, 766.0], [1824.41, 639.61],
+        [1690.66, 1094.41], [1819.0, 1023.33], [1946.66, 911.67], [2076.75, 782.39],
+        [1952.13, 1250.23], [2077.46, 1176.74], [2202.62, 1059.0], [2327.49, 924.26]
+      ]
+    },
+    "quads": {
+      "back": [
+        [704.19, 1349.69],
+        [1118.75, 824.20],
+        [1903.00, 1296.00],
+        [1488.00, 1869.00]
+      ],
+      "spine": [
+        [1115.60, 826.50],
+        [1175.40, 776.40],
+        [1956.30, 1244.00],
+        [1901.80, 1300.80]
+      ],
+      "front": [
+        [1171.01, 781.58],
+        [1573.78, 501.49],
+        [2325.00, 924.00],
+        [1951.00, 1248.00]
+      ]
+    },
+    "description": "Authentic face-down tent-spread paperback mockup from Free_Book_Mockup_8.psd with 16-point S-curve and concave cover meshes, central spine ridge, fanned interior pages, Linear Burn diffuse shading, Screen highlights, and S-curve contrast."
+  },
   "open_book": {
     "id": "open_book",
     "title": "Open Book Spread Flatlay",
@@ -3025,8 +3091,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
 
         const denom = h6 * px + h7 * py + h8;
-        const u = (h0 * px + h1 * py + h2) / denom;
-        const v = (h3 * px + h4 * py + h5) / denom;
+        const u = Math.max(0, Math.min(w - 1.001, (h0 * px + h1 * py + h2) / denom));
+        const v = Math.max(0, Math.min(h - 1.001, (h3 * px + h4 * py + h5) / denom));
 
         if (u >= 0 && u < w - 1 && v >= 0 && v < h - 1) {
           const u0 = u | 0, v0 = v | 0;
@@ -3065,18 +3131,18 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     for (let r = 0; r < 3; r++) {
       for (let c = 0; c < 3; c++) {
-        const sx0 = (c / 3) * w;
-        const sy0 = (r / 3) * h;
-        const sx1 = ((c + 1) / 3) * w;
-        const sy1 = ((r + 1) / 3) * h;
+        const sx0 = Math.max(0, Math.floor((c / 3) * w) - (c > 0 ? 1 : 0));
+        const sy0 = Math.max(0, Math.floor((r / 3) * h) - (r > 0 ? 1 : 0));
+        const sx1 = Math.min(w, Math.ceil(((c + 1) / 3) * w) + (c < 2 ? 1 : 0));
+        const sy1 = Math.min(h, Math.ceil(((r + 1) / 3) * h) + (r < 2 ? 1 : 0));
 
         const pTL = gridPts[r * 4 + c];
         const pTR = gridPts[r * 4 + c + 1];
         const pBR = gridPts[(r + 1) * 4 + c + 1];
         const pBL = gridPts[(r + 1) * 4 + c];
 
-        const sw = Math.ceil(sx1 - sx0);
-        const sh = Math.ceil(sy1 - sy0);
+        const sw = Math.max(1, sx1 - sx0);
+        const sh = Math.max(1, sy1 - sy0);
         const sliceCanvas = document.createElement('canvas');
         sliceCanvas.width = sw;
         sliceCanvas.height = sh;
@@ -3297,7 +3363,135 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const swRatio = spineWidth / 100;
 
       // 3. Realistic Layer Compositing Pipeline
-            if (presetId === 'magazine_turning_spread') {
+      if (presetId === 'book_spread_8') {
+        // --- AUTHENTIC FREE_BOOK_MOCKUP_8.PSD PIPELINE ---
+        const [pagesImg, coverBaseImg, backMaskImg, frontMaskImg, spineMaskImg, hlImg, defFront, defBack, defSpine] = await Promise.all([
+          preloadImage(config.layers.pages),
+          preloadImage(config.layers.cover_base),
+          preloadImage(config.layers.back_mask),
+          preloadImage(config.layers.front_mask),
+          preloadImage(config.layers.spine_mask),
+          preloadImage(config.layers.highlights),
+          preloadImage('images/psd_mockups/book_spread_8/sample_front.png'),
+          preloadImage('images/psd_mockups/book_spread_8/sample_back.png'),
+          preloadImage('images/psd_mockups/book_spread_8/sample_spine.png')
+        ]);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+
+        // Step 1: Draw Pages block underneath cover jacket
+        if (pagesImg) {
+          ctx.drawImage(pagesImg, 0, 0, renderWidth, renderHeight);
+        }
+
+        // Step 2: Resolve Front, Back, and Spine artworks (preserving original PSD sample until custom artwork is uploaded)
+        const resolvedFront = customFrontImg ? frontArt : getTransformedArtwork(defFront || rawFront, frontTransform);
+        const resolvedBack  = customBackImg  ? backArt  : (customFrontImg ? backArt : getTransformedArtwork(defBack || rawBack, backTransform));
+        const resolvedSpine = customSpineImg ? spineArt : (customFrontImg ? spineArt : (defSpine || spineArt));
+
+        // Step 3: Build Jacket Canvas starting from Levels 1 (cover_base.png)
+        const jacketCanv = document.createElement('canvas');
+        jacketCanv.width = renderWidth;
+        jacketCanv.height = renderHeight;
+        const jctx = jacketCanv.getContext('2d');
+        if (coverBaseImg) {
+          jctx.drawImage(coverBaseImg, 0, 0, renderWidth, renderHeight);
+        }
+
+        // Step 4: Warp and clip each of the 3 disjoint jacket surfaces (Back, Front, Spine)
+        const artCanv = document.createElement('canvas');
+        artCanv.width = renderWidth;
+        artCanv.height = renderHeight;
+        const actx = artCanv.getContext('2d');
+
+        function drawClippedSurface(artImg, isMesh, coords, maskImg) {
+          if (!artImg || !maskImg) return;
+          const partC = document.createElement('canvas');
+          partC.width = renderWidth;
+          partC.height = renderHeight;
+          const pctx = partC.getContext('2d');
+          if (isMesh) warpMeshGrid(pctx, artImg, coords, scale);
+          else warpQuad(pctx, artImg, coords, scale);
+          pctx.globalCompositeOperation = 'destination-in';
+          pctx.drawImage(maskImg, 0, 0, renderWidth, renderHeight);
+          actx.drawImage(partC, 0, 0);
+        }
+
+        drawClippedSurface(resolvedBack, true, config.mesh.back, backMaskImg);
+        drawClippedSurface(resolvedFront, true, config.mesh.front, frontMaskImg);
+        drawClippedSurface(resolvedSpine, false, config.quads.spine, spineMaskImg);
+
+        // Step 5: Exact PSD Linear Burn (Art onto Levels 1) + Screen (Highlights) + Contrast Curves LUT
+        if (!window._psd8CurvesLUT) {
+          const xs = [0, 70, 189, 255], ys = [0, 61, 195, 255];
+          const m = [
+            (ys[1] - ys[0]) / (xs[1] - xs[0]),
+            ((ys[1] - ys[0]) / (xs[1] - xs[0]) + (ys[2] - ys[1]) / (xs[2] - xs[1])) / 2,
+            ((ys[2] - ys[1]) / (xs[2] - xs[1]) + (ys[3] - ys[2]) / (xs[3] - xs[2])) / 2,
+            (ys[3] - ys[2]) / (xs[3] - xs[2])
+          ];
+          const lut = new Uint8ClampedArray(256);
+          for (let x = 0; x <= 255; x++) {
+            const seg = x >= xs[2] ? 2 : (x >= xs[1] ? 1 : 0);
+            const x0 = xs[seg], x1 = xs[seg + 1], y0 = ys[seg], y1 = ys[seg + 1], h = x1 - x0, t = (x - x0) / h;
+            const val = (1 + 2 * t) * (1 - t) * (1 - t) * y0 + t * (1 - t) * (1 - t) * h * m[seg] + t * t * (3 - 2 * t) * y1 + t * t * (t - 1) * h * m[seg + 1];
+            lut[x] = Math.max(0, Math.min(255, Math.round(val)));
+          }
+          window._psd8CurvesLUT = lut;
+        }
+        const lut = window._psd8CurvesLUT;
+
+        const bx = Math.max(0, Math.floor(695 * scale));
+        const by = Math.max(0, Math.floor(495 * scale));
+        const bw = Math.min(renderWidth - bx, Math.ceil(1640 * scale));
+        const bh = Math.min(renderHeight - by, Math.ceil(1380 * scale));
+
+        const baseImgData = jctx.getImageData(bx, by, bw, bh);
+        const artImgData  = actx.getImageData(bx, by, bw, bh);
+        let hlPixels = null;
+        if (hlImg && highlightOpacity > 0) {
+          const hCanv = document.createElement('canvas');
+          hCanv.width = renderWidth;
+          hCanv.height = renderHeight;
+          hCanv.getContext('2d').drawImage(hlImg, 0, 0, renderWidth, renderHeight);
+          hlPixels = hCanv.getContext('2d').getImageData(bx, by, bw, bh).data;
+        }
+
+        const bd = baseImgData.data;
+        const ad = artImgData.data;
+        const hlAlpha = highlightOpacity;
+
+        for (let i = 0; i < bd.length; i += 4) {
+          const baseA = bd[i + 3];
+          if (baseA > 0) {
+            let r = bd[i], g = bd[i + 1], b = bd[i + 2];
+            const artA = ad[i + 3] / 255;
+            if (artA > 0) {
+              const lbR = Math.max(0, r + ad[i] - 255);
+              const lbG = Math.max(0, g + ad[i + 1] - 255);
+              const lbB = Math.max(0, b + ad[i + 2] - 255);
+              r = Math.round(r * (1 - artA) + lbR * artA);
+              g = Math.round(g * (1 - artA) + lbG * artA);
+              b = Math.round(b * (1 - artA) + lbB * artA);
+            }
+            if (hlPixels) {
+              const hr = hlPixels[i] * hlAlpha;
+              const hg = hlPixels[i + 1] * hlAlpha;
+              const hb = hlPixels[i + 2] * hlAlpha;
+              r = Math.round(255 - ((255 - r) * (255 - hr)) / 255);
+              g = Math.round(255 - ((255 - g) * (255 - hg)) / 255);
+              b = Math.round(255 - ((255 - b) * (255 - hb)) / 255);
+            }
+            bd[i]     = lut[r];
+            bd[i + 1] = lut[g];
+            bd[i + 2] = lut[b];
+          }
+        }
+        jctx.putImageData(baseImgData, bx, by);
+
+        // Step 6: Composite final Cover Jacket onto Main Canvas
+        ctx.drawImage(jacketCanv, 0, 0);
+        return;
+      } else if (presetId === 'magazine_turning_spread') {
         // --- AUTHENTIC MAGAZINE TURNING SPREAD PIPELINE ---
         const magImg = await preloadImage(config.layers.magazine);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
@@ -5337,6 +5531,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotFrontThumb.src = customFrontImg.src || (customFrontImg.toDataURL ? customFrontImg.toDataURL() : '');
       } else if (isMag) {
         slotFrontThumb.src = '/images/psd_mockups/magazine_turning_spread/sample_right.png';
+      } else if (currentPresetId === 'book_spread_8') {
+        slotFrontThumb.src = '/images/psd_mockups/book_spread_8/sample_front.png';
       } else if (activeFrontImg) {
         slotFrontThumb.src = activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : '');
       } else {
@@ -5373,6 +5569,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotBackThumb.src = customBackImg.src || (customBackImg.toDataURL ? customBackImg.toDataURL() : '');
       } else if (isMag) {
         slotBackThumb.src = '/images/psd_mockups/magazine_turning_spread/sample_left.png';
+      } else if (currentPresetId === 'book_spread_8') {
+        slotBackThumb.src = '/images/psd_mockups/book_spread_8/sample_back.png';
       } else if (activeBackImg) {
         slotBackThumb.src = activeBackImg.src || (activeBackImg.toDataURL ? activeBackImg.toDataURL() : '');
       } else {
@@ -5425,6 +5623,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       } else {
         if (customSpineImg && customSpineImg.src) {
           slotSpineThumb.src = customSpineImg.src;
+        } else if (currentPresetId === 'book_spread_8' && !customFrontImg) {
+          slotSpineThumb.src = '/images/psd_mockups/book_spread_8/sample_spine.png';
         } else if (activeSpineImg && activeSpineImg.src) {
           slotSpineThumb.src = activeSpineImg.src;
         } else {
@@ -5458,7 +5658,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotFront) {
     btnCropSlotFront.addEventListener('click', () => {
-      const src = (customFrontImg && customFrontImg.src) || (activeFrontImg && activeFrontImg.src);
+      const src = (customFrontImg && customFrontImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_front.png' : (activeFrontImg && activeFrontImg.src));
       if (src) openCropModal(src, 'front', rawFileNames.front || 'Front Cover');
     });
   }
@@ -5495,7 +5695,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotBack) {
     btnCropSlotBack.addEventListener('click', () => {
-      const src = (customBackImg && customBackImg.src) || (activeBackImg && activeBackImg.src);
+      const src = (customBackImg && customBackImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_back.png' : (activeBackImg && activeBackImg.src));
       if (src) openCropModal(src, 'back', rawFileNames.back || 'Back Cover');
     });
   }
@@ -5546,7 +5746,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         const src = (customMidImg && customMidImg.src) || (activeMidImg && activeMidImg.src);
         if (src) openCropModal(src, 'middle', rawFileNames.middle || 'Turning Page Artwork');
       } else {
-        const src = (customSpineImg && customSpineImg.src) || (activeSpineImg && activeSpineImg.src);
+        const src = (customSpineImg && customSpineImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_spine.png' : (activeSpineImg && activeSpineImg.src));
         if (src) openCropModal(src, 'spine', rawFileNames.spine || 'Spine Artwork');
       }
     });
