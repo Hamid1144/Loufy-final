@@ -1293,6 +1293,14 @@
             </div>
             <span class="template-card-label">Square Stack</span>
           </button>
+
+          <button type="button" class="template-card-btn" data-preset="square_hardcover_trio_2" data-cat="hardcover stack">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/square_hardcover_trio_2.jpg" alt="Square Trio">
+            </div>
+            <span class="template-card-label">Square Trio</span>
+          </button>
         </div>
       </div>
 
@@ -2985,6 +2993,70 @@ document.addEventListener('DOMContentLoaded', () => {
         [1593.61, 1782.46]
       ]
     }
+  },
+  "square_hardcover_trio_2": {
+    "id": "square_hardcover_trio_2",
+    "title": "Square Hardcover Trio",
+    "category": "stack",
+    "aspect": "1:1",
+    "width": 2800,
+    "height": 1960,
+    "slots": [
+      "front",
+      "spine",
+      "back"
+    ],
+    "defaultBg": "#dce0e8",
+    "layers": {
+      "backdrop": "images/psd_mockups/square_hardcover_trio_2/base_backdrop.jpg",
+      "shadows": "images/psd_mockups/square_hardcover_trio_2/shadows.png",
+      "pagesBase": "images/psd_mockups/square_hardcover_trio_2/pages_base.png",
+      "backCoverMask": "images/psd_mockups/square_hardcover_trio_2/back_cover_mask.png",
+      "book1Base": "images/psd_mockups/square_hardcover_trio_2/book1_base.png",
+      "book2Base": "images/psd_mockups/square_hardcover_trio_2/book2_base.png",
+      "book3Base": "images/psd_mockups/square_hardcover_trio_2/book3_base.png",
+      "highlights": "images/psd_mockups/square_hardcover_trio_2/highlights.png",
+      "sampleFront": "images/psd_mockups/square_hardcover_trio_2/sample_front.png",
+      "sampleSpine": "images/psd_mockups/square_hardcover_trio_2/sample_spine.png"
+    },
+    "quads": {
+      "front": [
+        [433.97, 1001.62],
+        [1163.48, 252.42],
+        [2341.48, 645.71],
+        [1731.81, 1517.71]
+      ],
+      "spine": [
+        [438.57, 1071.59],
+        [433.93, 1001.19],
+        [1731.97, 1516.78],
+        [1729.78, 1582.07]
+      ],
+      "midFront": [
+        [436.65, 880.90],
+        [1411.18, 289.71],
+        [2403.09, 880.08],
+        [1440.37, 1606.52]
+      ],
+      "midSpine": [
+        [436.32, 948.47],
+        [433.56, 878.29],
+        [1440.17, 1606.06],
+        [1428.56, 1668.78]
+      ],
+      "botFront": [
+        [491.74, 812.06],
+        [1602.79, 364.58],
+        [2403.14, 1086.50],
+        [1214.28, 1662.67]
+      ],
+      "botSpine": [
+        [486.01, 879.01],
+        [483.26, 801.51],
+        [1218.97, 1663.00],
+        [1207.66, 1722.82]
+      ]
+    }
   }
 };
 PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
@@ -4226,6 +4298,118 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
         outCtx.putImageData(outImg, 0, 0);
         ctx.drawImage(outC, rx, ry);
+      } else if (presetId === 'square_hardcover_trio_2') {
+        // --- AUTHENTIC SQUARE_HARDCOVER_TRIO_2.PSD (3-BOOK STAGGERED HARDCOVER STACK) PIPELINE ---
+        const [pagesBaseImg, backCoverMaskImg, b1BaseImg, b2BaseImg, b3BaseImg, hlImg, defFront, defSpine] = await Promise.all([
+          preloadImage(config.layers.pagesBase),
+          preloadImage(config.layers.backCoverMask),
+          preloadImage(config.layers.book1Base),
+          preloadImage(config.layers.book2Base),
+          preloadImage(config.layers.book3Base),
+          preloadImage(config.layers.highlights),
+          preloadImage(config.layers.sampleFront),
+          preloadImage(config.layers.sampleSpine)
+        ]);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+
+        const bookComp = document.createElement('canvas');
+        bookComp.width = renderWidth; bookComp.height = renderHeight;
+        const bctx = bookComp.getContext('2d');
+
+        // Step 1: Draw [1.1.0] "Book" (Recessed white paper blocks & protruding lower hardcover board lips)
+        if (pagesBaseImg) {
+          bctx.drawImage(pagesBaseImg, 0, 0, renderWidth, renderHeight);
+        }
+
+        // Step 2: Resolve Artworks for Top, Middle, and Bottom Volumes
+        const resolvedTopFront = customFrontImg ? frontArt : getTransformedArtwork(defFront || rawFront, frontTransform);
+        const resolvedMidFront = customBackImg  ? backArt  : (customFrontImg ? frontArt : getTransformedArtwork(defFront || rawFront, backTransform));
+        const resolvedBotFront = customFrontImg ? frontArt : getTransformedArtwork(defFront || rawFront, frontTransform);
+        const resolvedSpine    = customSpineImg ? spineArt : (customFrontImg ? spineArt : getTransformedArtwork(defSpine || spineArt, { scale: frontTransform.scale, shiftX: 0, shiftY: 0 }));
+
+        const botSpineQuad = getScaledSpineQuad(config.quads.botSpine, swRatio, 'left');
+        const midSpineQuad = getScaledSpineQuad(config.quads.midSpine, swRatio, 'left');
+        const topSpineQuad = getScaledSpineQuad(config.quads.spine, swRatio, 'left');
+
+        const renderHardcoverTier = (baseImg, fArt, fQuad, sArt, sQuad) => {
+          if (!baseImg) return;
+          const tierC = document.createElement('canvas');
+          tierC.width = renderWidth; tierC.height = renderHeight;
+          const tctx = tierC.getContext('2d');
+          warpQuad(tctx, sArt, sQuad, scale);
+          warpQuad(tctx, fArt, fQuad, scale);
+          if (effShadow > 0) {
+            tctx.save();
+            tctx.globalAlpha = Math.min(1.0, effShadow);
+            tctx.globalCompositeOperation = 'multiply';
+            tctx.drawImage(baseImg, 0, 0, renderWidth, renderHeight);
+            tctx.restore();
+          }
+          tctx.globalCompositeOperation = 'destination-in';
+          tctx.drawImage(baseImg, 0, 0, renderWidth, renderHeight);
+          bctx.drawImage(tierC, 0, 0);
+        };
+
+        // Step 3: Render Bottom Book ([1.1.1..1.1.3]), Middle Book ([1.1.4..1.1.6]), and Top Hero Book ([1.1.7..1.1.9])
+        renderHardcoverTier(b1BaseImg, resolvedBotFront, config.quads.botFront, resolvedSpine, botSpineQuad);
+        renderHardcoverTier(b2BaseImg, resolvedMidFront, config.quads.midFront, resolvedSpine, midSpineQuad);
+        renderHardcoverTier(b3BaseImg, resolvedTopFront, config.quads.front, resolvedSpine, topSpineQuad);
+
+        // Step 4: Render [1.1.10] "Back cover color" (Protruding lower hardcover board lips in Multiply)
+        if (backCoverMaskImg) {
+          const lipC = document.createElement('canvas');
+          lipC.width = renderWidth; lipC.height = renderHeight;
+          const lctx = lipC.getContext('2d');
+          lctx.fillStyle = (customFrontImg || customSpineImg) ? spineColor : '#205dd2';
+          lctx.fillRect(0, 0, renderWidth, renderHeight);
+          lctx.globalCompositeOperation = 'destination-in';
+          lctx.drawImage(backCoverMaskImg, 0, 0, renderWidth, renderHeight);
+          bctx.save();
+          bctx.globalCompositeOperation = 'multiply';
+          bctx.drawImage(lipC, 0, 0);
+          bctx.restore();
+        }
+
+        // Step 5: Render [1.1.11] "Highlights" (Screen 80% scaled by highlightOpacity)
+        if (hlImg && highlightOpacity > 0) {
+          bctx.save();
+          bctx.globalAlpha = Math.min(1.0, highlightOpacity * 0.85);
+          bctx.globalCompositeOperation = 'screen';
+          bctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
+          bctx.restore();
+        }
+
+        // Step 6: Apply [1.2.0] "Contrast" S-Curve [(0->0), (60->50), (186->198), (255->255)] within Book ROI
+        const rx = Math.max(0, Math.floor(430 * scale));
+        const ry = Math.max(0, Math.floor(248 * scale));
+        const rw = Math.min(renderWidth - rx, Math.ceil(1976 * scale));
+        const rh = Math.min(renderHeight - ry, Math.ceil(1480 * scale));
+        const cLUT = new Uint8ClampedArray(256);
+        for (let v = 0; v < 256; v++) {
+          let y;
+          if (v <= 60) {
+            const t = v / 60;
+            y = 50 * t - 2.5 * t * (1 - t);
+          } else if (v <= 186) {
+            const t = (v - 60) / (186 - 60);
+            y = 50 + (198 - 50) * t + 5 * Math.sin(t * Math.PI);
+          } else {
+            const t = (v - 186) / (255 - 186);
+            y = 198 + (255 - 198) * t + 2 * t * (1 - t);
+          }
+          cLUT[v] = Math.max(0, Math.min(255, Math.round(y)));
+        }
+        const roiData = bctx.getImageData(rx, ry, rw, rh);
+        const d = roiData.data;
+        for (let i = 0; i < d.length; i += 4) {
+          if (d[i + 3] > 0) {
+            d[i]     = cLUT[d[i]];
+            d[i + 1] = cLUT[d[i + 1]];
+            d[i + 2] = cLUT[d[i + 2]];
+          }
+        }
+        bctx.putImageData(roiData, rx, ry);
+        ctx.drawImage(bookComp, 0, 0);
       } else if (presetId === 'studio_collector' || presetId === 'spine_full_showcase') {
         // --- AUTHENTIC 4-BOOK COLLECTOR PIPELINE ---
         if (config.layers.backBookBase) {
@@ -4384,7 +4568,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       ctx.globalCompositeOperation = 'source-over';
 
       // Apply standard reflections, shading, crease, texture, lights, and highlights for presets not handled by specialized spread pipelines
-      if (!['book_spread_8', 'soft_cover_v01', 'us_letter_brochure_02', 'square_book_12', 'magazine_turning_spread', 'open_book', 'square_open_book'].includes(presetId)) {
+      if (!['book_spread_8', 'soft_cover_v01', 'us_letter_brochure_02', 'square_book_12', 'square_hardcover_trio_2', 'magazine_turning_spread', 'open_book', 'square_open_book'].includes(presetId)) {
         // Draw Reflections with vertical Fresnel fade (for front_back_showcase)
         if (config.reflections) {
           const drawFadedRef = (art, [rx, ry, rw, rh]) => {
@@ -4864,15 +5048,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       height = 1166;
       ratio = 1.0;
       aspectLabel = '1:1 Square Page';
-    } else if (presetId === 'square_book_12') {
+    } else if (presetId === 'square_book_12' || presetId === 'square_hardcover_trio_2') {
       if (slot === 'spine') {
-        width = 174;
-        height = 1166;
-        ratio = 174 / 1166;
-        aspectLabel = 'Spine 1:6.7';
+        width = presetId === 'square_hardcover_trio_2' ? 177 : 174;
+        height = presetId === 'square_hardcover_trio_2' ? 2539 : 1166;
+        ratio = width / height;
+        aspectLabel = presetId === 'square_hardcover_trio_2' ? 'Spine 1:14.3' : 'Spine 1:6.7';
       } else {
-        width = 1166;
-        height = 1166;
+        width = presetId === 'square_hardcover_trio_2' ? 2539 : 1166;
+        height = presetId === 'square_hardcover_trio_2' ? 2539 : 1166;
         ratio = 1.0;
         aspectLabel = '1:1 Square Book';
       }
@@ -6216,6 +6400,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotFrontThumb.src = '/images/psd_mockups/us_letter_brochure_02/sample_front.png';
       } else if (currentPresetId === 'square_book_12') {
         slotFrontThumb.src = '/images/psd_mockups/square_book_12/sample_front.png';
+      } else if (currentPresetId === 'square_hardcover_trio_2') {
+        slotFrontThumb.src = '/images/psd_mockups/square_hardcover_trio_2/sample_front.png';
       } else if (activeFrontImg) {
         slotFrontThumb.src = activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : '');
       } else {
@@ -6263,6 +6449,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotBackThumb.src = '/images/psd_mockups/us_letter_brochure_02/sample_back.png';
       } else if (currentPresetId === 'square_book_12') {
         slotBackThumb.src = '/images/psd_mockups/square_book_12/sample_front.png';
+      } else if (currentPresetId === 'square_hardcover_trio_2') {
+        slotBackThumb.src = '/images/psd_mockups/square_hardcover_trio_2/sample_front.png';
       } else if (activeBackImg) {
         slotBackThumb.src = activeBackImg.src || (activeBackImg.toDataURL ? activeBackImg.toDataURL() : '');
       } else {
@@ -6338,6 +6526,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           slotSpineThumb.src = '/images/psd_mockups/soft_cover_v01/sample_spine.png';
         } else if (currentPresetId === 'square_book_12' && !customFrontImg) {
           slotSpineThumb.src = '/images/psd_mockups/square_book_12/sample_spine.png';
+        } else if (currentPresetId === 'square_hardcover_trio_2' && !customFrontImg) {
+          slotSpineThumb.src = '/images/psd_mockups/square_hardcover_trio_2/sample_spine.png';
         } else if (activeSpineImg && activeSpineImg.src) {
           slotSpineThumb.src = activeSpineImg.src;
         } else {
@@ -6371,7 +6561,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotFront) {
     btnCropSlotFront.addEventListener('click', () => {
-      const src = (customFrontImg && customFrontImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_front.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_front.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_front.png' : (activeFrontImg && activeFrontImg.src)))));
+      const src = (customFrontImg && customFrontImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_front.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_front.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_front.png' : (currentPresetId === 'square_hardcover_trio_2' ? '/images/psd_mockups/square_hardcover_trio_2/sample_front.png' : (activeFrontImg && activeFrontImg.src))))));
       if (src) openCropModal(src, 'front', rawFileNames.front || 'Front Cover');
     });
   }
@@ -6408,7 +6598,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotBack) {
     btnCropSlotBack.addEventListener('click', () => {
-      const src = (customBackImg && customBackImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_back.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_back.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_front.png' : (activeBackImg && activeBackImg.src)))));
+      const src = (customBackImg && customBackImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_back.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_back.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_front.png' : (currentPresetId === 'square_hardcover_trio_2' ? '/images/psd_mockups/square_hardcover_trio_2/sample_front.png' : (activeBackImg && activeBackImg.src))))));
       if (src) openCropModal(src, 'back', rawFileNames.back || 'Back Cover');
     });
   }
@@ -6459,7 +6649,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         const src = (customMidImg && customMidImg.src) || (activeMidImg && activeMidImg.src);
         if (src) openCropModal(src, 'middle', rawFileNames.middle || 'Turning Page Artwork');
       } else {
-        const src = (customSpineImg && customSpineImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_spine.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_spine.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_spine.png' : (activeSpineImg && activeSpineImg.src))));
+        const src = (customSpineImg && customSpineImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_spine.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_spine.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_spine.png' : (currentPresetId === 'square_hardcover_trio_2' ? '/images/psd_mockups/square_hardcover_trio_2/sample_spine.png' : (activeSpineImg && activeSpineImg.src)))));
         if (src) openCropModal(src, 'spine', rawFileNames.spine || 'Spine Artwork');
       }
     });
