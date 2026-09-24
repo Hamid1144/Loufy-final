@@ -3188,9 +3188,11 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   function getTransformedArtwork(srcCanvas, transform) {
     if (!srcCanvas) return srcCanvas;
     const t = transform || { scale: 100, shiftX: 0, shiftY: 0 };
-    if (t.scale === 100 && t.shiftX === 0 && t.shiftY === 0) return srcCanvas;
+    const normScale = (t.scale <= 3) ? (t.scale * 100) : t.scale;
+    if (normScale === 100 && (t.shiftX || 0) === 0 && (t.shiftY || 0) === 0) return srcCanvas;
     
-    const w = srcCanvas.width || 1000, h = srcCanvas.height || 1500;
+    const w = srcCanvas.naturalWidth || srcCanvas.width || 1000;
+    const h = srcCanvas.naturalHeight || srcCanvas.height || 1500;
     const out = document.createElement('canvas');
     out.width = w; out.height = h;
     const octx = out.getContext('2d');
@@ -3198,19 +3200,23 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     octx.imageSmoothingQuality = 'high';
 
     try {
-      const sctx = srcCanvas.getContext ? srcCanvas.getContext('2d') : null;
-      if (sctx) {
-        const p = sctx.getImageData(0, 0, 1, 1).data;
-        octx.fillStyle = 'rgba(' + p[0] + ',' + p[1] + ',' + p[2] + ',' + (p[3]/255) + ')';
-        octx.fillRect(0, 0, w, h);
-      }
-    } catch (e) {}
+      const tempSample = document.createElement('canvas');
+      tempSample.width = 1; tempSample.height = 1;
+      const sctx = tempSample.getContext('2d');
+      sctx.drawImage(srcCanvas, 0, 0, 1, 1);
+      const p = sctx.getImageData(0, 0, 1, 1).data;
+      octx.fillStyle = 'rgba(' + p[0] + ',' + p[1] + ',' + p[2] + ',' + (p[3] / 255) + ')';
+      octx.fillRect(0, 0, w, h);
+    } catch (e) {
+      octx.fillStyle = '#1e293b';
+      octx.fillRect(0, 0, w, h);
+    }
     
-    const s = t.scale / 100;
+    const s = normScale / 100;
     const sw = w * s;
     const sh = h * s;
-    const dx = (w - sw) / 2 + (t.shiftX / 100) * w;
-    const dy = (h - sh) / 2 + (t.shiftY / 100) * h;
+    const dx = (w - sw) / 2 + ((t.shiftX || 0) / 100) * w;
+    const dy = (h - sh) / 2 + ((t.shiftY || 0) / 100) * h;
     
     octx.drawImage(srcCanvas, dx, dy, sw, sh);
     return out;
@@ -3285,6 +3291,30 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       ctx.restore();
     }
     return c;
+  }
+
+  // Helper: Draw dynamic ambient/contact shadow and specular gloss on any quad or rect
+  function getPresetPrimaryBounds(config, scale) {
+    const pts = [];
+    if (config.quads) {
+      Object.values(config.quads).forEach(q => {
+        if (Array.isArray(q)) q.forEach(([x, y]) => pts.push([x * scale, y * scale]));
+      });
+    }
+    if (config.rects) {
+      Object.values(config.rects).forEach(([rx, ry, rw, rh]) => {
+        pts.push([rx * scale, ry * scale], [(rx + rw) * scale, (ry + rh) * scale]);
+      });
+    }
+    if (!pts.length) return { cx: 1500 * scale, cy: 1125 * scale, minX: 500 * scale, minY: 350 * scale, maxX: 2500 * scale, maxY: 1900 * scale };
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    pts.forEach(([x, y]) => {
+      if (x < minX) minX = x;
+      if (y < minY) minY = y;
+      if (x > maxX) maxX = x;
+      if (y > maxY) maxY = y;
+    });
+    return { cx: (minX + maxX) / 2, cy: (minY + maxY) / 2, minX, minY, maxX, maxY };
   }
 
   // Master Mockup Renderer
@@ -3367,17 +3397,53 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         ctx.clearRect(0, 0, renderWidth, renderHeight);
       }
 
-      // Shadow layer
-      if (config.layers.shadow && shadowEnabled && shadowOpacity > 0) {
-        const shImg = await preloadImage(config.layers.shadow);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (shImg) {
-          ctx.save();
-          ctx.globalAlpha = shadowOpacity;
-          ctx.globalCompositeOperation = bgMode === 'transparent' ? 'source-over' : 'multiply';
-          ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
-          ctx.restore();
+      // Universal Shadow Layer & Dynamic Shadow Modulation (works across ALL 10 mockups)
+      const effShadow = shadowEnabled ? shadowOpacity : 0;
+      const bounds = getPresetPrimaryBounds(config, scale);
+      if (config.layers.shadow) {
+        if (effShadow > 0) {
+          const shImg = await preloadImage(config.layers.shadow);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (shImg) {
+            ctx.save();
+            ctx.globalAlpha = Math.min(1.0, effShadow * 1.15);
+            ctx.globalCompositeOperation = bgMode === 'transparent' ? 'source-over' : 'multiply';
+            ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
+            if (effShadow > 0.75) {
+              ctx.globalAlpha = (effShadow - 0.75) * 1.6;
+              ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
+            }
+            ctx.restore();
+          }
         }
+      } else if (bgMode !== 'transparent') {
+        // Presets with baked studio shadows (e.g. book_mockup_1, square_flatlay, open_spread) or custom backgrounds:
+        // Dynamically lift shadow when effShadow < 0.70, or deepen ambient drop-shadow when effShadow > 0
+        ctx.save();
+        const shR = Math.max(bounds.maxX - bounds.minX, bounds.maxY - bounds.minY) * 0.72;
+        const shCx = bounds.cx + (bounds.maxX - bounds.minX) * 0.04;
+        const shCy = bounds.cy + (bounds.maxY - bounds.minY) * 0.06;
+        if (bgMode === 'studio' && effShadow < 0.70) {
+          const liftAlpha = ((0.70 - effShadow) / 0.70) * 0.65;
+          const liftGrad = ctx.createRadialGradient(shCx, shCy, shR * 0.2, shCx, shCy, shR * 1.05);
+          liftGrad.addColorStop(0, 'rgba(240, 240, 242, ' + liftAlpha + ')');
+          liftGrad.addColorStop(0.7, 'rgba(240, 240, 242, ' + (liftAlpha * 0.6) + ')');
+          liftGrad.addColorStop(1, 'rgba(240, 240, 242, 0)');
+          ctx.globalCompositeOperation = 'screen';
+          ctx.fillStyle = liftGrad;
+          ctx.fillRect(0, 0, renderWidth, renderHeight);
+        }
+        if (effShadow > 0 && (bgMode !== 'studio' || effShadow > 0.70)) {
+          const extraAlpha = (bgMode === 'studio') ? ((effShadow - 0.70) / 0.30) * 0.45 : (effShadow * 0.55);
+          const dropGrad = ctx.createRadialGradient(shCx, shCy, shR * 0.15, shCx, shCy, shR * 0.95);
+          dropGrad.addColorStop(0, 'rgba(15, 23, 42, ' + extraAlpha + ')');
+          dropGrad.addColorStop(0.65, 'rgba(15, 23, 42, ' + (extraAlpha * 0.45) + ')');
+          dropGrad.addColorStop(1, 'rgba(15, 23, 42, 0)');
+          ctx.globalCompositeOperation = 'multiply';
+          ctx.fillStyle = dropGrad;
+          ctx.fillRect(0, 0, renderWidth, renderHeight);
+        }
+        ctx.restore();
       }
 
       // 2. Resolve active artwork with independent scaling & positioning
@@ -3386,7 +3452,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const spreadH = (presetId === 'square_open_book') ? 1166 : 2339;
       const rawFront = customFrontImg || activeFrontImg || createSolidArtwork('#1e293b', spreadW, spreadH, isSpreadPreset ? 'RIGHT PAGE' : 'BOOK TITLE');
       const frontArt = getTransformedArtwork(rawFront, frontTransform);
-      const spineArt = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
+      const rawSpineBase = customSpineImg || activeSpineImg || createSolidArtwork(spineColor, 300, 2000, 'TITLE — AUTHOR');
+      const spineArt = getTransformedArtwork(rawSpineBase, { scale: frontTransform.scale, shiftX: 0, shiftY: 0 });
       const rawBack = customBackImg || activeBackImg || (isSpreadPreset ? createSolidArtwork('#1e293b', spreadW, spreadH, 'LEFT PAGE') : createSolidArtwork(spineColor, 1000, 1500, ''));
       const backArt = getTransformedArtwork(rawBack, backTransform);
 
@@ -3416,7 +3483,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         // Step 2: Resolve Front, Back, and Spine artworks (preserving original PSD sample until custom artwork is uploaded)
         const resolvedFront = customFrontImg ? frontArt : getTransformedArtwork(defFront || rawFront, frontTransform);
         const resolvedBack  = customBackImg  ? backArt  : (customFrontImg ? backArt : getTransformedArtwork(defBack || rawBack, backTransform));
-        const resolvedSpine = customSpineImg ? spineArt : (customFrontImg ? spineArt : (defSpine || spineArt));
+        const resolvedSpine = customSpineImg ? spineArt : (customFrontImg ? spineArt : getTransformedArtwork(defSpine || spineArt, { scale: frontTransform.scale, shiftX: 0, shiftY: 0 }));
 
         // Step 3: Build Jacket Canvas starting from Levels 1 (cover_base.png)
         const jacketCanv = document.createElement('canvas');
@@ -3446,9 +3513,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           actx.drawImage(partC, 0, 0);
         }
 
+        const scaledSpine8 = getScaledSpineQuad(config.quads.spine, swRatio, 'center');
         drawClippedSurface(resolvedBack, true, config.mesh.back, backMaskImg);
         drawClippedSurface(resolvedFront, true, config.mesh.front, frontMaskImg);
-        drawClippedSurface(resolvedSpine, false, config.quads.spine, spineMaskImg);
+        drawClippedSurface(resolvedSpine, false, scaledSpine8, spineMaskImg);
 
         // Step 5: Exact PSD Linear Burn (Art onto Levels 1) + Screen (Highlights) + Contrast Curves LUT
         if (!window._psd8CurvesLUT) {
@@ -3520,32 +3588,25 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
         // Step 6: Composite final Cover Jacket onto Main Canvas
         ctx.drawImage(jacketCanv, 0, 0);
-        return;
       } else if (presetId === 'magazine_turning_spread') {
         // --- AUTHENTIC MAGAZINE TURNING SPREAD PIPELINE ---
         const magImg = await preloadImage(config.layers.magazine);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        // Per-page clipping rendering pipeline
-        // Each page renders to its own canvas, clipped to its own quad polygon
-        // then clipped with magazine.png, to prevent cross-page artwork bleeding.
 
-        // Resolve 3 page artworks:
         const defLeft = await preloadImage('images/psd_mockups/magazine_turning_spread/sample_left.png');
         const defMid = await preloadImage('images/psd_mockups/magazine_turning_spread/sample_middle.png');
         const defRight = await preloadImage('images/psd_mockups/magazine_turning_spread/sample_right.png');
 
-        const resolvedLeft = customBackImg ? backArt : (defLeft || backArt);
-        const resolvedRight = customFrontImg ? frontArt : (defRight || frontArt);
+        const resolvedLeft = customBackImg ? backArt : getTransformedArtwork(defLeft || backArt, backTransform);
+        const resolvedRight = customFrontImg ? frontArt : getTransformedArtwork(defRight || frontArt, frontTransform);
         const rawMid = customMidImg ? customMidImg : (defMid || activeMidImg);
-        const resolvedMid = rawMid ? getTransformedArtwork(rawMid, { scale: 100, shiftX: 0, shiftY: 0 }) : null;
+        const resolvedMid = rawMid ? getTransformedArtwork(rawMid, frontTransform) : null;
 
-        // Helper: render one page to its own canvas, clipped to its quad polygon + magazine mask
         function renderPageClipped(art, quad, useMesh, meshPts) {
           const buf = document.createElement('canvas');
           buf.width = renderWidth; buf.height = renderHeight;
           const bctx = buf.getContext('2d');
 
-          // Step 1: Set up clip path from quad polygon to confine artwork to THIS page only
           bctx.save();
           bctx.beginPath();
           const q = quad;
@@ -3556,7 +3617,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           bctx.closePath();
           bctx.clip();
 
-          // Step 2: Draw the warped artwork inside the clip
           if (useMesh && meshPts) {
             warpMeshGrid(bctx, art, meshPts, scale);
           } else {
@@ -3564,7 +3624,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           }
           bctx.restore();
 
-          // Step 3: Additionally clip to magazine body mask (curved edges)
           if (magImg) {
             bctx.save();
             bctx.globalCompositeOperation = 'destination-in';
@@ -3575,7 +3634,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           return buf;
         }
 
-        // Draw pages in correct z-order: Left (bottom), Right (middle), Middle/turning (top)
         if (resolvedLeft) {
           const leftBuf = renderPageClipped(resolvedLeft, config.quads.left, false, null);
           ctx.drawImage(leftBuf, 0, 0);
@@ -3590,7 +3648,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           ctx.drawImage(midBuf, 0, 0);
         }
 
-        // Cover Color overlay (Linear Burn / Multiply)
         if (config.layers.cover_color) {
           const covImg = await preloadImage(config.layers.cover_color);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
@@ -3602,7 +3659,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           }
         }
 
-        // Specular Highlights & Sheen
         if (config.layers.highlights && highlightOpacity > 0) {
           const hlImg = await preloadImage(config.layers.highlights);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
@@ -3614,7 +3670,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
             ctx.restore();
           }
         }
-        return;
       } else if (presetId === 'open_book' || presetId === 'square_open_book') {
         // --- AUTHENTIC OPEN BOOK SPREAD PIPELINE ---
         if (config.layers.cover) {
@@ -3660,14 +3715,25 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
         ctx.drawImage(rArtCanv, 0, 0);
 
-        // Paper Gutter Crease & Ambient Shading (Multiply)
+        // Paper Gutter Crease & Ambient Shading (Multiply + Spine Width Gutter Modulation)
         if (config.layers.spread_shading) {
           const shdImg = await preloadImage(config.layers.spread_shading);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
           if (shdImg) {
             ctx.save();
             ctx.globalCompositeOperation = 'multiply';
+            ctx.globalAlpha = Math.min(1.0, 0.65 + 0.35 * swRatio);
             ctx.drawImage(shdImg, 0, 0, renderWidth, renderHeight);
+            if (swRatio > 1.05) {
+              const gutterX = 1518 * scale;
+              const gutterW = 45 * scale * swRatio;
+              const gGrad = ctx.createLinearGradient(gutterX - gutterW, 0, gutterX + gutterW, 0);
+              gGrad.addColorStop(0, 'rgba(0,0,0,0)');
+              gGrad.addColorStop(0.5, 'rgba(0,0,0,' + Math.min(0.35, (swRatio - 1) * 0.28) + ')');
+              gGrad.addColorStop(1, 'rgba(0,0,0,0)');
+              ctx.fillStyle = gGrad;
+              ctx.fillRect(gutterX - gutterW, 340 * scale, gutterW * 2, 1680 * scale);
+            }
             ctx.restore();
           }
         }
@@ -3684,7 +3750,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
             ctx.restore();
           }
         }
-        return;
       } else if (presetId === 'studio_collector' || presetId === 'spine_full_showcase') {
         // --- AUTHENTIC 4-BOOK COLLECTOR PIPELINE ---
         if (config.layers.backBookBase) {
@@ -3702,10 +3767,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
         ctx.restore();
 
-        if (config.layers.interShadows) {
+        if (config.layers.interShadows && effShadow > 0) {
           const isImg = await preloadImage(config.layers.interShadows);
           if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-          if (isImg) ctx.drawImage(isImg, 0, 0, renderWidth, renderHeight);
+          if (isImg) {
+            ctx.save();
+            ctx.globalAlpha = Math.min(1.0, effShadow * 1.2);
+            ctx.drawImage(isImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
         }
 
         // Book 3 Base
@@ -3837,106 +3907,176 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       
       ctx.globalCompositeOperation = 'source-over';
 
-      // Draw Reflections with vertical Fresnel fade (for front_back_showcase)
-      if (config.reflections) {
-        const drawFadedRef = (art, [rx, ry, rw, rh]) => {
-          const sw = Math.round(rw * scale);
-          const sh = Math.round(rh * scale);
-          if (sw <= 0 || sh <= 0) return;
+      // Apply standard reflections, shading, crease, texture, lights, and highlights for presets not handled by specialized spread pipelines
+      if (!['book_spread_8', 'magazine_turning_spread', 'open_book', 'square_open_book'].includes(presetId)) {
+        // Draw Reflections with vertical Fresnel fade (for front_back_showcase)
+        if (config.reflections) {
+          const drawFadedRef = (art, [rx, ry, rw, rh]) => {
+            const sw = Math.round(rw * scale);
+            const sh = Math.round(rh * scale);
+            if (sw <= 0 || sh <= 0) return;
 
-          const refCanvas = document.createElement('canvas');
-          refCanvas.width = sw;
-          refCanvas.height = sh;
-          const rctx = refCanvas.getContext('2d');
-          rctx.save();
-          rctx.translate(0, sh);
-          rctx.scale(1, -1);
-          rctx.drawImage(art, 0, 0, sw, sh);
-          rctx.restore();
+            const refCanvas = document.createElement('canvas');
+            refCanvas.width = sw;
+            refCanvas.height = sh;
+            const rctx = refCanvas.getContext('2d');
+            rctx.save();
+            rctx.translate(0, sh);
+            rctx.scale(1, -1);
+            rctx.drawImage(art, 0, 0, sw, sh);
+            rctx.restore();
 
-          rctx.globalCompositeOperation = 'destination-in';
-          const fadeGrad = rctx.createLinearGradient(0, 0, 0, sh);
-          fadeGrad.addColorStop(0, 'rgba(0,0,0,0.32)');
-          fadeGrad.addColorStop(0.4, 'rgba(0,0,0,0.12)');
-          fadeGrad.addColorStop(0.75, 'rgba(0,0,0,0)');
-          rctx.fillStyle = fadeGrad;
-          rctx.fillRect(0, 0, sw, sh);
+            rctx.globalCompositeOperation = 'destination-in';
+            const fadeGrad = rctx.createLinearGradient(0, 0, 0, sh);
+            fadeGrad.addColorStop(0, 'rgba(0,0,0,0.32)');
+            fadeGrad.addColorStop(0.4, 'rgba(0,0,0,0.12)');
+            fadeGrad.addColorStop(0.75, 'rgba(0,0,0,0)');
+            rctx.fillStyle = fadeGrad;
+            rctx.fillRect(0, 0, sw, sh);
 
-          ctx.drawImage(refCanvas, rx * scale, (ry + rh) * scale);
-        };
+            ctx.drawImage(refCanvas, rx * scale, (ry + rh) * scale);
+          };
 
-        if (config.reflections.back) drawFadedRef(backArt, config.reflections.back);
-        if (config.reflections.front) drawFadedRef(frontArt, config.reflections.front);
+          if (config.reflections.back) drawFadedRef(backArt, config.reflections.back);
+          if (config.reflections.front) drawFadedRef(frontArt, config.reflections.front);
+        }
+
+        // Realistic Photoshop Shading & Texture Blending
+        if (config.layers.shading) {
+          const shdImg = await preloadImage(config.layers.shading);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (shdImg) {
+            ctx.save();
+            ctx.globalCompositeOperation = config.layers.shadingBlend || 'multiply';
+            ctx.drawImage(shdImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+        if (config.layers.crease) {
+          const crImg = await preloadImage(config.layers.crease);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (crImg) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'multiply';
+            ctx.globalAlpha = Math.min(1.0, 0.5 + 0.5 * swRatio);
+            ctx.drawImage(crImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+        if (config.layers.texture) {
+          const txImg = await preloadImage(config.layers.texture);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (txImg) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'multiply';
+            ctx.drawImage(txImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+        if (config.layers.lights && highlightOpacity > 0) {
+          const ltImg = await preloadImage(config.layers.lights);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (ltImg) {
+            ctx.save();
+            ctx.globalAlpha = highlightOpacity;
+            ctx.globalCompositeOperation = 'screen';
+            ctx.drawImage(ltImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+        if (config.layers.pages) {
+          const pgImg = await preloadImage(config.layers.pages);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (pgImg) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.drawImage(pgImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+        if (config.layers.highlights && highlightOpacity > 0) {
+          const hlImg = await preloadImage(config.layers.highlights);
+          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+          if (hlImg) {
+            ctx.save();
+            ctx.globalAlpha = highlightOpacity;
+            ctx.globalCompositeOperation = 'screen';
+            ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          }
+        }
+
+        // For presets without dedicated highlights/lights layers (e.g. paperback_duo, studio_collector), apply realistic directional studio gloss controlled by highlightOpacity
+        if (!config.layers.highlights && !config.layers.lights && highlightOpacity > 0) {
+          const applyQuadGloss = (q) => {
+            if (!q || q.length < 4) return;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(q[0][0] * scale, q[0][1] * scale);
+            for (let i = 1; i < q.length; i++) ctx.lineTo(q[i][0] * scale, q[i][1] * scale);
+            ctx.closePath();
+            ctx.clip();
+            const glossGrad = ctx.createLinearGradient(q[0][0] * scale, q[0][1] * scale, q[2][0] * scale, q[2][1] * scale);
+            const gPeak = (highlightOpacity * 0.26).toFixed(3);
+            const gEdge = (highlightOpacity * 0.10).toFixed(3);
+            glossGrad.addColorStop(0, 'rgba(255,255,255,' + gPeak + ')');
+            glossGrad.addColorStop(0.38, 'rgba(255,255,255,' + gEdge + ')');
+            glossGrad.addColorStop(0.75, 'rgba(255,255,255,0)');
+            glossGrad.addColorStop(1, 'rgba(255,255,255,' + (highlightOpacity * 0.06).toFixed(3) + ')');
+            ctx.globalCompositeOperation = 'screen';
+            ctx.fillStyle = glossGrad;
+            ctx.fillRect(0, 0, renderWidth, renderHeight);
+            ctx.restore();
+          };
+          if (config.quads) {
+            if (config.quads.front) applyQuadGloss(config.quads.front);
+            if (config.quads.back) applyQuadGloss(config.quads.back);
+            if (config.quads.spine) applyQuadGloss(config.quads.spine);
+          }
+        }
+
+        // Dynamic Spine Hinge Crease feedback for flatlay/rect presets when Spine Width (swRatio) is adjusted
+        if (!config.quads?.spine && swRatio !== 1) {
+          const drawHingeCrease = (x, y, w, h) => {
+            ctx.save();
+            const hingeX = x + Math.max(8 * scale, w * 0.048 * swRatio);
+            const hingeW = Math.max(4 * scale, w * 0.018 * swRatio);
+            const cGrad = ctx.createLinearGradient(hingeX - hingeW, y, hingeX + hingeW, y);
+            cGrad.addColorStop(0, 'rgba(0,0,0,0)');
+            cGrad.addColorStop(0.45, 'rgba(0,0,0,' + Math.min(0.32, Math.abs(swRatio - 1) * 0.25 + 0.06) + ')');
+            cGrad.addColorStop(0.7, 'rgba(255,255,255,' + Math.min(0.22, Math.abs(swRatio - 1) * 0.18 + 0.04) + ')');
+            cGrad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = cGrad;
+            ctx.fillRect(hingeX - hingeW, y, hingeW * 2, h);
+            ctx.restore();
+          };
+          if (config.rects?.front) {
+            const [rx, ry, rw, rh] = config.rects.front;
+            drawHingeCrease(rx * scale, ry * scale, rw * scale, rh * scale);
+          } else if (config.quads?.front) {
+            const q = config.quads.front;
+            drawHingeCrease(q[0][0] * scale, q[0][1] * scale, (q[1][0] - q[0][0]) * scale, (q[3][1] - q[0][1]) * scale);
+          }
+        }
       }
 
-      // Realistic Photoshop Shading & Texture Blending
-      if (config.layers.shading) {
-        const shdImg = await preloadImage(config.layers.shading);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (shdImg) {
-          ctx.save();
-          ctx.globalCompositeOperation = config.layers.shadingBlend || 'multiply';
-          ctx.drawImage(shdImg, 0, 0, renderWidth, renderHeight);
-          ctx.restore();
-        }
+      // Universal Warmth / Color Temperature Overlay (works across all 10 mockups, including grayscale backgrounds)
+      if (adjWarmth !== 0) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'soft-light';
+        const tempAlpha = Math.min(0.42, (Math.abs(adjWarmth) / 50) * 0.36);
+        ctx.fillStyle = adjWarmth > 0
+          ? 'rgba(255, 148, 42, ' + tempAlpha + ')'
+          : 'rgba(56, 152, 255, ' + tempAlpha + ')';
+        ctx.fillRect(0, 0, renderWidth, renderHeight);
+        ctx.restore();
       }
-      if (config.layers.crease) {
-        const crImg = await preloadImage(config.layers.crease);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (crImg) {
-          ctx.save();
-          ctx.globalCompositeOperation = 'multiply';
-          ctx.drawImage(crImg, 0, 0, renderWidth, renderHeight);
-          ctx.restore();
-        }
-      }
-      if (config.layers.texture) {
-        const txImg = await preloadImage(config.layers.texture);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (txImg) {
-          ctx.save();
-          ctx.globalCompositeOperation = 'multiply';
-          ctx.drawImage(txImg, 0, 0, renderWidth, renderHeight);
-          ctx.restore();
-        }
-      }
-      if (config.layers.lights) {
-        const ltImg = await preloadImage(config.layers.lights);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (ltImg) {
-          ctx.save();
-          ctx.globalAlpha = Math.min(1.0, 100 / 100);
-          ctx.globalCompositeOperation = 'screen';
-          ctx.drawImage(ltImg, 0, 0, renderWidth, renderHeight);
-          ctx.restore();
-        }
-      }
-      if (config.layers.pages) {
-        const pgImg = await preloadImage(config.layers.pages);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (pgImg) {
-          ctx.save();
-          ctx.globalCompositeOperation = 'source-over';
-          ctx.drawImage(pgImg, 0, 0, renderWidth, renderHeight);
-          ctx.restore();
-        }
-      }
-      if (config.layers.highlights) {
-        const hlImg = await preloadImage(config.layers.highlights);
-        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-        if (hlImg) {
-          ctx.save();
-          ctx.globalAlpha = Math.min(1.0, 100 / 100);
-          ctx.globalCompositeOperation = 'screen';
-          ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
-          ctx.restore();
-        }
-      }
-          // Post-Processing Vignette Overlay
-      if (adjVignette > 0 && bgMode !== 'transparent') {
+
+      // Universal Post-Processing Vignette Overlay (works across all 10 mockups)
+      if (adjVignette > 0) {
         ctx.save();
         ctx.globalCompositeOperation = 'multiply';
-        const vig = ctx.createRadialGradient(renderWidth/2, renderHeight/2, renderWidth*0.25, renderWidth/2, renderHeight/2, renderWidth*0.75);
+        const vig = ctx.createRadialGradient(renderWidth / 2, renderHeight / 2, renderWidth * 0.22, renderWidth / 2, renderHeight / 2, renderWidth * 0.75);
         vig.addColorStop(0, 'rgba(0,0,0,0)');
         vig.addColorStop(1, 'rgba(0,0,0,' + ((adjVignette / 100) * 0.85) + ')');
         ctx.fillStyle = vig;
@@ -3944,11 +4084,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         ctx.restore();
       }
 
-      // Live CSS Filters on Viewport Canvas
+      // Live CSS Filters & 3D Tilt on Viewport Canvas (works across all 10 mockups)
       const canvasEl = document.getElementById('psd-canvas');
       if (canvasEl && targetCanvas === viewportCanvas) {
-        const filterStr = 'brightness(' + (100 + adjBrightness) + '%) contrast(' + adjContrast + '%) saturate(' + adjSaturation + '%) hue-rotate(' + (adjWarmth * 0.5) + 'deg)';
-        canvasEl.style.filter = filterStr + ' drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22))';
+        const dropAlpha = (effShadow * 0.32).toFixed(2);
+        const filterStr = 'brightness(' + (100 + adjBrightness) + '%) contrast(' + adjContrast + '%) saturate(' + adjSaturation + '%) hue-rotate(' + (adjWarmth * 0.35) + 'deg)';
+        canvasEl.style.filter = filterStr + ' drop-shadow(0 20px 45px rgba(0, 0, 0, ' + dropAlpha + '))';
+        if (typeof updateFloatingTransform === 'function') updateFloatingTransform();
       }
 
       // Render filter onto Export Canvas (non-viewport)
@@ -3960,7 +4102,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         tempCtx.drawImage(targetCanvas, 0, 0);
         ctx.clearRect(0, 0, renderWidth, renderHeight);
         ctx.save();
-        ctx.filter = 'brightness(' + (100 + adjBrightness) + '%) contrast(' + adjContrast + '%) saturate(' + adjSaturation + '%) hue-rotate(' + (adjWarmth * 0.5) + 'deg)';
+        ctx.filter = 'brightness(' + (100 + adjBrightness) + '%) contrast(' + adjContrast + '%) saturate(' + adjSaturation + '%) hue-rotate(' + (adjWarmth * 0.35) + 'deg)';
         ctx.drawImage(tempCanvas, 0, 0);
         ctx.restore();
       }
@@ -5799,10 +5941,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
-  if (drawerSpineWidthSlider && drawerSpineWidthVal) {
+  if (drawerSpineWidthSlider) {
     drawerSpineWidthSlider.addEventListener('input', (e) => {
       spineWidth = parseInt(e.target.value, 10);
-      drawerSpineWidthVal.textContent = spineWidth + '%';
+      const dVal = document.getElementById('drawer-spine-width-val');
+      if (dVal) dVal.textContent = spineWidth + '%';
+      const aSlider = document.getElementById('adj-spine-slider');
+      const aVal = document.getElementById('adj-spine-val');
+      if (aSlider) aSlider.value = spineWidth;
+      if (aVal) aVal.textContent = spineWidth + '%';
       renderCurrentMockup();
     });
   }
@@ -6128,8 +6275,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     adjScaleSlider.addEventListener('input', e => {
       adjScale = parseInt(e.target.value, 10);
       adjScaleVal.textContent = adjScale + '%';
-      frontTransform.scale = adjScale / 100;
-      backTransform.scale = adjScale / 100;
+      frontTransform.scale = adjScale;
+      backTransform.scale = adjScale;
       renderCurrentMockup();
     });
   }
@@ -6177,8 +6324,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       adjScale = 100;
       if (adjScaleSlider) adjScaleSlider.value = 100;
       if (adjScaleVal) adjScaleVal.textContent = '100%';
-      frontTransform.scale = 1.0;
-      backTransform.scale = 1.0;
+      frontTransform.scale = 100;
+      backTransform.scale = 100;
 
       frontTransform.shiftX = 0;
       backTransform.shiftX = 0;
