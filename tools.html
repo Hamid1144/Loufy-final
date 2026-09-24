@@ -1301,6 +1301,14 @@
             </div>
             <span class="template-card-label">Square Trio</span>
           </button>
+
+          <button type="button" class="template-card-btn" data-preset="square_spread_7" data-cat="paperback open_book">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/square_spread_7.jpg" alt="Square Spread">
+            </div>
+            <span class="template-card-label">Square Spread</span>
+          </button>
         </div>
       </div>
 
@@ -3057,6 +3065,80 @@ document.addEventListener('DOMContentLoaded', () => {
         [1207.66, 1722.82]
       ]
     }
+  },
+  "square_spread_7": {
+    "id": "square_spread_7",
+    "title": "Square Face-Down Book Spread",
+    "category": "open_book",
+    "aspect": "1:1",
+    "width": 2800,
+    "height": 1960,
+    "slots": [
+      "front",
+      "spine",
+      "back"
+    ],
+    "defaultBg": "#cccccc",
+    "layers": {
+      "backdrop": "images/psd_mockups/square_spread_7/base_backdrop.jpg",
+      "shadow": "images/psd_mockups/square_spread_7/shadows.png",
+      "pages": "images/psd_mockups/square_spread_7/pages.png",
+      "coverBase": "images/psd_mockups/square_spread_7/cover_base.png",
+      "edgeMask": "images/psd_mockups/square_spread_7/edge_mask.png",
+      "coverOuterMask": "images/psd_mockups/square_spread_7/cover_outer_mask.png",
+      "coverHingeMask": "images/psd_mockups/square_spread_7/cover_hinge_mask.png",
+      "backCoverMask": "images/psd_mockups/square_spread_7/back_cover_mask.png",
+      "highlights": "images/psd_mockups/square_spread_7/highlights.png",
+      "sampleFront": "images/psd_mockups/square_spread_7/sample_cover.png",
+      "sampleBack": "images/psd_mockups/square_spread_7/sample_back_cover.png",
+      "sampleSpine": "images/psd_mockups/square_spread_7/sample_edge.png"
+    },
+    "quads": {
+      "front": [
+        [1660.07, 517.42],
+        [2583.98, 990.18],
+        [2028.51, 1682.33],
+        [1040.34, 1125.03]
+      ],
+      "frontHinge": [
+        [1671.19, 511.06],
+        [1832.26, 1261.82],
+        [1324.21, 1839.37],
+        [1050.97, 1118.78]
+      ],
+      "back": [
+        [871.95, 282.14],
+        [1619.52, 491.94],
+        [999.88, 1103.43],
+        [222.47, 823.99]
+      ],
+      "spine": [
+        [1621.65, 482.15],
+        [1672.86, 509.41],
+        [1051.74, 1118.36],
+        [1003.37, 1082.90]
+      ]
+    },
+    "mesh": {
+      "frontOuter": [
+        [1660.07, 517.42], [1968.04, 675.01], [2276.01, 832.59], [2583.98, 990.18],
+        [1453.49, 719.96], [1768.80, 886.73], [2083.91, 1053.69], [2398.82, 1220.90],
+        [1246.92, 922.49], [1569.57, 1098.44], [1891.80, 1274.80], [2213.67, 1451.61],
+        [1040.34, 1125.03], [1370.33, 1310.16], [1699.70, 1495.90], [2028.51, 1682.33]
+      ],
+      "frontHinge": [
+        [1671.19, 511.06], [1724.30, 761.91], [1778.03, 1012.15], [1832.26, 1261.82],
+        [1464.45, 713.63], [1530.41, 960.73], [1596.40, 1207.82], [1662.91, 1454.34],
+        [1257.71, 916.21], [1336.52, 1159.56], [1414.76, 1403.50], [1493.56, 1646.85],
+        [1050.97, 1118.78], [1142.63, 1358.38], [1233.13, 1599.17], [1324.21, 1839.37]
+      ],
+      "back": [
+        [871.95, 282.14], [1120.50, 352.64], [1369.70, 422.60], [1619.52, 491.94],
+        [655.46, 462.76], [907.54, 540.80], [1160.05, 618.49], [1412.97, 695.77],
+        [438.96, 643.37], [694.57, 728.97], [950.39, 814.39], [1206.43, 899.60],
+        [222.47, 823.99], [481.61, 917.13], [740.74, 1010.28], [999.88, 1103.43]
+      ]
+    }
   }
 };
 PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
@@ -4410,6 +4492,111 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
         bctx.putImageData(roiData, rx, ry);
         ctx.drawImage(bookComp, 0, 0);
+      } else if (presetId === 'square_spread_7') {
+        // --- AUTHENTIC SQUARE_SPREAD_7.PSD (FACE-DOWN FULL-SPREAD SQUARE BOOK) PIPELINE ---
+        const [pagesImg, coverBaseImg, edgeMaskImg, coverOuterMaskImg, coverHingeMaskImg, backCoverMaskImg, hlImg, defFront, defBack, defSpine] = await Promise.all([
+          preloadImage(config.layers.pages),
+          preloadImage(config.layers.coverBase),
+          preloadImage(config.layers.edgeMask),
+          preloadImage(config.layers.coverOuterMask),
+          preloadImage(config.layers.coverHingeMask),
+          preloadImage(config.layers.backCoverMask),
+          preloadImage(config.layers.highlights),
+          preloadImage(config.layers.sampleFront),
+          preloadImage(config.layers.sampleBack),
+          preloadImage(config.layers.sampleSpine)
+        ]);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+
+        const bookComp = document.createElement('canvas');
+        bookComp.width = renderWidth; bookComp.height = renderHeight;
+        const bctx = bookComp.getContext('2d');
+
+        // Step 1: Draw [1.1.0] "Pages" (Arched white inner paper block & deep tunnel shadow under spine)
+        if (pagesImg) {
+          bctx.drawImage(pagesImg, 0, 0, renderWidth, renderHeight);
+        }
+
+        // Step 2: Resolve Front Cover, Back Cover, and Spine Artworks
+        const resolvedFront = customFrontImg ? frontArt : getTransformedArtwork(defFront || rawFront, frontTransform);
+        const resolvedBack  = customBackImg  ? backArt  : (customFrontImg ? backArt : getTransformedArtwork(defBack || rawBack, backTransform));
+        const resolvedSpine = customSpineImg ? spineArt : (customFrontImg ? spineArt : getTransformedArtwork(defSpine || spineArt, { scale: frontTransform.scale, shiftX: 0, shiftY: 0 }));
+
+        // Step 3: Build [1.1.1] "Cover" Base & Clipped Smart Objects ([1.1.2] Edge + [1.1.3/1.1.4] Split-Dual Front Cover + [1.1.5] Back Cover)
+        const coverCanv = document.createElement('canvas');
+        coverCanv.width = renderWidth; coverCanv.height = renderHeight;
+        const cctx = coverCanv.getContext('2d');
+        if (coverBaseImg) {
+          cctx.drawImage(coverBaseImg, 0, 0, renderWidth, renderHeight);
+        }
+
+        const renderMaskedSmartObject = (artImg, isMesh, coords, maskImg, blendMode) => {
+          if (!artImg || !maskImg) return;
+          const partC = document.createElement('canvas');
+          partC.width = renderWidth; partC.height = renderHeight;
+          const pctx = partC.getContext('2d');
+          if (isMesh) warpMeshGrid(pctx, artImg, coords, scale);
+          else warpQuad(pctx, artImg, coords, scale);
+          pctx.globalCompositeOperation = 'destination-in';
+          pctx.drawImage(maskImg, 0, 0, renderWidth, renderHeight);
+          cctx.save();
+          cctx.globalCompositeOperation = blendMode;
+          cctx.drawImage(partC, 0, 0);
+          cctx.restore();
+        };
+
+        const scaledSpine7 = getScaledSpineQuad(config.quads.spine, swRatio, 'center');
+        renderMaskedSmartObject(resolvedSpine, false, scaledSpine7, edgeMaskImg, 'source-over');
+        renderMaskedSmartObject(resolvedFront, true, config.mesh.frontOuter, coverOuterMaskImg, 'multiply');
+        renderMaskedSmartObject(resolvedFront, true, config.mesh.frontHinge, coverHingeMaskImg, 'multiply');
+        renderMaskedSmartObject(resolvedBack,  true, config.mesh.back,       backCoverMaskImg,  'multiply');
+
+        if (coverBaseImg) {
+          cctx.globalCompositeOperation = 'destination-in';
+          cctx.drawImage(coverBaseImg, 0, 0, renderWidth, renderHeight);
+        }
+        bctx.drawImage(coverCanv, 0, 0);
+
+        // Step 4: Render [1.1.6] "Highlights" (Screen 100% scaled by highlightOpacity)
+        if (hlImg && highlightOpacity > 0) {
+          bctx.save();
+          bctx.globalAlpha = Math.min(1.0, highlightOpacity);
+          bctx.globalCompositeOperation = 'screen';
+          bctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
+          bctx.restore();
+        }
+
+        // Step 5: Apply [1.2.0] "Contrast" S-Curve [(0->0), (60->50), (186->198), (255->255)] within Book ROI
+        const rx = Math.max(0, Math.floor(220 * scale));
+        const ry = Math.max(0, Math.floor(280 * scale));
+        const rw = Math.min(renderWidth - rx, Math.ceil(2368 * scale));
+        const rh = Math.min(renderHeight - ry, Math.ceil(1406 * scale));
+        const cLUT = new Uint8ClampedArray(256);
+        for (let v = 0; v < 256; v++) {
+          let y;
+          if (v <= 60) {
+            const t = v / 60;
+            y = 50 * t - 2.5 * t * (1 - t);
+          } else if (v <= 186) {
+            const t = (v - 60) / (186 - 60);
+            y = 50 + (198 - 50) * t + 5 * Math.sin(t * Math.PI);
+          } else {
+            const t = (v - 186) / (255 - 186);
+            y = 198 + (255 - 198) * t + 2 * t * (1 - t);
+          }
+          cLUT[v] = Math.max(0, Math.min(255, Math.round(y)));
+        }
+        const roiData = bctx.getImageData(rx, ry, rw, rh);
+        const d = roiData.data;
+        for (let i = 0; i < d.length; i += 4) {
+          if (d[i + 3] > 0) {
+            d[i]     = cLUT[d[i]];
+            d[i + 1] = cLUT[d[i + 1]];
+            d[i + 2] = cLUT[d[i + 2]];
+          }
+        }
+        bctx.putImageData(roiData, rx, ry);
+        ctx.drawImage(bookComp, 0, 0);
       } else if (presetId === 'studio_collector' || presetId === 'spine_full_showcase') {
         // --- AUTHENTIC 4-BOOK COLLECTOR PIPELINE ---
         if (config.layers.backBookBase) {
@@ -4568,7 +4755,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       ctx.globalCompositeOperation = 'source-over';
 
       // Apply standard reflections, shading, crease, texture, lights, and highlights for presets not handled by specialized spread pipelines
-      if (!['book_spread_8', 'soft_cover_v01', 'us_letter_brochure_02', 'square_book_12', 'square_hardcover_trio_2', 'magazine_turning_spread', 'open_book', 'square_open_book'].includes(presetId)) {
+      if (!['book_spread_8', 'soft_cover_v01', 'us_letter_brochure_02', 'square_book_12', 'square_hardcover_trio_2', 'square_spread_7', 'magazine_turning_spread', 'open_book', 'square_open_book'].includes(presetId)) {
         // Draw Reflections with vertical Fresnel fade (for front_back_showcase)
         if (config.reflections) {
           const drawFadedRef = (art, [rx, ry, rw, rh]) => {
@@ -5048,15 +5235,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       height = 1166;
       ratio = 1.0;
       aspectLabel = '1:1 Square Page';
-    } else if (presetId === 'square_book_12' || presetId === 'square_hardcover_trio_2') {
+    } else if (presetId === 'square_book_12' || presetId === 'square_hardcover_trio_2' || presetId === 'square_spread_7') {
       if (slot === 'spine') {
-        width = presetId === 'square_hardcover_trio_2' ? 177 : 174;
-        height = presetId === 'square_hardcover_trio_2' ? 2539 : 1166;
+        width = (presetId === 'square_hardcover_trio_2' || presetId === 'square_spread_7') ? 177 : 174;
+        height = (presetId === 'square_hardcover_trio_2' || presetId === 'square_spread_7') ? 2539 : 1166;
         ratio = width / height;
-        aspectLabel = presetId === 'square_hardcover_trio_2' ? 'Spine 1:14.3' : 'Spine 1:6.7';
+        aspectLabel = (presetId === 'square_hardcover_trio_2' || presetId === 'square_spread_7') ? 'Spine 1:14.3' : 'Spine 1:6.7';
       } else {
-        width = presetId === 'square_hardcover_trio_2' ? 2539 : 1166;
-        height = presetId === 'square_hardcover_trio_2' ? 2539 : 1166;
+        width = (presetId === 'square_hardcover_trio_2' || presetId === 'square_spread_7') ? 2539 : 1166;
+        height = (presetId === 'square_hardcover_trio_2' || presetId === 'square_spread_7') ? 2539 : 1166;
         ratio = 1.0;
         aspectLabel = '1:1 Square Book';
       }
@@ -6402,6 +6589,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotFrontThumb.src = '/images/psd_mockups/square_book_12/sample_front.png';
       } else if (currentPresetId === 'square_hardcover_trio_2') {
         slotFrontThumb.src = '/images/psd_mockups/square_hardcover_trio_2/sample_front.png';
+      } else if (currentPresetId === 'square_spread_7') {
+        slotFrontThumb.src = '/images/psd_mockups/square_spread_7/sample_cover.png';
       } else if (activeFrontImg) {
         slotFrontThumb.src = activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : '');
       } else {
@@ -6451,6 +6640,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotBackThumb.src = '/images/psd_mockups/square_book_12/sample_front.png';
       } else if (currentPresetId === 'square_hardcover_trio_2') {
         slotBackThumb.src = '/images/psd_mockups/square_hardcover_trio_2/sample_front.png';
+      } else if (currentPresetId === 'square_spread_7') {
+        slotBackThumb.src = '/images/psd_mockups/square_spread_7/sample_back_cover.png';
       } else if (activeBackImg) {
         slotBackThumb.src = activeBackImg.src || (activeBackImg.toDataURL ? activeBackImg.toDataURL() : '');
       } else {
@@ -6528,6 +6719,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           slotSpineThumb.src = '/images/psd_mockups/square_book_12/sample_spine.png';
         } else if (currentPresetId === 'square_hardcover_trio_2' && !customFrontImg) {
           slotSpineThumb.src = '/images/psd_mockups/square_hardcover_trio_2/sample_spine.png';
+        } else if (currentPresetId === 'square_spread_7' && !customFrontImg) {
+          slotSpineThumb.src = '/images/psd_mockups/square_spread_7/sample_edge.png';
         } else if (activeSpineImg && activeSpineImg.src) {
           slotSpineThumb.src = activeSpineImg.src;
         } else {
