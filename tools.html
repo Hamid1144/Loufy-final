@@ -4112,58 +4112,120 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         const botSpineQuad = getScaledSpineQuad(config.quads.bottomSpine, swRatio, 'left');
         const topSpineQuad = getScaledSpineQuad(config.quads.spine, swRatio, 'left');
 
-        // Step 3: Render Bottom Book ([1.3.0] Base + [1.3.1] Cover + [1.3.2] Edge clipped in Linear Burn)
-        const bLayer = document.createElement('canvas');
-        bLayer.width = renderWidth; bLayer.height = renderHeight;
-        const bctx = bLayer.getContext('2d');
-        warpQuad(bctx, resolvedBotFront, config.quads.bottomFront, scale);
-        warpQuad(bctx, resolvedSpine, botSpineQuad, scale);
-        if (bottomBaseImg) {
-          bctx.globalCompositeOperation = 'destination-in';
-          bctx.drawImage(bottomBaseImg, 0, 0, renderWidth, renderHeight);
-          if (effShadow > 0) {
-            bctx.save();
-            bctx.globalAlpha = Math.min(1.0, effShadow);
-            bctx.globalCompositeOperation = 'multiply';
-            bctx.drawImage(bottomBaseImg, 0, 0, renderWidth, renderHeight);
-            bctx.globalAlpha = Math.min(0.42, effShadow * 0.38);
-            bctx.globalCompositeOperation = 'color-burn';
-            bctx.drawImage(bottomBaseImg, 0, 0, renderWidth, renderHeight);
-            bctx.restore();
-          }
-        }
-        ctx.drawImage(bLayer, 0, 0);
+        // Step 3: Warp Bottom Book ([1.3.1] Cover + [1.3.2] Edge) & Top Book ([1.3.4] Cover + [1.3.5] Edge)
+        const bArtC = document.createElement('canvas');
+        bArtC.width = renderWidth; bArtC.height = renderHeight;
+        const bArtCtx = bArtC.getContext('2d');
+        warpQuad(bArtCtx, resolvedBotFront, config.quads.bottomFront, scale);
+        warpQuad(bArtCtx, resolvedSpine, botSpineQuad, scale);
 
-        // Step 4: Render Top Hero Book ([1.3.3] Base + [1.3.4] Cover + [1.3.5] Edge clipped in Linear Burn)
-        const tLayer = document.createElement('canvas');
-        tLayer.width = renderWidth; tLayer.height = renderHeight;
-        const tctx = tLayer.getContext('2d');
-        warpQuad(tctx, resolvedTopFront, config.quads.front, scale);
-        warpQuad(tctx, resolvedSpine, topSpineQuad, scale);
-        if (topBaseImg) {
-          tctx.globalCompositeOperation = 'destination-in';
-          tctx.drawImage(topBaseImg, 0, 0, renderWidth, renderHeight);
-          if (effShadow > 0) {
-            tctx.save();
-            tctx.globalAlpha = Math.min(1.0, effShadow);
-            tctx.globalCompositeOperation = 'multiply';
-            tctx.drawImage(topBaseImg, 0, 0, renderWidth, renderHeight);
-            tctx.globalAlpha = Math.min(0.36, effShadow * 0.32);
-            tctx.globalCompositeOperation = 'color-burn';
-            tctx.drawImage(topBaseImg, 0, 0, renderWidth, renderHeight);
-            tctx.restore();
-          }
-        }
-        ctx.drawImage(tLayer, 0, 0);
+        const tArtC = document.createElement('canvas');
+        tArtC.width = renderWidth; tArtC.height = renderHeight;
+        const tArtCtx = tArtC.getContext('2d');
+        warpQuad(tArtCtx, resolvedTopFront, config.quads.front, scale);
+        warpQuad(tArtCtx, resolvedSpine, topSpineQuad, scale);
 
-        // Step 5: Render [1.4.0] Highlights (Matte Cardstock Fiber Grain + Spine Ridge Specular Sheen in Screen)
-        if (hlImg && highlightOpacity > 0) {
-          ctx.save();
-          ctx.globalAlpha = highlightOpacity;
-          ctx.globalCompositeOperation = 'screen';
-          ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
-          ctx.restore();
+        // Step 4: Exact Photoshop [1.3] Linear Burn + [1.4] Screen Highlights + [1.5] Contrast Curves S-Curve within Book ROI
+        const rx = Math.max(0, Math.floor(754 * scale));
+        const ry = Math.max(0, Math.floor(454 * scale));
+        const rw = Math.min(renderWidth - rx, Math.ceil(1500 * scale));
+        const rh = Math.min(renderHeight - ry, Math.ceil(1336 * scale));
+
+        const bBaseC = document.createElement('canvas');
+        bBaseC.width = rw; bBaseC.height = rh;
+        if (bottomBaseImg) bBaseC.getContext('2d').drawImage(bottomBaseImg, rx, ry, rw, rh, 0, 0, rw, rh);
+
+        const tBaseC = document.createElement('canvas');
+        tBaseC.width = rw; tBaseC.height = rh;
+        if (topBaseImg) tBaseC.getContext('2d').drawImage(topBaseImg, rx, ry, rw, rh, 0, 0, rw, rh);
+
+        const hlCropC = document.createElement('canvas');
+        hlCropC.width = rw; hlCropC.height = rh;
+        if (hlImg) hlCropC.getContext('2d').drawImage(hlImg, rx, ry, rw, rh, 0, 0, rw, rh);
+
+        const bArtData = bArtCtx.getImageData(rx, ry, rw, rh).data;
+        const tArtData = tArtCtx.getImageData(rx, ry, rw, rh).data;
+        const bBaseData = bBaseC.getContext('2d').getImageData(0, 0, rw, rh).data;
+        const tBaseData = tBaseC.getContext('2d').getImageData(0, 0, rw, rh).data;
+        const hlData = hlCropC.getContext('2d').getImageData(0, 0, rw, rh).data;
+
+        // [1.5.0] "Contrast" S-Curve LUT: (0->0), (70->61), (189->195), (255->255)
+        const cLUT = new Uint8ClampedArray(256);
+        for (let v = 0; v < 256; v++) {
+          let y;
+          if (v <= 70) {
+            const t = v / 70;
+            y = 61 * t - 3 * t * (1 - t);
+          } else if (v <= 189) {
+            const t = (v - 70) / (189 - 70);
+            y = 61 + (195 - 61) * t + 4 * Math.sin(t * Math.PI);
+          } else {
+            const t = (v - 189) / (255 - 189);
+            y = 195 + (255 - 195) * t + 2 * t * (1 - t);
+          }
+          cLUT[v] = Math.max(0, Math.min(255, Math.round(y)));
         }
+
+        const outC = document.createElement('canvas');
+        outC.width = rw; outC.height = rh;
+        const outCtx = outC.getContext('2d');
+        const outImg = outCtx.createImageData(rw, rh);
+        const dst = outImg.data;
+        const shWeight = Math.min(1.2, effShadow);
+        const hlWeight = Math.min(1.5, highlightOpacity);
+
+        for (let i = 0; i < dst.length; i += 4) {
+          const bA = bBaseData[i + 3] / 255;
+          const tA = tBaseData[i + 3] / 255;
+          if (bA === 0 && tA === 0) continue;
+
+          let r = 0, g = 0, b = 0, a = 0;
+
+          // Bottom Book Stack ([1.3.0] + Linear Burn [1.3.1, 1.3.2])
+          if (bA > 0) {
+            const sR = bArtData[i + 3] > 0 ? bArtData[i] : bBaseData[i];
+            const sG = bArtData[i + 3] > 0 ? bArtData[i + 1] : bBaseData[i + 1];
+            const sB = bArtData[i + 3] > 0 ? bArtData[i + 2] : bBaseData[i + 2];
+            const burnR = Math.max(0, sR - (255 - bBaseData[i]) * shWeight);
+            const burnG = Math.max(0, sG - (255 - bBaseData[i + 1]) * shWeight);
+            const burnB = Math.max(0, sB - (255 - bBaseData[i + 2]) * shWeight);
+            r = burnR; g = burnG; b = burnB; a = bA;
+          }
+
+          // Top Book Stack ([1.3.3] + Linear Burn [1.3.4, 1.3.5]) alpha-composited over Bottom Book
+          if (tA > 0) {
+            const sR = tArtData[i + 3] > 0 ? tArtData[i] : tBaseData[i];
+            const sG = tArtData[i + 3] > 0 ? tArtData[i + 1] : tBaseData[i + 1];
+            const sB = tArtData[i + 3] > 0 ? tArtData[i + 2] : tBaseData[i + 2];
+            const burnR = Math.max(0, sR - (255 - tBaseData[i]) * shWeight);
+            const burnG = Math.max(0, sG - (255 - tBaseData[i + 1]) * shWeight);
+            const burnB = Math.max(0, sB - (255 - tBaseData[i + 2]) * shWeight);
+            const outA = tA + a * (1 - tA);
+            r = (burnR * tA + r * a * (1 - tA)) / outA;
+            g = (burnG * tA + g * a * (1 - tA)) / outA;
+            b = (burnB * tA + b * a * (1 - tA)) / outA;
+            a = outA;
+          }
+
+          // [1.4.0] "Highlights" (Screen blend)
+          if (hlWeight > 0) {
+            const hR = Math.min(255, hlData[i] * hlWeight);
+            const hG = Math.min(255, hlData[i + 1] * hlWeight);
+            const hB = Math.min(255, hlData[i + 2] * hlWeight);
+            r = 255 - ((255 - r) * (255 - hR)) / 255;
+            g = 255 - ((255 - g) * (255 - hG)) / 255;
+            b = 255 - ((255 - b) * (255 - hB)) / 255;
+          }
+
+          // [1.5.0] "Contrast" S-Curve
+          dst[i]     = cLUT[Math.max(0, Math.min(255, Math.round(r)))];
+          dst[i + 1] = cLUT[Math.max(0, Math.min(255, Math.round(g)))];
+          dst[i + 2] = cLUT[Math.max(0, Math.min(255, Math.round(b)))];
+          dst[i + 3] = Math.round(a * 255);
+        }
+
+        outCtx.putImageData(outImg, 0, 0);
+        ctx.drawImage(outC, rx, ry);
       } else if (presetId === 'studio_collector' || presetId === 'spine_full_showcase') {
         // --- AUTHENTIC 4-BOOK COLLECTOR PIPELINE ---
         if (config.layers.backBookBase) {
