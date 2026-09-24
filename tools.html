@@ -1277,6 +1277,14 @@
             </div>
             <span class="template-card-label">Dual Showcase</span>
           </button>
+
+          <button type="button" class="template-card-btn" data-preset="us_letter_brochure_02" data-cat="magazine paperback">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/us_letter_brochure_02.jpg" alt="US Letter Brochure">
+            </div>
+            <span class="template-card-label">US Letter Brochure</span>
+          </button>
         </div>
       </div>
 
@@ -1525,13 +1533,13 @@
           </div>
         </div>
 
-        <!-- 4. Full Wrap Auto-Split Dropzone -->
+        <!-- 4. Full Wrap Auto-Split / Open Book Auto 2-Page PDF Dropzone -->
         <div class="cover-dropzone-box" id="drawer-fullwrap-dropzone" style="padding:12px 10px;margin-top:2px;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <i class="fa-solid fa-wand-magic-sparkles" style="color:#ff5a1f;font-size:1rem;"></i>
-            <span class="upload-box-title" style="font-size:0.78rem;">Full Wrap Auto-Split</span>
+            <i class="fa-solid fa-wand-magic-sparkles" id="fullwrap-box-icon" style="color:#ff5a1f;font-size:1rem;"></i>
+            <span class="upload-box-title" id="fullwrap-box-title" style="font-size:0.78rem;">Full Wrap Auto-Split</span>
           </div>
-          <span class="upload-box-sub" style="font-size:0.68rem;">Drop full jacket to slice Front, Spine &amp; Back</span>
+          <span class="upload-box-sub" id="fullwrap-box-sub" style="font-size:0.68rem;">Drop full jacket to slice Front, Spine &amp; Back</span>
           <input type="file" id="drawer-fullwrap-input" accept="image/*, application/pdf" style="display:none;">
         </div>
       </div>
@@ -2881,6 +2889,44 @@ document.addEventListener('DOMContentLoaded', () => {
         1353
       ]
     }
+  },
+  "us_letter_brochure_02": {
+    "id": "us_letter_brochure_02",
+    "title": "US Letter Brochure Duo",
+    "category": "magazine",
+    "aspect": "8.5x11",
+    "width": 3000,
+    "height": 3000,
+    "slots": [
+      "front",
+      "back"
+    ],
+    "defaultBg": "#f0efea",
+    "layers": {
+      "backdrop": "images/psd_mockups/us_letter_brochure_02/base_backdrop.jpg",
+      "shadows": "images/psd_mockups/us_letter_brochure_02/shadows.png",
+      "paperBase": "images/psd_mockups/us_letter_brochure_02/paper_base.png",
+      "frontMask": "images/psd_mockups/us_letter_brochure_02/front_mask.png",
+      "backMask": "images/psd_mockups/us_letter_brochure_02/back_mask.png",
+      "shading": "images/psd_mockups/us_letter_brochure_02/shading.png",
+      "highlights": "images/psd_mockups/us_letter_brochure_02/highlights.png",
+      "sampleFront": "images/psd_mockups/us_letter_brochure_02/sample_front.png",
+      "sampleBack": "images/psd_mockups/us_letter_brochure_02/sample_back.png"
+    },
+    "quads": {
+      "front": [
+        [637.23, 1049.06],
+        [1671.45, 746.93],
+        [2348.76, 1890.28],
+        [1211.96, 2273.39]
+      ],
+      "back": [
+        [501.08, 1233.08],
+        [1428.97, 769.32],
+        [2398.02, 1737.29],
+        [1435.58, 2310.13]
+      ]
+    }
   }
 };
 PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
@@ -3918,6 +3964,71 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
             ctx.restore();
           }
         }
+      } else if (presetId === 'us_letter_brochure_02') {
+        // --- AUTHENTIC US_LETTER_SIZE_BROCHURE_02.PSD PIPELINE ---
+        const [paperBaseImg, backMaskImg, frontMaskImg, shadingImg, hlImg, defFront, defBack] = await Promise.all([
+          preloadImage(config.layers.paperBase),
+          preloadImage(config.layers.backMask),
+          preloadImage(config.layers.frontMask),
+          preloadImage(config.layers.shading),
+          preloadImage(config.layers.highlights),
+          preloadImage(config.layers.sampleFront),
+          preloadImage(config.layers.sampleBack)
+        ]);
+        if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+
+        // Step 1: Draw paperBase (#fffdfd Color 1 block)
+        if (paperBaseImg) {
+          ctx.drawImage(paperBaseImg, 0, 0, renderWidth, renderHeight);
+        }
+
+        // Step 2: Resolve Front (Top Brochure Mockup_01) and Back (Bottom Staggered Brochure Mockup_02) artworks
+        const resolvedFront = customFrontImg ? frontArt : getTransformedArtwork(defFront || rawFront, frontTransform);
+        const resolvedBack  = customBackImg  ? backArt  : (customFrontImg ? frontArt : getTransformedArtwork(defBack || rawBack, backTransform));
+
+        // Step 3: Draw Bottom Staggered Brochure (Mockup_02) clipped to backMask
+        const bLayer = document.createElement('canvas');
+        bLayer.width = renderWidth; bLayer.height = renderHeight;
+        const bctx = bLayer.getContext('2d');
+        warpQuad(bctx, resolvedBack, config.quads.back, scale);
+        if (backMaskImg) {
+          bctx.globalCompositeOperation = 'destination-in';
+          bctx.drawImage(backMaskImg, 0, 0, renderWidth, renderHeight);
+        }
+        ctx.drawImage(bLayer, 0, 0);
+
+        // Step 4: Draw Top Hero Brochure (Mockup_01) clipped to frontMask
+        const fLayer = document.createElement('canvas');
+        fLayer.width = renderWidth; fLayer.height = renderHeight;
+        const fctx = fLayer.getContext('2d');
+        warpQuad(fctx, resolvedFront, config.quads.front, scale);
+        if (frontMaskImg) {
+          fctx.globalCompositeOperation = 'destination-in';
+          fctx.drawImage(frontMaskImg, 0, 0, renderWidth, renderHeight);
+        }
+        ctx.drawImage(fLayer, 0, 0);
+
+        // Step 5: Draw Spine Crease & Overlap Shading (Texture 5, 3, 2, 1 + Brightness/Contrast in Multiply)
+        if (shadingImg && effShadow > 0) {
+          ctx.save();
+          ctx.globalAlpha = Math.min(1.0, effShadow * 1.15);
+          ctx.globalCompositeOperation = 'multiply';
+          ctx.drawImage(shadingImg, 0, 0, renderWidth, renderHeight);
+          if (swRatio > 1.01) {
+            ctx.globalAlpha = Math.min(0.45, (swRatio - 1) * 0.35);
+            ctx.drawImage(shadingImg, 0, 0, renderWidth, renderHeight);
+          }
+          ctx.restore();
+        }
+
+        // Step 6: Draw Gloss & Texture 4 Specular Highlights (Screen)
+        if (hlImg && highlightOpacity > 0) {
+          ctx.save();
+          ctx.globalAlpha = highlightOpacity;
+          ctx.globalCompositeOperation = 'screen';
+          ctx.drawImage(hlImg, 0, 0, renderWidth, renderHeight);
+          ctx.restore();
+        }
       } else if (presetId === 'studio_collector' || presetId === 'spine_full_showcase') {
         // --- AUTHENTIC 4-BOOK COLLECTOR PIPELINE ---
         if (config.layers.backBookBase) {
@@ -4076,7 +4187,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       ctx.globalCompositeOperation = 'source-over';
 
       // Apply standard reflections, shading, crease, texture, lights, and highlights for presets not handled by specialized spread pipelines
-      if (!['book_spread_8', 'soft_cover_v01', 'magazine_turning_spread', 'open_book', 'square_open_book'].includes(presetId)) {
+      if (!['book_spread_8', 'soft_cover_v01', 'us_letter_brochure_02', 'magazine_turning_spread', 'open_book', 'square_open_book'].includes(presetId)) {
         // Draw Reflections with vertical Fresnel fade (for front_back_showcase)
         if (config.reflections) {
           const drawFadedRef = (art, [rx, ry, rw, rh]) => {
@@ -5119,9 +5230,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   async function handleFrontFile(file) {
     if (!file) return;
     try {
+      const isOpenBookDual = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book');
+      const isPdf = (file.type === 'application/pdf' || /\.pdf$/i.test(file.name));
+      if (isOpenBookDual && isPdf && window.pdfjsLib) {
+        const handled = await autoFitOpenBookTwoPages(file, true);
+        if (handled) return;
+      }
       const img = await window.processUploadedFileToImage(file);
-      if ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book') && (img.width / img.height > 1.25)) {
-        processUploadedArtwork(img, file.name);
+      if (isOpenBookDual && (img.width / img.height > 1.25)) {
+        await autoFitOpenBookTwoPages(file, false);
       } else {
         openCropModal(img.src, 'front', file.name);
       }
@@ -5134,9 +5251,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   async function handleBackFile(file) {
     if (!file) return;
     try {
+      const isOpenBookDual = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book');
+      const isPdf = (file.type === 'application/pdf' || /\.pdf$/i.test(file.name));
+      if (isOpenBookDual && isPdf && window.pdfjsLib) {
+        const handled = await autoFitOpenBookTwoPages(file, true);
+        if (handled) return;
+      }
       const img = await window.processUploadedFileToImage(file);
-      if ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book') && (img.width / img.height > 1.25)) {
-        processUploadedArtwork(img, file.name);
+      if (isOpenBookDual && (img.width / img.height > 1.25)) {
+        await autoFitOpenBookTwoPages(file, false);
       } else {
         openCropModal(img.src, 'back', file.name);
       }
@@ -5843,7 +5966,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
   function updateAllSlotCardsUI() {
     const isSpread = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'magazine_turning_spread');
+    const isOpenBookDual = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book');
     const isMag = (currentPresetId === 'magazine_turning_spread');
+    const isBrochure02 = (currentPresetId === 'us_letter_brochure_02');
 
     // Front Slot UI
     const frontCard = document.querySelector('#slot-front-thumb')?.closest('.slot-item-card');
@@ -5855,7 +5980,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (fBadge) fBadge.textContent = 'Spread';
       } else if (isSpread) {
         if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#ff5a1f;"></i> Right Page';
-        if (fBadge) fBadge.textContent = 'Main / Required';
+        if (fBadge) fBadge.textContent = 'Page 2 / Right';
+      } else if (isBrochure02) {
+        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#ff5a1f;"></i> Top Brochure';
+        if (fBadge) fBadge.textContent = 'Mockup 01';
       } else {
         if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-book" style="color:#ff5a1f;"></i> Front Cover';
         if (fBadge) fBadge.textContent = 'Main / Required';
@@ -5875,6 +6003,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotFrontThumb.src = '/images/psd_mockups/book_spread_8/sample_front.png';
       } else if (currentPresetId === 'soft_cover_v01') {
         slotFrontThumb.src = '/images/psd_mockups/soft_cover_v01/sample_front.png';
+      } else if (currentPresetId === 'us_letter_brochure_02') {
+        slotFrontThumb.src = '/images/psd_mockups/us_letter_brochure_02/sample_front.png';
       } else if (activeFrontImg) {
         slotFrontThumb.src = activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : '');
       } else {
@@ -5882,7 +6012,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
     }
     if (slotFrontSpecs) {
-      slotFrontSpecs.textContent = isMag ? 'Right Page • ' + (rawFileNames.front || 'Sample') : (isSpread ? 'Right Page • ' + (rawFileNames.front || 'Sample') : 'Front • ' + (rawFileNames.front || 'Sample'));
+      slotFrontSpecs.textContent = isMag ? 'Right Page • ' + (rawFileNames.front || 'Sample') : (isSpread ? 'Right Page • ' + (rawFileNames.front || 'Sample') : (isBrochure02 ? 'Top Brochure • ' + (rawFileNames.front || 'Sample') : 'Front • ' + (rawFileNames.front || 'Sample')));
     }
 
     // Back Slot UI
@@ -5895,7 +6025,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (bBadge) bBadge.textContent = 'Spread';
       } else if (isSpread) {
         if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#3b82f6;"></i> Left Page';
-        if (bBadge) bBadge.textContent = 'Dual Spread';
+        if (bBadge) bBadge.textContent = 'Page 1 / Left';
+      } else if (isBrochure02) {
+        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#3b82f6;"></i> Bottom Brochure';
+        if (bBadge) bBadge.textContent = 'Mockup 02';
       } else {
         if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-book-open" style="color:#3b82f6;"></i> Back Cover';
         if (bBadge) bBadge.textContent = 'Optional / Dual';
@@ -5915,6 +6048,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         slotBackThumb.src = '/images/psd_mockups/book_spread_8/sample_back.png';
       } else if (currentPresetId === 'soft_cover_v01') {
         slotBackThumb.src = '/images/psd_mockups/soft_cover_v01/sample_front.png';
+      } else if (currentPresetId === 'us_letter_brochure_02') {
+        slotBackThumb.src = '/images/psd_mockups/us_letter_brochure_02/sample_back.png';
       } else if (activeBackImg) {
         slotBackThumb.src = activeBackImg.src || (activeBackImg.toDataURL ? activeBackImg.toDataURL() : '');
       } else {
@@ -5922,7 +6057,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
     }
     if (slotBackSpecs) {
-      slotBackSpecs.textContent = isMag ? 'Left Page • ' + (rawFileNames.back || 'Sample') : (isSpread ? 'Left Page • ' + (rawFileNames.back || 'Sample') : 'Back • ' + (rawFileNames.back || 'Optional'));
+      slotBackSpecs.textContent = isMag ? 'Left Page • ' + (rawFileNames.back || 'Sample') : (isSpread ? 'Left Page • ' + (rawFileNames.back || 'Sample') : (isBrochure02 ? 'Bottom Brochure • ' + (rawFileNames.back || 'Sample') : 'Back • ' + (rawFileNames.back || 'Optional')));
     }
 
     // Spine / Middle Slot UI
@@ -5935,24 +6070,41 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const sSlider = document.getElementById('drawer-spine-width-slider');
       const sColorPicker = document.getElementById('drawer-spine-color-picker');
 
-      if (isMagTurning) {
-        if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#10b981;"></i> Middle Page';
-        if (sBadge) sBadge.textContent = 'Curled 3D';
-        if (sSpecs) sSpecs.textContent = 'Turning Page • ' + (rawFileNames.middle || 'Sample');
-        if (sSlider) sSlider.style.display = 'none';
-        if (sColorPicker) sColorPicker.style.display = 'none';
+      if (isOpenBookDual || isBrochure02) {
+        spineCard.style.display = 'none';
       } else {
-        if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-grip-lines-vertical" style="color:#eab308;"></i> Book Spine';
-        if (sBadge) sBadge.textContent = 'Auto / Custom';
-        if (sSpecs) sSpecs.innerHTML = 'Spine Width: <strong id="drawer-spine-width-val">' + spineWidth + '%</strong>';
-        if (sSlider) sSlider.style.display = 'block';
-        if (sColorPicker) sColorPicker.style.display = 'inline-block';
+        spineCard.style.display = 'block';
+        if (isMagTurning) {
+          if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#10b981;"></i> Middle Page';
+          if (sBadge) sBadge.textContent = 'Curled 3D';
+          if (sSpecs) sSpecs.textContent = 'Turning Page • ' + (rawFileNames.middle || 'Sample');
+          if (sSlider) sSlider.style.display = 'none';
+          if (sColorPicker) sColorPicker.style.display = 'none';
+        } else {
+          if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-grip-lines-vertical" style="color:#eab308;"></i> Book Spine';
+          if (sBadge) sBadge.textContent = 'Auto / Custom';
+          if (sSpecs) sSpecs.innerHTML = 'Spine Width: <strong id="drawer-spine-width-val">' + spineWidth + '%</strong>';
+          if (sSlider) sSlider.style.display = 'block';
+          if (sColorPicker) sColorPicker.style.display = 'inline-block';
+        }
       }
     }
 
-    // Toggle Full Wrap dropzone
+    // Toggle Full Wrap dropzone & dynamically switch label for open_book / square_open_book ONLY
     if (fullwrapDropzone) {
       fullwrapDropzone.style.display = isMag ? 'none' : 'block';
+      const fwIcon = document.getElementById('fullwrap-box-icon');
+      const fwTitle = document.getElementById('fullwrap-box-title');
+      const fwSub = document.getElementById('fullwrap-box-sub');
+      if (isOpenBookDual) {
+        if (fwIcon) fwIcon.className = 'fa-solid fa-file-pdf';
+        if (fwTitle) fwTitle.textContent = 'Auto 2-Page PDF / Spread Fit';
+        if (fwSub) fwSub.textContent = 'Upload PDF to auto-fit Page 1 (Left) & Page 2 (Right)';
+      } else {
+        if (fwIcon) fwIcon.className = 'fa-solid fa-wand-magic-sparkles';
+        if (fwTitle) fwTitle.textContent = 'Full Wrap Auto-Split';
+        if (fwSub) fwSub.textContent = 'Drop full jacket to slice Front, Spine & Back';
+      }
     }
 
     if (slotSpineThumb) {
@@ -6004,7 +6156,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotFront) {
     btnCropSlotFront.addEventListener('click', () => {
-      const src = (customFrontImg && customFrontImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_front.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (activeFrontImg && activeFrontImg.src)));
+      const src = (customFrontImg && customFrontImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_front.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_front.png' : (activeFrontImg && activeFrontImg.src))));
       if (src) openCropModal(src, 'front', rawFileNames.front || 'Front Cover');
     });
   }
@@ -6041,7 +6193,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotBack) {
     btnCropSlotBack.addEventListener('click', () => {
-      const src = (customBackImg && customBackImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_back.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (activeBackImg && activeBackImg.src)));
+      const src = (customBackImg && customBackImg.src) || (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_back.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_back.png' : (activeBackImg && activeBackImg.src))));
       if (src) openCropModal(src, 'back', rawFileNames.back || 'Back Cover');
     });
   }
@@ -6152,13 +6304,132 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     fullwrapInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) {
         handleFullWrapFile(e.target.files[0]);
+        fullwrapInput.value = '';
       }
     });
+  }
+
+  // Helper: Render a specific PDF page (1-indexed) to an HTMLImageElement
+  async function renderPdfPageToImage(pdfDoc, pageNum) {
+    const page = await pdfDoc.getPage(pageNum);
+    const vp1 = page.getViewport({ scale: 1 });
+    const scale = Math.min(3.0, 2400 / Math.max(vp1.width, vp1.height));
+    const viewport = page.getViewport({ scale });
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext('2d');
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    const dataUrl = canvas.toDataURL('image/png');
+    return new Promise((res, rej) => {
+      const img = new Image();
+      img.onload = () => res(img);
+      img.onerror = rej;
+      img.src = dataUrl;
+    });
+  }
+
+  // Auto 2-Page PDF / Spread Fit strictly for open_book and square_open_book
+  async function autoFitOpenBookTwoPages(file, onlyIfMultiPagePdf = false) {
+    if (currentPresetId !== 'open_book' && currentPresetId !== 'square_open_book') return false;
+    const isPdf = (file.type === 'application/pdf' || /\.pdf$/i.test(file.name));
+
+    const splitWideSpread5050 = async (spreadImg, baseName) => {
+      const W = spreadImg.naturalWidth || spreadImg.width;
+      const H = spreadImg.naturalHeight || spreadImg.height;
+      const halfW = Math.round(W / 2);
+
+      const extractHalf = (sx, sw) => {
+        const c = document.createElement('canvas');
+        c.width = sw;
+        c.height = H;
+        c.getContext('2d').drawImage(spreadImg, sx, 0, sw, H, 0, 0, sw, H);
+        return c.toDataURL('image/jpeg', 0.95);
+      };
+
+      const leftUrl = extractHalf(0, halfW);
+      const rightUrl = extractHalf(halfW, W - halfW);
+
+      const loadImg = (url) => new Promise(res => {
+        const im = new Image();
+        im.onload = () => res(im);
+        im.src = url;
+      });
+
+      const [leftImg, rightImg] = await Promise.all([loadImg(leftUrl), loadImg(rightUrl)]);
+      backTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+      frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+      rawArtworks.back = leftUrl;
+      rawArtworks.front = rightUrl;
+      setBackArtwork(leftImg, baseName + ' (Page 1 • Left)');
+      setFrontArtwork(rightImg, baseName + ' (Page 2 • Right)');
+      updateAllSlotCardsUI();
+      renderCurrentMockup();
+    };
+
+    if (isPdf && window.pdfjsLib) {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      if (pdf.numPages >= 2) {
+        // Extract ONLY Page 1 and Page 2 and auto-fit to Left Page (back) and Right Page (front)
+        const [page1Img, page2Img] = await Promise.all([
+          renderPdfPageToImage(pdf, 1),
+          renderPdfPageToImage(pdf, 2)
+        ]);
+        backTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+        frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+        rawArtworks.back = page1Img.src;
+        rawArtworks.front = page2Img.src;
+        setBackArtwork(page1Img, file.name + ' (Page 1)');
+        setFrontArtwork(page2Img, file.name + ' (Page 2)');
+        updateAllSlotCardsUI();
+        renderCurrentMockup();
+        return true;
+      } else if (!onlyIfMultiPagePdf && pdf.numPages === 1) {
+        const page1Img = await renderPdfPageToImage(pdf, 1);
+        if (page1Img.naturalWidth > page1Img.naturalHeight * 1.15) {
+          await splitWideSpread5050(page1Img, file.name);
+        } else {
+          backTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+          frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+          rawArtworks.back = page1Img.src;
+          rawArtworks.front = page1Img.src;
+          setBackArtwork(page1Img, file.name + ' (Page 1)');
+          setFrontArtwork(page1Img, file.name + ' (Page 1)');
+          updateAllSlotCardsUI();
+          renderCurrentMockup();
+        }
+        return true;
+      }
+      if (onlyIfMultiPagePdf) return false;
+    }
+
+    if (!onlyIfMultiPagePdf) {
+      const img = await window.processUploadedFileToImage(file);
+      if (img.naturalWidth > img.naturalHeight * 1.15) {
+        await splitWideSpread5050(img, file.name);
+      } else {
+        backTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+        frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
+        rawArtworks.back = img.src;
+        rawArtworks.front = img.src;
+        setBackArtwork(img, file.name + ' (Left)');
+        setFrontArtwork(img, file.name + ' (Right)');
+        updateAllSlotCardsUI();
+        renderCurrentMockup();
+      }
+      return true;
+    }
+    return false;
   }
 
   async function handleFullWrapFile(file) {
     if (!file) return;
     try {
+      if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
+        await autoFitOpenBookTwoPages(file, false);
+        return;
+      }
       const img = await window.processUploadedFileToImage(file);
       sliceAndApplyFullWrap(img, file.name);
       updateAllSlotCardsUI();
