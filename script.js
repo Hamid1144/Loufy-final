@@ -297,8 +297,16 @@ window.initSiteLogic = function () {
       centeredSlides: true,
       slidesPerView: 'auto',
       loop: true,
-      loopedSlides: 3,
-      coverflowEffect: { rotate: 0, stretch: 0, depth: 250, modifier: 1, slideShadows: false },
+      loopedSlides: 5,
+      watchSlidesProgress: true,
+      coverflowEffect: {
+        rotate: 0,
+        stretch: 85,
+        depth: 220,
+        scale: 0.9,
+        modifier: 1,
+        slideShadows: false
+      },
       navigation: { nextEl: '.slider-next', prevEl: '.slider-prev' },
       autoplay: { delay: 3500, disableOnInteraction: false }
     });

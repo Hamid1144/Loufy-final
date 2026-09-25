@@ -1139,12 +1139,17 @@ section{padding:100px 0}
 }
 
 /* TESTIMONIALS */
-.testimonials .container{text-align:center}
-.testimonial-slider{margin-top:50px;position:relative;overflow:hidden}
-.testimonial-track{display:flex;transition:.5s}
-.testimonial-card{width:50%;max-width:600px;padding:20px 10px;box-sizing:border-box}
-@media (max-width: 768px) { .testimonial-card{width:90%} }
-.testimonial-inner{background:var(--card-bg);padding:45px;border-radius:var(--radius);box-shadow:var(--shadow);max-width:700px;margin:0 auto;text-align:center;transition:all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275)}
+.testimonials .container{text-align:center;max-width:1320px}
+.testimonial-slider{margin-top:40px;position:relative;overflow:hidden;padding:32px 24px 48px;box-sizing:border-box}
+.testimonial-track{display:flex;align-items:stretch}
+.testimonial-card{width:430px;max-width:430px;padding:12px 6px;box-sizing:border-box;transition:filter .45s ease,opacity .45s ease,transform .45s ease}
+.testimonial-slider .swiper-slide{filter:blur(3.2px);opacity:0;pointer-events:none;visibility:hidden;transition:filter .45s ease,opacity .45s ease,transform .45s ease,visibility .45s ease}
+.testimonial-slider .swiper-slide-prev,.testimonial-slider .swiper-slide-next{filter:blur(2.8px);opacity:.72;pointer-events:auto;visibility:visible;z-index:2}
+.testimonial-slider .swiper-slide-active{filter:blur(0px)!important;opacity:1!important;pointer-events:auto;visibility:visible;z-index:5!important}
+.testimonial-slider .swiper-slide-active .testimonial-inner{box-shadow:0 22px 55px rgba(0,0,0,.14);border:1px solid rgba(29,84,109,.12)}
+@media (max-width: 1100px) { .testimonial-card{width:360px;max-width:360px} }
+@media (max-width: 768px) { .testimonial-slider{padding:20px 10px 35px} .testimonial-card{width:88%;max-width:380px} .testimonial-slider .swiper-slide-prev,.testimonial-slider .swiper-slide-next{filter:blur(2px);opacity:.55} }
+.testimonial-inner{background:var(--card-bg);padding:38px 34px;border-radius:var(--radius);box-shadow:var(--shadow);max-width:100%;margin:0 auto;text-align:center;transition:all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275)}
 .testimonial-inner:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,.15)}
 .testimonial-stars{color:var(--accent);font-size:1.2rem;margin-bottom:16px;transition:.4s}
 .testimonial-inner:hover .testimonial-stars{transform:scale(1.1)}
