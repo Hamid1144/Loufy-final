@@ -91,13 +91,12 @@
       background: linear-gradient(145deg, #eef3f0 0%, #f5f8f6 50%, #edf2ef 100%);
     }
 
-    /* TOP HEADER (Loufy Brand Bar) */
+    /* TOP HEADER (Loufy Brand Deep Emerald & Warm Gold Bar) */
     .studio-header {
-      height: 60px;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(17, 66, 50, 0.12);
-      box-shadow: 0 4px 20px rgba(17, 66, 50, 0.05);
+      height: 62px;
+      background: linear-gradient(135deg, #0b291e 0%, #114232 55%, #0d3528 100%);
+      border-bottom: 2px solid rgba(245, 176, 37, 0.42);
+      box-shadow: 0 6px 24px rgba(11, 41, 30, 0.22);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -113,22 +112,31 @@
     .hdr-btn-back {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 13px;
+      gap: 7px;
+      padding: 7px 14px;
       border-radius: 999px;
-      background: #eef5f2;
-      border: 1px solid rgba(17, 66, 50, 0.18);
-      color: #114232;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1.5px solid rgba(245, 176, 37, 0.45);
+      color: #ffffff;
       font-size: 0.78rem;
       font-weight: 700;
       text-decoration: none;
       transition: all 0.2s ease;
     }
+    .hdr-btn-back i {
+      color: #f5b025;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
     .hdr-btn-back:hover {
-      background: #114232;
-      color: #ffffff;
+      background: #f5b025;
+      border-color: #f5b025;
+      color: #0b291e;
       transform: translateX(-2px);
-      box-shadow: 0 4px 12px rgba(17, 66, 50, 0.2);
+      box-shadow: 0 4px 14px rgba(245, 176, 37, 0.35);
+    }
+    .hdr-btn-back:hover i {
+      color: #0b291e;
+      transform: translateX(-2px);
     }
     .studio-brand-logo {
       display: flex;
@@ -142,25 +150,25 @@
     .studio-header-divider {
       width: 1px;
       height: 22px;
-      background: rgba(17, 66, 50, 0.14);
+      background: rgba(255, 255, 255, 0.18);
     }
     .studio-header-title {
-      font-size: 1.02rem;
+      font-size: 0.96rem;
       font-weight: 800;
-      color: #114232;
-      letter-spacing: -0.02em;
+      color: #fef08a;
+      letter-spacing: -0.01em;
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      background: linear-gradient(135deg, #eef5f2 0%, #fef9c3 100%);
-      padding: 4px 12px;
+      background: rgba(245, 176, 37, 0.15);
+      padding: 5px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(17, 66, 50, 0.14);
+      border: 1px solid rgba(245, 176, 37, 0.45);
     }
     .studio-header-tagline {
       font-size: 0.8rem;
       font-weight: 500;
-      color: #475569;
+      color: rgba(255, 255, 255, 0.78);
       display: none;
     }
     @media (min-width: 960px) {
@@ -178,32 +186,37 @@
       gap: 6px;
       padding: 8px 15px;
       border-radius: 10px;
-      border: 1.5px solid rgba(17, 66, 50, 0.16);
-      background: #ffffff;
-      color: #114232;
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
       font-size: 0.82rem;
       font-weight: 700;
       font-family: inherit;
       cursor: pointer;
       transition: all 0.18s ease;
-      box-shadow: 0 2px 6px rgba(17, 66, 50, 0.04);
+    }
+    .hdr-btn-ghost i {
+      color: #f5b025 !important;
     }
     .hdr-btn-ghost:hover {
-      background: #eef5f2;
-      border-color: #114232;
-      color: #0b291e;
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #f5b025;
+      color: #ffffff;
       transform: translateY(-1px);
     }
     #btn-hdr-reset {
-      border-color: #fed7aa;
-      background: #fffbeb;
-      color: #b45309;
+      border-color: rgba(245, 176, 37, 0.55);
+      background: rgba(245, 176, 37, 0.16);
+      color: #fef08a;
     }
     #btn-hdr-reset:hover {
-      background: #f5b025;
-      border-color: #d97706;
-      color: #0b1f17;
-      box-shadow: 0 4px 12px rgba(245, 176, 37, 0.28);
+      background: #ef4444;
+      border-color: #f87171;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+    }
+    #btn-hdr-reset:hover i {
+      color: #ffffff !important;
     }
     .hdr-export-dropdown-wrap {
       position: relative;
@@ -214,23 +227,23 @@
       gap: 8px;
       padding: 9px 20px;
       border-radius: 11px;
-      border: 1.5px solid #f5b025;
-      background: linear-gradient(135deg, #114232 0%, #1a634b 100%);
-      color: #ffffff;
+      border: 1.5px solid #fde047;
+      background: linear-gradient(135deg, #f5b025 0%, #e09910 100%);
+      color: #0b291e;
       font-size: 0.85rem;
-      font-weight: 700;
+      font-weight: 800;
       font-family: inherit;
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(17, 66, 50, 0.28);
+      box-shadow: 0 5px 16px rgba(245, 176, 37, 0.36);
       transition: all 0.18s ease;
     }
     .hdr-btn-export-primary i:first-child {
-      color: #f5b025;
+      color: #0b291e;
     }
     .hdr-btn-export-primary:hover {
-      background: linear-gradient(135deg, #0d3528 0%, #14523d 100%);
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
       transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(17, 66, 50, 0.36);
+      box-shadow: 0 8px 22px rgba(245, 176, 37, 0.48);
     }
     .hdr-export-menu {
       position: absolute;
@@ -238,9 +251,9 @@
       right: 0;
       width: 225px;
       background: #ffffff;
-      border: 1px solid rgba(17, 66, 50, 0.15);
+      border: 1.5px solid rgba(17, 66, 50, 0.2);
       border-radius: 14px;
-      box-shadow: 0 12px 30px rgba(17, 66, 50, 0.16);
+      box-shadow: 0 14px 34px rgba(11, 41, 30, 0.22);
       padding: 6px;
       display: none;
       flex-direction: column;
@@ -273,18 +286,18 @@
     .studio-workspace-body {
       display: flex;
       flex: 1;
-      height: calc(100vh - 60px - 34px);
+      height: calc(100vh - 62px - 34px);
       overflow: hidden;
       padding: 12px 16px;
       gap: 12px;
     }
 
-    /* 1. LEFT NAVIGATION RAIL (Templates & Adjust) */
+    /* 1. LEFT NAVIGATION RAIL (Loufy Deep Forest Emerald Dock) */
     .studio-nav-rail {
-      width: 74px;
-      min-width: 74px;
-      background: #ffffff;
-      border: 1px solid rgba(17, 66, 50, 0.12);
+      width: 76px;
+      min-width: 76px;
+      background: linear-gradient(180deg, #0b291e 0%, #114232 100%);
+      border: 1.5px solid rgba(245, 176, 37, 0.32);
       border-radius: 18px;
       display: flex;
       flex-direction: column;
@@ -292,20 +305,20 @@
       padding: 14px 6px;
       gap: 10px;
       flex-shrink: 0;
-      box-shadow: 0 4px 16px rgba(17, 66, 50, 0.04);
+      box-shadow: 0 8px 24px rgba(11, 41, 30, 0.16);
     }
     .rail-btn {
-      width: 60px;
-      height: 58px;
+      width: 62px;
+      height: 60px;
       border-radius: 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 5px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: #475569;
+      border: 1.5px solid transparent;
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.8);
       font-size: 0.7rem;
       font-weight: 700;
       font-family: inherit;
@@ -314,20 +327,22 @@
     }
     .rail-btn i {
       font-size: 1.15rem;
+      color: #f5b025;
     }
     .rail-btn:hover {
-      background: #eef5f2;
-      border-color: rgba(17, 66, 50, 0.15);
-      color: #114232;
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(245, 176, 37, 0.45);
+      color: #ffffff;
     }
     .rail-btn.active {
-      background: linear-gradient(135deg, #114232 0%, #1a634b 100%);
-      border-color: #f5b025;
-      color: #ffffff;
-      box-shadow: 0 6px 14px rgba(17, 66, 50, 0.28);
+      background: linear-gradient(135deg, #f5b025 0%, #d97706 100%);
+      border-color: #fef08a;
+      color: #0b291e;
+      font-weight: 800;
+      box-shadow: 0 6px 16px rgba(245, 176, 37, 0.35);
     }
     .rail-btn.active i {
-      color: #f5b025;
+      color: #0b291e;
     }
 
     /* 2. LEFT DRAWER PANEL (Templates & Adjust) */
@@ -611,60 +626,60 @@
       image-rendering: -webkit-optimize-contrast;
     }
 
-    /* Floating Canvas Toolbar (Loufy Pill Dock) */
+    /* Floating Canvas Toolbar (Loufy Deep Emerald & Gold Pill Dock) */
     .floating-canvas-bar {
       position: absolute;
       bottom: 20px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(14px);
-      border: 1.5px solid rgba(17, 66, 50, 0.16);
+      background: linear-gradient(135deg, rgba(11, 41, 30, 0.95) 0%, rgba(17, 66, 50, 0.95) 100%);
+      backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(245, 176, 37, 0.48);
       border-radius: 9999px;
-      padding: 7px 16px;
+      padding: 8px 18px;
       display: flex;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 10px 30px rgba(17, 66, 50, 0.14);
+      box-shadow: 0 12px 32px rgba(11, 41, 30, 0.35);
       z-index: 20;
     }
     .float-ctrl-btn {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background: #eef5f2;
-      border: 1px solid rgba(17, 66, 50, 0.16);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(245, 176, 37, 0.45);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #114232;
+      color: #f5b025;
       cursor: pointer;
       font-size: 0.82rem;
       transition: all 0.15s ease;
     }
     .float-ctrl-btn:hover {
-      background: #114232;
-      color: #f5b025;
-      transform: scale(1.08);
+      background: #f5b025;
+      color: #0b291e;
+      transform: scale(1.1);
     }
     .float-zoom-readout {
       font-size: 0.82rem;
       font-weight: 800;
-      color: #114232;
-      min-width: 42px;
+      color: #fef08a;
+      min-width: 44px;
       text-align: center;
     }
     .float-bar-divider {
       width: 1px;
       height: 18px;
-      background: rgba(17, 66, 50, 0.15);
+      background: rgba(255, 255, 255, 0.22);
     }
     .float-tool-link {
-      background: #f8fbf9;
-      border: 1px solid rgba(17, 66, 50, 0.14);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(245, 176, 37, 0.38);
       border-radius: 999px;
-      padding: 4px 11px;
+      padding: 5px 12px;
       font-size: 0.75rem;
       font-weight: 700;
-      color: #114232;
+      color: #ffffff;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -672,19 +687,26 @@
       font-family: inherit;
       transition: all 0.15s ease;
     }
+    .float-tool-link i {
+      color: #f5b025;
+    }
     .float-tool-link:hover {
-      background: #114232;
-      border-color: #f5b025;
-      color: #ffffff;
+      background: #f5b025;
+      border-color: #fef08a;
+      color: #0b291e;
+      transform: translateY(-1px);
+    }
+    .float-tool-link:hover i {
+      color: #0b291e;
     }
 
     /* 4. RIGHT INSPECTOR PANEL (HOSTS ARTWORK, BACKGROUNDS, SHADOWS, ANGLES) */
     .studio-inspector-panel {
-      width: 332px;
-      min-width: 332px;
-      max-width: 332px;
+      width: 336px;
+      min-width: 336px;
+      max-width: 336px;
       background: #ffffff;
-      border: 1px solid rgba(17, 66, 50, 0.12);
+      border: 1.5px solid rgba(17, 66, 50, 0.14);
       border-radius: 18px;
       display: flex;
       flex-direction: column;
@@ -693,9 +715,9 @@
       overflow-y: auto;
       overflow-x: hidden;
       min-height: 0;
-      box-shadow: 0 4px 16px rgba(17, 66, 50, 0.04);
+      box-shadow: 0 6px 20px rgba(17, 66, 50, 0.06);
       scrollbar-width: thin;
-      scrollbar-color: #94a3b8 transparent;
+      scrollbar-color: #114232 transparent;
     }
     .studio-inspector-panel::-webkit-scrollbar {
       width: 5px;
@@ -704,7 +726,7 @@
       background: transparent;
     }
     .studio-inspector-panel::-webkit-scrollbar-thumb {
-      background: #94a3b8;
+      background: #114232;
       border-radius: 4px;
     }
     .inspector-section {
@@ -715,7 +737,7 @@
     .inspector-heading {
       font-size: 0.96rem;
       font-weight: 800;
-      color: #114232;
+      color: #0b291e;
       letter-spacing: -0.01em;
     }
     .inspector-row-between {
@@ -726,19 +748,19 @@
 
     /* Multi-Slot Artwork Cards in Inspector — Distinct, Clear Functional Buttons */
     .slot-item-card {
-      background: #f8fbf9;
-      border: 1.5px solid rgba(17, 66, 50, 0.14);
+      background: linear-gradient(180deg, #f8fbf9 0%, #f1f7f4 100%);
+      border: 1.5px solid rgba(17, 66, 50, 0.16);
       border-radius: 14px;
       padding: 11px;
       display: flex;
       flex-direction: column;
       gap: 8px;
-      box-shadow: 0 2px 8px rgba(17, 66, 50, 0.03);
+      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.04);
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
     .slot-item-card:hover {
-      border-color: rgba(17, 66, 50, 0.32);
-      box-shadow: 0 4px 12px rgba(17, 66, 50, 0.07);
+      border-color: #114232;
+      box-shadow: 0 5px 14px rgba(17, 66, 50, 0.09);
     }
     .slot-item-header {
       display: flex;
@@ -746,9 +768,9 @@
       justify-content: space-between;
     }
     .slot-item-title {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 800;
-      color: #114232;
+      color: #0b291e;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -756,11 +778,11 @@
     .slot-item-badge {
       font-size: 0.64rem;
       font-weight: 700;
-      padding: 2px 8px;
+      padding: 2px 9px;
       border-radius: 999px;
-      background: #eef5f2;
-      border: 1px solid rgba(17, 66, 50, 0.16);
-      color: #114232;
+      background: #114232;
+      border: 1px solid #f5b025;
+      color: #fef08a;
     }
     .slot-item-body {
       display: flex;
@@ -773,9 +795,9 @@
       border-radius: 8px;
       object-fit: cover;
       background: #ffffff;
-      border: 1.5px solid rgba(17, 66, 50, 0.18);
+      border: 1.5px solid rgba(17, 66, 50, 0.22);
       flex-shrink: 0;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     }
     .slot-item-info {
       flex: 1;
@@ -787,7 +809,7 @@
     .slot-item-specs {
       font-size: 0.7rem;
       font-weight: 600;
-      color: #475569;
+      color: #334155;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -799,14 +821,14 @@
       margin-top: 2px;
       flex-wrap: nowrap;
     }
-    /* Primary UPLOAD Button (Emerald Green) */
+    /* Primary UPLOAD Button (Rich Emerald Green + Gold Icon) */
     .slot-action-btn {
-      background: linear-gradient(135deg, #114232 0%, #1a634b 100%);
-      border: 1px solid #0d3528;
+      background: linear-gradient(135deg, #114232 0%, #1d6b50 100%);
+      border: 1.5px solid #0b291e;
       border-radius: 8px;
-      padding: 5px 10px;
-      font-size: 0.7rem;
-      font-weight: 700;
+      padding: 6px 11px;
+      font-size: 0.71rem;
+      font-weight: 800;
       color: #ffffff;
       cursor: pointer;
       display: inline-flex;
@@ -814,7 +836,7 @@
       justify-content: center;
       gap: 5px;
       font-family: inherit;
-      box-shadow: 0 3px 8px rgba(17, 66, 50, 0.2);
+      box-shadow: 0 3px 8px rgba(17, 66, 50, 0.24);
       transition: all 0.16s ease;
       white-space: nowrap;
     }
@@ -822,58 +844,59 @@
       color: #f5b025;
     }
     .slot-action-btn:hover {
-      background: linear-gradient(135deg, #0b291e 0%, #114232 100%);
+      background: linear-gradient(135deg, #0b291e 0%, #14523d 100%);
+      border-color: #f5b025;
       transform: translateY(-1px);
-      box-shadow: 0 5px 12px rgba(17, 66, 50, 0.3);
+      box-shadow: 0 5px 12px rgba(17, 66, 50, 0.34);
     }
     /* Secondary CROP Button (Warm Gold / Amber) */
     #btn-crop-slot-front, #btn-crop-slot-back, #btn-crop-slot-spine {
-      background: #fffbeb;
-      border: 1.5px solid #f5b025;
-      color: #92400e;
-      box-shadow: 0 2px 5px rgba(245, 176, 37, 0.15);
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 1.5px solid #d97706;
+      color: #78350f;
+      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.18);
     }
     #btn-crop-slot-front i, #btn-crop-slot-back i, #btn-crop-slot-spine i {
-      color: #d97706;
+      color: #b45309;
     }
     #btn-crop-slot-front:hover, #btn-crop-slot-back:hover, #btn-crop-slot-spine:hover {
-      background: #f5b025;
-      border-color: #d97706;
-      color: #0b1f17;
-      box-shadow: 0 4px 10px rgba(245, 176, 37, 0.3);
+      background: linear-gradient(135deg, #f5b025 0%, #eab308 100%);
+      border-color: #92400e;
+      color: #0b291e;
+      box-shadow: 0 4px 12px rgba(245, 176, 37, 0.36);
     }
     #btn-crop-slot-front:hover i, #btn-crop-slot-back:hover i, #btn-crop-slot-spine:hover i {
-      color: #0b1f17;
+      color: #0b291e;
     }
     /* Distinct DELETE / CLEAR Button (Crimson Rose) */
     .slot-clear-btn {
-      background: #fef2f2;
-      border: 1.5px solid #fecaca;
+      background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+      border: 1.5px solid #f43f5e;
       border-radius: 8px;
-      padding: 5px 9px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: #dc2626;
+      padding: 6px 10px;
+      font-size: 0.71rem;
+      font-weight: 800;
+      color: #be123c;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 4px;
       transition: all 0.16s ease;
-      box-shadow: 0 2px 5px rgba(220, 38, 38, 0.08);
+      box-shadow: 0 2px 6px rgba(225, 29, 72, 0.14);
     }
     .slot-clear-btn:hover {
-      background: #ef4444;
-      border-color: #dc2626;
+      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+      border-color: #9f1239;
       color: #ffffff;
       transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.28);
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.34);
     }
 
-    /* Cover Full Wrap / Auto 2-Page PDF Dropzone (Loufy Emerald & Gold Hero Box) */
+    /* Cover Full Wrap / Auto 2-Page PDF Dropzone (Loufy Deep Emerald & Gold Hero Box) */
     .cover-dropzone-box {
-      border: 2px dashed #114232;
-      background: linear-gradient(135deg, #eef5f2 0%, #fefce8 100%);
+      border: 2px dashed #f5b025;
+      background: linear-gradient(135deg, #0b291e 0%, #114232 100%);
       border-radius: 14px;
       padding: 13px 12px;
       display: flex;
@@ -884,23 +907,23 @@
       text-align: center;
       cursor: pointer;
       transition: all 0.18s ease;
-      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.06);
+      box-shadow: 0 6px 16px rgba(11, 41, 30, 0.22);
     }
     .cover-dropzone-box:hover, .cover-dropzone-box.dragover {
-      background: linear-gradient(135deg, #dcfce7 0%, #fef08a 100%);
-      border-color: #0b291e;
+      background: linear-gradient(135deg, #114232 0%, #1a5c47 100%);
+      border-color: #fde047;
       transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(17, 66, 50, 0.14);
+      box-shadow: 0 8px 22px rgba(11, 41, 30, 0.32);
     }
     .upload-box-title {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 800;
-      color: #114232;
+      color: #fef08a;
     }
     .upload-box-sub {
       font-size: 0.68rem;
       font-weight: 600;
-      color: #334155;
+      color: rgba(255, 255, 255, 0.85);
     }
 
     /* 8 Background Presets Grid in Inspector */
@@ -930,7 +953,7 @@
     .bg-preset-card.active {
       border: 2px solid #114232;
       background: #eef5f2;
-      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.18);
+      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.2);
     }
     .bg-preset-thumb {
       width: 100%;
@@ -978,12 +1001,12 @@
       background: radial-gradient(circle, #fff5eb 0%, #fed7aa 100%);
     }
 
-    /* Switch Toggle & Range Inputs */
+    /* Switch Toggle & Range Inputs (Loufy Emerald & Gold) */
     .switch-toggle {
       position: relative;
       display: inline-block;
-      width: 36px;
-      height: 20px;
+      width: 38px;
+      height: 21px;
     }
     .switch-toggle input { opacity: 0; width: 0; height: 0; }
     .switch-slider {
@@ -997,19 +1020,20 @@
     .switch-slider:before {
       position: absolute;
       content: "";
-      height: 14px;
-      width: 14px;
+      height: 15px;
+      width: 15px;
       left: 3px;
       bottom: 3px;
-      background-color: white;
+      background-color: #f5b025;
       transition: .2s;
       border-radius: 50%;
     }
     input:checked + .switch-slider {
-      background-color: #ff5a1f;
+      background-color: #114232;
     }
     input:checked + .switch-slider:before {
-      transform: translateX(16px);
+      transform: translateX(17px);
+      background-color: #f5b025;
     }
 
     .shadow-slider-row {
@@ -1021,25 +1045,25 @@
       -webkit-appearance: none;
       flex: 1;
       height: 6px;
-      background: #e2e8f0;
+      background: #d1fae5;
       border-radius: 4px;
       outline: none;
     }
     .orange-range-input::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
+      width: 17px;
+      height: 17px;
       border-radius: 50%;
-      background: #ff5a1f;
+      background: #114232;
       cursor: pointer;
-      border: 2px solid #ffffff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      border: 2.5px solid #f5b025;
+      box-shadow: 0 2px 6px rgba(17, 66, 50, 0.35);
     }
     .slider-readout {
       font-size: 0.78rem;
-      font-weight: 700;
-      color: #475569;
-      min-width: 32px;
+      font-weight: 800;
+      color: #114232;
+      min-width: 36px;
       text-align: right;
     }
 
@@ -1050,8 +1074,8 @@
       gap: 6px;
     }
     .angle-card-btn {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #f8fbf9;
+      border: 1.5px solid rgba(17, 66, 50, 0.15);
       border-radius: 10px;
       padding: 4px;
       height: 48px;
@@ -1067,52 +1091,61 @@
       object-fit: contain;
     }
     .angle-card-btn:hover {
-      border-color: #cbd5e1;
-      background: #ffffff;
+      border-color: #114232;
+      background: #eef5f2;
     }
     .angle-card-btn.active {
-      border: 2px solid #ff5a1f;
-      background: #ffffff;
-      box-shadow: 0 3px 10px rgba(255, 90, 31, 0.18);
+      border: 2px solid #114232;
+      background: #eef5f2;
+      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.22);
     }
 
-    /* Primary CTA */
+    /* Primary Download Mockup CTA (Loufy Deep Emerald & Warm Gold) */
     .primary-download-btn {
       width: 100%;
-      padding: 12px;
+      padding: 13px;
       border-radius: 12px;
-      border: none;
-      background: #ff5a1f;
+      border: 1.5px solid #f5b025;
+      background: linear-gradient(135deg, #0b291e 0%, #114232 55%, #1a634b 100%);
       color: #ffffff;
-      font-size: 0.88rem;
-      font-weight: 700;
+      font-size: 0.9rem;
+      font-weight: 800;
       font-family: inherit;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 4px 14px rgba(255, 90, 31, 0.3);
-      transition: all 0.15s ease;
+      box-shadow: 0 6px 18px rgba(11, 41, 30, 0.32);
+      transition: all 0.18s ease;
       margin-top: auto;
     }
+    .primary-download-btn i {
+      color: #f5b025;
+    }
     .primary-download-btn:hover {
-      background: #e04810;
+      background: linear-gradient(135deg, #f5b025 0%, #eab308 100%);
+      color: #0b291e;
+      border-color: #0b291e;
       transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(255, 90, 31, 0.4);
+      box-shadow: 0 8px 22px rgba(245, 176, 37, 0.42);
+    }
+    .primary-download-btn:hover i {
+      color: #0b291e;
     }
 
-    /* FOOTER */
+    /* FOOTER (Loufy Brand Bar) */
     .studio-footer {
       height: 34px;
-      background: #ffffff;
-      border-top: 1px solid #e2e8f0;
+      background: #0b291e;
+      border-top: 1px solid rgba(245, 176, 37, 0.3);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
       font-size: 0.72rem;
-      color: #64748b;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
       flex-shrink: 0;
     }
 
@@ -1120,8 +1153,8 @@
     .studio-modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
+      background: rgba(11, 41, 30, 0.65);
+      backdrop-filter: blur(5px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -1129,11 +1162,12 @@
     }
     .studio-modal-card {
       background: #ffffff;
+      border: 2px solid #f5b025;
       border-radius: 20px;
       width: 480px;
       max-width: 90vw;
       padding: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 50px rgba(11, 41, 30, 0.35);
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -1146,7 +1180,7 @@
     .modal-title {
       font-size: 1.15rem;
       font-weight: 800;
-      color: #0f172a;
+      color: #0b291e;
     }
     .modal-close-btn {
       background: transparent;
@@ -1155,87 +1189,89 @@
       color: #94a3b8;
       cursor: pointer;
     }
-    .modal-close-btn:hover { color: #0f172a; }
+    .modal-close-btn:hover { color: #0b291e; }
   
-/* Crop Modal Styles */
+/* Crop Modal Styles (Loufy Emerald & Gold) */
 .crop-modal-backdrop {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(15, 23, 42, 0.95); z-index: 99999;
+  background: rgba(11, 41, 30, 0.92); z-index: 99999;
   display: flex; align-items: center; justify-content: center;
 }
 .crop-modal-dialog {
-  background: #fff; width: 95%; max-width: 1200px; border-radius: 12px;
+  background: #fff; width: 95%; max-width: 1200px; border-radius: 14px;
+  border: 1.5px solid rgba(245, 176, 37, 0.45);
   overflow: hidden; display: flex; flex-direction: column;
 }
 .crop-modal-header {
-  padding: 16px 24px; border-bottom: 1px solid #e2e8f0;
+  padding: 16px 24px; border-bottom: 1px solid rgba(17, 66, 50, 0.16);
+  background: linear-gradient(135deg, #0b291e 0%, #114232 100%);
   display: flex; justify-content: space-between; align-items: center;
 }
 .crop-header-left { display: flex; align-items: center; gap: 16px; }
-.crop-header-brand-wrap { background: #0f172a; padding: 8px; border-radius: 6px; }
+.crop-header-brand-wrap { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(245,176,37,0.4); }
 .crop-header-logo-img { height: 24px; }
-.crop-modal-title { font-size: 1.25rem; font-weight: 700; margin: 0; color: #0f172a; }
-.crop-modal-subtitle { font-size: 0.85rem; color: #64748b; margin: 0; }
+.crop-modal-title { font-size: 1.2rem; font-weight: 800; margin: 0; color: #ffffff; }
+.crop-modal-subtitle { font-size: 0.82rem; color: rgba(255,255,255,0.78); margin: 0; }
 .crop-header-right { display: flex; align-items: center; gap: 16px; }
-.crop-target-badge { font-size: 0.85rem; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 4px 12px; border-radius: 20px; }
-.crop-modal-close-btn { background: none; border: none; font-size: 1.5rem; color: #94a3b8; cursor: pointer; }
+.crop-target-badge { font-size: 0.82rem; font-weight: 700; color: #fef08a; background: rgba(245, 176, 37, 0.16); border: 1px solid rgba(245, 176, 37, 0.45); padding: 4px 12px; border-radius: 20px; }
+.crop-modal-close-btn { background: none; border: none; font-size: 1.5rem; color: #fef08a; cursor: pointer; }
 .crop-modal-close-btn:hover { color: #ef4444; }
 .crop-modal-body-grid {
   display: grid; grid-template-columns: 240px 1fr 240px;
   height: 65vh; min-height: 500px; max-height: 700px;
 }
 .crop-col-presets, .crop-col-controls {
-  background: #f8fafc; padding: 16px; overflow-y: auto; border-right: 1px solid #e2e8f0;
+  background: #f8fbf9; padding: 16px; overflow-y: auto; border-right: 1px solid #e2e8f0;
 }
 .crop-col-controls { border-right: none; border-left: 1px solid #e2e8f0; }
-.crop-section-heading { font-weight: 700; color: #334155; margin-bottom: 12px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.crop-section-heading { font-weight: 800; color: #0b291e; margin-bottom: 12px; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.5px; }
 .crop-presets-scroll-list { display: flex; flex-direction: column; gap: 8px; }
 .crop-preset-card {
   display: flex; align-items: center; gap: 12px;
-  background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+  background: #fff; border: 1.5px solid #e2e8f0; border-radius: 10px;
   padding: 10px; cursor: pointer; text-align: left; width: 100%; transition: 0.2s;
 }
-.crop-preset-card.active { border-color: #ff5a1f; background: #fff7ed; box-shadow: 0 0 0 1px #ff5a1f; }
-.crop-preset-card:hover { border-color: #cbd5e1; }
-.preset-card-icon-wrap { font-size: 1.25rem; color: #94a3b8; width: 24px; text-align: center; }
-.crop-preset-card.active .preset-card-icon-wrap { color: #ff5a1f; }
-.preset-card-title { display: block; font-weight: 600; font-size: 0.9rem; color: #334155; }
+.crop-preset-card.active { border-color: #114232; background: #eef5f2; box-shadow: 0 0 0 1.5px #114232; }
+.crop-preset-card:hover { border-color: #114232; }
+.preset-card-icon-wrap { font-size: 1.25rem; color: #64748b; width: 24px; text-align: center; }
+.crop-preset-card.active .preset-card-icon-wrap { color: #114232; }
+.preset-card-title { display: block; font-weight: 700; font-size: 0.9rem; color: #0b291e; }
 .preset-card-desc { display: block; font-size: 0.75rem; color: #64748b; }
-.crop-orig-image-card { margin-top: 16px; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
+.crop-orig-image-card { margin-top: 16px; background: #fff; border: 1.5px solid rgba(17,66,50,0.16); border-radius: 10px; padding: 12px; text-align: center; }
 .crop-orig-thumb { max-width: 100%; max-height: 120px; object-fit: contain; margin-bottom: 8px; }
 .crop-orig-meta { display: flex; flex-direction: column; gap: 4px; }
-.crop-orig-title { font-weight: 600; font-size: 0.8rem; }
+.crop-orig-title { font-weight: 700; font-size: 0.8rem; color: #0b291e; }
 .crop-orig-dims { font-size: 0.75rem; color: #64748b; }
-.crop-replace-btn { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer; margin-top: 8px; width: 100%; }
+.crop-replace-btn { background: #114232; color: #fff; border: 1px solid #f5b025; border-radius: 6px; padding: 6px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; margin-top: 8px; width: 100%; }
 .crop-col-viewport {
   position: relative; background: #e2e8f0;
   display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
 .crop-viewport-badge {
   position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
-  background: rgba(15,23,42,0.7); color: #fff; padding: 4px 12px; border-radius: 20px;
-  font-size: 0.85rem; font-weight: 600; z-index: 10;
+  background: rgba(11,41,30,0.88); color: #fef08a; border: 1px solid #f5b025; padding: 4px 12px; border-radius: 20px;
+  font-size: 0.85rem; font-weight: 700; z-index: 10;
 }
 .crop-canvas-wrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
 #crop-target-image { max-width: 100%; max-height: 100%; }
 .crop-ctrl-item { margin-bottom: 16px; }
-.crop-ctrl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; font-weight: 600; }
-.crop-range-slider { width: 100%; accent-color: #ff5a1f; }
+.crop-ctrl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; font-weight: 700; color: #0b291e; }
+.crop-range-slider { width: 100%; accent-color: #114232; }
 .crop-ctrl-2col-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-.crop-action-pill-btn { background: #fff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 500; }
-.crop-action-pill-btn:hover { border-color: #ff5a1f; color: #ff5a1f; }
+.crop-action-pill-btn { background: #fff; border: 1.5px solid rgba(17,66,50,0.2); border-radius: 6px; padding: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: #114232; }
+.crop-action-pill-btn:hover { border-color: #114232; background: #eef5f2; }
 .crop-dpad-container { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .crop-dpad-mid-row { display: flex; gap: 4px; }
-.crop-dpad-btn { width: 32px; height: 32px; border: 1px solid #cbd5e1; background: #fff; border-radius: 4px; cursor: pointer; color: #64748b; }
-.crop-dpad-btn:hover { border-color: #ff5a1f; color: #ff5a1f; }
-.crop-full-reset-btn { width: 100%; background: #fff; border: 1px solid #cbd5e1; color: #ef4444; border-radius: 4px; padding: 8px; cursor: pointer; font-weight: 600; margin-top: 16px; }
+.crop-dpad-btn { width: 32px; height: 32px; border: 1.5px solid rgba(17,66,50,0.2); background: #fff; border-radius: 6px; cursor: pointer; color: #114232; }
+.crop-dpad-btn:hover { border-color: #114232; background: #eef5f2; }
+.crop-full-reset-btn { width: 100%; background: #fef2f2; border: 1.5px solid #fecaca; color: #dc2626; border-radius: 6px; padding: 8px; cursor: pointer; font-weight: 700; margin-top: 16px; }
 .crop-modal-bottombar {
   padding: 16px 24px; border-top: 1px solid #e2e8f0;
-  display: flex; justify-content: flex-end; gap: 12px; background: #f8fafc;
+  display: flex; justify-content: flex-end; gap: 12px; background: #f8fbf9;
 }
-.crop-btn-cancel-light { background: #fff; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
-.crop-btn-apply-primary { background: #ff5a1f; border: none; color: #fff; padding: 8px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(255,90,31,0.2); display: flex; align-items: center; gap: 8px; }
-.crop-btn-apply-primary:hover { background: #ea4d15; }
+.crop-btn-cancel-light { background: #fff; border: 1.5px solid #cbd5e1; padding: 8px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+.crop-btn-apply-primary { background: linear-gradient(135deg, #114232 0%, #1d6b50 100%); border: 1.5px solid #f5b025; color: #fff; padding: 9px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(17,66,50,0.28); display: flex; align-items: center; gap: 8px; }
+.crop-btn-apply-primary:hover { background: linear-gradient(135deg, #0b291e 0%, #114232 100%); }
 
 
   </style>
@@ -1253,7 +1289,7 @@
       </a>
       <span class="studio-header-divider"></span>
       <a href="/" class="studio-brand-logo">
-        <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Loufy Publisher">
+        <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher">
       </a>
       <span class="studio-header-divider"></span>
       <span class="studio-header-title"><i class="fa-solid fa-wand-magic-sparkles" style="color:#f5b025;"></i> Mockup Studio</span>
@@ -1567,8 +1603,8 @@
           </div>
 
           <!-- Reset Button -->
-          <button type="button" class="drawer-action-btn" id="btn-reset-all-adjustments" style="margin-top:6px;padding:10px;background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;font-weight:700;font-size:0.78rem;color:#475569;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
-            <i class="fa-solid fa-rotate-left"></i> Reset All Adjustments
+          <button type="button" class="drawer-action-btn" id="btn-reset-all-adjustments" style="margin-top:6px;padding:10px;background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);border:1.5px solid #f5b025;border-radius:10px;font-weight:800;font-size:0.78rem;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 3px 10px rgba(245,176,37,0.18);">
+            <i class="fa-solid fa-rotate-left" style="color:#d97706;"></i> Reset All Adjustments
           </button>
         </div>
       </div>
@@ -1710,13 +1746,13 @@
         </div>
 
         <!-- 4. Full Wrap Auto-Split / Open Book Auto 2-Page PDF Dropzone -->
-        <div class="cover-dropzone-box" id="drawer-fullwrap-dropzone" style="padding:12px 10px;margin-top:2px;">
+        <div class="cover-dropzone-box" id="drawer-fullwrap-dropzone" style="padding:13px 11px;margin-top:2px;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <i class="fa-solid fa-file-pdf" id="fullwrap-box-icon" style="color:#114232;font-size:1.05rem;"></i>
-            <span class="upload-box-title" id="fullwrap-box-title" style="font-size:0.8rem;">Auto 2-Page PDF / Spread Fit</span>
+            <i class="fa-solid fa-file-pdf" id="fullwrap-box-icon" style="color:#f5b025;font-size:1.08rem;"></i>
+            <span class="upload-box-title" id="fullwrap-box-title" style="font-size:0.82rem;">Auto 2-Page PDF / Spread Fit</span>
           </div>
           <span class="upload-box-sub" id="fullwrap-box-sub" style="font-size:0.68rem;">Upload PDF to auto-fit Page 1 (Left) &amp; Page 2 (Right)</span>
-          <span style="display:inline-flex;align-items:center;gap:5px;margin-top:4px;padding:4px 12px;border-radius:999px;background:#114232;color:#ffffff;font-size:0.68rem;font-weight:700;box-shadow:0 2px 6px rgba(17,66,50,0.2);"><i class="fa-solid fa-cloud-arrow-up" style="color:#f5b025;"></i> Click or Drop PDF / Spread</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;margin-top:5px;padding:5px 14px;border-radius:999px;background:linear-gradient(135deg,#f5b025 0%,#e09910 100%);color:#0b291e;font-size:0.7rem;font-weight:800;box-shadow:0 3px 10px rgba(245,176,37,0.35);"><i class="fa-solid fa-cloud-arrow-up" style="color:#0b291e;"></i> Click or Drop PDF / Spread</span>
           <input type="file" id="drawer-fullwrap-input" accept="image/*, application/pdf" style="display:none;">
         </div>
       </div>
@@ -1725,7 +1761,7 @@
       <div class="inspector-section">
         <div class="inspector-row-between">
           <h3 class="inspector-heading">Background</h3>
-          <span style="font-size:0.7rem;color:#64748b;font-weight:600;">8 Styles</span>
+          <span style="font-size:0.68rem;color:#114232;background:#eef5f2;border:1px solid rgba(17,66,50,0.16);padding:2px 8px;border-radius:999px;font-weight:700;">8 Styles</span>
         </div>
 
         <div class="bg-presets-grid" style="grid-template-columns: repeat(4, 1fr); gap: 6px;">
@@ -1778,14 +1814,14 @@
           </div>
         </div>
 
-        <div style="display:flex;gap:6px;margin-top:2px;">
-          <button type="button" class="drawer-action-btn" id="btn-drawer-custom-color" style="flex:1;padding:7px 8px;font-size:0.72rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
-            <span class="rainbow-wheel-icon" style="width:12px;height:12px;border-radius:50%;background:conic-gradient(red,yellow,lime,aqua,blue,magenta,red);display:inline-block;"></span> Custom Color
+        <div style="display:flex;gap:6px;margin-top:4px;">
+          <button type="button" class="drawer-action-btn" id="btn-drawer-custom-color" style="flex:1;padding:8px 10px;font-size:0.72rem;font-weight:800;color:#0b291e;background:linear-gradient(135deg,#eef5f2 0%,#dcfce7 100%);border:1.5px solid #114232;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 6px rgba(17,66,50,0.12);">
+            <span class="rainbow-wheel-icon" style="width:13px;height:13px;border-radius:50%;background:conic-gradient(red,yellow,lime,aqua,blue,magenta,red);display:inline-block;border:1px solid #0b291e;"></span> Custom Color
           </button>
           <input type="color" id="drawer-color-picker" style="display:none;" value="#e2e8f0">
 
-          <button type="button" class="drawer-action-btn" id="btn-drawer-upload-bg" style="flex:1;padding:7px 8px;font-size:0.72rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
-            <i class="fa-regular fa-image" style="color:#ff5a1f;"></i> Upload Photo
+          <button type="button" class="drawer-action-btn" id="btn-drawer-upload-bg" style="flex:1;padding:8px 10px;font-size:0.72rem;font-weight:800;color:#78350f;background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);border:1.5px solid #d97706;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 6px rgba(217,119,6,0.14);">
+            <i class="fa-regular fa-image" style="color:#d97706;"></i> Upload Photo
           </button>
           <input type="file" id="drawer-bg-file-input" accept="image/*, application/pdf" style="display:none;">
         </div>
@@ -1794,8 +1830,8 @@
       <!-- SECTION: DUAL SHOWCASE COLORS (ONLY DISPLAYED WHEN DUAL SHOWCASE PRESET IS ACTIVE) -->
       <div class="inspector-section" id="dual-showcase-colors-section" style="display: none;">
         <div class="inspector-row-between">
-          <h3 class="inspector-heading"><i class="fa-solid fa-palette" style="color:#ff5a1f;"></i> Showcase Colors</h3>
-          <span style="font-size:0.65rem;color:#ff5a1f;font-weight:700;background:#fff7ed;padding:2px 6px;border-radius:6px;">Dual Backdrop</span>
+          <h3 class="inspector-heading"><i class="fa-solid fa-palette" style="color:#114232;"></i> Showcase Colors</h3>
+          <span style="font-size:0.65rem;color:#114232;font-weight:700;background:#eef5f2;border:1px solid rgba(17,66,50,0.16);padding:2px 6px;border-radius:6px;">Dual Backdrop</span>
         </div>
         <p style="font-size:0.7rem;color:#64748b;margin-top:-6px;">Customize wall &amp; floor colors for this mockup.</p>
 
@@ -3334,16 +3370,16 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     "mesh": {
       "right": [
-        [1214.00, 871.00], [1368.78, 736.22], [1542.78, 634.22], [1736.00, 565.00],
-        [1421.00, 1065.00], [1572.07, 926.21], [1742.62, 818.43], [1932.67, 741.67],
-        [1628.00, 1259.00], [1775.35, 1116.21], [1942.46, 1002.65], [2129.33, 918.33],
-        [1835.00, 1453.00], [1978.64, 1306.20], [2142.30, 1186.86], [2326.00, 1095.00]
+        [1214.00, 871.00], [1350.58, 705.16], [1524.58, 603.16], [1736.00, 565.00],
+        [1421.00, 1065.00], [1554.43, 897.96], [1724.99, 790.18], [1932.67, 741.67],
+        [1628.00, 1259.00], [1758.29, 1090.77], [1925.39, 977.21], [2129.33, 918.33],
+        [1835.00, 1453.00], [1962.14, 1283.57], [2125.80, 1164.23], [2326.00, 1095.00]
       ],
       "left": [
-        [691.00, 1174.00], [846.28, 1040.12], [1020.62, 939.12], [1214.00, 871.00],
-        [895.33, 1383.00], [1050.74, 1244.09], [1225.30, 1136.42], [1419.00, 1060.00],
-        [1099.67, 1592.00], [1255.20, 1448.06], [1429.98, 1333.73], [1624.00, 1249.00],
-        [1304.00, 1801.00], [1459.66, 1652.03], [1634.66, 1531.03], [1829.00, 1438.00]
+        [691.00, 1174.00], [828.23, 1008.97], [1002.57, 907.97], [1214.00, 871.00],
+        [895.33, 1383.00], [1033.40, 1215.65], [1207.96, 1107.98], [1419.00, 1060.00],
+        [1099.67, 1592.00], [1238.57, 1422.32], [1413.35, 1307.99], [1624.00, 1249.00],
+        [1304.00, 1801.00], [1443.74, 1629.00], [1618.74, 1508.00], [1829.00, 1438.00]
       ]
     }
   }
@@ -4943,9 +4979,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           // [1.3] Right page ([1.3.0] + Linear Burn [1.3.1])
           const rA = rBaseData[i + 3] / 255;
           if (rA > 0) {
-            const sR = rArtData[i + 3] > 0 ? rArtData[i] : rBaseData[i];
-            const sG = rArtData[i + 3] > 0 ? rArtData[i + 1] : rBaseData[i + 1];
-            const sB = rArtData[i + 3] > 0 ? rArtData[i + 2] : rBaseData[i + 2];
+            const artAR = rArtData[i + 3] / 255;
+            const sR = rArtData[i] * artAR + 255 * (1 - artAR);
+            const sG = rArtData[i + 1] * artAR + 255 * (1 - artAR);
+            const sB = rArtData[i + 2] * artAR + 255 * (1 - artAR);
             const burnR = Math.max(0, sR - (255 - rBaseData[i]) * shWeight);
             const burnG = Math.max(0, sG - (255 - rBaseData[i + 1]) * shWeight);
             const burnB = Math.max(0, sB - (255 - rBaseData[i + 2]) * shWeight);
@@ -4959,9 +4996,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           // [1.4] Left page ([1.4.0] + Linear Burn [1.4.1])
           const lA = lBaseData[i + 3] / 255;
           if (lA > 0) {
-            const sR = lArtData[i + 3] > 0 ? lArtData[i] : lBaseData[i];
-            const sG = lArtData[i + 3] > 0 ? lArtData[i + 1] : lBaseData[i + 1];
-            const sB = lArtData[i + 3] > 0 ? lArtData[i + 2] : lBaseData[i + 2];
+            const artAL = lArtData[i + 3] / 255;
+            const sR = lArtData[i] * artAL + 255 * (1 - artAL);
+            const sG = lArtData[i + 1] * artAL + 255 * (1 - artAL);
+            const sB = lArtData[i + 2] * artAL + 255 * (1 - artAL);
             const burnR = Math.max(0, sR - (255 - lBaseData[i]) * shWeight);
             const burnG = Math.max(0, sG - (255 - lBaseData[i + 1]) * shWeight);
             const burnB = Math.max(0, sB - (255 - lBaseData[i + 2]) * shWeight);
