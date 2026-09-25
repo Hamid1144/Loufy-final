@@ -56,11 +56,25 @@ window.showToast = function (message, type = 'success') {
 
 window.initSiteLogic = function () {
 
-  // ── Hero Frame-by-Frame Animation ──────────────────────────
+  // ── Hero Frame-by-Frame Animation (Temporarily bypassed when #hero-bg-video is active) ──
   (function initHeroFrameAnimation() {
+    const heroVideo = document.getElementById('hero-bg-video');
     const canvas = document.getElementById('hero-bg-canvas');
     const fallbackImg = document.getElementById('hero-bg-image');
-    if (!canvas || !fallbackImg) return;
+    if (heroVideo) {
+      const syncHeroVideoPlayback = () => {
+        if (window.innerWidth >= 769) {
+          heroVideo.muted = true;
+          heroVideo.play().catch(() => {});
+        } else {
+          heroVideo.pause();
+        }
+      };
+      syncHeroVideoPlayback();
+      window.addEventListener('resize', syncHeroVideoPlayback, { passive: true });
+      if (!canvas || canvas.getAttribute('data-disabled') === 'true') return;
+    }
+    if (!canvas || !fallbackImg || canvas.getAttribute('data-disabled') === 'true') return;
 
     const ctx = canvas.getContext('2d');
     const TOTAL_FRAMES = 150;
