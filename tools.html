@@ -4737,15 +4737,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
         const bBaseC = document.createElement('canvas');
         bBaseC.width = rw; bBaseC.height = rh;
-        if (bottomBaseImg) bBaseC.getContext('2d').drawImage(bottomBaseImg, rx, ry, rw, rh, 0, 0, rw, rh);
+        if (bottomBaseImg) bBaseC.getContext('2d').drawImage(bottomBaseImg, -rx, -ry, renderWidth, renderHeight);
 
         const tBaseC = document.createElement('canvas');
         tBaseC.width = rw; tBaseC.height = rh;
-        if (topBaseImg) tBaseC.getContext('2d').drawImage(topBaseImg, rx, ry, rw, rh, 0, 0, rw, rh);
+        if (topBaseImg) tBaseC.getContext('2d').drawImage(topBaseImg, -rx, -ry, renderWidth, renderHeight);
 
         const hlCropC = document.createElement('canvas');
         hlCropC.width = rw; hlCropC.height = rh;
-        if (hlImg) hlCropC.getContext('2d').drawImage(hlImg, rx, ry, rw, rh, 0, 0, rw, rh);
+        if (hlImg) hlCropC.getContext('2d').drawImage(hlImg, -rx, -ry, renderWidth, renderHeight);
 
         const bArtData = bArtCtx.getImageData(rx, ry, rw, rh).data;
         const tArtData = tArtCtx.getImageData(rx, ry, rw, rh).data;
@@ -5104,7 +5104,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         const getCropData = (img) => {
           const c = document.createElement('canvas');
           c.width = rw; c.height = rh;
-          if (img) c.getContext('2d').drawImage(img, rx, ry, rw, rh, 0, 0, rw, rh);
+          if (img) c.getContext('2d').drawImage(img, -rx, -ry, renderWidth, renderHeight);
           return c.getContext('2d').getImageData(0, 0, rw, rh).data;
         };
 
