@@ -202,9 +202,10 @@ section{padding:100px 0}
 }
 .nav-links {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     align-items: center;
     list-style: none;
+    flex-wrap: nowrap;
 }
 .nav-links li {
     list-style: none;
@@ -213,8 +214,9 @@ section{padding:100px 0}
     font-weight: 600;
     font-size: .92rem;
     color: var(--dark);
-    padding: 8px 20px;
+    padding: 8px 15px;
     border-radius: 30px;
+    white-space: nowrap;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
     display: inline-flex;
