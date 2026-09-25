@@ -609,7 +609,7 @@ window.initSiteLogic = function () {
   let defaultFilter = null;
 
   if (urlCat) {
-    defaultFilter = document.querySelector(`.filter-btn[data-cat="${urlCat}"]`);
+    defaultFilter = document.querySelector(`.filter-btn[data-cat="${urlCat}"]`) || (urlCat === 'a-plus-content' ? document.querySelector('.filter-btn[data-cat="paperback-covers"]') : null);
   }
 
   if (!defaultFilter) {
@@ -1154,7 +1154,33 @@ window.syncPortfolioGrids = function () {
 
   // ── Service Detail Modal Logic ──────────────────────────
   (function initServiceModal() {
-    const modal = document.getElementById('service-detail-modal');
+    let modal = document.getElementById('service-detail-modal');
+    if (!modal && document.querySelector('.service-card')) {
+      modal = document.createElement('div');
+      modal.id = 'service-detail-modal';
+      modal.className = 'service-modal';
+      modal.innerHTML = `
+        <div class="service-modal-content">
+          <button class="service-modal-close" aria-label="Close modal">×</button>
+          <div class="service-modal-header">
+            <div class="service-modal-icon-wrap">
+              <i id="service-modal-icon" class="fa-solid fa-book-open"></i>
+            </div>
+            <h3 id="service-modal-title" class="service-modal-title">Service Title</h3>
+          </div>
+          <div class="service-modal-body">
+            <p id="service-modal-desc" class="service-modal-desc">Service description goes here.</p>
+            <h4 class="service-modal-subheading">What's Included:</h4>
+            <ul id="service-modal-list" class="service-modal-list"></ul>
+            <div class="service-modal-footer">
+              <a href="/portfolio/covers" id="service-modal-portfolio-btn" class="btn">View Cover Samples →</a>
+              <a href="/contact" id="service-modal-cta" class="btn btn-primary">Contact Now</a>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
     if (!modal) return;
 
     const modalClose = modal.querySelector('.service-modal-close');
@@ -1162,12 +1188,24 @@ window.syncPortfolioGrids = function () {
     const modalTitle = document.getElementById('service-modal-title');
     const modalDesc = document.getElementById('service-modal-desc');
     const modalList = document.getElementById('service-modal-list');
+    const modalFooter = modal.querySelector('.service-modal-footer');
+    let modalPortfolioBtn = document.getElementById('service-modal-portfolio-btn');
     const modalCta = document.getElementById('service-modal-cta');
+
+    if (!modalPortfolioBtn && modalFooter) {
+      modalPortfolioBtn = document.createElement('a');
+      modalPortfolioBtn.id = 'service-modal-portfolio-btn';
+      modalPortfolioBtn.className = 'btn';
+      modalFooter.insertBefore(modalPortfolioBtn, modalFooter.firstChild);
+    }
 
     const serviceDetailsData = {
       "Book Cover Design": {
         icon: "fa-solid fa-book-open",
         desc: "Eye-catching covers for fiction, non-fiction, romance, thriller, and more that grab reader attention.",
+        portfolioBtnText: "View Cover Samples →",
+        portfolioUrl: "/portfolio/covers",
+        ctaText: "Contact Now",
         bullets: [
           "Custom front, back, and spine designs tailormade for you.",
           "High-resolution print-ready files (PDF, JPEG, PNG).",
@@ -1180,6 +1218,9 @@ window.syncPortfolioGrids = function () {
       "Amazon KDP Formatting": {
         icon: "fa-solid fa-box-open",
         desc: "Professional interior formatting, manuscript layout, and KDP-ready files for seamless publishing.",
+        portfolioBtnText: "View Formatting Samples →",
+        portfolioUrl: "/portfolio/formatting",
+        ctaText: "Contact Now",
         bullets: [
           "Perfect margins, gutters, page size, and bleed setup.",
           "Beautiful custom typography and chapter heading designs.",
@@ -1192,6 +1233,9 @@ window.syncPortfolioGrids = function () {
       "A+ Content Design": {
         icon: "fa-solid fa-star",
         desc: "Premium Amazon A+ content modules that boost conversions and enhance your product listing.",
+        portfolioBtnText: "View A+ Content Samples →",
+        portfolioUrl: "/portfolio/paperback-covers",
+        ctaText: "Contact Now",
         bullets: [
           "Custom banner designs and comparison charts.",
           "Highlights of key book features and chapter concepts.",
@@ -1204,6 +1248,9 @@ window.syncPortfolioGrids = function () {
       "Children Book Illustration": {
         icon: "fa-solid fa-palette",
         desc: "Colorful, engaging illustrations and layouts for children's books that captivate young readers.",
+        portfolioBtnText: "View Children Book Samples →",
+        portfolioUrl: "/portfolio/children",
+        ctaText: "Contact Now",
         bullets: [
           "Vibrant, story-driven character designs and backgrounds.",
           "Illustrations tailormade for kids of all age groups.",
@@ -1216,6 +1263,9 @@ window.syncPortfolioGrids = function () {
       "Book Publishing": {
         icon: "fa-solid fa-book-open",
         desc: "Our complete Book Publishing service helps authors publish professionally across leading self publishing platforms. We prepare print ready and eBook files, optimize metadata, assist with ISBN guidance, category selection, keyword optimization, and ensure every book meets platform requirements for a smooth publishing process.",
+        portfolioBtnText: null,
+        portfolioUrl: null,
+        ctaText: "Contact Now",
         bullets: [
           "Amazon KDP Publishing",
           "IngramSpark Publishing",
@@ -1232,6 +1282,9 @@ window.syncPortfolioGrids = function () {
       "Author Website": {
         icon: "fa-solid fa-globe",
         desc: "Professional, responsive, and stunning websites tailored specifically for authors to showcase books and build email lists.",
+        portfolioBtnText: "View Website Samples →",
+        portfolioUrl: "/portfolio/websites",
+        ctaText: "Contact Now",
         bullets: [
           "Stunning custom portfolio designs tailored to your brand.",
           "Dedicated book showcase page with buy links.",
@@ -1252,47 +1305,71 @@ window.syncPortfolioGrids = function () {
       serviceDetailsData["Author Website"]
     ];
 
-    // Handle card clicks
-    const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach((card, index) => {
-      const learnMoreBtn = card.querySelector('.learn-more');
-      if (!learnMoreBtn) return;
-
-      learnMoreBtn.addEventListener('click', function(e) {
+    function openServiceDetails(card, index, e) {
+      if (document.body.classList.contains('edit-mode')) return;
+      if (e) {
         e.preventDefault();
         e.stopPropagation();
+      }
 
-        // Try to match by title
-        const titleEl = card.querySelector('h3');
-        const titleText = titleEl ? titleEl.textContent.trim() : "";
-        let data = serviceDetailsData[titleText];
+      const titleEl = card.querySelector('h3');
+      const titleText = titleEl ? titleEl.textContent.trim() : "";
+      let data = serviceDetailsData[titleText];
 
-        // Fallback to index if no matching title found (e.g. if title is edited)
-        if (!data && index < fallbackIndexData.length) {
-          data = fallbackIndexData[index];
+      if (!data && index < fallbackIndexData.length) {
+        data = fallbackIndexData[index];
+      }
+      if (!data) return;
+
+      if (modalIcon) modalIcon.className = data.icon;
+      if (modalTitle) modalTitle.textContent = titleText || "Service Details";
+      if (modalDesc) modalDesc.textContent = data.desc;
+
+      if (modalList) {
+        modalList.innerHTML = "";
+        data.bullets.forEach(bullet => {
+          const li = document.createElement('li');
+          li.textContent = bullet;
+          modalList.appendChild(li);
+        });
+      }
+
+      if (modalPortfolioBtn) {
+        if (data.portfolioBtnText && data.portfolioUrl) {
+          modalPortfolioBtn.style.display = 'inline-flex';
+          modalPortfolioBtn.textContent = data.portfolioBtnText;
+          modalPortfolioBtn.setAttribute('href', data.portfolioUrl);
+        } else {
+          modalPortfolioBtn.style.display = 'none';
         }
+      }
 
-        if (!data) return;
+      if (modalCta) {
+        modalCta.textContent = data.ctaText || 'Contact Now';
+        modalCta.setAttribute('href', document.getElementById('contact') ? '#contact' : '/contact');
+      }
 
-        // Populate modal content
-        if (modalIcon) modalIcon.className = data.icon;
-        if (modalTitle) modalTitle.textContent = titleText || "Service Details";
-        if (modalDesc) modalDesc.textContent = data.desc;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      window.lenis?.stop();
+    }
 
-        if (modalList) {
-          modalList.innerHTML = "";
-          data.bullets.forEach(bullet => {
-            const li = document.createElement('li');
-            li.textContent = bullet;
-            modalList.appendChild(li);
-          });
-        }
+    // Handle clicking anywhere on the service card OR on its bottom link
+    const serviceCards = document.querySelectorAll('.service-card');
+    serviceCards.forEach((card, index) => {
+      if (card.dataset.serviceModalBound === 'true') return;
+      card.dataset.serviceModalBound = 'true';
 
-        // Open modal
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Lock background scrolling
-        window.lenis?.stop();
+      card.addEventListener('click', function(e) {
+        openServiceDetails(card, index, e);
       });
+
+      const learnMoreBtn = card.querySelector('.learn-more');
+      if (learnMoreBtn) {
+        learnMoreBtn.addEventListener('click', function(e) {
+          openServiceDetails(card, index, e);
+        });
+      }
     });
 
     // Close modal helpers
@@ -1302,25 +1379,29 @@ window.syncPortfolioGrids = function () {
       window.lenis?.start();
     }
 
-    if (modalClose) {
+    if (modalClose && !modalClose.dataset.bound) {
+      modalClose.dataset.bound = 'true';
       modalClose.addEventListener('click', closeModal);
     }
 
-    if (modalCta) {
+    if (modalCta && !modalCta.dataset.bound) {
+      modalCta.dataset.bound = 'true';
       modalCta.addEventListener('click', closeModal);
     }
 
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeModal();
-      }
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
-        closeModal();
-      }
-    });
+    if (!modal.dataset.backdropBound) {
+      modal.dataset.backdropBound = 'true';
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+    }
   })();
 };
 
