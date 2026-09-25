@@ -3169,34 +3169,36 @@ document.addEventListener('DOMContentLoaded', () => {
       "coverBase": "images/psd_mockups/open_book_6/cover_base.png",
       "highlights": "images/psd_mockups/open_book_6/highlights.png",
       "sampleFront": "images/psd_mockups/open_book_6/sample_right.png",
-      "sampleBack": "images/psd_mockups/open_book_6/sample_left.png"
+      "sampleBack": "images/psd_mockups/open_book_6/sample_left.png",
+      "sampleFrontWarped": "images/psd_mockups/open_book_6/sample_right_warped.png",
+      "sampleBackWarped": "images/psd_mockups/open_book_6/sample_left_warped.png"
     },
     "quads": {
       "front": [
         [1214.0, 871.0],
-        [1694.0, 563.0],
+        [1736.0, 565.0],
         [2326.0, 1095.0],
         [1835.0, 1453.0]
       ],
       "back": [
         [691.0, 1174.0],
-        [1188.0, 849.0],
+        [1214.0, 871.0],
         [1829.0, 1438.0],
         [1304.0, 1801.0]
       ]
     },
     "mesh": {
       "right": [
-        [1214.00, 871.00], [1329.02, 727.63], [1501.95, 637.68], [1694.00, 563.00],
-        [1421.00, 1065.00], [1539.12, 917.77], [1713.28, 822.22], [1904.67, 740.33],
-        [1628.00, 1259.00], [1749.21, 1107.91], [1924.61, 1006.75], [2115.33, 917.67],
-        [1835.00, 1453.00], [1959.31, 1298.05], [2135.94, 1191.29], [2326.00, 1095.00]
+        [1214.00, 871.00], [1336.70, 721.57], [1521.78, 630.33], [1736.00, 565.00],
+        [1421.00, 1065.00], [1544.53, 913.74], [1726.49, 816.97], [1932.67, 741.67],
+        [1628.00, 1259.00], [1752.36, 1105.92], [1931.21, 1003.61], [2129.33, 918.33],
+        [1835.00, 1453.00], [1960.19, 1298.09], [2135.92, 1190.25], [2326.00, 1095.00]
       ],
       "left": [
-        [691.00, 1174.00], [839.86, 1049.08], [990.75, 927.25], [1188.00, 849.00],
-        [895.33, 1383.00], [1046.89, 1253.45], [1201.73, 1128.21], [1401.67, 1045.33],
-        [1099.67, 1592.00], [1253.92, 1457.81], [1412.70, 1329.16], [1615.33, 1241.67],
-        [1304.00, 1801.00], [1460.95, 1662.18], [1623.68, 1530.12], [1829.00, 1438.00]
+        [691.00, 1174.00], [839.56, 1047.51], [992.36, 926.80], [1214.00, 871.00],
+        [895.33, 1383.00], [1046.77, 1252.47], [1202.87, 1127.95], [1419.00, 1060.00],
+        [1099.67, 1592.00], [1253.99, 1457.44], [1413.39, 1329.09], [1624.00, 1249.00],
+        [1304.00, 1801.00], [1461.20, 1662.40], [1623.90, 1530.24], [1829.00, 1438.00]
       ]
     }
   }
@@ -4659,14 +4661,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         ctx.drawImage(bookComp, 0, 0);
       } else if (presetId === 'open_book_6') {
         // --- AUTHENTIC FREE_BOOK_MOCKUP_6.PSD (ISOMETRIC OPEN BOOK SPREAD) PIPELINE ---
-        const [gluePagesImg, rightBaseImg, leftBaseImg, coverBaseImg, hlImg, defRight, defLeft] = await Promise.all([
+        const [gluePagesImg, rightBaseImg, leftBaseImg, coverBaseImg, hlImg, defRight, defLeft, defRightWarped, defLeftWarped] = await Promise.all([
           preloadImage(config.layers.glueAndPages),
           preloadImage(config.layers.rightPageBase),
           preloadImage(config.layers.leftPageBase),
           preloadImage(config.layers.coverBase),
           preloadImage(config.layers.highlights),
           preloadImage(config.layers.sampleFront),
-          preloadImage(config.layers.sampleBack)
+          preloadImage(config.layers.sampleBack),
+          preloadImage(config.layers.sampleFrontWarped),
+          preloadImage(config.layers.sampleBackWarped)
         ]);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
 
@@ -4680,18 +4684,28 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
 
         // Step 2: Resolve Right Page (front slot) & Left Page (back slot) Artworks
-        const resolvedRight = customFrontImg ? frontArt : getTransformedArtwork(defRight || rawFront, frontTransform);
-        const resolvedLeft  = customBackImg  ? backArt  : getTransformedArtwork(defLeft || rawBack, backTransform);
+        const isFrontDefault = !customFrontImg && frontTransform.scale === 100 && !frontTransform.shiftX && !frontTransform.shiftY;
+        const isBackDefault  = !customBackImg  && backTransform.scale === 100  && !backTransform.shiftX  && !backTransform.shiftY;
 
         const rArtC = document.createElement('canvas');
         rArtC.width = renderWidth; rArtC.height = renderHeight;
         const rArtCtx = rArtC.getContext('2d');
-        warpMeshGrid(rArtCtx, resolvedRight, config.mesh.right, scale);
+        if (isFrontDefault && defRightWarped) {
+          rArtCtx.drawImage(defRightWarped, 0, 0, renderWidth, renderHeight);
+        } else {
+          const resolvedRight = customFrontImg ? frontArt : getTransformedArtwork(defRight || rawFront, frontTransform);
+          warpMeshGrid(rArtCtx, resolvedRight, config.mesh.right, scale);
+        }
 
         const lArtC = document.createElement('canvas');
         lArtC.width = renderWidth; lArtC.height = renderHeight;
         const lArtCtx = lArtC.getContext('2d');
-        warpMeshGrid(lArtCtx, resolvedLeft, config.mesh.left, scale);
+        if (isBackDefault && defLeftWarped) {
+          lArtCtx.drawImage(defLeftWarped, 0, 0, renderWidth, renderHeight);
+        } else {
+          const resolvedLeft = customBackImg ? backArt : getTransformedArtwork(defLeft || rawBack, backTransform);
+          warpMeshGrid(lArtCtx, resolvedLeft, config.mesh.left, scale);
+        }
 
         // Step 3: Exact Photoshop Linear Burn for [1.3] Right Page, [1.4] Left Page, and [1.5] Cover color + [1.6] Screen Highlights + [1.7] Contrast Curves
         const rx = Math.max(0, Math.floor(635 * scale));
