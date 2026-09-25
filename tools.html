@@ -818,16 +818,20 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-top: 2px;
-      flex-wrap: nowrap;
+      margin-top: 3px;
+      width: 100%;
+      box-sizing: border-box;
     }
     /* Primary UPLOAD Button (Rich Emerald Green + Gold Icon) */
     .slot-action-btn {
+      flex: 1;
+      min-width: 0;
+      height: 32px;
       background: linear-gradient(135deg, #114232 0%, #1d6b50 100%);
       border: 1.5px solid #0b291e;
-      border-radius: 8px;
-      padding: 6px 11px;
-      font-size: 0.71rem;
+      border-radius: 9px;
+      padding: 0 9px;
+      font-size: 0.72rem;
       font-weight: 800;
       color: #ffffff;
       cursor: pointer;
@@ -836,18 +840,19 @@
       justify-content: center;
       gap: 5px;
       font-family: inherit;
-      box-shadow: 0 3px 8px rgba(17, 66, 50, 0.24);
+      box-shadow: 0 3px 8px rgba(17, 66, 50, 0.22);
       transition: all 0.16s ease;
       white-space: nowrap;
     }
     .slot-action-btn i {
       color: #f5b025;
+      font-size: 0.74rem;
     }
     .slot-action-btn:hover {
       background: linear-gradient(135deg, #0b291e 0%, #14523d 100%);
       border-color: #f5b025;
       transform: translateY(-1px);
-      box-shadow: 0 5px 12px rgba(17, 66, 50, 0.34);
+      box-shadow: 0 5px 12px rgba(17, 66, 50, 0.32);
     }
     /* Secondary CROP Button (Warm Gold / Amber) */
     #btn-crop-slot-front, #btn-crop-slot-back, #btn-crop-slot-spine {
@@ -868,28 +873,30 @@
     #btn-crop-slot-front:hover i, #btn-crop-slot-back:hover i, #btn-crop-slot-spine:hover i {
       color: #0b291e;
     }
-    /* Distinct DELETE / CLEAR Button (Crimson Rose) */
+    /* Professional Icon-Only DELETE Button (Crimson Rose Square Pill) */
     .slot-clear-btn {
-      background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
       border: 1.5px solid #f43f5e;
-      border-radius: 8px;
-      padding: 6px 10px;
-      font-size: 0.71rem;
-      font-weight: 800;
-      color: #be123c;
+      border-radius: 9px;
+      padding: 0;
+      font-size: 0.8rem;
+      color: #e11d48;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      transition: all 0.16s ease;
-      box-shadow: 0 2px 6px rgba(225, 29, 72, 0.14);
+      transition: all 0.18s ease;
+      box-shadow: 0 2px 6px rgba(225, 29, 72, 0.15);
     }
     .slot-clear-btn:hover {
       background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
       border-color: #9f1239;
       color: #ffffff;
-      transform: translateY(-1px);
+      transform: translateY(-1px) scale(1.04);
       box-shadow: 0 4px 12px rgba(225, 29, 72, 0.34);
     }
 
@@ -1673,8 +1680,8 @@
                 <button type="button" class="slot-action-btn" id="btn-crop-slot-front" title="Crop &amp; Adjust">
                   <i class="fa-solid fa-crop-simple"></i> Crop
                 </button>
-                <button type="button" class="slot-clear-btn" id="btn-clear-slot-front" title="Delete / Reset Slot">
-                  <i class="fa-regular fa-trash-can"></i> Delete
+                <button type="button" class="slot-clear-btn" id="btn-clear-slot-front" title="Delete / Reset Slot" aria-label="Delete Slot">
+                  <i class="fa-solid fa-trash-can"></i>
                 </button>
               </div>
             </div>
@@ -1704,8 +1711,8 @@
                 <button type="button" class="slot-action-btn" id="btn-crop-slot-back" title="Crop &amp; Adjust">
                   <i class="fa-solid fa-crop-simple"></i> Crop
                 </button>
-                <button type="button" class="slot-clear-btn" id="btn-clear-slot-back" title="Delete / Reset Slot">
-                  <i class="fa-regular fa-trash-can"></i> Delete
+                <button type="button" class="slot-clear-btn" id="btn-clear-slot-back" title="Delete / Reset Slot" aria-label="Delete Slot">
+                  <i class="fa-solid fa-trash-can"></i>
                 </button>
               </div>
             </div>
@@ -1736,9 +1743,9 @@
                 <button type="button" class="slot-action-btn" id="btn-crop-slot-spine" title="Crop Spine">
                   <i class="fa-solid fa-crop-simple"></i> Crop
                 </button>
-                <input type="color" id="drawer-spine-color-picker" value="#111827" style="width:24px;height:24px;border:1.5px solid #114232;border-radius:6px;cursor:pointer;" title="Base Spine / Edge Color">
-                <button type="button" class="slot-clear-btn" id="btn-clear-slot-spine" title="Delete / Reset Spine">
-                  <i class="fa-regular fa-trash-can"></i> Delete
+                <input type="color" id="drawer-spine-color-picker" value="#111827" style="width:24px;height:24px;border:1.5px solid #114232;border-radius:6px;cursor:pointer;flex-shrink:0;" title="Base Spine / Edge Color">
+                <button type="button" class="slot-clear-btn" id="btn-clear-slot-spine" title="Delete / Reset Spine" aria-label="Delete Spine">
+                  <i class="fa-solid fa-trash-can"></i>
                 </button>
               </div>
             </div>
@@ -1747,12 +1754,12 @@
 
         <!-- 4. Full Wrap Auto-Split / Open Book Auto 2-Page PDF Dropzone -->
         <div class="cover-dropzone-box" id="drawer-fullwrap-dropzone" style="padding:13px 11px;margin-top:2px;">
-          <div style="display:flex;align-items:center;gap:8px;">
+          <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
             <i class="fa-solid fa-file-pdf" id="fullwrap-box-icon" style="color:#f5b025;font-size:1.08rem;"></i>
             <span class="upload-box-title" id="fullwrap-box-title" style="font-size:0.82rem;">Auto 2-Page PDF / Spread Fit</span>
           </div>
-          <span class="upload-box-sub" id="fullwrap-box-sub" style="font-size:0.68rem;">Upload PDF to auto-fit Page 1 (Left) &amp; Page 2 (Right)</span>
-          <span style="display:inline-flex;align-items:center;gap:6px;margin-top:5px;padding:5px 14px;border-radius:999px;background:linear-gradient(135deg,#f5b025 0%,#e09910 100%);color:#0b291e;font-size:0.7rem;font-weight:800;box-shadow:0 3px 10px rgba(245,176,37,0.35);"><i class="fa-solid fa-cloud-arrow-up" style="color:#0b291e;"></i> Click or Drop PDF / Spread</span>
+          <span class="upload-box-sub" id="fullwrap-box-sub" style="font-size:0.68rem;display:block;margin:2px 0 4px;">Upload PDF to auto-fit Page 1 (Left) &amp; Page 2 (Right)</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;border-radius:999px;background:linear-gradient(135deg,#f5b025 0%,#e09910 100%);color:#0b291e;font-size:0.7rem;font-weight:800;box-shadow:0 3px 10px rgba(245,176,37,0.35);"><i class="fa-solid fa-cloud-arrow-up" style="color:#0b291e;"></i> Click or Drop PDF / Spread</span>
           <input type="file" id="drawer-fullwrap-input" accept="image/*, application/pdf" style="display:none;">
         </div>
       </div>
@@ -7052,16 +7059,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const fTitle = frontCard.querySelector('.slot-item-title');
       const fBadge = frontCard.querySelector('.slot-item-badge');
       if (isMag) {
-        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#ff5a1f;"></i> Right Page';
+        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#114232;"></i> Right Page';
         if (fBadge) fBadge.textContent = 'Spread';
       } else if (isSpread) {
-        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#ff5a1f;"></i> Right Page';
+        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#114232;"></i> Right Page';
         if (fBadge) fBadge.textContent = 'Page 2 / Right';
       } else if (isBrochure02) {
-        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#ff5a1f;"></i> Top Brochure';
+        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#114232;"></i> Top Brochure';
         if (fBadge) fBadge.textContent = 'Mockup 01';
       } else {
-        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-book" style="color:#ff5a1f;"></i> Front Cover';
+        if (fTitle) fTitle.innerHTML = '<i class="fa-solid fa-book" style="color:#114232;"></i> Front Cover';
         if (fBadge) fBadge.textContent = 'Main / Required';
       }
     }
@@ -7105,16 +7112,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const bTitle = backCard.querySelector('.slot-item-title');
       const bBadge = backCard.querySelector('.slot-item-badge');
       if (isMag) {
-        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#3b82f6;"></i> Left Page';
+        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#d97706;"></i> Left Page';
         if (bBadge) bBadge.textContent = 'Spread';
       } else if (isSpread) {
-        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#3b82f6;"></i> Left Page';
+        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-file-image" style="color:#d97706;"></i> Left Page';
         if (bBadge) bBadge.textContent = 'Page 1 / Left';
       } else if (isBrochure02) {
-        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#3b82f6;"></i> Bottom Brochure';
+        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#d97706;"></i> Bottom Brochure';
         if (bBadge) bBadge.textContent = 'Mockup 02';
       } else {
-        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-book-open" style="color:#3b82f6;"></i> Back Cover';
+        if (bTitle) bTitle.innerHTML = '<i class="fa-solid fa-book-open" style="color:#d97706;"></i> Back Cover';
         if (bBadge) bBadge.textContent = 'Optional / Dual';
       }
     }
@@ -7165,15 +7172,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       if (isOpenBookDual || isBrochure02) {
         spineCard.style.display = 'none';
       } else {
-        spineCard.style.display = 'block';
+        spineCard.style.display = 'flex';
         if (isMagTurning) {
-          if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#10b981;"></i> Middle Page';
+          if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-file-lines" style="color:#114232;"></i> Middle Page';
           if (sBadge) sBadge.textContent = 'Curled 3D';
           if (sSpecs) sSpecs.textContent = 'Turning Page • ' + (rawFileNames.middle || 'Sample');
           if (sSlider) sSlider.style.display = 'none';
           if (sColorPicker) sColorPicker.style.display = 'none';
         } else {
-          if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-grip-lines-vertical" style="color:#eab308;"></i> Book Spine';
+          if (sTitle) sTitle.innerHTML = '<i class="fa-solid fa-grip-lines-vertical" style="color:#f5b025;"></i> Book Spine';
           if (sBadge) sBadge.textContent = 'Auto / Custom';
           if (sSpecs) sSpecs.innerHTML = 'Spine Width: <strong id="drawer-spine-width-val">' + spineWidth + '%</strong>';
           if (sSlider) sSlider.style.display = 'block';
@@ -7184,7 +7191,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     // Toggle Full Wrap dropzone & dynamically switch label for open_book / square_open_book / open_book_6
     if (fullwrapDropzone) {
-      fullwrapDropzone.style.display = isMag ? 'none' : 'block';
+      fullwrapDropzone.style.display = isMag ? 'none' : 'flex';
       const fwIcon = document.getElementById('fullwrap-box-icon');
       const fwTitle = document.getElementById('fullwrap-box-title');
       const fwSub = document.getElementById('fullwrap-box-sub');
