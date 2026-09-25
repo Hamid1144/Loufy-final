@@ -72,25 +72,36 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ZERO-SCROLL STUDIO APP LAYOUT */
+    /* ZERO-SCROLL STUDIO APP LAYOUT — LOUFY PUBLISHER EMERALD & GOLD THEME */
+    :root {
+      --loufy-emerald: #114232;
+      --loufy-emerald-light: #1a5c47;
+      --loufy-emerald-soft: #eef5f2;
+      --loufy-gold: #f5b025;
+      --loufy-gold-soft: #fffbeb;
+      --loufy-danger: #dc2626;
+      --loufy-danger-soft: #fef2f2;
+    }
     .studio-app-root {
       display: flex;
       flex-direction: column;
       height: 100vh;
       width: 100vw;
       overflow: hidden;
-      background: #f8fafc;
+      background: linear-gradient(145deg, #eef3f0 0%, #f5f8f6 50%, #edf2ef 100%);
     }
 
-    /* TOP HEADER (SaaS Brand Bar) */
+    /* TOP HEADER (Loufy Brand Bar) */
     .studio-header {
-      height: 56px;
-      background: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(17, 66, 50, 0.12);
+      box-shadow: 0 4px 20px rgba(17, 66, 50, 0.05);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
+      padding: 0 22px;
       flex-shrink: 0;
       z-index: 50;
     }
@@ -99,32 +110,60 @@
       align-items: center;
       gap: 14px;
     }
+    .hdr-btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      background: #eef5f2;
+      border: 1px solid rgba(17, 66, 50, 0.18);
+      color: #114232;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .hdr-btn-back:hover {
+      background: #114232;
+      color: #ffffff;
+      transform: translateX(-2px);
+      box-shadow: 0 4px 12px rgba(17, 66, 50, 0.2);
+    }
     .studio-brand-logo {
       display: flex;
       align-items: center;
       text-decoration: none;
     }
     .studio-brand-logo img {
-      height: 28px;
+      height: 32px;
       width: auto;
     }
     .studio-header-divider {
       width: 1px;
       height: 22px;
-      background: #e2e8f0;
+      background: rgba(17, 66, 50, 0.14);
     }
     .studio-header-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #0f172a;
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #114232;
       letter-spacing: -0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(135deg, #eef5f2 0%, #fef9c3 100%);
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(17, 66, 50, 0.14);
     }
     .studio-header-tagline {
       font-size: 0.8rem;
-      color: #64748b;
+      font-weight: 500;
+      color: #475569;
       display: none;
     }
-    @media (min-width: 900px) {
+    @media (min-width: 960px) {
       .studio-header-tagline { display: inline-block; }
     }
 
@@ -137,21 +176,34 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 7px 14px;
-      border-radius: 9px;
-      border: 1px solid #e2e8f0;
+      padding: 8px 15px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(17, 66, 50, 0.16);
       background: #ffffff;
-      color: #475569;
+      color: #114232;
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 700;
       font-family: inherit;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.18s ease;
+      box-shadow: 0 2px 6px rgba(17, 66, 50, 0.04);
     }
     .hdr-btn-ghost:hover {
-      background: #f8fafc;
-      border-color: #cbd5e1;
-      color: #0f172a;
+      background: #eef5f2;
+      border-color: #114232;
+      color: #0b291e;
+      transform: translateY(-1px);
+    }
+    #btn-hdr-reset {
+      border-color: #fed7aa;
+      background: #fffbeb;
+      color: #b45309;
+    }
+    #btn-hdr-reset:hover {
+      background: #f5b025;
+      border-color: #d97706;
+      color: #0b1f17;
+      box-shadow: 0 4px 12px rgba(245, 176, 37, 0.28);
     }
     .hdr-export-dropdown-wrap {
       position: relative;
@@ -160,32 +212,35 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 18px;
-      border-radius: 9px;
-      border: none;
-      background: #ff5a1f;
+      padding: 9px 20px;
+      border-radius: 11px;
+      border: 1.5px solid #f5b025;
+      background: linear-gradient(135deg, #114232 0%, #1a634b 100%);
       color: #ffffff;
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       font-weight: 700;
       font-family: inherit;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(255, 90, 31, 0.25);
-      transition: all 0.15s ease;
+      box-shadow: 0 5px 15px rgba(17, 66, 50, 0.28);
+      transition: all 0.18s ease;
+    }
+    .hdr-btn-export-primary i:first-child {
+      color: #f5b025;
     }
     .hdr-btn-export-primary:hover {
-      background: #e04810;
+      background: linear-gradient(135deg, #0d3528 0%, #14523d 100%);
       transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(255, 90, 31, 0.35);
+      box-shadow: 0 8px 20px rgba(17, 66, 50, 0.36);
     }
     .hdr-export-menu {
       position: absolute;
       top: calc(100% + 6px);
       right: 0;
-      width: 210px;
+      width: 225px;
       background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      border: 1px solid rgba(17, 66, 50, 0.15);
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(17, 66, 50, 0.16);
       padding: 6px;
       display: none;
       flex-direction: column;
@@ -196,29 +251,29 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 9px 12px;
+      border-radius: 9px;
       font-size: 0.8rem;
-      font-weight: 600;
-      color: #334155;
+      font-weight: 700;
+      color: #1e293b;
       background: transparent;
       border: none;
       width: 100%;
       text-align: left;
       cursor: pointer;
       font-family: inherit;
-      transition: background 0.12s ease;
+      transition: all 0.15s ease;
     }
     .hdr-export-item:hover {
-      background: #f1f5f9;
-      color: #ff5a1f;
+      background: #eef5f2;
+      color: #114232;
     }
 
     /* MAIN APP WORKSPACE: 4 COLUMNS */
     .studio-workspace-body {
       display: flex;
       flex: 1;
-      height: calc(100vh - 56px - 34px);
+      height: calc(100vh - 60px - 34px);
       overflow: hidden;
       padding: 12px 16px;
       gap: 12px;
@@ -226,10 +281,10 @@
 
     /* 1. LEFT NAVIGATION RAIL (Templates & Adjust) */
     .studio-nav-rail {
-      width: 72px;
-      min-width: 72px;
+      width: 74px;
+      min-width: 74px;
       background: #ffffff;
-      border: 1px solid #e2e8f0;
+      border: 1px solid rgba(17, 66, 50, 0.12);
       border-radius: 18px;
       display: flex;
       flex-direction: column;
@@ -237,40 +292,42 @@
       padding: 14px 6px;
       gap: 10px;
       flex-shrink: 0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      box-shadow: 0 4px 16px rgba(17, 66, 50, 0.04);
     }
     .rail-btn {
-      width: 58px;
-      height: 56px;
-      border-radius: 12px;
+      width: 60px;
+      height: 58px;
+      border-radius: 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      border: none;
+      gap: 5px;
+      border: 1px solid transparent;
       background: transparent;
-      color: #64748b;
-      font-size: 0.68rem;
-      font-weight: 600;
+      color: #475569;
+      font-size: 0.7rem;
+      font-weight: 700;
       font-family: inherit;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.18s ease;
     }
     .rail-btn i {
       font-size: 1.15rem;
     }
     .rail-btn:hover {
-      background: #f8fafc;
-      color: #0f172a;
+      background: #eef5f2;
+      border-color: rgba(17, 66, 50, 0.15);
+      color: #114232;
     }
     .rail-btn.active {
-      background: #ff5a1f;
+      background: linear-gradient(135deg, #114232 0%, #1a634b 100%);
+      border-color: #f5b025;
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(255, 90, 31, 0.3);
+      box-shadow: 0 6px 14px rgba(17, 66, 50, 0.28);
     }
     .rail-btn.active i {
-      color: #ffffff;
+      color: #f5b025;
     }
 
     /* 2. LEFT DRAWER PANEL (Templates & Adjust) */
@@ -278,7 +335,7 @@
       width: 320px;
       min-width: 320px;
       background: #ffffff;
-      border: 1px solid #e2e8f0;
+      border: 1px solid rgba(17, 66, 50, 0.12);
       border-radius: 18px;
       display: flex;
       flex-direction: column;
@@ -286,9 +343,9 @@
       gap: 14px;
       overflow-y: auto;
       min-height: 0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      box-shadow: 0 4px 16px rgba(17, 66, 50, 0.04);
       scrollbar-width: thin;
-      scrollbar-color: #cbd5e1 transparent;
+      scrollbar-color: #94a3b8 transparent;
     }
     .studio-drawer-panel::-webkit-scrollbar {
       width: 5px;
@@ -297,7 +354,7 @@
       background: transparent;
     }
     .studio-drawer-panel::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: #94a3b8;
       border-radius: 4px;
     }
     .drawer-view {
@@ -310,22 +367,31 @@
       display: flex;
     }
     .drawer-header-title {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 800;
-      color: #0f172a;
+      color: #114232;
       letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .drawer-search-box {
       display: flex;
       align-items: center;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
+      background: #f4f8f6;
+      border: 1.5px solid rgba(17, 66, 50, 0.14);
+      border-radius: 11px;
       padding: 8px 12px;
       gap: 8px;
+      transition: all 0.15s ease;
+    }
+    .drawer-search-box:focus-within {
+      background: #ffffff;
+      border-color: #114232;
+      box-shadow: 0 0 0 3px rgba(17, 66, 50, 0.08);
     }
     .drawer-search-box i {
-      color: #94a3b8;
+      color: #114232;
       font-size: 0.85rem;
     }
     .drawer-search-input {
@@ -333,12 +399,13 @@
       background: transparent;
       outline: none;
       font-size: 0.8rem;
+      font-weight: 500;
       font-family: inherit;
       color: #0f172a;
       width: 100%;
     }
     
-    /* Category Filter Pills (Properly Arranged with Clean 2-Row Wrap) */
+    /* Category Filter Pills (Loufy Theme) */
     .drawer-cat-pills {
       display: flex;
       flex-wrap: wrap;
@@ -347,29 +414,29 @@
       margin-bottom: 2px;
     }
     .cat-pill-btn {
-      padding: 4px 11px;
-      border-radius: 20px;
-      border: 1px solid #e2e8f0;
-      background: #ffffff;
-      color: #475569;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(17, 66, 50, 0.15);
+      background: #f8faf9;
+      color: #1e293b;
       font-size: 0.72rem;
-      font-weight: 600;
+      font-weight: 700;
       white-space: nowrap;
       cursor: pointer;
       font-family: inherit;
-      transition: all 0.15s ease;
+      transition: all 0.16s ease;
       line-height: 1.3;
     }
     .cat-pill-btn:hover {
-      border-color: #cbd5e1;
-      color: #0f172a;
-      background: #f8fafc;
+      border-color: #114232;
+      color: #114232;
+      background: #eef5f2;
     }
     .cat-pill-btn.active {
-      background: #ff5a1f;
-      border-color: #ff5a1f;
+      background: linear-gradient(135deg, #114232 0%, #1a634b 100%);
+      border-color: #f5b025;
       color: #ffffff;
-      box-shadow: 0 2px 6px rgba(255, 90, 31, 0.25);
+      box-shadow: 0 3px 8px rgba(17, 66, 50, 0.25);
     }
     .templates-cards-grid {
       display: grid;
@@ -385,8 +452,8 @@
     }
     .template-card-btn {
       background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
       padding: 8px;
       display: flex;
       flex-direction: column;
@@ -394,28 +461,31 @@
       gap: 8px;
       cursor: pointer;
       position: relative;
-      transition: all 0.15s ease;
+      transition: all 0.18s ease;
       font-family: inherit;
       flex-shrink: 0;
     }
     .template-card-btn:hover {
-      border-color: #cbd5e1;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      border-color: #114232;
+      background: #f8fbf9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(17, 66, 50, 0.09);
     }
     .template-card-btn.active {
-      border: 2px solid #ff5a1f;
-      box-shadow: 0 4px 12px rgba(255, 90, 31, 0.18);
+      border: 2px solid #114232;
+      background: #eef5f2;
+      box-shadow: 0 6px 16px rgba(17, 66, 50, 0.18);
     }
     .template-card-thumb-wrap {
       width: 100%;
-      height: 90px;
-      background: #f8fafc;
-      border-radius: 8px;
+      height: 92px;
+      background: #f1f5f9;
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      border: 1px solid rgba(17, 66, 50, 0.08);
     }
     .template-card-thumb-wrap img {
       width: 100%;
@@ -425,22 +495,28 @@
     .template-card-label {
       font-size: 0.74rem;
       font-weight: 700;
-      color: #334155;
+      color: #0f172a;
       text-align: center;
+    }
+    .template-card-btn.active .template-card-label {
+      color: #114232;
+      font-weight: 800;
     }
     .template-card-check {
       position: absolute;
       top: 6px;
       right: 6px;
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
-      background: #ff5a1f;
-      color: #ffffff;
+      background: #114232;
+      border: 1.5px solid #f5b025;
+      color: #f5b025;
       display: none;
       align-items: center;
       justify-content: center;
       font-size: 0.62rem;
+      box-shadow: 0 2px 6px rgba(17, 66, 50, 0.3);
     }
     .template-card-btn.active .template-card-check {
       display: flex;
@@ -452,8 +528,8 @@
       flex-direction: column;
       gap: 6px;
       padding: 10px 12px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #f8fbf9;
+      border: 1px solid rgba(17, 66, 50, 0.12);
       border-radius: 12px;
     }
     .adj-header-line {
@@ -464,50 +540,57 @@
     .adj-label {
       font-size: 0.78rem;
       font-weight: 700;
-      color: #1e293b;
+      color: #114232;
       display: flex;
       align-items: center;
       gap: 6px;
     }
     .adj-val-readout {
       font-size: 0.74rem;
-      font-weight: 700;
-      color: #ff5a1f;
+      font-weight: 800;
+      color: #114232;
+      background: #eef5f2;
+      padding: 1px 7px;
+      border-radius: 6px;
     }
     .adj-range-input {
       -webkit-appearance: none;
       width: 100%;
       height: 6px;
-      background: #e2e8f0;
+      background: #d1fae5;
       border-radius: 4px;
       outline: none;
       cursor: pointer;
     }
     .adj-range-input::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
+      width: 17px;
+      height: 17px;
       border-radius: 50%;
-      background: #ff5a1f;
-      border: 2px solid #ffffff;
-      box-shadow: 0 2px 5px rgba(255, 90, 31, 0.4);
+      background: #114232;
+      border: 2.5px solid #f5b025;
+      box-shadow: 0 2px 6px rgba(17, 66, 50, 0.35);
       cursor: pointer;
+      transition: transform 0.12s ease;
+    }
+    .adj-range-input::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
     }
 
     /* 3. CENTER CANVAS VIEWPORT */
     .studio-canvas-viewport {
       flex: 1;
       min-width: 0;
-      background: #eaedf1;
-      border: 1px solid #cbd5e1;
-      border-radius: 18px;
+      background: radial-gradient(circle at center, #f1f5f3 0%, #e2e8e5 100%);
+      border: 1.5px solid rgba(17, 66, 50, 0.14);
+      border-radius: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow: hidden;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.04);
+      box-shadow: inset 0 2px 12px rgba(17, 66, 50, 0.05);
     }
     #psd-canvas-container {
       width: 100%;
@@ -528,74 +611,80 @@
       image-rendering: -webkit-optimize-contrast;
     }
 
-    /* Floating Canvas Toolbar */
+    /* Floating Canvas Toolbar (Loufy Pill Dock) */
     .floating-canvas-bar {
       position: absolute;
       bottom: 20px;
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(17, 66, 50, 0.16);
       border-radius: 9999px;
-      padding: 6px 14px;
+      padding: 7px 16px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(17, 66, 50, 0.14);
       z-index: 20;
     }
     .float-ctrl-btn {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      background: transparent;
-      border: none;
+      background: #eef5f2;
+      border: 1px solid rgba(17, 66, 50, 0.16);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #475569;
+      color: #114232;
       cursor: pointer;
       font-size: 0.82rem;
-      transition: background 0.12s ease;
+      transition: all 0.15s ease;
     }
     .float-ctrl-btn:hover {
-      background: #f1f5f9;
-      color: #0f172a;
+      background: #114232;
+      color: #f5b025;
+      transform: scale(1.08);
     }
     .float-zoom-readout {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #1e293b;
-      min-width: 36px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #114232;
+      min-width: 42px;
       text-align: center;
     }
     .float-bar-divider {
       width: 1px;
-      height: 16px;
-      background: #e2e8f0;
+      height: 18px;
+      background: rgba(17, 66, 50, 0.15);
     }
     .float-tool-link {
-      background: transparent;
-      border: none;
-      font-size: 0.76rem;
-      font-weight: 600;
-      color: #475569;
+      background: #f8fbf9;
+      border: 1px solid rgba(17, 66, 50, 0.14);
+      border-radius: 999px;
+      padding: 4px 11px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #114232;
       display: flex;
       align-items: center;
       gap: 5px;
       cursor: pointer;
       font-family: inherit;
-      transition: color 0.12s ease;
+      transition: all 0.15s ease;
     }
     .float-tool-link:hover {
-      color: #ff5a1f;
+      background: #114232;
+      border-color: #f5b025;
+      color: #ffffff;
     }
 
     /* 4. RIGHT INSPECTOR PANEL (HOSTS ARTWORK, BACKGROUNDS, SHADOWS, ANGLES) */
     .studio-inspector-panel {
-      width: 320px;
-      min-width: 320px;
-      max-width: 320px;
+      width: 332px;
+      min-width: 332px;
+      max-width: 332px;
       background: #ffffff;
-      border: 1px solid #e2e8f0;
+      border: 1px solid rgba(17, 66, 50, 0.12);
       border-radius: 18px;
       display: flex;
       flex-direction: column;
@@ -604,9 +693,9 @@
       overflow-y: auto;
       overflow-x: hidden;
       min-height: 0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      box-shadow: 0 4px 16px rgba(17, 66, 50, 0.04);
       scrollbar-width: thin;
-      scrollbar-color: #cbd5e1 transparent;
+      scrollbar-color: #94a3b8 transparent;
     }
     .studio-inspector-panel::-webkit-scrollbar {
       width: 5px;
@@ -615,11 +704,8 @@
       background: transparent;
     }
     .studio-inspector-panel::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-    .studio-inspector-panel::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
+      border-radius: 4px;
     }
     .inspector-section {
       display: flex;
@@ -627,9 +713,9 @@
       gap: 10px;
     }
     .inspector-heading {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #0f172a;
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: #114232;
       letter-spacing: -0.01em;
     }
     .inspector-row-between {
@@ -638,15 +724,21 @@
       justify-content: space-between;
     }
 
-    /* Multi-Slot Artwork Cards in Inspector */
+    /* Multi-Slot Artwork Cards in Inspector — Distinct, Clear Functional Buttons */
     .slot-item-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 9px;
+      background: #f8fbf9;
+      border: 1.5px solid rgba(17, 66, 50, 0.14);
+      border-radius: 14px;
+      padding: 11px;
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(17, 66, 50, 0.03);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .slot-item-card:hover {
+      border-color: rgba(17, 66, 50, 0.32);
+      box-shadow: 0 4px 12px rgba(17, 66, 50, 0.07);
     }
     .slot-item-header {
       display: flex;
@@ -654,45 +746,48 @@
       justify-content: space-between;
     }
     .slot-item-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #0f172a;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #114232;
       display: flex;
       align-items: center;
       gap: 6px;
     }
     .slot-item-badge {
-      font-size: 0.62rem;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 6px;
-      background: #f1f5f9;
-      color: #64748b;
+      font-size: 0.64rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #eef5f2;
+      border: 1px solid rgba(17, 66, 50, 0.16);
+      color: #114232;
     }
     .slot-item-body {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
     .slot-thumb-preview {
-      width: 42px;
-      height: 52px;
-      border-radius: 6px;
+      width: 46px;
+      height: 58px;
+      border-radius: 8px;
       object-fit: cover;
-      background: #e2e8f0;
-      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      border: 1.5px solid rgba(17, 66, 50, 0.18);
       flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     }
     .slot-item-info {
       flex: 1;
       min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 5px;
     }
     .slot-item-specs {
-      font-size: 0.68rem;
-      color: #64748b;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #475569;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -700,71 +795,112 @@
     .slot-btn-group {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       margin-top: 2px;
+      flex-wrap: nowrap;
     }
+    /* Primary UPLOAD Button (Emerald Green) */
     .slot-action-btn {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      padding: 3px 7px;
-      font-size: 0.68rem;
-      font-weight: 600;
-      color: #334155;
+      background: linear-gradient(135deg, #114232 0%, #1a634b 100%);
+      border: 1px solid #0d3528;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #ffffff;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
+      gap: 5px;
       font-family: inherit;
-      transition: all 0.15s ease;
+      box-shadow: 0 3px 8px rgba(17, 66, 50, 0.2);
+      transition: all 0.16s ease;
+      white-space: nowrap;
+    }
+    .slot-action-btn i {
+      color: #f5b025;
     }
     .slot-action-btn:hover {
-      border-color: #ff5a1f;
-      color: #ff5a1f;
-      background: #fff7ed;
+      background: linear-gradient(135deg, #0b291e 0%, #114232 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 12px rgba(17, 66, 50, 0.3);
     }
+    /* Secondary CROP Button (Warm Gold / Amber) */
+    #btn-crop-slot-front, #btn-crop-slot-back, #btn-crop-slot-spine {
+      background: #fffbeb;
+      border: 1.5px solid #f5b025;
+      color: #92400e;
+      box-shadow: 0 2px 5px rgba(245, 176, 37, 0.15);
+    }
+    #btn-crop-slot-front i, #btn-crop-slot-back i, #btn-crop-slot-spine i {
+      color: #d97706;
+    }
+    #btn-crop-slot-front:hover, #btn-crop-slot-back:hover, #btn-crop-slot-spine:hover {
+      background: #f5b025;
+      border-color: #d97706;
+      color: #0b1f17;
+      box-shadow: 0 4px 10px rgba(245, 176, 37, 0.3);
+    }
+    #btn-crop-slot-front:hover i, #btn-crop-slot-back:hover i, #btn-crop-slot-spine:hover i {
+      color: #0b1f17;
+    }
+    /* Distinct DELETE / CLEAR Button (Crimson Rose) */
     .slot-clear-btn {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      padding: 3px 6px;
-      font-size: 0.68rem;
-      color: #94a3b8;
+      background: #fef2f2;
+      border: 1.5px solid #fecaca;
+      border-radius: 8px;
+      padding: 5px 9px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #dc2626;
       cursor: pointer;
-      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.16s ease;
+      box-shadow: 0 2px 5px rgba(220, 38, 38, 0.08);
     }
     .slot-clear-btn:hover {
-      color: #ef4444;
-      border-color: #fca5a5;
+      background: #ef4444;
+      border-color: #dc2626;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.28);
     }
 
-    /* Cover Full Wrap Dropzone */
+    /* Cover Full Wrap / Auto 2-Page PDF Dropzone (Loufy Emerald & Gold Hero Box) */
     .cover-dropzone-box {
-      border: 1.5px dashed #cbd5e1;
-      background: #f8fafc;
-      border-radius: 12px;
-      padding: 12px 10px;
+      border: 2px dashed #114232;
+      background: linear-gradient(135deg, #eef5f2 0%, #fefce8 100%);
+      border-radius: 14px;
+      padding: 13px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 5px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.18s ease;
+      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.06);
     }
     .cover-dropzone-box:hover, .cover-dropzone-box.dragover {
-      background: #fff7ed;
-      border-color: #ff5a1f;
+      background: linear-gradient(135deg, #dcfce7 0%, #fef08a 100%);
+      border-color: #0b291e;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(17, 66, 50, 0.14);
     }
     .upload-box-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #0f172a;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #114232;
     }
     .upload-box-sub {
-      font-size: 0.66rem;
-      color: #64748b;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #334155;
     }
 
     /* 8 Background Presets Grid in Inspector */
@@ -774,8 +910,8 @@
       gap: 6px;
     }
     .bg-preset-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #f8fbf9;
+      border: 1.5px solid #e2e8f0;
       border-radius: 10px;
       padding: 4px;
       display: flex;
@@ -787,14 +923,14 @@
       transition: all 0.15s ease;
     }
     .bg-preset-card:hover {
-      border-color: #cbd5e1;
+      border-color: #114232;
       background: #ffffff;
       transform: translateY(-1px);
     }
     .bg-preset-card.active {
-      border: 2px solid #ff5a1f;
-      background: #ffffff;
-      box-shadow: 0 3px 10px rgba(255, 90, 31, 0.15);
+      border: 2px solid #114232;
+      background: #eef5f2;
+      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.18);
     }
     .bg-preset-thumb {
       width: 100%;
@@ -807,7 +943,7 @@
     .bg-preset-label {
       font-size: 0.62rem;
       font-weight: 700;
-      color: #475569;
+      color: #1e293b;
       text-align: center;
       white-space: nowrap;
       overflow: hidden;
@@ -1112,21 +1248,24 @@
   <!-- TOP APP HEADER -->
   <header class="studio-header">
     <div class="studio-header-left">
+      <a href="/" class="hdr-btn-back" title="Return to Loufy Publisher Homepage">
+        <i class="fa-solid fa-arrow-left"></i> Back to Website
+      </a>
+      <span class="studio-header-divider"></span>
       <a href="/" class="studio-brand-logo">
         <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Loufy Publisher">
       </a>
       <span class="studio-header-divider"></span>
-      <span class="studio-header-title">Mockup Studio</span>
-      <span class="studio-header-divider"></span>
-      <span class="studio-header-tagline">Create stunning book mockups in seconds</span>
+      <span class="studio-header-title"><i class="fa-solid fa-wand-magic-sparkles" style="color:#f5b025;"></i> Mockup Studio</span>
+      <span class="studio-header-tagline">Create stunning 3D book &amp; spread mockups in seconds</span>
     </div>
 
     <div class="studio-header-right">
       <button type="button" class="hdr-btn-ghost" id="btn-hdr-help">
-        <i class="fa-regular fa-circle-question"></i> Help
+        <i class="fa-regular fa-circle-question" style="color:#114232;"></i> Help Guide
       </button>
-      <button type="button" class="hdr-btn-ghost" id="btn-hdr-reset">
-        <i class="fa-solid fa-rotate-right"></i> Reset
+      <button type="button" class="hdr-btn-ghost" id="btn-hdr-reset" title="Reset all slots and adjustments to default">
+        <i class="fa-solid fa-rotate-right"></i> Reset All
       </button>
       <div class="hdr-export-dropdown-wrap">
         <button type="button" class="hdr-btn-export-primary" id="btn-hdr-export">
@@ -1134,13 +1273,13 @@
         </button>
         <div class="hdr-export-menu" id="hdr-export-menu">
           <button type="button" class="hdr-export-item" data-format="png">
-            <span>High-Res PNG (Transparent)</span><i class="fa-regular fa-file-image"></i>
+            <span>High-Res PNG (Transparent)</span><i class="fa-regular fa-file-image" style="color:#114232;"></i>
           </button>
           <button type="button" class="hdr-export-item" data-format="jpeg">
-            <span>Studio JPEG (With BG)</span><i class="fa-regular fa-image"></i>
+            <span>Studio JPEG (With BG)</span><i class="fa-regular fa-image" style="color:#114232;"></i>
           </button>
           <button type="button" class="hdr-export-item" data-format="4k">
-            <span>4K Ultra-HD Export</span><i class="fa-solid fa-crown" style="color:#f97316;"></i>
+            <span>4K Ultra-HD Export</span><i class="fa-solid fa-crown" style="color:#f5b025;"></i>
           </button>
         </div>
       </div>
@@ -1484,7 +1623,7 @@
         <!-- 1. Front Cover Slot Card -->
         <div class="slot-item-card" id="slot-card-front">
           <div class="slot-item-header">
-            <span class="slot-item-title"><i class="fa-solid fa-book" style="color:#ff5a1f;"></i> Front Cover</span>
+            <span class="slot-item-title"><i class="fa-solid fa-book" style="color:#114232;"></i> Front Cover</span>
             <span class="slot-item-badge">Main / Required</span>
           </div>
           <div class="slot-item-body">
@@ -1492,22 +1631,22 @@
             <div class="slot-item-info">
               <span class="slot-item-specs" id="slot-front-specs">Front • Sample Cover</span>
               <div class="slot-btn-group">
-                <button type="button" class="slot-action-btn" id="btn-upload-slot-front">
+                <button type="button" class="slot-action-btn" id="btn-upload-slot-front" title="Upload Artwork or PDF">
                   <i class="fa-solid fa-cloud-arrow-up"></i> Upload
                 </button>
                 <button type="button" class="slot-action-btn" id="btn-crop-slot-front" title="Crop &amp; Adjust">
                   <i class="fa-solid fa-crop-simple"></i> Crop
                 </button>
-                <button type="button" class="slot-clear-btn" id="btn-clear-slot-front" title="Reset Front">
-                  <i class="fa-regular fa-trash-can"></i>
+                <button type="button" class="slot-clear-btn" id="btn-clear-slot-front" title="Delete / Reset Slot">
+                  <i class="fa-regular fa-trash-can"></i> Delete
                 </button>
               </div>
             </div>
           </div>
           <!-- Front Shift Left/Right Slider -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;border-top:1px dashed #e2e8f0;padding-top:5px;">
-            <span style="font-size:0.68rem;font-weight:600;color:#64748b;"><i class="fa-solid fa-arrows-left-right" style="color:#ff5a1f;"></i> Shift Left / Right</span>
-            <span style="font-size:0.68rem;font-weight:700;color:#ff5a1f;" id="front-shift-val">0%</span>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;border-top:1px dashed rgba(17,66,50,0.16);padding-top:6px;">
+            <span style="font-size:0.68rem;font-weight:700;color:#114232;"><i class="fa-solid fa-arrows-left-right" style="color:#f5b025;"></i> Shift Left / Right</span>
+            <span style="font-size:0.68rem;font-weight:800;color:#114232;" id="front-shift-val">0%</span>
           </div>
           <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="front-shift-slider" style="margin:2px 0;" title="Shift Front Cover Left or Right">
         </div>
@@ -1515,7 +1654,7 @@
         <!-- 2. Back Cover Slot Card -->
         <div class="slot-item-card" id="slot-card-back">
           <div class="slot-item-header">
-            <span class="slot-item-title"><i class="fa-solid fa-book-open" style="color:#3b82f6;"></i> Back Cover</span>
+            <span class="slot-item-title"><i class="fa-solid fa-book-open" style="color:#114232;"></i> Back Cover</span>
             <span class="slot-item-badge">Optional / Dual</span>
           </div>
           <div class="slot-item-body">
@@ -1523,22 +1662,22 @@
             <div class="slot-item-info">
               <span class="slot-item-specs" id="slot-back-specs">Back • Optional</span>
               <div class="slot-btn-group">
-                <button type="button" class="slot-action-btn" id="btn-upload-slot-back">
+                <button type="button" class="slot-action-btn" id="btn-upload-slot-back" title="Upload Artwork or PDF">
                   <i class="fa-solid fa-cloud-arrow-up"></i> Upload
                 </button>
                 <button type="button" class="slot-action-btn" id="btn-crop-slot-back" title="Crop &amp; Adjust">
                   <i class="fa-solid fa-crop-simple"></i> Crop
                 </button>
-                <button type="button" class="slot-clear-btn" id="btn-clear-slot-back" title="Reset Back">
-                  <i class="fa-regular fa-trash-can"></i>
+                <button type="button" class="slot-clear-btn" id="btn-clear-slot-back" title="Delete / Reset Slot">
+                  <i class="fa-regular fa-trash-can"></i> Delete
                 </button>
               </div>
             </div>
           </div>
           <!-- Back Shift Left/Right Slider -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;border-top:1px dashed #e2e8f0;padding-top:5px;">
-            <span style="font-size:0.68rem;font-weight:600;color:#64748b;"><i class="fa-solid fa-arrows-left-right" style="color:#3b82f6;"></i> Shift Left / Right</span>
-            <span style="font-size:0.68rem;font-weight:700;color:#3b82f6;" id="back-shift-val">0%</span>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;border-top:1px dashed rgba(17,66,50,0.16);padding-top:6px;">
+            <span style="font-size:0.68rem;font-weight:700;color:#114232;"><i class="fa-solid fa-arrows-left-right" style="color:#f5b025;"></i> Shift Left / Right</span>
+            <span style="font-size:0.68rem;font-weight:800;color:#114232;" id="back-shift-val">0%</span>
           </div>
           <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="back-shift-slider" style="margin:2px 0;" title="Shift Back Cover Left or Right">
         </div>
@@ -1546,7 +1685,7 @@
         <!-- 3. Spine Slot Card -->
         <div class="slot-item-card" id="slot-card-spine">
           <div class="slot-item-header">
-            <span class="slot-item-title"><i class="fa-solid fa-grip-lines-vertical" style="color:#eab308;"></i> Book Spine</span>
+            <span class="slot-item-title"><i class="fa-solid fa-grip-lines-vertical" style="color:#f5b025;"></i> Book Spine</span>
             <span class="slot-item-badge">Auto / Custom</span>
           </div>
           <div class="slot-item-body">
@@ -1555,15 +1694,15 @@
               <span class="slot-item-specs">Spine Width: <strong id="drawer-spine-width-val">100%</strong></span>
               <input type="range" id="drawer-spine-width-slider" min="40" max="200" value="100" class="adj-range-input" style="margin:2px 0;">
               <div class="slot-btn-group">
-                <button type="button" class="slot-action-btn" id="btn-upload-slot-spine">
+                <button type="button" class="slot-action-btn" id="btn-upload-slot-spine" title="Upload Spine">
                   <i class="fa-solid fa-cloud-arrow-up"></i> Upload
                 </button>
                 <button type="button" class="slot-action-btn" id="btn-crop-slot-spine" title="Crop Spine">
                   <i class="fa-solid fa-crop-simple"></i> Crop
                 </button>
-                <input type="color" id="drawer-spine-color-picker" value="#111827" style="width:24px;height:24px;border:none;border-radius:4px;cursor:pointer;" title="Base Tone">
-                <button type="button" class="slot-clear-btn" id="btn-clear-slot-spine" title="Reset Spine">
-                  <i class="fa-regular fa-trash-can"></i>
+                <input type="color" id="drawer-spine-color-picker" value="#111827" style="width:24px;height:24px;border:1.5px solid #114232;border-radius:6px;cursor:pointer;" title="Base Spine / Edge Color">
+                <button type="button" class="slot-clear-btn" id="btn-clear-slot-spine" title="Delete / Reset Spine">
+                  <i class="fa-regular fa-trash-can"></i> Delete
                 </button>
               </div>
             </div>
@@ -1573,10 +1712,11 @@
         <!-- 4. Full Wrap Auto-Split / Open Book Auto 2-Page PDF Dropzone -->
         <div class="cover-dropzone-box" id="drawer-fullwrap-dropzone" style="padding:12px 10px;margin-top:2px;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <i class="fa-solid fa-wand-magic-sparkles" id="fullwrap-box-icon" style="color:#ff5a1f;font-size:1rem;"></i>
-            <span class="upload-box-title" id="fullwrap-box-title" style="font-size:0.78rem;">Full Wrap Auto-Split</span>
+            <i class="fa-solid fa-file-pdf" id="fullwrap-box-icon" style="color:#114232;font-size:1.05rem;"></i>
+            <span class="upload-box-title" id="fullwrap-box-title" style="font-size:0.8rem;">Auto 2-Page PDF / Spread Fit</span>
           </div>
-          <span class="upload-box-sub" id="fullwrap-box-sub" style="font-size:0.68rem;">Drop full jacket to slice Front, Spine &amp; Back</span>
+          <span class="upload-box-sub" id="fullwrap-box-sub" style="font-size:0.68rem;">Upload PDF to auto-fit Page 1 (Left) &amp; Page 2 (Right)</span>
+          <span style="display:inline-flex;align-items:center;gap:5px;margin-top:4px;padding:4px 12px;border-radius:999px;background:#114232;color:#ffffff;font-size:0.68rem;font-weight:700;box-shadow:0 2px 6px rgba(17,66,50,0.2);"><i class="fa-solid fa-cloud-arrow-up" style="color:#f5b025;"></i> Click or Drop PDF / Spread</span>
           <input type="file" id="drawer-fullwrap-input" accept="image/*, application/pdf" style="display:none;">
         </div>
       </div>
@@ -3194,16 +3334,16 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     "mesh": {
       "right": [
-        [1214.00, 871.00], [1336.70, 721.57], [1521.78, 630.33], [1736.00, 565.00],
-        [1421.00, 1065.00], [1544.53, 913.74], [1726.49, 816.97], [1932.67, 741.67],
-        [1628.00, 1259.00], [1752.36, 1105.92], [1931.21, 1003.61], [2129.33, 918.33],
-        [1835.00, 1453.00], [1960.19, 1298.09], [2135.92, 1190.25], [2326.00, 1095.00]
+        [1214.00, 871.00], [1368.78, 736.22], [1542.78, 634.22], [1736.00, 565.00],
+        [1421.00, 1065.00], [1572.07, 926.21], [1742.62, 818.43], [1932.67, 741.67],
+        [1628.00, 1259.00], [1775.35, 1116.21], [1942.46, 1002.65], [2129.33, 918.33],
+        [1835.00, 1453.00], [1978.64, 1306.20], [2142.30, 1186.86], [2326.00, 1095.00]
       ],
       "left": [
-        [691.00, 1174.00], [839.56, 1047.51], [992.36, 926.80], [1214.00, 871.00],
-        [895.33, 1383.00], [1046.77, 1252.47], [1202.87, 1127.95], [1419.00, 1060.00],
-        [1099.67, 1592.00], [1253.99, 1457.44], [1413.39, 1329.09], [1624.00, 1249.00],
-        [1304.00, 1801.00], [1461.20, 1662.40], [1623.90, 1530.24], [1829.00, 1438.00]
+        [691.00, 1174.00], [846.28, 1040.12], [1020.62, 939.12], [1214.00, 871.00],
+        [895.33, 1383.00], [1050.74, 1244.09], [1225.30, 1136.42], [1419.00, 1060.00],
+        [1099.67, 1592.00], [1255.20, 1448.06], [1429.98, 1333.73], [1624.00, 1249.00],
+        [1304.00, 1801.00], [1459.66, 1652.03], [1634.66, 1531.03], [1829.00, 1438.00]
       ]
     }
   }
@@ -3536,14 +3676,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     ctx.drawImage(tempC, minX, minY);
   }
 
-  // High-Fidelity 16-Point / 9-Patch Bicubic Mesh Warper (Seamless Overlapping Sub-Quads)
+  // High-Fidelity 16-Point Bicubic Bézier Surface Mesh Warper (Smooth 6x6 Subdivision with Zero Kinks)
   function warpMeshGrid(ctx, img, gridPts, scale = 1) {
     if (!img || !gridPts || gridPts.length < 16) return;
     const w = img.width || img.videoWidth;
     const h = img.height || img.videoHeight;
     if (!w || !h) return;
 
-    // 1. Slightly expand outer border points (by 2.0 canvas px) so silhouette masks clip cleanly with zero outer white edge
+    // 1. Slightly expand outer border control points (by 2.0 canvas px) so silhouette masks clip cleanly with zero outer white edge
     let pageCx = 0, pageCy = 0;
     for (let i = 0; i < 16; i++) {
       pageCx += gridPts[i][0];
@@ -3552,7 +3692,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     pageCx /= 16;
     pageCy /= 16;
     const outerPad = 2.0 / scale;
-    const expandedPts = gridPts.map(([px, py], idx) => {
+    const ctrlPts = gridPts.map(([px, py], idx) => {
       const r = Math.floor(idx / 4), c = idx % 4;
       if (r === 0 || r === 3 || c === 0 || c === 3) {
         const dx = px - pageCx, dy = py - pageCy;
@@ -3562,20 +3702,52 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       return [px, py];
     });
 
-    // 2. Expand each of the 9 sub-quads by 0.85 canvas px from its centroid to eliminate any 1px horizontal/vertical grid lines
+    // 2. Evaluate true Bicubic Bézier Surface S(u, v) on a smooth N x N subdivision grid (N = 6 -> 36 smooth sub-patches)
+    const N = 6;
+    const bernstein = (t) => {
+      const it = 1 - t;
+      return [it * it * it, 3 * it * it * t, 3 * it * t * t, t * t * t];
+    };
+    const evalBezierSurface = (u, v) => {
+      const bu = bernstein(u);
+      const bv = bernstein(v);
+      let sx = 0, sy = 0;
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+          const weight = bv[r] * bu[c];
+          const pt = ctrlPts[r * 4 + c];
+          sx += weight * pt[0];
+          sy += weight * pt[1];
+        }
+      }
+      return [sx, sy];
+    };
+
+    const surfGrid = [];
+    for (let gr = 0; gr <= N; gr++) {
+      const row = [];
+      const v = gr / N;
+      for (let gc = 0; gc <= N; gc++) {
+        const u = gc / N;
+        row.push(evalBezierSurface(u, v));
+      }
+      surfGrid.push(row);
+    }
+
+    // 3. Expand each of the N*N sub-quads by 0.85 canvas px from its centroid to eliminate any 1px sub-grid seams
     const patchPad = 0.85 / scale;
-    for (let r = 0; r < 3; r++) {
-      for (let c = 0; c < 3; c++) {
-        const sx0 = Math.floor((c / 3) * w);
-        const sy0 = Math.floor((r / 3) * h);
-        const sx1 = Math.ceil(((c + 1) / 3) * w);
-        const sy1 = Math.ceil(((r + 1) / 3) * h);
+    for (let r = 0; r < N; r++) {
+      for (let c = 0; c < N; c++) {
+        const sx0 = Math.floor((c / N) * w);
+        const sy0 = Math.floor((r / N) * h);
+        const sx1 = Math.ceil(((c + 1) / N) * w);
+        const sy1 = Math.ceil(((r + 1) / N) * h);
 
         const rawQuad = [
-          expandedPts[r * 4 + c],
-          expandedPts[r * 4 + c + 1],
-          expandedPts[(r + 1) * 4 + c + 1],
-          expandedPts[(r + 1) * 4 + c]
+          surfGrid[r][c],
+          surfGrid[r][c + 1],
+          surfGrid[r + 1][c + 1],
+          surfGrid[r + 1][c]
         ];
         const cx = (rawQuad[0][0] + rawQuad[1][0] + rawQuad[2][0] + rawQuad[3][0]) / 4;
         const cy = (rawQuad[0][1] + rawQuad[1][1] + rawQuad[2][1] + rawQuad[3][1]) / 4;
