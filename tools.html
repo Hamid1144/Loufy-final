@@ -374,10 +374,14 @@
     .templates-cards-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: max-content;
+      align-content: start;
+      flex: 1;
+      min-height: 0;
       gap: 10px;
       overflow-y: auto;
-      padding-right: 2px;
-      padding-bottom: 8px;
+      padding-right: 4px;
+      padding-bottom: 16px;
     }
     .template-card-btn {
       background: #ffffff;
@@ -392,6 +396,7 @@
       position: relative;
       transition: all 0.15s ease;
       font-family: inherit;
+      flex-shrink: 0;
     }
     .template-card-btn:hover {
       border-color: #cbd5e1;
@@ -1180,8 +1185,72 @@
           <button type="button" class="cat-pill-btn" data-cat="magazine">Magazine</button>
         </div>
 
-        <!-- 2-Column Mockups Grid (All 10 Mockup Templates) -->
+        <!-- 2-Column Mockups Grid (All 17 Mockup Templates) -->
         <div class="templates-cards-grid">
+          <button type="button" class="template-card-btn active" data-preset="open_book_6" data-cat="open_book paperback">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/open_book_6.jpg" alt="Open Spread 6">
+            </div>
+            <span class="template-card-label">Open Spread 6</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="square_spread_7" data-cat="paperback open_book">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/square_spread_7.jpg" alt="Square Spread">
+            </div>
+            <span class="template-card-label">Square Spread</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="square_hardcover_trio_2" data-cat="hardcover stack">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/square_hardcover_trio_2.jpg" alt="Square Trio">
+            </div>
+            <span class="template-card-label">Square Trio</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="square_book_12" data-cat="paperback stack">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/square_book_12.jpg" alt="Square Stack">
+            </div>
+            <span class="template-card-label">Square Stack</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="us_letter_brochure_02" data-cat="magazine paperback">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/us_letter_brochure_02.jpg" alt="US Letter Brochure">
+            </div>
+            <span class="template-card-label">US Letter Brochure</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="book_spread_8" data-cat="paperback open_book">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/book_spread_8.jpg" alt="Cover Spread">
+            </div>
+            <span class="template-card-label">Cover Spread</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="front_back_showcase" data-cat="hardcover">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" alt="Dual Showcase">
+            </div>
+            <span class="template-card-label">Dual Showcase</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="open_spread" data-cat="open_book magazine">
+            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Spread">
+            </div>
+            <span class="template-card-label">Open Spread</span>
+          </button>
+
           <button type="button" class="template-card-btn" data-preset="hardcover_standing" data-cat="hardcover">
             <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
             <div class="template-card-thumb-wrap">
@@ -1198,7 +1267,7 @@
             <span class="template-card-label">Paperback Duo</span>
           </button>
 
-          <button type="button" class="template-card-btn active" data-preset="book_mockup_1" data-cat="hardcover">
+          <button type="button" class="template-card-btn" data-preset="book_mockup_1" data-cat="hardcover">
             <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockup_2/sample_cover.png" alt="Hardcover">
@@ -1252,70 +1321,6 @@
               <img src="/images/psd_mockups/thumbnails/square_open_book.jpg" alt="Square Open">
             </div>
             <span class="template-card-label">Square Open</span>
-          </button>
-
-          <button type="button" class="template-card-btn" data-preset="open_spread" data-cat="open_book magazine">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Spread">
-            </div>
-            <span class="template-card-label">Open Spread</span>
-          </button>
-
-          <button type="button" class="template-card-btn" data-preset="book_spread_8" data-cat="paperback open_book">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/book_spread_8.jpg" alt="Cover Spread">
-            </div>
-            <span class="template-card-label">Cover Spread</span>
-          </button>
-
-          <button type="button" class="template-card-btn" data-preset="front_back_showcase" data-cat="hardcover">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" alt="Dual Showcase">
-            </div>
-            <span class="template-card-label">Dual Showcase</span>
-          </button>
-
-          <button type="button" class="template-card-btn" data-preset="us_letter_brochure_02" data-cat="magazine paperback">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/us_letter_brochure_02.jpg" alt="US Letter Brochure">
-            </div>
-            <span class="template-card-label">US Letter Brochure</span>
-          </button>
-
-          <button type="button" class="template-card-btn" data-preset="square_book_12" data-cat="paperback stack">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/square_book_12.jpg" alt="Square Stack">
-            </div>
-            <span class="template-card-label">Square Stack</span>
-          </button>
-
-          <button type="button" class="template-card-btn" data-preset="square_hardcover_trio_2" data-cat="hardcover stack">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/square_hardcover_trio_2.jpg" alt="Square Trio">
-            </div>
-            <span class="template-card-label">Square Trio</span>
-          </button>
-
-          <button type="button" class="template-card-btn" data-preset="square_spread_7" data-cat="paperback open_book">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/square_spread_7.jpg" alt="Square Spread">
-            </div>
-            <span class="template-card-label">Square Spread</span>
-          </button>
-
-          <button type="button" class="template-card-btn" data-preset="open_book_6" data-cat="open_book paperback">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/open_book_6.jpg" alt="Open Spread 6">
-            </div>
-            <span class="template-card-label">Open Spread 6</span>
           </button>
         </div>
       </div>
@@ -3301,7 +3306,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   const formatButtons = document.querySelectorAll('[data-format]');
 
   // State
-  let currentPresetId = 'book_mockup_1';
+  let currentPresetId = 'open_book_6';
   let bgMode = 'studio'; // 'studio', 'transparent', 'white', 'dark'
   let exportFormat = 'png'; // 'png' or 'jpeg'
   let spineColor = '#111827';
@@ -5302,11 +5307,49 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
   // Smart Artwork Processor: Slices Full Wraps or uses Front Covers
   window.processUploadedArtwork = processUploadedArtwork;
-  function processUploadedArtwork(imgOrCanvas, fileName = 'Full Wrap') {
+  function processUploadedArtwork(imgOrCanvas, fileName = 'Full Wrap', isDefaultInit = false) {
     if (!imgOrCanvas) return;
     const w = imgOrCanvas.width || imgOrCanvas.videoWidth;
     const h = imgOrCanvas.height || imgOrCanvas.videoHeight;
     const ratio = w / h;
+
+    if (isDefaultInit) {
+      const spineWidthPercent = 0.085;
+      const frontBackPercent = (1 - spineWidthPercent) / 2;
+      const spineStart = Math.floor(w * frontBackPercent);
+      const spineWidthPx = Math.floor(w * spineWidthPercent);
+      const frontStart = spineStart + spineWidthPx;
+      const frontWidth = w - frontStart;
+
+      const fCanvas = document.createElement('canvas');
+      fCanvas.width = frontWidth; fCanvas.height = h;
+      fCanvas.getContext('2d').drawImage(imgOrCanvas, frontStart, 0, frontWidth, h, 0, 0, frontWidth, h);
+      activeFrontImg = fCanvas;
+      customFrontImg = null;
+
+      const sCanvas = document.createElement('canvas');
+      sCanvas.width = spineWidthPx; sCanvas.height = h;
+      sCanvas.getContext('2d').drawImage(imgOrCanvas, spineStart, 0, spineWidthPx, h, 0, 0, spineWidthPx, h);
+      activeSpineImg = sCanvas;
+      customSpineImg = null;
+
+      const bCanvas = document.createElement('canvas');
+      bCanvas.width = spineStart; bCanvas.height = h;
+      bCanvas.getContext('2d').drawImage(imgOrCanvas, 0, 0, spineStart, h, 0, 0, spineStart, h);
+      activeBackImg = bCanvas;
+      customBackImg = null;
+      customMidImg = null;
+
+      if (autodetectStatus) autodetectStatus.style.display = 'none';
+      if (btnUploadFront) btnUploadFront.classList.remove('has-file');
+      if (btnUploadBack) btnUploadBack.classList.remove('has-file');
+      if (btnUploadSpine) btnUploadSpine.classList.remove('has-file');
+      if (clearFrontBtn) clearFrontBtn.style.display = 'none';
+      if (clearBackBtn) clearBackBtn.style.display = 'none';
+      if (clearSpineBtn) clearSpineBtn.style.display = 'none';
+      renderCurrentMockup();
+      return;
+    }
 
     if (ratio > 1.25) {
       if (autodetectStatus) {
@@ -5506,7 +5549,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
     }
 
-    if (presetId === 'open_book') {
+    if (presetId === 'open_book' || presetId === 'open_book_6') {
       aspectLabel = 'Book Page';
     } else if (presetId === 'square_open_book') {
       aspectLabel = '1:1 Square Page';
@@ -5530,7 +5573,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       if (slot === 'middle') slotLabel = 'Turning Page';
       else if (slot === 'back') slotLabel = 'Left Page';
       else slotLabel = 'Right Page';
-    } else if (presetId === 'open_book' || presetId === 'square_open_book') {
+    } else if (presetId === 'open_book' || presetId === 'square_open_book' || presetId === 'open_book_6') {
       slotLabel = slot === 'back' ? 'Left Page' : 'Right Page';
     } else {
       slotLabel = slot === 'spine' ? 'Book Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover');
@@ -5974,7 +6017,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     activeFrontImg = imgOrCanvas;
     rawFileNames.front = name;
     if (frontBtnLabel) {
-      frontBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? ('Right: ' + name) : name;
+      frontBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') ? ('Right: ' + name) : name;
     }
     if (btnUploadFront) btnUploadFront.classList.add('has-file');
     if (clearFrontBtn) clearFrontBtn.style.display = 'flex';
@@ -5984,7 +6027,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     // Auto-sample spine color from edge if spine not manually uploaded
     try {
-      if (!customSpineImg && currentPresetId !== 'open_book' && currentPresetId !== 'square_open_book') {
+      if (!customSpineImg && currentPresetId !== 'open_book' && currentPresetId !== 'square_open_book' && currentPresetId !== 'open_book_6') {
         const sc = document.createElement('canvas');
         sc.width = 16; sc.height = 16;
         const sctx = sc.getContext('2d');
@@ -6006,7 +6049,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     activeBackImg = imgOrCanvas;
     rawFileNames.back = name;
     if (backBtnLabel) {
-      backBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? ('Left: ' + name) : name;
+      backBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') ? ('Left: ' + name) : name;
     }
     if (btnUploadBack) btnUploadBack.classList.add('has-file');
     if (clearBackBtn) clearBackBtn.style.display = 'flex';
@@ -6041,7 +6084,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   async function handleFrontFile(file) {
     if (!file) return;
     try {
-      const isOpenBookDual = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book');
+      const isOpenBookDual = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6');
       const isPdf = (file.type === 'application/pdf' || /\.pdf$/i.test(file.name));
       if (isOpenBookDual && isPdf && window.pdfjsLib) {
         const handled = await autoFitOpenBookTwoPages(file, true);
@@ -6062,7 +6105,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   async function handleBackFile(file) {
     if (!file) return;
     try {
-      const isOpenBookDual = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book');
+      const isOpenBookDual = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6');
       const isPdf = (file.type === 'application/pdf' || /\.pdf$/i.test(file.name));
       if (isOpenBookDual && isPdf && window.pdfjsLib) {
         const handled = await autoFitOpenBookTwoPages(file, true);
@@ -6102,7 +6145,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
     const dropTitle = document.querySelector('.dropzone-title');
     let label = 'Front Cover';
-    if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
+    if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') {
       label = slot === 'back' ? 'Left Page' : 'Right Page';
     } else {
       label = slot === 'spine' ? 'Spine' : (slot === 'back' ? 'Back Cover' : 'Front Cover');
@@ -6176,7 +6219,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.preventDefault();
       if (e.dataTransfer.files && e.dataTransfer.files[0]) {
         const file = e.dataTransfer.files[0];
-        if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') {
+        if (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') {
           const rect = canvasContainer.getBoundingClientRect();
           const dropX = e.clientX - rect.left;
           if (dropX < rect.width / 2) {
@@ -6246,13 +6289,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customFrontImg = null;
       activeFrontImg = null;
       rawArtworks.front = null;
-      rawFileNames.front = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? 'Right Page' : 'Front Cover';
+      rawFileNames.front = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') ? 'Right Page' : 'Front Cover';
       if (frontThumbPreview) {
         frontThumbPreview.src = '';
         frontThumbPreview.style.display = 'none';
       }
       if (cropFrontBtn) cropFrontBtn.style.display = 'none';
-      if (frontBtnLabel) frontBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? 'Right Page' : 'Front Cover';
+      if (frontBtnLabel) frontBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') ? 'Right Page' : 'Front Cover';
       if (clearFrontBtn) clearFrontBtn.style.display = 'none';
       if (frontStatusText) frontStatusText.textContent = 'Default Sample';
       if (autodetectStatus) autodetectStatus.style.display = 'none';
@@ -6272,7 +6315,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       e.stopPropagation();
       const src = rawArtworks.back || (customBackImg ? (customBackImg.src || (customBackImg.toDataURL ? customBackImg.toDataURL() : null)) : null) || rawArtworks.front || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
       if (src) {
-        openCropModal(src, 'back', rawFileNames.back || ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? 'Left Page Artwork' : 'Back Cover Artwork'));
+        openCropModal(src, 'back', rawFileNames.back || ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') ? 'Left Page Artwork' : 'Back Cover Artwork'));
       } else if (backInput) {
         backInput.click();
       }
@@ -6284,13 +6327,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customBackImg = null;
       activeBackImg = null;
       rawArtworks.back = null;
-      rawFileNames.back = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? 'Left Page' : 'Back Cover';
+      rawFileNames.back = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') ? 'Left Page' : 'Back Cover';
       if (backThumbPreview) {
         backThumbPreview.src = '';
         backThumbPreview.style.display = 'none';
       }
       if (cropBackBtn) cropBackBtn.style.display = 'none';
-      if (backBtnLabel) backBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book') ? 'Left Page' : 'Back Cover';
+      if (backBtnLabel) backBtnLabel.textContent = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') ? 'Left Page' : 'Back Cover';
       if (clearBackBtn) clearBackBtn.style.display = 'none';
       if (backStatusText) backStatusText.textContent = 'Optional';
       if (backInput) backInput.value = '';
@@ -6603,7 +6646,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     return canvas;
   }
 
-  processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
+  processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon', true);
   updateUIForPreset();
 
 
@@ -7712,7 +7755,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       setAppBackground('studio');
       angleCards.forEach((c, idx) => c.classList.toggle('active', idx === 0));
       updateFloatingTransform();
-      processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon');
+      processUploadedArtwork(createDefaultSample(), 'Chronicles of Eldon', true);
       updateAllSlotCardsUI();
       renderCurrentMockup();
     });
