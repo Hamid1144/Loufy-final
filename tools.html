@@ -2438,16 +2438,16 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     "reflections": {
       "front": [
-        860,
-        763,
-        467,
-        641
+        863,
+        762,
+        461,
+        638
       ],
       "back": [
-        273,
-        763,
-        466,
-        639
+        276,
+        761,
+        460,
+        636
       ]
     },
     "description": "Dual book presentation with authentic glossy floor reflections, directional cast shadows, and hinge creases from front and back without spine.psd"
@@ -5379,7 +5379,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       if (!['open_hardcover_pixeden', 'book_spread_8', 'soft_cover_v01', 'us_letter_brochure_02', 'square_book_12', 'square_hardcover_trio_2', 'square_spread_7', 'open_book_6', 'magazine_turning_spread', 'open_book', 'square_open_book'].includes(presetId)) {
         // Draw Reflections with vertical Fresnel fade (for front_back_showcase)
         if (config.reflections) {
+          const refStrength = shadowEnabled ? Math.min(1.25, Math.max(0.25, effShadow / 0.70)) : 0;
           const drawFadedRef = (art, [rx, ry, rw, rh]) => {
+            if (!art || refStrength <= 0) return;
             const sw = Math.round(rw * scale);
             const sh = Math.round(rh * scale);
             if (sw <= 0 || sh <= 0) return;
@@ -5394,15 +5396,17 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
             rctx.drawImage(art, 0, 0, sw, sh);
             rctx.restore();
 
+            const floorSpan = Math.max(1, Math.min(sh, renderHeight - (ry * scale)));
             rctx.globalCompositeOperation = 'destination-in';
-            const fadeGrad = rctx.createLinearGradient(0, 0, 0, sh);
-            fadeGrad.addColorStop(0, 'rgba(0,0,0,0.32)');
-            fadeGrad.addColorStop(0.4, 'rgba(0,0,0,0.12)');
-            fadeGrad.addColorStop(0.75, 'rgba(0,0,0,0)');
+            const fadeGrad = rctx.createLinearGradient(0, 0, 0, floorSpan);
+            fadeGrad.addColorStop(0, 'rgba(0,0,0,' + (0.42 * refStrength).toFixed(3) + ')');
+            fadeGrad.addColorStop(0.35, 'rgba(0,0,0,' + (0.20 * refStrength).toFixed(3) + ')');
+            fadeGrad.addColorStop(0.75, 'rgba(0,0,0,' + (0.05 * refStrength).toFixed(3) + ')');
+            fadeGrad.addColorStop(1, 'rgba(0,0,0,0)');
             rctx.fillStyle = fadeGrad;
             rctx.fillRect(0, 0, sw, sh);
 
-            ctx.drawImage(refCanvas, rx * scale, (ry + rh) * scale);
+            ctx.drawImage(refCanvas, rx * scale, ry * scale);
           };
 
           if (config.reflections.back) drawFadedRef(backArt, config.reflections.back);
