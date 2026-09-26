@@ -2048,38 +2048,32 @@
         overflow-y: visible !important;
       }
 
-      /* 1. Compact Mobile Top Header */
+      /* 1. Compact Mobile Top Header (Zero Overlap, Single Clean Row) */
       .studio-header {
-        height: auto;
+        height: 54px;
         min-height: 54px;
-        padding: 8px 12px;
-        flex-wrap: wrap;
-        gap: 8px;
+        padding: 0 10px;
+        flex-wrap: nowrap !important;
+        justify-content: space-between;
+        gap: 6px;
         position: sticky;
         top: 0;
         z-index: 120;
       }
 
       .studio-header-left {
-        gap: 8px;
-        flex: 1;
+        gap: 6px;
+        flex: 0 1 auto;
         min-width: 0;
+        overflow: hidden;
       }
 
-      .studio-brand-icon-box {
-        width: 31px;
-        height: 31px;
-        font-size: 14px;
-      }
-
-      .studio-header-title {
-        font-size: 15.5px;
-        gap: 5px;
-      }
-
-      .studio-by-loufy-badge {
-        font-size: 8px;
-        padding: 2px 5px;
+      .studio-orig-logo-img {
+        height: 28px !important;
+        width: auto !important;
+        max-width: 115px;
+        object-fit: contain;
+        display: block;
       }
 
       .studio-header-divider,
@@ -2088,27 +2082,33 @@
       }
 
       .hdr-btn-back {
-        padding: 5px 9px;
+        padding: 0 9px;
+        height: 32px;
         font-size: 11px;
         gap: 4px;
+        flex-shrink: 0;
       }
 
       .studio-header-right {
-        gap: 6px;
+        gap: 5px;
+        flex: 0 0 auto;
       }
 
       .hdr-btn-ghost {
-        height: 33px;
-        padding: 0 10px;
+        height: 32px;
+        padding: 0 9px;
         font-size: 11.5px;
-        gap: 5px;
+        gap: 4px;
+        flex-shrink: 0;
       }
 
       .hdr-btn-export-primary {
-        height: 33px;
-        padding: 0 12px;
+        height: 32px;
+        padding: 0 11px;
         font-size: 11.5px;
-        gap: 6px;
+        gap: 5px;
+        white-space: nowrap;
+        flex-shrink: 0;
       }
 
       /* 2. Workspace Stack: Top Controls -> Middle Mockup View -> Bottom Controls */
@@ -2432,12 +2432,21 @@
       }
     }
 
-    @media (max-width: 540px) {
-      .hdr-btn-back span,
-      #btn-hdr-help span {
-        display: none;
+    @media (max-width: 720px) {
+      .hdr-btn-label {
+        display: none !important;
       }
 
+      .hdr-btn-back,
+      .hdr-btn-ghost {
+        width: 33px !important;
+        height: 33px !important;
+        padding: 0 !important;
+        justify-content: center !important;
+      }
+    }
+
+    @media (max-width: 540px) {
       .float-tool-link {
         padding: 0 6px;
         font-size: 10.5px;
@@ -2457,6 +2466,14 @@
         justify-content: flex-end;
       }
     }
+
+    .studio-orig-logo-img {
+      height: 36px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
@@ -2464,35 +2481,29 @@
 
 <div class="studio-app-root">
 
-  <!-- ── 1. TOP APPLICATION HEADER (REFERENCE 1) ── -->
+  <!-- ── 1. TOP APPLICATION HEADER (ORIGINAL LOUFY PUBLISHER LOGO) ── -->
   <header class="studio-header">
     <div class="studio-header-left">
-      <a href="/" class="studio-brand-logo" title="Loufy Publisher Mockup Studio">
-        <div class="studio-brand-icon-box">
-          <i class="fa-solid fa-book-open"></i>
-        </div>
-        <span class="studio-header-title">
-          Mockup Studio
-          <span class="studio-by-loufy-badge">BY LOUFY</span>
-        </span>
+      <a href="/" class="studio-brand-logo" title="Loufy Publisher">
+        <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Loufy Publisher" class="studio-orig-logo-img">
       </a>
       <span class="studio-header-divider"></span>
       <a href="/" class="hdr-btn-back" title="Return to Loufy Publisher Homepage">
-        <i class="fa-solid fa-arrow-left"></i> Back to Website
+        <i class="fa-solid fa-arrow-left"></i> <span class="hdr-btn-label">Back to Website</span>
       </a>
       <span class="studio-header-tagline">Create stunning 3D book &amp; spread mockups in seconds</span>
     </div>
 
     <div class="studio-header-right">
-      <button type="button" class="hdr-btn-ghost" id="btn-hdr-help">
-        <i class="fa-regular fa-circle-question"></i> Help
+      <button type="button" class="hdr-btn-ghost" id="btn-hdr-help" title="How to Create Mockups">
+        <i class="fa-regular fa-circle-question"></i> <span class="hdr-btn-label">Help</span>
       </button>
       <button type="button" class="hdr-btn-ghost" id="btn-hdr-reset" title="Reset all slots and adjustments to default">
-        <i class="fa-solid fa-rotate-left"></i> Reset
+        <i class="fa-solid fa-rotate-left"></i> <span class="hdr-btn-label">Reset</span>
       </button>
       <div class="hdr-export-dropdown-wrap">
         <button type="button" class="hdr-btn-export-primary" id="btn-hdr-export">
-          <i class="fa-solid fa-download"></i> Export Mockup <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;margin-left:3px;"></i>
+          <i class="fa-solid fa-download"></i> <span>Export Mockup</span> <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;margin-left:2px;"></i>
         </button>
         <div class="hdr-export-menu" id="hdr-export-menu">
           <button type="button" class="hdr-export-item" data-format="png">
@@ -3251,13 +3262,7 @@
     <div class="crop-modal-header">
       <div class="crop-header-left">
         <div class="crop-header-brand-wrap">
-          <div class="crop-brand-icon-badge">
-            <i class="fa-solid fa-feather-pointed"></i>
-          </div>
-          <div class="crop-brand-wordmark">
-            <strong>loufy</strong>
-            <span>PUBLISHER</span>
-          </div>
+          <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Loufy Publisher" class="studio-orig-logo-img" style="height:32px;">
         </div>
         <div class="crop-header-text">
           <h3 class="crop-modal-title" id="crop-modal-title">Crop Artwork</h3>
