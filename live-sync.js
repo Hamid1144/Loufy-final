@@ -3,7 +3,8 @@
 
 (function() {
     const pageId = window.location.pathname.includes("portfolio.html") ? 'portfolio' : 'index';
-    const CACHE_KEY = 'loufy_live_snapshot_v2_' + pageId;
+    const CACHE_KEY = 'loufy_live_snapshot_v3_' + pageId;
+    try { localStorage.removeItem('loufy_live_snapshot_v2_' + pageId); } catch(e) {}
 
     // Clear legacy conflicting cache keys
     try {
@@ -34,6 +35,22 @@
                 }
             }
         });
+
+                // 1b. Sync Hero Background Video URL if updated via Admin Panel
+        const liveVid = doc.getElementById('hero-bg-video');
+        const curVid = document.getElementById('hero-bg-video');
+        if (liveVid && curVid) {
+            const liveSrc = liveVid.getAttribute('src') || liveVid.querySelector('source')?.getAttribute('src');
+            const curSrc = curVid.getAttribute('src');
+            if (liveSrc && liveSrc !== curSrc) {
+                curVid.setAttribute('src', liveSrc);
+                const sTag = curVid.querySelector('source');
+                if (sTag) sTag.setAttribute('src', liveSrc);
+                curVid.muted = true;
+                curVid.play().catch(() => {});
+                modified = true;
+            }
+        }
 
         // 2. Sync Hero Floating Cards (both Desktop & Mobile logos + Top Floating Banner)
         ['hero-floating-cards', 'hero-floating-cards-mobile'].forEach(floatId => {
