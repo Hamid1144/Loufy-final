@@ -736,13 +736,20 @@
     .crop-range-slider {
       -webkit-appearance: none;
       appearance: none;
-      flex: 1;
+      flex: 0 0 auto;
       width: 100%;
-      height: 7px;
+      height: 7px !important;
+      min-height: 7px;
+      max-height: 7px;
       border-radius: 999px;
       background: #e3dfd6;
       outline: none;
       cursor: pointer;
+    }
+
+    .adj-slider-wrap .adj-range-input,
+    .shadow-slider-row .orange-range-input {
+      flex: 1 1 auto;
     }
 
     .adj-range-input::-webkit-slider-thumb,
@@ -2593,40 +2600,40 @@
           </div>
           <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="back-shift-slider" style="margin:2px 0;" title="Shift Back Cover Left or Right">
         </div>
-      </div>
 
-      <!-- SECTION 3: BOOK SPINE (AUTO / CUSTOM TOGGLE + SPINE WIDTH - REFERENCE 1) -->
-      <div class="inspector-section slot-item-card" id="slot-card-spine" style="background:#ffffff;padding:13px 14px;">
-        <div class="inspector-row-between">
-          <h3 class="inspector-heading"><i class="fa-solid fa-grip-lines-vertical" style="color:#d99b1e;"></i> <span class="slot-item-title">Book Spine</span></h3>
-          <span class="slot-item-badge" style="display:none;">Auto / Custom</span>
-          <div class="spine-seg-wrap">
-            <button type="button" class="spine-seg-pill active" id="btn-spine-mode-auto">Auto</button>
-            <button type="button" class="spine-seg-pill" id="btn-spine-mode-custom">Custom</button>
-          </div>
-        </div>
-
-        <div class="slot-item-body" style="background:#faf9f5;padding:7px 9px;border-radius:9px;border:1px solid #efede7;">
-          <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" class="slot-thumb-preview" id="slot-spine-thumb" alt="Spine Preview" style="width:28px;height:38px;min-width:28px;">
-          <div class="slot-item-info">
-            <div class="slot-btn-group" style="margin-left:auto;">
-              <button type="button" class="slot-action-btn" id="btn-upload-slot-spine" title="Upload Spine">
-                Upload
-              </button>
-              <button type="button" class="slot-action-btn" id="btn-crop-slot-spine" title="Crop Spine">
-                <i class="fa-solid fa-crop-simple"></i> Crop
-              </button>
-              <input type="color" id="drawer-spine-color-picker" value="#111827" style="width:26px;height:26px;border:1px solid #d5d0c5;border-radius:6px;cursor:pointer;flex-shrink:0;" title="Base Spine / Edge Color">
-              <button type="button" class="slot-clear-btn" id="btn-clear-slot-spine" title="Delete / Reset Spine" aria-label="Delete Spine">
-                <i class="fa-regular fa-trash-can"></i>
-              </button>
+        <!-- 3. Book Spine Slot Card (Directly below Front & Back Cover - Reference 1) -->
+        <div class="slot-item-card" id="slot-card-spine" style="background:#ffffff;padding:12px;border:1px solid #e6e3dc;margin-top:2px;">
+          <div class="inspector-row-between" style="margin-bottom:6px;">
+            <h3 class="inspector-heading" style="font-size:13px;"><i class="fa-solid fa-grip-lines-vertical" style="color:#d99b1e;"></i> <span class="slot-item-title">Book Spine</span></h3>
+            <span class="slot-item-badge" style="display:none;">Auto / Custom</span>
+            <div class="spine-seg-wrap">
+              <button type="button" class="spine-seg-pill active" id="btn-spine-mode-auto">Auto</button>
+              <button type="button" class="spine-seg-pill" id="btn-spine-mode-custom">Custom</button>
             </div>
           </div>
-        </div>
 
-        <div style="display:flex;flex-direction:column;gap:5px;margin-top:2px;">
-          <span class="slot-item-specs" style="font-size:12px;color:#5d6c64;font-weight:600;">Spine Width: <strong id="drawer-spine-width-val" style="color:#114232;">100%</strong></span>
-          <input type="range" id="drawer-spine-width-slider" min="40" max="200" value="100" class="adj-range-input">
+          <div class="slot-item-body" style="background:#faf9f5;padding:7px 9px;border-radius:9px;border:1px solid #efede7;">
+            <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" class="slot-thumb-preview" id="slot-spine-thumb" alt="Spine Preview" style="width:28px;height:38px;min-width:28px;">
+            <div class="slot-item-info">
+              <div class="slot-btn-group" style="margin-left:auto;">
+                <button type="button" class="slot-action-btn" id="btn-upload-slot-spine" title="Upload Spine">
+                  Upload
+                </button>
+                <button type="button" class="slot-action-btn" id="btn-crop-slot-spine" title="Crop Spine">
+                  <i class="fa-solid fa-crop-simple"></i> Crop
+                </button>
+                <input type="color" id="drawer-spine-color-picker" value="#111827" style="width:26px;height:26px;border:1px solid #d5d0c5;border-radius:6px;cursor:pointer;flex-shrink:0;" title="Base Spine / Edge Color">
+                <button type="button" class="slot-clear-btn" id="btn-clear-slot-spine" title="Delete / Reset Spine" aria-label="Delete Spine">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:4px;">
+            <span class="slot-item-specs" style="font-size:12px;color:#5d6c64;font-weight:600;">Spine Width: <strong id="drawer-spine-width-val" style="color:#114232;">100%</strong></span>
+            <input type="range" id="drawer-spine-width-slider" min="40" max="200" value="100" class="adj-range-input" style="margin:2px 0;">
+          </div>
         </div>
       </div>
 
@@ -6470,12 +6477,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       btn.classList.toggle('active', btn.dataset.preset === currentPresetId);
     });
 
-    const hasSpine = config.slots && config.slots.includes('spine');
-    const hasBack = config.slots && config.slots.includes('back');
+    const isSpreadOnly = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6' || currentPresetId === 'open_spread' || currentPresetId === 'us_letter_brochure_02');
+    const hasSpine = !isSpreadOnly;
+    const hasBack = true;
 
-    // Contextual upload slots
-    if (slotCardBack) slotCardBack.style.display = hasBack ? 'block' : 'none';
-    if (slotCardSpine) slotCardSpine.style.display = hasSpine ? 'block' : 'none';
+    // Contextual upload slots (keep Front, Back, and Book Spine visible together in order)
+    if (slotCardFront) slotCardFront.style.display = 'flex';
+    if (slotCardBack) slotCardBack.style.display = 'flex';
+    if (slotCardSpine) slotCardSpine.style.display = hasSpine ? 'flex' : 'none';
     if (spineColorRow) spineColorRow.style.display = hasSpine ? 'flex' : 'none';
 
     // Contextual framing sliders
