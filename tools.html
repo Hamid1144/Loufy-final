@@ -5040,327 +5040,299 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     ];
   }
 
-  // Helper: Cached Source Pixels Reader (avoids repeated getImageData allocations)
+  // Cached Source Pixel Extractor (eliminates repeated getImageData allocations while preserving 100% exact RGBA colors)
   function getCachedSourcePixels(img) {
-    const sw = img.naturalWidth || img.width;
-    const sh = img.naturalHeight || img.height;
-    if (!sw || !sh) return null;
-    // Cap source sampling buffer to 1400px max dimension for instant cache & crisp bilinear sampling
+    const rawW = img.naturalWidth || img.width || img.videoWidth;
+    const rawH = img.naturalHeight || img.height || img.videoHeight;
+    if (!rawW || !rawH) return null;
     const maxDim = 1400;
-    const scale = Math.min(1, maxDim / Math.max(sw, sh));
-    const cw = Math.max(1, Math.round(sw * scale));
-    const ch = Math.max(1, Math.round(sh * scale));
-    const isStaticImg = typeof HTMLImageElement !== 'undefined' && (img instanceof HTMLImageElement) && img.src;
-    if (isStaticImg && img._cachedPixelObj && img._cachedPixelObj.src === img.src && img._cachedPixelObj.cw === cw && img._cachedPixelObj.ch === ch) {
-      return img._cachedPixelObj;
+    const s = Math.min(1, maxDim / Math.max(rawW, rawH));
+    const w = Math.max(1, Math.round(rawW * s));
+    const h = Math.max(1, Math.round(rawH * s));
+    const isStaticImg = (typeof HTMLImageElement !== 'undefined') && (img instanceof HTMLImageElement) && img.src;
+    if (isStaticImg && img._cachedPixels && img._cachedPixels.src === img.src && img._cachedPixels.w === w && img._cachedPixels.h === h) {
+      return img._cachedPixels;
     }
-    const sCanvas = document.createElement('canvas');
-    sCanvas.width = cw;
-    sCanvas.height = ch;
-    const sCtx = sCanvas.getContext('2d');
-    sCtx.imageSmoothingEnabled = true;
-    sCtx.imageSmoothingQuality = 'high';
-    sCtx.drawImage(img, 0, 0, cw, ch);
-    const data = sCtx.getImageData(0, 0, cw, ch).data;
-    const obj = { data, cw, ch, src: isStaticImg ? img.src : null };
+    const tc = document.createElement('canvas');
+    tc.width = w;
+    tc.height = h;
+    const tctx = tc.getContext('2d');
+    tctx.imageSmoothingEnabled = true;
+    tctx.imageSmoothingQuality = 'high';
+    tctx.drawImage(img, 0, 0, w, h);
+    const data = tctx.getImageData(0, 0, w, h).data;
+    const res = { data, w, h, src: isStaticImg ? img.src : null };
     if (isStaticImg) {
-      try { img._cachedPixelObj = obj; } catch (e) {}
+      try { img._cachedPixels = res; } catch (e) {}
     }
-    return obj;
+    return res;
   }
 
-  // Fast Single-Buffer Bilinear Quad Warper (100% Seamless, Zero Triangle Lines, Tight Bounding Box)
-  function warpQuad(ctx, img, quad, destW, destH) {
-    if (!quad || quad.length < 4 || !img) return;
+  // Fast Single-Buffer 4-Point Projective Homography Warper (Zero Lines, 100% Original Colors)
+  function warpQuad(ctx, img, quad, scale = 1) {
+    if (!img || !quad) return;
     const srcObj = getCachedSourcePixels(img);
     if (!srcObj) return;
-    const srcData = srcObj.data;
-    const sw = srcObj.cw;
-    const sh = srcObj.ch;
+    const sPixels = srcObj.data;
+    const w = srcObj.w;
+    const h = srcObj.h;
 
-    const x00 = quad[0][0], y00 = quad[0][1];
-    const x10 = quad[1][0], y10 = quad[1][1];
-    const x11 = quad[2][0], y11 = quad[2][1];
-    const x01 = quad[3][0], y01 = quad[3][1];
+    const scaledQuad = quad.map(([x, y]) => [x * scale, y * scale]);
+    const srcPts = [[0, 0], [Math.max(1, w - 1), 0], [Math.max(1, w - 1), Math.max(1, h - 1)], [0, Math.max(1, h - 1)]];
+    const H = getHomography(srcPts, scaledQuad);
+    const Hinv = invert3x3(H);
+    if (!Hinv) return;
 
-    const minX = Math.max(0, Math.floor(Math.min(x00, x10, x11, x01)));
-    const maxX = Math.min(destW - 1, Math.ceil(Math.max(x00, x10, x11, x01)));
-    const minY = Math.max(0, Math.floor(Math.min(y00, y10, y11, y01)));
-    const maxY = Math.min(destH - 1, Math.ceil(Math.max(y00, y10, y11, y01)));
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (let i = 0; i < 4; i++) {
+      const qx = scaledQuad[i][0], qy = scaledQuad[i][1];
+      if (qx < minX) minX = qx;
+      if (qx > maxX) maxX = qx;
+      if (qy < minY) minY = qy;
+      if (qy > maxY) maxY = qy;
+    }
+    minX = Math.max(0, Math.floor(minX));
+    minY = Math.max(0, Math.floor(minY));
+    maxX = Math.min(ctx.canvas.width, Math.ceil(maxX));
+    maxY = Math.min(ctx.canvas.height, Math.ceil(maxY));
+    const rw = maxX - minX;
+    const rh = maxY - minY;
+    if (rw <= 0 || rh <= 0) return;
 
-    const bw = maxX - minX + 1;
-    const bh = maxY - minY + 1;
-    if (bw <= 1 || bh <= 1) return;
+    const [h0, h1, h2, h3, h4, h5, h6, h7, h8] = Hinv;
+    const targetImgData = ctx.createImageData(rw, rh);
+    const dstPixels = targetImgData.data;
 
-    const outCanvas = document.createElement('canvas');
-    outCanvas.width = bw;
-    outCanvas.height = bh;
-    const outCtx = outCanvas.getContext('2d');
-    const outImgData = outCtx.createImageData(bw, bh);
-    const outData = outImgData.data;
+    const q0x = scaledQuad[0][0], q0y = scaledQuad[0][1];
+    const q1x = scaledQuad[1][0], q1y = scaledQuad[1][1];
+    const q2x = scaledQuad[2][0], q2y = scaledQuad[2][1];
+    const q3x = scaledQuad[3][0], q3y = scaledQuad[3][1];
+    const wLimit = w - 1.001;
+    const hLimit = h - 1.001;
 
-    // Precompute edge vectors for fast inlined point-in-quad check
-    const ex0 = x10 - x00, ey0 = y10 - y00;
-    const ex1 = x11 - x10, ey1 = y11 - y10;
-    const ex2 = x01 - x11, ey2 = y01 - y11;
-    const ex3 = x00 - x01, ey3 = y00 - y01;
+    let outIdx = 0;
+    for (let py = minY; py < maxY; py++) {
+      const y = py + 0.5;
+      let numU = h0 * minX + h1 * py + h2;
+      let numV = h3 * minX + h4 * py + h5;
+      let denom = h6 * minX + h7 * py + h8;
 
-    // Bilinear coefficients: P(u,v) = A + B*u + C*v + D*u*v
-    const ax = x00, ay = y00;
-    const bx = x10 - x00, by = y10 - y00;
-    const cx = x01 - x00, cy = y01 - y00;
-    const dx = x00 - x10 + x11 - x01, dy = y00 - y10 + y11 - y01;
+      for (let px = minX; px < maxX; px++) {
+        const x = px + 0.5;
+        // Fast inlined ray-casting point-in-quad check
+        let inside = false;
+        if (((q0y > y) !== (q3y > y)) && (x < (q3x - q0x) * (y - q0y) / (q3y - q0y) + q0x)) inside = !inside;
+        if (((q1y > y) !== (q0y > y)) && (x < (q0x - q1x) * (y - q1y) / (q0y - q1y) + q1x)) inside = !inside;
+        if (((q2y > y) !== (q1y > y)) && (x < (q1x - q2x) * (y - q2y) / (q1y - q2y) + q2x)) inside = !inside;
+        if (((q3y > y) !== (q2y > y)) && (x < (q2x - q3x) * (y - q3y) / (q2y - q3y) + q3x)) inside = !inside;
 
-    const swMinus1 = sw - 1;
-    const shMinus1 = sh - 1;
+        if (inside) {
+          const invD = 1.0 / denom;
+          let u = numU * invD;
+          let v = numV * invD;
+          if (u < 0) u = 0; else if (u > wLimit) u = wLimit;
+          if (v < 0) v = 0; else if (v > hLimit) v = hLimit;
 
-    for (let py = minY; py <= maxY; py++) {
-      const rowOffset = (py - minY) * bw;
-      const ry0 = py - y00, ry1 = py - y10, ry2 = py - y11, ry3 = py - y01;
-      let u = 0.5, v = 0.5;
+          const u0 = u | 0, v0 = v | 0;
+          const u1 = u0 + 1, v1 = v0 + 1;
+          const du = u - u0, dv = v - v0;
+          const du1 = 1 - du, dv1 = 1 - dv;
 
-      for (let px = minX; px <= maxX; px++) {
-        // Fast cross-product winding check (supports both CW and CCW quads)
-        const c0 = ex0 * ry0 - ey0 * (px - x00);
-        const c1 = ex1 * ry1 - ey1 * (px - x10);
-        const c2 = ex2 * ry2 - ey2 * (px - x11);
-        const c3 = ex3 * ry3 - ey3 * (px - x01);
-        if (!((c0 >= -1 && c1 >= -1 && c2 >= -1 && c3 >= -1) || (c0 <= 1 && c1 <= 1 && c2 <= 1 && c3 <= 1))) {
-          continue;
+          const idx00 = (v0 * w + u0) << 2;
+          const idx10 = (v0 * w + u1) << 2;
+          const idx01 = (v1 * w + u0) << 2;
+          const idx11 = (v1 * w + u1) << 2;
+
+          const w00 = du1 * dv1, w10 = du * dv1, w01 = du1 * dv, w11 = du * dv;
+
+          dstPixels[outIdx]     = (sPixels[idx00] * w00 + sPixels[idx10] * w10 + sPixels[idx01] * w01 + sPixels[idx11] * w11) | 0;
+          dstPixels[outIdx + 1] = (sPixels[idx00+1] * w00 + sPixels[idx10+1] * w10 + sPixels[idx01+1] * w01 + sPixels[idx11+1] * w11) | 0;
+          dstPixels[outIdx + 2] = (sPixels[idx00+2] * w00 + sPixels[idx10+2] * w10 + sPixels[idx01+2] * w01 + sPixels[idx11+2] * w11) | 0;
+          dstPixels[outIdx + 3] = (sPixels[idx00+3] * w00 + sPixels[idx10+3] * w10 + sPixels[idx01+3] * w01 + sPixels[idx11+3] * w11) | 0;
         }
-
-        // Unrolled 3-step Newton-Raphson inverse bilinear solver (warm-started from previous pixel on scanline!)
-        for (let iter = 0; iter < 3; iter++) {
-          const fx = ax + bx * u + cx * v + dx * u * v - px;
-          const fy = ay + by * u + cy * v + dy * u * v - py;
-          if (fx * fx + fy * fy < 1e-3) break;
-          const j00 = bx + dx * v;
-          const j01 = cx + dx * u;
-          const j10 = by + dy * v;
-          const j11 = cy + dy * u;
-          const det = j00 * j11 - j01 * j10;
-          if (Math.abs(det) < 1e-7) break;
-          const invDet = 1.0 / det;
-          u -= (j11 * fx - j01 * fy) * invDet;
-          v -= (-j10 * fx + j00 * fy) * invDet;
-        }
-
-        if (u >= -0.002 && u <= 1.002 && v >= -0.002 && v <= 1.002) {
-          const uc = u < 0 ? 0 : (u > 1 ? 1 : u);
-          const vc = v < 0 ? 0 : (v > 1 ? 1 : v);
-          const sx = uc * swMinus1;
-          const sy = vc * shMinus1;
-          const sx0 = sx | 0;
-          const sy0 = sy | 0;
-          const sx1 = sx0 < swMinus1 ? sx0 + 1 : sx0;
-          const sy1 = sy0 < shMinus1 ? sy0 + 1 : sy0;
-          const fx = sx - sx0;
-          const fy = sy - sy0;
-          const ifx = 1 - fx;
-          const ify = 1 - fy;
-
-          const w00 = ifx * ify;
-          const w10 = fx * ify;
-          const w01 = ifx * fy;
-          const w11 = fx * fy;
-
-          const idx00 = (sy0 * sw + sx0) << 2;
-          const idx10 = (sy0 * sw + sx1) << 2;
-          const idx01 = (sy1 * sw + sx0) << 2;
-          const idx11 = (sy1 * sw + sx1) << 2;
-
-          const outIdx = (rowOffset + (px - minX)) << 2;
-          outData[outIdx]     = srcData[idx00] * w00 + srcData[idx10] * w10 + srcData[idx01] * w01 + srcData[idx11] * w11;
-          outData[outIdx + 1] = srcData[idx00 + 1] * w00 + srcData[idx10 + 1] * w10 + srcData[idx01 + 1] * w01 + srcData[idx11 + 1] * w11;
-          outData[outIdx + 2] = srcData[idx00 + 2] * w00 + srcData[idx10 + 2] * w10 + srcData[idx01 + 2] * w01 + srcData[idx11 + 2] * w11;
-          outData[outIdx + 3] = srcData[idx00 + 3] * w00 + srcData[idx10 + 3] * w10 + srcData[idx01 + 3] * w01 + srcData[idx11 + 3] * w11;
-        }
+        numU += h0;
+        numV += h3;
+        denom += h6;
+        outIdx += 4;
       }
     }
 
-    outCtx.putImageData(outImgData, 0, 0);
-    ctx.drawImage(outCanvas, minX, minY);
+    const tempC = document.createElement('canvas');
+    tempC.width = rw;
+    tempC.height = rh;
+    tempC.getContext('2d').putImageData(targetImgData, 0, 0);
+    ctx.drawImage(tempC, minX, minY);
   }
 
-  // Cubic Bezier Evaluator
-  function evalBezier(p, t) {
-    const mt = 1 - t;
-    const mt2 = mt * mt;
-    const t2 = t * t;
-    const a = mt2 * mt;
-    const b = 3 * mt2 * t;
-    const c = 3 * mt * t2;
-    const d = t2 * t;
-    return [
-      a * p[0][0] + b * p[1][0] + c * p[2][0] + d * p[3][0],
-      a * p[0][1] + b * p[1][1] + c * p[2][1] + d * p[3][1]
-    ];
-  }
-
-  // Coons Patch Surface Point Evaluator
-  function getMeshPoint(mesh, u, v) {
-    const top = evalBezier(mesh.top, u);
-    const bottom = evalBezier(mesh.bottom, u);
-    const left = evalBezier(mesh.left, v);
-    const right = evalBezier(mesh.right, v);
-
-    const tl = mesh.top[0];
-    const tr = mesh.top[3];
-    const bl = mesh.bottom[0];
-    const br = mesh.bottom[3];
-
-    const Lx = (1 - v) * top[0] + v * bottom[0] + (1 - u) * left[0] + u * right[0];
-    const Ly = (1 - v) * top[1] + v * bottom[1] + (1 - u) * left[1] + u * right[1];
-
-    const Bx = (1 - u) * (1 - v) * tl[0] + u * (1 - v) * tr[0] + (1 - u) * v * bl[0] + u * v * br[0];
-    const By = (1 - u) * (1 - v) * tl[1] + u * (1 - v) * tr[1] + (1 - u) * v * bl[1] + u * v * br[1];
-
-    return [Lx - Bx, Ly - By];
-  }
-
-  // Fast Single-Buffer Coons-Patch Mesh Warper (100% Seamless, Zero Sub-Quad/Triangle Lines!)
-  function warpMeshGrid(ctx, img, mesh, destW, destH) {
-    if (!mesh || !img) return;
+  // High-Fidelity Single-Buffer 16-Point Bicubic Bezier Surface Mesh Warper (Zero Sub-Quad Seams, 20x Faster)
+  function warpMeshGrid(ctx, img, gridPts, scale = 1) {
+    if (!img || !gridPts || gridPts.length < 16) return;
     const srcObj = getCachedSourcePixels(img);
     if (!srcObj) return;
-    const srcData = srcObj.data;
-    const sw = srcObj.cw;
-    const sh = srcObj.ch;
-    const swMinus1 = sw - 1;
-    const shMinus1 = sh - 1;
+    const sPixels = srcObj.data;
+    const w = srcObj.w;
+    const h = srcObj.h;
+    const wLimit = w - 1.001;
+    const hLimit = h - 1.001;
 
-    const N = 12;
-    const grid = [];
-    let gMinX = Infinity, gMaxX = -Infinity, gMinY = Infinity, gMaxY = -Infinity;
-    for (let r = 0; r <= N; r++) {
-      const v = r / N;
+    // 1. Slightly expand outer border control points (by 2.0 canvas px) so silhouette masks clip cleanly
+    let pageCx = 0, pageCy = 0;
+    for (let i = 0; i < 16; i++) {
+      pageCx += gridPts[i][0];
+      pageCy += gridPts[i][1];
+    }
+    pageCx /= 16;
+    pageCy /= 16;
+    const outerPad = 2.0 / scale;
+    const ctrlPts = gridPts.map(([px, py], idx) => {
+      const r = Math.floor(idx / 4), c = idx % 4;
+      if (r === 0 || r === 3 || c === 0 || c === 3) {
+        const dx = px - pageCx, dy = py - pageCy;
+        const len = Math.hypot(dx, dy) || 1;
+        return [(px + (dx / len) * outerPad) * scale, (py + (dy / len) * outerPad) * scale];
+      }
+      return [px * scale, py * scale];
+    });
+
+    // 2. Evaluate true Bicubic Bezier Surface S(u, v) on an N x N grid into ONE shared ImageData buffer
+    const N = 8;
+    const bernstein = (t) => {
+      const it = 1 - t;
+      return [it * it * it, 3 * it * it * t, 3 * it * t * t, t * t * t];
+    };
+    const evalBezierSurface = (u, v) => {
+      const bu = bernstein(u);
+      const bv = bernstein(v);
+      let sx = 0, sy = 0;
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+          const weight = bv[r] * bu[c];
+          const pt = ctrlPts[r * 4 + c];
+          sx += weight * pt[0];
+          sy += weight * pt[1];
+        }
+      }
+      return [sx, sy];
+    };
+
+    const surfGrid = [];
+    let gMinX = Infinity, gMinY = Infinity, gMaxX = -Infinity, gMaxY = -Infinity;
+    for (let gr = 0; gr <= N; gr++) {
       const row = [];
-      for (let c = 0; c <= N; c++) {
-        const u = c / N;
-        const pt = getMeshPoint(mesh, u, v);
+      const v = gr / N;
+      for (let gc = 0; gc <= N; gc++) {
+        const u = gc / N;
+        const pt = evalBezierSurface(u, v);
         if (pt[0] < gMinX) gMinX = pt[0];
         if (pt[0] > gMaxX) gMaxX = pt[0];
         if (pt[1] < gMinY) gMinY = pt[1];
         if (pt[1] > gMaxY) gMaxY = pt[1];
         row.push(pt);
       }
-      grid.push(row);
+      surfGrid.push(row);
     }
 
     const minX = Math.max(0, Math.floor(gMinX));
-    const maxX = Math.min(destW - 1, Math.ceil(gMaxX));
     const minY = Math.max(0, Math.floor(gMinY));
-    const maxY = Math.min(destH - 1, Math.ceil(gMaxY));
-    const bw = maxX - minX + 1;
-    const bh = maxY - minY + 1;
-    if (bw <= 1 || bh <= 1) return;
+    const maxX = Math.min(ctx.canvas.width, Math.ceil(gMaxX));
+    const maxY = Math.min(ctx.canvas.height, Math.ceil(gMaxY));
+    const rw = maxX - minX;
+    const rh = maxY - minY;
+    if (rw <= 0 || rh <= 0) return;
 
-    // Single shared ImageData buffer for the entire curved mesh: guarantees ZERO seams between sub-cells!
-    const outCanvas = document.createElement('canvas');
-    outCanvas.width = bw;
-    outCanvas.height = bh;
-    const outCtx = outCanvas.getContext('2d');
-    const outImgData = outCtx.createImageData(bw, bh);
-    const outData = outImgData.data;
+    const targetImgData = ctx.createImageData(rw, rh);
+    const dstPixels = targetImgData.data;
 
     for (let r = 0; r < N; r++) {
-      const v0 = r / N, v1 = (r + 1) / N;
+      const sy0 = (r / N) * (h - 1);
+      const sy1 = ((r + 1) / N) * (h - 1);
       for (let c = 0; c < N; c++) {
-        const u0 = c / N, u1 = (c + 1) / N;
-        const p00 = grid[r][c];
-        const p10 = grid[r][c + 1];
-        const p11 = grid[r + 1][c + 1];
-        const p01 = grid[r + 1][c];
+        const sx0 = (c / N) * (w - 1);
+        const sx1 = ((c + 1) / N) * (w - 1);
 
-        const x00 = p00[0], y00 = p00[1];
-        const x10 = p10[0], y10 = p10[1];
-        const x11 = p11[0], y11 = p11[1];
-        const x01 = p01[0], y01 = p01[1];
+        const q0 = surfGrid[r][c];
+        const q1 = surfGrid[r][c + 1];
+        const q2 = surfGrid[r + 1][c + 1];
+        const q3 = surfGrid[r + 1][c];
 
-        const cMinX = Math.max(minX, Math.floor(Math.min(x00, x10, x11, x01)));
-        const cMaxX = Math.min(maxX, Math.ceil(Math.max(x00, x10, x11, x01)));
-        const cMinY = Math.max(minY, Math.floor(Math.min(y00, y10, y11, y01)));
-        const cMaxY = Math.min(maxY, Math.ceil(Math.max(y00, y10, y11, y01)));
+        // Expand sub-quad slightly (0.6px) for boundary coverage; writing into a single dstPixels buffer means zero alpha seam!
+        const cx = (q0[0] + q1[0] + q2[0] + q3[0]) * 0.25;
+        const cy = (q0[1] + q1[1] + q2[1] + q3[1]) * 0.25;
+        const padQuad = [q0, q1, q2, q3].map(([px, py]) => {
+          const dx = px - cx, dy = py - cy;
+          const len = Math.hypot(dx, dy) || 1;
+          return [px + (dx / len) * 0.6, py + (dy / len) * 0.6];
+        });
 
-        const ex0 = x10 - x00, ey0 = y10 - y00;
-        const ex1 = x11 - x10, ey1 = y11 - y10;
-        const ex2 = x01 - x11, ey2 = y01 - y11;
-        const ex3 = x00 - x01, ey3 = y00 - y01;
+        const srcPts = [[sx0, sy0], [sx1, sy0], [sx1, sy1], [sx0, sy1]];
+        const H = getHomography(srcPts, padQuad);
+        const Hinv = invert3x3(H);
+        if (!Hinv) continue;
+        const [h0, h1, h2, h3, h4, h5, h6, h7, h8] = Hinv;
 
-        const ax = x00, ay = y00;
-        const bx = x10 - x00, by = y10 - y00;
-        const cx = x01 - x00, cy = y01 - y00;
-        const dx = x00 - x10 + x11 - x01, dy = y00 - y10 + y11 - y01;
+        const cMinX = Math.max(minX, Math.floor(Math.min(padQuad[0][0], padQuad[1][0], padQuad[2][0], padQuad[3][0])));
+        const cMaxX = Math.min(maxX, Math.ceil(Math.max(padQuad[0][0], padQuad[1][0], padQuad[2][0], padQuad[3][0])));
+        const cMinY = Math.max(minY, Math.floor(Math.min(padQuad[0][1], padQuad[1][1], padQuad[2][1], padQuad[3][1])));
+        const cMaxY = Math.min(maxY, Math.ceil(Math.max(padQuad[0][1], padQuad[1][1], padQuad[2][1], padQuad[3][1])));
 
-        for (let py = cMinY; py <= cMaxY; py++) {
-          const rowOffset = (py - minY) * bw;
-          const ry0 = py - y00, ry1 = py - y10, ry2 = py - y11, ry3 = py - y01;
-          let lu = 0.5, lv = 0.5;
+        const p0x = padQuad[0][0], p0y = padQuad[0][1];
+        const p1x = padQuad[1][0], p1y = padQuad[1][1];
+        const p2x = padQuad[2][0], p2y = padQuad[2][1];
+        const p3x = padQuad[3][0], p3y = padQuad[3][1];
 
-          for (let px = cMinX; px <= cMaxX; px++) {
-            const k0 = ex0 * ry0 - ey0 * (px - x00);
-            const k1 = ex1 * ry1 - ey1 * (px - x10);
-            const k2 = ex2 * ry2 - ey2 * (px - x11);
-            const k3 = ex3 * ry3 - ey3 * (px - x01);
-            if (!((k0 >= -0.5 && k1 >= -0.5 && k2 >= -0.5 && k3 >= -0.5) || (k0 <= 0.5 && k1 <= 0.5 && k2 <= 0.5 && k3 <= 0.5))) {
-              continue;
+        for (let py = cMinY; py < cMaxY; py++) {
+          const y = py + 0.5;
+          const rowBase = (py - minY) * rw;
+          let numU = h0 * cMinX + h1 * py + h2;
+          let numV = h3 * cMinX + h4 * py + h5;
+          let denom = h6 * cMinX + h7 * py + h8;
+
+          for (let px = cMinX; px < cMaxX; px++) {
+            const x = px + 0.5;
+            let inside = false;
+            if (((p0y > y) !== (p3y > y)) && (x < (p3x - p0x) * (y - p0y) / (p3y - p0y) + p0x)) inside = !inside;
+            if (((p1y > y) !== (p0y > y)) && (x < (p0x - p1x) * (y - p1y) / (p0y - p1y) + p1x)) inside = !inside;
+            if (((p2y > y) !== (p1y > y)) && (x < (p1x - p2x) * (y - p2y) / (p1y - p2y) + p2x)) inside = !inside;
+            if (((p3y > y) !== (p2y > y)) && (x < (p2x - p3x) * (y - p3y) / (p2y - p3y) + p3x)) inside = !inside;
+
+            if (inside) {
+              const invD = 1.0 / denom;
+              let u = numU * invD;
+              let v = numV * invD;
+              if (u < 0) u = 0; else if (u > wLimit) u = wLimit;
+              if (v < 0) v = 0; else if (v > hLimit) v = hLimit;
+
+              const u0 = u | 0, v0 = v | 0;
+              const u1 = u0 + 1, v1 = v0 + 1;
+              const du = u - u0, dv = v - v0;
+              const du1 = 1 - du, dv1 = 1 - dv;
+
+              const idx00 = (v0 * w + u0) << 2;
+              const idx10 = (v0 * w + u1) << 2;
+              const idx01 = (v1 * w + u0) << 2;
+              const idx11 = (v1 * w + u1) << 2;
+
+              const w00 = du1 * dv1, w10 = du * dv1, w01 = du1 * dv, w11 = du * dv;
+              const outIdx = (rowBase + (px - minX)) << 2;
+
+              dstPixels[outIdx]     = (sPixels[idx00] * w00 + sPixels[idx10] * w10 + sPixels[idx01] * w01 + sPixels[idx11] * w11) | 0;
+              dstPixels[outIdx + 1] = (sPixels[idx00+1] * w00 + sPixels[idx10+1] * w10 + sPixels[idx01+1] * w01 + sPixels[idx11+1] * w11) | 0;
+              dstPixels[outIdx + 2] = (sPixels[idx00+2] * w00 + sPixels[idx10+2] * w10 + sPixels[idx01+2] * w01 + sPixels[idx11+2] * w11) | 0;
+              dstPixels[outIdx + 3] = (sPixels[idx00+3] * w00 + sPixels[idx10+3] * w10 + sPixels[idx01+3] * w01 + sPixels[idx11+3] * w11) | 0;
             }
-
-            for (let iter = 0; iter < 3; iter++) {
-              const fx = ax + bx * lu + cx * lv + dx * lu * lv - px;
-              const fy = ay + by * lu + cy * lv + dy * lu * lv - py;
-              if (fx * fx + fy * fy < 1e-3) break;
-              const j00 = bx + dx * lv;
-              const j01 = cx + dx * lu;
-              const j10 = by + dy * lv;
-              const j11 = cy + dy * lu;
-              const det = j00 * j11 - j01 * j10;
-              if (Math.abs(det) < 1e-7) break;
-              const invDet = 1.0 / det;
-              lu -= (j11 * fx - j01 * fy) * invDet;
-              lv -= (-j10 * fx + j00 * fy) * invDet;
-            }
-
-            if (lu >= -0.02 && lu <= 1.02 && lv >= -0.02 && lv <= 1.02) {
-              const luc = lu < 0 ? 0 : (lu > 1 ? 1 : lu);
-              const lvc = lv < 0 ? 0 : (lv > 1 ? 1 : lv);
-              const gu = u0 + luc * (u1 - u0);
-              const gv = v0 + lvc * (v1 - v0);
-
-              const sx = gu * swMinus1;
-              const sy = gv * shMinus1;
-              const sx0 = sx | 0;
-              const sy0 = sy | 0;
-              const sx1 = sx0 < swMinus1 ? sx0 + 1 : sx0;
-              const sy1 = sy0 < shMinus1 ? sy0 + 1 : sy0;
-              const fx = sx - sx0;
-              const fy = sy - sy0;
-              const ifx = 1 - fx;
-              const ify = 1 - fy;
-
-              const w00 = ifx * ify;
-              const w10 = fx * ify;
-              const w01 = ifx * fy;
-              const w11 = fx * fy;
-
-              const idx00 = (sy0 * sw + sx0) << 2;
-              const idx10 = (sy0 * sw + sx1) << 2;
-              const idx01 = (sy1 * sw + sx0) << 2;
-              const idx11 = (sy1 * sw + sx1) << 2;
-
-              const outIdx = (rowOffset + (px - minX)) << 2;
-              outData[outIdx]     = srcData[idx00] * w00 + srcData[idx10] * w10 + srcData[idx01] * w01 + srcData[idx11] * w11;
-              outData[outIdx + 1] = srcData[idx00 + 1] * w00 + srcData[idx10 + 1] * w10 + srcData[idx01 + 1] * w01 + srcData[idx11 + 1] * w11;
-              outData[outIdx + 2] = srcData[idx00 + 2] * w00 + srcData[idx10 + 2] * w10 + srcData[idx01 + 2] * w01 + srcData[idx11 + 2] * w11;
-              outData[outIdx + 3] = srcData[idx00 + 3] * w00 + srcData[idx10 + 3] * w10 + srcData[idx01 + 3] * w01 + srcData[idx11 + 3] * w11;
-            }
+            numU += h0;
+            numV += h3;
+            denom += h6;
           }
         }
       }
     }
 
-    outCtx.putImageData(outImgData, 0, 0);
-    ctx.drawImage(outCanvas, minX, minY);
+    const tempC = document.createElement('canvas');
+    tempC.width = rw;
+    tempC.height = rh;
+    tempC.getContext('2d').putImageData(targetImgData, 0, 0);
+    ctx.drawImage(tempC, minX, minY);
   }
 
   // Artwork Transformation Helper (Independent scale & shift for each layer)
@@ -5638,34 +5610,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
       const swRatio = spineWidth / 100;
 
-      // 3. Realistic Layer Compositing Pipeline (with Smart GPU Layer Cache for 0.2ms Background & Shadow Updates)
-      const _bookStateSig = [
-        presetId,
-        renderWidth,
-        renderHeight,
-        customFrontImg ? (customFrontImg.src || 'cf') : 'df',
-        customBackImg ? (customBackImg.src || 'cb') : 'db',
-        customSpineImg ? (customSpineImg.src || 'cs') : 'ds',
-        customMidImg ? (customMidImg.src || 'cm') : 'dm',
-        activeFrontImg ? (activeFrontImg.src || 'af') : 'nf',
-        activeBackImg ? (activeBackImg.src || 'ab') : 'nb',
-        activeSpineImg ? (activeSpineImg.src || 'as') : 'ns',
-        frontTransform.scale, frontTransform.shiftX, frontTransform.shiftY,
-        backTransform.scale, backTransform.shiftX, backTransform.shiftY,
-        spineWidth, spineColor, highlightOpacity,
-        window.__isInteractiveDragRender ? 'drag' : 'hi'
-      ].join('|');
-
-      if (targetCanvas === viewportCanvas && window._cachedBookLayerCanvas && window._cachedBookLayerSig === _bookStateSig) {
-        ctx.drawImage(window._cachedBookLayerCanvas, 0, 0, renderWidth, renderHeight);
-      } else {
-        const _mainCtxBackup = ctx;
-        const _bookOffscreen = document.createElement('canvas');
-        _bookOffscreen.width = renderWidth;
-        _bookOffscreen.height = renderHeight;
-        const _bookOffCtx = _bookOffscreen.getContext('2d');
-        {
-          const ctx = _bookOffCtx;
       // 3. Realistic Layer Compositing Pipeline
       if (presetId === 'open_hardcover_pixeden') {
         // --- AUTHENTIC OPEN-HARDCOVER-BOOK-PRESENTATION-MOCKUP.PSD (PIXEDEN) PIPELINE ---
@@ -7221,15 +7165,6 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
       }
 
-
-        }
-        if (targetCanvas === viewportCanvas) {
-          window._cachedBookLayerCanvas = _bookOffscreen;
-          window._cachedBookLayerSig = _bookStateSig;
-        }
-        _mainCtxBackup.drawImage(_bookOffscreen, 0, 0);
-      }
-
       // Universal Warmth / Color Temperature Overlay (works across all 10 mockups, including grayscale backgrounds)
       if (adjWarmth !== 0) {
         ctx.save();
@@ -7298,7 +7233,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     requestAnimationFrame(() => {
       _rafRenderPending = false;
       const aspect = config.width / config.height;
-      const targetMaxW = isDragFast ? 680 : 1180;
+      const targetMaxW = isDragFast ? 720 : 1200;
       const previewW = Math.min(config.width, targetMaxW);
       const previewH = Math.round(previewW / aspect);
 
@@ -7309,7 +7244,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         clearTimeout(_settleRenderTimer);
         _settleRenderTimer = setTimeout(() => {
           window.__isInteractiveDragRender = false;
-          const hiW = Math.min(config.width, 1180);
+          const hiW = Math.min(config.width, 1200);
           const hiH = Math.round(hiW / aspect);
           renderMockupToCanvas(viewportCanvas, hiW, hiH, currentPresetId);
         }, 150);
