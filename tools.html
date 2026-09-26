@@ -31,23 +31,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 
   <style>
+    /* ==========================================================================
+       LOUFY PUBLISHER — MOCKUP STUDIO SAAS DESIGN SYSTEM (REFERENCES 1, 2 & 3)
+       Theme Palette:
+       - Dark Emerald Primary: #114232 / #0d3528 / #0a291e
+       - Gold Accent:          #e5a922 / #f3be3b / #c88d17
+       - Cream / Studio Stage: #f6f4ef / #fcfbf9
+       - Card Surface:         #ffffff
+       ========================================================================== */
     :root {
-      --primary: #ff5a1f;
-      --primary-hover: #e04810;
-      --primary-light: #fff7ed;
-      --primary-border: #fed7aa;
-      --bg-page: #f8fafc;
+      --primary: #114232;
+      --primary-hover: #0d3528;
+      --primary-light: #eaf3ee;
+      --primary-border: #cde0d7;
+      --gold: #e5a922;
+      --gold-soft: #fdf6e4;
+      --gold-border: #f1dca8;
+      --bg-page: #f6f4ef;
       --bg-surface: #ffffff;
-      --border-color: #e2e8f0;
-      --border-light: #f1f5f9;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --text-light: #94a3b8;
+      --border-color: #e6e3dc;
+      --border-light: #efede7;
+      --text-main: #122920;
+      --text-muted: #5d6c64;
+      --text-light: #89968f;
       --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-      --shadow-studio: 0 20px 40px -15px rgba(15, 23, 42, 0.12);
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --shadow-sm: 0 2px 8px rgba(13, 53, 40, 0.04);
+      --shadow-md: 0 8px 24px rgba(13, 53, 40, 0.07);
+      --shadow-lg: 0 20px 48px rgba(10, 38, 28, 0.15);
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
@@ -63,1256 +74,1985 @@
 
     body {
       font-family: var(--font-main);
-      background-color: #f1f5f9;
+      background: var(--bg-page);
       color: var(--text-main);
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ZERO-SCROLL STUDIO APP LAYOUT — LOUFY PUBLISHER EMERALD & GOLD THEME */
-    :root {
-      --loufy-emerald: #114232;
-      --loufy-emerald-light: #1a5c47;
-      --loufy-emerald-soft: #eef5f2;
-      --loufy-gold: #f5b025;
-      --loufy-gold-soft: #fffbeb;
-      --loufy-danger: #dc2626;
-      --loufy-danger-soft: #fef2f2;
-    }
-    .studio-app-root {
-      display: flex;
-      flex-direction: column;
       height: 100vh;
       width: 100vw;
       overflow: hidden;
-      background: linear-gradient(145deg, #eef3f0 0%, #f5f8f6 50%, #edf2ef 100%);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
     }
 
-    /* TOP HEADER (Loufy Brand Deep Emerald & Warm Gold Bar) */
+    .studio-app-root {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg-page);
+    }
+
+    /* ==========================================================================
+       1. TOP APPLICATION HEADER (REFERENCE 1)
+       ========================================================================== */
     .studio-header {
-      height: 62px;
-      background: linear-gradient(135deg, #0b291e 0%, #114232 55%, #0d3528 100%);
-      border-bottom: 2px solid rgba(245, 176, 37, 0.42);
-      box-shadow: 0 6px 24px rgba(11, 41, 30, 0.22);
+      height: 60px;
+      min-height: 60px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 22px;
-      flex-shrink: 0;
-      z-index: 50;
+      padding: 0 20px;
+      z-index: 100;
+      box-shadow: 0 1px 4px rgba(13, 53, 40, 0.03);
     }
+
     .studio-header-left {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 13px;
     }
+
+    .studio-brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .studio-brand-icon-box {
+      width: 35px;
+      height: 35px;
+      border-radius: 9px;
+      background: linear-gradient(145deg, #114232, #0a291e);
+      color: #f3be3b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      border: 1px solid rgba(243, 190, 59, 0.38);
+      box-shadow: 0 3px 8px rgba(17, 66, 50, 0.2);
+    }
+
+    .studio-header-title {
+      font-family: var(--font-serif);
+      font-size: 18.5px;
+      font-weight: 700;
+      color: #0f2e22;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .studio-by-loufy-badge {
+      font-family: var(--font-main);
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #b58318;
+      background: #fdf5e2;
+      border: 1px solid #f2deaa;
+      padding: 2px 7px;
+      border-radius: 5px;
+    }
+
+    .studio-header-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--border-color);
+    }
+
     .hdr-btn-back {
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      padding: 7px 14px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1.5px solid rgba(245, 176, 37, 0.45);
-      color: #ffffff;
-      font-size: 0.78rem;
-      font-weight: 700;
+      padding: 7px 13px;
+      border-radius: 9px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
       text-decoration: none;
-      transition: all 0.2s ease;
+      background: #faf9f6;
+      border: 1px solid var(--border-color);
+      transition: var(--trans);
     }
-    .hdr-btn-back i {
-      color: #f5b025;
-      transition: transform 0.2s ease, color 0.2s ease;
-    }
+
     .hdr-btn-back:hover {
-      background: #f5b025;
-      border-color: #f5b025;
-      color: #0b291e;
-      transform: translateX(-2px);
-      box-shadow: 0 4px 14px rgba(245, 176, 37, 0.35);
+      color: var(--primary);
+      background: var(--primary-light);
+      border-color: var(--primary-border);
     }
-    .hdr-btn-back:hover i {
-      color: #0b291e;
-      transform: translateX(-2px);
-    }
-    .studio-brand-logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-    .studio-brand-logo img {
-      height: 32px;
-      width: auto;
-    }
-    .studio-header-divider {
-      width: 1px;
-      height: 22px;
-      background: rgba(255, 255, 255, 0.18);
-    }
-    .studio-header-title {
-      font-size: 0.96rem;
-      font-weight: 800;
-      color: #fef08a;
-      letter-spacing: -0.01em;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: rgba(245, 176, 37, 0.15);
-      padding: 5px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(245, 176, 37, 0.45);
-    }
+
     .studio-header-tagline {
-      font-size: 0.8rem;
+      font-size: 12px;
+      color: var(--text-light);
       font-weight: 500;
-      color: rgba(255, 255, 255, 0.78);
       display: none;
-    }
-    @media (min-width: 960px) {
-      .studio-header-tagline { display: inline-block; }
     }
 
     .studio-header-right {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
     }
+
     .hdr-btn-ghost {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 15px;
-      border-radius: 10px;
-      border: 1.5px solid rgba(255, 255, 255, 0.22);
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      font-size: 0.82rem;
-      font-weight: 700;
-      font-family: inherit;
+      gap: 7px;
+      height: 38px;
+      padding: 0 14px;
+      border-radius: 9px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: #263930;
+      font-size: 12.5px;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.18s ease;
+      font-family: inherit;
+      transition: var(--trans);
     }
-    .hdr-btn-ghost i {
-      color: #f5b025 !important;
-    }
+
     .hdr-btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: #f5b025;
-      color: #ffffff;
-      transform: translateY(-1px);
+      background: #f6f5f0;
+      border-color: #d2cdc1;
+      color: var(--primary);
     }
-    #btn-hdr-reset {
-      border-color: rgba(245, 176, 37, 0.55);
-      background: rgba(245, 176, 37, 0.16);
-      color: #fef08a;
-    }
-    #btn-hdr-reset:hover {
-      background: #ef4444;
-      border-color: #f87171;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
-    }
-    #btn-hdr-reset:hover i {
-      color: #ffffff !important;
-    }
+
     .hdr-export-dropdown-wrap {
       position: relative;
     }
+
     .hdr-btn-export-primary {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 20px;
-      border-radius: 11px;
-      border: 1.5px solid #fde047;
-      background: linear-gradient(135deg, #f5b025 0%, #e09910 100%);
-      color: #0b291e;
-      font-size: 0.85rem;
-      font-weight: 800;
-      font-family: inherit;
+      height: 38px;
+      padding: 0 18px;
+      border-radius: 10px;
+      border: 1px solid #0a291e;
+      background: linear-gradient(135deg, #124634 0%, #0b2d21 100%);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 5px 16px rgba(245, 176, 37, 0.36);
-      transition: all 0.18s ease;
+      font-family: inherit;
+      box-shadow: 0 4px 12px rgba(17, 66, 50, 0.22);
+      transition: var(--trans);
     }
-    .hdr-btn-export-primary i:first-child {
-      color: #0b291e;
-    }
+
     .hdr-btn-export-primary:hover {
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      background: linear-gradient(135deg, #165640 0%, #0e3829 100%);
       transform: translateY(-1px);
-      box-shadow: 0 8px 22px rgba(245, 176, 37, 0.48);
+      box-shadow: 0 6px 16px rgba(17, 66, 50, 0.28);
     }
+
     .hdr-export-menu {
       position: absolute;
-      top: calc(100% + 6px);
+      top: calc(100% + 8px);
       right: 0;
-      width: 225px;
+      width: 245px;
       background: #ffffff;
-      border: 1.5px solid rgba(17, 66, 50, 0.2);
+      border: 1px solid var(--border-color);
       border-radius: 14px;
-      box-shadow: 0 14px 34px rgba(11, 41, 30, 0.22);
-      padding: 6px;
+      box-shadow: var(--shadow-lg);
+      padding: 7px;
       display: none;
       flex-direction: column;
-      gap: 4px;
-      z-index: 100;
+      gap: 3px;
+      z-index: 250;
     }
+
+    .hdr-export-menu.open,
+    .hdr-export-menu.show {
+      display: flex;
+    }
+
     .hdr-export-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: 100%;
       padding: 9px 12px;
       border-radius: 9px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #1e293b;
-      background: transparent;
       border: none;
-      width: 100%;
-      text-align: left;
+      background: transparent;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-main);
       cursor: pointer;
       font-family: inherit;
-      transition: all 0.15s ease;
+      text-align: left;
+      transition: background 0.15s ease;
     }
+
     .hdr-export-item:hover {
-      background: #eef5f2;
-      color: #114232;
+      background: var(--primary-light);
+      color: var(--primary);
     }
 
-    /* MAIN APP WORKSPACE: 4 COLUMNS */
+    /* ==========================================================================
+       2. MAIN WORKSPACE BODY (4-COLUMN SAAS GRID)
+       ========================================================================== */
     .studio-workspace-body {
-      display: flex;
       flex: 1;
-      height: calc(100vh - 62px - 34px);
+      display: flex;
+      min-height: 0;
+      width: 100%;
       overflow: hidden;
-      padding: 12px 16px;
-      gap: 12px;
     }
 
-    /* 1. LEFT NAVIGATION RAIL (Loufy Deep Forest Emerald Dock) */
+    /* ── 2.1 LEFT DARK-EMERALD NAVIGATION RAIL (ONLY TEMPLATES & ADJUST) ── */
     .studio-nav-rail {
-      width: 76px;
-      min-width: 76px;
-      background: linear-gradient(180deg, #0b291e 0%, #114232 100%);
-      border: 1.5px solid rgba(245, 176, 37, 0.32);
-      border-radius: 18px;
+      width: 72px;
+      min-width: 72px;
+      background: linear-gradient(180deg, #0e382a 0%, #09251b 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 14px 6px;
+      padding: 16px 8px;
       gap: 10px;
-      flex-shrink: 0;
-      box-shadow: 0 8px 24px rgba(11, 41, 30, 0.16);
+      z-index: 40;
+      border-right: 1px solid rgba(255, 255, 255, 0.07);
     }
+
     .rail-btn {
-      width: 62px;
-      height: 60px;
-      border-radius: 14px;
+      width: 56px;
+      height: 58px;
+      border-radius: 13px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.68);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 5px;
-      border: 1.5px solid transparent;
-      background: rgba(255, 255, 255, 0.06);
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.7rem;
-      font-weight: 700;
-      font-family: inherit;
       cursor: pointer;
-      transition: all 0.18s ease;
-    }
-    .rail-btn i {
-      font-size: 1.15rem;
-      color: #f5b025;
-    }
-    .rail-btn:hover {
-      background: rgba(255, 255, 255, 0.14);
-      border-color: rgba(245, 176, 37, 0.45);
-      color: #ffffff;
-    }
-    .rail-btn.active {
-      background: linear-gradient(135deg, #f5b025 0%, #d97706 100%);
-      border-color: #fef08a;
-      color: #0b291e;
-      font-weight: 800;
-      box-shadow: 0 6px 16px rgba(245, 176, 37, 0.35);
-    }
-    .rail-btn.active i {
-      color: #0b291e;
+      font-family: inherit;
+      transition: var(--trans);
+      position: relative;
     }
 
-    /* 2. LEFT DRAWER PANEL (Templates & Adjust) */
+    .rail-btn i {
+      font-size: 17px;
+    }
+
+    .rail-btn span {
+      font-size: 10.5px;
+      font-weight: 600;
+    }
+
+    .rail-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .rail-btn.active {
+      background: rgba(243, 190, 59, 0.14);
+      border-color: rgba(243, 190, 59, 0.42);
+      color: #f5c445;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    }
+
+    .rail-btn.active::before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 14px;
+      bottom: 14px;
+      width: 3.5px;
+      border-radius: 0 4px 4px 0;
+      background: #f5c445;
+    }
+
+    /* ── 2.2 LEFT DRAWER PANEL (BOOK TEMPLATES & ADJUSTMENTS) ── */
     .studio-drawer-panel {
-      width: 320px;
-      min-width: 320px;
-      background: #ffffff;
-      border: 1px solid rgba(17, 66, 50, 0.12);
-      border-radius: 18px;
+      width: 305px;
+      min-width: 305px;
+      background: #fcfbf9;
+      border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      padding: 16px;
-      gap: 14px;
-      overflow-y: auto;
-      min-height: 0;
-      box-shadow: 0 4px 16px rgba(17, 66, 50, 0.04);
-      scrollbar-width: thin;
-      scrollbar-color: #94a3b8 transparent;
+      height: 100%;
+      overflow: hidden;
+      z-index: 30;
+      transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .studio-drawer-panel::-webkit-scrollbar {
-      width: 5px;
+
+    /* Expand drawer width when Adjustments tab is active (Reference 3) */
+    .studio-drawer-panel.adjust-active {
+      width: 388px;
+      min-width: 388px;
+      background: #f8f6f1;
     }
-    .studio-drawer-panel::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .studio-drawer-panel::-webkit-scrollbar-thumb {
-      background: #94a3b8;
-      border-radius: 4px;
-    }
+
     .drawer-view {
       display: none;
       flex-direction: column;
-      gap: 14px;
       height: 100%;
+      overflow: hidden;
+      padding: 16px 14px;
     }
+
     .drawer-view.active {
       display: flex;
     }
+
     .drawer-header-title {
-      font-size: 1.12rem;
-      font-weight: 800;
-      color: #114232;
-      letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f2e22;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
     }
+
     .drawer-search-box {
+      position: relative;
       display: flex;
       align-items: center;
-      background: #f4f8f6;
-      border: 1.5px solid rgba(17, 66, 50, 0.14);
-      border-radius: 11px;
-      padding: 8px 12px;
-      gap: 8px;
-      transition: all 0.15s ease;
+      margin-bottom: 11px;
     }
-    .drawer-search-box:focus-within {
+
+    .drawer-search-box i {
+      position: absolute;
+      left: 12px;
+      color: var(--text-light);
+      font-size: 12.5px;
+      pointer-events: none;
+    }
+
+    .drawer-search-input {
+      width: 100%;
+      height: 36px;
+      padding: 0 12px 0 34px;
+      border-radius: 9px;
+      border: 1px solid var(--border-color);
       background: #ffffff;
-      border-color: #114232;
+      font-size: 12.5px;
+      color: var(--text-main);
+      font-family: inherit;
+      outline: none;
+      transition: var(--trans);
+    }
+
+    .drawer-search-input:focus {
+      border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(17, 66, 50, 0.08);
     }
-    .drawer-search-box i {
-      color: #114232;
-      font-size: 0.85rem;
-    }
-    .drawer-search-input {
-      border: none;
-      background: transparent;
-      outline: none;
-      font-size: 0.8rem;
-      font-weight: 500;
-      font-family: inherit;
-      color: #0f172a;
-      width: 100%;
-    }
-    
-    /* Category Filter Pills (Loufy Theme) */
+
     .drawer-cat-pills {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       gap: 6px;
-      margin-bottom: 2px;
+      margin-bottom: 12px;
     }
+
     .cat-pill-btn {
-      padding: 5px 12px;
+      padding: 5px 11px;
       border-radius: 999px;
-      border: 1.5px solid rgba(17, 66, 50, 0.15);
-      background: #f8faf9;
-      color: #1e293b;
-      font-size: 0.72rem;
-      font-weight: 700;
-      white-space: nowrap;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 600;
       cursor: pointer;
       font-family: inherit;
-      transition: all 0.16s ease;
-      line-height: 1.3;
+      transition: var(--trans);
     }
+
     .cat-pill-btn:hover {
-      border-color: #114232;
-      color: #114232;
-      background: #eef5f2;
+      border-color: #bfd0c8;
+      color: var(--primary);
     }
+
     .cat-pill-btn.active {
-      background: linear-gradient(135deg, #114232 0%, #1a634b 100%);
-      border-color: #f5b025;
+      background: var(--primary);
+      border-color: var(--primary);
       color: #ffffff;
-      box-shadow: 0 3px 8px rgba(17, 66, 50, 0.25);
+      box-shadow: 0 2px 6px rgba(17, 66, 50, 0.2);
     }
+
+    /* Templates 2-Column Grid (Reference 1) */
     .templates-cards-grid {
+      flex: 1;
+      overflow-y: auto;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: max-content;
-      align-content: start;
-      flex: 1;
-      min-height: 0;
       gap: 10px;
-      overflow-y: auto;
-      padding-right: 4px;
-      padding-bottom: 16px;
+      padding-right: 3px;
+      padding-bottom: 18px;
+      align-content: start;
     }
+
+    .templates-cards-grid::-webkit-scrollbar,
+    .studio-inspector-panel::-webkit-scrollbar,
+    .adjust-cards-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .templates-cards-grid::-webkit-scrollbar-thumb,
+    .studio-inspector-panel::-webkit-scrollbar-thumb,
+    .adjust-cards-scroll::-webkit-scrollbar-thumb {
+      background: #d8d4ca;
+      border-radius: 99px;
+    }
+
     .template-card-btn {
-      background: #ffffff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 8px;
+      position: relative;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 8px;
+      align-items: flex-start;
+      padding: 8px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-light);
       cursor: pointer;
-      position: relative;
-      transition: all 0.18s ease;
+      text-align: left;
       font-family: inherit;
-      flex-shrink: 0;
+      transition: var(--trans);
+      box-shadow: 0 2px 6px rgba(13, 53, 40, 0.03);
     }
+
     .template-card-btn:hover {
-      border-color: #114232;
-      background: #f8fbf9;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(17, 66, 50, 0.09);
+      border-color: #bfd0c8;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(13, 53, 40, 0.07);
     }
+
     .template-card-btn.active {
-      border: 2px solid #114232;
-      background: #eef5f2;
-      box-shadow: 0 6px 16px rgba(17, 66, 50, 0.18);
+      background: #fbf8f1;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary), 0 6px 16px rgba(17, 66, 50, 0.1);
     }
-    .template-card-thumb-wrap {
-      width: 100%;
-      height: 92px;
-      background: #f1f5f9;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border: 1px solid rgba(17, 66, 50, 0.08);
-    }
-    .template-card-thumb-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .template-card-label {
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: #0f172a;
-      text-align: center;
-    }
-    .template-card-btn.active .template-card-label {
-      color: #114232;
-      font-weight: 800;
-    }
+
     .template-card-check {
       position: absolute;
-      top: 6px;
-      right: 6px;
+      top: 12px;
+      right: 12px;
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: #114232;
-      border: 1.5px solid #f5b025;
-      color: #f5b025;
+      background: linear-gradient(135deg, #f5c242, #d89b19);
+      color: #ffffff;
+      font-size: 9.5px;
       display: none;
       align-items: center;
       justify-content: center;
-      font-size: 0.62rem;
-      box-shadow: 0 2px 6px rgba(17, 66, 50, 0.3);
+      box-shadow: 0 2px 6px rgba(216, 155, 25, 0.38);
+      z-index: 2;
     }
+
     .template-card-btn.active .template-card-check {
       display: flex;
     }
 
-    /* Adjustments Drawer View */
-    .adj-control-row {
+    .template-card-thumb-wrap {
+      width: 100%;
+      height: 86px;
+      border-radius: 8px;
+      background: #f3f1ec;
+      overflow: hidden;
+      margin-bottom: 7px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .template-card-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.25s ease;
+    }
+
+    .template-card-btn:hover .template-card-thumb-wrap img {
+      transform: scale(1.04);
+    }
+
+    .template-card-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    /* ==========================================================================
+       3. ADJUSTMENTS PANEL (REFERENCE 3 EXACT CARD DESIGN)
+       ========================================================================== */
+    #drawer-view-adjust {
+      padding: 0;
+      background: #f8f6f1;
+    }
+
+    .adjust-top-header {
+      padding: 18px 16px 14px;
+      background: #f8f6f1;
+      border-bottom: 1px solid #e9e5dc;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .adjust-top-titles h3 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: #0e3528;
+      margin: 0 0 3px 0;
+    }
+
+    .adjust-top-titles p {
+      font-size: 12px;
+      color: #637069;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .adjust-reset-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid #e0dcd2;
+      color: #263830;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+      font-family: inherit;
+      transition: var(--trans);
+    }
+
+    .adjust-reset-pill-btn:hover {
+      background: #f2efe8;
+      border-color: #c9c3b5;
+      color: var(--primary);
+    }
+
+    .adjust-cards-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 15px 24px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      padding: 10px 12px;
-      background: #f8fbf9;
-      border: 1px solid rgba(17, 66, 50, 0.12);
-      border-radius: 12px;
+      gap: 11px;
     }
+
+    .adj-control-row {
+      background: #ffffff;
+      border: 1px solid #ebe7de;
+      border-radius: 15px;
+      padding: 14px 15px;
+      box-shadow: 0 4px 12px rgba(14, 53, 40, 0.035);
+      transition: var(--trans);
+    }
+
+    .adj-control-row:hover {
+      border-color: #dcd6c8;
+      box-shadow: 0 6px 16px rgba(14, 53, 40, 0.06);
+    }
+
     .adj-header-line {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
     }
-    .adj-label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #114232;
+
+    .adj-card-meta {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 11px;
+      min-width: 0;
     }
-    .adj-val-readout {
-      font-size: 0.74rem;
-      font-weight: 800;
+
+    .adj-icon-badge {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .adj-icon-badge.emerald {
+      background: #e8f3ee;
       color: #114232;
-      background: #eef5f2;
-      padding: 1px 7px;
-      border-radius: 6px;
+      border: 1px solid #d2e7dd;
     }
-    .adj-range-input {
+
+    .adj-icon-badge.gold {
+      background: #fdf5e2;
+      color: #c88d17;
+      border: 1px solid #f4e2b6;
+    }
+
+    .adj-label-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .adj-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #132a21;
+      line-height: 1.2;
+    }
+
+    .adj-subdesc {
+      font-size: 11px;
+      color: #6d7b74;
+      margin-top: 2px;
+      line-height: 1.25;
+    }
+
+    .adj-slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    /* Custom Dark-Emerald + Gold-Ring Range Sliders (References 1, 2 & 3) */
+    .adj-range-input,
+    .orange-range-input,
+    .crop-range-slider {
       -webkit-appearance: none;
+      appearance: none;
+      flex: 1;
       width: 100%;
-      height: 6px;
-      background: #d1fae5;
-      border-radius: 4px;
+      height: 7px;
+      border-radius: 999px;
+      background: #e3dfd6;
       outline: none;
       cursor: pointer;
     }
-    .adj-range-input::-webkit-slider-thumb {
+
+    .adj-range-input::-webkit-slider-thumb,
+    .orange-range-input::-webkit-slider-thumb,
+    .crop-range-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 17px;
-      height: 17px;
+      appearance: none;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       background: #114232;
-      border: 2.5px solid #f5b025;
-      box-shadow: 0 2px 6px rgba(17, 66, 50, 0.35);
+      border: 3px solid #f3be3b;
+      box-shadow: 0 2px 6px rgba(13, 53, 40, 0.35);
       cursor: pointer;
-      transition: transform 0.12s ease;
-    }
-    .adj-range-input::-webkit-slider-thumb:hover {
-      transform: scale(1.15);
+      transition: transform 0.15s ease;
     }
 
-    /* 3. CENTER CANVAS VIEWPORT */
+    .adj-range-input::-webkit-slider-thumb:hover,
+    .orange-range-input::-webkit-slider-thumb:hover,
+    .crop-range-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+
+    .adj-val-readout,
+    .slider-readout {
+      min-width: 52px;
+      height: 29px;
+      padding: 0 9px;
+      border-radius: 8px;
+      background: #eaf3ee;
+      border: 1px solid #d4e6dc;
+      color: #0f3d2e;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Toggle Switch */
+    .switch-toggle {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .switch-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #d5d2ca;
+      transition: 0.22s;
+      border-radius: 999px;
+    }
+
+    .switch-slider::before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #ffffff;
+      transition: 0.22s;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .switch-toggle input:checked + .switch-slider {
+      background-color: #114232;
+    }
+
+    .switch-toggle input:checked + .switch-slider::before {
+      transform: translateX(18px);
+    }
+
+    /* ==========================================================================
+       4. CENTER MOCKUP STAGE & TOP FLOATING BAR (REFERENCE 1)
+       ========================================================================== */
     .studio-canvas-viewport {
       flex: 1;
-      min-width: 0;
-      background: radial-gradient(circle at center, #f1f5f3 0%, #e2e8e5 100%);
-      border: 1.5px solid rgba(17, 66, 50, 0.14);
-      border-radius: 20px;
+      position: relative;
+      background: radial-gradient(circle at 50% 42%, #faf8f4 0%, #efece4 68%, #e5e0d5 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      position: relative;
       overflow: hidden;
-      box-shadow: inset 0 2px 12px rgba(17, 66, 50, 0.05);
-    }
-    #psd-canvas-container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-    }
-    #psd-canvas {
-      max-width: 94%;
-      max-height: 94%;
-      object-fit: contain;
-      filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22));
-      transition: transform 0.15s ease, filter 0.15s ease;
-      transform-origin: center center;
-      image-rendering: -webkit-optimize-contrast;
+      min-width: 0;
+      padding: 64px 28px 24px;
     }
 
-    /* Floating Canvas Toolbar (Loufy Deep Emerald & Gold Pill Dock) */
-    .floating-canvas-bar {
-      position: absolute;
-      bottom: 20px;
-      background: linear-gradient(135deg, rgba(11, 41, 30, 0.95) 0%, rgba(17, 66, 50, 0.95) 100%);
-      backdrop-filter: blur(16px);
-      border: 1.5px solid rgba(245, 176, 37, 0.48);
-      border-radius: 9999px;
-      padding: 8px 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 12px 32px rgba(11, 41, 30, 0.35);
-      z-index: 20;
-    }
-    .float-ctrl-btn {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(245, 176, 37, 0.45);
+    #psd-canvas-container {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #f5b025;
-      cursor: pointer;
-      font-size: 0.82rem;
-      transition: all 0.15s ease;
+      max-width: 100%;
+      max-height: 100%;
+      transition: transform 0.15s ease-out;
     }
-    .float-ctrl-btn:hover {
-      background: #f5b025;
-      color: #0b291e;
-      transform: scale(1.1);
+
+    #psd-canvas {
+      max-width: 100%;
+      max-height: calc(100vh - 150px);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 22px 55px rgba(13, 40, 30, 0.12);
     }
-    .float-zoom-readout {
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: #fef08a;
-      min-width: 44px;
-      text-align: center;
+
+    /* Top Floating Control Bar (Reference 1) */
+    .floating-canvas-bar {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: none;
+      z-index: 25;
     }
-    .float-bar-divider {
-      width: 1px;
-      height: 18px;
-      background: rgba(255, 255, 255, 0.22);
-    }
-    .float-tool-link {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(245, 176, 37, 0.38);
-      border-radius: 999px;
-      padding: 5px 12px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #ffffff;
+
+    .floating-bar-cluster {
       display: flex;
       align-items: center;
       gap: 5px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      padding: 5px 8px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      pointer-events: auto;
+    }
+
+    .float-ctrl-btn,
+    .float-tool-link {
+      height: 31px;
+      padding: 0 9px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: #263930;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
       cursor: pointer;
       font-family: inherit;
       transition: all 0.15s ease;
     }
-    .float-tool-link i {
-      color: #f5b025;
-    }
+
+    .float-ctrl-btn:hover,
     .float-tool-link:hover {
-      background: #f5b025;
-      border-color: #fef08a;
-      color: #0b291e;
-      transform: translateY(-1px);
-    }
-    .float-tool-link:hover i {
-      color: #0b291e;
+      background: var(--primary-light);
+      color: var(--primary);
     }
 
-    /* 4. RIGHT INSPECTOR PANEL (HOSTS ARTWORK, BACKGROUNDS, SHADOWS, ANGLES) */
+    .float-zoom-readout {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--primary);
+      min-width: 44px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .float-bar-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border-color);
+      margin: 0 2px;
+    }
+
+    /* ==========================================================================
+       5. RIGHT INSPECTOR SIDEBAR (REFERENCE 1 EXACT HIERARCHY)
+       ========================================================================== */
     .studio-inspector-panel {
-      width: 336px;
-      min-width: 336px;
-      max-width: 336px;
-      background: #ffffff;
-      border: 1.5px solid rgba(17, 66, 50, 0.14);
-      border-radius: 18px;
+      width: 368px;
+      min-width: 368px;
+      background: #fcfbf9;
+      border-left: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      padding: 16px;
-      gap: 16px;
+      gap: 12px;
+      height: 100%;
       overflow-y: auto;
-      overflow-x: hidden;
-      min-height: 0;
-      box-shadow: 0 6px 20px rgba(17, 66, 50, 0.06);
-      scrollbar-width: thin;
-      scrollbar-color: #114232 transparent;
+      padding: 14px 14px 28px;
+      z-index: 30;
     }
-    .studio-inspector-panel::-webkit-scrollbar {
-      width: 5px;
-    }
-    .studio-inspector-panel::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .studio-inspector-panel::-webkit-scrollbar-thumb {
-      background: #114232;
-      border-radius: 4px;
-    }
+
     .inspector-section {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 13px 14px;
+      box-shadow: var(--shadow-sm);
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-    .inspector-heading {
-      font-size: 0.96rem;
-      font-weight: 800;
-      color: #0b291e;
-      letter-spacing: -0.01em;
-    }
+
     .inspector-row-between {
       display: flex;
       align-items: center;
       justify-content: space-between;
-    }
-
-    /* Multi-Slot Artwork Cards in Inspector — Distinct, Clear Functional Buttons */
-    .slot-item-card {
-      background: linear-gradient(180deg, #f8fbf9 0%, #f1f7f4 100%);
-      border: 1.5px solid rgba(17, 66, 50, 0.16);
-      border-radius: 14px;
-      padding: 11px;
-      display: flex;
-      flex-direction: column;
       gap: 8px;
-      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.04);
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-    .slot-item-card:hover {
-      border-color: #114232;
-      box-shadow: 0 5px 14px rgba(17, 66, 50, 0.09);
-    }
-    .slot-item-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .slot-item-title {
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: #0b291e;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .slot-item-badge {
-      font-size: 0.64rem;
-      font-weight: 700;
-      padding: 2px 9px;
-      border-radius: 999px;
-      background: #114232;
-      border: 1px solid #f5b025;
-      color: #fef08a;
-    }
-    .slot-item-body {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .slot-thumb-preview {
-      width: 46px;
-      height: 58px;
-      border-radius: 8px;
-      object-fit: cover;
-      background: #ffffff;
-      border: 1.5px solid rgba(17, 66, 50, 0.22);
-      flex-shrink: 0;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    }
-    .slot-item-info {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .slot-item-specs {
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #334155;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .slot-btn-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 3px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    /* Primary UPLOAD Button (Rich Emerald Green + Gold Icon) */
-    .slot-action-btn {
-      flex: 1;
-      min-width: 0;
-      height: 32px;
-      background: linear-gradient(135deg, #114232 0%, #1d6b50 100%);
-      border: 1.5px solid #0b291e;
-      border-radius: 9px;
-      padding: 0 9px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: #ffffff;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      font-family: inherit;
-      box-shadow: 0 3px 8px rgba(17, 66, 50, 0.22);
-      transition: all 0.16s ease;
-      white-space: nowrap;
-    }
-    .slot-action-btn i {
-      color: #f5b025;
-      font-size: 0.74rem;
-    }
-    .slot-action-btn:hover {
-      background: linear-gradient(135deg, #0b291e 0%, #14523d 100%);
-      border-color: #f5b025;
-      transform: translateY(-1px);
-      box-shadow: 0 5px 12px rgba(17, 66, 50, 0.32);
-    }
-    /* Secondary CROP Button (Warm Gold / Amber) */
-    #btn-crop-slot-front, #btn-crop-slot-back, #btn-crop-slot-spine {
-      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-      border: 1.5px solid #d97706;
-      color: #78350f;
-      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.18);
-    }
-    #btn-crop-slot-front i, #btn-crop-slot-back i, #btn-crop-slot-spine i {
-      color: #b45309;
-    }
-    #btn-crop-slot-front:hover, #btn-crop-slot-back:hover, #btn-crop-slot-spine:hover {
-      background: linear-gradient(135deg, #f5b025 0%, #eab308 100%);
-      border-color: #92400e;
-      color: #0b291e;
-      box-shadow: 0 4px 12px rgba(245, 176, 37, 0.36);
-    }
-    #btn-crop-slot-front:hover i, #btn-crop-slot-back:hover i, #btn-crop-slot-spine:hover i {
-      color: #0b291e;
-    }
-    /* Professional Icon-Only DELETE Button (Crimson Rose Square Pill) */
-    .slot-clear-btn {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
-      flex-shrink: 0;
-      background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
-      border: 1.5px solid #f43f5e;
-      border-radius: 9px;
-      padding: 0;
-      font-size: 0.8rem;
-      color: #e11d48;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.18s ease;
-      box-shadow: 0 2px 6px rgba(225, 29, 72, 0.15);
-    }
-    .slot-clear-btn:hover {
-      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
-      border-color: #9f1239;
-      color: #ffffff;
-      transform: translateY(-1px) scale(1.04);
-      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.34);
     }
 
-    /* Cover Full Wrap / Auto 2-Page PDF Dropzone (Loufy Deep Emerald & Gold Hero Box) */
+    .inspector-heading {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #102d22;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0;
+    }
+
+    .inspector-heading i {
+      color: var(--primary);
+    }
+
+    .badge-new-pill {
+      background: #114232;
+      color: #f5c445;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 5px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── 5.1 TOP HERO CARD: FULL WRAP UPLOAD (REFERENCE 1) ── */
     .cover-dropzone-box {
-      border: 2px dashed #f5b025;
-      background: linear-gradient(135deg, #0b291e 0%, #114232 100%);
-      border-radius: 14px;
+      border: 1.5px dashed #bfd1c8;
+      background: #f6faf7;
+      border-radius: 12px;
       padding: 13px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 5px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.18s ease;
-      box-shadow: 0 6px 16px rgba(11, 41, 30, 0.22);
-    }
-    .cover-dropzone-box:hover, .cover-dropzone-box.dragover {
-      background: linear-gradient(135deg, #114232 0%, #1a5c47 100%);
-      border-color: #fde047;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 22px rgba(11, 41, 30, 0.32);
-    }
-    .upload-box-title {
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: #fef08a;
-    }
-    .upload-box-sub {
-      font-size: 0.68rem;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.85);
+      transition: var(--trans);
     }
 
-    /* 8 Background Presets Grid in Inspector */
+    .cover-dropzone-box:hover {
+      border-color: var(--primary);
+      background: #eef6f1;
+    }
+
+    .fullwrap-hero-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    .fullwrap-icon-box {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #fdf4dc, #f5e2b3);
+      border: 1px solid #ebd08c;
+      color: #114232;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+    }
+
+    .upload-box-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #102d22;
+      line-height: 1.3;
+      display: block;
+    }
+
+    .upload-box-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.25;
+      display: block;
+    }
+
+    .fullwrap-emerald-btn {
+      width: 100%;
+      height: 36px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #124634 0%, #0b2d21 100%);
+      color: #ffffff;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.2);
+      margin-bottom: 5px;
+    }
+
+    .fullwrap-rec-caption {
+      font-size: 10.5px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    /* ── 5.2 ARTWORK & COVERS ROWS (FRONT & BACK COVER - REFERENCE 1) ── */
+    .slot-item-card {
+      background: #faf9f5;
+      border: 1px solid var(--border-light);
+      border-radius: 11px;
+      padding: 9px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: var(--trans);
+    }
+
+    .slot-item-card:hover {
+      border-color: #d4cfc3;
+    }
+
+    .slot-item-header {
+      display: none;
+    }
+
+    .slot-item-body {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 9px;
+    }
+
+    .slot-thumb-preview {
+      width: 36px;
+      height: 48px;
+      min-width: 36px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid #dad5c9;
+      background: #eae7df;
+    }
+
+    .slot-item-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .slot-title-meta-col {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .slot-item-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #132a21;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .slot-item-badge {
+      display: none;
+    }
+
+    .slot-item-specs {
+      font-size: 10.5px;
+      color: var(--text-light);
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+
+    .slot-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .slot-action-btn {
+      height: 29px;
+      padding: 0 10px;
+      border-radius: 7px;
+      border: 1px solid #dedad0;
+      background: #ffffff;
+      color: #253830;
+      font-size: 11.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--trans);
+    }
+
+    .slot-action-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary-border);
+      color: var(--primary);
+    }
+
+    .slot-clear-btn {
+      width: 29px;
+      height: 29px;
+      border-radius: 7px;
+      border: 1px solid #f5d0d0;
+      background: #fff5f5;
+      color: #d94646;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: var(--trans);
+    }
+
+    .slot-clear-btn:hover {
+      background: #fee2e2;
+      border-color: #f8b4b4;
+      color: #b91c1c;
+    }
+
+    /* ── 5.3 BOOK SPINE SEGMENTED TOGGLE (AUTO / CUSTOM - REFERENCE 1) ── */
+    .spine-seg-wrap {
+      display: inline-flex;
+      background: #f1efe9;
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid #e2dfd7;
+    }
+
+    .spine-seg-pill {
+      padding: 4px 11px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--trans);
+    }
+
+    .spine-seg-pill.active {
+      background: #114232;
+      color: #ffffff;
+      box-shadow: 0 1px 4px rgba(17, 66, 50, 0.25);
+    }
+
+    /* ── 5.4 BACKGROUND PRESETS (REFERENCE 1) ── */
     .bg-presets-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
     }
+
     .bg-preset-card {
-      background: #f8fbf9;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 4px;
+      border: 1.5px solid var(--border-light);
+      background: #faf9f6;
+      border-radius: 9px;
+      padding: 5px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 4px;
       cursor: pointer;
-      font-family: inherit;
-      transition: all 0.15s ease;
+      transition: var(--trans);
     }
+
     .bg-preset-card:hover {
-      border-color: #114232;
+      border-color: #bfd0c8;
       background: #ffffff;
-      transform: translateY(-1px);
     }
+
     .bg-preset-card.active {
-      border: 2px solid #114232;
-      background: #eef5f2;
-      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.2);
+      border-color: var(--primary);
+      background: var(--primary-light);
     }
+
     .bg-preset-thumb {
       width: 100%;
-      height: 38px;
+      height: 32px;
       border-radius: 6px;
-      overflow: hidden;
-      border: 1px solid rgba(0,0,0,0.06);
-      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.08);
     }
-    .bg-preset-label {
-      font-size: 0.62rem;
-      font-weight: 700;
-      color: #1e293b;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-    }
+
     .thumb-transparent {
-      background-image: linear-gradient(45deg, #cbd5e1 25%, transparent 25%), linear-gradient(-45deg, #cbd5e1 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #cbd5e1 75%), linear-gradient(-45deg, transparent 75%, #cbd5e1 75%);
+      background-image: linear-gradient(45deg, #dcdcdc 25%, transparent 25%),
+                        linear-gradient(-45deg, #dcdcdc 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #dcdcdc 75%),
+                        linear-gradient(-45deg, transparent 75%, #dcdcdc 75%);
       background-size: 10px 10px;
-      background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
-      background-color: #f1f5f9;
-    }
-    .thumb-studio {
-      background: radial-gradient(circle, #ffffff 0%, #e2e8f0 100%);
-    }
-    .thumb-white {
-      background: #ffffff;
-    }
-    .thumb-light {
-      background: linear-gradient(to bottom, #ffffff, #e2e8f0);
-    }
-    .thumb-dark {
-      background: #1e293b;
-    }
-    .thumb-wood {
-      background: #9a6b47 url('/images/psd_mockups/backgrounds/wood_desk.jpg') center/cover no-repeat;
-    }
-    .thumb-concrete {
-      background: #94a3b8 url('/images/psd_mockups/backgrounds/concrete_stone.jpg') center/cover no-repeat;
-    }
-    .thumb-warm {
-      background: radial-gradient(circle, #fff5eb 0%, #fed7aa 100%);
+      background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+      background-color: #ffffff;
     }
 
-    /* Switch Toggle & Range Inputs (Loufy Emerald & Gold) */
-    .switch-toggle {
-      position: relative;
-      display: inline-block;
-      width: 38px;
-      height: 21px;
-    }
-    .switch-toggle input { opacity: 0; width: 0; height: 0; }
-    .switch-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #cbd5e1;
-      transition: .2s;
-      border-radius: 9999px;
-    }
-    .switch-slider:before {
-      position: absolute;
-      content: "";
-      height: 15px;
-      width: 15px;
-      left: 3px;
-      bottom: 3px;
-      background-color: #f5b025;
-      transition: .2s;
-      border-radius: 50%;
-    }
-    input:checked + .switch-slider {
-      background-color: #114232;
-    }
-    input:checked + .switch-slider:before {
-      transform: translateX(17px);
-      background-color: #f5b025;
+    .thumb-studio { background: linear-gradient(135deg, #faf8f4, #e5e1d7); }
+    .thumb-white { background: #ffffff; }
+    .thumb-light { background: linear-gradient(135deg, #f1f5f9, #cbd5e1); }
+    .thumb-dark { background: linear-gradient(135deg, #334155, #0f172a); }
+    .thumb-wood { background: linear-gradient(135deg, #e7d6c4, #c5ab8e); }
+    .thumb-concrete { background: linear-gradient(135deg, #d6d3d1, #a8a29e); }
+    .thumb-warm { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+
+    .bg-preset-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-main);
     }
 
+    /* Shadows & Book Angle */
     .shadow-slider-row {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .orange-range-input {
-      -webkit-appearance: none;
-      flex: 1;
-      height: 6px;
-      background: #d1fae5;
-      border-radius: 4px;
-      outline: none;
-    }
-    .orange-range-input::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 17px;
-      height: 17px;
-      border-radius: 50%;
-      background: #114232;
-      cursor: pointer;
-      border: 2.5px solid #f5b025;
-      box-shadow: 0 2px 6px rgba(17, 66, 50, 0.35);
-    }
-    .slider-readout {
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: #114232;
-      min-width: 36px;
-      text-align: right;
-    }
 
-    /* Book Angles Grid */
     .book-angles-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
     }
+
     .angle-card-btn {
-      background: #f8fbf9;
-      border: 1.5px solid rgba(17, 66, 50, 0.15);
-      border-radius: 10px;
+      height: 54px;
+      border-radius: 9px;
+      border: 1.5px solid var(--border-light);
+      background: #faf9f6;
       padding: 4px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .angle-card-btn img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    .angle-card-btn:hover {
-      border-color: #114232;
-      background: #eef5f2;
-    }
-    .angle-card-btn.active {
-      border: 2px solid #114232;
-      background: #eef5f2;
-      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.22);
+      overflow: hidden;
+      transition: var(--trans);
     }
 
-    /* Primary Download Mockup CTA (Loufy Deep Emerald & Warm Gold) */
+    .angle-card-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .angle-card-btn.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+
     .primary-download-btn {
       width: 100%;
-      padding: 13px;
-      border-radius: 12px;
-      border: 1.5px solid #f5b025;
-      background: linear-gradient(135deg, #0b291e 0%, #114232 55%, #1a634b 100%);
+      height: 42px;
+      border-radius: 11px;
+      border: 1px solid #0a291e;
+      background: linear-gradient(135deg, #124634 0%, #0b2d21 100%);
       color: #ffffff;
-      font-size: 0.9rem;
-      font-weight: 800;
-      font-family: inherit;
-      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 6px 18px rgba(11, 41, 30, 0.32);
-      transition: all 0.18s ease;
-      margin-top: auto;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 14px rgba(17, 66, 50, 0.24);
+      transition: var(--trans);
     }
-    .primary-download-btn i {
-      color: #f5b025;
-    }
+
     .primary-download-btn:hover {
-      background: linear-gradient(135deg, #f5b025 0%, #eab308 100%);
-      color: #0b291e;
-      border-color: #0b291e;
+      background: linear-gradient(135deg, #165640 0%, #0e3829 100%);
       transform: translateY(-1px);
-      box-shadow: 0 8px 22px rgba(245, 176, 37, 0.42);
-    }
-    .primary-download-btn:hover i {
-      color: #0b291e;
     }
 
-    /* FOOTER (Loufy Brand Bar) */
     .studio-footer {
-      height: 34px;
-      background: #0b291e;
-      border-top: 1px solid rgba(245, 176, 37, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.8);
-      flex-shrink: 0;
+      display: none;
     }
 
-    /* HELP MODAL */
+    /* Help Modal */
     .studio-modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(11, 41, 30, 0.65);
-      backdrop-filter: blur(5px);
+      background: rgba(9, 28, 21, 0.6);
+      backdrop-filter: blur(4px);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 200;
+      z-index: 9000;
     }
+
     .studio-modal-card {
+      width: 460px;
+      max-width: 92vw;
       background: #ffffff;
-      border: 2px solid #f5b025;
-      border-radius: 20px;
-      width: 480px;
-      max-width: 90vw;
-      padding: 24px;
-      box-shadow: 0 20px 50px rgba(11, 41, 30, 0.35);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: var(--shadow-lg);
     }
+
     .modal-header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 14px;
     }
+
     .modal-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #0b291e;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      color: var(--text-main);
     }
+
     .modal-close-btn {
-      background: transparent;
       border: none;
-      font-size: 1.2rem;
-      color: #94a3b8;
+      background: transparent;
+      font-size: 22px;
       cursor: pointer;
+      color: var(--text-muted);
     }
-    .modal-close-btn:hover { color: #0b291e; }
-  
-/* Crop Modal Styles (Loufy Emerald & Gold) */
-.crop-modal-backdrop {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(11, 41, 30, 0.92); z-index: 99999;
-  display: flex; align-items: center; justify-content: center;
-}
-.crop-modal-dialog {
-  background: #fff; width: 95%; max-width: 1200px; border-radius: 14px;
-  border: 1.5px solid rgba(245, 176, 37, 0.45);
-  overflow: hidden; display: flex; flex-direction: column;
-}
-.crop-modal-header {
-  padding: 16px 24px; border-bottom: 1px solid rgba(17, 66, 50, 0.16);
-  background: linear-gradient(135deg, #0b291e 0%, #114232 100%);
-  display: flex; justify-content: space-between; align-items: center;
-}
-.crop-header-left { display: flex; align-items: center; gap: 16px; }
-.crop-header-brand-wrap { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(245,176,37,0.4); }
-.crop-header-logo-img { height: 24px; }
-.crop-modal-title { font-size: 1.2rem; font-weight: 800; margin: 0; color: #ffffff; }
-.crop-modal-subtitle { font-size: 0.82rem; color: rgba(255,255,255,0.78); margin: 0; }
-.crop-header-right { display: flex; align-items: center; gap: 16px; }
-.crop-target-badge { font-size: 0.82rem; font-weight: 700; color: #fef08a; background: rgba(245, 176, 37, 0.16); border: 1px solid rgba(245, 176, 37, 0.45); padding: 4px 12px; border-radius: 20px; }
-.crop-modal-close-btn { background: none; border: none; font-size: 1.5rem; color: #fef08a; cursor: pointer; }
-.crop-modal-close-btn:hover { color: #ef4444; }
-.crop-modal-body-grid {
-  display: grid; grid-template-columns: 240px 1fr 240px;
-  height: 65vh; min-height: 500px; max-height: 700px;
-}
-.crop-col-presets, .crop-col-controls {
-  background: #f8fbf9; padding: 16px; overflow-y: auto; border-right: 1px solid #e2e8f0;
-}
-.crop-col-controls { border-right: none; border-left: 1px solid #e2e8f0; }
-.crop-section-heading { font-weight: 800; color: #0b291e; margin-bottom: 12px; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.5px; }
-.crop-presets-scroll-list { display: flex; flex-direction: column; gap: 8px; }
-.crop-preset-card {
-  display: flex; align-items: center; gap: 12px;
-  background: #fff; border: 1.5px solid #e2e8f0; border-radius: 10px;
-  padding: 10px; cursor: pointer; text-align: left; width: 100%; transition: 0.2s;
-}
-.crop-preset-card.active { border-color: #114232; background: #eef5f2; box-shadow: 0 0 0 1.5px #114232; }
-.crop-preset-card:hover { border-color: #114232; }
-.preset-card-icon-wrap { font-size: 1.25rem; color: #64748b; width: 24px; text-align: center; }
-.crop-preset-card.active .preset-card-icon-wrap { color: #114232; }
-.preset-card-title { display: block; font-weight: 700; font-size: 0.9rem; color: #0b291e; }
-.preset-card-desc { display: block; font-size: 0.75rem; color: #64748b; }
-.crop-orig-image-card { margin-top: 16px; background: #fff; border: 1.5px solid rgba(17,66,50,0.16); border-radius: 10px; padding: 12px; text-align: center; }
-.crop-orig-thumb { max-width: 100%; max-height: 120px; object-fit: contain; margin-bottom: 8px; }
-.crop-orig-meta { display: flex; flex-direction: column; gap: 4px; }
-.crop-orig-title { font-weight: 700; font-size: 0.8rem; color: #0b291e; }
-.crop-orig-dims { font-size: 0.75rem; color: #64748b; }
-.crop-replace-btn { background: #114232; color: #fff; border: 1px solid #f5b025; border-radius: 6px; padding: 6px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; margin-top: 8px; width: 100%; }
-.crop-col-viewport {
-  position: relative; background: #e2e8f0;
-  display: flex; align-items: center; justify-content: center; overflow: hidden;
-}
-.crop-viewport-badge {
-  position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
-  background: rgba(11,41,30,0.88); color: #fef08a; border: 1px solid #f5b025; padding: 4px 12px; border-radius: 20px;
-  font-size: 0.85rem; font-weight: 700; z-index: 10;
-}
-.crop-canvas-wrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-#crop-target-image { max-width: 100%; max-height: 100%; }
-.crop-ctrl-item { margin-bottom: 16px; }
-.crop-ctrl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; font-weight: 700; color: #0b291e; }
-.crop-range-slider { width: 100%; accent-color: #114232; }
-.crop-ctrl-2col-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-.crop-action-pill-btn { background: #fff; border: 1.5px solid rgba(17,66,50,0.2); border-radius: 6px; padding: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: #114232; }
-.crop-action-pill-btn:hover { border-color: #114232; background: #eef5f2; }
-.crop-dpad-container { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.crop-dpad-mid-row { display: flex; gap: 4px; }
-.crop-dpad-btn { width: 32px; height: 32px; border: 1.5px solid rgba(17,66,50,0.2); background: #fff; border-radius: 6px; cursor: pointer; color: #114232; }
-.crop-dpad-btn:hover { border-color: #114232; background: #eef5f2; }
-.crop-full-reset-btn { width: 100%; background: #fef2f2; border: 1.5px solid #fecaca; color: #dc2626; border-radius: 6px; padding: 8px; cursor: pointer; font-weight: 700; margin-top: 16px; }
-.crop-modal-bottombar {
-  padding: 16px 24px; border-top: 1px solid #e2e8f0;
-  display: flex; justify-content: flex-end; gap: 12px; background: #f8fbf9;
-}
-.crop-btn-cancel-light { background: #fff; border: 1.5px solid #cbd5e1; padding: 8px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-.crop-btn-apply-primary { background: linear-gradient(135deg, #114232 0%, #1d6b50 100%); border: 1.5px solid #f5b025; color: #fff; padding: 9px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(17,66,50,0.28); display: flex; align-items: center; gap: 8px; }
-.crop-btn-apply-primary:hover { background: linear-gradient(135deg, #0b291e 0%, #114232 100%); }
 
+    /* ==========================================================================
+       6. CROP ARTWORK MODAL (REFERENCE 2 EXACT DESIGN)
+       ========================================================================== */
+    .crop-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 28, 21, 0.68);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+    }
 
+    .crop-modal-dialog {
+      width: min(1220px, 96vw);
+      height: min(800px, 92vh);
+      background: #fcfbf9;
+      border-radius: 20px;
+      border: 1px solid #e2ded4;
+      box-shadow: 0 28px 70px rgba(5, 22, 16, 0.38);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .crop-modal-header {
+      height: 68px;
+      min-height: 68px;
+      padding: 0 22px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .crop-header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .crop-header-brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding-right: 16px;
+      border-right: 1px solid var(--border-color);
+    }
+
+    .crop-brand-icon-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: #114232;
+      color: #f3be3b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .crop-brand-wordmark {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .crop-brand-wordmark strong {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 800;
+      color: #114232;
+      letter-spacing: -0.02em;
+    }
+
+    .crop-brand-wordmark span {
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      color: #b58318;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .crop-modal-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: #102d22;
+      margin: 0 0 2px 0;
+    }
+
+    .crop-modal-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .crop-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .crop-target-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 10px;
+      background: #fdf6e4;
+      border: 1px solid #f1dca8;
+      color: #7b5609;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    .crop-target-badge i {
+      color: #c9931b !important;
+    }
+
+    .crop-modal-close-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-muted);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--trans);
+    }
+
+    .crop-modal-close-btn:hover {
+      background: #f5f3ee;
+      color: #102d22;
+    }
+
+    /* 3-Column Modal Body */
+    .crop-modal-body-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 245px 1fr 275px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* Left Column: Crop Presets */
+    .crop-col-presets {
+      background: #faf8f4;
+      border-right: 1px solid var(--border-color);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+    }
+
+    .crop-section-heading {
+      font-family: var(--font-serif);
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #102d22;
+      margin-bottom: 4px;
+    }
+
+    .crop-presets-scroll-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .crop-preset-card {
+      width: 100%;
+      padding: 10px 11px;
+      border-radius: 12px;
+      border: 1.5px solid #e6e2d8;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: var(--trans);
+      position: relative;
+    }
+
+    .crop-preset-card:hover {
+      border-color: #c5d2cb;
+    }
+
+    .crop-preset-card.active {
+      background: #f3f9f6;
+      border-color: #114232;
+      box-shadow: 0 3px 10px rgba(17, 66, 50, 0.08);
+    }
+
+    .crop-preset-card::after {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #ccc8be;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: transparent;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .crop-preset-card.active::after {
+      background: #114232;
+      border-color: #114232;
+      color: #ffffff;
+    }
+
+    .preset-card-icon-wrap {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 8px;
+      background: #f2f0ea;
+      color: #114232;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .crop-preset-card.active .preset-card-icon-wrap {
+      background: #114232;
+      color: #f3be3b;
+    }
+
+    .preset-card-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .preset-card-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #132a21;
+    }
+
+    .preset-card-desc {
+      font-size: 10.5px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .crop-orig-image-card {
+      margin-top: auto;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 11px;
+      padding: 9px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .crop-orig-thumb {
+      width: 38px;
+      height: 48px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid #dfdace;
+    }
+
+    .crop-orig-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .crop-orig-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .crop-orig-dims {
+      font-size: 10px;
+      color: var(--text-light);
+    }
+
+    .crop-replace-btn {
+      margin-top: 3px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid #d5d0c5;
+      background: #faf9f5;
+      color: #114232;
+      font-size: 10.5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* Center Column: Floating Toolbar + Checkerboard Crop Canvas */
+    .crop-col-viewport {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: #efede7;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .crop-top-mini-toolbar {
+      height: 46px;
+      min-height: 46px;
+      background: #f8f6f1;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 12px;
+      z-index: 12;
+    }
+
+    .crop-mini-tool-btn {
+      height: 30px;
+      padding: 0 10px;
+      border-radius: 7px;
+      border: 1px solid #dedad0;
+      background: #ffffff;
+      color: #263830;
+      font-size: 11.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--trans);
+    }
+
+    .crop-mini-tool-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary-border);
+      color: var(--primary);
+    }
+
+    .crop-canvas-wrapper {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-image: linear-gradient(45deg, #e4e2dc 25%, transparent 25%),
+                        linear-gradient(-45deg, #e4e2dc 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #e4e2dc 75%),
+                        linear-gradient(-45deg, transparent 75%, #e4e2dc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+      background-color: #f3f1ec;
+    }
+
+    #crop-target-image {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .crop-viewport-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #114232;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 15px;
+      border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(13, 53, 40, 0.35);
+      border: 1px solid rgba(243, 190, 59, 0.48);
+      z-index: 15;
+      pointer-events: none;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Right Column: Image Controls */
+    .crop-col-controls {
+      background: #faf8f4;
+      border-left: 1px solid var(--border-color);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+    }
+
+    .crop-ctrl-item {
+      background: #ffffff;
+      border: 1px solid #e8e4da;
+      border-radius: 12px;
+      padding: 11px 12px;
+    }
+
+    .crop-ctrl-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .crop-ctrl-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #132a21;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .crop-ctrl-label i {
+      color: var(--primary);
+    }
+
+    .crop-ctrl-readout {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #114232;
+      background: #eaf3ee;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .crop-ctrl-2col-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .crop-action-pill-btn {
+      width: 100%;
+      height: 33px;
+      border-radius: 8px;
+      border: 1px solid #dfdbd0;
+      background: #faf9f6;
+      color: #253830;
+      font-size: 11.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--trans);
+    }
+
+    .crop-action-pill-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary-border);
+      color: var(--primary);
+    }
+
+    .crop-dpad-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 0;
+    }
+
+    .crop-dpad-mid-row {
+      display: flex;
+      gap: 5px;
+    }
+
+    .crop-dpad-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      border: 1px solid #dfdbd0;
+      background: #faf9f6;
+      color: #114232;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--trans);
+    }
+
+    .crop-dpad-btn:hover {
+      background: #114232;
+      color: #ffffff;
+      border-color: #114232;
+    }
+
+    .crop-full-reset-btn {
+      width: 100%;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid #dedad0;
+      background: #ffffff;
+      color: #253830;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      cursor: pointer;
+      margin-top: auto;
+      font-family: inherit;
+      transition: var(--trans);
+    }
+
+    .crop-full-reset-btn:hover {
+      background: #f3f1eb;
+    }
+
+    /* Modal Footer Bar (Reference 2) */
+    .crop-modal-bottombar {
+      height: 64px;
+      min-height: 64px;
+      padding: 0 22px;
+      background: #ffffff;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .crop-protip-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: #fdf6e4;
+      border: 1px solid #f2deaa;
+      color: #6e4e0c;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .crop-protip-pill i {
+      color: #d49a1a;
+      font-size: 14px;
+    }
+
+    .crop-footer-btns-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .crop-btn-cancel-light {
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: #2c3e36;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .crop-btn-apply-primary {
+      height: 40px;
+      padding: 0 22px;
+      border-radius: 10px;
+      border: 1px solid #0a291e;
+      background: linear-gradient(135deg, #124634 0%, #0b2d21 100%);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(17, 66, 50, 0.25);
+      font-family: inherit;
+    }
+
+    /* Cropper.js Emerald & Gold Frame Overrides */
+    .cropper-view-box {
+      outline: 2px solid #114232 !important;
+      outline-color: #114232 !important;
+    }
+    .cropper-line {
+      background-color: #114232 !important;
+    }
+    .cropper-point {
+      background-color: #f3be3b !important;
+      border: 2px solid #114232 !important;
+      width: 10px !important;
+      height: 10px !important;
+      opacity: 1 !important;
+      border-radius: 50% !important;
+    }
   </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
 
 <div class="studio-app-root">
 
-  <!-- TOP APP HEADER -->
+  <!-- ── 1. TOP APPLICATION HEADER (REFERENCE 1) ── -->
   <header class="studio-header">
     <div class="studio-header-left">
+      <a href="/" class="studio-brand-logo" title="Loufy Publisher Mockup Studio">
+        <div class="studio-brand-icon-box">
+          <i class="fa-solid fa-book-open"></i>
+        </div>
+        <span class="studio-header-title">
+          Mockup Studio
+          <span class="studio-by-loufy-badge">BY LOUFY</span>
+        </span>
+      </a>
+      <span class="studio-header-divider"></span>
       <a href="/" class="hdr-btn-back" title="Return to Loufy Publisher Homepage">
         <i class="fa-solid fa-arrow-left"></i> Back to Website
       </a>
-      <span class="studio-header-divider"></span>
-      <a href="/" class="studio-brand-logo">
-        <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy Publisher">
-      </a>
-      <span class="studio-header-divider"></span>
-      <span class="studio-header-title"><i class="fa-solid fa-wand-magic-sparkles" style="color:#f5b025;"></i> Mockup Studio</span>
       <span class="studio-header-tagline">Create stunning 3D book &amp; spread mockups in seconds</span>
     </div>
 
     <div class="studio-header-right">
       <button type="button" class="hdr-btn-ghost" id="btn-hdr-help">
-        <i class="fa-regular fa-circle-question" style="color:#114232;"></i> Help Guide
+        <i class="fa-regular fa-circle-question"></i> Help
       </button>
       <button type="button" class="hdr-btn-ghost" id="btn-hdr-reset" title="Reset all slots and adjustments to default">
-        <i class="fa-solid fa-rotate-right"></i> Reset All
+        <i class="fa-solid fa-rotate-left"></i> Reset
       </button>
       <div class="hdr-export-dropdown-wrap">
         <button type="button" class="hdr-btn-export-primary" id="btn-hdr-export">
-          <i class="fa-solid fa-cloud-arrow-down"></i> Export Mockup <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;margin-left:3px;"></i>
+          <i class="fa-solid fa-download"></i> Export Mockup <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;margin-left:3px;"></i>
         </button>
         <div class="hdr-export-menu" id="hdr-export-menu">
           <button type="button" class="hdr-export-item" data-format="png">
@@ -1329,56 +2069,80 @@
     </div>
   </header>
 
-  <!-- MAIN APP WORKSPACE (4 COLUMNS) -->
+  <!-- ── 2. MAIN APP WORKSPACE (4 COLUMNS) ── -->
   <main class="studio-workspace-body">
 
-    <!-- 1. LEFT NAVIGATION RAIL (Templates & Adjust) -->
-    <nav class="studio-nav-rail">
-      <button type="button" class="rail-btn active" data-rail-tab="templates" title="Templates">
-        <i class="fa-solid fa-table-cells-large"></i>
+    <!-- 2.1 LEFT DARK-EMERALD NAVIGATION RAIL (ONLY TEMPLATES & ADJUST - REFERENCE 1) -->
+    <nav class="studio-nav-rail" aria-label="Studio Mode">
+      <button type="button" class="rail-btn active" data-rail-tab="templates" title="Book Templates">
+        <i class="fa-solid fa-layer-group"></i>
         <span>Templates</span>
       </button>
-      <button type="button" class="rail-btn" data-rail-tab="adjust" title="Adjustments">
+      <button type="button" class="rail-btn" data-rail-tab="adjust" title="Scene Adjustments">
         <i class="fa-solid fa-sliders"></i>
         <span>Adjust</span>
       </button>
     </nav>
 
-    <!-- 2. LEFT DRAWER PANEL (Templates & Adjust) -->
-    <aside class="studio-drawer-panel">
+    <!-- 2.2 LEFT DRAWER PANEL (TEMPLATES & ADJUSTMENTS) -->
+    <aside class="studio-drawer-panel" id="studio-drawer-panel">
 
-      <!-- VIEW 1: TEMPLATES -->
+      <!-- VIEW 1: BOOK TEMPLATES (REFERENCE 1) -->
       <div class="drawer-view active" id="drawer-view-templates">
-        <div class="drawer-header-title">Templates</div>
-        
+        <div class="drawer-header-title">Book Templates</div>
+
         <!-- Search Input -->
         <div class="drawer-search-box">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="template-search-input" class="drawer-search-input" placeholder="Search mockups...">
+          <input type="text" id="template-search-input" class="drawer-search-input" placeholder="Search templates...">
         </div>
 
-        <!-- Category Filter Pills (Clean 2-Row Wrap, No Cutoffs) -->
+        <!-- Category Filter Pills -->
         <div class="drawer-cat-pills">
           <button type="button" class="cat-pill-btn active" data-cat="all">All</button>
-          <button type="button" class="cat-pill-btn" data-cat="paperback">Paperback</button>
           <button type="button" class="cat-pill-btn" data-cat="hardcover">Hardcover</button>
-          <button type="button" class="cat-pill-btn" data-cat="open_book">Open Book</button>
-          <button type="button" class="cat-pill-btn" data-cat="stack">Stack</button>
-          <button type="button" class="cat-pill-btn" data-cat="magazine">Magazine</button>
+          <button type="button" class="cat-pill-btn" data-cat="paperback">Paperback</button>
+          <button type="button" class="cat-pill-btn" data-cat="open_book">3D / Spread</button>
+          <button type="button" class="cat-pill-btn" data-cat="stack">Box / Stack</button>
+          <button type="button" class="cat-pill-btn" data-cat="magazine">Brochure</button>
         </div>
 
-        <!-- 2-Column Mockups Grid (All 18 Mockup Templates) -->
+        <!-- 2-Column Mockups Grid (All 18 Mockup Templates Preserved) -->
         <div class="templates-cards-grid">
           <button type="button" class="template-card-btn active" data-preset="open_hardcover_pixeden" data-cat="hardcover open_book">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/open_hardcover_pixeden.png" alt="Open Hardcover Spread">
             </div>
             <span class="template-card-label">Hardcover Spread</span>
           </button>
 
+          <button type="button" class="template-card-btn" data-preset="front_back_showcase" data-cat="hardcover">
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" alt="Dual Showcase">
+            </div>
+            <span class="template-card-label">Dual Front &amp; Back</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="hardcover_standing" data-cat="hardcover">
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" alt="Standing">
+            </div>
+            <span class="template-card-label">Standing Hardcover</span>
+          </button>
+
+          <button type="button" class="template-card-btn" data-preset="paperback_duo" data-cat="paperback">
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
+            <div class="template-card-thumb-wrap">
+              <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" alt="Paperback Duo">
+            </div>
+            <span class="template-card-label">Paperback Duo</span>
+          </button>
+
           <button type="button" class="template-card-btn" data-preset="open_book_6" data-cat="open_book paperback">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/open_book_6.jpg" alt="Open Spread 6">
             </div>
@@ -1386,7 +2150,7 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="square_spread_7" data-cat="paperback open_book">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/square_spread_7.jpg" alt="Square Spread">
             </div>
@@ -1394,7 +2158,7 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="square_hardcover_trio_2" data-cat="hardcover stack">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/square_hardcover_trio_2.jpg" alt="Square Trio">
             </div>
@@ -1402,7 +2166,7 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="square_book_12" data-cat="paperback stack">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/square_book_12.jpg" alt="Square Stack">
             </div>
@@ -1410,7 +2174,7 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="us_letter_brochure_02" data-cat="magazine paperback">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/us_letter_brochure_02.jpg" alt="US Letter Brochure">
             </div>
@@ -1418,47 +2182,23 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="book_spread_8" data-cat="paperback open_book">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/book_spread_8.jpg" alt="Cover Spread">
             </div>
             <span class="template-card-label">Cover Spread</span>
           </button>
 
-          <button type="button" class="template-card-btn" data-preset="front_back_showcase" data-cat="hardcover">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/front_back_showcase.jpg" alt="Dual Showcase">
-            </div>
-            <span class="template-card-label">Dual Showcase</span>
-          </button>
-
           <button type="button" class="template-card-btn" data-preset="open_spread" data-cat="open_book magazine">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/open_spread.jpg" alt="Open Spread">
             </div>
             <span class="template-card-label">Open Spread</span>
           </button>
 
-          <button type="button" class="template-card-btn" data-preset="hardcover_standing" data-cat="hardcover">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" alt="Standing">
-            </div>
-            <span class="template-card-label">Standing</span>
-          </button>
-
-          <button type="button" class="template-card-btn" data-preset="paperback_duo" data-cat="paperback">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
-            <div class="template-card-thumb-wrap">
-              <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" alt="Paperback Duo">
-            </div>
-            <span class="template-card-label">Paperback Duo</span>
-          </button>
-
           <button type="button" class="template-card-btn" data-preset="book_mockup_1" data-cat="hardcover">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockup_2/sample_cover.png" alt="Hardcover">
             </div>
@@ -1466,7 +2206,7 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="open_book" data-cat="open_book">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/open_book.jpg" alt="Open Book">
             </div>
@@ -1474,7 +2214,7 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="studio_collector" data-cat="stack hardcover">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/studio_collector.jpg" alt="Stack of Books">
             </div>
@@ -1482,7 +2222,7 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="soft_cover_v01" data-cat="paperback stack">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/soft_cover_v01.jpg" alt="Softcover Trio">
             </div>
@@ -1490,7 +2230,7 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="square_stack" data-cat="stack">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/square_stack.jpg" alt="3-Book Stack">
             </div>
@@ -1498,7 +2238,7 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="square_flatlay" data-cat="paperback">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/square_flatlay.jpg" alt="Flat Lay">
             </div>
@@ -1506,7 +2246,7 @@
           </button>
 
           <button type="button" class="template-card-btn" data-preset="square_open_book" data-cat="open_book">
-            <div class="template-card-check"><i class="fa-solid fa-check"></i></div>
+            <div class="template-card-check"><i class="fa-solid fa-star"></i></div>
             <div class="template-card-thumb-wrap">
               <img src="/images/psd_mockups/thumbnails/square_open_book.jpg" alt="Square Open">
             </div>
@@ -1515,22 +2255,35 @@
         </div>
       </div>
 
-      <!-- VIEW 2: ADJUSTMENTS (10 FINE-TUNING CONTROLS + MASTER RESET) -->
+      <!-- VIEW 2: ADJUSTMENTS PANEL (REFERENCE 3 EXACT CARD LAYOUT) -->
       <div class="drawer-view" id="drawer-view-adjust">
-        <div class="drawer-header-title">Adjustments</div>
-        <p style="font-size:0.72rem;color:#64748b;margin-top:-6px;">Fine-tune lighting, tone, and perspective.</p>
+        <div class="adjust-top-header">
+          <div class="adjust-top-titles">
+            <h3>Adjustments</h3>
+            <p>Fine-tune lighting, tone, and perspective.</p>
+          </div>
+          <button type="button" class="adjust-reset-pill-btn" id="btn-reset-all-adjustments">
+            <i class="fa-solid fa-rotate-left"></i> Reset All
+          </button>
+        </div>
 
-        <div style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;padding-right:2px;padding-bottom:10px;">
+        <div class="adjust-cards-scroll">
           <!-- 1. Shadows -->
           <div class="adj-control-row">
             <div class="adj-header-line">
-              <span class="adj-label"><i class="fa-solid fa-moon" style="color:#ff5a1f;"></i> Shadows</span>
-              <label class="switch-toggle" style="transform:scale(0.8);transform-origin:right center;">
+              <div class="adj-card-meta">
+                <div class="adj-icon-badge emerald"><i class="fa-solid fa-cloud-sun"></i></div>
+                <div class="adj-label-group">
+                  <span class="adj-label">Shadows</span>
+                  <span class="adj-subdesc">Control drop shadow intensity.</span>
+                </div>
+              </div>
+              <label class="switch-toggle" title="Toggle Shadows">
                 <input type="checkbox" id="adj-shadow-toggle" checked>
                 <span class="switch-slider"></span>
               </label>
             </div>
-            <div style="display:flex;align-items:center;gap:8px;">
+            <div class="adj-slider-wrap">
               <input type="range" min="0" max="100" value="70" class="adj-range-input" id="adj-shadow-slider">
               <span class="adj-val-readout" id="adj-shadow-val">70%</span>
             </div>
@@ -1539,165 +2292,271 @@
           <!-- 2. Highlights / Gloss -->
           <div class="adj-control-row">
             <div class="adj-header-line">
-              <span class="adj-label"><i class="fa-solid fa-sun" style="color:#eab308;"></i> Highlights / Gloss</span>
+              <div class="adj-card-meta">
+                <div class="adj-icon-badge gold"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div class="adj-label-group">
+                  <span class="adj-label">Highlights / Gloss</span>
+                  <span class="adj-subdesc">Adjust cover sheen and reflections.</span>
+                </div>
+              </div>
+              <label class="switch-toggle" title="Toggle Highlights / Gloss">
+                <input type="checkbox" id="adj-highlight-toggle" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            <div class="adj-slider-wrap">
+              <input type="range" min="0" max="100" value="100" class="adj-range-input" id="adj-highlight-slider">
               <span class="adj-val-readout" id="adj-highlight-val">100%</span>
             </div>
-            <input type="range" min="0" max="100" value="100" class="adj-range-input" id="adj-highlight-slider">
           </div>
 
           <!-- 3. Brightness -->
           <div class="adj-control-row">
             <div class="adj-header-line">
-              <span class="adj-label"><i class="fa-solid fa-circle-half-stroke" style="color:#6366f1;"></i> Brightness</span>
+              <div class="adj-card-meta">
+                <div class="adj-icon-badge gold"><i class="fa-regular fa-sun"></i></div>
+                <div class="adj-label-group">
+                  <span class="adj-label">Brightness</span>
+                  <span class="adj-subdesc">Adjust overall cover brightness.</span>
+                </div>
+              </div>
+            </div>
+            <div class="adj-slider-wrap">
+              <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="adj-brightness-slider">
               <span class="adj-val-readout" id="adj-brightness-val">0%</span>
             </div>
-            <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="adj-brightness-slider">
           </div>
 
           <!-- 4. Contrast -->
           <div class="adj-control-row">
             <div class="adj-header-line">
-              <span class="adj-label"><i class="fa-solid fa-circle-dot" style="color:#8b5cf6;"></i> Contrast</span>
+              <div class="adj-card-meta">
+                <div class="adj-icon-badge emerald"><i class="fa-solid fa-circle-half-stroke"></i></div>
+                <div class="adj-label-group">
+                  <span class="adj-label">Contrast</span>
+                  <span class="adj-subdesc">Enhance light and dark separation.</span>
+                </div>
+              </div>
+            </div>
+            <div class="adj-slider-wrap">
+              <input type="range" min="50" max="150" value="100" class="adj-range-input" id="adj-contrast-slider">
               <span class="adj-val-readout" id="adj-contrast-val">100%</span>
             </div>
-            <input type="range" min="50" max="150" value="100" class="adj-range-input" id="adj-contrast-slider">
           </div>
 
           <!-- 5. Saturation -->
           <div class="adj-control-row">
             <div class="adj-header-line">
-              <span class="adj-label"><i class="fa-solid fa-droplet" style="color:#ec4899;"></i> Saturation</span>
+              <div class="adj-card-meta">
+                <div class="adj-icon-badge gold"><i class="fa-solid fa-droplet"></i></div>
+                <div class="adj-label-group">
+                  <span class="adj-label">Saturation</span>
+                  <span class="adj-subdesc">Control color vibrancy.</span>
+                </div>
+              </div>
+            </div>
+            <div class="adj-slider-wrap">
+              <input type="range" min="0" max="200" value="100" class="adj-range-input" id="adj-saturation-slider">
               <span class="adj-val-readout" id="adj-saturation-val">100%</span>
             </div>
-            <input type="range" min="0" max="200" value="100" class="adj-range-input" id="adj-saturation-slider">
           </div>
 
-          <!-- 6. Warmth / Temperature -->
+          <!-- 6. Warmth -->
           <div class="adj-control-row">
             <div class="adj-header-line">
-              <span class="adj-label"><i class="fa-solid fa-temperature-half" style="color:#f97316;"></i> Warmth</span>
+              <div class="adj-card-meta">
+                <div class="adj-icon-badge gold"><i class="fa-solid fa-temperature-half"></i></div>
+                <div class="adj-label-group">
+                  <span class="adj-label">Warmth</span>
+                  <span class="adj-subdesc">Shift color temperature warm or cool.</span>
+                </div>
+              </div>
+            </div>
+            <div class="adj-slider-wrap">
+              <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="adj-warmth-slider">
               <span class="adj-val-readout" id="adj-warmth-val">0</span>
             </div>
-            <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="adj-warmth-slider">
           </div>
 
           <!-- 7. Vignette Depth -->
           <div class="adj-control-row">
             <div class="adj-header-line">
-              <span class="adj-label"><i class="fa-regular fa-circle-dot" style="color:#475569;"></i> Vignette Depth</span>
+              <div class="adj-card-meta">
+                <div class="adj-icon-badge emerald"><i class="fa-regular fa-circle-dot"></i></div>
+                <div class="adj-label-group">
+                  <span class="adj-label">Vignette Depth</span>
+                  <span class="adj-subdesc">Soften edges around the scene.</span>
+                </div>
+              </div>
+            </div>
+            <div class="adj-slider-wrap">
+              <input type="range" min="0" max="100" value="0" class="adj-range-input" id="adj-vignette-slider">
               <span class="adj-val-readout" id="adj-vignette-val">0%</span>
             </div>
-            <input type="range" min="0" max="100" value="0" class="adj-range-input" id="adj-vignette-slider">
           </div>
 
           <!-- 8. 3D Tilt Angle -->
           <div class="adj-control-row">
             <div class="adj-header-line">
-              <span class="adj-label"><i class="fa-solid fa-cube" style="color:#0ea5e9;"></i> 3D Tilt Angle</span>
+              <div class="adj-card-meta">
+                <div class="adj-icon-badge gold"><i class="fa-solid fa-cube"></i></div>
+                <div class="adj-label-group">
+                  <span class="adj-label">3D Tilt Angle</span>
+                  <span class="adj-subdesc">Fine-tune perspective rotation.</span>
+                </div>
+              </div>
+            </div>
+            <div class="adj-slider-wrap">
+              <input type="range" min="-20" max="20" value="0" class="adj-range-input" id="adj-tilt-slider">
               <span class="adj-val-readout" id="adj-tilt-val">0°</span>
             </div>
-            <input type="range" min="-20" max="20" value="0" class="adj-range-input" id="adj-tilt-slider">
           </div>
 
           <!-- 9. Spine Width -->
           <div class="adj-control-row">
             <div class="adj-header-line">
-              <span class="adj-label"><i class="fa-solid fa-arrows-left-right" style="color:#10b981;"></i> Spine Width</span>
+              <div class="adj-card-meta">
+                <div class="adj-icon-badge emerald"><i class="fa-solid fa-book"></i></div>
+                <div class="adj-label-group">
+                  <span class="adj-label">Spine Width</span>
+                  <span class="adj-subdesc">Adjust book thickness ratio.</span>
+                </div>
+              </div>
+            </div>
+            <div class="adj-slider-wrap">
+              <input type="range" min="40" max="200" value="100" class="adj-range-input" id="adj-spine-slider">
               <span class="adj-val-readout" id="adj-spine-val">100%</span>
             </div>
-            <input type="range" min="40" max="200" value="100" class="adj-range-input" id="adj-spine-slider">
           </div>
 
           <!-- 10. Artwork Scale -->
           <div class="adj-control-row">
             <div class="adj-header-line">
-              <span class="adj-label"><i class="fa-solid fa-expand" style="color:#059669;"></i> Artwork Scale</span>
+              <div class="adj-card-meta">
+                <div class="adj-icon-badge gold"><i class="fa-solid fa-expand"></i></div>
+                <div class="adj-label-group">
+                  <span class="adj-label">Artwork Scale</span>
+                  <span class="adj-subdesc">Zoom cover artwork inside frame.</span>
+                </div>
+              </div>
+            </div>
+            <div class="adj-slider-wrap">
+              <input type="range" min="60" max="150" value="100" class="adj-range-input" id="adj-scale-slider">
               <span class="adj-val-readout" id="adj-scale-val">100%</span>
             </div>
-            <input type="range" min="60" max="150" value="100" class="adj-range-input" id="adj-scale-slider">
           </div>
-
-          <!-- Reset Button -->
-          <button type="button" class="drawer-action-btn" id="btn-reset-all-adjustments" style="margin-top:6px;padding:10px;background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);border:1.5px solid #f5b025;border-radius:10px;font-weight:800;font-size:0.78rem;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 3px 10px rgba(245,176,37,0.18);">
-            <i class="fa-solid fa-rotate-left" style="color:#d97706;"></i> Reset All Adjustments
-          </button>
         </div>
       </div>
 
     </aside>
 
-    <!-- 3. CENTER CANVAS VIEWPORT -->
+    <!-- ── 3. CENTER CANVAS VIEWPORT (REFERENCE 1 TOP FLOATING BAR + SPACIOUS STAGE) ── -->
     <section class="studio-canvas-viewport">
+      <!-- Top Floating Canvas Controls (Reference 1) -->
+      <div class="floating-canvas-bar">
+        <div class="floating-bar-cluster">
+          <button type="button" class="float-ctrl-btn" id="btn-canvas-undo" title="Reset View">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+          <button type="button" class="float-ctrl-btn" id="btn-canvas-redo" title="Re-Center">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <span class="float-bar-divider"></span>
+          <button type="button" class="float-ctrl-btn" id="btn-float-zoom-out" title="Zoom Out">
+            <i class="fa-solid fa-minus"></i>
+          </button>
+          <span class="float-zoom-readout" id="float-zoom-val">100%</span>
+          <button type="button" class="float-ctrl-btn" id="btn-float-zoom-in" title="Zoom In">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+
+        <div class="floating-bar-cluster">
+          <button type="button" class="float-tool-link" id="btn-float-rotate">
+            <i class="fa-solid fa-rotate"></i> Rotate
+          </button>
+          <button type="button" class="float-tool-link" id="btn-float-fit">
+            <i class="fa-solid fa-expand"></i> Fit
+          </button>
+          <button type="button" class="float-tool-link" id="btn-float-center">
+            <i class="fa-solid fa-crosshairs"></i> Center
+          </button>
+        </div>
+      </div>
+
       <div id="psd-canvas-container">
         <canvas id="psd-canvas"></canvas>
       </div>
-
-      <!-- Floating Canvas Toolbar -->
-      <div class="floating-canvas-bar">
-        <button type="button" class="float-ctrl-btn" id="btn-float-zoom-out" title="Zoom Out">
-          <i class="fa-solid fa-minus"></i>
-        </button>
-        <span class="float-zoom-readout" id="float-zoom-val">100%</span>
-        <button type="button" class="float-ctrl-btn" id="btn-float-zoom-in" title="Zoom In">
-          <i class="fa-solid fa-plus"></i>
-        </button>
-
-        <span class="float-bar-divider"></span>
-
-        <button type="button" class="float-tool-link" id="btn-float-rotate">
-          <i class="fa-solid fa-rotate"></i> Rotate
-        </button>
-        <button type="button" class="float-tool-link" id="btn-float-fit">
-          <i class="fa-solid fa-expand"></i> Fit
-        </button>
-        <button type="button" class="float-tool-link" id="btn-float-center">
-          <i class="fa-solid fa-crosshairs"></i> Center
-        </button>
-      </div>
     </section>
 
-    <!-- 4. RIGHT INSPECTOR PANEL (HOSTS ARTWORK, BACKGROUNDS, DUAL COLORS, SHADOWS, ANGLES) -->
+    <!-- ── 4. RIGHT INSPECTOR PANEL (REFERENCE 1 EXACT TOP-TO-BOTTOM HIERARCHY) ── -->
     <aside class="studio-inspector-panel">
 
-      <!-- SECTION: ARTWORK & COVERS (SEPARATE FRONT, BACK, SPINE SLOTS + SHIFT SLIDERS) -->
-      <div class="inspector-section">
+      <!-- Hidden Native File Inputs for Slots -->
+      <input type="file" id="upload-slot-front-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display:none;">
+      <input type="file" id="upload-slot-back-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display:none;">
+      <input type="file" id="upload-slot-spine-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display:none;">
+
+      <!-- SECTION 1 (TOP): FULL WRAP UPLOAD HERO CARD (REFERENCE 1) -->
+      <div class="inspector-section" style="background:linear-gradient(180deg,#ffffff 0%,#faf8f2 100%);border-color:#dfd9c8;">
         <div class="inspector-row-between">
-          <h3 class="inspector-heading">Artwork &amp; Covers</h3>
-          <span style="font-size:0.7rem;color:#64748b;font-weight:600;">Multi-Slot</span>
+          <h3 class="inspector-heading"><i class="fa-solid fa-book-open-reader"></i> Full Wrap Upload</h3>
+          <span class="badge-new-pill">NEW</span>
         </div>
 
-        <!-- Hidden Native File Inputs for Slots -->
-        <input type="file" id="upload-slot-front-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display:none;">
-        <input type="file" id="upload-slot-back-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display:none;">
-        <input type="file" id="upload-slot-spine-input" accept="image/png, image/jpeg, image/webp, application/pdf" style="display:none;">
+        <div class="cover-dropzone-box" id="drawer-fullwrap-dropzone">
+          <div class="fullwrap-hero-row">
+            <div class="fullwrap-icon-box">
+              <i class="fa-solid fa-book-open" id="fullwrap-box-icon"></i>
+            </div>
+            <div style="flex:1;min-width:0;">
+              <span class="upload-box-title" id="fullwrap-box-title">Upload Full Wrap Cover (Front + Spine + Back)</span>
+              <span class="upload-box-sub" id="fullwrap-box-sub">Drag &amp; drop your PDF or image file here</span>
+            </div>
+          </div>
+          <span class="fullwrap-emerald-btn">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Full Wrap
+          </span>
+          <span class="fullwrap-rec-caption">Recommended: PDF, PNG, JPG (300 DPI)</span>
+          <input type="file" id="drawer-fullwrap-input" accept="image/*, application/pdf" style="display:none;">
+        </div>
+      </div>
+
+      <!-- SECTION 2: UPLOAD ARTWORK & COVERS (FRONT & BACK ROWS - REFERENCE 1) -->
+      <div class="inspector-section">
+        <div class="inspector-row-between">
+          <h3 class="inspector-heading"><i class="fa-solid fa-images"></i> Upload Artwork &amp; Covers</h3>
+        </div>
 
         <!-- 1. Front Cover Slot Card -->
         <div class="slot-item-card" id="slot-card-front">
           <div class="slot-item-header">
-            <span class="slot-item-title"><i class="fa-solid fa-book" style="color:#114232;"></i> Front Cover</span>
             <span class="slot-item-badge">Main / Required</span>
           </div>
           <div class="slot-item-body">
             <img src="/images/psd_mockup_2/sample_cover.png" class="slot-thumb-preview" id="slot-front-thumb" alt="Front Preview">
             <div class="slot-item-info">
-              <span class="slot-item-specs" id="slot-front-specs">Front • Sample Cover</span>
+              <div class="slot-title-meta-col">
+                <span class="slot-item-title"><i class="fa-solid fa-book" style="color:#114232;"></i> Front Cover</span>
+                <span class="slot-item-specs" id="slot-front-specs">Front • Sample Cover</span>
+              </div>
               <div class="slot-btn-group">
-                <button type="button" class="slot-action-btn" id="btn-upload-slot-front" title="Upload Artwork or PDF">
-                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                <button type="button" class="slot-action-btn" id="btn-upload-slot-front" title="Change Front Cover">
+                  Change
                 </button>
-                <button type="button" class="slot-action-btn" id="btn-crop-slot-front" title="Crop &amp; Adjust">
+                <button type="button" class="slot-action-btn" id="btn-crop-slot-front" title="Crop Front Cover">
                   <i class="fa-solid fa-crop-simple"></i> Crop
                 </button>
                 <button type="button" class="slot-clear-btn" id="btn-clear-slot-front" title="Delete / Reset Slot" aria-label="Delete Slot">
-                  <i class="fa-solid fa-trash-can"></i>
+                  <i class="fa-regular fa-trash-can"></i>
                 </button>
               </div>
             </div>
           </div>
           <!-- Front Shift Left/Right Slider -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;border-top:1px dashed rgba(17,66,50,0.16);padding-top:6px;">
-            <span style="font-size:0.68rem;font-weight:700;color:#114232;"><i class="fa-solid fa-arrows-left-right" style="color:#f5b025;"></i> Shift Left / Right</span>
-            <span style="font-size:0.68rem;font-weight:800;color:#114232;" id="front-shift-val">0%</span>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:3px;border-top:1px dashed #e9e5dc;padding-top:5px;">
+            <span style="font-size:0.68rem;font-weight:600;color:#5d6c64;">Horizontal Align</span>
+            <span style="font-size:0.68rem;font-weight:700;color:#114232;" id="front-shift-val">0%</span>
           </div>
           <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="front-shift-slider" style="margin:2px 0;" title="Shift Front Cover Left or Right">
         </div>
@@ -1705,137 +2564,121 @@
         <!-- 2. Back Cover Slot Card -->
         <div class="slot-item-card" id="slot-card-back">
           <div class="slot-item-header">
-            <span class="slot-item-title"><i class="fa-solid fa-book-open" style="color:#114232;"></i> Back Cover</span>
             <span class="slot-item-badge">Optional / Dual</span>
           </div>
           <div class="slot-item-body">
             <img src="/images/psd_mockups/thumbnails/paperback_duo.jpg" class="slot-thumb-preview" id="slot-back-thumb" alt="Back Preview">
             <div class="slot-item-info">
-              <span class="slot-item-specs" id="slot-back-specs">Back • Optional</span>
+              <div class="slot-title-meta-col">
+                <span class="slot-item-title"><i class="fa-solid fa-book-open" style="color:#d97706;"></i> Back Cover</span>
+                <span class="slot-item-specs" id="slot-back-specs">Back • Optional</span>
+              </div>
               <div class="slot-btn-group">
-                <button type="button" class="slot-action-btn" id="btn-upload-slot-back" title="Upload Artwork or PDF">
-                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                <button type="button" class="slot-action-btn" id="btn-upload-slot-back" title="Change Back Cover">
+                  Change
                 </button>
-                <button type="button" class="slot-action-btn" id="btn-crop-slot-back" title="Crop &amp; Adjust">
+                <button type="button" class="slot-action-btn" id="btn-crop-slot-back" title="Crop Back Cover">
                   <i class="fa-solid fa-crop-simple"></i> Crop
                 </button>
                 <button type="button" class="slot-clear-btn" id="btn-clear-slot-back" title="Delete / Reset Slot" aria-label="Delete Slot">
-                  <i class="fa-solid fa-trash-can"></i>
+                  <i class="fa-regular fa-trash-can"></i>
                 </button>
               </div>
             </div>
           </div>
           <!-- Back Shift Left/Right Slider -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;border-top:1px dashed rgba(17,66,50,0.16);padding-top:6px;">
-            <span style="font-size:0.68rem;font-weight:700;color:#114232;"><i class="fa-solid fa-arrows-left-right" style="color:#f5b025;"></i> Shift Left / Right</span>
-            <span style="font-size:0.68rem;font-weight:800;color:#114232;" id="back-shift-val">0%</span>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:3px;border-top:1px dashed #e9e5dc;padding-top:5px;">
+            <span style="font-size:0.68rem;font-weight:600;color:#5d6c64;">Horizontal Align</span>
+            <span style="font-size:0.68rem;font-weight:700;color:#114232;" id="back-shift-val">0%</span>
           </div>
           <input type="range" min="-50" max="50" value="0" class="adj-range-input" id="back-shift-slider" style="margin:2px 0;" title="Shift Back Cover Left or Right">
         </div>
+      </div>
 
-        <!-- 3. Spine Slot Card -->
-        <div class="slot-item-card" id="slot-card-spine">
-          <div class="slot-item-header">
-            <span class="slot-item-title"><i class="fa-solid fa-grip-lines-vertical" style="color:#f5b025;"></i> Book Spine</span>
-            <span class="slot-item-badge">Auto / Custom</span>
+      <!-- SECTION 3: BOOK SPINE (AUTO / CUSTOM TOGGLE + SPINE WIDTH - REFERENCE 1) -->
+      <div class="inspector-section slot-item-card" id="slot-card-spine" style="background:#ffffff;padding:13px 14px;">
+        <div class="inspector-row-between">
+          <h3 class="inspector-heading"><i class="fa-solid fa-grip-lines-vertical" style="color:#d99b1e;"></i> <span class="slot-item-title">Book Spine</span></h3>
+          <span class="slot-item-badge" style="display:none;">Auto / Custom</span>
+          <div class="spine-seg-wrap">
+            <button type="button" class="spine-seg-pill active" id="btn-spine-mode-auto">Auto</button>
+            <button type="button" class="spine-seg-pill" id="btn-spine-mode-custom">Custom</button>
           </div>
-          <div class="slot-item-body">
-            <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" class="slot-thumb-preview" id="slot-spine-thumb" alt="Spine Preview">
-            <div class="slot-item-info">
-              <span class="slot-item-specs">Spine Width: <strong id="drawer-spine-width-val">100%</strong></span>
-              <input type="range" id="drawer-spine-width-slider" min="40" max="200" value="100" class="adj-range-input" style="margin:2px 0;">
-              <div class="slot-btn-group">
-                <button type="button" class="slot-action-btn" id="btn-upload-slot-spine" title="Upload Spine">
-                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload
-                </button>
-                <button type="button" class="slot-action-btn" id="btn-crop-slot-spine" title="Crop Spine">
-                  <i class="fa-solid fa-crop-simple"></i> Crop
-                </button>
-                <input type="color" id="drawer-spine-color-picker" value="#111827" style="width:24px;height:24px;border:1.5px solid #114232;border-radius:6px;cursor:pointer;flex-shrink:0;" title="Base Spine / Edge Color">
-                <button type="button" class="slot-clear-btn" id="btn-clear-slot-spine" title="Delete / Reset Spine" aria-label="Delete Spine">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </div>
+        </div>
+
+        <div class="slot-item-body" style="background:#faf9f5;padding:7px 9px;border-radius:9px;border:1px solid #efede7;">
+          <img src="/images/psd_mockups/thumbnails/hardcover_standing.jpg" class="slot-thumb-preview" id="slot-spine-thumb" alt="Spine Preview" style="width:28px;height:38px;min-width:28px;">
+          <div class="slot-item-info">
+            <div class="slot-btn-group" style="margin-left:auto;">
+              <button type="button" class="slot-action-btn" id="btn-upload-slot-spine" title="Upload Spine">
+                Upload
+              </button>
+              <button type="button" class="slot-action-btn" id="btn-crop-slot-spine" title="Crop Spine">
+                <i class="fa-solid fa-crop-simple"></i> Crop
+              </button>
+              <input type="color" id="drawer-spine-color-picker" value="#111827" style="width:26px;height:26px;border:1px solid #d5d0c5;border-radius:6px;cursor:pointer;flex-shrink:0;" title="Base Spine / Edge Color">
+              <button type="button" class="slot-clear-btn" id="btn-clear-slot-spine" title="Delete / Reset Spine" aria-label="Delete Spine">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- 4. Full Wrap Auto-Split / Open Book Auto 2-Page PDF Dropzone -->
-        <div class="cover-dropzone-box" id="drawer-fullwrap-dropzone" style="padding:13px 11px;margin-top:2px;">
-          <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
-            <i class="fa-solid fa-file-pdf" id="fullwrap-box-icon" style="color:#f5b025;font-size:1.08rem;"></i>
-            <span class="upload-box-title" id="fullwrap-box-title" style="font-size:0.82rem;">Auto 2-Page PDF / Spread Fit</span>
-          </div>
-          <span class="upload-box-sub" id="fullwrap-box-sub" style="font-size:0.68rem;display:block;margin:2px 0 4px;">Upload PDF to auto-fit Page 1 (Left) &amp; Page 2 (Right)</span>
-          <span style="display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;border-radius:999px;background:linear-gradient(135deg,#f5b025 0%,#e09910 100%);color:#0b291e;font-size:0.7rem;font-weight:800;box-shadow:0 3px 10px rgba(245,176,37,0.35);"><i class="fa-solid fa-cloud-arrow-up" style="color:#0b291e;"></i> Click or Drop PDF / Spread</span>
-          <input type="file" id="drawer-fullwrap-input" accept="image/*, application/pdf" style="display:none;">
+        <div style="display:flex;flex-direction:column;gap:5px;margin-top:2px;">
+          <span class="slot-item-specs" style="font-size:12px;color:#5d6c64;font-weight:600;">Spine Width: <strong id="drawer-spine-width-val" style="color:#114232;">100%</strong></span>
+          <input type="range" id="drawer-spine-width-slider" min="40" max="200" value="100" class="adj-range-input">
         </div>
       </div>
 
-      <!-- SECTION: BACKGROUNDS (TRANSPARENT PNG + 7 PRESETS + CUSTOM) -->
+      <!-- SECTION 4: BACKGROUND (REFERENCE 1) -->
       <div class="inspector-section">
         <div class="inspector-row-between">
-          <h3 class="inspector-heading">Background</h3>
-          <span style="font-size:0.68rem;color:#114232;background:#eef5f2;border:1px solid rgba(17,66,50,0.16);padding:2px 8px;border-radius:999px;font-weight:700;">8 Styles</span>
+          <h3 class="inspector-heading"><i class="fa-solid fa-palette"></i> Background</h3>
+          <i class="fa-solid fa-chevron-up" style="font-size:11px;color:#89968f;"></i>
         </div>
 
-        <div class="bg-presets-grid" style="grid-template-columns: repeat(4, 1fr); gap: 6px;">
-          <!-- 1. Transparent PNG -->
-          <div class="bg-preset-card" data-bg="transparent" title="Transparent PNG with Realistic Shadow" style="padding: 4px;">
-            <div class="bg-preset-thumb thumb-transparent" style="height: 38px;"></div>
-            <span class="bg-preset-label" style="font-size: 0.62rem;">Transparent</span>
+        <div class="bg-presets-grid">
+          <div class="bg-preset-card" data-bg="transparent" title="Transparent PNG with Realistic Shadow">
+            <div class="bg-preset-thumb thumb-transparent"></div>
+            <span class="bg-preset-label">Transparent</span>
           </div>
-
-          <!-- 2. Studio Neutral -->
-          <div class="bg-preset-card active" data-bg="studio" title="Authentic Studio Lighting" style="padding: 4px;">
-            <div class="bg-preset-thumb thumb-studio" style="height: 38px;"></div>
-            <span class="bg-preset-label" style="font-size: 0.62rem;">Studio</span>
+          <div class="bg-preset-card active" data-bg="studio" title="Authentic Studio Lighting">
+            <div class="bg-preset-thumb thumb-studio"></div>
+            <span class="bg-preset-label">Light Studio</span>
           </div>
-
-          <!-- 3. Pure White -->
-          <div class="bg-preset-card" data-bg="white" title="Pure Clean White" style="padding: 4px;">
-            <div class="bg-preset-thumb thumb-white" style="height: 38px;"></div>
-            <span class="bg-preset-label" style="font-size: 0.62rem;">Pure White</span>
+          <div class="bg-preset-card" data-bg="warm" title="Warm Cream Aesthetic">
+            <div class="bg-preset-thumb thumb-warm"></div>
+            <span class="bg-preset-label">Warm Cream</span>
           </div>
-
-          <!-- 4. Soft Light Gray -->
-          <div class="bg-preset-card" data-bg="light" title="Soft Light Gray Gradient" style="padding: 4px;">
-            <div class="bg-preset-thumb thumb-light" style="height: 38px;"></div>
-            <span class="bg-preset-label" style="font-size: 0.62rem;">Light Gray</span>
+          <div class="bg-preset-card" data-bg="white" title="Pure Clean White">
+            <div class="bg-preset-thumb thumb-white"></div>
+            <span class="bg-preset-label">Pure White</span>
           </div>
-
-          <!-- 5. Dark Slate -->
-          <div class="bg-preset-card" data-bg="dark" title="High-Contrast Dark Charcoal" style="padding: 4px;">
-            <div class="bg-preset-thumb thumb-dark" style="height: 38px;"></div>
-            <span class="bg-preset-label" style="font-size: 0.62rem;">Dark Slate</span>
+          <div class="bg-preset-card" data-bg="light" title="Soft Light Gray Gradient">
+            <div class="bg-preset-thumb thumb-light"></div>
+            <span class="bg-preset-label">Light Gray</span>
           </div>
-
-          <!-- 6. Warm Wood Desk -->
-          <div class="bg-preset-card" data-bg="wood" title="Warm Wood Desk Tabletop" style="padding: 4px;">
-            <div class="bg-preset-thumb thumb-wood" style="height: 38px;"></div>
-            <span class="bg-preset-label" style="font-size: 0.62rem;">Warm Wood</span>
+          <div class="bg-preset-card" data-bg="dark" title="High-Contrast Dark Charcoal">
+            <div class="bg-preset-thumb thumb-dark"></div>
+            <span class="bg-preset-label">Dark Slate</span>
           </div>
-
-          <!-- 7. Minimalist Concrete -->
-          <div class="bg-preset-card" data-bg="concrete" title="Minimalist Stone/Concrete Surface" style="padding: 4px;">
-            <div class="bg-preset-thumb thumb-concrete" style="height: 38px;"></div>
-            <span class="bg-preset-label" style="font-size: 0.62rem;">Concrete</span>
+          <div class="bg-preset-card" data-bg="wood" title="Warm Wood Desk Tabletop">
+            <div class="bg-preset-thumb thumb-wood"></div>
+            <span class="bg-preset-label">Warm Wood</span>
           </div>
-
-          <!-- 8. Warm Studio Glow -->
-          <div class="bg-preset-card" data-bg="warm" title="Warm Glow Aesthetic" style="padding: 4px;">
-            <div class="bg-preset-thumb thumb-warm" style="height: 38px;"></div>
-            <span class="bg-preset-label" style="font-size: 0.62rem;">Warm Glow</span>
+          <div class="bg-preset-card" data-bg="concrete" title="Minimalist Stone/Concrete Surface">
+            <div class="bg-preset-thumb thumb-concrete"></div>
+            <span class="bg-preset-label">Concrete</span>
           </div>
         </div>
 
         <div style="display:flex;gap:6px;margin-top:4px;">
-          <button type="button" class="drawer-action-btn" id="btn-drawer-custom-color" style="flex:1;padding:8px 10px;font-size:0.72rem;font-weight:800;color:#0b291e;background:linear-gradient(135deg,#eef5f2 0%,#dcfce7 100%);border:1.5px solid #114232;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 6px rgba(17,66,50,0.12);">
-            <span class="rainbow-wheel-icon" style="width:13px;height:13px;border-radius:50%;background:conic-gradient(red,yellow,lime,aqua,blue,magenta,red);display:inline-block;border:1px solid #0b291e;"></span> Custom Color
+          <button type="button" class="slot-action-btn" id="btn-drawer-custom-color" style="flex:1;justify-content:center;height:33px;">
+            <span style="width:12px;height:12px;border-radius:50%;background:conic-gradient(red,yellow,lime,aqua,blue,magenta,red);display:inline-block;"></span> Custom Color
           </button>
           <input type="color" id="drawer-color-picker" style="display:none;" value="#e2e8f0">
 
-          <button type="button" class="drawer-action-btn" id="btn-drawer-upload-bg" style="flex:1;padding:8px 10px;font-size:0.72rem;font-weight:800;color:#78350f;background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);border:1.5px solid #d97706;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 6px rgba(217,119,6,0.14);">
+          <button type="button" class="slot-action-btn" id="btn-drawer-upload-bg" style="flex:1;justify-content:center;height:33px;">
             <i class="fa-regular fa-image" style="color:#d97706;"></i> Upload Photo
           </button>
           <input type="file" id="drawer-bg-file-input" accept="image/*, application/pdf" style="display:none;">
@@ -1848,11 +2691,8 @@
           <h3 class="inspector-heading"><i class="fa-solid fa-palette" style="color:#114232;"></i> Showcase Colors</h3>
           <span style="font-size:0.65rem;color:#114232;font-weight:700;background:#eef5f2;border:1px solid rgba(17,66,50,0.16);padding:2px 6px;border-radius:6px;">Dual Backdrop</span>
         </div>
-        <p style="font-size:0.7rem;color:#64748b;margin-top:-6px;">Customize wall &amp; floor colors for this mockup.</p>
-
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <!-- Wall Color -->
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#faf9f5;border:1px solid #efede7;border-radius:10px;">
             <span style="font-size:0.75rem;font-weight:700;color:#334155;display:flex;align-items:center;gap:6px;">
               <i class="fa-solid fa-square" id="dual-wall-color-icon" style="color:#2b4a6f;font-size:0.85rem;"></i> Wall Color
             </span>
@@ -1861,9 +2701,7 @@
               <input type="color" id="dual-wall-color-picker" value="#2b4a6f" style="width:26px;height:26px;border:none;border-radius:6px;cursor:pointer;">
             </div>
           </div>
-
-          <!-- Floor Color -->
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#faf9f5;border:1px solid #efede7;border-radius:10px;">
             <span style="font-size:0.75rem;font-weight:700;color:#334155;display:flex;align-items:center;gap:6px;">
               <i class="fa-solid fa-square" id="dual-floor-color-icon" style="color:#e8e2dc;font-size:0.85rem;"></i> Floor Color
             </span>
@@ -1872,8 +2710,6 @@
               <input type="color" id="dual-floor-color-picker" value="#e8e2dc" style="width:26px;height:26px;border:none;border-radius:6px;cursor:pointer;">
             </div>
           </div>
-
-          <!-- Preset Wall/Floor Color Combos -->
           <div style="display:flex;gap:5px;margin-top:2px;">
             <button type="button" class="dual-combo-btn" data-wall="#2b4a6f" data-floor="#e8e2dc" title="Classic Navy &amp; Marble" style="flex:1;padding:4px;border:1px solid #cbd5e1;border-radius:6px;cursor:pointer;background:linear-gradient(to bottom, #2b4a6f 60%, #e8e2dc 40%);height:26px;"></button>
             <button type="button" class="dual-combo-btn" data-wall="#1e293b" data-floor="#f1f5f9" title="Dark Slate &amp; White" style="flex:1;padding:4px;border:1px solid #cbd5e1;border-radius:6px;cursor:pointer;background:linear-gradient(to bottom, #1e293b 60%, #f1f5f9 40%);height:26px;"></button>
@@ -1884,10 +2720,10 @@
         </div>
       </div>
 
-      <!-- SECTION: SHADOWS -->
+      <!-- SECTION 5: SHADOWS (REFERENCE 1) -->
       <div class="inspector-section">
         <div class="inspector-row-between">
-          <h3 class="inspector-heading">Shadows</h3>
+          <h3 class="inspector-heading"><i class="fa-solid fa-cloud-sun"></i> Shadows</h3>
           <label class="switch-toggle" title="Toggle Shadows">
             <input type="checkbox" id="shadow-toggle" checked>
             <span class="switch-slider"></span>
@@ -1895,14 +2731,15 @@
         </div>
 
         <div class="shadow-slider-row">
+          <span style="font-size:12px;font-weight:600;color:#5d6c64;">Intensity</span>
           <input type="range" min="0" max="100" value="70" class="orange-range-input" id="shadow-range-slider">
           <span class="slider-readout" id="shadow-percentage-val">70%</span>
         </div>
       </div>
 
-      <!-- SECTION: BOOK ANGLE -->
+      <!-- SECTION 6: BOOK ANGLE (REFERENCE 1) -->
       <div class="inspector-section">
-        <h3 class="inspector-heading">Book Angle</h3>
+        <h3 class="inspector-heading"><i class="fa-solid fa-cube"></i> Book Angle</h3>
         <div class="book-angles-grid">
           <button type="button" class="angle-card-btn active" data-angle="0" title="Front Perspective">
             <img src="/images/psd_mockup_2/sample_cover.png" alt="Angle 1">
@@ -1919,7 +2756,7 @@
         </div>
       </div>
 
-      <!-- SECTION: PRIMARY ACTION -->
+      <!-- PRIMARY DOWNLOAD ACTION -->
       <button type="button" class="primary-download-btn" id="download-mockup-btn">
         <i class="fa-solid fa-download"></i> Download Mockup
       </button>
@@ -1938,16 +2775,16 @@
   <div class="studio-modal-overlay" id="studio-help-modal">
     <div class="studio-modal-card">
       <div class="modal-header-row">
-        <h2 class="modal-title"><i class="fa-solid fa-wand-magic-sparkles" style="color:#ff5a1f;"></i> How to Create Mockups</h2>
+        <h2 class="modal-title"><i class="fa-solid fa-wand-magic-sparkles" style="color:#114232;"></i> How to Create Mockups</h2>
         <button type="button" class="modal-close-btn" id="btn-close-help">&times;</button>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px;font-size:0.88rem;color:#475569;line-height:1.5;">
-        <p><strong>1. Select a Template:</strong> Choose any of the 10 professional 3D mockups from the left drawer.</p>
-        <p><strong>2. Upload Artwork:</strong> In the right inspector panel, upload your Front Cover, Back Cover, or Spine image individually, or drop a full wrap dust jacket to auto-slice.</p>
-        <p><strong>3. Pick a Background:</strong> Select transparent PNG, studio lighting, or real wood desk and concrete textures.</p>
-        <p><strong>4. Fine-Tune &amp; Export:</strong> Switch to the Adjust tab on the left to tweak lighting and shadows, then click Export Mockup.</p>
+        <p><strong>1. Select a Template:</strong> Choose any of the professional 3D book mockups from the left Templates drawer.</p>
+        <p><strong>2. Upload Artwork:</strong> Use the Full Wrap Upload box at the top right to auto-split a full jacket, or upload Front, Back, and Spine covers individually.</p>
+        <p><strong>3. Pick a Background:</strong> Select transparent PNG, studio lighting, or warm textures.</p>
+        <p><strong>4. Fine-Tune &amp; Export:</strong> Switch to the Adjust tab on the left to tweak lighting and perspective, then click Export Mockup.</p>
       </div>
-      <button type="button" class="hdr-btn-export-primary" onclick="document.getElementById('studio-help-modal').style.display='none'" style="width:100%;justify-content:center;margin-top:8px;">
+      <button type="button" class="hdr-btn-export-primary" onclick="document.getElementById('studio-help-modal').style.display='none'" style="width:100%;justify-content:center;margin-top:12px;">
         Got it, let's create!
       </button>
     </div>
@@ -1955,25 +2792,33 @@
 
 </div>
 
-<!-- REDESIGNED SMART CROP & UPLOAD MODAL (Matching Reference) -->
+<!-- ==========================================================================
+     REDESIGNED CROP ARTWORK MODAL (REFERENCE 2 EXACT DESIGN)
+     ========================================================================== -->
 <div id="art-crop-modal" class="crop-modal-backdrop" style="display: none;">
   <div class="crop-modal-dialog">
-    
+
     <!-- Modal Header -->
     <div class="crop-modal-header">
       <div class="crop-header-left">
         <div class="crop-header-brand-wrap">
-          <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714240/portfolio/logo-light.png" alt="Loufy" class="crop-header-logo-img">
+          <div class="crop-brand-icon-badge">
+            <i class="fa-solid fa-feather-pointed"></i>
+          </div>
+          <div class="crop-brand-wordmark">
+            <strong>loufy</strong>
+            <span>PUBLISHER</span>
+          </div>
         </div>
         <div class="crop-header-text">
-          <h3 class="crop-modal-title" id="crop-modal-title">Crop Artwork for Front Cover</h3>
-          <p class="crop-modal-subtitle" id="crop-modal-hint">Adjust the artwork to fit the exact front cover area (958 × 1353 px). You can crop, zoom, or choose a preset below.</p>
+          <h3 class="crop-modal-title" id="crop-modal-title">Crop Artwork</h3>
+          <p class="crop-modal-subtitle" id="crop-modal-hint">Adjust how your cover fits onto the selected book surface.</p>
         </div>
       </div>
       <div class="crop-header-right">
         <div class="crop-target-badge">
-          <i class="fa-solid fa-crosshairs" style="color: #64748b;"></i>
-          <span id="crop-modal-target-spec">Target Area: 958 × 1353 px (6:9)</span>
+          <i class="fa-solid fa-layer-group"></i>
+          <span id="crop-modal-target-spec">Target Area: Front Cover (1600 × 2400 px)</span>
         </div>
         <button type="button" class="crop-modal-close-btn" id="crop-btn-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
       </div>
@@ -1981,23 +2826,56 @@
 
     <!-- 3-Column Modal Body -->
     <div class="crop-modal-body-grid">
-      
-      <!-- LEFT COLUMN: Presets & Original Image Card -->
+
+      <!-- LEFT COLUMN: Crop Presets (Reference 2) -->
       <div class="crop-col-presets">
         <div class="crop-section-heading">Crop Presets</div>
         <div class="crop-presets-scroll-list" id="crop-presets-list">
-          <!-- 1. Auto Fit (Featured) -->
+          <!-- 1. Book Cover (6" × 9") -->
           <button type="button" class="crop-preset-card active" data-preset="autofit" id="crop-preset-autofit">
-            <div class="preset-card-icon-wrap orange">
-              <i class="fa-solid fa-expand"></i>
+            <div class="preset-card-icon-wrap">
+              <i class="fa-solid fa-book"></i>
             </div>
             <div class="preset-card-info">
-              <span class="preset-card-name">Auto Fit</span>
-              <span class="preset-card-desc">Automatically fit and center the image</span>
+              <span class="preset-card-name">Book Cover (6" × 9")</span>
+              <span class="preset-card-desc">2 : 3 Ratio</span>
             </div>
           </button>
 
-          <!-- 2. Exact Mockup Fit -->
+          <!-- 2. Kindle / Ebook -->
+          <button type="button" class="crop-preset-card" data-preset="5:8">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-solid fa-tablet-screen-button"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">Kindle / Ebook</span>
+              <span class="preset-card-desc">1 : 1.6 Ratio</span>
+            </div>
+          </button>
+
+          <!-- 3. Square Book -->
+          <button type="button" class="crop-preset-card" data-preset="1:1">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-regular fa-square"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">Square Book</span>
+              <span class="preset-card-desc">1 : 1 Ratio</span>
+            </div>
+          </button>
+
+          <!-- 4. Freeform -->
+          <button type="button" class="crop-preset-card" data-preset="custom" id="crop-preset-custom">
+            <div class="preset-card-icon-wrap">
+              <i class="fa-solid fa-crop-simple"></i>
+            </div>
+            <div class="preset-card-info">
+              <span class="preset-card-name">Freeform</span>
+              <span class="preset-card-desc">Custom Ratio</span>
+            </div>
+          </button>
+
+          <!-- 5. Exact Mockup Fit -->
           <button type="button" class="crop-preset-card" data-preset="exact" id="crop-preset-exact">
             <div class="preset-card-icon-wrap">
               <i class="fa-regular fa-image"></i>
@@ -2008,73 +2886,7 @@
             </div>
           </button>
 
-          <!-- 3. Custom / Freeform -->
-          <button type="button" class="crop-preset-card" data-preset="custom" id="crop-preset-custom">
-            <div class="preset-card-icon-wrap">
-              <i class="fa-solid fa-crop-simple"></i>
-            </div>
-            <div class="preset-card-info">
-              <span class="preset-card-name">Custom / Freeform</span>
-              <span class="preset-card-desc">Draw your own crop</span>
-            </div>
-          </button>
-
-          <!-- 4. 6:9 Standard Book -->
-          <button type="button" class="crop-preset-card" data-preset="6:9">
-            <div class="preset-card-icon-wrap">
-              <i class="fa-regular fa-rectangle-vertical"></i>
-            </div>
-            <div class="preset-card-info">
-              <span class="preset-card-name">6:9 Standard Book</span>
-              <span class="preset-card-desc">1:1.50</span>
-            </div>
-          </button>
-
-          <!-- 5. 5:8 Trade Novel -->
-          <button type="button" class="crop-preset-card" data-preset="5:8">
-            <div class="preset-card-icon-wrap">
-              <i class="fa-regular fa-rectangle-vertical"></i>
-            </div>
-            <div class="preset-card-info">
-              <span class="preset-card-name">5:8 Trade Novel</span>
-              <span class="preset-card-desc">1:1.60</span>
-            </div>
-          </button>
-
-          <!-- 6. 1:1 Square Album -->
-          <button type="button" class="crop-preset-card" data-preset="1:1">
-            <div class="preset-card-icon-wrap">
-              <i class="fa-regular fa-square"></i>
-            </div>
-            <div class="preset-card-info">
-              <span class="preset-card-name">1:1 Square Album</span>
-              <span class="preset-card-desc">1:1.00</span>
-            </div>
-          </button>
-
-          <!-- 7. 5.5:8.5 Digest Fiction -->
-          <button type="button" class="crop-preset-card" data-preset="5.5:8.5">
-            <div class="preset-card-icon-wrap">
-              <i class="fa-regular fa-envelope"></i>
-            </div>
-            <div class="preset-card-info">
-              <span class="preset-card-name">5.5:8.5 Digest Fiction</span>
-              <span class="preset-card-desc">1:1.55</span>
-            </div>
-          </button>
-
-          <!-- 8. A4 / A5 Standard -->
-          <button type="button" class="crop-preset-card" data-preset="a4">
-            <div class="preset-card-icon-wrap">
-              <i class="fa-regular fa-file"></i>
-            </div>
-            <div class="preset-card-info">
-              <span class="preset-card-name">A4 / A5 Standard</span>
-              <span class="preset-card-desc">1:1.41</span>
-            </div>
-          </button>
-
-          <!-- 9. Full Original Image -->
+          <!-- 6. Full Original Image -->
           <button type="button" class="crop-preset-card" data-preset="full">
             <div class="preset-card-icon-wrap">
               <i class="fa-regular fa-images"></i>
@@ -2091,7 +2903,7 @@
           <img id="crop-orig-thumb" class="crop-orig-thumb" alt="Original Cover" src="">
           <div class="crop-orig-meta">
             <span class="crop-orig-title">Original Image</span>
-            <span class="crop-orig-dims" id="crop-orig-dims">1200 × 1600 px</span>
+            <span class="crop-orig-dims" id="crop-orig-dims">1600 × 2400 px</span>
             <button type="button" class="crop-replace-btn" id="crop-replace-trigger">
               <i class="fa-solid fa-cloud-arrow-up"></i> Replace Image
             </button>
@@ -2100,50 +2912,78 @@
         </div>
       </div>
 
-      <!-- MIDDLE COLUMN: Interactive Cropper Viewport -->
+      <!-- MIDDLE COLUMN: Floating Mini-Toolbar + Checkerboard Cropper Stage (Reference 2) -->
       <div class="crop-col-viewport">
-        <div class="crop-viewport-badge" id="crop-viewport-dim-badge">958 × 1353 px</div>
+        <div class="crop-top-mini-toolbar">
+          <button type="button" class="crop-mini-tool-btn" id="crop-top-undo" title="Rotate Counter-Clockwise">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+          <button type="button" class="crop-mini-tool-btn" id="crop-top-redo" title="Rotate Clockwise">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <button type="button" class="crop-mini-tool-btn" id="crop-top-zoom-out" title="Zoom Out">
+            <i class="fa-solid fa-minus"></i>
+          </button>
+          <span style="font-size:12px;font-weight:700;color:#114232;min-width:42px;text-align:center;" id="crop-top-zoom-label">100%</span>
+          <button type="button" class="crop-mini-tool-btn" id="crop-top-zoom-in" title="Zoom In">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <button type="button" class="crop-mini-tool-btn" id="crop-top-fit">
+            <i class="fa-solid fa-expand"></i> Fit to Area
+          </button>
+          <button type="button" class="crop-mini-tool-btn" id="crop-top-rotate">
+            <i class="fa-solid fa-rotate"></i> Rotate
+          </button>
+          <button type="button" class="crop-mini-tool-btn" id="crop-top-reset">
+            <i class="fa-solid fa-arrows-rotate"></i> Reset View
+          </button>
+        </div>
+
         <div class="crop-canvas-wrapper" id="crop-canvas-wrapper">
           <img id="crop-target-image" src="" alt="Crop Artwork">
         </div>
+        <div class="crop-viewport-badge" id="crop-viewport-dim-badge">2530 × 3577 px</div>
       </div>
 
-      <!-- RIGHT COLUMN: Image Controls -->
+      <!-- RIGHT COLUMN: Image Controls (Reference 2) -->
       <div class="crop-col-controls">
         <div class="crop-section-heading">Image Controls</div>
 
         <!-- Zoom Control -->
         <div class="crop-ctrl-item">
           <div class="crop-ctrl-header">
-            <span class="crop-ctrl-label"><i class="fa-solid fa-magnifying-glass"></i> Zoom</span>
+            <span class="crop-ctrl-label"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom</span>
             <span class="crop-ctrl-readout" id="crop-zoom-readout">100%</span>
           </div>
           <input type="range" id="crop-zoom-slider" min="50" max="300" value="100" class="crop-range-slider">
         </div>
 
-        <!-- Rotate Slider -->
+        <!-- Straighten Slider -->
         <div class="crop-ctrl-item">
           <div class="crop-ctrl-header">
-            <span class="crop-ctrl-label"><i class="fa-solid fa-rotate"></i> Rotate</span>
+            <span class="crop-ctrl-label"><i class="fa-solid fa-compass-drafting"></i> Straighten</span>
             <span class="crop-ctrl-readout" id="crop-rotate-readout">0°</span>
           </div>
-          <input type="range" id="crop-rotate-slider" min="-180" max="180" value="0" class="crop-range-slider">
+          <input type="range" id="crop-rotate-slider" min="-45" max="45" value="0" class="crop-range-slider">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#89968f;margin-top:4px;">
+            <span>-45°</span>
+            <span>0°</span>
+            <span>+45°</span>
+          </div>
         </div>
 
-        <!-- Rotate Buttons -->
-        <div class="crop-ctrl-2col-row">
-          <button type="button" class="crop-action-pill-btn" id="crop-btn-rot-left">
-            <i class="fa-solid fa-rotate-left"></i> Rotate Left
-          </button>
-          <button type="button" class="crop-action-pill-btn" id="crop-btn-rot-right">
-            <i class="fa-solid fa-rotate-right"></i> Rotate Right
-          </button>
-        </div>
-
-        <!-- Flip Buttons -->
-        <div class="crop-ctrl-item" style="margin-top: 2px;">
-          <span class="crop-ctrl-label" style="display: block; margin-bottom: 6px;"><i class="fa-solid fa-arrows-left-right"></i> Flip</span>
-          <div class="crop-ctrl-2col-row">
+        <!-- Orientation -->
+        <div class="crop-ctrl-item">
+          <span class="crop-ctrl-label" style="display:block;margin-bottom:7px;"><i class="fa-solid fa-rotate"></i> Orientation</span>
+          <div class="crop-ctrl-2col-row" style="margin-bottom:6px;">
+            <button type="button" class="crop-action-pill-btn" id="crop-btn-rot-left">
+              <i class="fa-solid fa-rotate-left"></i> -90°
+            </button>
+            <button type="button" class="crop-action-pill-btn" id="crop-btn-rot-right">
+              <i class="fa-solid fa-rotate-right"></i> Rotate 90°
+            </button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
             <button type="button" class="crop-action-pill-btn" id="crop-btn-flip-h">
               <i class="fa-solid fa-arrows-left-right"></i> Flip Horizontal
             </button>
@@ -2154,7 +2994,7 @@
         </div>
 
         <!-- Position (D-Pad) -->
-        <div class="crop-ctrl-item" style="margin-top: 2px;">
+        <div class="crop-ctrl-item">
           <span class="crop-ctrl-label" style="display: block; margin-bottom: 6px;"><i class="fa-solid fa-arrows-up-down-left-right"></i> Position</span>
           <div class="crop-dpad-container">
             <button type="button" class="crop-dpad-btn up" id="crop-dpad-up" title="Move Up"><i class="fa-solid fa-chevron-up"></i></button>
@@ -2175,12 +3015,18 @@
 
     </div>
 
-    <!-- Modal Footer Actions -->
+    <!-- Modal Footer Actions (Reference 2) -->
     <div class="crop-modal-bottombar">
-      <button type="button" class="crop-btn-cancel-light" id="crop-btn-cancel">Cancel</button>
-      <button type="button" class="crop-btn-apply-primary" id="crop-btn-apply">
-        <i class="fa-solid fa-check"></i> <span id="crop-apply-label">Apply &amp; Set Front Cover</span>
-      </button>
+      <div class="crop-protip-pill">
+        <i class="fa-solid fa-lightbulb"></i>
+        <span><strong>Pro Tip:</strong> Use high resolution images (300 DPI) for the best print result.</span>
+      </div>
+      <div class="crop-footer-btns-right">
+        <button type="button" class="crop-btn-cancel-light" id="crop-btn-cancel">Cancel</button>
+        <button type="button" class="crop-btn-apply-primary" id="crop-btn-apply">
+          <i class="fa-solid fa-check"></i> <span id="crop-apply-label">Apply &amp; Set Front Cover</span>
+        </button>
+      </div>
     </div>
 
   </div>
@@ -7523,9 +8369,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (fwTitle) fwTitle.textContent = 'Auto 2-Page PDF / Spread Fit';
         if (fwSub) fwSub.textContent = 'Upload PDF to auto-fit Page 1 (Left) & Page 2 (Right)';
       } else {
-        if (fwIcon) fwIcon.className = 'fa-solid fa-wand-magic-sparkles';
-        if (fwTitle) fwTitle.textContent = 'Full Wrap Auto-Split';
-        if (fwSub) fwSub.textContent = 'Drop full jacket to slice Front, Spine & Back';
+        if (fwIcon) fwIcon.className = 'fa-solid fa-book-open';
+        if (fwTitle) fwTitle.textContent = 'Upload Full Wrap Cover (Front + Spine + Back)';
+        if (fwSub) fwSub.textContent = 'Drag & drop your PDF or image file here';
       }
     }
 
@@ -8363,6 +9209,101 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     activeTCard.classList.add('active');
   }
   updateAllSlotCardsUI();
+
+  // ── ENHANCED UI BINDINGS FOR REDESIGNED STUDIO (REFS 1, 2, 3) ──
+  const studioDrawerPanel = document.getElementById('studio-drawer-panel');
+  railBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (studioDrawerPanel) {
+        studioDrawerPanel.classList.toggle('adjust-active', btn.getAttribute('data-rail-tab') === 'adjust');
+      }
+    });
+  });
+
+  // Highlights / Gloss Toggle Switch (Reference 3)
+  const adjHighlightToggle = document.getElementById('adj-highlight-toggle');
+  if (adjHighlightToggle) {
+    adjHighlightToggle.addEventListener('change', () => {
+      const val = adjHighlightToggle.checked ? 100 : 0;
+      highlightOpacity = val;
+      if (adjHighlightSlider) adjHighlightSlider.value = val;
+      if (adjHighlightVal) adjHighlightVal.textContent = val + '%';
+      renderCurrentMockup();
+    });
+  }
+
+  // Spine Auto / Custom Segmented Toggle (Reference 1)
+  const btnSpineModeAuto = document.getElementById('btn-spine-mode-auto');
+  const btnSpineModeCustom = document.getElementById('btn-spine-mode-custom');
+  if (btnSpineModeAuto && btnSpineModeCustom) {
+    btnSpineModeAuto.addEventListener('click', () => {
+      btnSpineModeAuto.classList.add('active');
+      btnSpineModeCustom.classList.remove('active');
+      if (btnClearSlotSpine) btnClearSlotSpine.click();
+    });
+    btnSpineModeCustom.addEventListener('click', () => {
+      btnSpineModeCustom.classList.add('active');
+      btnSpineModeAuto.classList.remove('active');
+      if (btnUploadSlotSpine) btnUploadSlotSpine.click();
+    });
+  }
+
+  // Center Stage Top Undo / Redo Buttons (Reference 1)
+  const btnCanvasUndo = document.getElementById('btn-canvas-undo');
+  const btnCanvasRedo = document.getElementById('btn-canvas-redo');
+  if (btnCanvasUndo) {
+    btnCanvasUndo.addEventListener('click', () => {
+      if (btnFloatFit) btnFloatFit.click();
+    });
+  }
+  if (btnCanvasRedo) {
+    btnCanvasRedo.addEventListener('click', () => {
+      if (btnFloatCenter) btnFloatCenter.click();
+    });
+  }
+
+  // Crop Modal Top Mini-Toolbar Controls (Reference 2)
+  const cropTopUndo = document.getElementById('crop-top-undo');
+  const cropTopRedo = document.getElementById('crop-top-redo');
+  const cropTopZoomOut = document.getElementById('crop-top-zoom-out');
+  const cropTopZoomIn = document.getElementById('crop-top-zoom-in');
+  const cropTopZoomLabel = document.getElementById('crop-top-zoom-label');
+  const cropTopFit = document.getElementById('crop-top-fit');
+  const cropTopRotate = document.getElementById('crop-top-rotate');
+  const cropTopReset = document.getElementById('crop-top-reset');
+
+  if (cropTopUndo) cropTopUndo.addEventListener('click', () => document.getElementById('crop-btn-rot-left')?.click());
+  if (cropTopRedo) cropTopRedo.addEventListener('click', () => document.getElementById('crop-btn-rot-right')?.click());
+  if (cropTopRotate) cropTopRotate.addEventListener('click', () => document.getElementById('crop-btn-rot-right')?.click());
+  if (cropTopFit) cropTopFit.addEventListener('click', () => document.getElementById('crop-preset-autofit')?.click());
+  if (cropTopReset) cropTopReset.addEventListener('click', () => document.getElementById('crop-btn-reset-all')?.click());
+  if (cropTopZoomOut) {
+    cropTopZoomOut.addEventListener('click', () => {
+      if (activeCropper) {
+        activeCropper.zoom(-0.1);
+        const z = Math.max(50, Math.min(300, (parseInt(cropZoomSlider?.value || '100', 10) - 10)));
+        if (cropZoomSlider) cropZoomSlider.value = z;
+        if (cropZoomReadout) cropZoomReadout.textContent = z + '%';
+        if (cropTopZoomLabel) cropTopZoomLabel.textContent = z + '%';
+      }
+    });
+  }
+  if (cropTopZoomIn) {
+    cropTopZoomIn.addEventListener('click', () => {
+      if (activeCropper) {
+        activeCropper.zoom(0.1);
+        const z = Math.max(50, Math.min(300, (parseInt(cropZoomSlider?.value || '100', 10) + 10)));
+        if (cropZoomSlider) cropZoomSlider.value = z;
+        if (cropZoomReadout) cropZoomReadout.textContent = z + '%';
+        if (cropTopZoomLabel) cropTopZoomLabel.textContent = z + '%';
+      }
+    });
+  }
+  if (cropZoomSlider && cropTopZoomLabel) {
+    cropZoomSlider.addEventListener('input', () => {
+      cropTopZoomLabel.textContent = cropZoomSlider.value + '%';
+    });
+  }
 
   // Internal test & inspection hook
   window.__app = {
