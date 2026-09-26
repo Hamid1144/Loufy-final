@@ -2024,6 +2024,439 @@
       opacity: 1 !important;
       border-radius: 50% !important;
     }
+
+    /* ==========================================================================
+       MOBILE & TABLET RESPONSIVE LAYOUT (@media max-width: 980px)
+       Desktop (> 980px) remains 100% untouched.
+       Mobile Layout Architecture:
+       1. TOP: Compact Header + Mode Switcher (Templates / Adjust) + Horizontal Templates / Adjust Drawer
+       2. MIDDLE: Interactive 3D Mockup Canvas Stage + Floating Toolbar
+       3. BOTTOM: Upload Artwork (Full Wrap, Front, Back, Spine), Background, Shadows & Download
+       ========================================================================== */
+    @media (max-width: 980px) {
+      body {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+      }
+
+      .studio-app-root {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-x: hidden !important;
+        overflow-y: visible !important;
+      }
+
+      /* 1. Compact Mobile Top Header */
+      .studio-header {
+        height: auto;
+        min-height: 54px;
+        padding: 8px 12px;
+        flex-wrap: wrap;
+        gap: 8px;
+        position: sticky;
+        top: 0;
+        z-index: 120;
+      }
+
+      .studio-header-left {
+        gap: 8px;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .studio-brand-icon-box {
+        width: 31px;
+        height: 31px;
+        font-size: 14px;
+      }
+
+      .studio-header-title {
+        font-size: 15.5px;
+        gap: 5px;
+      }
+
+      .studio-by-loufy-badge {
+        font-size: 8px;
+        padding: 2px 5px;
+      }
+
+      .studio-header-divider,
+      .studio-header-tagline {
+        display: none !important;
+      }
+
+      .hdr-btn-back {
+        padding: 5px 9px;
+        font-size: 11px;
+        gap: 4px;
+      }
+
+      .studio-header-right {
+        gap: 6px;
+      }
+
+      .hdr-btn-ghost {
+        height: 33px;
+        padding: 0 10px;
+        font-size: 11.5px;
+        gap: 5px;
+      }
+
+      .hdr-btn-export-primary {
+        height: 33px;
+        padding: 0 12px;
+        font-size: 11.5px;
+        gap: 6px;
+      }
+
+      /* 2. Workspace Stack: Top Controls -> Middle Mockup View -> Bottom Controls */
+      .studio-workspace-body {
+        flex-direction: column !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+
+      /* TOP BAR 1: Horizontal Navigation Rail (Templates | Adjust) */
+      .studio-nav-rail {
+        order: 1;
+        width: 100% !important;
+        min-width: 100% !important;
+        height: 50px;
+        flex-direction: row !important;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 12px;
+        gap: 10px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .rail-btn {
+        flex: 1;
+        max-width: 190px;
+        width: auto;
+        height: 38px;
+        flex-direction: row !important;
+        gap: 8px;
+        border-radius: 10px;
+        padding: 0 14px;
+      }
+
+      .rail-btn i {
+        font-size: 14px;
+      }
+
+      .rail-btn span {
+        font-size: 12.5px;
+        font-weight: 700;
+      }
+
+      .rail-btn.active::before {
+        display: none;
+      }
+
+      /* TOP BAR 2: Templates Carousel & Adjustments Drawer (Above Mockup View) */
+      .studio-drawer-panel,
+      .studio-drawer-panel.adjust-active {
+        order: 2;
+        width: 100% !important;
+        min-width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        overflow: visible !important;
+      }
+
+      .drawer-view {
+        height: auto !important;
+        padding: 10px 12px;
+        overflow: visible !important;
+      }
+
+      .drawer-header-title {
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+
+      .drawer-search-box {
+        margin-bottom: 8px;
+      }
+
+      .drawer-search-input {
+        height: 34px;
+        font-size: 12px;
+      }
+
+      .drawer-cat-pills {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        margin-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .cat-pill-btn {
+        flex-shrink: 0;
+        padding: 4px 10px;
+        font-size: 11px;
+      }
+
+      /* Horizontal Swipeable Templates Strip on Mobile */
+      .templates-cards-grid {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        gap: 9px;
+        padding: 2px 2px 8px;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .template-card-btn {
+        flex: 0 0 112px;
+        width: 112px;
+        min-width: 112px;
+        padding: 6px;
+        scroll-snap-align: start;
+      }
+
+      .template-card-thumb-wrap {
+        height: 72px;
+        margin-bottom: 5px;
+      }
+
+      .template-card-label {
+        font-size: 10.5px;
+      }
+
+      /* Compact Scrollable Adjustments Panel Above Mockup View when Adjust Tab is Selected */
+      #drawer-view-adjust .adjust-top-header {
+        padding: 10px 12px;
+      }
+
+      #drawer-view-adjust .adjust-top-titles h3 {
+        font-size: 16px;
+      }
+
+      #drawer-view-adjust .adjust-cards-scroll {
+        max-height: 235px;
+        overflow-y: auto;
+        padding: 10px 12px 14px;
+        gap: 8px;
+      }
+
+      #drawer-view-adjust .adj-control-row {
+        padding: 10px 12px;
+        border-radius: 12px;
+      }
+
+      /* MIDDLE SECTION: Live Mockup Canvas Stage (Centered Between Top & Bottom Controls) */
+      .studio-canvas-viewport {
+        order: 3;
+        width: 100% !important;
+        min-height: 310px;
+        max-height: 430px;
+        padding: 52px 12px 16px !important;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .floating-canvas-bar {
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        gap: 4px;
+        justify-content: space-between;
+      }
+
+      .floating-bar-cluster {
+        padding: 3px 6px;
+        gap: 3px;
+        border-radius: 10px;
+      }
+
+      .float-ctrl-btn,
+      .float-tool-link {
+        height: 27px;
+        padding: 0 7px;
+        font-size: 11px;
+        gap: 4px;
+      }
+
+      .float-zoom-readout {
+        font-size: 11px;
+        min-width: 36px;
+      }
+
+      #psd-canvas {
+        max-width: 100% !important;
+        max-height: 325px !important;
+        width: auto !important;
+        height: auto !important;
+      }
+
+      /* BOTTOM SECTION: Upload Artwork, Spine, Background, Shadows & Download */
+      .studio-inspector-panel {
+        order: 4;
+        width: 100% !important;
+        min-width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        border-left: none;
+        padding: 14px 12px 28px !important;
+        gap: 12px;
+      }
+
+      /* Mobile-Responsive Crop Artwork Modal */
+      .crop-modal-backdrop {
+        padding: 6px;
+      }
+
+      .crop-modal-dialog {
+        width: 98vw !important;
+        height: 95vh !important;
+        max-height: 95vh !important;
+        border-radius: 14px;
+      }
+
+      .crop-modal-header {
+        height: auto;
+        min-height: 52px;
+        padding: 8px 12px;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .crop-header-brand-wrap,
+      .crop-modal-subtitle {
+        display: none !important;
+      }
+
+      .crop-modal-title {
+        font-size: 15px;
+      }
+
+      .crop-target-badge {
+        font-size: 10.5px;
+        padding: 4px 8px;
+      }
+
+      .crop-modal-body-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        overflow-y: auto !important;
+        flex: 1;
+      }
+
+      .crop-col-presets {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 10px 12px;
+        flex-shrink: 0;
+      }
+
+      .crop-presets-scroll-list {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        gap: 8px;
+        padding-bottom: 4px;
+      }
+
+      .crop-preset-card {
+        flex: 0 0 145px;
+        min-width: 145px;
+        padding: 8px 10px;
+      }
+
+      .crop-orig-image-card {
+        display: none !important;
+      }
+
+      .crop-col-viewport {
+        min-height: 270px;
+        height: 295px;
+        padding: 46px 10px 12px;
+        flex-shrink: 0;
+      }
+
+      .crop-top-mini-toolbar {
+        top: 6px;
+        padding: 3px 6px;
+        gap: 3px;
+        max-width: 96%;
+        overflow-x: auto;
+      }
+
+      .crop-mini-tool-btn {
+        height: 26px;
+        padding: 0 6px;
+        font-size: 10.5px;
+      }
+
+      .crop-col-controls {
+        border-left: none;
+        border-top: 1px solid var(--border-color);
+        padding: 12px;
+        overflow: visible;
+      }
+
+      .crop-modal-bottombar {
+        height: auto;
+        min-height: 56px;
+        padding: 8px 12px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .crop-protip-pill {
+        display: none !important;
+      }
+
+      .crop-footer-btns-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .crop-btn-cancel-light,
+      .crop-btn-apply-primary {
+        flex: 1;
+        justify-content: center;
+        height: 38px;
+        padding: 0 12px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .hdr-btn-back span,
+      #btn-hdr-help span {
+        display: none;
+      }
+
+      .float-tool-link {
+        padding: 0 6px;
+        font-size: 10.5px;
+      }
+
+      .slot-item-body {
+        flex-wrap: wrap;
+      }
+
+      .slot-item-info {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .slot-btn-group {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
