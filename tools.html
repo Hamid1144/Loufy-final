@@ -3563,8 +3563,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   let activeMidImg = null;
   let customMidImg = null;
 
-  // Raw source artworks for re-cropping anytime
+  // Raw source artworks for re-cropping anytime (stores full wrap cover when Full Wrap / PDF Full Wrap is uploaded)
   const rawArtworks = {
+    front: null,
+    back: null,
+    spine: null,
+    middle: null
+  };
+  const fullWrapCropRects = {
     front: null,
     back: null,
     spine: null,
@@ -3576,6 +3582,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     spine: 'Custom Spine',
     middle: 'Turning Page'
   };
+
+  function resolveArtworkDataUrl(item) {
+    if (!item) return null;
+    if (typeof item === 'string') return item;
+    if (item.src) return item.src;
+    if (typeof item.toDataURL === 'function') return item.toDataURL('image/png');
+    return null;
+  }
 
   // Cropper State
   let activeCropper = null;
@@ -5748,6 +5762,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (detectDimText) detectDimText.textContent = w + ' × ' + h + ' px';
       }
 
+      const fullWrapUrl = resolveArtworkDataUrl(imgOrCanvas);
       const conf = PSD_MANIFEST[currentPresetId];
       const hasSpine = conf && conf.slots && conf.slots.includes('spine');
 
@@ -5767,6 +5782,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         fCanvas.getContext('2d').drawImage(imgOrCanvas, halfWidth, 0, w - halfWidth, h, 0, 0, w - halfWidth, h);
         activeFrontImg = fCanvas;
         customFrontImg = fCanvas;
+
+        if (fullWrapUrl) {
+          rawArtworks.back = fullWrapUrl;
+          rawArtworks.front = fullWrapUrl;
+          fullWrapCropRects.back = { x: 0, y: 0, width: halfWidth, height: h };
+          fullWrapCropRects.front = { x: halfWidth, y: 0, width: w - halfWidth, height: h };
+        }
 
         // Update slot UI
         if (frontBtnLabel) frontBtnLabel.textContent = fileName + ' (Right Page)';
@@ -5817,6 +5839,15 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       bCanvas.getContext('2d').drawImage(imgOrCanvas, 0, 0, spineStart, h, 0, 0, spineStart, h);
       activeBackImg = bCanvas;
       customBackImg = bCanvas;
+
+      if (fullWrapUrl) {
+        rawArtworks.front = fullWrapUrl;
+        rawArtworks.back = fullWrapUrl;
+        rawArtworks.spine = fullWrapUrl;
+        fullWrapCropRects.front = { x: frontStart, y: 0, width: frontWidth, height: h };
+        fullWrapCropRects.back = { x: 0, y: 0, width: spineStart, height: h };
+        fullWrapCropRects.spine = { x: spineStart, y: 0, width: spineWidthPx, height: h };
+      }
 
       // Update slot UI
       if (frontBtnLabel) frontBtnLabel.textContent = fileName + ' (Front)';
@@ -5995,6 +6026,74 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     return getSlotTargetSpecs(presetId, slot).ratio;
   }
 
+  // Helper: Position Cropper selection box onto the corresponding region (Front, Back, or Spine) when cropping a Full Wrap cover
+  function alignCropBoxToFullWrapSlot(slot, specs, ignoreUserSaved = false) {
+    if (!activeCropper) return;
+    const imgData = activeCropper.getImageData();
+    if (!imgData || !imgData.naturalWidth || !imgData.naturalHeight) return;
+    const W = imgData.naturalWidth;
+    const H = imgData.naturalHeight;
+    const saved = fullWrapCropRects[slot];
+
+    if (!ignoreUserSaved && saved && saved.userCropped) {
+      activeCropper.setData({
+        x: saved.x,
+        y: saved.y,
+        width: saved.width,
+        height: saved.height
+      });
+      return;
+    }
+
+    if (W > H * 1.15 || saved) {
+      let regX = 0, regY = 0, regW = W, regH = H;
+      if (saved && saved.width > 0 && saved.height > 0) {
+        regX = saved.x;
+        regY = saved.y;
+        regW = saved.width;
+        regH = saved.height;
+      } else {
+        const isTwoPageSpread = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6');
+        if (isTwoPageSpread) {
+          const halfW = Math.round(W / 2);
+          if (slot === 'back') {
+            regX = 0; regW = halfW;
+          } else {
+            regX = halfW; regW = W - halfW;
+          }
+        } else {
+          const spRatio = 0.08;
+          const sideRatio = (1 - spRatio) / 2;
+          const backW = Math.round(W * sideRatio);
+          const spW = Math.round(W * spRatio);
+          if (slot === 'back') {
+            regX = 0; regW = backW;
+          } else if (slot === 'spine') {
+            regX = backW; regW = spW;
+          } else {
+            regX = backW + spW; regW = W - regX;
+          }
+        }
+      }
+
+      const targetRatio = (specs && specs.ratio) ? specs.ratio : (regW / regH);
+      let boxW = regW;
+      let boxH = targetRatio ? (boxW / targetRatio) : regH;
+      if (boxH > regH) {
+        boxH = regH;
+        boxW = targetRatio ? (boxH * targetRatio) : regW;
+      }
+      const boxX = regX + (regW - boxW) / 2;
+      const boxY = regY + (regH - boxH) / 2;
+      activeCropper.setData({
+        x: Math.round(boxX),
+        y: Math.round(boxY),
+        width: Math.round(boxW),
+        height: Math.round(boxH)
+      });
+    }
+  }
+
   // ── SMART ARTWORK CROP MODAL ENGINE (Reference Matching) ──
   window.openCropModal = openCropModal;
   function openCropModal(imgSrc, slot = 'front', fileName = '') {
@@ -6095,8 +6194,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           toggleDragModeOnDblclick: true,
           dragMode: 'crop',
           ready() {
-            // Auto Fit: Center and set optimal crop area
+            // Auto Fit: Center and set optimal crop area (or position on target slot of Full Wrap cover)
             activeCropper.setAspectRatio(specs.ratio);
+            alignCropBoxToFullWrapSlot(slot, specs, false);
           },
           zoom(e) {
             if (cropZoomSlider && cropZoomReadout) {
@@ -6136,14 +6236,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const specs = getSlotTargetSpecs(currentPresetId, currentCropSlot);
 
       if (pType === 'autofit') {
-        activeCropper.setAspectRatio(specs.ratio);
         activeCropper.reset();
+        activeCropper.setAspectRatio(specs.ratio);
+        alignCropBoxToFullWrapSlot(currentCropSlot, specs, true);
         if (document.getElementById('crop-zoom-slider')) document.getElementById('crop-zoom-slider').value = 100;
         if (document.getElementById('crop-zoom-readout')) document.getElementById('crop-zoom-readout').textContent = '100%';
         if (document.getElementById('crop-rotate-slider')) document.getElementById('crop-rotate-slider').value = 0;
         if (document.getElementById('crop-rotate-readout')) document.getElementById('crop-rotate-readout').textContent = '0°';
       } else if (pType === 'exact') {
         activeCropper.setAspectRatio(specs.ratio);
+        alignCropBoxToFullWrapSlot(currentCropSlot, specs, true);
       } else if (pType === 'custom') {
         activeCropper.setAspectRatio(NaN);
       } else if (pType === '6:9') {
@@ -6278,6 +6380,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const specs = getSlotTargetSpecs(currentPresetId, currentCropSlot);
       activeCropper.reset();
       activeCropper.setAspectRatio(specs.ratio);
+      alignCropBoxToFullWrapSlot(currentCropSlot, specs, true);
       if (cropZoomSlider) cropZoomSlider.value = 100;
       if (cropZoomReadout) cropZoomReadout.textContent = '100%';
       if (cropRotateSlider) cropRotateSlider.value = 0;
@@ -6314,6 +6417,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     const slot = currentCropSlot;
     const name = currentCropFileName;
+    const cropBoxData = activeCropper.getData(true);
+    if (cropBoxData && cropBoxData.width > 0 && cropBoxData.height > 0) {
+      fullWrapCropRects[slot] = {
+        x: cropBoxData.x,
+        y: cropBoxData.y,
+        width: cropBoxData.width,
+        height: cropBoxData.height,
+        userCropped: true
+      };
+    }
     rawArtworks[slot] = currentCropDataUrl;
     rawFileNames[slot] = name;
 
@@ -6494,7 +6607,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const img = await window.processUploadedFileToImage(file);
       if (isOpenBookDual && (img.width / img.height > 1.25)) {
         await autoFitOpenBookTwoPages(file, false);
+        openCropModal(img.src, 'front', file.name);
+      } else if (img.width / img.height > 1.25) {
+        sliceAndApplyFullWrap(img, file.name);
+        openCropModal(img.src, 'front', file.name);
       } else {
+        fullWrapCropRects.front = null;
+        rawArtworks.front = img.src;
         openCropModal(img.src, 'front', file.name);
       }
     } catch (e) {
@@ -6515,7 +6634,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const img = await window.processUploadedFileToImage(file);
       if (isOpenBookDual && (img.width / img.height > 1.25)) {
         await autoFitOpenBookTwoPages(file, false);
+        openCropModal(img.src, 'back', file.name);
+      } else if (img.width / img.height > 1.25) {
+        sliceAndApplyFullWrap(img, file.name);
+        openCropModal(img.src, 'back', file.name);
       } else {
+        fullWrapCropRects.back = null;
+        rawArtworks.back = img.src;
         openCropModal(img.src, 'back', file.name);
       }
     } catch (e) {
@@ -6528,7 +6653,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     if (!file) return;
     try {
       const img = await window.processUploadedFileToImage(file);
-      openCropModal(img.src, 'spine', file.name);
+      if (img.width / img.height > 1.25) {
+        sliceAndApplyFullWrap(img, file.name);
+        openCropModal(img.src, 'spine', file.name);
+      } else {
+        fullWrapCropRects.spine = null;
+        rawArtworks.spine = img.src;
+        openCropModal(img.src, 'spine', file.name);
+      }
     } catch (e) {
       console.error(e);
       alert('Error loading file. Please try a valid image or PDF.');
@@ -6676,7 +6808,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   if (cropFrontBtn) {
     cropFrontBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const src = rawArtworks.front || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
+      const src = resolveArtworkDataUrl(rawArtworks.front) || resolveArtworkDataUrl(customFrontImg) || resolveArtworkDataUrl(activeFrontImg);
       if (src) {
         openCropModal(src, 'front', rawFileNames.front || 'Front Cover Artwork');
       } else if (frontInput) {
@@ -6690,6 +6822,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customFrontImg = null;
       activeFrontImg = null;
       rawArtworks.front = null;
+      fullWrapCropRects.front = null;
       rawFileNames.front = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') ? 'Right Page' : 'Front Cover';
       if (frontThumbPreview) {
         frontThumbPreview.src = '';
@@ -6714,7 +6847,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   if (cropBackBtn) {
     cropBackBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const src = rawArtworks.back || (customBackImg ? (customBackImg.src || (customBackImg.toDataURL ? customBackImg.toDataURL() : null)) : null) || rawArtworks.front || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
+      const src = resolveArtworkDataUrl(rawArtworks.back) || resolveArtworkDataUrl(customBackImg) || resolveArtworkDataUrl(rawArtworks.front) || resolveArtworkDataUrl(activeFrontImg);
       if (src) {
         openCropModal(src, 'back', rawFileNames.back || ((currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') ? 'Left Page Artwork' : 'Back Cover Artwork'));
       } else if (backInput) {
@@ -6728,6 +6861,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customBackImg = null;
       activeBackImg = null;
       rawArtworks.back = null;
+      fullWrapCropRects.back = null;
       rawFileNames.back = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6') ? 'Left Page' : 'Back Cover';
       if (backThumbPreview) {
         backThumbPreview.src = '';
@@ -6751,7 +6885,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   if (cropSpineBtn) {
     cropSpineBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const src = rawArtworks.spine || (customSpineImg ? (customSpineImg.src || (customSpineImg.toDataURL ? customSpineImg.toDataURL() : null)) : null) || rawArtworks.front || (activeFrontImg ? (activeFrontImg.src || (activeFrontImg.toDataURL ? activeFrontImg.toDataURL() : null)) : null);
+      const src = resolveArtworkDataUrl(rawArtworks.spine) || resolveArtworkDataUrl(customSpineImg) || resolveArtworkDataUrl(rawArtworks.front) || resolveArtworkDataUrl(activeFrontImg);
       if (src) {
         openCropModal(src, 'spine', rawFileNames.spine || 'Spine Artwork');
       } else if (spineInput) {
@@ -6765,6 +6899,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customSpineImg = null;
       activeSpineImg = null;
       rawArtworks.spine = null;
+      fullWrapCropRects.spine = null;
       if (spineThumbPreview) {
         spineThumbPreview.src = '';
         spineThumbPreview.style.display = 'none';
@@ -7451,7 +7586,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotFront) {
     btnCropSlotFront.addEventListener('click', () => {
-      const src = (customFrontImg && customFrontImg.src) || (currentPresetId === 'open_hardcover_pixeden' ? '/images/psd_mockups/open_hardcover_pixeden/sample_front.png' : (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_front.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_front.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_front.png' : (currentPresetId === 'square_hardcover_trio_2' ? '/images/psd_mockups/square_hardcover_trio_2/sample_front.png' : (currentPresetId === 'square_spread_7' ? '/images/psd_mockups/square_spread_7/sample_cover.png' : (currentPresetId === 'open_book_6' ? '/images/psd_mockups/open_book_6/sample_right.png' : (activeFrontImg && activeFrontImg.src)))))))));
+      const src = resolveArtworkDataUrl(rawArtworks.front) || resolveArtworkDataUrl(customFrontImg) || (currentPresetId === 'open_hardcover_pixeden' ? '/images/psd_mockups/open_hardcover_pixeden/sample_front.png' : (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_front.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_front.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_front.png' : (currentPresetId === 'square_hardcover_trio_2' ? '/images/psd_mockups/square_hardcover_trio_2/sample_front.png' : (currentPresetId === 'square_spread_7' ? '/images/psd_mockups/square_spread_7/sample_cover.png' : (currentPresetId === 'open_book_6' ? '/images/psd_mockups/open_book_6/sample_right.png' : resolveArtworkDataUrl(activeFrontImg)))))))));
       if (src) openCropModal(src, 'front', rawFileNames.front || 'Front Cover');
     });
   }
@@ -7460,6 +7595,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customFrontImg = null;
       activeFrontImg = null;
       rawArtworks.front = null;
+      fullWrapCropRects.front = null;
       rawFileNames.front = null;
       frontTransform.shiftX = 0;
       updateAllSlotCardsUI();
@@ -7488,7 +7624,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
   if (btnCropSlotBack) {
     btnCropSlotBack.addEventListener('click', () => {
-      const src = (customBackImg && customBackImg.src) || (currentPresetId === 'open_hardcover_pixeden' ? '/images/psd_mockups/open_hardcover_pixeden/sample_back.png' : (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_back.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_back.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_front.png' : (currentPresetId === 'square_hardcover_trio_2' ? '/images/psd_mockups/square_hardcover_trio_2/sample_front.png' : (currentPresetId === 'square_spread_7' ? '/images/psd_mockups/square_spread_7/sample_back_cover.png' : (currentPresetId === 'open_book_6' ? '/images/psd_mockups/open_book_6/sample_left.png' : (activeBackImg && activeBackImg.src)))))))));
+      const src = resolveArtworkDataUrl(rawArtworks.back) || resolveArtworkDataUrl(customBackImg) || (currentPresetId === 'open_hardcover_pixeden' ? '/images/psd_mockups/open_hardcover_pixeden/sample_back.png' : (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_back.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_front.png' : (currentPresetId === 'us_letter_brochure_02' ? '/images/psd_mockups/us_letter_brochure_02/sample_back.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_front.png' : (currentPresetId === 'square_hardcover_trio_2' ? '/images/psd_mockups/square_hardcover_trio_2/sample_front.png' : (currentPresetId === 'square_spread_7' ? '/images/psd_mockups/square_spread_7/sample_back_cover.png' : (currentPresetId === 'open_book_6' ? '/images/psd_mockups/open_book_6/sample_left.png' : resolveArtworkDataUrl(activeBackImg)))))))));
       if (src) openCropModal(src, 'back', rawFileNames.back || 'Back Cover');
     });
   }
@@ -7497,6 +7633,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       customBackImg = null;
       activeBackImg = null;
       rawArtworks.back = null;
+      fullWrapCropRects.back = null;
       rawFileNames.back = null;
       backTransform.shiftX = 0;
       updateAllSlotCardsUI();
@@ -7520,8 +7657,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         const file = e.target.files[0];
         window.processUploadedFileToImage(file).then(img => {
           if (currentPresetId === 'magazine_turning_spread') {
+            rawArtworks.middle = img.src;
+            fullWrapCropRects.middle = null;
             setMiddleArtwork(img, file.name);
+          } else if (img.width / img.height > 1.25) {
+            sliceAndApplyFullWrap(img, file.name);
           } else {
+            rawArtworks.spine = img.src;
+            fullWrapCropRects.spine = null;
             setSpineArtwork(img, file.name);
           }
           updateAllSlotCardsUI();
@@ -7536,10 +7679,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   if (btnCropSlotSpine) {
     btnCropSlotSpine.addEventListener('click', () => {
       if (currentPresetId === 'magazine_turning_spread') {
-        const src = (customMidImg && customMidImg.src) || (activeMidImg && activeMidImg.src);
+        const src = resolveArtworkDataUrl(rawArtworks.middle) || resolveArtworkDataUrl(customMidImg) || resolveArtworkDataUrl(activeMidImg);
         if (src) openCropModal(src, 'middle', rawFileNames.middle || 'Turning Page Artwork');
       } else {
-        const src = (customSpineImg && customSpineImg.src) || (currentPresetId === 'open_hardcover_pixeden' ? '/images/psd_mockups/open_hardcover_pixeden/sample_spine.png' : (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_spine.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_spine.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_spine.png' : (currentPresetId === 'square_hardcover_trio_2' ? '/images/psd_mockups/square_hardcover_trio_2/sample_spine.png' : (currentPresetId === 'square_spread_7' ? '/images/psd_mockups/square_spread_7/sample_edge.png' : (activeSpineImg && activeSpineImg.src)))))));
+        const src = resolveArtworkDataUrl(rawArtworks.spine) || resolveArtworkDataUrl(customSpineImg) || (currentPresetId === 'open_hardcover_pixeden' ? '/images/psd_mockups/open_hardcover_pixeden/sample_spine.png' : (currentPresetId === 'book_spread_8' ? '/images/psd_mockups/book_spread_8/sample_spine.png' : (currentPresetId === 'soft_cover_v01' ? '/images/psd_mockups/soft_cover_v01/sample_spine.png' : (currentPresetId === 'square_book_12' ? '/images/psd_mockups/square_book_12/sample_spine.png' : (currentPresetId === 'square_hardcover_trio_2' ? '/images/psd_mockups/square_hardcover_trio_2/sample_spine.png' : (currentPresetId === 'square_spread_7' ? '/images/psd_mockups/square_spread_7/sample_edge.png' : resolveArtworkDataUrl(activeSpineImg)))))));
         if (src) openCropModal(src, 'spine', rawFileNames.spine || 'Spine Artwork');
       }
     });
@@ -7550,11 +7693,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         customMidImg = null;
         activeMidImg = null;
         rawArtworks.middle = null;
+        fullWrapCropRects.middle = null;
         rawFileNames.middle = 'Turning Page';
       } else {
         customSpineImg = null;
         activeSpineImg = null;
         rawArtworks.spine = null;
+        fullWrapCropRects.spine = null;
         rawFileNames.spine = 'Spine';
       }
       updateAllSlotCardsUI();
@@ -7639,6 +7784,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const W = spreadImg.naturalWidth || spreadImg.width;
       const H = spreadImg.naturalHeight || spreadImg.height;
       const halfW = Math.round(W / 2);
+      const fullSpreadUrl = resolveArtworkDataUrl(spreadImg);
 
       const extractHalf = (sx, sw) => {
         const c = document.createElement('canvas');
@@ -7660,8 +7806,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const [leftImg, rightImg] = await Promise.all([loadImg(leftUrl), loadImg(rightUrl)]);
       backTransform = { scale: 100, shiftX: 0, shiftY: 0 };
       frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
-      rawArtworks.back = leftUrl;
-      rawArtworks.front = rightUrl;
+      rawArtworks.back = fullSpreadUrl || leftUrl;
+      rawArtworks.front = fullSpreadUrl || rightUrl;
+      fullWrapCropRects.back = { x: 0, y: 0, width: halfW, height: H };
+      fullWrapCropRects.front = { x: halfW, y: 0, width: W - halfW, height: H };
       setBackArtwork(leftImg, baseName + ' (Page 1 • Left)');
       setFrontArtwork(rightImg, baseName + ' (Page 2 • Right)');
       updateAllSlotCardsUI();
@@ -7677,10 +7825,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           renderPdfPageToImage(pdf, 1),
           renderPdfPageToImage(pdf, 2)
         ]);
+        if (!isSpreadMockup && (page1Img.naturalWidth > page1Img.naturalHeight * 1.25)) {
+          sliceAndApplyFullWrap(page1Img, file.name);
+          return true;
+        }
         backTransform = { scale: 100, shiftX: 0, shiftY: 0 };
         frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
         rawArtworks.back = page1Img.src;
         rawArtworks.front = page2Img.src;
+        fullWrapCropRects.back = null;
+        fullWrapCropRects.front = null;
         setBackArtwork(page1Img, file.name + ' (Page 1 • Left)');
         setFrontArtwork(page2Img, file.name + ' (Page 2 • Right)');
         updateAllSlotCardsUI();
@@ -7695,6 +7849,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
           rawArtworks.back = page1Img.src;
           rawArtworks.front = page1Img.src;
+          fullWrapCropRects.back = null;
+          fullWrapCropRects.front = null;
           setBackArtwork(page1Img, file.name + ' (Page 1 • Left)');
           setFrontArtwork(page1Img, file.name + ' (Page 1 • Right)');
           updateAllSlotCardsUI();
@@ -7714,6 +7870,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         frontTransform = { scale: 100, shiftX: 0, shiftY: 0 };
         rawArtworks.back = img.src;
         rawArtworks.front = img.src;
+        fullWrapCropRects.back = null;
+        fullWrapCropRects.front = null;
         setBackArtwork(img, file.name + ' (Left)');
         setFrontArtwork(img, file.name + ' (Right)');
         updateAllSlotCardsUI();
@@ -7742,8 +7900,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
 
   function sliceAndApplyFullWrap(wrapImg, fileName) {
-    const W = wrapImg.naturalWidth;
-    const H = wrapImg.naturalHeight;
+    const W = wrapImg.naturalWidth || wrapImg.width;
+    const H = wrapImg.naturalHeight || wrapImg.height;
+    const fullWrapUrl = resolveArtworkDataUrl(wrapImg);
 
     const spineRatio = 0.08;
     const flapRatio = 0.0;
@@ -7773,9 +7932,19 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     const backSlice = extractSlice(backX, backW);
     const spineSlice = extractSlice(spineX, spineW);
 
+    // Store complete un-sliced Full Wrap cover URL in rawArtworks and record slice bounds for Crop Modal
+    if (fullWrapUrl) {
+      rawArtworks.front = fullWrapUrl;
+      rawArtworks.back = fullWrapUrl;
+      rawArtworks.spine = fullWrapUrl;
+    }
+    fullWrapCropRects.front = { x: frontX, y: 0, width: frontW, height: H };
+    fullWrapCropRects.back = { x: backX, y: 0, width: backW, height: H };
+    fullWrapCropRects.spine = { x: spineX, y: 0, width: spineW, height: H };
+
     frontSlice.onload = () => {
       customFrontImg = frontSlice;
-      rawArtworks.front = frontSlice;
+      if (!fullWrapUrl) rawArtworks.front = frontSlice.src;
       rawFileNames.front = fileName + ' [Front]';
       activeFrontImg = frontSlice;
       renderCurrentMockup();
@@ -7784,7 +7953,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     backSlice.onload = () => {
       customBackImg = backSlice;
-      rawArtworks.back = backSlice;
+      if (!fullWrapUrl) rawArtworks.back = backSlice.src;
       rawFileNames.back = fileName + ' [Back]';
       activeBackImg = backSlice;
       renderCurrentMockup();
@@ -7793,7 +7962,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
 
     spineSlice.onload = () => {
       customSpineImg = spineSlice;
-      rawArtworks.spine = spineSlice;
+      if (!fullWrapUrl) rawArtworks.spine = spineSlice.src;
       rawFileNames.spine = fileName + ' [Spine]';
       activeSpineImg = spineSlice;
       renderCurrentMockup();
