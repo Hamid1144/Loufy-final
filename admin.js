@@ -3815,6 +3815,23 @@ document.addEventListener("DOMContentLoaded", () => {
             const otherPageId = isPortfolioPage ? 'index' : 'portfolio';
             
             // 1. Save current page content (primary upload - Delete then Insert Workaround)
+            // Mirror desktop floating cards to mobile before saving
+            const dFloat = clone.querySelector('#hero-floating-cards');
+            const mFloat = clone.querySelector('#hero-floating-cards-mobile');
+            if (dFloat && mFloat) {
+                dFloat.querySelectorAll('.hero-float-card[data-card-id]').forEach(dc => {
+                    const cid = dc.getAttribute('data-card-id');
+                    const dImg = dc.querySelector('img');
+                    const mImg = mFloat.querySelector('.hero-float-card[data-card-id="' + cid + '"] img');
+                    if (dImg && mImg && dImg.getAttribute('src')) mImg.setAttribute('src', dImg.getAttribute('src'));
+                });
+                const dBadge = dFloat.querySelector('.badge-like');
+                const mBadge = mFloat.querySelector('.badge-like');
+                if (dBadge && mBadge) mBadge.innerHTML = dBadge.innerHTML;
+            }
+            try {
+                localStorage.setItem('loufy_live_snapshot_v2_' + pageId, clone.innerHTML);
+            } catch (e) {}
             await window.supabaseClient.from('site_content').delete().eq('id', pageId);
             const { error } = await window.supabaseClient
                 .from('site_content')

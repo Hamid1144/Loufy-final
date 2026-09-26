@@ -79,8 +79,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
 <script src="admin.js?v=3.32.2" defer></script>
 <script src="bg-anim.js?v=3.33.0" defer></script>
-<script src="live-sync.js?v=3.33.0" defer></script>
-<link rel="stylesheet" href="style.css?v=5.4.6">
+<script src="live-sync.js?v=20260926_99" defer></script>
+<link rel="stylesheet" href="style.css?v=20260926_99">
 <script>
   (function() {
     try {
@@ -183,6 +183,69 @@
 }
 </script>
 
+<style id="permanent-yellow-pricing-css">
+/* ── PERMANENT YELLOW MIDDLE PRICING PACKAGE (BOTH TABS) ── */
+.pricing-grid.active .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+.pricing-card.featured-popular,
+.pricing-grid > .pricing-card:nth-child(2) {
+  background: var(--accent) !important;
+  color: var(--dark) !important;
+  transform: scale(1.05) translateY(-12px) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 22px 48px rgba(244, 180, 0, 0.32) !important;
+  z-index: 2;
+}
+.pricing-card.featured-popular:hover,
+.pricing-grid > .pricing-card:nth-child(2):hover {
+  transform: scale(1.06) translateY(-15px) !important;
+  box-shadow: 0 28px 56px rgba(244, 180, 0, 0.42) !important;
+}
+.pricing-card.featured-popular h3,
+.pricing-card.featured-popular .price,
+.pricing-card.featured-popular .price small,
+.pricing-card.featured-popular .price-range,
+.pricing-card.featured-popular .price-range small,
+.pricing-card.featured-popular ul li,
+.pricing-card.featured-popular .pricing-card-note,
+.pricing-grid > .pricing-card:nth-child(2) h3,
+.pricing-grid > .pricing-card:nth-child(2) .price,
+.pricing-grid > .pricing-card:nth-child(2) .price small,
+.pricing-grid > .pricing-card:nth-child(2) .price-range,
+.pricing-grid > .pricing-card:nth-child(2) .price-range small,
+.pricing-grid > .pricing-card:nth-child(2) ul li,
+.pricing-grid > .pricing-card:nth-child(2) .pricing-card-note {
+  color: var(--dark) !important;
+}
+.pricing-card.featured-popular ul li,
+.pricing-grid > .pricing-card:nth-child(2) ul li {
+  border-bottom-color: rgba(0, 0, 0, 0.12) !important;
+}
+.pricing-card.featured-popular ul li::before,
+.pricing-grid > .pricing-card:nth-child(2) ul li::before {
+  color: var(--primary) !important;
+}
+.pricing-card.featured-popular .popular-badge,
+.pricing-grid > .pricing-card:nth-child(2) .popular-badge {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+}
+.pricing-card.featured-popular .btn,
+.pricing-grid > .pricing-card:nth-child(2) .btn {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+  border-color: var(--primary) !important;
+}
+.pricing-card.featured-popular .btn:hover,
+.pricing-grid > .pricing-card:nth-child(2) .btn:hover {
+  background: var(--dark) !important;
+  color: var(--white) !important;
+  border-color: var(--dark) !important;
+}
+</style>
 </head>
 <body class="pricing-page">
 <!-- GLOBAL LOADING SCREEN -->
@@ -289,7 +352,7 @@
 
 <!-- 2. BOOK PUBLISHING PRICING GRID -->
 <div class="pricing-grid" id="publishing-pricing" style="display:none;" bis_skin_checked="1">
-  <div class="pricing-card reveal" bis_skin_checked="1">
+  <div class="pricing-card reveal active" bis_skin_checked="1">
     <h3 data-admin-text="true">Basic Package</h3>
     <div class="price" data-admin-text="true" bis_skin_checked="1">$75<small>/project</small></div>
     <ul>
@@ -301,7 +364,7 @@
     </ul>
     <a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="basic" class="btn" data-admin-text="true" target="_blank">Get Started</a>
   </div>
-  <div class="pricing-card reveal" bis_skin_checked="1">
+  <div class="pricing-card reveal active" bis_skin_checked="1">
     <h3 data-admin-text="true">Standard Package <i class="fa-solid fa-star" style="color:var(--accent)"></i></h3>
     <div class="price" data-admin-text="true" bis_skin_checked="1">$125<small>/project</small></div>
     <ul>
@@ -314,7 +377,7 @@
     </ul>
     <a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="standard" class="btn" data-admin-text="true" target="_blank">Get Started</a>
   </div>
-  <div class="pricing-card reveal" bis_skin_checked="1">
+  <div class="pricing-card reveal active" bis_skin_checked="1">
     <h3 data-admin-text="true">Premium Package</h3>
     <div class="price" data-admin-text="true" bis_skin_checked="1">$175<small>/project</small></div>
     <ul>
@@ -378,5 +441,31 @@
     });
   });
 </script>
+
+    <script>
+        (function() {
+            if (window.__pricingTabsDelegated) return;
+            window.__pricingTabsDelegated = true;
+            document.addEventListener('click', function(e) {
+                const btn = e.target.closest('.pricing-tab-btn');
+                if (!btn) return;
+                e.preventDefault();
+                const targetId = btn.getAttribute('data-pricing-target');
+                if (!targetId) return;
+                document.querySelectorAll('.pricing-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.pricing-grid').forEach(grid => {
+                    if (grid.id === targetId) {
+                        grid.style.display = 'grid';
+                        grid.classList.add('active');
+                        grid.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+                    } else {
+                        grid.style.display = 'none';
+                        grid.classList.remove('active');
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 </html>

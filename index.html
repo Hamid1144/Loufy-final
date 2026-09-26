@@ -156,7 +156,7 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="style.css?v=2026092604.4.8">
+<link rel="stylesheet" href="style.css?v=20260926_99">
 <link rel="stylesheet" href="admin.css?v=3.31.0">
 <script>
   (function() {
@@ -207,9 +207,72 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
 <script src="admin.js?v=3.32.2" defer></script>
 <script src="bg-anim.js?v=3.33.0" defer></script>
-<script src="live-sync.js?v=3.33.0" defer></script>
+<script src="live-sync.js?v=20260926_99" defer></script>
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4743547325066813" crossorigin="anonymous"></script>
+<style id="permanent-yellow-pricing-css">
+/* ── PERMANENT YELLOW MIDDLE PRICING PACKAGE (BOTH TABS) ── */
+.pricing-grid.active .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+.pricing-card.featured-popular,
+.pricing-grid > .pricing-card:nth-child(2) {
+  background: var(--accent) !important;
+  color: var(--dark) !important;
+  transform: scale(1.05) translateY(-12px) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 22px 48px rgba(244, 180, 0, 0.32) !important;
+  z-index: 2;
+}
+.pricing-card.featured-popular:hover,
+.pricing-grid > .pricing-card:nth-child(2):hover {
+  transform: scale(1.06) translateY(-15px) !important;
+  box-shadow: 0 28px 56px rgba(244, 180, 0, 0.42) !important;
+}
+.pricing-card.featured-popular h3,
+.pricing-card.featured-popular .price,
+.pricing-card.featured-popular .price small,
+.pricing-card.featured-popular .price-range,
+.pricing-card.featured-popular .price-range small,
+.pricing-card.featured-popular ul li,
+.pricing-card.featured-popular .pricing-card-note,
+.pricing-grid > .pricing-card:nth-child(2) h3,
+.pricing-grid > .pricing-card:nth-child(2) .price,
+.pricing-grid > .pricing-card:nth-child(2) .price small,
+.pricing-grid > .pricing-card:nth-child(2) .price-range,
+.pricing-grid > .pricing-card:nth-child(2) .price-range small,
+.pricing-grid > .pricing-card:nth-child(2) ul li,
+.pricing-grid > .pricing-card:nth-child(2) .pricing-card-note {
+  color: var(--dark) !important;
+}
+.pricing-card.featured-popular ul li,
+.pricing-grid > .pricing-card:nth-child(2) ul li {
+  border-bottom-color: rgba(0, 0, 0, 0.12) !important;
+}
+.pricing-card.featured-popular ul li::before,
+.pricing-grid > .pricing-card:nth-child(2) ul li::before {
+  color: var(--primary) !important;
+}
+.pricing-card.featured-popular .popular-badge,
+.pricing-grid > .pricing-card:nth-child(2) .popular-badge {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+}
+.pricing-card.featured-popular .btn,
+.pricing-grid > .pricing-card:nth-child(2) .btn {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+  border-color: var(--primary) !important;
+}
+.pricing-card.featured-popular .btn:hover,
+.pricing-grid > .pricing-card:nth-child(2) .btn:hover {
+  background: var(--dark) !important;
+  color: var(--white) !important;
+  border-color: var(--dark) !important;
+}
+</style>
 </head>
 <body>
 <nav class="navbar scrolled">
@@ -236,22 +299,21 @@
 <!-- HERO -->
 <section class="hero hero-card-hidden" id="home" style="--hero-min-height: 758px; --hero-padding-y: 16px;">
 <!-- Hero Background Frame Animation -->
-<video id="hero-bg-video" autoplay muted loop playsinline preload="auto" style="position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; pointer-events: none; transform: scale(1.06);" src="https://res.cloudinary.com/dtr3yvjac/video/upload/v1790370925/lv_0_20260620110136-1_wliolu.mp4"><source src="https://res.cloudinary.com/dtr3yvjac/video/upload/v1790370925/lv_0_20260620110136-1_wliolu.mp4" type="video/mp4"></video>
-<canvas id="hero-bg-canvas" data-disabled="true" width="2538" height="1137" style="display: none !important; position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none;" data-zoom="1.06"></canvas>
+<canvas id="hero-bg-canvas" width="2546" height="1137" style="display: block; position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none;" data-zoom="1.06"></canvas>
 <img loading="eager" fetchpriority="high" id="hero-bg-image" style="display: none; position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; transform: scale(1.06);" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_1400/portfolio/hero_frames/frame_001" alt="Hero Background">
 <img loading="eager" fetchpriority="high" id="hero-bg-image-mobile" style="display: none; position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; transform: scale(1.06);" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg" alt="Hero Background Mobile" data-optimized="true" srcset="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_480/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 480w, https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_800/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 800w, https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_1200/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 1200w">
 <div id="hero-floating-cards" style="--hero-float-card-padding: 26px 42px; --hero-float-card-radius: 37px; --hero-float-card-blur: 0px; --hero-float-card-opacity: 0.1;">
     <div class="hero-float-card" data-card-id="amazon-kdp" style="left: 34%; top: 85%; animation-delay: 0s; --hero-float-card-opacity: 0.95; --hero-float-card-blur: 40px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-img-size: 44px; --hero-float-card-scale: 1;"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="lulu" style="left: 19%; top: 85%; animation-delay: 1.5s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 42px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781976643/portfolio/gddi7dtu3aywwkzxcax5.png" alt="Logo" onerror="this.style.display='none'"></div>
+    <div class="hero-float-card" data-card-id="lulu" style="left: 17%; top: 85%; animation-delay: 1.5s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 42px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423767/portfolio/ljjr4m9osgbrzd0ghnuc.png" alt="Logo" onerror="this.style.display='none'"></div>
     <div class="hero-float-card" data-card-id="ingramspark" style="left: 51%; top: 86%; animation-delay: 3s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 40px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981705/portfolio/lh4lpjt5rgndqeolkpcc.png" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="barnes-noble" style="left: 69%; top: 86%; animation-delay: 4.5s; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-padding: 30px 48px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-radius: 40px; --hero-float-card-img-size: 43px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981745/portfolio/obnzjdhwfjqmd7j8jq5h.png" alt="Logo" onerror="this.style.display='none'"></div>
-<div class="hero-float-card badge-like" data-card-id="card_1782644395783" style="left: 50%; top: 13%; animation-delay: 6s; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 15px 24px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.17; --hero-float-card-scale: 1; --hero-float-card-img-size: 40px;"><span class="badge-dot"></span><span>Complete Book Publishing Services Under One Roof</span></div></div>
+    <div class="hero-float-card" data-card-id="barnes-noble" style="left: 68%; top: 86%; animation-delay: 4.5s; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-padding: 30px 48px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-radius: 40px; --hero-float-card-img-size: 36px; --hero-float-card-scale: 2;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423874/portfolio/imrxcbzauf1xorfspnl3.png" alt="Logo" onerror="this.style.display='none'"></div>
+<div class="hero-float-card badge-like" data-card-id="card_1782644395783" style="left: 50%; top: 13%; animation-delay: 6s; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 15px 24px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.17; --hero-float-card-scale: 1; --hero-float-card-img-size: 40px;"><span class="badge-dot"></span><span data-admin-text="true">Complete Publishing, Web &amp; App Development Services Under One Roof</span></div></div>
 <div id="hero-floating-cards-mobile" style="--hero-float-card-padding: 26px 42px; --hero-float-card-radius: 37px; --hero-float-card-blur: 0px; --hero-float-card-opacity: 0.1; display: none;">
     <div class="hero-float-card" data-card-id="amazon-kdp" style="left: 34%; top: 85%; animation-delay: 0s; --hero-float-card-opacity: 0.95; --hero-float-card-blur: 40px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-img-size: 44px; --hero-float-card-scale: 1;"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="lulu" style="left: 19%; top: 85%; animation-delay: 1.5s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 42px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781976643/portfolio/gddi7dtu3aywwkzxcax5.png" alt="Logo" onerror="this.style.display='none'"></div>
+    <div class="hero-float-card" data-card-id="lulu" style="left: 19%; top: 85%; animation-delay: 1.5s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 42px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423767/portfolio/ljjr4m9osgbrzd0ghnuc.png" alt="Logo" onerror="this.style.display='none'"></div>
     <div class="hero-float-card" data-card-id="ingramspark" style="left: 51%; top: 86%; animation-delay: 3s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 40px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981705/portfolio/lh4lpjt5rgndqeolkpcc.png" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="barnes-noble" style="left: 69%; top: 86%; animation-delay: 4.5s; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-padding: 30px 48px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-radius: 40px; --hero-float-card-img-size: 43px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981745/portfolio/obnzjdhwfjqmd7j8jq5h.png" alt="Logo" onerror="this.style.display='none'"></div>
-<div class="hero-float-card badge-like" data-card-id="card_1782644395783" style="left: 50%; top: 13%; animation-delay: 6s; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 15px 24px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.17; --hero-float-card-scale: 1; --hero-float-card-img-size: 40px;"><span class="badge-dot"></span><span>Complete Book Publishing Services Under One Roof</span></div></div>
+    <div class="hero-float-card" data-card-id="barnes-noble" style="left: 69%; top: 86%; animation-delay: 4.5s; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-padding: 30px 48px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-radius: 40px; --hero-float-card-img-size: 43px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423874/portfolio/imrxcbzauf1xorfspnl3.png" alt="Logo" onerror="this.style.display='none'"></div>
+<div class="hero-float-card badge-like" data-card-id="card_1782644395783" style="left: 50%; top: 13%; animation-delay: 6s; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 15px 24px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.17; --hero-float-card-scale: 1; --hero-float-card-img-size: 40px;"><span class="badge-dot"></span><span data-admin-text="true">Complete Publishing, Web &amp; App Development Services Under One Roof</span></div></div>
 <div class="container" bis_skin_checked="1" style="">
 <div class="hero-content reveal" bis_skin_checked="1" style="--hero-card-offset-x: 573px; --hero-card-offset-y: -132px; --hero-card-width: 687px; --hero-card-radius: 6px; --hero-card-blur: 24px; --hero-card-opacity: 0.1; --hero-card-padding: 50px; --hero-card-height: 425px;">
 <div class="hero-badge" data-admin-text="true" bis_skin_checked="1"><span></span> Trusted by Authors Worldwide</div>
@@ -334,16 +396,17 @@
 <div class="container" bis_skin_checked="1">
 <div class="about-img-wrap reveal" bis_skin_checked="1">
 <div class="about-img" bis_skin_checked="1"><img loading="lazy" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_600/v1781205981/portfolio/base64_84cc568708fb7492.webp" alt="Hamid Raza" data-optimized="webp"></div>
-<span class="about-float-tag" data-admin-text="true">KDP Expert</span>
+<span class="about-float-tag" data-admin-text="true">App Development</span>
 <span class="about-float-tag" data-admin-text="true">Book Cover Designer</span>
 <span class="about-float-tag" data-admin-text="true">Children Books</span>
 <span class="about-float-tag" data-admin-text="true">KDP Publishing</span>
-<span class="about-float-tag" data-admin-text="true">Branding</span>
+<span class="about-float-tag" data-admin-text="true">Web Development</span>
 </div>
 <div class="about-content reveal" bis_skin_checked="1">
 <span class="section-tag reveal">About Me</span>
 <h2 class="section-title reveal" data-admin-text="true">Who is <span class="highlight">Hamid Raza</span>?</h2>
-<p data-admin-text="true">Hamid Raza is an Amazon KDP publishing expert and the founder of Loufy Publisher, providing professional book formatting, Kindle formatting, paperback formatting, hardcover formatting, and book cover design services. With extensive experience working with authors worldwide, he helps writers publish high quality books that stand out in the competitive self publishing market while maintaining professional publishing standards.</p>
+<p dir="ltr" data-admin-text="true">Hamid Raza is an Amazon KDP publishing expert and the founder of Loufy Publisher, a full-service studio for self-published and hybrid-published authors. He specializes in professional interior formatting — Kindle, paperback, and hardcover — along with custom book cover design and Amazon A+ Content for Author Central. Loufy Publisher also offers author website design and app development for writers and brands looking to build a stronger digital presence.</p>
+<p dir="ltr" data-admin-text="true">With extensive experience working with authors worldwide, Hamid helps writers turn their manuscripts into polished, market-ready books that stand out in the competitive self-publishing space — without ever compromising on professional publishing standards.</p>
 <div class="stats" bis_skin_checked="1">
 <div class="stat" bis_skin_checked="1"><div class="num" data-admin-text="true" bis_skin_checked="1">500+</div><span data-admin-text="true">Projects Completed</span></div>
 <div class="stat" bis_skin_checked="1"><div class="num" data-admin-text="true" bis_skin_checked="1">300+</div><span data-admin-text="true">Happy Clients</span></div>
@@ -3210,7 +3273,7 @@ The homepage is built around the featured book with clear calls to action for le
 
 <!-- 2. BOOK PUBLISHING PRICING GRID -->
 <div class="pricing-grid" id="publishing-pricing" style="display:none;" bis_skin_checked="1">
-  <div class="pricing-card reveal" bis_skin_checked="1">
+  <div class="pricing-card reveal active" bis_skin_checked="1">
     <h3 data-admin-text="true">Basic Package</h3>
     <div class="price" data-admin-text="true" bis_skin_checked="1">$75<small>/project</small></div>
     <ul>
@@ -3222,8 +3285,9 @@ The homepage is built around the featured book with clear calls to action for le
     </ul>
     <a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="basic" class="btn" data-admin-text="true" target="_blank">Get Started</a>
   </div>
-  <div class="pricing-card reveal" bis_skin_checked="1">
-    <h3 data-admin-text="true">Standard Package <i class="fa-solid fa-star" style="color:var(--accent)"></i></h3>
+  <div class="pricing-card featured-popular reveal active" bis_skin_checked="1">
+    <span class="popular-badge"><i class="fa-solid fa-fire"></i> Most Popular</span>
+    <h3 data-admin-text="true">Standard Package <i class="fa-solid fa-star" style="color:var(--primary)"></i></h3>
     <div class="price" data-admin-text="true" bis_skin_checked="1">$125<small>/project</small></div>
     <ul>
       <li data-admin-text="true">Format and Publish Your Book</li>
@@ -3235,7 +3299,7 @@ The homepage is built around the featured book with clear calls to action for le
     </ul>
     <a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="standard" class="btn" data-admin-text="true" target="_blank">Get Started</a>
   </div>
-  <div class="pricing-card reveal" bis_skin_checked="1">
+  <div class="pricing-card reveal active" bis_skin_checked="1">
     <h3 data-admin-text="true">Premium Package</h3>
     <div class="price" data-admin-text="true" bis_skin_checked="1">$175<small>/project</small></div>
     <ul>
@@ -3758,5 +3822,31 @@ The homepage is built around the featured book with clear calls to action for le
     });
   });
 </script>
+
+    <script>
+        (function() {
+            if (window.__pricingTabsDelegated) return;
+            window.__pricingTabsDelegated = true;
+            document.addEventListener('click', function(e) {
+                const btn = e.target.closest('.pricing-tab-btn');
+                if (!btn) return;
+                e.preventDefault();
+                const targetId = btn.getAttribute('data-pricing-target');
+                if (!targetId) return;
+                document.querySelectorAll('.pricing-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.pricing-grid').forEach(grid => {
+                    if (grid.id === targetId) {
+                        grid.style.display = 'grid';
+                        grid.classList.add('active');
+                        grid.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+                    } else {
+                        grid.style.display = 'none';
+                        grid.classList.remove('active');
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 </html>

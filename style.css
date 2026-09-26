@@ -1088,8 +1088,10 @@ section{padding:100px 0}
 .pricing-card.featured-popular {
   border: 2px solid var(--accent);
   position: relative;
-  background: rgba(255,255,255,0.13);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  background: var(--accent) !important;
+  color: var(--dark) !important;
+  transform: scale(1.05) translateY(-12px) !important;
+  box-shadow: 0 22px 48px rgba(244, 180, 0, 0.32) !important;
 }
 .popular-badge {
   background: var(--accent);
@@ -4073,3 +4075,68 @@ body.edit-mode .hero-float-card {
   color: #111 !important;
 }
 
+
+
+
+
+/* ── PERMANENT YELLOW MIDDLE PRICING PACKAGE (BOTH TABS) ── */
+.pricing-grid.active .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+.pricing-card.featured-popular,
+.pricing-grid > .pricing-card:nth-child(2) {
+  background: var(--accent) !important;
+  color: var(--dark) !important;
+  transform: scale(1.05) translateY(-12px) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 22px 48px rgba(244, 180, 0, 0.32) !important;
+  z-index: 2;
+}
+.pricing-card.featured-popular:hover,
+.pricing-grid > .pricing-card:nth-child(2):hover {
+  transform: scale(1.06) translateY(-15px) !important;
+  box-shadow: 0 28px 56px rgba(244, 180, 0, 0.42) !important;
+}
+.pricing-card.featured-popular h3,
+.pricing-card.featured-popular .price,
+.pricing-card.featured-popular .price small,
+.pricing-card.featured-popular .price-range,
+.pricing-card.featured-popular .price-range small,
+.pricing-card.featured-popular ul li,
+.pricing-card.featured-popular .pricing-card-note,
+.pricing-grid > .pricing-card:nth-child(2) h3,
+.pricing-grid > .pricing-card:nth-child(2) .price,
+.pricing-grid > .pricing-card:nth-child(2) .price small,
+.pricing-grid > .pricing-card:nth-child(2) .price-range,
+.pricing-grid > .pricing-card:nth-child(2) .price-range small,
+.pricing-grid > .pricing-card:nth-child(2) ul li,
+.pricing-grid > .pricing-card:nth-child(2) .pricing-card-note {
+  color: var(--dark) !important;
+}
+.pricing-card.featured-popular ul li,
+.pricing-grid > .pricing-card:nth-child(2) ul li {
+  border-bottom-color: rgba(0, 0, 0, 0.12) !important;
+}
+.pricing-card.featured-popular ul li::before,
+.pricing-grid > .pricing-card:nth-child(2) ul li::before {
+  color: var(--primary) !important;
+}
+.pricing-card.featured-popular .popular-badge,
+.pricing-grid > .pricing-card:nth-child(2) .popular-badge {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+}
+.pricing-card.featured-popular .btn,
+.pricing-grid > .pricing-card:nth-child(2) .btn {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+  border-color: var(--primary) !important;
+}
+.pricing-card.featured-popular .btn:hover,
+.pricing-grid > .pricing-card:nth-child(2) .btn:hover {
+  background: var(--dark) !important;
+  color: var(--white) !important;
+  border-color: var(--dark) !important;
+}
