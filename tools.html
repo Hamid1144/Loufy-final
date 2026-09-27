@@ -4036,30 +4036,30 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     "quads": {
       "back": [
-        [419.54, 358.84],
-        [1518.13, 364.17],
-        [1519.49, 2007.51],
-        [420.48, 2008.23]
+        [407.0, 376.0],
+        [1518.0, 380.0],
+        [1518.0, 1984.0],
+        [407.0, 1989.0]
       ],
       "front": [
-        [1518.0, 342.0],
-        [2621.0, 342.0],
-        [2621.0, 2022.0],
-        [1518.0, 2022.0]
+        [1518.0, 380.0],
+        [2619.0, 377.0],
+        [2619.0, 1987.0],
+        [1518.0, 1984.0]
       ]
     },
     "mesh": {
       "left": [
-        [419.54, 358.84], [779.99, 356.25], [1148.5, 344.33], [1518.13, 364.17],
-        [422.21, 911.68], [773.63, 910.89], [1144.69, 912.29], [1516.33, 913.98],
-        [423.49, 1462.26], [772.67, 1466.35], [1146.51, 1466.76], [1519.37, 1464.65],
-        [420.48, 2008.23], [772.67, 2021.96], [1152.83, 2039.59], [1519.49, 2007.51]
+        [407.0, 376.0], [776.0, 373.0], [1147.0, 353.0], [1518.0, 380.0],
+        [408.0, 912.0], [775.0, 908.0], [1146.0, 902.0], [1518.0, 915.0],
+        [408.0, 1450.0], [775.0, 1452.0], [1146.0, 1455.0], [1518.0, 1450.0],
+        [407.0, 1989.0], [776.0, 1992.0], [1147.0, 2013.0], [1518.0, 1984.0]
       ],
       "right": [
-        [1518.0, 342.0], [1886.63, 303.61], [2248.33, 334.24], [2621.0, 342.0],
-        [1518.0, 902.0], [1885.87, 893.78], [2253.34, 901.66], [2621.0, 902.0],
-        [1518.0, 1462.0], [1885.67, 1461.79], [2253.33, 1461.99], [2621.0, 1462.0],
-        [1518.0, 2022.0], [1887.67, 2059.68], [2252.83, 2036.12], [2621.0, 2022.0]
+        [1518.0, 380.0], [1885.0, 353.0], [2252.0, 375.0], [2619.0, 377.0],
+        [1518.0, 915.0], [1885.0, 902.0], [2252.0, 909.0], [2619.0, 912.0],
+        [1518.0, 1450.0], [1885.0, 1455.0], [2252.0, 1452.0], [2619.0, 1450.0],
+        [1518.0, 1984.0], [1885.0, 2013.0], [2252.0, 1991.0], [2619.0, 1987.0]
       ]
     },
     "description": "Authentic Open Book Spread flatlay with realistic curved pages, spine crease shading, and overhead studio lighting."
@@ -7723,20 +7723,22 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         }
       }
 
-      const targetRatio = (specs && specs.ratio) ? specs.ratio : (regW / regH);
-      let boxW = regW;
-      let boxH = targetRatio ? (boxW / targetRatio) : regH;
-      if (boxH > regH) {
-        boxH = regH;
-        boxW = targetRatio ? (boxH * targetRatio) : regW;
-      }
-      const boxX = regX + (regW - boxW) / 2;
-      const boxY = regY + (regH - boxH) / 2;
+      // Always preserve 100% of the page's vertical height (regH) so the bottom or top of the page is NEVER cut off!
+      activeCropper.setAspectRatio(NaN);
       activeCropper.setData({
-        x: Math.round(boxX),
-        y: Math.round(boxY),
-        width: Math.round(boxW),
-        height: Math.round(boxH)
+        x: Math.round(regX),
+        y: Math.round(regY),
+        width: Math.round(regW),
+        height: Math.round(regH)
+      });
+    } else {
+      // Single page/cover image: select 100% of the full original image from top (y=0) to bottom (y=H)
+      activeCropper.setAspectRatio(NaN);
+      activeCropper.setData({
+        x: 0,
+        y: 0,
+        width: Math.round(W),
+        height: Math.round(H)
       });
     }
   }
@@ -7829,7 +7831,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         activeCropper = new Cropper(cropTargetImg, {
           aspectRatio: specs.ratio,
           viewMode: 1,
-          autoCropArea: 0.98,
+          autoCropArea: 1.0,
           responsive: true,
           restore: true,
           checkCrossOrigin: false,
@@ -7907,10 +7909,27 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         activeCropper.setAspectRatio(1 / 1.4142);
       } else if (pType === 'full') {
         const imgData = activeCropper.getImageData();
-        if (imgData && imgData.naturalHeight) {
-          activeCropper.setAspectRatio(imgData.naturalWidth / imgData.naturalHeight);
-        } else {
-          activeCropper.setAspectRatio(NaN);
+        activeCropper.setAspectRatio(NaN);
+        if (imgData && imgData.naturalWidth && imgData.naturalHeight) {
+          const W = imgData.naturalWidth;
+          const H = imgData.naturalHeight;
+          const isTwoPageSpread = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6');
+          if (isTwoPageSpread && W > H * 1.15) {
+            const halfW = Math.round(W / 2);
+            activeCropper.setData({
+              x: currentCropSlot === 'back' ? 0 : halfW,
+              y: 0,
+              width: currentCropSlot === 'back' ? halfW : (W - halfW),
+              height: H
+            });
+          } else {
+            activeCropper.setData({
+              x: 0,
+              y: 0,
+              width: W,
+              height: H
+            });
+          }
         }
       }
     });
