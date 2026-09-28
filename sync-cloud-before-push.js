@@ -3,7 +3,8 @@
  * Permanent Safeguard: Automatically pulls & merges all Admin Panel saved changes
  * from Supabase (`site_content` rows `index` and `portfolio`) into local `index.html`
  * and `portfolio.html` BEFORE any git commit/push, and syncs the merged union back to Supabase.
- * Guarantees ZERO saved portfolio items, website URLs, covers, formatting items, or hero edits are ever lost.
+ * Guarantees ZERO saved portfolio items, website URLs, covers, formatting items, hero text,
+ * floating cards, or about bio edits are ever lost.
  */
 const https = require('https');
 const fs = require('fs');
@@ -40,30 +41,48 @@ function supabaseRequest(method, endpoint, bodyObj) {
   });
 }
 
-function extractCards(html) {
-  const gridIdx = html.indexOf('<div class="portfolio-grid');
-  if (gridIdx === -1) return [];
-  const startInner = html.indexOf('>', gridIdx) + 1;
-  // Find matching closing </div> for portfolio-grid
+function extractElementInnerByOpenTag(html, openTagPrefix) {
+  const startIdx = html.indexOf(openTagPrefix);
+  if (startIdx === -1) return null;
+  const tagMatch = openTagPrefix.match(/^<([a-zA-Z0-9-]+)/);
+  const tagName = tagMatch ? tagMatch[1] : 'div';
+  const startInner = html.indexOf('>', startIdx) + 1;
   let depth = 1;
   let pos = startInner;
+  const openToken = '<' + tagName;
+  const closeToken = '</' + tagName + '>';
   while (depth > 0 && pos < html.length) {
-    const nextOpen = html.indexOf('<div', pos);
-    const nextClose = html.indexOf('</div>', pos);
+    const nextOpen = html.indexOf(openToken, pos);
+    const nextClose = html.indexOf(closeToken, pos);
     if (nextClose === -1) break;
     if (nextOpen !== -1 && nextOpen < nextClose) {
       depth++;
-      pos = nextOpen + 4;
+      pos = nextOpen + openToken.length;
     } else {
       depth--;
       if (depth === 0) {
-        const gridInner = html.slice(startInner, nextClose);
-        return splitCards(gridInner);
+        return {
+          startInner,
+          endInner: nextClose,
+          inner: html.slice(startInner, nextClose)
+        };
       }
-      pos = nextClose + 6;
+      pos = nextClose + closeToken.length;
     }
   }
-  return [];
+  return null;
+}
+
+function replaceElementInnerByOpenTag(html, openTagPrefix, newInner) {
+  const found = extractElementInnerByOpenTag(html, openTagPrefix);
+  if (!found) return html;
+  return html.slice(0, found.startInner) + newInner + html.slice(found.endInner);
+}
+
+function extractCards(html) {
+  const found = extractElementInnerByOpenTag(html, '<div class="portfolio-grid');
+  if (!found) return [];
+  return splitCards(found.inner);
 }
 
 function splitCards(gridInner) {
@@ -104,32 +123,12 @@ function getCardIdentity(cardHtml) {
 }
 
 function replaceGridInner(html, newGridInner) {
-  const gridIdx = html.indexOf('<div class="portfolio-grid');
-  if (gridIdx === -1) return html;
-  const startInner = html.indexOf('>', gridIdx) + 1;
-  let depth = 1;
-  let pos = startInner;
-  while (depth > 0 && pos < html.length) {
-    const nextOpen = html.indexOf('<div', pos);
-    const nextClose = html.indexOf('</div>', pos);
-    if (nextClose === -1) break;
-    if (nextOpen !== -1 && nextOpen < nextClose) {
-      depth++;
-      pos = nextOpen + 4;
-    } else {
-      depth--;
-      if (depth === 0) {
-        return html.slice(0, startInner) + '\n                ' + newGridInner + '\n            ' + html.slice(nextClose);
-      }
-      pos = nextClose + 6;
-    }
-  }
-  return html;
+  return replaceElementInnerByOpenTag(html, '<div class="portfolio-grid', '\n                ' + newGridInner + '\n            ');
 }
 
 async function main() {
   console.log('[Cloud-Protect] Fetching latest saved site_content from Supabase...');
-  const res = await supabaseRequest('GET', '/rest/v1/site_content?select=id,html_content&id=in.(index,portfolio)');
+  const res = await supabaseRequest('GET', '/rest/v1/site_content?select=id,updated_at,html_content&id=in.(index,portfolio)');
   if (res.status !== 200) {
     console.warn('[Cloud-Protect] Supabase unreachable, skipping cloud merge.');
     return;
@@ -143,6 +142,30 @@ async function main() {
   let localIndex = fs.readFileSync(indexPath, 'utf8');
   let localPortfolio = fs.readFileSync(portfolioPath, 'utf8');
 
+  // 1. Sync cloud Hero content, Floating Cards, and About section from Supabase indexRow into localIndex
+  if (indexRow && indexRow.html_content) {
+    const cloudHtml = indexRow.html_content;
+    const syncBlocks = [
+      '<div class="hero-content"',
+      '<div id="hero-floating-cards"',
+      '<div id="hero-floating-cards-mobile"',
+      '<section class="about" id="about"'
+    ];
+    for (const prefix of syncBlocks) {
+      const cloudBlock = extractElementInnerByOpenTag(cloudHtml, prefix);
+      if (cloudBlock && cloudBlock.inner.trim().length > 20) {
+        let cleanedInner = cloudBlock.inner;
+        if (prefix.includes('hero-floating-cards')) {
+          cleanedInner = cleanedInner
+            .replace(/--hero-float-card-scale:\s*2\b/g, '--hero-float-card-scale: 1')
+            .replace(/animation-delay:\s*([1-9][0-9.]*s)/g, 'animation-delay: -$1');
+        }
+        localIndex = replaceElementInnerByOpenTag(localIndex, prefix, cleanedInner);
+      }
+    }
+  }
+
+  // 2. Union-merge all Portfolio Cards across Cloud Portfolio, Cloud Index, Local Index, and Local Portfolio
   const cloudPortfolioCards = portfolioRow ? extractCards(portfolioRow.html_content) : [];
   const cloudIndexCards = indexRow ? extractCards(indexRow.html_content) : [];
   const localIndexCards = extractCards(localIndex);
@@ -150,7 +173,6 @@ async function main() {
 
   console.log(`[Cloud-Protect] Card counts -> Cloud Portfolio: ${cloudPortfolioCards.length}, Cloud Index: ${cloudIndexCards.length}, Local Index: ${localIndexCards.length}, Local Portfolio: ${localPortfolioCards.length}`);
 
-  // Pick the largest cloud list as primary order, then union all others without losing any item
   const primaryCards = cloudPortfolioCards.length >= cloudIndexCards.length ? cloudPortfolioCards : cloudIndexCards;
   const secondaryCards = cloudPortfolioCards.length >= cloudIndexCards.length ? cloudIndexCards : cloudPortfolioCards;
 
@@ -164,7 +186,6 @@ async function main() {
         orderedKeys.push(key);
         mergedMap.set(key, card);
       } else {
-        // Always prefer the card version that has beckerperfektkuechen.de if it's the Kitchen Fitter website card
         const existing = mergedMap.get(key);
         if (card.includes('beckerperfektkuechen.de') && !existing.includes('beckerperfektkuechen.de')) {
           mergedMap.set(key, card);
@@ -178,7 +199,7 @@ async function main() {
 
   const mergedGridHtml = mergedCards.join('\n\n');
 
-  // Ensure Hero BG video in localIndex uses the 100% original 19.17MB lossless fast-start MP4 + raw original fallback
+  // 3. Ensure Hero BG video in localIndex uses the 100% original 19.17MB lossless fast-start MP4 + raw original fallback
   localIndex = localIndex
     .replace(/href="\/hero-bg-fast\.mp4(?:\?[^"]*)?"/g, 'href="/hero-bg-fast.mp4?v=orig1080p"')
     .replace(/src="\/hero-bg-fast\.mp4(?:\?[^"]*)?"/g, 'src="/hero-bg-fast.mp4?v=orig1080p"')
@@ -193,9 +214,9 @@ async function main() {
 
   fs.writeFileSync(indexPath, localIndex, 'utf8');
   fs.writeFileSync(portfolioPath, localPortfolio, 'utf8');
-  console.log('[Cloud-Protect] Updated local index.html and portfolio.html with merged 257+ portfolio cards & original 1080p video.');
+  console.log('[Cloud-Protect] Saved merged index.html and portfolio.html to disk.');
 
-  // Extract body innerHTML for Supabase site_content sync
+  // 4. Sync merged body HTML back to Supabase site_content (both 'index' and 'portfolio' rows)
   const extractBodyInner = (fullHtml) => {
     const bStart = fullHtml.indexOf('<body');
     if (bStart === -1) return fullHtml;
@@ -207,9 +228,14 @@ async function main() {
   const indexBody = extractBodyInner(localIndex);
   const portfolioBody = extractBodyInner(localPortfolio);
 
-  // Update both index and portfolio rows in Supabase so both have 100% of the 257 cards, Kitchen Fitter URL, and 100% Original Quality Hero Video
-  const upIndex = await supabaseRequest('PATCH', '/rest/v1/site_content?id=eq.index', { html_content: indexBody });
-  const upPort = await supabaseRequest('PATCH', '/rest/v1/site_content?id=eq.portfolio', { html_content: portfolioBody });
+  const upIndex = await supabaseRequest('PATCH', '/rest/v1/site_content?id=eq.index', {
+    html_content: indexBody,
+    updated_at: new Date().toISOString()
+  });
+  const upPort = await supabaseRequest('PATCH', '/rest/v1/site_content?id=eq.portfolio', {
+    html_content: portfolioBody,
+    updated_at: new Date().toISOString()
+  });
   console.log(`[Cloud-Protect] Synced merged HTML back to Supabase -> index: HTTP ${upIndex.status}, portfolio: HTTP ${upPort.status}`);
 }
 
