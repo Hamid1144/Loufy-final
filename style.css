@@ -2743,10 +2743,10 @@ body.edit-mode .hero-float-card {
 
 @keyframes floatCard {
     0%, 100% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
+        transform: translate3d(0, 0, 0) scale(var(--hero-float-card-scale, 1)) rotate(0deg);
     }
     50% {
-        transform: translate3d(0, -12px, 0) rotate(1deg);
+        transform: translate3d(0, -12px, 0) scale(var(--hero-float-card-scale, 1)) rotate(1deg);
     }
 }
 

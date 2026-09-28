@@ -3,7 +3,8 @@
 
 (function() {
     const pageId = window.location.pathname.includes("portfolio.html") ? 'portfolio' : 'index';
-    const CACHE_KEY = 'loufy_live_snapshot_v3_' + pageId;
+    const CACHE_KEY = 'loufy_live_snapshot_v4_' + pageId;
+    try { localStorage.removeItem('loufy_live_snapshot_v3_' + pageId); } catch(e) {}
     try { localStorage.removeItem('loufy_live_snapshot_v2_' + pageId); } catch(e) {}
 
     // Clear legacy conflicting cache keys
@@ -36,13 +37,14 @@
             }
         });
 
-                // 1b. Sync Hero Background Video URL if updated via Admin Panel
+                // 1b. Sync Hero Background Video URL only if explicitly changed to a new custom video
         const liveVid = doc.getElementById('hero-bg-video');
         const curVid = document.getElementById('hero-bg-video');
         if (liveVid && curVid) {
             const liveSrc = liveVid.getAttribute('src') || liveVid.querySelector('source')?.getAttribute('src');
             const curSrc = curVid.getAttribute('src');
-            if (liveSrc && liveSrc !== curSrc) {
+            const isDefaultFastVid = (curSrc === '/hero-bg-fast.mp4' && liveSrc && liveSrc.includes('lv_0_20260620110136-1_wliolu'));
+            if (liveSrc && liveSrc !== curSrc && !isDefaultFastVid) {
                 curVid.setAttribute('src', liveSrc);
                 const sTag = curVid.querySelector('source');
                 if (sTag) sTag.setAttribute('src', liveSrc);
@@ -56,9 +58,14 @@
         ['hero-floating-cards', 'hero-floating-cards-mobile'].forEach(floatId => {
             const liveFloat = doc.getElementById(floatId);
             const curFloat = document.getElementById(floatId);
-            if (liveFloat && curFloat && curFloat.innerHTML.trim() !== liveFloat.innerHTML.trim()) {
-                curFloat.innerHTML = liveFloat.innerHTML;
-                modified = true;
+            if (liveFloat && curFloat) {
+                const sanitizedHtml = liveFloat.innerHTML
+                    .replace(/--hero-float-card-scale:\s*2\b/g, '--hero-float-card-scale: 1')
+                    .replace(/animation-delay:\s*([1-9][0-9.]*s)/g, 'animation-delay: -$1');
+                if (curFloat.innerHTML.trim() !== sanitizedHtml.trim()) {
+                    curFloat.innerHTML = sanitizedHtml;
+                    modified = true;
+                }
             }
         });
 

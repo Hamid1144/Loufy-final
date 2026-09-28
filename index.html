@@ -3,7 +3,7 @@
 <head>
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
   <link rel="preload" as="image" href="https://res.cloudinary.com/dtr3yvjac/video/upload/so_0,f_auto,q_auto,w_1920/v1790370925/lv_0_20260620110136-1_wliolu.jpg" fetchpriority="high">
-  <link rel="preload" as="video" href="https://res.cloudinary.com/dtr3yvjac/video/upload/f_mp4,q_auto,vc_h264/v1790370925/lv_0_20260620110136-1_wliolu.mp4" type="video/mp4" fetchpriority="high">
+  <link rel="preload" as="video" href="/hero-bg-fast.mp4" type="video/mp4" fetchpriority="high">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -210,7 +210,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
 <script src="admin.js?v=3.32.2" defer></script>
 <script src="bg-anim.js?v=3.33.0" defer></script>
-<script src="live-sync.js?v=20260926_100" defer></script>
+<script src="live-sync.js?v=20260929_101" defer></script>
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4743547325066813" crossorigin="anonymous"></script>
 <style id="permanent-yellow-pricing-css">
@@ -275,6 +275,23 @@
   color: var(--white) !important;
   border-color: var(--dark) !important;
 }
+
+/* ── INSTANT FIXED FLOATING CARDS & ZERO INITIAL SIZE JUMP ── */
+#hero-floating-cards .hero-float-card,
+#hero-floating-cards-mobile .hero-float-card {
+  --hero-float-card-scale: 1 !important;
+  animation-fill-mode: both !important;
+}
+#hero-floating-cards .hero-float-card:not(.badge-like) {
+  transform: translate3d(0, 0, 0) scale(1) !important;
+}
+#hero-floating-cards .hero-float-card img,
+#hero-floating-cards-mobile .hero-float-card img {
+  max-height: 44px !important;
+  max-width: 165px !important;
+  width: auto !important;
+  object-fit: contain !important;
+}
 </style>
 </head>
 <body>
@@ -302,7 +319,7 @@
 <!-- HERO -->
 <section class="hero hero-card-hidden" id="home" style="--hero-min-height: 758px; --hero-padding-y: 16px;">
 <!-- Hero Background Frame Animation -->
-<video id="hero-bg-video" autoplay muted loop playsinline preload="auto" fetchpriority="high" poster="https://res.cloudinary.com/dtr3yvjac/video/upload/so_0,f_auto,q_auto,w_1920/v1790370925/lv_0_20260620110136-1_wliolu.jpg" style="position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; pointer-events: none; transform: scale(1.06);" src="https://res.cloudinary.com/dtr3yvjac/video/upload/f_mp4,q_auto,vc_h264/v1790370925/lv_0_20260620110136-1_wliolu.mp4"><source src="https://res.cloudinary.com/dtr3yvjac/video/upload/f_mp4,q_auto,vc_h264/v1790370925/lv_0_20260620110136-1_wliolu.mp4" type="video/mp4"><source src="https://res.cloudinary.com/dtr3yvjac/video/upload/v1790370925/lv_0_20260620110136-1_wliolu.mp4" type="video/mp4"></video>
+<video id="hero-bg-video" autoplay muted loop playsinline preload="auto" fetchpriority="high" poster="https://res.cloudinary.com/dtr3yvjac/video/upload/so_0,f_auto,q_auto,w_1280/v1790370925/lv_0_20260620110136-1_wliolu.jpg" style="position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; pointer-events: none; transform: scale(1.06);" src="/hero-bg-fast.mp4"><source src="/hero-bg-fast.mp4" type="video/mp4"><source src="https://res.cloudinary.com/dtr3yvjac/video/upload/f_mp4,q_auto:eco,w_1280,vc_h264/v1790370925/lv_0_20260620110136-1_wliolu.mp4" type="video/mp4"></video>
 <script>
 (function() {
   var v = document.getElementById('hero-bg-video');
@@ -332,16 +349,16 @@
 <img loading="eager" fetchpriority="high" id="hero-bg-image-mobile" style="display: none; position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; transform: scale(1.06);" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg" alt="Hero Background Mobile" data-optimized="true" srcset="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_480/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 480w, https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_800/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 800w, https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_1200/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 1200w">
 <div id="hero-floating-cards" style="--hero-float-card-padding: 26px 42px; --hero-float-card-radius: 37px; --hero-float-card-blur: 0px; --hero-float-card-opacity: 0.1;">
     <div class="hero-float-card" data-card-id="amazon-kdp" style="left: 34%; top: 85%; animation-delay: 0s; --hero-float-card-opacity: 0.95; --hero-float-card-blur: 40px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-img-size: 44px; --hero-float-card-scale: 1;"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="lulu" style="left: 17%; top: 85%; animation-delay: 1.5s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 42px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423767/portfolio/ljjr4m9osgbrzd0ghnuc.png" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="ingramspark" style="left: 51%; top: 86%; animation-delay: 3s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 40px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981705/portfolio/lh4lpjt5rgndqeolkpcc.png" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="barnes-noble" style="left: 68%; top: 86%; animation-delay: 4.5s; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-padding: 30px 48px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-radius: 40px; --hero-float-card-img-size: 36px; --hero-float-card-scale: 2;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423874/portfolio/imrxcbzauf1xorfspnl3.png" alt="Logo" onerror="this.style.display='none'"></div>
-<div class="hero-float-card badge-like" data-card-id="card_1782644395783" style="left: 50%; top: 13%; animation-delay: 6s; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 15px 24px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.17; --hero-float-card-scale: 1; --hero-float-card-img-size: 40px;"><span class="badge-dot"></span><span data-admin-text="true">Complete Publishing, Web &amp; App Development Services Under One Roof</span></div></div>
+    <div class="hero-float-card" data-card-id="lulu" style="left: 17%; top: 85%; animation-delay: -1.5s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 42px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423767/portfolio/ljjr4m9osgbrzd0ghnuc.png" alt="Logo" onerror="this.style.display='none'"></div>
+    <div class="hero-float-card" data-card-id="ingramspark" style="left: 51%; top: 86%; animation-delay: -3s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 40px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981705/portfolio/lh4lpjt5rgndqeolkpcc.png" alt="Logo" onerror="this.style.display='none'"></div>
+    <div class="hero-float-card" data-card-id="barnes-noble" style="left: 68%; top: 86%; animation-delay: -4.5s; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-padding: 30px 48px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-radius: 40px; --hero-float-card-img-size: 36px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423874/portfolio/imrxcbzauf1xorfspnl3.png" alt="Logo" onerror="this.style.display='none'"></div>
+<div class="hero-float-card badge-like" data-card-id="card_1782644395783" style="left: 50%; top: 13%; animation-delay: -6s; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 15px 24px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.17; --hero-float-card-scale: 1; --hero-float-card-img-size: 40px;"><span class="badge-dot"></span><span data-admin-text="true">Complete Publishing, Web &amp; App Development Services Under One Roof</span></div></div>
 <div id="hero-floating-cards-mobile" style="--hero-float-card-padding: 26px 42px; --hero-float-card-radius: 37px; --hero-float-card-blur: 0px; --hero-float-card-opacity: 0.1; display: none;">
     <div class="hero-float-card" data-card-id="amazon-kdp" style="left: 34%; top: 85%; animation-delay: 0s; --hero-float-card-opacity: 0.95; --hero-float-card-blur: 40px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-img-size: 44px; --hero-float-card-scale: 1;"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="lulu" style="left: 19%; top: 85%; animation-delay: 1.5s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 42px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423767/portfolio/ljjr4m9osgbrzd0ghnuc.png" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="ingramspark" style="left: 51%; top: 86%; animation-delay: 3s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 40px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981705/portfolio/lh4lpjt5rgndqeolkpcc.png" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="barnes-noble" style="left: 69%; top: 86%; animation-delay: 4.5s; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-padding: 30px 48px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-radius: 40px; --hero-float-card-img-size: 43px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423874/portfolio/imrxcbzauf1xorfspnl3.png" alt="Logo" onerror="this.style.display='none'"></div>
-<div class="hero-float-card badge-like" data-card-id="card_1782644395783" style="left: 50%; top: 13%; animation-delay: 6s; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 15px 24px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.17; --hero-float-card-scale: 1; --hero-float-card-img-size: 40px;"><span class="badge-dot"></span><span data-admin-text="true">Complete Publishing, Web &amp; App Development Services Under One Roof</span></div></div>
+    <div class="hero-float-card" data-card-id="lulu" style="left: 19%; top: 85%; animation-delay: -1.5s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 42px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423767/portfolio/ljjr4m9osgbrzd0ghnuc.png" alt="Logo" onerror="this.style.display='none'"></div>
+    <div class="hero-float-card" data-card-id="ingramspark" style="left: 51%; top: 86%; animation-delay: -3s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 40px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981705/portfolio/lh4lpjt5rgndqeolkpcc.png" alt="Logo" onerror="this.style.display='none'"></div>
+    <div class="hero-float-card" data-card-id="barnes-noble" style="left: 69%; top: 86%; animation-delay: -4.5s; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-padding: 30px 48px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-radius: 40px; --hero-float-card-img-size: 43px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423874/portfolio/imrxcbzauf1xorfspnl3.png" alt="Logo" onerror="this.style.display='none'"></div>
+<div class="hero-float-card badge-like" data-card-id="card_1782644395783" style="left: 50%; top: 13%; animation-delay: -6s; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 15px 24px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.17; --hero-float-card-scale: 1; --hero-float-card-img-size: 40px;"><span class="badge-dot"></span><span data-admin-text="true">Complete Publishing, Web &amp; App Development Services Under One Roof</span></div></div>
 <div class="container" bis_skin_checked="1" style="">
 <div class="hero-content reveal" bis_skin_checked="1" style="--hero-card-offset-x: 573px; --hero-card-offset-y: -132px; --hero-card-width: 687px; --hero-card-radius: 6px; --hero-card-blur: 24px; --hero-card-opacity: 0.1; --hero-card-padding: 50px; --hero-card-height: 425px;">
 <div class="hero-badge" data-admin-text="true" bis_skin_checked="1"><span></span> Trusted by Authors Worldwide</div>
