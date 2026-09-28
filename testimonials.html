@@ -621,7 +621,7 @@
       <span style="background:#0f3528;color:#f4b400;width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:1rem;"><i class="fa-solid fa-award"></i></span>
       <div>
         <h3 style="margin:0;">Leave a Verified Client Review</h3>
-        <p class="subtitle" style="margin:2px 0 0;">Share your project experience & showcase the delivered work (Fiverr Style).</p>
+        <p class="subtitle" style="margin:2px 0 0;">Share your project experience & showcase your delivered work.</p>
       </div>
     </div>
     
@@ -696,7 +696,7 @@
 
       <!-- Fiverr-style Detailed Rating Breakdown -->
       <div class="fiverr-subratings-box">
-        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:6px;">Detailed Rating Breakdown (Fiverr Standard)</div>
+        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:6px;">Detailed Rating Breakdown</div>
         <div class="fiverr-subrating-row">
           <div class="fiverr-subrating-label">Seller Communication Level<small>Responsiveness, clarity & updates</small></div>
           <div class="sub-star-picker" data-sub="comm" data-val="5">
@@ -719,7 +719,7 @@
 
       <!-- Fiverr-style Upload Delivered Reference Work / Sample -->
       <div class="review-form-group">
-        <label>Upload Delivered Work / Reference Sample (Optional — Like Fiverr Portfolio)</label>
+        <label>Upload Delivered Work / Reference Sample (Optional)</label>
         <div class="review-upload-dropzone" id="review-upload-dropzone">
           <input type="file" id="review-work-files" accept="image/*,.pdf" multiple style="display:none;">
           <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.6rem;color:#0f3528;margin-bottom:6px;display:block;"></i>
@@ -755,15 +755,12 @@
       </div>
       <img id="rd-main-img" class="review-detail-main-img" src="" alt="Delivered Work Reference">
       <div class="review-detail-thumbs-bar" id="rd-thumbs-bar"></div>
-      <a id="rd-open-full-link" href="#" target="_blank" style="margin-top:12px;color:#94a3b8;font-size:0.76rem;text-decoration:none;display:inline-flex;align-items:center;gap:5px;">
-        <i class="fa-solid fa-up-right-from-square"></i> Open Full Resolution Image
-      </a>
     </div>
 
     <!-- Right Column: Complete Fiverr Order & Review Breakdown -->
     <div class="review-detail-info-col">
       <div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding-right:48px;">
           <div style="display:flex;align-items:center;gap:12px;">
             <img id="rd-avatar" src="" alt="Client" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #f4b400;">
             <div>
@@ -894,18 +891,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Default authentic reference samples & metadata for the built-in static reviews so every review card is clickable & showcases work!
   const DEFAULT_SAMPLES = [
-    { service: 'Fantasy Book Cover Design', price: '$150 – $250', duration: '3 Days Delivery', workImg: '/images/psd_mockups/soft_cover_v01/sample_front.png' },
-    { service: 'Amazon KDP Interior Formatting', price: '$125 – $175', duration: '2 Days Delivery', workImg: '/images/psd_mockups/open_book_6/sample_right.png' },
-    { service: 'Children\'s Book Illustration & Layout', price: '$250 – $450', duration: '5 Days Delivery', workImg: '/images/psd_mockups/square_book_12/sample_front.png' },
-    { service: 'Print & eBook Interior Typesetting', price: '$125 – $200', duration: '3 Days Delivery', workImg: '/images/psd_mockups/open_hardcover_pixeden/sample_front.png' },
-    { service: 'A+ Content & Book Formatting', price: '$175 – $300', duration: '3 Days Delivery', workImg: '/images/psd_mockups/book_spread_8/sample_front.png' },
-    { service: 'Hardcover & Paperback Wrap Setup', price: '$150 – $250', duration: '2 Days Delivery', workImg: '/images/psd_mockups/brochure_trio_3/sample_front.png' },
-    { service: 'Epic Fantasy Cover + Gold Foil 3D', price: '$200 – $350', duration: '4 Days Delivery', workImg: '/images/psd_mockups/soft_cover_v01/sample_front.png' },
-    { service: 'Non-Fiction Business Guide Layout', price: '$150 – $250', duration: '3 Days Delivery', workImg: '/images/psd_mockups/us_letter_brochure_02/sample_front.png' },
-    { service: 'Poetry Collection Typography', price: '$100 – $175', duration: '2 Days Delivery', workImg: '/images/psd_mockups/open_book_6/sample_left.png' },
-    { service: 'Custom Author Website & Branding', price: '$300 – $600', duration: '7 Days Delivery', workImg: '/images/psd_mockups/square_spread_7/sample_front.png' },
-    { service: 'Author Portfolio Website Development', price: '$350 – $600', duration: '6 Days Delivery', workImg: '/images/psd_mockups/open_hardcover_pixeden/sample_back.png' },
-    { service: 'Amazon A+ Content & 3D Mockups', price: '$150 – $250', duration: '2 Days Delivery', workImg: '/images/psd_mockups/square_hardcover_trio_2/sample_front.png' }
+    { service: 'Fantasy Book Cover Design', price: '$150 – $250', duration: '3 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1783828499/portfolio/q0qelhs2gx53ve7wiq55.jpg' },
+    { service: 'Amazon KDP Interior Formatting', price: '$125 – $175', duration: '2 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1783553142/portfolio/qxwvlirtqkmemdx4uxod.jpg' },
+    { service: 'Children\'s Book Illustration & Layout', price: '$250 – $450', duration: '5 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206041/portfolio/img_a95b2f540b6065caba1bf4f6fcc8458b.webp' },
+    { service: 'Print & eBook Interior Typesetting', price: '$125 – $200', duration: '3 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1783553142/portfolio/qxwvlirtqkmemdx4uxod.jpg' },
+    { service: 'A+ Content & Book Formatting', price: '$175 – $300', duration: '3 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1783828520/portfolio/yp9uews6uk5njzm3o9hi.jpg' },
+    { service: 'Hardcover & Paperback Wrap Setup', price: '$150 – $250', duration: '2 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206039/portfolio/img_3413b4f63f758696229e4713804dc436.webp' },
+    { service: 'Epic Fantasy Cover + Gold Foil 3D', price: '$200 – $350', duration: '4 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206045/portfolio/img_10a203631ee0c5f716bf3cb85ea903db.webp' },
+    { service: 'Non-Fiction Business Guide Layout', price: '$150 – $250', duration: '3 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206042/portfolio/img_b593b22c58139a343404f5b4c7741649.webp' },
+    { service: 'Poetry Collection Typography', price: '$100 – $175', duration: '2 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206043/portfolio/img_70d2d65d19c118ec15fb8c58a094fa7c.webp' },
+    { service: 'Custom Author Website & Branding', price: '$300 – $600', duration: '7 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1789569869/portfolio/wavbrytzs6vo4hp7jtvw.jpg' },
+    { service: 'Author Portfolio Website Development', price: '$350 – $600', duration: '6 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1789569869/portfolio/wavbrytzs6vo4hp7jtvw.jpg' },
+    { service: 'Amazon A+ Content & 3D Mockups', price: '$150 – $250', duration: '2 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1783828499/portfolio/q0qelhs2gx53ve7wiq55.jpg' }
   ];
 
   // Upgrade existing static cards with Fiverr metadata badges, reference work thumbnails, and click-to-view modal
@@ -992,7 +989,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!detailOverlay) return;
     const workList = (r.workUrls && r.workUrls.length > 0) ? r.workUrls : ['/images/psd_mockups/soft_cover_v01/sample_front.png'];
     const mainImg = document.getElementById('rd-main-img');
-    const openFullLink = document.getElementById('rd-open-full-link');
+    const openFullLink = null;
     const thumbsBar = document.getElementById('rd-thumbs-bar');
 
     if (mainImg) mainImg.src = workList[0];
