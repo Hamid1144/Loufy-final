@@ -1,9 +1,10 @@
 // live-sync.js
-// Instantaneous + Real-time Supabase Content Synchronizer (Zero Flash + Full Section Sync)
+// Instantaneous + Real-time Supabase Content Synchronizer (Zero Flash + Non-Destructive Cloud Merge)
 
 (function() {
     const pageId = window.location.pathname.includes("portfolio.html") ? 'portfolio' : 'index';
-    const CACHE_KEY = 'loufy_live_snapshot_v5_' + pageId;
+    const CACHE_KEY = 'loufy_live_snapshot_v6_' + pageId;
+    try { localStorage.removeItem('loufy_live_snapshot_v5_' + pageId); } catch(e) {}
     try { localStorage.removeItem('loufy_live_snapshot_v4_' + pageId); } catch(e) {}
     try { localStorage.removeItem('loufy_live_snapshot_v3_' + pageId); } catch(e) {}
     try { localStorage.removeItem('loufy_live_snapshot_v2_' + pageId); } catch(e) {}
@@ -14,7 +15,96 @@
         localStorage.removeItem('loufy_draft_portfolio');
     } catch (e) {}
 
-    function syncDocumentFromParsedHTML(doc, isFromInstantCache) {
+    // Build a complete signature of a portfolio card including URL, images, PDF, title, and category
+    function getFullCardSig(c) {
+        const img = c.querySelector('img');
+        const h3 = c.querySelector('h3');
+        const link = c.querySelector('a[href]');
+        const urlBar = c.querySelector('.browser-url-bar');
+        return [
+            c.getAttribute('data-cat') || '',
+            c.getAttribute('data-subcat') || '',
+            c.getAttribute('data-website-url') || '',
+            urlBar ? urlBar.textContent.trim() : '',
+            img ? (img.getAttribute('src') || '') : '',
+            h3 ? h3.textContent.trim() : '',
+            link ? (link.getAttribute('href') || '') : '',
+            c.getAttribute('data-images') || '',
+            c.getAttribute('data-pdf') || ''
+        ].join('::');
+    }
+
+    // Build an identity key for matching the same logical card across grids (to update its URL/details or union new cards)
+    function getCardIdentityKey(c) {
+        const cat = c.getAttribute('data-cat') || '';
+        const img = c.querySelector('img');
+        const h3 = c.querySelector('h3');
+        const imgSrc = img ? (img.getAttribute('src') || '').split('?')[0] : '';
+        const title = h3 ? h3.textContent.trim().toLowerCase() : '';
+        // For websites, match by image + category so URL changes update the existing card rather than duplicating
+        if (cat === 'websites' && imgSrc) {
+            return `websites::${imgSrc}`;
+        }
+        return `${cat}::${imgSrc}::${title}`;
+    }
+
+    // Merge multiple portfolio-grid elements so no cloud-saved Formatting/Covers/Websites are ever lost
+    function mergePortfolioGrids(baseGrid, primaryCloudGrid, secondaryCloudGrid) {
+        if (!primaryCloudGrid && !secondaryCloudGrid) return null;
+        // Pick the cloud grid with the most items as the primary order source
+        const pCards = primaryCloudGrid ? Array.from(primaryCloudGrid.querySelectorAll('.portfolio-card')) : [];
+        const sCards = secondaryCloudGrid ? Array.from(secondaryCloudGrid.querySelectorAll('.portfolio-card')) : [];
+        const bCards = baseGrid ? Array.from(baseGrid.querySelectorAll('.portfolio-card')) : [];
+
+        const mainList = (sCards.length > pCards.length) ? sCards : pCards;
+        const otherCloudList = (sCards.length > pCards.length) ? pCards : sCards;
+
+        const mergedMap = new Map();
+        const orderedKeys = [];
+
+        // 1. Seed from main cloud list (contains user's latest saved order & items)
+        mainList.forEach(card => {
+            const key = getCardIdentityKey(card);
+            if (!mergedMap.has(key)) {
+                orderedKeys.push(key);
+            }
+            mergedMap.set(key, card.cloneNode(true));
+        });
+
+        // 2. Merge any cards from the other cloud row that weren't in mainList
+        otherCloudList.forEach(card => {
+            const key = getCardIdentityKey(card);
+            if (!mergedMap.has(key)) {
+                orderedKeys.push(key);
+                mergedMap.set(key, card.cloneNode(true));
+            } else {
+                const existing = mergedMap.get(key);
+                const cardUrl = card.getAttribute('data-website-url') || '';
+                const existUrl = existing.getAttribute('data-website-url') || '';
+                if (cardUrl && cardUrl.includes('beckerperfektkuechen.de') && !existUrl.includes('beckerperfektkuechen.de')) {
+                    mergedMap.set(key, card.cloneNode(true));
+                }
+            }
+        });
+
+        // 3. Ensure any newly added static HTML cards (from git push) that aren't in cloud yet are also retained
+        bCards.forEach(card => {
+            const key = getCardIdentityKey(card);
+            if (!mergedMap.has(key)) {
+                orderedKeys.push(key);
+                mergedMap.set(key, card.cloneNode(true));
+            }
+        });
+
+        const wrapper = document.createElement('div');
+        orderedKeys.forEach(key => {
+            const card = mergedMap.get(key);
+            if (card) wrapper.appendChild(card);
+        });
+        return wrapper;
+    }
+
+    function syncDocumentFromParsedHTML(doc, secondaryDoc, isFromInstantCache) {
         if (document.body && document.body.classList.contains('edit-mode')) return false;
         let modified = false;
 
@@ -38,13 +128,17 @@
             }
         });
 
-                // 1b. Sync Hero Background Video URL only if explicitly changed to a new custom video
+        // 1b. Sync Hero Background Video URL only if explicitly changed to a brand-new custom video
         const liveVid = doc.getElementById('hero-bg-video');
         const curVid = document.getElementById('hero-bg-video');
         if (liveVid && curVid) {
             const liveSrc = liveVid.getAttribute('src') || liveVid.querySelector('source')?.getAttribute('src');
-            const curSrc = curVid.getAttribute('src');
-            const isDefaultFastVid = (curSrc === '/hero-bg-fast.mp4' && liveSrc && liveSrc.includes('lv_0_20260620110136-1_wliolu'));
+            const curSrc = curVid.getAttribute('src') || '';
+            const isDefaultFastVid = (
+                curSrc.indexOf('/hero-bg-fast.mp4') !== -1 &&
+                liveSrc &&
+                (liveSrc.includes('lv_0_20260620110136-1_wliolu') || liveSrc.includes('/hero-bg-fast.mp4'))
+            );
             if (liveSrc && liveSrc !== curSrc && !isDefaultFastVid) {
                 curVid.setAttribute('src', liveSrc);
                 const sTag = curVid.querySelector('source');
@@ -89,7 +183,7 @@
             }
         }
 
-        // 3. Sync Major Content Containers directly so headline, About bio (even multi-paragraph), Services, Pricing, FAQ, Contact, and Footer ALWAYS update 100%
+        // 3. Sync Major Content Containers directly so headline, About bio, Services, Pricing, FAQ, Contact, and Footer ALWAYS update 100%
         const sectionContainers = [
             '.hero-content',
             '.hero-visual',
@@ -118,28 +212,27 @@
             }
         });
 
-        // 4. Sync Portfolio Grid & Filters
+        // 4. Non-Destructive Union Merge for Portfolio Grid & Filters across index + portfolio cloud rows + static DOM
         const liveGrid = doc.querySelector('.portfolio-grid');
+        const secGrid = secondaryDoc ? secondaryDoc.querySelector('.portfolio-grid') : null;
         const currentGrid = document.querySelector('.portfolio-grid');
-        if (liveGrid && currentGrid) {
-            const getCardSig = (c) => {
-                const img = c.querySelector('img');
-                const h3 = c.querySelector('h3');
-                return (c.getAttribute('data-cat') || '') + '::' + (img ? img.getAttribute('src') : '') + '::' + (h3 ? h3.textContent.trim() : '');
-            };
-            const curSigs = Array.from(currentGrid.querySelectorAll('.portfolio-card')).map(getCardSig).join('|');
-            const liveSigs = Array.from(liveGrid.querySelectorAll('.portfolio-card')).map(getCardSig).join('|');
-            if (curSigs !== liveSigs) {
-                const activeFilterBtn = document.querySelector('.filter-btn.active');
-                const activeCat = activeFilterBtn ? activeFilterBtn.dataset.cat : null;
-                currentGrid.innerHTML = liveGrid.innerHTML;
-                currentGrid.querySelectorAll('.reveal').forEach(r => r.classList.add('active'));
-                if (activeCat && activeCat !== 'all') {
-                    currentGrid.querySelectorAll('.portfolio-card').forEach(card => {
-                        if (card.dataset.cat !== activeCat) card.style.display = 'none';
-                    });
+        if ((liveGrid || secGrid) && currentGrid) {
+            const mergedGridWrapper = mergePortfolioGrids(currentGrid, liveGrid, secGrid);
+            if (mergedGridWrapper) {
+                const curSigs = Array.from(currentGrid.querySelectorAll('.portfolio-card')).map(getFullCardSig).join('|');
+                const mergedSigs = Array.from(mergedGridWrapper.querySelectorAll('.portfolio-card')).map(getFullCardSig).join('|');
+                if (curSigs !== mergedSigs) {
+                    const activeFilterBtn = document.querySelector('.filter-btn.active');
+                    const activeCat = activeFilterBtn ? activeFilterBtn.dataset.cat : null;
+                    currentGrid.innerHTML = mergedGridWrapper.innerHTML;
+                    currentGrid.querySelectorAll('.reveal').forEach(r => r.classList.add('active'));
+                    if (activeCat && activeCat !== 'all') {
+                        currentGrid.querySelectorAll('.portfolio-card').forEach(card => {
+                            if (card.dataset.cat !== activeCat) card.style.display = 'none';
+                        });
+                    }
+                    modified = true;
                 }
-                modified = true;
             }
         }
 
@@ -168,11 +261,11 @@
             if (cachedHtml) {
                 const parser = new DOMParser();
                 const cachedDoc = parser.parseFromString(cachedHtml, 'text/html');
-                syncDocumentFromParsedHTML(cachedDoc, true);
+                syncDocumentFromParsedHTML(cachedDoc, null, true);
             }
         } catch (e) {}
 
-        // STEP B: Fetch latest from Supabase Cloud in background and update both DOM & Local Snapshot
+        // STEP B: Fetch latest from Supabase Cloud (both 'index' and 'portfolio' rows) in background and merge non-destructively
         const runCloudSync = async () => {
             let elapsed = 0;
             while (!window.supabaseClient && elapsed < 4000) {
@@ -183,23 +276,38 @@
             if (document.body && document.body.classList.contains('edit-mode')) return;
 
             try {
-                const { data, error } = await window.supabaseClient
+                const { data: rows, error } = await window.supabaseClient
                     .from('site_content')
-                    .select('html_content')
-                    .eq('id', pageId)
-                    .single();
-                if (error || !data || !data.html_content) return;
+                    .select('id, html_content')
+                    .in('id', ['index', 'portfolio']);
+                if (error || !rows || rows.length === 0) return;
 
-                try {
-                    localStorage.setItem(CACHE_KEY, data.html_content);
-                } catch (qe) {}
+                const primaryRow = rows.find(r => r.id === pageId) || rows[0];
+                const secondaryRow = rows.find(r => r.id !== pageId) || null;
+
+                if (!primaryRow || !primaryRow.html_content) return;
 
                 const parser = new DOMParser();
-                const liveDoc = parser.parseFromString(data.html_content, 'text/html');
-                const changed = syncDocumentFromParsedHTML(liveDoc, false);
+                const liveDoc = parser.parseFromString(primaryRow.html_content, 'text/html');
+                const secDoc = (secondaryRow && secondaryRow.html_content)
+                    ? parser.parseFromString(secondaryRow.html_content, 'text/html')
+                    : null;
+
+                const changed = syncDocumentFromParsedHTML(liveDoc, secDoc, false);
+
+                // Cache the merged state so next load is 0ms with all merged items
+                try {
+                    const mergedGrid = document.querySelector('.portfolio-grid');
+                    if (mergedGrid && liveDoc.querySelector('.portfolio-grid')) {
+                        liveDoc.querySelector('.portfolio-grid').innerHTML = mergedGrid.innerHTML;
+                    }
+                    localStorage.setItem(CACHE_KEY, liveDoc.body.innerHTML);
+                } catch (qe) {}
+
                 if (changed && window.initSiteLogic) {
                     window.initSiteLogic();
                     if (window.initFlipbooks) window.initFlipbooks();
+                    if (window.initCoversMarquee) window.initCoversMarquee();
                 }
             } catch (err) {
                 console.warn('Live sync error:', err);

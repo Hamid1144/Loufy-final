@@ -3830,7 +3830,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (dBadge && mBadge) mBadge.innerHTML = dBadge.innerHTML;
             }
             try {
-                localStorage.setItem('loufy_live_snapshot_v2_' + pageId, clone.innerHTML);
+                localStorage.setItem('loufy_live_snapshot_v6_' + pageId, clone.innerHTML);
             } catch (e) {}
             await window.supabaseClient.from('site_content').delete().eq('id', pageId);
             const { error } = await window.supabaseClient
