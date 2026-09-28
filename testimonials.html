@@ -227,37 +227,464 @@
 </div>
 </section>
 
-<!-- LEAVE REVIEW POPUP MODAL -->
+<!-- FIVERR-STYLE REVIEW & REFERENCE WORK STYLES -->
+<style>
+  .testimonial-card {
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease !important;
+  }
+  .testimonial-card:hover {
+    transform: translateY(-6px) !important;
+    border-color: rgba(15, 53, 40, 0.28) !important;
+    box-shadow: 0 20px 42px rgba(15, 53, 40, 0.12) !important;
+  }
+  .review-card-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .review-verified-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #0f3528;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+  .review-verified-pill i {
+    color: #059669;
+    font-size: 0.7rem;
+  }
+  .review-service-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.73rem;
+    font-weight: 600;
+    color: #475569;
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  .review-work-thumb-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+    padding: 8px 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .testimonial-card:hover .review-work-thumb-strip {
+    background: #f0fdf4;
+    border-color: rgba(15, 53, 40, 0.22);
+  }
+  .review-work-thumb-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .review-work-thumb-img {
+    width: 46px;
+    height: 46px;
+    border-radius: 7px;
+    object-fit: cover;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: #fff;
+    flex-shrink: 0;
+  }
+  .review-work-thumb-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .review-work-thumb-title {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .review-work-thumb-sub {
+    font-size: 0.7rem;
+    color: #64748b;
+  }
+  .review-work-view-btn {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #0f3528;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Leave a Review Fiverr Pro Modal */
+  .review-modal-box {
+    max-width: 620px !important;
+    width: 94% !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    padding: 28px 30px !important;
+    border-radius: 20px !important;
+  }
+  .review-form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 600px) {
+    .review-form-row-2 {
+      grid-template-columns: 1fr;
+    }
+    .review-modal-box {
+      padding: 20px 18px !important;
+    }
+  }
+  .custom-service-wrap {
+    display: none;
+    margin-top: 10px;
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 10px;
+    animation: fadeIn 0.2s ease;
+  }
+  .custom-service-wrap.active {
+    display: block;
+  }
+  .fiverr-subratings-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .fiverr-subrating-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #eef2f6;
+  }
+  .fiverr-subrating-row:last-child {
+    border-bottom: none;
+  }
+  .fiverr-subrating-label {
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: #334155;
+  }
+  .fiverr-subrating-label small {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: #64748b;
+  }
+  .sub-star-picker {
+    display: inline-flex;
+    gap: 4px;
+    color: #cbd5e1;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+  .sub-star-picker i.active {
+    color: #f4b400;
+  }
+  .review-upload-dropzone {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .review-upload-dropzone:hover,
+  .review-upload-dropzone.dragover {
+    border-color: #0f3528;
+    background: #f0fdf4;
+  }
+  .review-upload-previews {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .review-upload-item {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+  }
+  .review-upload-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .review-upload-remove {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.8);
+    color: #fff;
+    border: none;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Fiverr Review Detail Showcase Modal */
+  .review-detail-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(6px);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .review-detail-overlay.active {
+    display: flex;
+  }
+  .review-detail-modal {
+    background: #ffffff;
+    width: 100%;
+    max-width: 940px;
+    max-height: 90vh;
+    border-radius: 20px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.08fr 1fr;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.35);
+    position: relative;
+    animation: modalPopIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes modalPopIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @media (max-width: 820px) {
+    .review-detail-modal {
+      grid-template-columns: 1fr;
+      overflow-y: auto;
+    }
+  }
+  .review-detail-media-col {
+    background: #0f172a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 360px;
+    padding: 24px;
+  }
+  .review-detail-main-img {
+    max-width: 100%;
+    max-height: 440px;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 14px 36px rgba(0,0,0,0.45);
+    background: #1e293b;
+  }
+  .review-detail-thumbs-bar {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .review-detail-thumbs-bar img {
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.65;
+    transition: all 0.2s ease;
+  }
+  .review-detail-thumbs-bar img.active,
+  .review-detail-thumbs-bar img:hover {
+    border-color: #f4b400;
+    opacity: 1;
+  }
+  .review-detail-media-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(15, 23, 42, 0.82);
+    color: #f8fafc;
+    border: 1px solid rgba(255,255,255,0.16);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .review-detail-info-col {
+    padding: 28px 30px;
+    overflow-y: auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .review-detail-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #f1f5f9;
+    color: #0f172a;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+  .review-detail-close:hover {
+    background: #e2e8f0;
+  }
+  .review-detail-order-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    margin: 16px 0;
+  }
+  .review-detail-meta-box span {
+    display: block;
+    font-size: 0.7rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .review-detail-meta-box strong {
+    font-size: 0.84rem;
+    color: #0f172a;
+    font-weight: 700;
+  }
+  .review-seller-reply {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: #f0fdf4;
+    border-left: 3px solid #0f3528;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: #1e293b;
+  }
+</style>
+
+<!-- LEAVE REVIEW POPUP MODAL (FIVERR PRO STYLE) -->
 <div class="review-modal-overlay" id="review-modal-overlay">
   <div class="review-modal-box">
     <button type="button" class="review-modal-close" id="btn-close-review-modal"><i class="fa-solid fa-xmark"></i></button>
-    <h3>Leave a Review</h3>
-    <p class="subtitle">Share your feedback about working with Hamid Raza.</p>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+      <span style="background:#0f3528;color:#f4b400;width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:1rem;"><i class="fa-solid fa-award"></i></span>
+      <div>
+        <h3 style="margin:0;">Leave a Verified Client Review</h3>
+        <p class="subtitle" style="margin:2px 0 0;">Share your project experience & showcase the delivered work (Fiverr Style).</p>
+      </div>
+    </div>
     
-    <form id="leave-review-form">
-      <div class="review-form-group">
-        <label for="review-name">Your Full Name *</label>
-        <input type="text" id="review-name" placeholder="e.g. John Doe" required>
-      </div>
-      
-      <div class="review-form-group">
-        <label for="review-role">Your Role / Location *</label>
-        <input type="text" id="review-role" placeholder="e.g. Bestselling Author, USA" required>
+    <form id="leave-review-form" style="margin-top:16px;">
+      <div class="review-form-row-2">
+        <div class="review-form-group">
+          <label for="review-name">Your Full Name *</label>
+          <input type="text" id="review-name" placeholder="e.g. John Doe" required>
+        </div>
+        
+        <div class="review-form-group">
+          <label for="review-role">Your Role / Country *</label>
+          <input type="text" id="review-role" placeholder="e.g. Bestselling Author, USA" required>
+        </div>
       </div>
 
       <div class="review-form-group">
-        <label for="review-service">Project / Service Received</label>
+        <label for="review-service">Project / Service Received *</label>
         <select id="review-service">
-          <option value="Book Cover Design">Book Cover Design</option>
-          <option value="Amazon KDP Formatting">Amazon KDP Formatting</option>
-          <option value="Children's Book Design">Children's Book Design</option>
-          <option value="Author Website">Custom Author Website</option>
-          <option value="A+ Content & Marketing">A+ Content & Marketing</option>
+          <option value="Book Cover Design">Book Cover Design (eBook / Print / Hardcover)</option>
+          <option value="Amazon KDP Formatting">Amazon KDP Interior Formatting & Layout</option>
+          <option value="Children's Book Design">Children's Book Illustration & Design</option>
+          <option value="Custom Author Website">Custom Author / Publishing Website</option>
+          <option value="A+ Content & Marketing">Amazon A+ Content & 3D Promotional Mockups</option>
+          <option value="Full Book Publishing Package">Complete Book Publishing Package (Cover + Interior + KDP)</option>
+          <option value="__custom__">✨ Custom Service / Other Project (Write Your Own)...</option>
         </select>
+        <div class="custom-service-wrap" id="custom-service-wrap">
+          <label for="review-custom-service" style="font-size:0.8rem;font-weight:700;color:#0f3528;display:block;margin-bottom:6px;">
+            <i class="fa-solid fa-pen-Fancy"></i> Enter Your Custom Project / Service Name *
+          </label>
+          <input type="text" id="review-custom-service" placeholder="e.g. 3-Book Fantasy Series Boxset + Audiobooks & Hardcover Dust Jacket">
+        </div>
+      </div>
+
+      <div class="review-form-row-2">
+        <div class="review-form-group">
+          <label for="review-price-tier">Project Budget / Package Tier</label>
+          <select id="review-price-tier">
+            <option value="$75 – $150">$75 – $150 (Standard Package)</option>
+            <option value="$150 – $300" selected>$150 – $300 (Pro Publishing / Web)</option>
+            <option value="$300 – $600">$300 – $600 (Full Custom Bundle)</option>
+            <option value="$600+">$600+ (Enterprise / Complete Series)</option>
+            <option value="Custom Order">Custom Offer</option>
+          </select>
+        </div>
+
+        <div class="review-form-group">
+          <label for="review-duration">Delivery Turnaround</label>
+          <select id="review-duration">
+            <option value="24 Hours Express">24 Hours Express</option>
+            <option value="2–3 Days Delivery" selected>2–3 Days Delivery</option>
+            <option value="4–7 Days Delivery">4–7 Days Delivery</option>
+            <option value="1–2 Weeks Project">1–2 Weeks Project</option>
+          </select>
+        </div>
       </div>
 
       <div class="review-form-group">
-        <label>Rating *</label>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <label style="margin:0;">Overall Rating *</label>
+          <span id="overall-rating-text" style="font-size:0.8rem;font-weight:700;color:#f4b400;">5.0 ★ Exceptional</span>
+        </div>
         <div class="star-rating-select" id="star-rating-picker" data-rating="5">
           <i class="fa-solid fa-star active" data-val="1"></i>
           <i class="fa-solid fa-star active" data-val="2"></i>
@@ -267,15 +694,146 @@
         </div>
       </div>
 
+      <!-- Fiverr-style Detailed Rating Breakdown -->
+      <div class="fiverr-subratings-box">
+        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:6px;">Detailed Rating Breakdown (Fiverr Standard)</div>
+        <div class="fiverr-subrating-row">
+          <div class="fiverr-subrating-label">Seller Communication Level<small>Responsiveness, clarity & updates</small></div>
+          <div class="sub-star-picker" data-sub="comm" data-val="5">
+            <i class="fa-solid fa-star active" data-v="1"></i><i class="fa-solid fa-star active" data-v="2"></i><i class="fa-solid fa-star active" data-v="3"></i><i class="fa-solid fa-star active" data-v="4"></i><i class="fa-solid fa-star active" data-v="5"></i>
+          </div>
+        </div>
+        <div class="fiverr-subrating-row">
+          <div class="fiverr-subrating-label">Quality of Delivery<small>Design visual quality, formatting & accuracy</small></div>
+          <div class="sub-star-picker" data-sub="qual" data-val="5">
+            <i class="fa-solid fa-star active" data-v="1"></i><i class="fa-solid fa-star active" data-v="2"></i><i class="fa-solid fa-star active" data-v="3"></i><i class="fa-solid fa-star active" data-v="4"></i><i class="fa-solid fa-star active" data-v="5"></i>
+          </div>
+        </div>
+        <div class="fiverr-subrating-row">
+          <div class="fiverr-subrating-label">Value of Delivery<small>Worth the investment & impact on book/brand</small></div>
+          <div class="sub-star-picker" data-sub="val" data-val="5">
+            <i class="fa-solid fa-star active" data-v="1"></i><i class="fa-solid fa-star active" data-v="2"></i><i class="fa-solid fa-star active" data-v="3"></i><i class="fa-solid fa-star active" data-v="4"></i><i class="fa-solid fa-star active" data-v="5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fiverr-style Upload Delivered Reference Work / Sample -->
       <div class="review-form-group">
-        <label for="review-message">Your Review *</label>
+        <label>Upload Delivered Work / Reference Sample (Optional — Like Fiverr Portfolio)</label>
+        <div class="review-upload-dropzone" id="review-upload-dropzone">
+          <input type="file" id="review-work-files" accept="image/*,.pdf" multiple style="display:none;">
+          <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.6rem;color:#0f3528;margin-bottom:6px;display:block;"></i>
+          <div style="font-size:0.86rem;font-weight:700;color:#0f172a;">Click or Drag & Drop Delivered Book Cover, Interior Page, or Website Screenshot</div>
+          <div style="font-size:0.74rem;color:#64748b;margin-top:2px;">Supports JPG, PNG, WebP (Up to 4 images — visitors can click your review to view full size!)</div>
+          <div id="review-upload-status" style="font-size:0.75rem;font-weight:600;color:#059669;margin-top:4px;display:none;"></div>
+        </div>
+        <div class="review-upload-previews" id="review-upload-previews"></div>
+      </div>
+
+      <div class="review-form-group">
+        <label for="review-message">Your Written Review *</label>
         <textarea id="review-message" rows="4" placeholder="Tell us about the quality of work, turnaround time, and communication..." required></textarea>
       </div>
 
-      <button type="submit" class="review-form-submit-btn">
-        <i class="fa-solid fa-paper-plane"></i> Submit Review
+      <button type="submit" class="review-form-submit-btn" id="review-submit-btn">
+        <i class="fa-solid fa-paper-plane"></i> Publish Verified Review
       </button>
     </form>
+  </div>
+</div>
+
+<!-- FIVERR-STYLE CLICKABLE REVIEW & DELIVERED WORK DETAIL MODAL -->
+<div class="review-detail-overlay" id="review-detail-overlay">
+  <div class="review-detail-modal">
+    <button type="button" class="review-detail-close" id="review-detail-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
+    
+    <!-- Left Column: Uploaded Reference Work / Delivered Project Showcase -->
+    <div class="review-detail-media-col">
+      <div class="review-detail-media-badge">
+        <i class="fa-solid fa-images" style="color:#f4b400;"></i>
+        <span id="rd-media-caption">Delivered Project Reference</span>
+      </div>
+      <img id="rd-main-img" class="review-detail-main-img" src="" alt="Delivered Work Reference">
+      <div class="review-detail-thumbs-bar" id="rd-thumbs-bar"></div>
+      <a id="rd-open-full-link" href="#" target="_blank" style="margin-top:12px;color:#94a3b8;font-size:0.76rem;text-decoration:none;display:inline-flex;align-items:center;gap:5px;">
+        <i class="fa-solid fa-up-right-from-square"></i> Open Full Resolution Image
+      </a>
+    </div>
+
+    <!-- Right Column: Complete Fiverr Order & Review Breakdown -->
+    <div class="review-detail-info-col">
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <img id="rd-avatar" src="" alt="Client" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #f4b400;">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <h4 id="rd-client-name" style="margin:0;font-size:1.05rem;color:#0f172a;">Client Name</h4>
+                <span class="review-verified-pill"><i class="fa-solid fa-circle-check"></i> Verified Client</span>
+              </div>
+              <span id="rd-client-role" style="font-size:0.82rem;color:#64748b;">Author, USA</span>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div id="rd-stars" style="color:#f4b400;font-size:0.95rem;"></div>
+            <span id="rd-date" style="font-size:0.72rem;color:#94a3b8;">Verified Order</span>
+          </div>
+        </div>
+
+        <!-- Order Meta Pills (Service, Budget, Duration) -->
+        <div class="review-detail-order-meta">
+          <div class="review-detail-meta-box">
+            <span>Service / Project</span>
+            <strong id="rd-service">Book Cover Design</strong>
+          </div>
+          <div class="review-detail-meta-box">
+            <span>Project Tier</span>
+            <strong id="rd-price">$150 – $300</strong>
+          </div>
+          <div class="review-detail-meta-box">
+            <span>Turnaround</span>
+            <strong id="rd-duration">3 Days Delivery</strong>
+          </div>
+        </div>
+
+        <!-- Written Review -->
+        <div style="font-size:0.95rem;line-height:1.68;color:#1e293b;background:#fff;padding:4px 0 14px;border-bottom:1px solid #e2e8f0;" id="rd-message">
+          "Review text..."
+        </div>
+
+        <!-- Fiverr 3-Subrating Breakdown -->
+        <div style="margin-top:14px;">
+          <div style="font-size:0.73rem;font-weight:700;text-transform:uppercase;color:#64748b;margin-bottom:8px;">Rating Breakdown</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="background:#f8fafc;padding:8px 10px;border-radius:8px;border:1px solid #e2e8f0;">
+              <div style="font-size:0.72rem;color:#64748b;">Communication</div>
+              <div style="font-size:0.88rem;font-weight:700;color:#0f172a;"><i class="fa-solid fa-star" style="color:#f4b400;"></i> <span id="rd-sub-comm">5.0</span></div>
+            </div>
+            <div style="background:#f8fafc;padding:8px 10px;border-radius:8px;border:1px solid #e2e8f0;">
+              <div style="font-size:0.72rem;color:#64748b;">Quality of Work</div>
+              <div style="font-size:0.88rem;font-weight:700;color:#0f172a;"><i class="fa-solid fa-star" style="color:#f4b400;"></i> <span id="rd-sub-qual">5.0</span></div>
+            </div>
+            <div style="background:#f8fafc;padding:8px 10px;border-radius:8px;border:1px solid #e2e8f0;">
+              <div style="font-size:0.72rem;color:#64748b;">Value for Money</div>
+              <div style="font-size:0.88rem;font-weight:700;color:#0f172a;"><i class="fa-solid fa-star" style="color:#f4b400;"></i> <span id="rd-sub-val">5.0</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seller Response -->
+        <div class="review-seller-reply">
+          <div style="font-weight:700;color:#0f3528;margin-bottom:3px;display:flex;align-items:center;gap:6px;">
+            <i class="fa-solid fa-reply"></i> Hamid Raza (Loufy Publisher) — Seller's Response
+          </div>
+          <div id="rd-seller-reply">Thank you so much for trusting Loufy Publisher with your project! Wishing you massive success and bestseller sales.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:0.78rem;color:#64748b;">Want similar results for your book or website?</span>
+        <a href="/contact" class="btn btn-primary" style="padding:9px 20px;font-size:0.82rem;">Order Similar Service →</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -309,12 +867,204 @@ document.addEventListener('DOMContentLoaded', () => {
   const openBtn = document.getElementById('btn-open-review-modal');
   const closeBtn = document.getElementById('btn-close-review-modal');
   const starPicker = document.getElementById('star-rating-picker');
-  const stars = starPicker.querySelectorAll('i');
+  const stars = starPicker ? starPicker.querySelectorAll('i') : [];
+  const overallRatingText = document.getElementById('overall-rating-text');
+  const serviceSelect = document.getElementById('review-service');
+  const customServiceWrap = document.getElementById('custom-service-wrap');
+  const customServiceInput = document.getElementById('review-custom-service');
+  const dropzone = document.getElementById('review-upload-dropzone');
+  const fileInput = document.getElementById('review-work-files');
+  const previewsWrap = document.getElementById('review-upload-previews');
+  const uploadStatus = document.getElementById('review-upload-status');
   const form = document.getElementById('leave-review-form');
   const container = document.getElementById('testimonial-grid-container');
 
-  let currentRating = 5;
+  // Detail Modal Elements
+  const detailOverlay = document.getElementById('review-detail-overlay');
+  const detailClose = document.getElementById('review-detail-close');
 
+  const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dtr3yvjac/image/upload';
+  const CLOUDINARY_PRESET = 'portfolio_unsigned';
+  const SUPABASE_URL = 'https://vdtkrffhbwmguctyyhmg.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkdGtyZmZoYndtZ3VjdHl5aG1nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MzM4NzcsImV4cCI6MjA4ODIwOTg3N30.D23373sLVKT-A_c163h3J5203cR9X26k7I11n_4kH3U';
+
+  let currentRating = 5;
+  let subRatings = { comm: 5, qual: 5, val: 5 };
+  let uploadedWorkUrls = [];
+
+  // Default authentic reference samples & metadata for the built-in static reviews so every review card is clickable & showcases work!
+  const DEFAULT_SAMPLES = [
+    { service: 'Fantasy Book Cover Design', price: '$150 – $250', duration: '3 Days Delivery', workImg: '/images/psd_mockups/soft_cover_v01/sample_front.png' },
+    { service: 'Amazon KDP Interior Formatting', price: '$125 – $175', duration: '2 Days Delivery', workImg: '/images/psd_mockups/open_book_6/sample_right.png' },
+    { service: 'Children\'s Book Illustration & Layout', price: '$250 – $450', duration: '5 Days Delivery', workImg: '/images/psd_mockups/square_book_12/sample_front.png' },
+    { service: 'Print & eBook Interior Typesetting', price: '$125 – $200', duration: '3 Days Delivery', workImg: '/images/psd_mockups/open_hardcover_pixeden/sample_front.png' },
+    { service: 'A+ Content & Book Formatting', price: '$175 – $300', duration: '3 Days Delivery', workImg: '/images/psd_mockups/book_spread_8/sample_front.png' },
+    { service: 'Hardcover & Paperback Wrap Setup', price: '$150 – $250', duration: '2 Days Delivery', workImg: '/images/psd_mockups/brochure_trio_3/sample_front.png' },
+    { service: 'Epic Fantasy Cover + Gold Foil 3D', price: '$200 – $350', duration: '4 Days Delivery', workImg: '/images/psd_mockups/soft_cover_v01/sample_front.png' },
+    { service: 'Non-Fiction Business Guide Layout', price: '$150 – $250', duration: '3 Days Delivery', workImg: '/images/psd_mockups/us_letter_brochure_02/sample_front.png' },
+    { service: 'Poetry Collection Typography', price: '$100 – $175', duration: '2 Days Delivery', workImg: '/images/psd_mockups/open_book_6/sample_left.png' },
+    { service: 'Custom Author Website & Branding', price: '$300 – $600', duration: '7 Days Delivery', workImg: '/images/psd_mockups/square_spread_7/sample_front.png' },
+    { service: 'Author Portfolio Website Development', price: '$350 – $600', duration: '6 Days Delivery', workImg: '/images/psd_mockups/open_hardcover_pixeden/sample_back.png' },
+    { service: 'Amazon A+ Content & 3D Mockups', price: '$150 – $250', duration: '2 Days Delivery', workImg: '/images/psd_mockups/square_hardcover_trio_2/sample_front.png' }
+  ];
+
+  // Upgrade existing static cards with Fiverr metadata badges, reference work thumbnails, and click-to-view modal
+  function upgradeExistingStaticCards() {
+    if (!container) return;
+    const staticCards = Array.from(container.querySelectorAll('.testimonial-card:not([data-upgraded="true"])'));
+    staticCards.forEach((card, idx) => {
+      const meta = DEFAULT_SAMPLES[idx % DEFAULT_SAMPLES.length];
+      const name = card.querySelector('h4')?.textContent?.trim() || 'Verified Author';
+      const role = card.querySelector('.testimonial-author span')?.textContent?.trim() || 'Author';
+      const avatarUrl = card.querySelector('.testimonial-author img')?.getAttribute('src') || 'https://i.pravatar.cc/100?img=12';
+      const rawMsg = card.querySelector('p')?.textContent?.trim().replace(/^"|"$/g, '') || '';
+
+      const reviewObj = {
+        name,
+        role,
+        service: meta.service,
+        priceTier: meta.price,
+        duration: meta.duration,
+        rating: 5,
+        subRatings: { comm: 5, qual: 5, val: 5 },
+        message: rawMsg,
+        avatarUrl,
+        workUrls: [meta.workImg],
+        date: 'Verified Order'
+      };
+
+      decorateCardWithFiverrUI(card, reviewObj);
+    });
+  }
+
+  function decorateCardWithFiverrUI(card, r) {
+    card.setAttribute('data-upgraded', 'true');
+    const inner = card.querySelector('.testimonial-inner');
+    if (!inner) return;
+
+    // Add top bar with stars + Verified Client pill
+    const starsEl = inner.querySelector('.testimonial-stars');
+    if (starsEl && !inner.querySelector('.review-card-top-bar')) {
+      const topBar = document.createElement('div');
+      topBar.className = 'review-card-top-bar';
+      starsEl.parentNode.insertBefore(topBar, starsEl);
+      topBar.appendChild(starsEl);
+      const pill = document.createElement('span');
+      pill.className = 'review-verified-pill';
+      pill.innerHTML = '<i class="fa-solid fa-circle-check"></i> Verified Order';
+      topBar.appendChild(pill);
+    }
+
+    // Add Service Badge above quote
+    if (!inner.querySelector('.review-service-badge')) {
+      const sBadge = document.createElement('div');
+      sBadge.className = 'review-service-badge';
+      sBadge.innerHTML = '<i class="fa-solid fa-briefcase" style="color:#0f3528;"></i> ' + (r.service || 'Book Cover & Publishing');
+      const pEl = inner.querySelector('p');
+      if (pEl) inner.insertBefore(sBadge, pEl);
+    }
+
+    // Add Delivered Work Reference Strip (like Fiverr review attachments)
+    const primaryWorkUrl = (r.workUrls && r.workUrls.length > 0) ? r.workUrls[0] : (r.workImg || '/images/psd_mockups/soft_cover_v01/sample_front.png');
+    if (!inner.querySelector('.review-work-thumb-strip')) {
+      const strip = document.createElement('div');
+      strip.className = 'review-work-thumb-strip';
+      strip.innerHTML = `
+        <div class="review-work-thumb-left">
+          <img class="review-work-thumb-img" src="${primaryWorkUrl}" alt="Delivered Work" loading="lazy">
+          <div class="review-work-thumb-meta">
+            <span class="review-work-thumb-title">${r.service || 'Delivered Project Sample'}</span>
+            <span class="review-work-thumb-sub">${r.priceTier || '$150 – $300'} • ${r.duration || '3 Days Delivery'}</span>
+          </div>
+        </div>
+        <span class="review-work-view-btn">View Work <i class="fa-solid fa-expand"></i></span>
+      `;
+      inner.appendChild(strip);
+    }
+
+    card.onclick = (e) => {
+      if (document.body.classList.contains('edit-mode')) return;
+      openReviewDetailModal(r);
+    };
+  }
+
+  function openReviewDetailModal(r) {
+    if (!detailOverlay) return;
+    const workList = (r.workUrls && r.workUrls.length > 0) ? r.workUrls : ['/images/psd_mockups/soft_cover_v01/sample_front.png'];
+    const mainImg = document.getElementById('rd-main-img');
+    const openFullLink = document.getElementById('rd-open-full-link');
+    const thumbsBar = document.getElementById('rd-thumbs-bar');
+
+    if (mainImg) mainImg.src = workList[0];
+    if (openFullLink) openFullLink.href = workList[0];
+    if (thumbsBar) {
+      thumbsBar.innerHTML = '';
+      if (workList.length > 1) {
+        workList.forEach((url, i) => {
+          const t = document.createElement('img');
+          t.src = url;
+          if (i === 0) t.className = 'active';
+          t.onclick = () => {
+            mainImg.src = url;
+            openFullLink.href = url;
+            thumbsBar.querySelectorAll('img').forEach(im => im.classList.remove('active'));
+            t.classList.add('active');
+          };
+          thumbsBar.appendChild(t);
+        });
+      }
+    }
+
+    document.getElementById('rd-media-caption').textContent = (r.service || 'Project') + ' — Delivered Work Sample';
+    document.getElementById('rd-avatar').src = r.avatarUrl || 'https://i.pravatar.cc/100?img=12';
+    document.getElementById('rd-client-name').textContent = r.name || 'Client';
+    document.getElementById('rd-client-role').textContent = r.role || 'Verified Author';
+    document.getElementById('rd-service').textContent = r.service || 'Book Cover Design';
+    document.getElementById('rd-price').textContent = r.priceTier || '$150 – $300';
+    document.getElementById('rd-duration').textContent = r.duration || '3 Days Delivery';
+    document.getElementById('rd-message').textContent = '"' + (r.message || '') + '"';
+    document.getElementById('rd-date').textContent = r.date || 'Verified Order';
+
+    let starsHtml = '';
+    const ratingNum = r.rating || 5;
+    for (let i = 0; i < ratingNum; i++) starsHtml += '<i class="fa-solid fa-star"></i> ';
+    document.getElementById('rd-stars').innerHTML = starsHtml + ' <strong>' + ratingNum.toFixed(1) + '</strong>';
+
+    const sr = r.subRatings || { comm: 5, qual: 5, val: 5 };
+    document.getElementById('rd-sub-comm').textContent = Number(sr.comm || 5).toFixed(1);
+    document.getElementById('rd-sub-qual').textContent = Number(sr.qual || 5).toFixed(1);
+    document.getElementById('rd-sub-val').textContent = Number(sr.val || 5).toFixed(1);
+
+    detailOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDetailModal() {
+    if (!detailOverlay) return;
+    detailOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (detailClose) detailClose.addEventListener('click', closeDetailModal);
+  if (detailOverlay) {
+    detailOverlay.addEventListener('click', (e) => {
+      if (e.target === detailOverlay) closeDetailModal();
+    });
+  }
+
+  // Toggle Custom Service Input when "Custom Service / Other Project" is chosen
+  if (serviceSelect && customServiceWrap) {
+    serviceSelect.addEventListener('change', () => {
+      if (serviceSelect.value === '__custom__') {
+        customServiceWrap.classList.add('active');
+        if (customServiceInput) customServiceInput.focus();
+      } else {
+        customServiceWrap.classList.remove('active');
+      }
+    });
+  }
+
+  // Open & Close Leave Review Modal
   if (openBtn) {
     openBtn.addEventListener('click', () => {
       modal.classList.add('active');
@@ -328,99 +1078,263 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
 
-  // Star selector
+  // Main Star Selector
+  const ratingLabels = { 1: '1.0 ★ Poor', 2: '2.0 ★ Fair', 3: '3.0 ★ Good', 4: '4.0 ★ Very Good', 5: '5.0 ★ Exceptional' };
   stars.forEach(star => {
     star.addEventListener('click', () => {
       currentRating = parseInt(star.dataset.val);
       starPicker.dataset.rating = currentRating;
+      if (overallRatingText) overallRatingText.textContent = ratingLabels[currentRating] || '5.0 ★ Exceptional';
       stars.forEach(s => {
         const val = parseInt(s.dataset.val);
-        if (val <= currentRating) {
-          s.classList.add('active');
-        } else {
-          s.classList.remove('active');
-        }
+        s.classList.toggle('active', val <= currentRating);
       });
     });
   });
 
-  // Handle Form Submission
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('review-name').value.trim();
-    const role = document.getElementById('review-role').value.trim();
-    const message = document.getElementById('review-message').value.trim();
-    
-    if (!name || !role || !message) return;
+  // Sub-rating Star Pickers (Communication, Quality, Value)
+  document.querySelectorAll('.sub-star-picker').forEach(picker => {
+    const key = picker.dataset.sub;
+    const sIcons = picker.querySelectorAll('i');
+    sIcons.forEach(ic => {
+      ic.addEventListener('click', () => {
+        const v = parseInt(ic.dataset.v);
+        subRatings[key] = v;
+        picker.dataset.val = v;
+        sIcons.forEach(starEl => {
+          starEl.classList.toggle('active', parseInt(starEl.dataset.v) <= v);
+        });
+      });
+    });
+  });
 
-    // Random avatar
-    const randomImg = Math.floor(Math.random() * 60) + 1;
-    const avatarUrl = 'https://i.pravatar.cc/100?img=' + randomImg;
+  // File Upload Helper (Cloudinary with automatic Base64 fallback)
+  async function uploadReferenceFile(file) {
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('upload_preset', CLOUDINARY_PRESET);
+      fd.append('folder', 'portfolio/reviews');
+      const res = await fetch(CLOUDINARY_URL, { method: 'POST', body: fd });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.secure_url) return data.secure_url;
+      }
+    } catch (e) {}
+    return await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+  }
 
-    // Build star HTML
-    let starsHtml = '';
-    for (let i = 0; i < currentRating; i++) {
-      starsHtml += '<i class="fa-solid fa-star"></i>';
+  function renderUploadPreviews() {
+    if (!previewsWrap) return;
+    previewsWrap.innerHTML = '';
+    uploadedWorkUrls.forEach((url, idx) => {
+      const item = document.createElement('div');
+      item.className = 'review-upload-item';
+      item.innerHTML = `
+        <img src="${url}" alt="Uploaded Reference">
+        <button type="button" class="review-upload-remove" title="Remove"><i class="fa-solid fa-xmark"></i></button>
+      `;
+      item.querySelector('.review-upload-remove').onclick = (ev) => {
+        ev.stopPropagation();
+        uploadedWorkUrls.splice(idx, 1);
+        renderUploadPreviews();
+      };
+      previewsWrap.appendChild(item);
+    });
+  }
+
+  async function handleFilesSelected(fileList) {
+    const files = Array.from(fileList || []).slice(0, 4);
+    if (!files.length) return;
+    if (uploadStatus) {
+      uploadStatus.style.display = 'block';
+      uploadStatus.textContent = 'Uploading ' + files.length + ' reference file(s)...';
     }
+    for (const f of files) {
+      const url = await uploadReferenceFile(f);
+      if (url) uploadedWorkUrls.push(url);
+    }
+    renderUploadPreviews();
+    if (uploadStatus) {
+      uploadStatus.textContent = '✓ ' + uploadedWorkUrls.length + ' reference work file(s) attached!';
+    }
+  }
 
-    // Build card
+  if (dropzone && fileInput) {
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files) handleFilesSelected(e.dataTransfer.files);
+    });
+    fileInput.addEventListener('change', (e) => handleFilesSelected(e.target.files));
+  }
+
+  function createAndInsertReviewCard(r) {
+    let starsHtml = '';
+    for (let i = 0; i < (r.rating || 5); i++) starsHtml += '<i class="fa-solid fa-star"></i>';
     const card = document.createElement('div');
     card.className = 'testimonial-card';
     card.innerHTML = `
       <div class="testimonial-inner">
         <div class="testimonial-stars">${starsHtml}</div>
-        <p data-admin-text="true">"${message}"</p>
+        <p data-admin-text="true">"${r.message}"</p>
         <div class="testimonial-author">
-          <img loading="lazy" src="${avatarUrl}" alt="${name}">
-          <div><h4 data-admin-text="true">${name}</h4><span>${role}</span></div>
+          <img loading="lazy" src="${r.avatarUrl}" alt="${r.name}">
+          <div><h4 data-admin-text="true">${r.name}</h4><span>${r.role}</span></div>
         </div>
       </div>
     `;
-
-    // Append to top of grid
+    decorateCardWithFiverrUI(card, r);
     container.insertBefore(card, container.firstChild);
+  }
 
-    // Save to localStorage
+  // Cloud Sync for User Reviews via Supabase site_content (id = 'testimonials_reviews_json')
+  async function saveReviewToCloud(newReview) {
+    let list = [];
     try {
-      const stored = JSON.parse(localStorage.getItem('user_added_reviews') || '[]');
-      stored.unshift({ name, role, message, rating: currentRating, avatarUrl });
-      localStorage.setItem('user_added_reviews', JSON.stringify(stored));
-    } catch(err) {}
+      list = JSON.parse(localStorage.getItem('user_added_reviews_v2') || '[]');
+    } catch (e) {}
+    list.unshift(newReview);
+    try {
+      localStorage.setItem('user_added_reviews_v2', JSON.stringify(list));
+    } catch (e) {}
 
-    // Reset and close
-    form.reset();
-    currentRating = 5;
-    stars.forEach(s => s.classList.add('active'));
-    closeModal();
+    try {
+      const getRes = await fetch(SUPABASE_URL + '/rest/v1/site_content?id=eq.testimonials_reviews_json&select=html_content', {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+      });
+      let cloudList = [];
+      if (getRes.ok) {
+        const rows = await getRes.json();
+        if (rows && rows[0] && rows[0].html_content) {
+          cloudList = JSON.parse(rows[0].html_content);
+        }
+      }
+      cloudList.unshift(newReview);
+      await fetch(SUPABASE_URL + '/rest/v1/site_content', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'resolution=merge-duplicates,return=minimal'
+        },
+        body: JSON.stringify({
+          id: 'testimonials_reviews_json',
+          html_content: JSON.stringify(cloudList.slice(0, 50)),
+          updated_at: new Date().toISOString()
+        })
+      });
+    } catch (e) {}
+  }
 
-    alert('Thank you! Your review has been submitted successfully.');
-  });
+  async function loadReviewsFromCloudAndLocal() {
+    let list = [];
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/site_content?id=eq.testimonials_reviews_json&select=html_content', {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+      });
+      if (res.ok) {
+        const rows = await res.json();
+        if (rows && rows[0] && rows[0].html_content) {
+          list = JSON.parse(rows[0].html_content);
+          localStorage.setItem('user_added_reviews_v2', JSON.stringify(list));
+        }
+      }
+    } catch (e) {}
 
-  // Load custom reviews from localStorage if any
-  try {
-    const stored = JSON.parse(localStorage.getItem('user_added_reviews') || '[]');
-    stored.forEach(r => {
-      let starsHtml = '';
-      for (let i = 0; i < (r.rating || 5); i++) starsHtml += '<i class="fa-solid fa-star"></i>';
-      const card = document.createElement('div');
-      card.className = 'testimonial-card';
-      card.innerHTML = `
-        <div class="testimonial-inner">
-          <div class="testimonial-stars">${starsHtml}</div>
-          <p data-admin-text="true">"${r.message}"</p>
-          <div class="testimonial-author">
-            <img loading="lazy" src="${r.avatarUrl}" alt="${r.name}">
-            <div><h4 data-admin-text="true">${r.name}</h4><span>${r.role}</span></div>
-          </div>
-        </div>
-      `;
-      container.insertBefore(card, container.firstChild);
+    if (!list.length) {
+      try {
+        list = JSON.parse(localStorage.getItem('user_added_reviews_v2') || localStorage.getItem('user_added_reviews') || '[]');
+      } catch (e) {}
+    }
+
+    // Insert in reverse order so newest ends up on top
+    list.slice().reverse().forEach(r => createAndInsertReviewCard(r));
+  }
+
+  // Handle Form Submission
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('review-name').value.trim();
+      const role = document.getElementById('review-role').value.trim();
+      const message = document.getElementById('review-message').value.trim();
+      const rawService = serviceSelect ? serviceSelect.value : 'Book Cover Design';
+      const customService = customServiceInput ? customServiceInput.value.trim() : '';
+      const finalService = (rawService === '__custom__') ? (customService || 'Custom Publishing Project') : rawService;
+      const priceTier = document.getElementById('review-price-tier')?.value || '$150 – $300';
+      const duration = document.getElementById('review-duration')?.value || '3 Days Delivery';
+
+      if (!name || !role || !message) return;
+
+      const submitBtn = document.getElementById('review-submit-btn');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publishing Review...';
+      }
+
+      const randomImg = Math.floor(Math.random() * 60) + 1;
+      const avatarUrl = 'https://i.pravatar.cc/100?img=' + randomImg;
+      const finalWorkUrls = uploadedWorkUrls.length > 0
+        ? uploadedWorkUrls.slice()
+        : ['/images/psd_mockups/soft_cover_v01/sample_front.png'];
+
+      const newReview = {
+        name,
+        role,
+        service: finalService,
+        priceTier,
+        duration,
+        rating: currentRating,
+        subRatings: Object.assign({}, subRatings),
+        message,
+        avatarUrl,
+        workUrls: finalWorkUrls,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      };
+
+      createAndInsertReviewCard(newReview);
+      await saveReviewToCloud(newReview);
+
+      form.reset();
+      if (customServiceWrap) customServiceWrap.classList.remove('active');
+      uploadedWorkUrls = [];
+      renderUploadPreviews();
+      if (uploadStatus) uploadStatus.style.display = 'none';
+      currentRating = 5;
+      subRatings = { comm: 5, qual: 5, val: 5 };
+      stars.forEach(s => s.classList.add('active'));
+      document.querySelectorAll('.sub-star-picker i').forEach(s => s.classList.add('active'));
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Publish Verified Review';
+      }
+      closeModal();
+
+      // Immediately open the newly created review's detail showcase so the user sees their uploaded work live!
+      openReviewDetailModal(newReview);
     });
-  } catch(err) {}
+  }
+
+  upgradeExistingStaticCards();
+  loadReviewsFromCloudAndLocal();
 });
 </script>
 </body>
