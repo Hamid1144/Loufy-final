@@ -64,7 +64,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <script src="script.js?v=3.38.0" defer></script>
-<link rel="stylesheet" href="style.css?v=5.4.6">
+<link rel="stylesheet" href="style.css?v=5.4.7">
 <script>
   (function() {
     try {
@@ -1222,29 +1222,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const inner = card.querySelector('.testimonial-inner');
     if (!inner) return;
 
-    // Add top bar with stars + Verified Client pill
+    const authorEl = inner.querySelector('.testimonial-author');
     const starsEl = inner.querySelector('.testimonial-stars');
-    if (starsEl && !inner.querySelector('.review-card-top-bar')) {
+
+    // Add verified checkmark next to author name
+    if (authorEl) {
+      const h4 = authorEl.querySelector('h4');
+      if (h4 && !h4.querySelector('.fa-circle-check')) {
+        const tick = document.createElement('i');
+        tick.className = 'fa-solid fa-circle-check';
+        tick.style.cssText = 'color:#10b981;font-size:0.78rem;margin-left:4px;vertical-align:middle;';
+        tick.title = 'Verified Client';
+        h4.appendChild(tick);
+      }
+    }
+
+    // Add numeric rating next to stars
+    if (starsEl && !starsEl.querySelector('strong')) {
+      const numEl = document.createElement('strong');
+      numEl.style.cssText = 'color:#0f172a;font-size:0.78rem;margin-left:4px;font-weight:800;';
+      numEl.textContent = Number(r.rating || 5).toFixed(1);
+      starsEl.appendChild(numEl);
+    }
+
+    // 1. Unified Top Header Row: Author (left) + Stars Rating (right)
+    if (authorEl && starsEl && !inner.querySelector('.review-card-top-bar')) {
       const topBar = document.createElement('div');
       topBar.className = 'review-card-top-bar';
-      starsEl.parentNode.insertBefore(topBar, starsEl);
+      topBar.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;padding-bottom:10px;border-bottom:1px solid #f1f5f9;';
+      inner.insertBefore(topBar, inner.firstChild);
+      topBar.appendChild(authorEl);
       topBar.appendChild(starsEl);
-      const pill = document.createElement('span');
-      pill.className = 'review-verified-pill';
-      pill.innerHTML = '<i class="fa-solid fa-circle-check"></i> Verified Order';
-      topBar.appendChild(pill);
     }
 
-    // Add Service Badge above quote
-    if (!inner.querySelector('.review-service-badge')) {
-      const sBadge = document.createElement('div');
-      sBadge.className = 'review-service-badge';
-      sBadge.innerHTML = '<i class="fa-solid fa-briefcase" style="color:#0f3528;"></i> ' + (r.service || 'Book Cover & Publishing');
-      const pEl = inner.querySelector('p');
-      if (pEl) inner.insertBefore(sBadge, pEl);
-    }
+    // Remove any duplicate old service badge if present
+    const oldBadge = inner.querySelector('.review-service-badge');
+    if (oldBadge) oldBadge.remove();
 
-    // Add Delivered Work Reference Strip
+    // 2. Delivered Work Reference Strip at the bottom
     const primaryWorkUrl = (r.workUrls && r.workUrls.length > 0) ? r.workUrls[0] : (r.workImg || '/images/psd_mockups/soft_cover_v01/sample_front.png');
     if (!inner.querySelector('.review-work-thumb-strip')) {
       const strip = document.createElement('div');
@@ -1254,10 +1269,10 @@ document.addEventListener('DOMContentLoaded', () => {
           <img class="review-work-thumb-img" src="${primaryWorkUrl}" alt="Delivered Work" loading="lazy">
           <div class="review-work-thumb-meta">
             <span class="review-work-thumb-title">${r.service || 'Delivered Project Sample'}</span>
-            <span class="review-work-thumb-sub">${r.priceTier || '$150 – $300'} • ${r.duration || '3 Days Delivery'}</span>
+            <span class="review-work-thumb-sub">${r.priceTier || '$150 – $300'} • ${r.duration || '3 Days'}</span>
           </div>
         </div>
-        <span class="review-work-view-btn">View Work <i class="fa-solid fa-expand"></i></span>
+        <span class="review-work-view-btn">View <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem;"></i></span>
       `;
       inner.appendChild(strip);
     }
