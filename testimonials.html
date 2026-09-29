@@ -503,16 +503,22 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    min-height: 360px;
-    padding: 24px;
+    min-height: 340px;
+    padding: 52px 24px 24px;
+    box-sizing: border-box;
   }
   .review-detail-main-img {
+    width: auto;
     max-width: 100%;
-    max-height: 440px;
+    height: auto;
+    max-height: 420px;
     object-fit: contain;
+    object-position: center center;
     border-radius: 10px;
     box-shadow: 0 14px 36px rgba(0,0,0,0.45);
     background: #1e293b;
+    display: block;
+    margin: 0 auto;
   }
   .review-detail-thumbs-bar {
     display: flex;
@@ -743,17 +749,30 @@
       overflow-y: auto !important;
     }
     .review-detail-media-col {
-      min-height: 185px !important;
-      max-height: 215px !important;
-      padding: 12px !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      padding: 46px 14px 14px !important;
+      justify-content: flex-start !important;
+      overflow: visible !important;
       flex-shrink: 0;
     }
     .review-detail-main-img {
-      max-height: 165px !important;
+      width: auto !important;
+      max-width: 100% !important;
+      height: auto !important;
+      max-height: 240px !important;
+      object-fit: contain !important;
+      object-position: center top !important;
+      display: block !important;
+      margin: 0 auto !important;
     }
     .review-detail-media-badge {
       top: 10px !important;
       left: 10px !important;
+      max-width: calc(100% - 56px) !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
       padding: 4px 9px !important;
       font-size: 0.68rem !important;
     }
