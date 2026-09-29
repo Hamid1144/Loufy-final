@@ -3894,13 +3894,32 @@ body.edit-mode .hero-float-card {
   min-width: 0 !important;
 }
 
-.testimonial-grid .testimonial-author img {
-  width: 42px !important;
-  height: 42px !important;
-  border-radius: 50% !important;
-  object-fit: cover !important;
-  border: 2px solid var(--accent, #F4B400) !important;
-  flex-shrink: 0 !important;
+.testimonial-author img,
+.testimonial-grid .testimonial-author img,
+#rd-avatar {
+  display: none !important;
+}
+
+.repeat-client-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #0f3528;
+  background: rgba(244, 180, 0, 0.22);
+  border: 1px solid rgba(244, 180, 0, 0.55);
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-left: 5px;
+  vertical-align: middle;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.repeat-client-badge i {
+  font-size: 0.62rem;
+  color: #b45309;
 }
 
 .testimonial-grid .testimonial-author h4 {
