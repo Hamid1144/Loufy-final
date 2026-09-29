@@ -23,7 +23,7 @@ function t(t,i,e){return Math.max(t,Math.min(i,e))}var i=class{isRunning=!1;valu
       prevent: (node) => {
         if (!node || !node.closest) return false;
         return !!node.closest(
-          '#super-admin-panel, #admin-modal, .admin-modal, .modal, .website-modal-box, .website-modal-overlay, #website-project-modal, .nav-links.open, [data-lenis-prevent], .swiper, .page-flip, textarea, input, select'
+          '#super-admin-panel, #admin-modal, .admin-modal, .modal, .website-modal-box, .website-modal-overlay, #website-project-modal, .review-modal-overlay, .review-modal-box, .review-detail-overlay, .review-detail-modal, .nav-links.open, [data-lenis-prevent], .swiper, .page-flip, textarea, input, select'
         );
       }
     });

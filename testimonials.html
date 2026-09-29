@@ -63,7 +63,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-<script src="script.js?v=3.37.0" defer></script>
+<script src="script.js?v=3.38.0" defer></script>
 <link rel="stylesheet" href="style.css?v=5.4.6">
 <script>
   (function() {
@@ -611,14 +611,288 @@
     font-size: 0.82rem;
     color: #1e293b;
   }
+
+  /* Ensure 100% Native Wheel & Touch Scrolling Inside Review Modals */
+  .review-modal-overlay,
+  .review-detail-overlay {
+    overscroll-behavior: contain !important;
+  }
+  .review-modal-box,
+  .review-detail-modal,
+  .review-detail-info-col {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+  }
+  .review-work-thumb-left {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Mobile Responsive Optimization for Testimonials Page, Cards & Modals */
+  @media (max-width: 768px) {
+    .testimonials-page section.testimonials {
+      padding: 84px 0 42px !important;
+    }
+    .testimonials-page .section-title {
+      font-size: 1.75rem !important;
+      line-height: 1.24 !important;
+      margin-bottom: 8px !important;
+    }
+    .testimonials-page .section-sub {
+      font-size: 0.88rem !important;
+      line-height: 1.5 !important;
+      margin: 0 auto 22px !important;
+      padding: 0 8px !important;
+    }
+    .testimonial-grid {
+      grid-template-columns: 1fr !important;
+      gap: 14px !important;
+      margin: 18px 0 24px !important;
+    }
+    .testimonial-grid .testimonial-inner {
+      padding: 18px 16px !important;
+      border-radius: 14px !important;
+    }
+    .review-card-top-bar {
+      margin-bottom: 8px !important;
+      gap: 6px !important;
+    }
+    .testimonial-grid .testimonial-stars {
+      font-size: 0.94rem !important;
+      margin-bottom: 0 !important;
+    }
+    .review-verified-pill {
+      font-size: 0.67rem !important;
+      padding: 2px 8px !important;
+    }
+    .review-service-badge {
+      font-size: 0.7rem !important;
+      padding: 3px 8px !important;
+      margin-bottom: 8px !important;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .testimonial-grid .testimonial-inner p {
+      font-size: 0.87rem !important;
+      line-height: 1.56 !important;
+      margin-bottom: 14px !important;
+    }
+    .testimonial-grid .testimonial-author {
+      padding-top: 12px !important;
+      gap: 10px !important;
+    }
+    .testimonial-grid .testimonial-author img {
+      width: 40px !important;
+      height: 40px !important;
+    }
+    .testimonial-grid .testimonial-author h4 {
+      font-size: 0.92rem !important;
+    }
+    .testimonial-grid .testimonial-author span {
+      font-size: 0.75rem !important;
+    }
+    .review-work-thumb-strip {
+      margin-top: 12px !important;
+      padding: 7px 9px !important;
+      gap: 8px !important;
+      border-radius: 9px !important;
+    }
+    .review-work-thumb-img {
+      width: 38px !important;
+      height: 38px !important;
+      border-radius: 6px !important;
+    }
+    .review-work-thumb-title {
+      font-size: 0.72rem !important;
+    }
+    .review-work-thumb-sub {
+      font-size: 0.65rem !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .review-work-view-btn {
+      font-size: 0.68rem !important;
+      padding: 4px 8px !important;
+      background: rgba(15, 53, 40, 0.08);
+      border-radius: 6px;
+    }
+    .leave-review-section {
+      margin: 26px 0 40px !important;
+    }
+    .btn-leave-review {
+      padding: 12px 28px !important;
+      font-size: 0.95rem !important;
+    }
+
+    /* Compact Review Detail Popup on Mobile */
+    .review-detail-overlay {
+      padding: 10px !important;
+    }
+    .review-detail-modal {
+      width: 92% !important;
+      max-width: 385px !important;
+      max-height: 80vh !important;
+      border-radius: 16px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow-y: auto !important;
+    }
+    .review-detail-media-col {
+      min-height: 185px !important;
+      max-height: 215px !important;
+      padding: 12px !important;
+      flex-shrink: 0;
+    }
+    .review-detail-main-img {
+      max-height: 165px !important;
+    }
+    .review-detail-media-badge {
+      top: 10px !important;
+      left: 10px !important;
+      padding: 4px 9px !important;
+      font-size: 0.68rem !important;
+    }
+    .review-detail-info-col {
+      padding: 14px 14px 16px !important;
+      max-height: none !important;
+      overflow-y: visible !important;
+    }
+    .review-detail-close {
+      top: 10px !important;
+      right: 10px !important;
+      width: 30px !important;
+      height: 30px !important;
+      font-size: 0.88rem !important;
+      background: rgba(255, 255, 255, 0.92) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22) !important;
+    }
+    .review-detail-order-meta {
+      padding: 8px 10px !important;
+      margin: 10px 0 !important;
+      gap: 6px !important;
+    }
+    .review-detail-meta-box span {
+      font-size: 0.62rem !important;
+    }
+    .review-detail-meta-box strong {
+      font-size: 0.74rem !important;
+    }
+  }
+
+  /* Compact Add Review Popup Card on Mobile (Not Too Big + Smooth Scroll) */
+  @media (max-width: 640px) {
+    .review-modal-overlay {
+      padding: 10px !important;
+      align-items: center !important;
+    }
+    .review-modal-box {
+      width: 92% !important;
+      max-width: 365px !important;
+      max-height: 78vh !important;
+      padding: 15px 14px !important;
+      border-radius: 16px !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    .review-modal-close {
+      top: 12px !important;
+      right: 12px !important;
+      width: 28px !important;
+      height: 28px !important;
+      font-size: 0.82rem !important;
+    }
+    .review-modal-box h3 {
+      font-size: 0.95rem !important;
+      line-height: 1.22 !important;
+      padding-right: 28px !important;
+    }
+    .review-modal-box .subtitle {
+      font-size: 0.7rem !important;
+      line-height: 1.3 !important;
+    }
+    #leave-review-form {
+      margin-top: 10px !important;
+    }
+    .review-form-row-2 {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 8px !important;
+    }
+    .review-form-group {
+      margin-bottom: 8px !important;
+    }
+    .review-form-group label {
+      font-size: 0.72rem !important;
+      margin-bottom: 3px !important;
+    }
+    .review-form-group input,
+    .review-form-group select,
+    .review-form-group textarea {
+      padding: 7px 9px !important;
+      font-size: 0.76rem !important;
+      border-radius: 8px !important;
+    }
+    .star-rating-select {
+      font-size: 1.15rem !important;
+      gap: 4px !important;
+    }
+    .fiverr-subratings-box {
+      padding: 8px 10px !important;
+      margin-bottom: 8px !important;
+      border-radius: 10px !important;
+    }
+    .fiverr-subrating-row {
+      padding: 4px 0 !important;
+    }
+    .fiverr-subrating-label {
+      font-size: 0.73rem !important;
+    }
+    .fiverr-subrating-label small {
+      display: none !important;
+    }
+    .sub-star-picker {
+      font-size: 0.82rem !important;
+      gap: 3px !important;
+    }
+    .review-upload-dropzone {
+      padding: 9px 10px !important;
+      border-radius: 10px !important;
+    }
+    .review-upload-dropzone i {
+      font-size: 1.15rem !important;
+      margin-bottom: 2px !important;
+    }
+    .review-upload-dropzone div {
+      font-size: 0.72rem !important;
+      line-height: 1.3 !important;
+    }
+    .review-upload-item {
+      width: 56px !important;
+      height: 56px !important;
+    }
+    #review-message {
+      min-height: 54px !important;
+      max-height: 80px !important;
+    }
+    .review-form-submit-btn {
+      padding: 10px 14px !important;
+      font-size: 0.84rem !important;
+      border-radius: 10px !important;
+      margin-top: 4px !important;
+    }
+  }
 </style>
 
 <!-- LEAVE REVIEW POPUP MODAL (FIVERR PRO STYLE) -->
-<div class="review-modal-overlay" id="review-modal-overlay">
-  <div class="review-modal-box">
+<div class="review-modal-overlay" id="review-modal-overlay" data-lenis-prevent="true" data-lenis-prevent-wheel data-lenis-prevent-touch>
+  <div class="review-modal-box" id="review-modal-box" data-lenis-prevent="true" data-lenis-prevent-wheel data-lenis-prevent-touch>
     <button type="button" class="review-modal-close" id="btn-close-review-modal"><i class="fa-solid fa-xmark"></i></button>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-      <span style="background:#0f3528;color:#f4b400;width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:1rem;"><i class="fa-solid fa-award"></i></span>
+      <span style="background:#0f3528;color:#f4b400;width:32px;height:32px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:0.95rem;flex-shrink:0;"><i class="fa-solid fa-award"></i></span>
       <div>
         <h3 style="margin:0;">Leave a Verified Client Review</h3>
         <p class="subtitle" style="margin:2px 0 0;">Share your project experience & showcase your delivered work.</p>
@@ -742,9 +1016,9 @@
   </div>
 </div>
 
-<!-- FIVERR-STYLE CLICKABLE REVIEW & DELIVERED WORK DETAIL MODAL -->
-<div class="review-detail-overlay" id="review-detail-overlay">
-  <div class="review-detail-modal">
+<!-- CLICKABLE REVIEW & DELIVERED WORK DETAIL MODAL -->
+<div class="review-detail-overlay" id="review-detail-overlay" data-lenis-prevent="true" data-lenis-prevent-wheel data-lenis-prevent-touch>
+  <div class="review-detail-modal" id="review-detail-modal-box" data-lenis-prevent="true" data-lenis-prevent-wheel data-lenis-prevent-touch>
     <button type="button" class="review-detail-close" id="review-detail-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
     
     <!-- Left Column: Uploaded Reference Work / Delivered Project Showcase -->
@@ -757,8 +1031,8 @@
       <div class="review-detail-thumbs-bar" id="rd-thumbs-bar"></div>
     </div>
 
-    <!-- Right Column: Complete Fiverr Order & Review Breakdown -->
-    <div class="review-detail-info-col">
+    <!-- Right Column: Complete Order & Review Breakdown -->
+    <div class="review-detail-info-col" data-lenis-prevent="true" data-lenis-prevent-wheel data-lenis-prevent-touch>
       <div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding-right:48px;">
           <div style="display:flex;align-items:center;gap:12px;">
@@ -798,7 +1072,7 @@
           "Review text..."
         </div>
 
-        <!-- Fiverr 3-Subrating Breakdown -->
+        <!-- 3-Subrating Breakdown -->
         <div style="margin-top:14px;">
           <div style="font-size:0.73rem;font-weight:700;text-transform:uppercase;color:#64748b;margin-bottom:8px;">Rating Breakdown</div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
@@ -861,6 +1135,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('review-modal-overlay');
+  const modalBox = document.getElementById('review-modal-box');
   const openBtn = document.getElementById('btn-open-review-modal');
   const closeBtn = document.getElementById('btn-close-review-modal');
   const starPicker = document.getElementById('star-rating-picker');
@@ -878,7 +1153,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Detail Modal Elements
   const detailOverlay = document.getElementById('review-detail-overlay');
+  const detailModalBox = document.getElementById('review-detail-modal-box');
   const detailClose = document.getElementById('review-detail-close');
+
+  // Ensure wheel & touchmove inside modals never get intercepted by Lenis or window scroll handlers
+  [modalBox, detailModalBox].forEach(boxEl => {
+    if (!boxEl) return;
+    boxEl.addEventListener('wheel', (e) => { e.stopPropagation(); }, { passive: true });
+    boxEl.addEventListener('touchmove', (e) => { e.stopPropagation(); }, { passive: true });
+  });
 
   const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dtr3yvjac/image/upload';
   const CLOUDINARY_PRESET = 'portfolio_unsigned';
@@ -905,7 +1188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { service: 'Amazon A+ Content & 3D Mockups', price: '$150 – $250', duration: '2 Days Delivery', workImg: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1783828499/portfolio/q0qelhs2gx53ve7wiq55.jpg' }
   ];
 
-  // Upgrade existing static cards with Fiverr metadata badges, reference work thumbnails, and click-to-view modal
+  // Upgrade existing static cards with metadata badges, reference work thumbnails, and click-to-view modal
   function upgradeExistingStaticCards() {
     if (!container) return;
     const staticCards = Array.from(container.querySelectorAll('.testimonial-card:not([data-upgraded="true"])'));
@@ -961,7 +1244,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (pEl) inner.insertBefore(sBadge, pEl);
     }
 
-    // Add Delivered Work Reference Strip (like Fiverr review attachments)
+    // Add Delivered Work Reference Strip
     const primaryWorkUrl = (r.workUrls && r.workUrls.length > 0) ? r.workUrls[0] : (r.workImg || '/images/psd_mockups/soft_cover_v01/sample_front.png');
     if (!inner.querySelector('.review-work-thumb-strip')) {
       const strip = document.createElement('div');
@@ -1033,13 +1316,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('rd-sub-val').textContent = Number(sr.val || 5).toFixed(1);
 
     detailOverlay.classList.add('active');
+    if (detailModalBox) detailModalBox.scrollTop = 0;
     document.body.style.overflow = 'hidden';
+    if (window.lenis && typeof window.lenis.stop === 'function') window.lenis.stop();
   }
 
   function closeDetailModal() {
     if (!detailOverlay) return;
     detailOverlay.classList.remove('active');
     document.body.style.overflow = '';
+    if (window.lenis && typeof window.lenis.start === 'function') window.lenis.start();
   }
 
   if (detailClose) detailClose.addEventListener('click', closeDetailModal);
@@ -1065,13 +1351,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (openBtn) {
     openBtn.addEventListener('click', () => {
       modal.classList.add('active');
+      if (modalBox) modalBox.scrollTop = 0;
       document.body.style.overflow = 'hidden';
+      if (window.lenis && typeof window.lenis.stop === 'function') window.lenis.stop();
     });
   }
 
   function closeModal() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
+    if (window.lenis && typeof window.lenis.start === 'function') window.lenis.start();
   }
 
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
