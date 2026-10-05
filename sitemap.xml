@@ -1,59 +1,64 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- ===== MAIN PAGES ===== -->
   <url>
     <loc>https://loufypublisher.com/</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/portfolio.html</loc>
-    <lastmod>2026-09-18</lastmod>
+    <loc>https://loufypublisher.com/portfolio</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/services</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/pricing</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://loufypublisher.com/testimonials</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/about.html</loc>
-    <lastmod>2026-09-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://loufypublisher.com/about</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://loufypublisher.com/services.html</loc>
-    <lastmod>2026-09-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/pricing.html</loc>
-    <lastmod>2026-09-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/testimonials.html</loc>
-    <lastmod>2026-09-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://loufypublisher.com/contact.html</loc>
-    <lastmod>2026-09-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://loufypublisher.com/contact</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://loufypublisher.com/blogs</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://loufypublisher.com/tools</loc>
-    <lastmod>2026-09-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
+
+  <!-- ===== BLOG POSTS: Book Cover Design ===== -->
   <url>
     <loc>https://loufypublisher.com/blog/book-cover-design</loc>
     <lastmod>2026-03-01</lastmod>
@@ -114,6 +119,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- ===== BLOG POSTS: Book Formatting ===== -->
   <url>
     <loc>https://loufypublisher.com/blog/book-formatting</loc>
     <lastmod>2026-03-09</lastmod>
@@ -162,6 +169,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- ===== BLOG POSTS: Self Publishing ===== -->
   <url>
     <loc>https://loufypublisher.com/blog/self-publishing</loc>
     <lastmod>2026-03-16</lastmod>
@@ -210,6 +219,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- ===== BLOG POSTS: IngramSpark ===== -->
   <url>
     <loc>https://loufypublisher.com/blog/ingramspark</loc>
     <lastmod>2026-03-23</lastmod>
@@ -240,6 +251,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- ===== BLOG POSTS: Website Design ===== -->
   <url>
     <loc>https://loufypublisher.com/blog/website-design</loc>
     <lastmod>2026-03-27</lastmod>
@@ -288,6 +301,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- ===== BLOG POSTS: Design Tools ===== -->
   <url>
     <loc>https://loufypublisher.com/blog/canva-tutorial</loc>
     <lastmod>2026-04-03</lastmod>
@@ -318,6 +333,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- ===== BLOG POSTS: Amazon A+ Content ===== -->
   <url>
     <loc>https://loufypublisher.com/blog/amazon-a-plus-content</loc>
     <lastmod>2026-04-07</lastmod>
@@ -336,6 +353,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- ===== BLOG POSTS: Children's Books ===== -->
   <url>
     <loc>https://loufypublisher.com/blog/childrens-book-illustration</loc>
     <lastmod>2026-04-09</lastmod>
@@ -354,4 +373,5 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
 </urlset>

@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+Disallow: /admin
+Disallow: /diagnostics
+Disallow: /supabase_index_raw
+
 Sitemap: https://loufypublisher.com/sitemap.xml
