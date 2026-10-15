@@ -2733,6 +2733,9 @@
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
+    window.generateSignature = generateSignature;
+    window.uploadToCloudinary = uploadToCloudinary;
+
     async function uploadToCloudinary(fileData) {
       const cloudName = "dtr3yvjac";
       const apiKey = "453843776219872";
@@ -6225,10 +6228,42 @@ h1, h2, h3, h4, .section-title { font-family: var(--font-heading); }
 
       try {
         let uploadedUrl = '';
-        if (typeof uploadToCloudinary === 'function') {
+        if (typeof window.uploadToCloudinary === 'function') {
+          uploadedUrl = await window.uploadToCloudinary(file);
+        } else if (typeof uploadToCloudinary === 'function') {
           uploadedUrl = await uploadToCloudinary(file);
         } else {
-          throw new Error('Cloudinary upload function not found');
+          // Direct self-contained Cloudinary upload fallback
+          const cloudName = "dtr3yvjac";
+          const apiKey = "453843776219872";
+          const apiSecret = "WDP5Pmku01sVxQJ2pD_npSNL5wA";
+          const folder = "portfolio";
+          const timestamp = Math.round(Date.now() / 1000);
+          const params = { folder: folder, timestamp: timestamp };
+          const sortedKeys = Object.keys(params).sort();
+          const paramString = sortedKeys.map(k => `${k}=${params[k]}`).join('&');
+          const signatureString = paramString + apiSecret;
+          const encoder = new TextEncoder();
+          const hashBuffer = await crypto.subtle.digest('SHA-1', encoder.encode(signatureString));
+          const signature = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+
+          const formData = new FormData();
+          formData.append("api_key", apiKey);
+          formData.append("timestamp", timestamp);
+          formData.append("folder", folder);
+          formData.append("signature", signature);
+          formData.append("file", file);
+
+          const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+            method: "POST",
+            body: formData
+          });
+          if (!response.ok) {
+            const errText = await response.text();
+            throw new Error("Cloudinary upload failed: " + errText);
+          }
+          const result = await response.json();
+          uploadedUrl = result.secure_url;
         }
 
         if (uploadedUrl) {
