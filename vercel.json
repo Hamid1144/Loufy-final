@@ -125,7 +125,7 @@
     },
     {
       "source": "/portfolio/:category",
-      "destination": "/portfolio?category=:category"
+      "destination": "/api/portfolio-preview?category=:category"
     }
   ]
 }

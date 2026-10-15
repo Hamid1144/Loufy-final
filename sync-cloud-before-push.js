@@ -212,6 +212,61 @@ async function main() {
   localIndex = replaceGridInner(localIndex, mergedGridHtml);
   localPortfolio = replaceGridInner(localPortfolio, mergedGridHtml);
 
+  // 3b. Fetch latest og_images_json from Supabase and synchronize static meta tags in HTML files
+  try {
+    const ogRes = await supabaseRequest('GET', '/rest/v1/site_content?id=eq.og_images_json&select=html_content');
+    if (ogRes && ogRes.status === 200 && ogRes.data) {
+      const parsedRows = JSON.parse(ogRes.data);
+      if (parsedRows && parsedRows[0] && parsedRows[0].html_content) {
+        const ogData = JSON.parse(parsedRows[0].html_content);
+        const fileMap = {
+          'index.html': ogData.main && ogData.main.home && ogData.main.home.image,
+          'portfolio.html': ogData.main && ogData.main.portfolio && ogData.main.portfolio.image,
+          'services.html': ogData.main && ogData.main.services && ogData.main.services.image,
+          'pricing.html': ogData.main && ogData.main.pricing && ogData.main.pricing.image,
+          'testimonials.html': ogData.main && ogData.main.testimonials && ogData.main.testimonials.image,
+          'about.html': ogData.main && ogData.main.about && ogData.main.about.image,
+          'contact.html': ogData.main && ogData.main.contact && ogData.main.contact.image,
+          'blogs.html': ogData.main && ogData.main.blogs && ogData.main.blogs.image,
+          'tools.html': ogData.main && ogData.main.tools && ogData.main.tools.image
+        };
+
+        const updateMetaInHtml = (html, newImgUrl) => {
+          if (!newImgUrl) return html;
+          let updated = html;
+          if (updated.includes('property="og:image"')) {
+            updated = updated.replace(/<metas+property=["']og:image["']s+content=["'][^"']*["']/i, `<meta property="og:image" content="${newImgUrl}"`);
+          }
+          if (updated.includes('name="twitter:image"')) {
+            updated = updated.replace(/<metas+name=["']twitter:image["']s+content=["'][^"']*["']/i, `<meta name="twitter:image" content="${newImgUrl}"`);
+          }
+          return updated;
+        };
+
+        if (fileMap['index.html']) {
+          localIndex = updateMetaInHtml(localIndex, fileMap['index.html']);
+        }
+        if (fileMap['portfolio.html']) {
+          localPortfolio = updateMetaInHtml(localPortfolio, fileMap['portfolio.html']);
+        }
+
+        for (const [fname, imgUrl] of Object.entries(fileMap)) {
+          if (fname !== 'index.html' && fname !== 'portfolio.html' && imgUrl) {
+            const fPath = path.join(__dirname, fname);
+            if (fs.existsSync(fPath)) {
+              let fHtml = fs.readFileSync(fPath, 'utf8');
+              fHtml = updateMetaInHtml(fHtml, imgUrl);
+              fs.writeFileSync(fPath, fHtml, 'utf8');
+            }
+          }
+        }
+        console.log('[Cloud-Protect] Synchronized static OG image tags across all HTML files.');
+      }
+    }
+  } catch (ogErr) {
+    console.warn('[Cloud-Protect] OG images sync warning:', ogErr.message);
+  }
+
   fs.writeFileSync(indexPath, localIndex, 'utf8');
   fs.writeFileSync(portfolioPath, localPortfolio, 'utf8');
   console.log('[Cloud-Protect] Saved merged index.html and portfolio.html to disk.');

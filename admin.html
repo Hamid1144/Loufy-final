@@ -1107,6 +1107,141 @@
         padding-right: 20px;
       }
     }
+  
+    /* ── OG SOCIAL PREVIEW CARDS ── */
+    .og-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+    .og-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 8px rgba(15, 53, 40, 0.04);
+      transition: all 0.25s ease;
+    }
+    .og-card:hover {
+      border-color: #8B5CF6;
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.12);
+      transform: translateY(-2px);
+    }
+    .og-card-header {
+      padding: 12px 16px;
+      background: #F9FAFB;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .og-card-header strong {
+      font-size: 0.92rem;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .og-card-badge {
+      font-size: 0.7rem;
+      background: #EDE9FE;
+      color: #6D28D9;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .og-card-preview {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      background: #1F2937;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .og-card-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .og-card:hover .og-card-preview img {
+      transform: scale(1.03);
+    }
+    .og-card-preview-overlay {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(17, 24, 39, 0.85);
+      color: #FFFFFF;
+      font-size: 0.68rem;
+      padding: 3px 8px;
+      border-radius: 5px;
+      backdrop-filter: blur(4px);
+    }
+    .og-card-body {
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .og-card-url-pill {
+      font-size: 0.75rem;
+      color: #6B7280;
+      background: #F3F4F6;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .og-input-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .og-input-group input {
+      flex: 1;
+      font-size: 0.82rem;
+      padding: 8px 11px;
+      border: 1px solid #D1D5DB;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .og-input-group input:focus {
+      border-color: #8B5CF6;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+    }
+    .og-upload-btn {
+      background: #8B5CF6;
+      color: #FFFFFF;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .og-upload-btn:hover {
+      background: #7C3AED;
+    }
+    .og-upload-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
   </style>
 </head>
 <body>
@@ -1244,6 +1379,11 @@
         <li>
           <a class="sidebar-link" data-tab="filters">
             <i class="fa-solid fa-filter"></i> <span>Categories & Filters</span>
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" data-tab="og-images">
+            <i class="fa-solid fa-share-from-square" style="color: #8B5CF6;"></i> <span>Social Preview</span>
           </a>
         </li>
         <li>
@@ -1497,6 +1637,10 @@
               <div class="qn-icon" style="background:#FEF3C7;color:#D97706;"><i class="fa-solid fa-tags"></i></div>
               <span>Pricing</span>
             </a>
+            <a class="quick-nav-item" onclick="document.querySelector('.sidebar-link[data-tab=\'og-images\']').click()">
+              <div class="qn-icon" style="background:#F0EAFF;color:#8B5CF6;"><i class="fa-solid fa-share-from-square"></i></div>
+              <span>Social Preview</span>
+            </a>
             <a class="quick-nav-item" onclick="document.querySelector('.sidebar-link[data-tab=\'flipbook\']').click()">
               <div class="qn-icon"><i class="fa-solid fa-book-open"></i></div>
               <span>Flipbook</span>
@@ -1715,6 +1859,42 @@
               </div>
             </div>
             <button onclick="addCategoryFilter()" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Category Filter</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB VIEW: SOCIAL PREVIEW (OG IMAGES) ── -->
+      <div id="tab-og-images" class="panel-body">
+        <div class="box-card" style="max-width: 1100px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+            <div>
+              <h3 style="margin:0 0 4px 0;color:#111827;font-size:1.15rem;display:flex;align-items:center;gap:10px;">
+                <i class="fa-solid fa-share-from-square" style="color:#8B5CF6;"></i> Social Preview Images (OG Images)
+              </h3>
+              <p style="color:var(--text-muted);font-size:0.85rem;margin:0;">Set the preview image that shows when you share a page link on WhatsApp, Facebook, Twitter, Discord etc. Recommended size: <strong>1200×630px</strong></p>
+            </div>
+            <button id="btn-save-og-images" class="btn btn-primary" style="background:#8B5CF6;border-color:#8B5CF6;padding:10px 22px;" onclick="saveOgImages()">
+              <i class="fa-solid fa-cloud-arrow-up"></i> Save OG Images
+            </button>
+          </div>
+
+          <div style="display:flex;gap:8px;align-items:center;background:#F0EAFF;border:1px solid #DDD6FE;border-radius:10px;padding:12px 16px;margin-bottom:24px;">
+            <i class="fa-solid fa-circle-info" style="color:#8B5CF6;font-size:1.1rem;"></i>
+            <span style="font-size:0.84rem;color:#5B21B6;">Paste a Cloudinary or any public image URL. After saving, it may take a few minutes for social platforms to refresh their cache.</span>
+          </div>
+
+          <h4 style="margin:0 0 14px 0;font-size:0.95rem;color:#374151;border-bottom:1px solid #E5E7EB;padding-bottom:10px;">
+            <i class="fa-solid fa-globe" style="color:#0F3528;margin-right:6px;"></i> Main Website Pages
+          </h4>
+          <div class="og-cards-grid" id="og-main-pages">
+            <!-- Dynamically populated -->
+          </div>
+
+          <h4 style="margin:24px 0 14px 0;font-size:0.95rem;color:#374151;border-bottom:1px solid #E5E7EB;padding-bottom:10px;">
+            <i class="fa-solid fa-folder-open" style="color:#D97706;margin-right:6px;"></i> Portfolio Category Pages
+          </h4>
+          <div class="og-cards-grid" id="og-portfolio-pages">
+            <!-- Dynamically populated -->
           </div>
         </div>
       </div>
@@ -2524,6 +2704,7 @@
         loadSectionsList();
         if (typeof loadSiteTextSections === 'function') loadSiteTextSections();
         if (typeof loadLiveControlsData === 'function') loadLiveControlsData();
+        if (typeof loadOgImages === 'function') loadOgImages();
         
         updateOverviewStats();
         showToast('Database content loaded successfully!', 'success');
@@ -5813,4 +5994,324 @@ h1, h2, h3, h4, .section-title { font-family: var(--font-heading); }
         }
     });
   </script>
+
+  <!-- ── OG SOCIAL PREVIEW MANAGER SCRIPT ── -->
+  <script>
+    const DEFAULT_OG_DATA = {
+      main: {
+        'home': {
+          title: 'Home Page',
+          icon: 'fa-house',
+          url: 'https://loufypublisher.com/',
+          file: 'index.html',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'portfolio': {
+          title: 'Portfolio (Main)',
+          icon: 'fa-folder-open',
+          url: 'https://loufypublisher.com/portfolio',
+          file: 'portfolio.html',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'services': {
+          title: 'Services',
+          icon: 'fa-briefcase',
+          url: 'https://loufypublisher.com/services',
+          file: 'services.html',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'pricing': {
+          title: 'Pricing Packages',
+          icon: 'fa-tags',
+          url: 'https://loufypublisher.com/pricing',
+          file: 'pricing.html',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'testimonials': {
+          title: 'Client Reviews / Testimonials',
+          icon: 'fa-star',
+          url: 'https://loufypublisher.com/testimonials',
+          file: 'testimonials.html',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'about': {
+          title: 'About Hamid Raza',
+          icon: 'fa-user-tie',
+          url: 'https://loufypublisher.com/about',
+          file: 'about.html',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'contact': {
+          title: 'Contact Page',
+          icon: 'fa-envelope',
+          url: 'https://loufypublisher.com/contact',
+          file: 'contact.html',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'blogs': {
+          title: 'Blogs Hub',
+          icon: 'fa-newspaper',
+          url: 'https://loufypublisher.com/blogs',
+          file: 'blogs.html',
+          image: 'https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=1200&fit=crop'
+        },
+        'tools': {
+          title: 'Mockup Studio (Tools)',
+          icon: 'fa-screwdriver-wrench',
+          url: 'https://loufypublisher.com/tools',
+          file: 'tools.html',
+          image: 'https://loufypublisher.com/images/meta-banner.png'
+        }
+      },
+      categories: {
+        'covers': {
+          title: 'Book Covers',
+          icon: 'fa-book',
+          slug: 'covers',
+          url: 'https://loufypublisher.com/portfolio/covers',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'paperback-covers': {
+          title: 'Paperback Covers',
+          icon: 'fa-file-invoice',
+          slug: 'paperback-covers',
+          url: 'https://loufypublisher.com/portfolio/paperback-covers',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'children': {
+          title: 'Children Books',
+          icon: 'fa-child',
+          slug: 'children',
+          url: 'https://loufypublisher.com/portfolio/children',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'formatting': {
+          title: 'Formatting & Layout',
+          icon: 'fa-paragraph',
+          slug: 'formatting',
+          url: 'https://loufypublisher.com/portfolio/formatting',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'websites': {
+          title: 'Websites Created',
+          icon: 'fa-globe',
+          slug: 'websites',
+          url: 'https://loufypublisher.com/portfolio/websites',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'a-plus-content': {
+          title: 'A+ Content Layout',
+          icon: 'fa-plus',
+          slug: 'a-plus-content',
+          url: 'https://loufypublisher.com/portfolio/a-plus-content',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        },
+        'logo-branding': {
+          title: 'Logo & Branding',
+          icon: 'fa-copyright',
+          slug: 'logo-branding',
+          url: 'https://loufypublisher.com/portfolio/logo-branding',
+          image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp'
+        }
+      }
+    };
+
+    window.currentOgData = JSON.parse(JSON.stringify(DEFAULT_OG_DATA));
+
+    async function loadOgImages() {
+      try {
+        const client = window.supabaseClient || supabase;
+        if (client) {
+          const res = await client.from('site_content').select('html_content').eq('id', 'og_images_json').single();
+          if (res.data && res.data.html_content) {
+            const parsed = JSON.parse(res.data.html_content);
+            if (parsed.main) {
+              for (const k in parsed.main) {
+                if (window.currentOgData.main[k]) {
+                  window.currentOgData.main[k].image = parsed.main[k].image || window.currentOgData.main[k].image;
+                }
+              }
+            }
+            if (parsed.categories) {
+              for (const k in parsed.categories) {
+                if (window.currentOgData.categories[k]) {
+                  window.currentOgData.categories[k].image = parsed.categories[k].image || window.currentOgData.categories[k].image;
+                }
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Could not load og_images_json from Supabase, using defaults:', e);
+      }
+      renderOgCards();
+    }
+
+    function createOgCardHtml(type, key, item) {
+      const inputId = `og-input-${type}-${key}`;
+      const imgId = `og-img-${type}-${key}`;
+      const fileInputId = `og-file-${type}-${key}`;
+      const isCustom = item.image && !item.image.includes('favicon.png');
+
+      return `
+        <div class="og-card" id="og-card-${type}-${key}">
+          <div class="og-card-header">
+            <strong><i class="fa-solid ${item.icon || 'fa-image'}" style="color:#8B5CF6;"></i> ${item.title}</strong>
+            <span class="og-card-badge">${type === 'main' ? 'PAGE' : 'PORTFOLIO'}</span>
+          </div>
+          <div class="og-card-preview">
+            <img id="${imgId}" src="${item.image}" alt="${item.title}" onerror="this.src='https://loufypublisher.com/favicon.png'">
+            <div class="og-card-preview-overlay">
+              <i class="fa-solid fa-expand"></i> 1200×630
+            </div>
+          </div>
+          <div class="og-card-body">
+            <div class="og-card-url-pill" title="${item.url}">
+              <i class="fa-solid fa-link" style="margin-right:4px;"></i> ${item.url}
+            </div>
+            <div class="og-input-group">
+              <input type="text" id="${inputId}" value="${item.image || ''}" placeholder="Paste Image URL (https://...)" oninput="updateOgPreview('${type}', '${key}', this.value)">
+              <input type="file" id="${fileInputId}" accept="image/*" style="display:none;" onchange="handleOgFileUpload('${type}', '${key}', this)">
+              <button type="button" class="og-upload-btn" onclick="document.getElementById('${fileInputId}').click()" title="Upload Image to Cloudinary">
+                <i class="fa-solid fa-upload"></i> Upload
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderOgCards() {
+      const mainContainer = document.getElementById('og-main-pages');
+      const portContainer = document.getElementById('og-portfolio-pages');
+
+      if (mainContainer) {
+        let mainHtml = '';
+        for (const k in window.currentOgData.main) {
+          mainHtml += createOgCardHtml('main', k, window.currentOgData.main[k]);
+        }
+        mainContainer.innerHTML = mainHtml;
+      }
+
+      if (portContainer) {
+        let portHtml = '';
+        for (const k in window.currentOgData.categories) {
+          portHtml += createOgCardHtml('categories', k, window.currentOgData.categories[k]);
+        }
+        portContainer.innerHTML = portHtml;
+      }
+    }
+
+    function updateOgPreview(type, key, url) {
+      if (!window.currentOgData[type]) return;
+      if (!window.currentOgData[type][key]) return;
+      window.currentOgData[type][key].image = url.trim();
+      const img = document.getElementById(`og-img-${type}-${key}`);
+      if (img) {
+        img.src = url.trim() || 'https://loufypublisher.com/favicon.png';
+      }
+    }
+
+    async function handleOgFileUpload(type, key, fileInput) {
+      if (!fileInput.files || !fileInput.files[0]) return;
+      const file = fileInput.files[0];
+      const btn = fileInput.parentElement.querySelector('.og-upload-btn');
+      const origHtml = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
+      }
+      if (typeof showToast === 'function') showToast('Uploading image to Cloudinary...', 'info');
+
+      try {
+        let uploadedUrl = '';
+        if (typeof uploadToCloudinary === 'function') {
+          uploadedUrl = await uploadToCloudinary(file);
+        } else {
+          throw new Error('Cloudinary upload function not found');
+        }
+
+        if (uploadedUrl) {
+          const optimized = uploadedUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+          const input = document.getElementById(`og-input-${type}-${key}`);
+          if (input) input.value = optimized;
+          updateOgPreview(type, key, optimized);
+          if (typeof showToast === 'function') showToast('Image uploaded successfully!', 'success');
+        }
+      } catch (err) {
+        console.error('OG upload failed:', err);
+        if (typeof showToast === 'function') showToast('Upload failed: ' + err.message, 'error');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origHtml;
+        }
+        fileInput.value = '';
+      }
+    }
+
+    async function saveOgImages() {
+      const btn = document.getElementById('btn-save-og-images');
+      const origHtml = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving to Cloud...';
+      }
+      if (typeof showToast === 'function') showToast('Saving Social Preview images to Supabase...', 'info');
+
+      try {
+        const client = window.supabaseClient || supabase;
+        if (!client) throw new Error('Supabase client not initialized');
+
+        // Gather all values from inputs to make sure currentOgData is 100% updated
+        for (const k in window.currentOgData.main) {
+          const input = document.getElementById(`og-input-main-${k}`);
+          if (input) window.currentOgData.main[k].image = input.value.trim();
+        }
+        for (const k in window.currentOgData.categories) {
+          const input = document.getElementById(`og-input-categories-${k}`);
+          if (input) window.currentOgData.categories[k].image = input.value.trim();
+        }
+
+        const payloadStr = JSON.stringify(window.currentOgData);
+
+        // Delete then Insert pattern (RLS workaround)
+        await client.from('site_content').delete().eq('id', 'og_images_json');
+        const insertRes = await client.from('site_content').insert({
+          id: 'og_images_json',
+          html_content: payloadStr
+        });
+        if (insertRes.error) throw insertRes.error;
+
+        // Also update local indexDoc and portfolioDoc if loaded in admin memory
+        if (typeof indexDoc !== 'undefined' && indexDoc && window.currentOgData.main.home) {
+          const ogImg = indexDoc.querySelector('meta[property="og:image"]');
+          if (ogImg) ogImg.setAttribute('content', window.currentOgData.main.home.image);
+          const twImg = indexDoc.querySelector('meta[name="twitter:image"]');
+          if (twImg) twImg.setAttribute('content', window.currentOgData.main.home.image);
+        }
+        if (typeof portfolioDoc !== 'undefined' && portfolioDoc && window.currentOgData.main.portfolio) {
+          const ogImg = portfolioDoc.querySelector('meta[property="og:image"]');
+          if (ogImg) ogImg.setAttribute('content', window.currentOgData.main.portfolio.image);
+          const twImg = portfolioDoc.querySelector('meta[name="twitter:image"]');
+          if (twImg) twImg.setAttribute('content', window.currentOgData.main.portfolio.image);
+        }
+
+        try {
+          localStorage.setItem('loufy_og_images_cache', payloadStr);
+        } catch (e) {}
+
+        if (typeof showToast === 'function') showToast('Social Preview images saved to cloud successfully!', 'success');
+      } catch (err) {
+        console.error('Failed to save OG images:', err);
+        if (typeof showToast === 'function') showToast('Failed to save: ' + err.message, 'error');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origHtml;
+        }
+      }
+    }
+  </script>
+
 </body>
