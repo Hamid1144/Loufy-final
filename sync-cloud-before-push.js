@@ -234,12 +234,10 @@ async function main() {
         const updateMetaInHtml = (html, newImgUrl) => {
           if (!newImgUrl) return html;
           let updated = html;
-          if (updated.includes('property="og:image"')) {
-            updated = updated.replace(/<metas+property=["']og:image["']s+content=["'][^"']*["']/i, `<meta property="og:image" content="${newImgUrl}"`);
-          }
-          if (updated.includes('name="twitter:image"')) {
-            updated = updated.replace(/<metas+name=["']twitter:image["']s+content=["'][^"']*["']/i, `<meta name="twitter:image" content="${newImgUrl}"`);
-          }
+          // Robust regex matching with proper escaped \s+ and optional self-closing tag
+          updated = updated.replace(/<meta\s+property=["']og:image["']\s+content=["'][^"']*["']\s*\/?>/gi, `<meta property="og:image" content="${newImgUrl}">`);
+          updated = updated.replace(/<meta\s+property=["']og:image:secure_url["']\s+content=["'][^"']*["']\s*\/?>/gi, `<meta property="og:image:secure_url" content="${newImgUrl}">`);
+          updated = updated.replace(/<meta\s+name=["']twitter:image["']\s+content=["'][^"']*["']\s*\/?>/gi, `<meta name="twitter:image" content="${newImgUrl}">`);
           return updated;
         };
 

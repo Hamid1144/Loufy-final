@@ -6310,13 +6310,41 @@ h1, h2, h3, h4, .section-title { font-family: var(--font-heading); }
 
         const payloadStr = JSON.stringify(window.currentOgData);
 
-        // Delete then Insert pattern (RLS workaround)
+        // 1. Save og_images_json configuration
         await client.from('site_content').delete().eq('id', 'og_images_json');
         const insertRes = await client.from('site_content').insert({
           id: 'og_images_json',
           html_content: payloadStr
         });
         if (insertRes.error) throw insertRes.error;
+
+        // 2. Directly update og:image meta tags in cloud 'index' and 'portfolio' rows so crawlers get instant updates
+        try {
+          if (window.currentOgData.main.home && window.currentOgData.main.home.image) {
+            const hImg = window.currentOgData.main.home.image;
+            const { data: iData } = await client.from('site_content').select('html_content').eq('id', 'index').single();
+            if (iData && iData.html_content) {
+              let updatedHtml = iData.html_content
+                .replace(/<meta\s+property=["']og:image["']\s+content=["'][^"']*["']\s*\/?>/gi, `<meta property="og:image" content="${hImg}">`)
+                .replace(/<meta\s+name=["']twitter:image["']\s+content=["'][^"']*["']\s*\/?>/gi, `<meta name="twitter:image" content="${hImg}">`);
+              await client.from('site_content').delete().eq('id', 'index');
+              await client.from('site_content').insert({ id: 'index', html_content: updatedHtml });
+            }
+          }
+          if (window.currentOgData.main.portfolio && window.currentOgData.main.portfolio.image) {
+            const pImg = window.currentOgData.main.portfolio.image;
+            const { data: pData } = await client.from('site_content').select('html_content').eq('id', 'portfolio').single();
+            if (pData && pData.html_content) {
+              let updatedHtml = pData.html_content
+                .replace(/<meta\s+property=["']og:image["']\s+content=["'][^"']*["']\s*\/?>/gi, `<meta property="og:image" content="${pImg}">`)
+                .replace(/<meta\s+name=["']twitter:image["']\s+content=["'][^"']*["']\s*\/?>/gi, `<meta name="twitter:image" content="${pImg}">`);
+              await client.from('site_content').delete().eq('id', 'portfolio');
+              await client.from('site_content').insert({ id: 'portfolio', html_content: updatedHtml });
+            }
+          }
+        } catch (syncErr) {
+          console.warn('Direct meta sync to site_content warning:', syncErr);
+        }
 
         // Also update local indexDoc and portfolioDoc if loaded in admin memory
         if (typeof indexDoc !== 'undefined' && indexDoc && window.currentOgData.main.home) {
