@@ -204,10 +204,10 @@ async function main() {
     .replace(/href="\/hero-bg-fast\.mp4(?:\?[^"]*)?"/g, 'href="/hero-bg-fast.mp4?v=orig1080p"')
     .replace(/src="\/hero-bg-fast\.mp4(?:\?[^"]*)?"/g, 'src="/hero-bg-fast.mp4?v=orig1080p"')
     .replace(/https:\/\/res\.cloudinary\.com\/dtr3yvjac\/video\/upload\/[^"]*\/v1790370925\/lv_0_20260620110136-1_wliolu\.mp4/g, 'https://res.cloudinary.com/dtr3yvjac/video/upload/v1790370925/lv_0_20260620110136-1_wliolu.mp4')
-    .replace(/live-sync\.js\?v=[0-9_]+/g, 'live-sync.js?v=20260929_105');
+    .replace(/live-sync\.js\?v=[0-9_]+/g, 'live-sync.js?v=20261019_010');
 
   localPortfolio = localPortfolio
-    .replace(/live-sync\.js\?v=[0-9_]+/g, 'live-sync.js?v=20260929_105');
+    .replace(/live-sync\.js\?v=[0-9_]+/g, 'live-sync.js?v=20261019_010');
 
   localIndex = replaceGridInner(localIndex, mergedGridHtml);
   localPortfolio = replaceGridInner(localPortfolio, mergedGridHtml);
