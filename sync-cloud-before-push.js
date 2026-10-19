@@ -156,7 +156,12 @@ async function main() {
       '<div class="hero-content"',
       '<div id="hero-floating-cards"',
       '<div id="hero-floating-cards-mobile"',
-      '<section class="about" id="about"'
+      '<section class="about" id="about"',
+      '<div class="testimonial-track"',
+      '<section class="services" id="services"',
+      '<section class="tools-section" id="tools"',
+      '<section class="pricing" id="pricing"',
+      '<section class="faq" id="faq"'
     ];
     for (const prefix of syncBlocks) {
       const cloudBlock = extractElementInnerByOpenTag(cloudHtml, prefix);
