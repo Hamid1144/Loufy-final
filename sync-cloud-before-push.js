@@ -128,7 +128,7 @@ function replaceGridInner(html, newGridInner) {
 
 async function main() {
   console.log('[Cloud-Protect] Fetching latest saved site_content from Supabase...');
-  const res = await supabaseRequest('GET', '/rest/v1/site_content?select=id,updated_at,html_content&id=in.(index,portfolio)');
+  const res = await supabaseRequest('GET', '/rest/v1/site_content?select=id,updated_at,html_content&id=in.(index,portfolio,deleted_cards_json)');
   if (res.status !== 200) {
     console.warn('[Cloud-Protect] Supabase unreachable, skipping cloud merge.');
     return;
@@ -136,6 +136,13 @@ async function main() {
   const rows = JSON.parse(res.data || '[]');
   const indexRow = rows.find(r => r.id === 'index');
   const portfolioRow = rows.find(r => r.id === 'portfolio');
+  const deletedRow = rows.find(r => r.id === 'deleted_cards_json');
+  let deletedIdentifiers = [];
+  try {
+    if (deletedRow && deletedRow.html_content) {
+      deletedIdentifiers = JSON.parse(deletedRow.html_content);
+    }
+  } catch(e) {}
 
   const indexPath = path.join(__dirname, 'index.html');
   const portfolioPath = path.join(__dirname, 'portfolio.html');
@@ -181,6 +188,9 @@ async function main() {
 
   for (const list of [primaryCards, secondaryCards, localIndexCards, localPortfolioCards]) {
     for (const card of list) {
+      const isDeleted = deletedIdentifiers.some(ident => ident && card.includes(ident));
+      if (isDeleted) continue;
+
       const key = getCardIdentity(card);
       if (!mergedMap.has(key)) {
         orderedKeys.push(key);

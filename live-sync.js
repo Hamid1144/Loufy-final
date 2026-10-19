@@ -90,6 +90,11 @@
 
         // 3. Ensure any newly added static HTML cards (from git push) that aren't in cloud yet are also retained
         bCards.forEach(card => {
+            const cardUrl = card.getAttribute('data-website-url') || '';
+            const cardImg = card.querySelector('img')?.getAttribute('src') || '';
+            if (window._deletedCardBlacklist && window._deletedCardBlacklist.some(d => (cardUrl && cardUrl.includes(d)) || (cardImg && cardImg.includes(d)))) {
+                return;
+            }
             const key = getCardIdentityKey(card);
             if (!mergedMap.has(key)) {
                 orderedKeys.push(key);
@@ -280,11 +285,18 @@
                 const { data: rows, error } = await window.supabaseClient
                     .from('site_content')
                     .select('id, html_content')
-                    .in('id', ['index', 'portfolio']);
+                    .in('id', ['index', 'portfolio', 'deleted_cards_json']);
                 if (error || !rows || rows.length === 0) return;
 
+                const deletedRow = rows.find(r => r.id === 'deleted_cards_json');
+                if (deletedRow && deletedRow.html_content) {
+                    try {
+                        window._deletedCardBlacklist = JSON.parse(deletedRow.html_content);
+                    } catch(e) {}
+                }
+
                 const primaryRow = rows.find(r => r.id === pageId) || rows[0];
-                const secondaryRow = rows.find(r => r.id !== pageId) || null;
+                const secondaryRow = rows.find(r => r.id !== pageId && r.id !== 'deleted_cards_json') || null;
 
                 if (!primaryRow || !primaryRow.html_content) return;
 

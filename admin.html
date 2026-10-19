@@ -2692,6 +2692,17 @@
         indexDoc = parser.parseFromString(indexHtml, 'text/html');
         portfolioDoc = parser.parseFromString(portfolioHtml, 'text/html');
         
+        // Fetch deleted cards blacklist
+        window.deletedCardsList = [];
+        try {
+          const delRes = await supabase.from('site_content').select('html_content').eq('id', 'deleted_cards_json').single();
+          if (delRes && delRes.data && delRes.data.html_content) {
+            window.deletedCardsList = JSON.parse(delRes.data.html_content);
+          }
+        } catch (delErr) {
+          console.warn('deleted_cards_json fetch warning:', delErr);
+        }
+
         // Load data to view lists
         loadPortfolioItems();
         loadReviewsList();
@@ -3518,8 +3529,30 @@
       if (!confirm('Are you sure you want to delete this portfolio item?')) return;
       const item = portfolioItems.find(i => i.id === id);
       if (item && item.el) {
+        if (!window.deletedCardsList) window.deletedCardsList = [];
+        const siteUrl = item.siteUrl || item.el.getAttribute('data-website-url') || '';
+        const img = item.img || item.el.querySelector('img')?.getAttribute('src') || '';
+        const title = item.title || item.el.querySelector('h3')?.textContent.trim() || '';
+        if (siteUrl && !window.deletedCardsList.includes(siteUrl)) window.deletedCardsList.push(siteUrl);
+        if (img && !window.deletedCardsList.includes(img)) window.deletedCardsList.push(img);
+        if (title && !window.deletedCardsList.includes(title)) window.deletedCardsList.push(title);
+
         item.el.remove();
-        showToast('Card deleted successfully!');
+        if (indexDoc) {
+          const indexGrid = indexDoc.querySelector('.portfolio-grid');
+          if (indexGrid) {
+            indexGrid.querySelectorAll('.portfolio-card').forEach(c => {
+              const cUrl = c.getAttribute('data-website-url') || '';
+              const cImg = c.querySelector('img')?.getAttribute('src') || '';
+              const cTitle = c.querySelector('h3')?.textContent.trim() || '';
+              if ((siteUrl && cUrl === siteUrl) || (img && cImg === img) || (title && cTitle === title)) {
+                c.remove();
+              }
+            });
+          }
+        }
+
+        showToast('Card deleted permanently! Click "Save All Changes to Cloud" to commit.', 'success');
         loadPortfolioItems();
         updateOverviewStats();
       }
@@ -3965,6 +3998,12 @@
         await supabase.from('site_content').delete().eq('id', 'blogs_json');
         const blogsUp = await supabase.from('site_content').insert({ id: 'blogs_json', html_content: JSON.stringify(blogsList) });
         if (blogsUp.error) throw blogsUp.error;
+
+        // Upload Deleted Cards Blacklist so deletions are permanently remembered
+        if (window.deletedCardsList && window.deletedCardsList.length > 0) {
+          await supabase.from('site_content').delete().eq('id', 'deleted_cards_json');
+          await supabase.from('site_content').insert({ id: 'deleted_cards_json', html_content: JSON.stringify(window.deletedCardsList) });
+        }
         
         try {
           localStorage.setItem('loufy_live_snapshot_v2_index', finalIndexHTML);
