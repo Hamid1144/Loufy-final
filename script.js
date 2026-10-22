@@ -56,170 +56,20 @@ window.showToast = function (message, type = 'success') {
 
 window.initSiteLogic = function () {
 
-  // ── Hero Frame-by-Frame Animation (Temporarily bypassed when #hero-bg-video is active) ──
-  (function initHeroFrameAnimation() {
+  // ── Hero Video Background Management ──
+  (function initHeroVideoSync() {
     const heroVideo = document.getElementById('hero-bg-video');
-    const canvas = document.getElementById('hero-bg-canvas');
-    const fallbackImg = document.getElementById('hero-bg-image');
-    if (heroVideo) {
-      const syncHeroVideoPlayback = () => {
-        if (window.innerWidth >= 769) {
-          heroVideo.muted = true;
-          heroVideo.play().catch(() => {});
-        } else {
-          heroVideo.pause();
-        }
-      };
-      syncHeroVideoPlayback();
-      window.addEventListener('resize', syncHeroVideoPlayback, { passive: true });
-      if (!canvas || canvas.getAttribute('data-disabled') === 'true') return;
-    }
-    if (!canvas || !fallbackImg || canvas.getAttribute('data-disabled') === 'true') return;
-
-    const ctx = canvas.getContext('2d');
-    const TOTAL_FRAMES = 150;
-    const TARGET_FPS = 25;
-    const FRAME_INTERVAL = 1000 / TARGET_FPS;
-    const BASE_URL = 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_85,w_1920/portfolio/hero_frames/frame_';
-
-    const frames = [];
-    let loadedCount = 0;
-    let currentFrame = 0;
-    let animationRunning = false;
-    let lastFrameTime = 0;
-
-    // Generate all frame URLs
-    const frameUrls = [];
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
-      frameUrls.push(BASE_URL + String(i).padStart(3, '0'));
-    }
-
-    // Draw an image on canvas with "cover" fit
-    function drawCover(img) {
-      const zoom = parseFloat(canvas.getAttribute('data-zoom')) || 1.0;
-      const cw = canvas.width;
-      const ch = canvas.height;
-      const iw = img.naturalWidth || img.width;
-      const ih = img.naturalHeight || img.height;
-      const imgRatio = iw / ih;
-      const canvasRatio = cw / ch;
-      let dw, dh, dx, dy;
-      if (canvasRatio > imgRatio) {
-        dw = cw; dh = cw / imgRatio;
+    if (!heroVideo) return;
+    const syncPlayback = () => {
+      if (window.innerWidth >= 769) {
+        heroVideo.muted = true;
+        heroVideo.play().catch(() => {});
       } else {
-        dh = ch; dw = ch * imgRatio;
+        heroVideo.pause();
       }
-      dw *= zoom;
-      dh *= zoom;
-      dx = (cw - dw) / 2;
-      dy = (ch - dh) / 2;
-      
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(img, dx, dy, dw, dh);
-    }
-
-    // Resize canvas to match hero container at full retina resolution
-    function resizeCanvas() {
-      const hero = canvas.closest('.hero');
-      if (!hero) return;
-      const rect = hero.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(rect.width * dpr);
-      canvas.height = Math.round(rect.height * dpr);
-    }
-
-    // Animation loop using requestAnimationFrame for smooth playback
-    function animate(timestamp) {
-      if (!animationRunning) return;
-      if (timestamp - lastFrameTime >= FRAME_INTERVAL) {
-        lastFrameTime = timestamp - ((timestamp - lastFrameTime) % FRAME_INTERVAL);
-        
-        // Only draw and advance if the frame is actually fully loaded
-        if (frames[currentFrame] && frames[currentFrame].complete && frames[currentFrame].naturalWidth > 0) {
-          drawCover(frames[currentFrame]);
-          currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
-        }
-      }
-      requestAnimationFrame(animate);
-    }
-
-    // Start animation once initial frames are loaded
-    function startAnimation() {
-      if (animationRunning) return;
-      resizeCanvas();
-      canvas.style.display = 'block';
-      fallbackImg.style.display = 'none';
-      animationRunning = true;
-      lastFrameTime = 0;
-      requestAnimationFrame(animate);
-    }
-
-    // Handle window resize
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        if (animationRunning) {
-          resizeCanvas();
-          if (frames[currentFrame] && frames[currentFrame].complete) drawCover(frames[currentFrame]);
-        }
-      }, 150);
-    }, { passive: true });
-
-    // Preload frames progressively (batch loading for speed)
-    const BATCH_SIZE = 10;
-    let batchIndex = 0;
-
-    function loadBatch() {
-      const start = batchIndex * BATCH_SIZE;
-      const end = Math.min(start + BATCH_SIZE, TOTAL_FRAMES);
-      if (start >= TOTAL_FRAMES) return;
-
-      for (let i = start; i < end; i++) {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = () => {
-          loadedCount++;
-          // Start animation super early (after 3 frames) instead of waiting for all 150!
-          if (loadedCount === 3) {
-            startAnimation();
-          }
-        };
-        img.onerror = () => {
-          loadedCount++;
-        };
-        img.src = frameUrls[i];
-        frames[i] = img;
-      }
-
-      batchIndex++;
-      if (end < TOTAL_FRAMES) {
-        setTimeout(loadBatch, 50);
-      }
-    }
-
-    // Pause hero animation when scrolled out of viewport to eliminate GPU scroll lag
-    const heroEl = canvas.closest('.hero');
-    if (heroEl && 'IntersectionObserver' in window) {
-      const heroObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            if (!animationRunning && loadedCount >= 3) {
-              animationRunning = true;
-              lastFrameTime = 0;
-              requestAnimationFrame(animate);
-            }
-          } else {
-            animationRunning = false;
-          }
-        });
-      }, { threshold: 0 });
-      heroObserver.observe(heroEl);
-    }
-
-    // Kick off preloading
-    loadBatch();
+    };
+    syncPlayback();
+    window.addEventListener('resize', syncPlayback, { passive: true });
   })();
 
   // Navbar scroll
