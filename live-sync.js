@@ -141,7 +141,7 @@
             const liveSrc = liveVid.getAttribute('src') || liveVid.querySelector('source')?.getAttribute('src');
             const curSrc = curVid.getAttribute('src') || '';
             const isDefaultFastVid = (
-                curSrc.indexOf('/hero-bg-fast.mp4') !== -1 &&
+                (curSrc.includes('lv_0_20260620110136-1_wliolu') || curSrc.includes('/hero-bg-fast.mp4')) &&
                 liveSrc &&
                 (liveSrc.includes('lv_0_20260620110136-1_wliolu') || liveSrc.includes('/hero-bg-fast.mp4'))
             );
