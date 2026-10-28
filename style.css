@@ -3051,8 +3051,11 @@ body.edit-mode .hero-float-card {
 
 /* Mobile Hero View Toggles */
 @media (max-width: 768px) {
-    #hero-bg-canvas, #hero-bg-image, #hero-bg-video, #hero-floating-cards, .hero-content { display: none !important; }
-    #hero-bg-image-mobile, #hero-floating-cards-mobile, .hero-content-mobile { display: block !important; }
+    #hero-bg-canvas, #hero-bg-image, #hero-floating-cards { display: none !important; }
+    #hero-bg-video { display: block !important; }
+    #hero-bg-image-mobile { display: block !important; z-index: -1 !important; }
+    #hero-floating-cards-mobile { display: block !important; }
+    .hero-content { display: block !important; }
 }
 @media (min-width: 769px) {
     #hero-bg-video { display: block !important; }
