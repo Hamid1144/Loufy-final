@@ -348,11 +348,16 @@
   v.defaultMuted = true;
   v.playsInline = true;
   var startPlay = function() {
-    var p = v.play();
-    if (p && typeof p.catch === 'function') {
-      p.catch(function() {
-        setTimeout(function() { v.muted = true; v.play().catch(function(){}); }, 150);
-      });
+    // Only play hero video on desktop/tablets (screen width >= 769px)
+    if (window.innerWidth >= 769) {
+      var p = v.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(function() {
+          setTimeout(function() { v.muted = true; v.play().catch(function(){}); }, 150);
+        });
+      }
+    } else {
+      try { v.pause(); } catch(e) {}
     }
   };
   startPlay();
@@ -360,6 +365,7 @@
   v.addEventListener('loadeddata', startPlay, { once: true });
   v.addEventListener('canplay', startPlay, { once: true });
   document.addEventListener('DOMContentLoaded', startPlay, { once: true });
+  window.addEventListener('resize', startPlay);
 })();
 </script>
 <img loading="eager" fetchpriority="high" id="hero-bg-image-mobile" style="display: none; position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; transform: scale(1.06);" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg" alt="Hero Background Mobile" data-optimized="true" srcset="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_480/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 480w, https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_800/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 800w, https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_1200/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 1200w">
