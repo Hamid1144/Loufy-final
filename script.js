@@ -2506,30 +2506,128 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ── INTERACTIVE SERVICES TREE (HUB & SPOKE) ──
 function initServicesTree() {
-  const nodes = document.querySelectorAll('.service-tree-node');
-  const paths = document.querySelectorAll('.services-connectors-svg .conn-path');
-  if (!nodes.length) return;
+  const svg = document.querySelector('.services-connectors-svg');
+  const drop = document.getElementById('services-energy-drop');
+  const nodes = [1, 2, 3, 4, 5, 6].map(i => document.querySelector(`.service-tree-node[data-index="${i}"]`));
+  const paths = [1, 2, 3, 4, 5, 6].map(i => document.getElementById('conn-path-' + i));
+
+  if (!nodes[0] || !paths[0]) return;
+
+  let currentIndex = 2; // Default start at Cover Designing (Index 2, Node 3)
+  let isHovered = false;
+  let animId = null;
+  let startTime = null;
+  const travelDuration = 1250; // 1.25s smooth travel time
+  const nodeHoldDuration = 750; // 0.75s absorption and glow hold
 
   const setActive = (idx) => {
-    nodes.forEach(n => n.classList.remove('active'));
-    paths.forEach(p => p.classList.remove('is-active'));
+    nodes.forEach((n, i) => {
+      if (i === idx) {
+        n.classList.add('active');
+      } else {
+        n.classList.remove('active');
+        n.classList.remove('pulse-impact');
+      }
+    });
 
-    const targetNode = document.querySelector(`.service-tree-node[data-index="${idx}"]`);
-    if (targetNode) targetNode.classList.add('active');
-
-    const targetPath = document.getElementById('conn-path-' + idx);
-    if (targetPath) targetPath.classList.add('is-active');
+    paths.forEach((p, i) => {
+      if (i === idx) {
+        p.classList.add('is-active');
+      } else {
+        p.classList.remove('is-active');
+      }
+    });
   };
 
-  nodes.forEach(node => {
+  const triggerImpact = (idx) => {
+    const targetNode = nodes[idx];
+    if (targetNode) {
+      targetNode.classList.remove('pulse-impact');
+      void targetNode.offsetWidth;
+      targetNode.classList.add('pulse-impact');
+    }
+  };
+
+  function step(timestamp) {
+    if (isHovered || window.innerWidth < 992) {
+      if (drop) drop.style.opacity = '0';
+      return;
+    }
+
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+
+    if (elapsed < travelDuration) {
+      const progress = Math.min(elapsed / travelDuration, 1);
+      const easeProgress = Math.pow(progress, 1.15);
+
+      const path = paths[currentIndex];
+      if (path && drop) {
+        const totalLen = path.getTotalLength();
+        const pt = path.getPointAtLength(easeProgress * totalLen);
+
+        // Drip grows from small droplet (0.4) to glowing energy orb (1.35)
+        const scale = 0.4 + (progress * 0.95);
+        const opacity = progress < 0.1 ? (progress / 0.1) : 1;
+
+        drop.style.opacity = opacity.toString();
+        drop.setAttribute('transform', `translate(${pt.x}, ${pt.y}) scale(${scale})`);
+      }
+
+      animId = requestAnimationFrame(step);
+    } else {
+      // Reached target service circle!
+      if (drop) {
+        drop.style.opacity = '0';
+      }
+      setActive(currentIndex);
+      triggerImpact(currentIndex);
+
+      setTimeout(() => {
+        if (!isHovered) {
+          currentIndex = (currentIndex + 1) % 6;
+          startTime = null;
+          paths.forEach((p, i) => {
+            if (i === currentIndex) p.classList.add('is-active');
+            else p.classList.remove('is-active');
+          });
+          animId = requestAnimationFrame(step);
+        }
+      }, nodeHoldDuration);
+    }
+  }
+
+  // Set initial active state
+  setActive(currentIndex);
+  animId = requestAnimationFrame(step);
+
+  // User hover / touch interaction
+  nodes.forEach((node, i) => {
+    if (!node) return;
     node.addEventListener('mouseenter', () => {
-      const idx = node.getAttribute('data-index');
-      if (idx) setActive(idx);
+      isHovered = true;
+      if (drop) drop.style.opacity = '0';
+      currentIndex = i;
+      setActive(i);
+      triggerImpact(i);
+    });
+
+    node.addEventListener('mouseleave', () => {
+      isHovered = false;
+      startTime = null;
+      clearTimeout(node._resumeTimer);
+      node._resumeTimer = setTimeout(() => {
+        if (!isHovered) {
+          startTime = null;
+          animId = requestAnimationFrame(step);
+        }
+      }, 1000);
     });
 
     node.addEventListener('click', () => {
-      const idx = node.getAttribute('data-index');
-      if (idx) setActive(idx);
+      currentIndex = i;
+      setActive(i);
+      triggerImpact(i);
     });
   });
 }

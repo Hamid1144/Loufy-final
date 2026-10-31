@@ -174,10 +174,15 @@ async function main() {
         }
       }
       if (prefix.startsWith('<section class="services"')) {
+        const hasLocalDrop = localIndex.includes('services-energy-drop');
+        const hasCloudDrop = cloudBlock && cloudBlock.inner.includes('services-energy-drop');
+        if (hasLocalDrop && !hasCloudDrop) {
+          // Keep new local drip animation and tree!
+          continue;
+        }
         const hasLocalTree = localIndex.includes('services-tree-wrap');
         const hasCloudTree = cloudBlock && cloudBlock.inner.includes('services-tree-wrap');
         if (hasLocalTree && !hasCloudTree) {
-          // Keep new local interactive hub-and-spoke services tree!
           continue;
         }
       }
