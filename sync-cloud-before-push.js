@@ -165,6 +165,14 @@ async function main() {
     ];
     for (const prefix of syncBlocks) {
       const cloudBlock = extractElementInnerByOpenTag(cloudHtml, prefix);
+      if (prefix.startsWith('<section class="hero"')) {
+        const hasLocalMarquee = localIndex.includes('hero-platforms-marquee-wrap');
+        const hasCloudMarquee = cloudBlock && cloudBlock.inner.includes('hero-platforms-marquee-wrap');
+        if (hasLocalMarquee && !hasCloudMarquee) {
+          // Keep new local modern hero layout with platform marquee!
+          continue;
+        }
+      }
       if (cloudBlock && cloudBlock.inner.trim().length > 20) {
         let cleanedInner = cloudBlock.inner;
         if (prefix.includes('hero-floating-cards')) {
