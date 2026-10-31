@@ -3049,17 +3049,7 @@ body.edit-mode .hero-float-card {
 
 
 
-/* Mobile Hero View Toggles */
-@media (max-width: 768px) {
-    #hero-bg-canvas, #hero-bg-image, #hero-bg-video, #hero-floating-cards { display: none !important; }
-    #hero-bg-image-mobile { display: block !important; z-index: 0 !important; }
-    #hero-floating-cards-mobile { display: block !important; }
-    .hero-content { display: block !important; }
-}
-@media (min-width: 769px) {
-    #hero-bg-video { display: block !important; }
-    #hero-bg-canvas, #hero-bg-image, #hero-bg-image-mobile, #hero-floating-cards-mobile, .hero-content-mobile { display: none !important; }
-}
+/* Mobile Hero View Toggles (Replaced by modern responsive grid) */
 #whatsapp-float:hover { background-color: #128c7e !important; transform: scale(1.1); box-shadow: 2px 2px 5px #777 !important; }
 
 @media (max-width: 768px) {
@@ -4202,4 +4192,236 @@ body.edit-mode .hero-float-card {
   background: var(--dark) !important;
   color: var(--white) !important;
   border-color: var(--dark) !important;
+}
+
+
+/* ── MODERN SPLIT-GRID HERO SECTION (LIAM PUBLISHER INSPIRED) ── */
+.hero {
+  position: relative;
+  background: radial-gradient(circle at 80% 20%, rgba(244, 180, 0, 0.08) 0%, rgba(24, 76, 58, 0.03) 40%, #ffffff 80%);
+  padding: 80px 0 60px;
+  min-height: auto;
+  overflow: hidden;
+}
+
+.hero-split-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 50px;
+}
+
+/* Left Column Typography & Content */
+.hero-left-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.hero-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #FFF7ED;
+  color: #EA580C;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 6px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(234, 88, 12, 0.18);
+}
+
+.hero-main-title {
+  font-size: 4rem;
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin: 0 0 16px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-title-accent {
+  color: #EA580C;
+  display: block;
+}
+
+.hero-title-main {
+  color: #0F172A;
+  display: block;
+}
+
+.hero-subservices {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  color: #1E293B;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.hero-lead-desc {
+  font-size: 1.08rem;
+  line-height: 1.65;
+  color: #475569;
+  max-width: 540px;
+  margin: 0 0 28px 0;
+}
+
+/* CTA Buttons */
+.hero-cta-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 34px;
+  flex-wrap: wrap;
+}
+
+.btn-hero-cta {
+  background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+  color: #FFFFFF !important;
+  padding: 15px 34px !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  box-shadow: 0 10px 25px rgba(234, 88, 12, 0.35) !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-hero-cta:hover {
+  transform: translateY(-3px) scale(1.02) !important;
+  box-shadow: 0 16px 32px rgba(234, 88, 12, 0.45) !important;
+  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+}
+
+.btn-hero-secondary {
+  background: #FFFFFF !important;
+  color: var(--primary, #184C3A) !important;
+  padding: 14px 28px !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  font-size: 0.96rem !important;
+  border: 1.5px solid rgba(24, 76, 58, 0.2) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-hero-secondary:hover {
+  border-color: var(--primary, #184C3A) !important;
+  background: rgba(24, 76, 58, 0.04) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Platform Logos Strip */
+.hero-platforms-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.platform-icon-bubble {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  padding: 9px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.platform-icon-bubble:hover {
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  border-color: #EA580C;
+}
+
+.platform-icon-bubble img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Right Column Visual Card */
+.hero-right-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-showcase-card {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+  background: #FFFFFF;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.hero-showcase-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 70px rgba(15, 23, 42, 0.16);
+}
+
+.hero-showcase-main-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 991px) {
+  .hero-split-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  .hero-left-col {
+    align-items: center;
+  }
+  .hero-main-title {
+    font-size: 3.2rem;
+  }
+  .hero-lead-desc {
+    max-width: 100%;
+  }
+  .hero-cta-wrap {
+    justify-content: center;
+  }
+  .hero-platforms-strip {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero {
+    padding: 40px 0 30px;
+  }
+  .hero-main-title {
+    font-size: 2.4rem;
+  }
+  .hero-subservices {
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+  }
+  .hero-lead-desc {
+    font-size: 0.95rem;
+  }
+  .platform-icon-bubble {
+    width: 40px;
+    height: 40px;
+    padding: 7px;
+  }
 }

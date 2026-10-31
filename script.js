@@ -57,20 +57,7 @@ window.showToast = function (message, type = 'success') {
 window.initSiteLogic = function () {
 
   // ── Hero Video Background Management ──
-  (function initHeroVideoSync() {
-    const heroVideo = document.getElementById('hero-bg-video');
-    if (!heroVideo) return;
-    const syncPlayback = () => {
-      if (window.innerWidth >= 769) {
-        heroVideo.muted = true;
-        heroVideo.play().catch(() => {});
-      } else {
-        heroVideo.pause();
-      }
-    };
-    syncPlayback();
-    window.addEventListener('resize', syncPlayback, { passive: true });
-  })();
+  
 
   // Navbar scroll
   let navbarNode = document.querySelector('.navbar');
@@ -1265,6 +1252,7 @@ window.syncPortfolioGrids = function () {
 
 // 4. Implement covers marquee (headline style)
 window.initCoversMarquee = function() {
+  if (window.innerWidth < 768) return;
   const isMainPage = !window.location.pathname.includes('portfolio');
   if (!isMainPage) return;
 
@@ -1387,6 +1375,7 @@ setTimeout(function() {
 
 // 4.5 Implement paperback covers marquee (headline style)
 window.initPaperbackCoversMarquee = function() {
+  if (window.innerWidth < 768) return;
   const isMainPage = !window.location.pathname.includes('portfolio');
   if (!isMainPage) return;
 
@@ -1480,6 +1469,7 @@ window.initPaperbackCoversMarquee = function() {
 
 // 5. Implement formatting marquee (headline style)
 window.initFormattingMarquee = function() {
+  if (window.innerWidth < 768) return;
   const isMainPage = !window.location.pathname.includes('portfolio');
   if (!isMainPage) return;
 
@@ -1576,6 +1566,7 @@ window.initFormattingMarquee = function() {
 
 // 6. Implement A+ Content marquee (headline style, right-to-left)
 window.initAPlusMarquee = function() {
+  if (window.innerWidth < 768) return;
   return; // Disabled per user request (headline effect removed)
   const isMainPage = !window.location.pathname.includes('portfolio');
   if (!isMainPage) return;

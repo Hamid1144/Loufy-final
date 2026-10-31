@@ -153,9 +153,7 @@ async function main() {
   if (indexRow && indexRow.html_content) {
     const cloudHtml = indexRow.html_content;
     const syncBlocks = [
-      '<div class="hero-content"',
-      '<div id="hero-floating-cards"',
-      '<div id="hero-floating-cards-mobile"',
+      '<section class="hero"',
       '<section class="about" id="about"',
       '<section class="services" id="services"',
       '<section class="tools',

@@ -337,73 +337,68 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero hero-card-hidden" id="home" style="--hero-min-height: 758px; --hero-padding-y: 16px;">
-<!-- Hero Background Frame Animation -->
-<video id="hero-bg-video" autoplay muted loop playsinline preload="auto" fetchpriority="high" poster="https://res.cloudinary.com/dtr3yvjac/video/upload/so_0,f_auto,q_auto:best,w_1920/v1790370925/lv_0_20260620110136-1_wliolu.jpg" style="position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; pointer-events: none; transform: scale(1.06);" src="https://res.cloudinary.com/dtr3yvjac/video/upload/v1790370925/lv_0_20260620110136-1_wliolu.mp4"><source src="https://res.cloudinary.com/dtr3yvjac/video/upload/v1790370925/lv_0_20260620110136-1_wliolu.mp4" type="video/mp4"></video>
-<script>
-(function() {
-  var v = document.getElementById('hero-bg-video');
-  if (!v) return;
-  v.muted = true;
-  v.defaultMuted = true;
-  v.playsInline = true;
-  var startPlay = function() {
-    // Only play hero video on desktop/tablets (screen width >= 769px)
-    if (window.innerWidth >= 769) {
-      var p = v.play();
-      if (p && typeof p.catch === 'function') {
-        p.catch(function() {
-          setTimeout(function() { v.muted = true; v.play().catch(function(){}); }, 150);
-        });
-      }
-    } else {
-      try { v.pause(); } catch(e) {}
-    }
-  };
-  startPlay();
-  v.addEventListener('loadedmetadata', startPlay, { once: true });
-  v.addEventListener('loadeddata', startPlay, { once: true });
-  v.addEventListener('canplay', startPlay, { once: true });
-  document.addEventListener('DOMContentLoaded', startPlay, { once: true });
-  window.addEventListener('resize', startPlay);
-})();
-</script>
-<img loading="eager" fetchpriority="high" id="hero-bg-image-mobile" style="display: none; position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; transform: scale(1.06);" src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg" alt="Hero Background Mobile" data-optimized="true" srcset="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_480/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 480w, https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_800/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 800w, https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto,w_1200/v1785616609/portfolio/orq5n0zzedo7tbn7hlsc.jpg 1200w">
+<section class="hero" id="home">
+<div class="container hero-split-grid">
+  <!-- Left Column: Content -->
+  <div class="hero-left-col reveal">
+    <div class="hero-pill-badge" data-admin-text="true">
+      <span>PROFESSIONAL</span>
+    </div>
+    
+    <h1 class="hero-main-title" data-admin-text="true">
+      <span class="hero-title-accent">BOOK</span>
+      <span class="hero-title-main">PUBLISHING</span>
+    </h1>
+    
+    <div class="hero-subservices" data-admin-text="true">
+      FORMATTING • DESIGN • PUBLISHING • MARKETING
+    </div>
+    
+    <p class="hero-lead-desc" data-admin-text="true">
+      I help authors turn their manuscripts into professionally published books — from formatting and cover design to Amazon KDP publishing and marketing.
+    </p>
+    
+    <div class="hero-cta-wrap">
+      <a href="#contact" class="btn btn-hero-cta" data-admin-text="true">
+        Get Started <span class="btn-arrow">→</span>
+      </a>
+      <a href="portfolio.html" class="btn btn-hero-secondary" data-admin-text="true">
+        My Portfolio <span class="btn-arrow">↗</span>
+      </a>
+    </div>
+    
+    <!-- Platform Logos Strip -->
+    <div class="hero-platforms-strip">
+      <div class="platform-icon-bubble" title="Lulu Publishing">
+        <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423767/portfolio/ljjr4m9osgbrzd0ghnuc.png" alt="Lulu" loading="lazy">
+      </div>
+      <div class="platform-icon-bubble" title="Draft2Digital">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Draft2Digital_Logo.png" alt="D2D" onerror="this.src='https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981705/portfolio/lh4lpjt5rgndqeolkpcc.png'" loading="lazy">
+      </div>
+      <div class="platform-icon-bubble" title="Amazon KDP">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" loading="lazy">
+      </div>
+      <div class="platform-icon-bubble" title="IngramSpark">
+        <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981705/portfolio/lh4lpjt5rgndqeolkpcc.png" alt="IngramSpark" loading="lazy">
+      </div>
+      <div class="platform-icon-bubble" title="Barnes & Noble">
+        <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1791236249/portfolio/kke0ro1a3c8qnqmu6mgs.png" alt="Barnes & Noble" loading="lazy">
+      </div>
+      <div class="platform-icon-bubble" title="Apple Books">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Books" loading="lazy">
+      </div>
+      <div class="platform-icon-bubble" title="Google Play Books">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="Google Play Books" loading="lazy">
+      </div>
+    </div>
+  </div>
 
-<div id="hero-floating-cards" style="--hero-float-card-padding: 26px 42px; --hero-float-card-radius: 37px; --hero-float-card-blur: 0px; --hero-float-card-opacity: 0.1;">
-    <div class="hero-float-card" data-card-id="amazon-kdp" style="left: 34%; top: 85%; animation-delay: 0s; --hero-float-card-opacity: 0.95; --hero-float-card-blur: 40px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-img-size: 44px; --hero-float-card-scale: 1;"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="lulu" style="left: 17%; top: 85%; animation-delay: -1.5s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 42px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423767/portfolio/ljjr4m9osgbrzd0ghnuc.png" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="ingramspark" style="left: 51%; top: 86%; animation-delay: -3s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 40px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981705/portfolio/lh4lpjt5rgndqeolkpcc.png" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="barnes-noble" style="left: 68%; top: 86%; animation-delay: -4.5s; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-padding: 30px 48px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-radius: 40px; --hero-float-card-img-size: 39px; --hero-float-card-scale: 1.13;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1791236249/portfolio/kke0ro1a3c8qnqmu6mgs.png" alt="Logo" onerror="this.style.display='none'"></div>
-<div class="hero-float-card badge-like" data-card-id="card_1782644395783" style="left: 50%; top: 13%; animation-delay: -6s; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 15px 24px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.17; --hero-float-card-scale: 1; --hero-float-card-img-size: 40px;"><span class="badge-dot"></span><span data-admin-text="true">Complete Publishing, Web &amp; App Development Services Under One Roof</span></div></div>
-<div id="hero-floating-cards-mobile" style="--hero-float-card-padding: 26px 42px; --hero-float-card-radius: 37px; --hero-float-card-blur: 0px; --hero-float-card-opacity: 0.1; display: none;">
-    <div class="hero-float-card" data-card-id="amazon-kdp" style="left: 34%; top: 85%; animation-delay: 0s; --hero-float-card-opacity: 0.95; --hero-float-card-blur: 40px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-img-size: 44px; --hero-float-card-scale: 1;"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="lulu" style="left: 19%; top: 85%; animation-delay: -1.5s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 42px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1790423767/portfolio/ljjr4m9osgbrzd0ghnuc.png" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="ingramspark" style="left: 51%; top: 86%; animation-delay: -3s; --hero-float-card-padding: 30px 48px; --hero-float-card-radius: 40px; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-img-size: 40px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1781981705/portfolio/lh4lpjt5rgndqeolkpcc.png" alt="Logo" onerror="this.style.display='none'"></div>
-    <div class="hero-float-card" data-card-id="barnes-noble" style="left: 69%; top: 86%; animation-delay: -4.5s; --hero-float-card-blur: 40px; --hero-float-card-opacity: 0.95; --hero-float-card-padding: 30px 48px; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-radius: 40px; --hero-float-card-img-size: 43px; --hero-float-card-scale: 1;"><img src="https://res.cloudinary.com/dtr3yvjac/image/upload/v1791236249/portfolio/kke0ro1a3c8qnqmu6mgs.png" alt="Logo" onerror="this.style.display='none'"></div>
-<div class="hero-float-card badge-like" data-card-id="card_1782644395783" style="left: 50%; top: 13%; animation-delay: -6s; --hero-float-card-width: auto; --hero-float-card-height: auto; --hero-float-card-padding: 15px 24px; --hero-float-card-radius: 40px; --hero-float-card-blur: 12px; --hero-float-card-opacity: 0.17; --hero-float-card-scale: 1; --hero-float-card-img-size: 40px;"><span class="badge-dot"></span><span data-admin-text="true">Complete Publishing, Web &amp; App Development Services Under One Roof</span></div></div>
-<div class="container" bis_skin_checked="1" style="">
-<div class="hero-content reveal" bis_skin_checked="1" style="--hero-card-offset-x: 573px; --hero-card-offset-y: -132px; --hero-card-width: 687px; --hero-card-radius: 6px; --hero-card-blur: 24px; --hero-card-opacity: 0.1; --hero-card-padding: 50px; --hero-card-height: 425px;">
-<div class="hero-badge" data-admin-text="true" bis_skin_checked="1"><span></span> Trusted by Authors Worldwide</div>
-<h1 data-admin-text="true" style="font-size: 39.6px;">I'm <span class="highlight" style="font-size: 39.6px;">Hamid Raza</span>, founder of <span class="highlight" style="font-size: 39.6px;">Loufy Publisher</span> – Helping Authors Publish with Confidence</h1>
-<p data-admin-text="true">I help authors turn their manuscripts into professionally published books through expert book formatting, premium cover design, and Amazon KDP publishing solutions. From concept to publication, I create high quality designs that strengthen author brands, attract readers, and increase book sales.</p>
-<div class="hero-btns" bis_skin_checked="1">
-<a href="portfolio.html" class="btn btn-primary" data-admin-text="true">My Portfolio <span class="btn-arrow">↗</span></a>
-<a href="#contact" class="btn btn-accent" data-admin-text="true">Hire Me <span class="btn-arrow">→</span></a>
-</div>
-<div class="skill-tags" bis_skin_checked="1">
-<span class="skill-tag" data-admin-text="true"><i class="fa-solid fa-book-open"></i> Book Cover Design</span>
-<span class="skill-tag" data-admin-text="true"><i class="fa-solid fa-box-open"></i> KDP Publishing</span>
-<span class="skill-tag" data-admin-text="true"><i class="fa-solid fa-star"></i> A+ Content</span>
-<span class="skill-tag" data-admin-text="true"><i class="fa-solid fa-palette"></i>Paperback Formatting</span>
-<span class="skill-tag" data-admin-text="true"><i class="fa-solid fa-pen-nib"></i>&nbsp;Ebook Formatting</span>
-<span class="skill-tag" data-admin-text="true"><i class="fa-solid fa-gem"></i>&nbsp;Publishing Solutions</span>
-</div>
-</div>
-<div class="hero-visual reveal" bis_skin_checked="1">
-<div class="float-badge exp" data-admin-text="true" bis_skin_checked="1" style="display: none;"><span class="num">5+</span> Years Experience</div>
-<div class="float-badge proj" data-admin-text="true" bis_skin_checked="1" style="display: none;"><span class="num">500+</span> Projects Done</div>
-</div>
+  <!-- Right Column: Visual Showcase Card -->
+  <div class="hero-right-col reveal">
+    <div class="hero-showcase-card">
+      <img id="hero-showcase-img" class="hero-showcase-main-img" src="/images/hero_illustration_reference.png" alt="Hamid Raza - Book Publishing Expert" loading="eager" fetchpriority="high">
+    </div>
+  </div>
 </div>
 </section>
 
