@@ -2504,136 +2504,58 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// ── INTERACTIVE SERVICES TREE (HUB & SPOKE) ──
-function initServicesTree() {
-  const svg = document.querySelector('.services-connectors-svg');
-  const drop = document.getElementById('services-energy-drop');
-  const nodes = [1, 2, 3, 4, 5, 6].map(i => document.querySelector(`.service-tree-node[data-index="${i}"]`));
-  const paths = [1, 2, 3, 4, 5, 6].map(i => document.getElementById('conn-path-' + i));
+// ── INTERACTIVE SERVICES TREE: DRIP DROP EVERY 2s ──
+(function initServicesDrip() {
+  if (window.__svcDripStarted) return;
+  window.__svcDripStarted = true;
+  let idx = 0;
+  const TRAVEL = 1400;
 
-  if (!nodes[0] || !paths[0]) return;
+  function fire() {
+    if (document.hidden || window.innerWidth < 992) return;
+    const wrap = document.querySelector('.services-tree-wrap');
+    const svg = wrap && wrap.querySelector('.services-connectors-svg');
+    if (!svg) return;
+    const i = idx % 6; idx++;
+    const path = svg.querySelector('#conn-path-' + (i + 1));
+    const node = wrap.querySelector('.service-tree-node[data-index="' + (i + 1) + '"]');
+    if (!path) return;
+    const r = wrap.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) return; // offscreen, skip
 
-  let currentIndex = 2; // Default start at Cover Designing (Index 2, Node 3)
-  let isHovered = false;
-  let animId = null;
-  let startTime = null;
-  const travelDuration = 1250; // 1.25s smooth travel time
-  const nodeHoldDuration = 750; // 0.75s absorption and glow hold
+    const drop = document.createElement('span');
+    drop.className = 'svc-drop';
+    wrap.appendChild(drop);
+    path.classList.add('is-active');
 
-  const setActive = (idx) => {
-    nodes.forEach((n, i) => {
-      if (i === idx) {
-        n.classList.add('active');
-      } else {
-        n.classList.remove('active');
-        n.classList.remove('pulse-impact');
+    const len = path.getTotalLength();
+    const t0 = performance.now();
+    function step(now) {
+      const p = Math.min((now - t0) / TRAVEL, 1);
+      const e = p * p * (3 - 2 * p);
+      const pt = path.getPointAtLength(e * len);
+      const m = svg.getScreenCTM();
+      const wr = wrap.getBoundingClientRect();
+      if (m) {
+        const x = pt.x * m.a + pt.y * m.c + m.e - wr.left;
+        const y = pt.x * m.b + pt.y * m.d + m.f - wr.top;
+        const s = 0.45 + e * 1.0;
+        drop.style.transform = 'translate(' + x + 'px,' + y + 'px) translate(-50%,-50%) scale(' + s + ')';
+        drop.style.opacity = p < 0.08 ? p / 0.08 : 1;
       }
-    });
-
-    paths.forEach((p, i) => {
-      if (i === idx) {
-        p.classList.add('is-active');
-      } else {
-        p.classList.remove('is-active');
-      }
-    });
-  };
-
-  const triggerImpact = (idx) => {
-    const targetNode = nodes[idx];
-    if (targetNode) {
-      targetNode.classList.remove('pulse-impact');
-      void targetNode.offsetWidth;
-      targetNode.classList.add('pulse-impact');
-    }
-  };
-
-  function step(timestamp) {
-    if (isHovered || window.innerWidth < 992) {
-      if (drop) drop.style.opacity = '0';
-      return;
-    }
-
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-
-    if (elapsed < travelDuration) {
-      const progress = Math.min(elapsed / travelDuration, 1);
-      const easeProgress = Math.pow(progress, 1.15);
-
-      const path = paths[currentIndex];
-      if (path && drop) {
-        const totalLen = path.getTotalLength();
-        const pt = path.getPointAtLength(easeProgress * totalLen);
-
-        // Drip grows from small droplet (0.4) to glowing energy orb (1.35)
-        const scale = 0.4 + (progress * 0.95);
-        const opacity = progress < 0.1 ? (progress / 0.1) : 1;
-
-        drop.style.opacity = opacity.toString();
-        drop.setAttribute('transform', `translate(${pt.x}, ${pt.y}) scale(${scale})`);
-      }
-
-      animId = requestAnimationFrame(step);
-    } else {
-      // Reached target service circle!
-      if (drop) {
-        drop.style.opacity = '0';
-      }
-      setActive(currentIndex);
-      triggerImpact(currentIndex);
-
-      setTimeout(() => {
-        if (!isHovered) {
-          currentIndex = (currentIndex + 1) % 6;
-          startTime = null;
-          paths.forEach((p, i) => {
-            if (i === currentIndex) p.classList.add('is-active');
-            else p.classList.remove('is-active');
-          });
-          animId = requestAnimationFrame(step);
+      if (p < 1) requestAnimationFrame(step);
+      else {
+        drop.remove();
+        if (node) {
+          node.classList.remove('pulse-impact'); void node.offsetWidth;
+          node.classList.add('pulse-impact');
+          setTimeout(() => node.classList.remove('pulse-impact'), 700);
         }
-      }, nodeHoldDuration);
+        setTimeout(() => path.classList.remove('is-active'), 350);
+      }
     }
+    requestAnimationFrame(step);
   }
-
-  // Set initial active state
-  setActive(currentIndex);
-  animId = requestAnimationFrame(step);
-
-  // User hover / touch interaction
-  nodes.forEach((node, i) => {
-    if (!node) return;
-    node.addEventListener('mouseenter', () => {
-      isHovered = true;
-      if (drop) drop.style.opacity = '0';
-      currentIndex = i;
-      setActive(i);
-      triggerImpact(i);
-    });
-
-    node.addEventListener('mouseleave', () => {
-      isHovered = false;
-      startTime = null;
-      clearTimeout(node._resumeTimer);
-      node._resumeTimer = setTimeout(() => {
-        if (!isHovered) {
-          startTime = null;
-          animId = requestAnimationFrame(step);
-        }
-      }, 1000);
-    });
-
-    node.addEventListener('click', () => {
-      currentIndex = i;
-      setActive(i);
-      triggerImpact(i);
-    });
-  });
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initServicesTree);
-} else {
-  initServicesTree();
-}
+  setInterval(fire, 2000);
+  setTimeout(fire, 600);
+})();

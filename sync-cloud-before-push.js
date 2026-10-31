@@ -174,8 +174,8 @@ async function main() {
         }
       }
       if (prefix.startsWith('<section class="services"')) {
-        const hasLocalDrop = localIndex.includes('services-energy-drop');
-        const hasCloudDrop = cloudBlock && cloudBlock.inner.includes('services-energy-drop');
+        const hasLocalDrop = localIndex.includes('data-drip="v2"');
+        const hasCloudDrop = cloudBlock && cloudBlock.inner.includes('data-drip="v2"');
         if (hasLocalDrop && !hasCloudDrop) {
           // Keep new local drip animation and tree!
           continue;
