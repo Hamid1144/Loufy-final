@@ -4208,11 +4208,15 @@ body.edit-mode .hero-float-card {
   overflow: hidden;
 }
 
+.hero .container {
+  max-width: 1320px;
+}
+
 .hero-split-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1.05fr 0.95fr;
   align-items: center;
-  gap: 50px;
+  gap: 40px;
   width: 100%;
 }
 
@@ -4414,10 +4418,10 @@ body.edit-mode .hero-float-card {
 .hero-showcase-card {
   position: relative;
   width: 100%;
-  max-width: 520px;
+  max-width: 620px;
   border-radius: 28px;
   overflow: hidden;
-  box-shadow: 0 24px 60px rgba(15, 53, 40, 0.12);
+  box-shadow: 0 26px 65px rgba(15, 53, 40, 0.14);
   background: #FFFFFF;
   border: 2px solid rgba(24, 76, 58, 0.08);
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);

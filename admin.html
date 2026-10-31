@@ -1279,6 +1279,11 @@
           </a>
         </li>
         <li>
+          <a class="sidebar-link" id="nav-item-hero-img" style="border: 1px solid rgba(244, 180, 0, 0.35); background: rgba(244, 180, 0, 0.08); margin-bottom: 4px;">
+            <i class="fa-solid fa-camera" style="color: var(--accent) !important;"></i> <span style="font-weight: 600; color: #FFFFFF;">Hero Showcase Image</span>
+          </a>
+        </li>
+        <li>
           <a class="sidebar-link" data-tab="site-text">
             <i class="fa-solid fa-file-pen" style="color: var(--accent);"></i> <span>Website Text (Sections)</span>
           </a>
@@ -2562,6 +2567,41 @@
           }
         }
       });
+    });
+
+    // Direct Sidebar Hero Image Navigation Click Handler
+    document.getElementById('nav-item-hero-img')?.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      const textLink = document.querySelector('.sidebar-link[data-tab="site-text"]');
+      if (textLink) textLink.classList.add('active');
+
+      document.querySelectorAll('.panel-body').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-site-text')?.classList.add('active');
+      document.getElementById('navbar-tab-title').textContent = 'Hero Section & Image';
+
+      const textSubMenu = document.querySelector('.sidebar-submenu-text');
+      if (textSubMenu) textSubMenu.style.display = 'block';
+
+      currentSiteTextFilter = 'sec-hero';
+      loadSiteTextSections();
+
+      setTimeout(() => {
+        const card = document.getElementById('sec-card-sec-hero');
+        if (card) {
+          const body = card.querySelector('.sec-card-body');
+          if (body) body.style.display = 'grid';
+          const icon = card.querySelector('.sec-toggle-icon');
+          if (icon) icon.className = 'fa-solid fa-chevron-up sec-toggle-icon';
+          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          card.style.borderColor = 'var(--accent)';
+          card.style.boxShadow = '0 0 24px rgba(244, 180, 0, 0.4)';
+          setTimeout(() => {
+            card.style.borderColor = '';
+            card.style.boxShadow = '';
+          }, 3000);
+        }
+      }, 120);
     });
 
     // Bind sidebar text section sub-links click handlers
@@ -5247,6 +5287,87 @@
           const icon = headerDiv.querySelector('.sec-toggle-icon');
           if (icon) icon.className = isClosed ? 'fa-solid fa-chevron-up sec-toggle-icon' : 'fa-solid fa-chevron-down sec-toggle-icon';
         });
+
+        if (sec.id === 'sec-hero') {
+          const heroImgEl = indexDoc.querySelector('#hero-showcase-img');
+          const currentHeroSrc = heroImgEl ? (heroImgEl.getAttribute('src') || '') : '/images/hero_illustration_reference.png';
+          
+          const heroBanner = document.createElement('div');
+          heroBanner.style.cssText = 'grid-column: 1 / -1; background: #F0FDF4; border: 1.5px solid #BBF7D0; border-radius: 14px; padding: 18px 22px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(15, 53, 40, 0.04);';
+          heroBanner.innerHTML = `
+            <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+              <div style="position: relative;">
+                <img id="text-sec-hero-preview" src="${currentHeroSrc}" alt="Hero Showcase" style="width: 105px; height: 105px; object-fit: cover; border-radius: 12px; border: 2.5px solid var(--primary); background: #FFF; box-shadow: 0 4px 14px rgba(15, 53, 40, 0.12);">
+                <span style="position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); background: #184C3A; color: #FFF; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap;">HERO IMAGE</span>
+              </div>
+              <div style="flex: 1; min-width: 260px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 4px;">
+                  <h4 style="margin: 0; font-size: 1.05rem; color: #184C3A; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-camera"></i> Hero Section Showcase Photo / Illustration
+                  </h4>
+                  <span style="font-size: 0.72rem; color: #15803D; background: #DCFCE7; padding: 3px 9px; border-radius: 6px; font-weight: 700;">Live on Desktop & Mobile</span>
+                </div>
+                <p style="margin: 0 0 12px 0; font-size: 0.82rem; color: #4B5563; line-height: 1.45;">
+                  Change or upload the main illustration/photo shown on the right side of the hero section.
+                </p>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                  <label class="btn btn-primary" style="cursor: pointer; font-size: 0.82rem; padding: 8px 16px; background: #184C3A; color: #FFFFFF !important; display: inline-flex; align-items: center; gap: 8px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 12px rgba(24, 76, 58, 0.2);">
+                    <i class="fa-solid fa-upload"></i> Upload New Image
+                    <input type="file" id="text-sec-hero-file" accept="image/*" style="display: none;">
+                  </label>
+                  <input type="text" id="text-sec-hero-url" class="form-control" style="flex: 1; min-width: 220px; font-size: 0.82rem; padding: 8px 12px; border-radius: 8px; background: #FFFFFF;" placeholder="https://res.cloudinary.com/... or /images/..." value="${currentHeroSrc}">
+                  <button type="button" id="text-sec-hero-apply" class="btn btn-secondary" style="font-size: 0.82rem; padding: 8px 16px; border-radius: 8px; font-weight: 600;">
+                    <i class="fa-solid fa-check"></i> Apply
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+          bodyDiv.appendChild(heroBanner);
+
+          setTimeout(() => {
+            const urlInput = heroBanner.querySelector('#text-sec-hero-url');
+            const previewImg = heroBanner.querySelector('#text-sec-hero-preview');
+            const fileInput = heroBanner.querySelector('#text-sec-hero-file');
+            const applyBtn = heroBanner.querySelector('#text-sec-hero-apply');
+
+            const applyUrl = (url) => {
+              if (!url) return;
+              if (previewImg) previewImg.src = url;
+              if (urlInput) urlInput.value = url;
+              const target = indexDoc.querySelector('#hero-showcase-img');
+              if (target) target.setAttribute('src', url);
+              const lcUrl = document.getElementById('lc-hero-showcase-url');
+              const lcPrev = document.getElementById('lc-hero-img-preview');
+              if (lcUrl) lcUrl.value = url;
+              if (lcPrev) lcPrev.src = url;
+              showToast('Hero showcase image applied to website! Click Save All Text to Cloud to persist.', 'success');
+            };
+
+            applyBtn?.addEventListener('click', () => {
+              applyUrl(urlInput.value.trim());
+            });
+
+            urlInput?.addEventListener('change', () => {
+              applyUrl(urlInput.value.trim());
+            });
+
+            fileInput?.addEventListener('change', async (e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+              try {
+                showToast('Uploading hero showcase image to Cloudinary...', 'info');
+                const url = await uploadToCloudinary(file, 'portfolio');
+                if (url) {
+                  applyUrl(url);
+                  showToast('Hero image uploaded and applied successfully!', 'success');
+                }
+              } catch (err) {
+                showToast('Upload failed: ' + err.message, 'error');
+              }
+            });
+          }, 20);
+        }
 
         matchingFields.forEach((field) => {
           const fieldBox = document.createElement('div');
