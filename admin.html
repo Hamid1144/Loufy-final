@@ -4888,7 +4888,7 @@
         servicesFields.push(makeField('Section Small Tag', 'Tag', servicesSec.querySelector('.section-tag')));
         servicesFields.push(makeField('Section Main Heading (H2)', 'H2 Heading', servicesSec.querySelector('.section-title')));
         servicesFields.push(makeField('Section Subtitle', 'Subtitle', servicesSec.querySelector('.section-sub'), { isMultiline: true }));
-        servicesSec.querySelectorAll('.services-grid .service-card').forEach((card, i) => {
+        servicesSec.querySelectorAll('.services-grid .service-card, .services-nodes-row .service-tree-node').forEach((card, i) => {
           const titleText = card.querySelector('h3') ? card.querySelector('h3').textContent.trim() : `Service #${i + 1}`;
           servicesFields.push(makeField(`Service #${i + 1} (${titleText}) — Title`, 'Card H3', card.querySelector('h3')));
           servicesFields.push(makeField(`Service #${i + 1} (${titleText}) — Description`, 'Paragraph', card.querySelector('p'), { isMultiline: true }));

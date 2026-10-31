@@ -2503,3 +2503,39 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 250); 
 });
 
+
+// ── INTERACTIVE SERVICES TREE (HUB & SPOKE) ──
+function initServicesTree() {
+  const nodes = document.querySelectorAll('.service-tree-node');
+  const paths = document.querySelectorAll('.services-connectors-svg .conn-path');
+  if (!nodes.length) return;
+
+  const setActive = (idx) => {
+    nodes.forEach(n => n.classList.remove('active'));
+    paths.forEach(p => p.classList.remove('is-active'));
+
+    const targetNode = document.querySelector(`.service-tree-node[data-index="${idx}"]`);
+    if (targetNode) targetNode.classList.add('active');
+
+    const targetPath = document.getElementById('conn-path-' + idx);
+    if (targetPath) targetPath.classList.add('is-active');
+  };
+
+  nodes.forEach(node => {
+    node.addEventListener('mouseenter', () => {
+      const idx = node.getAttribute('data-index');
+      if (idx) setActive(idx);
+    });
+
+    node.addEventListener('click', () => {
+      const idx = node.getAttribute('data-index');
+      if (idx) setActive(idx);
+    });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initServicesTree);
+} else {
+  initServicesTree();
+}

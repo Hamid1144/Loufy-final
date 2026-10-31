@@ -173,6 +173,14 @@ async function main() {
           continue;
         }
       }
+      if (prefix.startsWith('<section class="services"')) {
+        const hasLocalTree = localIndex.includes('services-tree-wrap');
+        const hasCloudTree = cloudBlock && cloudBlock.inner.includes('services-tree-wrap');
+        if (hasLocalTree && !hasCloudTree) {
+          // Keep new local interactive hub-and-spoke services tree!
+          continue;
+        }
+      }
       if (cloudBlock && cloudBlock.inner.trim().length > 20) {
         let cleanedInner = cloudBlock.inner;
         if (prefix.includes('hero-floating-cards')) {
