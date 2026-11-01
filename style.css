@@ -4493,28 +4493,32 @@ body.edit-mode .hero-float-card {
 .hero {
   position: relative;
   background: radial-gradient(circle at 85% 25%, rgba(244, 180, 0, 0.08) 0%, rgba(24, 76, 58, 0.04) 45%, #ffffff 80%);
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 110px 0 50px;
+  padding: 120px 0 60px;
   box-sizing: border-box;
   overflow: hidden;
 }
 
 .hero .container {
-  max-width: 1240px;
+  max-width: 1440px;
+  width: 92%;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .hero-split-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.12fr 1fr;
   align-items: center;
-  gap: 48px;
+  gap: 56px;
   width: 100%;
 }
 
-/* Left Column Typography & Content */
+/* Left Column Typography & Content (Desktop Grand Size) */
 .hero-left-col {
   display: flex;
   flex-direction: column;
@@ -4527,22 +4531,22 @@ body.edit-mode .hero-float-card {
   align-items: center;
   background: rgba(244, 180, 0, 0.12);
   color: #B45309;
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   font-weight: 800;
   letter-spacing: 2px;
-  padding: 6px 18px;
+  padding: 8px 22px;
   border-radius: 50px;
-  margin-bottom: 16px;
-  border: 1px solid rgba(244, 180, 0, 0.35);
-  box-shadow: 0 2px 8px rgba(244, 180, 0, 0.1);
+  margin-bottom: 18px;
+  border: 1.5px solid rgba(244, 180, 0, 0.35);
+  box-shadow: 0 3px 10px rgba(244, 180, 0, 0.12);
 }
 
 .hero-main-title {
-  font-size: 3.9rem;
-  line-height: 1.06;
+  font-size: 4.85rem;
+  line-height: 1.04;
   font-weight: 900;
-  letter-spacing: -1px;
-  margin: 0 0 14px 0;
+  letter-spacing: -1.5px;
+  margin: 0 0 16px 0;
   display: flex;
   flex-direction: column;
 }
@@ -4558,38 +4562,38 @@ body.edit-mode .hero-float-card {
 }
 
 .hero-subservices {
-  font-size: 0.84rem;
+  font-size: 1.02rem;
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   color: #184C3A;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   text-transform: uppercase;
 }
 
 .hero-lead-desc {
-  font-size: 1.02rem;
-  line-height: 1.65;
+  font-size: 1.16rem;
+  line-height: 1.7;
   color: #4B5563;
-  max-width: 480px;
-  margin: 0 0 24px 0;
+  max-width: 580px;
+  margin: 0 0 30px 0;
 }
 
 /* CTA Buttons */
 .hero-cta-wrap {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 26px;
+  gap: 16px;
+  margin-bottom: 30px;
   flex-wrap: wrap;
 }
 
 .btn-hero-cta {
   background: linear-gradient(135deg, #F4B400 0%, #E5A800 100%) !important;
   color: #184C3A !important;
-  padding: 13px 32px !important;
+  padding: 15px 36px !important;
   border-radius: 50px !important;
   font-weight: 800 !important;
-  font-size: 0.98rem !important;
+  font-size: 1.05rem !important;
   box-shadow: 0 8px 24px rgba(244, 180, 0, 0.38) !important;
   border: none !important;
   transition: all 0.3s ease !important;
@@ -4604,10 +4608,10 @@ body.edit-mode .hero-float-card {
 .btn-hero-secondary {
   background: #FFFFFF !important;
   color: var(--primary, #184C3A) !important;
-  padding: 12px 26px !important;
+  padding: 14px 30px !important;
   border-radius: 50px !important;
   font-weight: 700 !important;
-  font-size: 0.94rem !important;
+  font-size: 1.02rem !important;
   border: 1.5px solid rgba(24, 76, 58, 0.22) !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
   transition: all 0.3s ease !important;
@@ -4622,11 +4626,11 @@ body.edit-mode .hero-float-card {
 /* Platform Logos Headline Marquee Strip */
 .hero-platforms-marquee-wrap {
   position: relative;
-  max-width: 440px;
+  max-width: 560px;
   width: 100%;
   overflow: hidden;
-  padding: 6px 0;
-  margin-top: 4px;
+  padding: 8px 0;
+  margin-top: 6px;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
   mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
 }
@@ -4655,7 +4659,7 @@ body.edit-mode .hero-float-card {
 .hero-platforms-track {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: max-content;
   animation: heroPlatformScroll 22s linear infinite;
   will-change: transform;
@@ -4670,21 +4674,21 @@ body.edit-mode .hero-float-card {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-50% - 6px));
+    transform: translateX(calc(-50% - 7px));
   }
 }
 
 .platform-icon-bubble {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: #FFFFFF;
   border: 1.5px solid rgba(24, 76, 58, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(15, 53, 40, 0.06);
-  padding: 8px;
+  box-shadow: 0 4px 14px rgba(15, 53, 40, 0.07);
+  padding: 9px;
   flex-shrink: 0;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
@@ -4701,22 +4705,23 @@ body.edit-mode .hero-float-card {
   object-fit: contain;
 }
 
-/* Right Column Visual Card */
+/* Right Column Visual Card (Full Size Desktop) */
 .hero-right-col {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 
 .hero-showcase-card {
   position: relative;
   width: 100%;
-  max-width: 500px;
-  border-radius: 28px;
+  max-width: 660px;
+  border-radius: 32px;
   overflow: hidden;
-  box-shadow: 0 24px 60px rgba(24, 76, 58, 0.12);
+  box-shadow: 0 28px 70px rgba(24, 76, 58, 0.14);
   background: #FFFFFF;
   border: 2px solid rgba(24, 76, 58, 0.08);
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -4724,7 +4729,7 @@ body.edit-mode .hero-float-card {
 
 .hero-showcase-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 28px 65px rgba(24, 76, 58, 0.16);
+  box-shadow: 0 32px 75px rgba(24, 76, 58, 0.18);
 }
 
 .hero-showcase-main-img {
@@ -4732,6 +4737,29 @@ body.edit-mode .hero-float-card {
   height: auto;
   display: block;
   object-fit: cover;
+}
+
+/* Ultra Wide Screens / 1440p+ Enhancements */
+@media (min-width: 1400px) {
+  .hero .container {
+    max-width: 1540px;
+  }
+  .hero-split-grid {
+    gap: 68px;
+  }
+  .hero-main-title {
+    font-size: 5.4rem;
+  }
+  .hero-lead-desc {
+    font-size: 1.22rem;
+    max-width: 620px;
+  }
+  .hero-showcase-card {
+    max-width: 720px;
+  }
+  .hero-platforms-marquee-wrap {
+    max-width: 620px;
+  }
 }
 
 /* Mobile & Tablet Responsiveness: Perfectly Centered on Mobile */
