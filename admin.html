@@ -2765,6 +2765,29 @@
     window.generateSignature = generateSignature;
     window.uploadToCloudinary = uploadToCloudinary;
 
+    window.syncHeroShowcaseUrl = function(url, silent = false) {
+      if (!url) return;
+      // 1. Update indexDoc in memory
+      if (indexDoc) {
+        const target = indexDoc.querySelector('#hero-showcase-img');
+        if (target) target.setAttribute('src', url);
+      }
+      // 2. Update Live Controls elements
+      const lcUrl = document.getElementById('lc-hero-showcase-url');
+      const lcPrev = document.getElementById('lc-hero-img-preview');
+      if (lcUrl && lcUrl.value !== url) lcUrl.value = url;
+      if (lcPrev) lcPrev.src = url;
+      // 3. Update Text Editor Section elements
+      const textUrl = document.getElementById('text-sec-hero-url');
+      const textPrev = document.getElementById('text-sec-hero-preview');
+      if (textUrl && textUrl.value !== url) textUrl.value = url;
+      if (textPrev) textPrev.src = url;
+
+      if (!silent) {
+        showToast('Hero showcase image updated in memory! Click Save to Cloud to persist live.', 'success');
+      }
+    };
+
     async function uploadToCloudinary(fileData) {
       const cloudName = "dtr3yvjac";
       const apiKey = "453843776219872";
@@ -3997,6 +4020,19 @@
           const dBadge = dFloat.querySelector('.badge-like');
           const mBadge = mFloat.querySelector('.badge-like');
           if (dBadge && mBadge) mBadge.innerHTML = dBadge.innerHTML;
+        }
+
+        // Ensure latest Hero Showcase Image from inputs is saved into indexDoc
+        const heroInputUrl = (
+          document.getElementById('text-sec-hero-url')?.value ||
+          document.getElementById('lc-hero-showcase-url')?.value ||
+          ''
+        ).trim();
+        if (heroInputUrl && indexDoc) {
+          const heroImg = indexDoc.querySelector('#hero-showcase-img');
+          if (heroImg) {
+            heroImg.setAttribute('src', heroInputUrl);
+          }
         }
 
         const finalIndexHTML = cleanDocHTML(indexDoc);
@@ -5331,25 +5367,32 @@
             const fileInput = heroBanner.querySelector('#text-sec-hero-file');
             const applyBtn = heroBanner.querySelector('#text-sec-hero-apply');
 
-            const applyUrl = (url) => {
+            const applyUrl = (url, silent = false) => {
               if (!url) return;
-              if (previewImg) previewImg.src = url;
-              if (urlInput) urlInput.value = url;
-              const target = indexDoc.querySelector('#hero-showcase-img');
-              if (target) target.setAttribute('src', url);
-              const lcUrl = document.getElementById('lc-hero-showcase-url');
-              const lcPrev = document.getElementById('lc-hero-img-preview');
-              if (lcUrl) lcUrl.value = url;
-              if (lcPrev) lcPrev.src = url;
-              showToast('Hero showcase image applied to website! Click Save All Text to Cloud to persist.', 'success');
+              if (window.syncHeroShowcaseUrl) {
+                window.syncHeroShowcaseUrl(url, silent);
+              } else {
+                if (previewImg) previewImg.src = url;
+                if (urlInput) urlInput.value = url;
+                const target = indexDoc?.querySelector('#hero-showcase-img');
+                if (target) target.setAttribute('src', url);
+                const lcUrl = document.getElementById('lc-hero-showcase-url');
+                const lcPrev = document.getElementById('lc-hero-img-preview');
+                if (lcUrl) lcUrl.value = url;
+                if (lcPrev) lcPrev.src = url;
+              }
             };
 
             applyBtn?.addEventListener('click', () => {
-              applyUrl(urlInput.value.trim());
+              applyUrl(urlInput.value.trim(), false);
+            });
+
+            urlInput?.addEventListener('input', () => {
+              applyUrl(urlInput.value.trim(), true);
             });
 
             urlInput?.addEventListener('change', () => {
-              applyUrl(urlInput.value.trim());
+              applyUrl(urlInput.value.trim(), false);
             });
 
             fileInput?.addEventListener('change', async (e) => {
@@ -5359,8 +5402,8 @@
                 showToast('Uploading hero showcase image to Cloudinary...', 'info');
                 const url = await uploadToCloudinary(file, 'portfolio');
                 if (url) {
-                  applyUrl(url);
-                  showToast('Hero image uploaded and applied successfully!', 'success');
+                  applyUrl(url, false);
+                  showToast('Hero image uploaded and applied successfully! Click Save to Cloud to persist.', 'success');
                 }
               } catch (err) {
                 showToast('Upload failed: ' + err.message, 'error');
@@ -5570,10 +5613,14 @@
       const heroShowcaseImg = indexDoc.querySelector('#hero-showcase-img');
       const heroUrlInput = document.getElementById('lc-hero-showcase-url');
       const heroPreview = document.getElementById('lc-hero-img-preview');
-      if (heroShowcaseImg && heroUrlInput) {
+      if (heroShowcaseImg) {
         const src = heroShowcaseImg.getAttribute('src') || '';
-        heroUrlInput.value = src;
+        if (heroUrlInput) heroUrlInput.value = src;
         if (heroPreview && src) heroPreview.src = src;
+        const textUrlInput = document.getElementById('text-sec-hero-url');
+        const textPreview = document.getElementById('text-sec-hero-preview');
+        if (textUrlInput) textUrlInput.value = src;
+        if (textPreview && src) textPreview.src = src;
       }
 
       // Floating cards list inside Hero
@@ -5657,13 +5704,24 @@
     });
 
     document.getElementById('btn-apply-lc-hero')?.addEventListener('click', () => {
-      if (!indexDoc) return;
-      const heroUrl = document.getElementById('lc-hero-showcase-url').value.trim();
-      const heroShowcaseImg = indexDoc.querySelector('#hero-showcase-img');
-      if (heroShowcaseImg && heroUrl) {
-        heroShowcaseImg.setAttribute('src', heroUrl);
+      const heroUrl = (document.getElementById('lc-hero-showcase-url')?.value || '').trim();
+      if (window.syncHeroShowcaseUrl) {
+        window.syncHeroShowcaseUrl(heroUrl, false);
       }
-      showToast('Hero Showcase Image updated in memory! Click Save Changes to publish.', 'success');
+    });
+
+    document.getElementById('lc-hero-showcase-url')?.addEventListener('input', () => {
+      const heroUrl = (document.getElementById('lc-hero-showcase-url')?.value || '').trim();
+      if (window.syncHeroShowcaseUrl) {
+        window.syncHeroShowcaseUrl(heroUrl, true);
+      }
+    });
+
+    document.getElementById('lc-hero-showcase-url')?.addEventListener('change', () => {
+      const heroUrl = (document.getElementById('lc-hero-showcase-url')?.value || '').trim();
+      if (window.syncHeroShowcaseUrl) {
+        window.syncHeroShowcaseUrl(heroUrl, false);
+      }
     });
 
     document.getElementById('lc-hero-showcase-file')?.addEventListener('change', async (e) => {
@@ -5673,11 +5731,10 @@
         showToast('Uploading hero showcase image to Cloudinary...', 'info');
         const url = await uploadToCloudinary(file, 'portfolio');
         if (url) {
-          document.getElementById('lc-hero-showcase-url').value = url;
-          document.getElementById('lc-hero-img-preview').src = url;
-          const heroShowcaseImg = indexDoc?.querySelector('#hero-showcase-img');
-          if (heroShowcaseImg) heroShowcaseImg.setAttribute('src', url);
-          showToast('Hero image uploaded and applied!', 'success');
+          if (window.syncHeroShowcaseUrl) {
+            window.syncHeroShowcaseUrl(url, false);
+          }
+          showToast('Hero image uploaded and applied! Click Save to Cloud to publish.', 'success');
         }
       } catch (err) {
         showToast('Upload failed: ' + err.message, 'error');

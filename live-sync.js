@@ -155,6 +155,21 @@
             }
         }
 
+        // 1c. Sync Modern Hero Section Showcase Image directly (Live on Desktop & Mobile)
+        const liveHeroImg = doc.getElementById('hero-showcase-img') || doc.querySelector('#hero-showcase-img');
+        const curHeroImg = document.getElementById('hero-showcase-img') || document.querySelector('#hero-showcase-img');
+        if (liveHeroImg && curHeroImg) {
+            const liveSrc = liveHeroImg.getAttribute('src');
+            const curSrc = curHeroImg.getAttribute('src');
+            if (liveSrc && liveSrc !== curSrc) {
+                curHeroImg.setAttribute('src', liveSrc);
+                if (liveHeroImg.getAttribute('srcset')) {
+                    curHeroImg.setAttribute('srcset', liveHeroImg.getAttribute('srcset'));
+                }
+                modified = true;
+            }
+        }
+
         // 2. Sync Hero Floating Cards (both Desktop & Mobile logos + Top Floating Banner)
         ['hero-floating-cards', 'hero-floating-cards-mobile'].forEach(floatId => {
             const liveFloat = doc.getElementById(floatId);
@@ -191,6 +206,7 @@
 
         // 3. Sync Major Content Containers directly so headline, About bio, Services, Pricing, FAQ, Contact, and Footer ALWAYS update 100%
         const sectionContainers = [
+            '.hero-showcase-card',
             '.hero-content',
             '.hero-visual',
             '.marquee .marquee-track',

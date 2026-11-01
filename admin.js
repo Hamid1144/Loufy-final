@@ -1417,7 +1417,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (mobileEditModeToggle) mobileEditModeToggle.style.display = "none";
         } else {
             changeHeroBgBtn.addEventListener("click", () => {
-                const heroImg = document.getElementById("hero-bg-image");
+                const heroImg = document.getElementById("hero-showcase-img") || document.getElementById("hero-bg-image");
                 if (heroImg) {
                     openCropModal(heroImg);
                 }
@@ -2965,8 +2965,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function setupContainerToolbar(el) {
         let container = el;
         
-        if (el.tagName === 'IMG' && el.closest('.hero-img-wrap')) {
-            container = el.closest('.hero-img-wrap'); 
+        if (el.tagName === 'IMG' && el.closest('.hero-showcase-card, .hero-img-wrap')) {
+            container = el.closest('.hero-showcase-card, .hero-img-wrap'); 
         } else if (el.tagName === 'IMG' && el.closest('.about-img-wrap')) {
             container = el.closest('.about-img-wrap');
         } else if (el.tagName === 'IMG' && el.closest('.blog-thumb, .testimonial-author')) {
