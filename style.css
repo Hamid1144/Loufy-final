@@ -5112,8 +5112,9 @@ body.edit-mode .hero-float-card {
   flex-direction: column !important;
 }
 
-/* Guarantee covers titles and tags remain hidden below covers (matching original style) */
-.covers-marquee-item.portfolio-card[data-cat="covers"] .portfolio-info {
+/* Guarantee covers and paperback covers titles and tags remain hidden in marquee (matching original style) */
+.covers-marquee-item.portfolio-card[data-cat="covers"] .portfolio-info,
+.paperback-covers-marquee-item.portfolio-card[data-cat="paperback-covers"] .portfolio-info {
   display: none !important;
 }
 

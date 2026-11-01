@@ -1407,11 +1407,12 @@ window.initPaperbackCoversMarquee = function() {
     }
   }
   
-  // Fill the track to ensure it spans at least the width of the screen
-  const singleHTMLs = [...paperbackCardsHTML];
+  const isMobile = window.innerWidth < 768;
   const pbTargetMin = isMobile ? 4 : 8;
+  const sampleCardsHTML = paperbackCardsHTML.slice(0, isMobile ? 6 : 10);
+  const singleHTMLs = [...sampleCardsHTML];
   while (singleHTMLs.length < pbTargetMin) {
-    singleHTMLs.push(...paperbackCardsHTML);
+    singleHTMLs.push(...sampleCardsHTML);
   }
   
   marqueeContainer.innerHTML = `
