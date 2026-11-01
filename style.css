@@ -4517,18 +4517,18 @@ body.edit-mode .hero-float-card {
 }
 
 .hero .container {
-  max-width: 1440px;
-  width: 92%;
+  max-width: 1580px;
+  width: 95%;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
   box-sizing: border-box;
 }
 
 .hero-split-grid {
   display: grid;
-  grid-template-columns: 1.12fr 1fr;
+  grid-template-columns: 1.15fr 1fr;
   align-items: center;
-  gap: 56px;
+  gap: 32px;
   width: 100%;
 }
 
@@ -4545,22 +4545,22 @@ body.edit-mode .hero-float-card {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(14px) saturate(180%);
   -webkit-backdrop-filter: blur(14px) saturate(180%);
   color: #B45309;
   font-family: 'Outfit', 'Poppins', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  padding: 8px 24px;
+  font-size: 1.05rem;
+  font-weight: 850;
+  letter-spacing: 2.5px;
+  padding: 10px 28px;
   border-radius: 50px;
   margin-bottom: 18px;
-  border: 1.5px solid rgba(244, 180, 0, 0.42);
+  border: 1.5px solid rgba(244, 180, 0, 0.45);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04), 
-              0 2px 6px rgba(244, 180, 0, 0.12), 
+              0 2px 6px rgba(244, 180, 0, 0.14), 
               inset 0 1px 1px rgba(255, 255, 255, 0.95), 
-              inset 0 -1.5px 2px rgba(244, 180, 0, 0.14);
+              inset 0 -1.5px 2px rgba(244, 180, 0, 0.16);
   transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
   z-index: 2;
@@ -4578,11 +4578,11 @@ body.edit-mode .hero-float-card {
 }
 
 .hero-main-title {
-  font-size: 4.85rem;
-  line-height: 1.04;
+  font-size: 5.6rem;
+  line-height: 1.02;
   font-weight: 900;
-  letter-spacing: -1.5px;
-  margin: 0 0 16px 0;
+  letter-spacing: -2px;
+  margin: 0 0 18px 0;
   display: flex;
   flex-direction: column;
 }
@@ -4598,20 +4598,20 @@ body.edit-mode .hero-float-card {
 }
 
 .hero-subservices {
-  font-size: 1.02rem;
+  font-size: 1.12rem;
   font-weight: 800;
-  letter-spacing: 2.5px;
+  letter-spacing: 2.8px;
   color: #184C3A;
   margin-bottom: 20px;
   text-transform: uppercase;
 }
 
 .hero-lead-desc {
-  font-size: 1.16rem;
+  font-size: 1.2rem;
   line-height: 1.7;
   color: #4B5563;
-  max-width: 580px;
-  margin: 0 0 30px 0;
+  max-width: 620px;
+  margin: 0 0 32px 0;
 }
 
 /* CTA Buttons */
@@ -4754,10 +4754,10 @@ body.edit-mode .hero-float-card {
 .hero-showcase-card {
   position: relative;
   width: 100%;
-  max-width: 660px;
+  max-width: 730px;
   border-radius: 32px;
   overflow: hidden;
-  box-shadow: 0 28px 70px rgba(24, 76, 58, 0.14);
+  box-shadow: 0 30px 80px rgba(24, 76, 58, 0.16);
   background: #FFFFFF;
   border: 2px solid rgba(24, 76, 58, 0.08);
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -4765,7 +4765,7 @@ body.edit-mode .hero-float-card {
 
 .hero-showcase-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 32px 75px rgba(24, 76, 58, 0.18);
+  box-shadow: 0 36px 85px rgba(24, 76, 58, 0.22);
 }
 
 .hero-showcase-main-img {
@@ -4778,23 +4778,28 @@ body.edit-mode .hero-float-card {
 /* Ultra Wide Screens / 1440p+ Enhancements */
 @media (min-width: 1400px) {
   .hero .container {
-    max-width: 1540px;
+    max-width: 1650px;
   }
   .hero-split-grid {
-    gap: 68px;
+    gap: 36px;
+  }
+  .hero-pill-badge {
+    font-size: 1.12rem;
+    padding: 11px 32px;
   }
   .hero-main-title {
-    font-size: 5.4rem;
+    font-size: 6.2rem;
+    letter-spacing: -2.5px;
   }
   .hero-lead-desc {
-    font-size: 1.22rem;
-    max-width: 620px;
+    font-size: 1.25rem;
+    max-width: 660px;
   }
   .hero-showcase-card {
-    max-width: 720px;
+    max-width: 790px;
   }
   .hero-platforms-marquee-wrap {
-    max-width: 620px;
+    max-width: 660px;
   }
 }
 
