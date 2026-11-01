@@ -1252,7 +1252,6 @@ window.syncPortfolioGrids = function () {
 
 // 4. Implement covers marquee (headline style)
 window.initCoversMarquee = function() {
-  if (window.innerWidth < 768) return;
   const isMainPage = !window.location.pathname.includes('portfolio');
   if (!isMainPage) return;
 
@@ -1273,9 +1272,10 @@ window.initCoversMarquee = function() {
   
   if (!coverCardsHTML.length) return;
   
-  // Group covers into 3 rows
-  const rowCount = 3;
-  const rows = [[], [], []];
+  // Group covers into 2 rows on mobile (< 768px) and 3 rows on desktop
+  const isMobile = window.innerWidth < 768;
+  const rowCount = isMobile ? 2 : 3;
+  const rows = Array.from({ length: rowCount }, () => []);
   coverCardsHTML.forEach((htmlContent, idx) => {
     rows[idx % rowCount].push(htmlContent);
   });
@@ -1287,6 +1287,7 @@ window.initCoversMarquee = function() {
     grid.parentNode.insertBefore(marqueeContainer, grid);
   }
   
+  const targetMin = isMobile ? 8 : 24;
   let html = '';
   for (let r = 0; r < rowCount; r++) {
     const rowHTMLs = rows[r];
@@ -1294,7 +1295,7 @@ window.initCoversMarquee = function() {
     
     // Fill the track to ensure it spans at least the width of the screen
     const singleHTMLs = [...rowHTMLs];
-    while (singleHTMLs.length < 24) {
+    while (singleHTMLs.length < targetMin) {
       singleHTMLs.push(...rowHTMLs);
     }
     
@@ -1375,7 +1376,6 @@ setTimeout(function() {
 
 // 4.5 Implement paperback covers marquee (headline style)
 window.initPaperbackCoversMarquee = function() {
-  if (window.innerWidth < 768) return;
   const isMainPage = !window.location.pathname.includes('portfolio');
   if (!isMainPage) return;
 
@@ -1469,7 +1469,6 @@ window.initPaperbackCoversMarquee = function() {
 
 // 5. Implement formatting marquee (headline style)
 window.initFormattingMarquee = function() {
-  if (window.innerWidth < 768) return;
   const isMainPage = !window.location.pathname.includes('portfolio');
   if (!isMainPage) return;
 
@@ -1504,9 +1503,11 @@ window.initFormattingMarquee = function() {
     }
   }
   
+  const isMobile = window.innerWidth < 768;
+  const targetMin = isMobile ? 6 : 12;
   // Fill the track to ensure it spans at least the width of the screen
   const singleHTMLs = [...formattingCardsHTML];
-  while (singleHTMLs.length < 12) {
+  while (singleHTMLs.length < targetMin) {
     singleHTMLs.push(...formattingCardsHTML);
   }
   
