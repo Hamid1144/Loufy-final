@@ -2387,44 +2387,7 @@ body.contact-page > section.contact {
         padding: 8px 16px !important;
         font-size: 0.8rem !important;
     }
-    .hero {
-        padding: 15px 0 10px !important;
-    }
-    .hero .container {
-        grid-template-columns: 1fr !important;
-        text-align: center !important;
-        gap: 16px !important;
-    }
-    .hero-content {
-        padding: 12px 10px !important;
-    }
-    .hero h1, .hero h1 span {
-        font-size: 1.25rem !important;
-        line-height: 1.2 !important;
-        margin-bottom: 8px !important;
-    }
-    .hero p {
-        font-size: 0.75rem !important;
-        margin-bottom: 12px !important;
-    }
-    .hero-btns {
-        gap: 10px !important;
-    }
-    .hero-btns .btn {
-        padding: 8px 16px !important;
-        font-size: 0.8rem !important;
-    }
-    .skill-tags {
-        gap: 6px !important;
-        margin-top: 16px !important;
-    }
-    .skill-tag {
-        font-size: 0.7rem !important;
-        padding: 4px 8px !important;
-    }
-    .hero-visual {
-        display: none !important; /* Hide visual badges on mobile to make hero much shorter */
-    }
+    /* Legacy hero rules removed for modern responsive layout */
     
     .services-grid {
         display: grid !important;
@@ -2508,23 +2471,7 @@ body.contact-page > section.contact {
         padding: 8px 12px !important;
         font-size: 0.7rem !important;
     }
-    .hero {
-        padding: 10px 0 5px !important;
-    }
-    .hero .container {
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
-    }
-    .hero-content {
-        padding: 10px 8px !important;
-    }
-    .hero h1, .hero h1 span {
-        font-size: 1.15rem !important;
-    }
-    .hero p {
-        font-size: 0.65rem !important;
-        margin-bottom: 8px !important;
-    }
+    /* Legacy hero rules removed for modern responsive layout */
     .skill-tag {
         font-size: 0.6rem !important;
         padding: 2px 6px !important;
@@ -4787,69 +4734,326 @@ body.edit-mode .hero-float-card {
   object-fit: cover;
 }
 
-/* Mobile & Tablet Responsiveness: Hero marquee matches desktop on mobile */
+/* Mobile & Tablet Responsiveness: Perfectly Centered on Mobile */
 @media (max-width: 991px) {
   .hero {
-    min-height: auto;
-    padding: 105px 0 45px;
+    min-height: auto !important;
+    padding: 95px 0 40px !important;
+    width: 100% !important;
+    overflow: hidden !important;
   }
   .hero-split-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 32px !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 16px !important;
+    box-sizing: border-box !important;
+  }
+  .hero-left-col {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+  .hero-main-title {
+    font-size: 2.8rem !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+  .hero-lead-desc {
+    max-width: 440px !important;
+    margin: 0 auto 22px !important;
+    text-align: center !important;
+  }
+  .hero-cta-wrap {
+    justify-content: center !important;
+    width: 100% !important;
+    margin-bottom: 22px !important;
+  }
+  .hero-platforms-marquee-wrap {
+    max-width: 340px !important;
+    width: 100% !important;
+    margin: 10px auto 0 !important;
+    overflow: hidden !important;
+  }
+  .hero-right-col {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .hero-showcase-card {
+    max-width: 380px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero {
+    padding: 85px 0 30px !important;
+  }
+  .hero-main-title {
+    font-size: 2.2rem !important;
+  }
+  .hero-subservices {
+    font-size: 0.74rem !important;
+    letter-spacing: 1px !important;
+    text-align: center !important;
+  }
+  .hero-lead-desc {
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    padding: 0 8px !important;
+  }
+  .platform-icon-bubble {
+    width: 44px !important;
+    height: 44px !important;
+    padding: 7px !important;
+  }
+  .hero-platforms-marquee-wrap {
+    max-width: 310px !important;
+    width: 100% !important;
+    margin: 8px auto 0 !important;
+  }
+  .hero-showcase-card {
+    max-width: 320px !important;
+    border-radius: 18px !important;
+  }
+}
+
+/* ── REVIEWS SECTION: 2-COLUMN WITH VERTICAL INFINITE MARQUEE (BOTTOM-TO-TOP) ── */
+.testimonials {
+  padding: 100px 0;
+  background: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+
+.reviews-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.reviews-left-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.reviews-title {
+  font-family: 'Outfit', 'Poppins', sans-serif;
+  font-size: 3.4rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--primary, #184C3A);
+  margin: 0 0 20px 0;
+  letter-spacing: -1px;
+}
+
+.reviews-lead-desc {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: #64748B;
+  max-width: 440px;
+  margin: 0 0 30px 0;
+}
+
+.btn-reviews-cta {
+  background: linear-gradient(135deg, #F4B400 0%, #E5A800 100%) !important;
+  color: #184C3A !important;
+  font-weight: 800 !important;
+  font-size: 0.98rem !important;
+  padding: 14px 36px !important;
+  border-radius: 50px !important;
+  box-shadow: 0 8px 24px rgba(244, 180, 0, 0.38) !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-reviews-cta:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 12px 28px rgba(244, 180, 0, 0.48) !important;
+  background: #E5A800 !important;
+}
+
+/* Right Column: Vertical Marquee */
+.reviews-right-col {
+  position: relative;
+  width: 100%;
+}
+
+.reviews-vertical-marquee-wrap {
+  position: relative;
+  height: 480px;
+  overflow: hidden;
+  padding: 10px 0;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+.reviews-vertical-track {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: reviewsVerticalScroll 32s linear infinite;
+  will-change: transform;
+}
+
+.reviews-vertical-marquee-wrap:hover .reviews-vertical-track {
+  animation-play-state: paused;
+}
+
+@keyframes reviewsVerticalScroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.review-vertical-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 22px 26px;
+  border: 1.5px solid rgba(24, 76, 58, 0.08);
+  box-shadow: 0 10px 30px rgba(15, 53, 40, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.review-vertical-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(24, 76, 58, 0.1);
+  border-color: rgba(244, 180, 0, 0.4);
+}
+
+.review-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.review-author-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.review-author-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(244, 180, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.review-author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-author-name {
+  font-family: 'Outfit', 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--primary, #184C3A);
+  margin: 0 0 2px 0;
+  line-height: 1.2;
+}
+
+.review-author-role {
+  font-size: 0.78rem;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.review-card-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.review-stars {
+  color: #F4B400;
+  font-size: 0.88rem;
+  display: flex;
+  gap: 3px;
+}
+
+.review-quote-mark {
+  font-size: 2.4rem;
+  line-height: 1;
+  font-family: Georgia, serif;
+  color: rgba(244, 180, 0, 0.35);
+  font-weight: 900;
+  user-select: none;
+}
+
+.review-card-text {
+  font-size: 0.95rem;
+  line-height: 1.62;
+  color: #4B5563;
+  margin: 0;
+}
+
+@media (max-width: 991px) {
+  .testimonials {
+    padding: 70px 0 50px;
+  }
+  .reviews-split-grid {
     grid-template-columns: 1fr;
     gap: 36px;
     text-align: center;
   }
-  .hero-left-col {
+  .reviews-left-col {
     align-items: center;
   }
-  .hero-main-title {
-    font-size: 3.1rem;
+  .reviews-title {
+    font-size: 2.4rem;
   }
-  .hero-lead-desc {
-    max-width: 100%;
+  .reviews-lead-desc {
+    margin: 0 auto 24px;
+    max-width: 90%;
   }
-  .hero-cta-wrap {
-    justify-content: center;
-  }
-  .hero-platforms-marquee-wrap {
-    max-width: 100%;
-    width: 100%;
-    margin: 12px auto 0;
-  }
-  .hero-showcase-card {
+  .reviews-vertical-marquee-wrap {
+    height: 420px;
     max-width: 440px;
     margin: 0 auto;
   }
 }
 
 @media (max-width: 576px) {
-  .hero {
-    padding: 90px 0 30px;
+  .reviews-title {
+    font-size: 2.1rem;
   }
-  .hero-main-title {
-    font-size: 2.35rem;
+  .review-vertical-card {
+    padding: 18px 20px;
   }
-  .hero-subservices {
-    font-size: 0.76rem;
-    letter-spacing: 1.5px;
-  }
-  .hero-lead-desc {
-    font-size: 0.94rem;
-    line-height: 1.6;
-  }
-  .platform-icon-bubble {
-    width: 44px;
-    height: 44px;
-    padding: 7px;
-  }
-  .hero-platforms-marquee-wrap {
-    max-width: 100%;
-    width: 100%;
-    margin: 10px auto 0;
-  }
-  .hero-showcase-card {
-    max-width: 360px;
-    border-radius: 20px;
-    margin: 0 auto;
+  .review-card-text {
+    font-size: 0.9rem;
   }
 }
 

@@ -192,6 +192,14 @@ async function main() {
           continue;
         }
       }
+      if (prefix.startsWith('<section class="testimonials"')) {
+        const hasLocalVerticalTicker = localIndex.includes('reviews-vertical-marquee-wrap');
+        const hasCloudVerticalTicker = cloudBlock && cloudBlock.inner.includes('reviews-vertical-marquee-wrap');
+        if (hasLocalVerticalTicker && !hasCloudVerticalTicker) {
+          // Keep new local vertical scrolling reviews ticker!
+          continue;
+        }
+      }
       if (cloudBlock && cloudBlock.inner.trim().length > 20) {
         let cleanedInner = cloudBlock.inner;
         if (prefix.includes('hero-floating-cards')) {
