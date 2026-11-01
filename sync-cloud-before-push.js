@@ -165,6 +165,14 @@ async function main() {
     ];
     for (const prefix of syncBlocks) {
       const cloudBlock = extractElementInnerByOpenTag(cloudHtml, prefix);
+      if (prefix.startsWith('<footer class="footer"')) {
+        const hasLocalWaves = localIndex.includes('footer-wave-wrap');
+        const hasCloudWaves = cloudBlock && cloudBlock.inner.includes('footer-wave-wrap');
+        if (hasLocalWaves && !hasCloudWaves) {
+          // Keep new local animated wave footer!
+          continue;
+        }
+      }
       if (prefix.startsWith('<section class="hero"')) {
         const hasLocalMarquee = localIndex.includes('hero-platforms-marquee-wrap');
         const hasCloudMarquee = cloudBlock && cloudBlock.inner.includes('hero-platforms-marquee-wrap');
@@ -247,7 +255,11 @@ async function main() {
   const mergedCards = orderedKeys.map(k => mergedMap.get(k));
   console.log(`[Cloud-Protect] Merged union total cards: ${mergedCards.length} (has beckerperfektkuechen.de: ${mergedCards.some(c => c.includes('beckerperfektkuechen.de'))})`);
 
-  const mergedGridHtml = mergedCards.join('\n\n');
+  const mergedGridHtml = mergedCards.map(c => {
+    return c
+      .replace(/<img(?![^>]*loading=)([^>]*?)>/gi, '<img loading="lazy" decoding="async"$1>')
+      .replace(/loading=["']lazy["'](?![^>]*decoding=)/gi, 'loading="lazy" decoding="async"');
+  }).join('\n\n');
 
   // 3. Ensure Hero BG video in localIndex uses the 100% original 19.17MB lossless fast-start MP4 + raw original fallback
   localIndex = localIndex
