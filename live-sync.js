@@ -3,7 +3,8 @@
 
 (function() {
     const pageId = window.location.pathname.includes("portfolio.html") ? 'portfolio' : 'index';
-    const CACHE_KEY = 'loufy_live_snapshot_v7_' + pageId;
+    const CACHE_KEY = 'loufy_live_snapshot_v8_' + pageId;
+    try { localStorage.removeItem('loufy_live_snapshot_v7_' + pageId); } catch(e) {}
     try { localStorage.removeItem('loufy_live_snapshot_v6_' + pageId); } catch(e) {}
     try { localStorage.removeItem('loufy_live_snapshot_v5_' + pageId); } catch(e) {}
     try { localStorage.removeItem('loufy_live_snapshot_v4_' + pageId); } catch(e) {}
@@ -161,7 +162,8 @@
         if (liveHeroImg && curHeroImg) {
             const liveSrc = liveHeroImg.getAttribute('src');
             const curSrc = curHeroImg.getAttribute('src');
-            if (liveSrc && liveSrc !== curSrc) {
+            const isPlaceholder = liveSrc && liveSrc.includes('hero_illustration_reference');
+            if (liveSrc && liveSrc !== curSrc && !isPlaceholder) {
                 curHeroImg.setAttribute('src', liveSrc);
                 if (liveHeroImg.getAttribute('srcset')) {
                     curHeroImg.setAttribute('srcset', liveHeroImg.getAttribute('srcset'));
@@ -224,6 +226,9 @@
             const liveEl = doc.querySelector(sel);
             const curEl = document.querySelector(sel);
             if (liveEl && curEl) {
+                if (sel === '.hero-showcase-card' && liveEl.innerHTML.includes('hero_illustration_reference')) {
+                    return;
+                }
                 const cleanLive = liveEl.innerHTML.replace(/\s+/g, ' ').trim();
                 const cleanCur = curEl.innerHTML.replace(/\s+/g, ' ').trim();
                 if (cleanLive && cleanLive !== cleanCur) {

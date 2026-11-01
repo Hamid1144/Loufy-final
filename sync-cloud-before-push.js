@@ -223,7 +223,7 @@ async function main() {
   // 1b. Explicitly sync Hero Showcase Image src from cloud into localIndex
   if (indexRow && indexRow.html_content) {
     const cloudHeroImgMatch = indexRow.html_content.match(/<img[^>]*id=["']hero-showcase-img["'][^>]*src=["']([^"']+)["']/i);
-    if (cloudHeroImgMatch && cloudHeroImgMatch[1]) {
+    if (cloudHeroImgMatch && cloudHeroImgMatch[1] && !cloudHeroImgMatch[1].includes('hero_illustration_reference')) {
       const cloudHeroSrc = cloudHeroImgMatch[1];
       localIndex = localIndex.replace(
         /(<img[^>]*id=["']hero-showcase-img["'][^>]*src=["'])[^"']+([^"']*["'])/i,
