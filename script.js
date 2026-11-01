@@ -2504,58 +2504,139 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// ── INTERACTIVE SERVICES TREE: DRIP DROP EVERY 2s ──
+// ── INTERACTIVE SERVICES TREE: 3-SECOND SEQUENTIAL GLOWING DRIP DROP ──
 (function initServicesDrip() {
   if (window.__svcDripStarted) return;
   window.__svcDripStarted = true;
-  let idx = 0;
-  const TRAVEL = 1400;
 
-  function fire() {
-    if (document.hidden || window.innerWidth < 992) return;
+  const INTERVAL_MS = 3000;  // Exactly every 3 seconds as requested
+  const TRAVEL_MS   = 1300;  // 1.3s smooth travel along curved vector connector
+  let currentIndex  = 0;
+  let isHovered     = false;
+  let animFrameId   = null;
+
+  function clearAllHighlights() {
     const wrap = document.querySelector('.services-tree-wrap');
-    const svg = wrap && wrap.querySelector('.services-connectors-svg');
-    if (!svg) return;
-    const i = idx % 6; idx++;
-    const path = svg.querySelector('#conn-path-' + (i + 1));
-    const node = wrap.querySelector('.service-tree-node[data-index="' + (i + 1) + '"]');
-    if (!path) return;
-    const r = wrap.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > window.innerHeight) return; // offscreen, skip
+    if (!wrap) return;
+    wrap.querySelectorAll('.conn-path').forEach(p => p.classList.remove('is-active'));
+    wrap.querySelectorAll('.service-tree-node').forEach(n => {
+      n.classList.remove('is-active', 'pulse-impact');
+    });
+    const drop = wrap.querySelector('#services-energy-drop');
+    if (drop) drop.style.opacity = '0';
+  }
 
-    const drop = document.createElement('span');
-    drop.className = 'svc-drop';
-    wrap.appendChild(drop);
-    path.classList.add('is-active');
+  function launchDrop() {
+    if (document.hidden || isHovered) return;
 
-    const len = path.getTotalLength();
-    const t0 = performance.now();
-    function step(now) {
-      const p = Math.min((now - t0) / TRAVEL, 1);
-      const e = p * p * (3 - 2 * p);
-      const pt = path.getPointAtLength(e * len);
-      const m = svg.getScreenCTM();
-      const wr = wrap.getBoundingClientRect();
-      if (m) {
-        const x = pt.x * m.a + pt.y * m.c + m.e - wr.left;
-        const y = pt.x * m.b + pt.y * m.d + m.f - wr.top;
-        const s = 0.45 + e * 1.0;
-        drop.style.transform = 'translate(' + x + 'px,' + y + 'px) translate(-50%,-50%) scale(' + s + ')';
-        drop.style.opacity = p < 0.08 ? p / 0.08 : 1;
-      }
-      if (p < 1) requestAnimationFrame(step);
-      else {
-        drop.remove();
-        if (node) {
-          node.classList.remove('pulse-impact'); void node.offsetWidth;
-          node.classList.add('pulse-impact');
-          setTimeout(() => node.classList.remove('pulse-impact'), 700);
+    const wrap = document.querySelector('.services-tree-wrap');
+    if (!wrap) return;
+
+    const svg = wrap.querySelector('.services-connectors-svg');
+    const drop = svg ? svg.querySelector('#services-energy-drop') : null;
+    const totalNodes = 6;
+    const i = currentIndex % totalNodes;
+    currentIndex = (currentIndex + 1) % totalNodes;
+
+    const targetIndex = i + 1;
+    const path = svg ? svg.querySelector('#conn-path-' + targetIndex) : null;
+    const node = wrap.querySelector('.service-tree-node[data-index="' + targetIndex + '"]');
+
+    // Clean up previous highlights
+    clearAllHighlights();
+
+    // Check if SVG connectors are visible on current screen
+    const isSvgVisible = svg && (window.getComputedStyle(svg).display !== 'none') && (svg.offsetParent !== null || svg.clientWidth > 0);
+
+    if (isSvgVisible && path && drop && typeof path.getTotalLength === 'function') {
+      const len = path.getTotalLength();
+      path.classList.add('is-active');
+
+      const startTime = performance.now();
+
+      function animateStep(currentTime) {
+        if (isHovered) {
+          drop.style.opacity = '0';
+          return;
         }
-        setTimeout(() => path.classList.remove('is-active'), 350);
+
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / TRAVEL_MS, 1);
+
+        // Smooth cubic ease-in-out for natural droplet dripping physics
+        const ease = progress < 0.5
+          ? 2 * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+        const pt = path.getPointAtLength(ease * len);
+
+        // Drop starts small (scale 0.45) at hub and GROWS to 1.45 as it descends
+        const scale = 0.45 + ease * 1.0;
+
+        drop.setAttribute('transform', 'translate(' + pt.x + ',' + pt.y + ') scale(' + scale + ')');
+
+        // Smooth fade-in at emergence, full brilliant glow during travel, fade on circle impact
+        if (progress < 0.08) {
+          drop.style.opacity = String(progress / 0.08);
+        } else if (progress > 0.94) {
+          drop.style.opacity = String((1 - progress) / 0.06);
+        } else {
+          drop.style.opacity = '1';
+        }
+
+        if (progress < 1) {
+          animFrameId = requestAnimationFrame(animateStep);
+        } else {
+          // Reached destination service circle!
+          drop.style.opacity = '0';
+          if (node) {
+            node.classList.remove('pulse-impact');
+            void node.offsetWidth; // Force reflow for impact ripple
+            node.classList.add('pulse-impact', 'is-active');
+          }
+        }
+      }
+
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+      animFrameId = requestAnimationFrame(animateStep);
+    } else {
+      // Mobile / tablet fallback where connectors are hidden: sequentially spotlight the service card
+      if (node) {
+        node.classList.remove('pulse-impact');
+        void node.offsetWidth;
+        node.classList.add('pulse-impact', 'is-active');
       }
     }
-    requestAnimationFrame(step);
   }
-  setInterval(fire, 2000);
-  setTimeout(fire, 600);
+
+  // Interactive mouse hover support: hovering spotlights a service and pauses the automatic drip
+  function initHoverListeners() {
+    const wrap = document.querySelector('.services-tree-wrap');
+    if (!wrap) return;
+    const nodes = wrap.querySelectorAll('.service-tree-node');
+    const svg = wrap.querySelector('.services-connectors-svg');
+
+    nodes.forEach(n => {
+      n.addEventListener('mouseenter', () => {
+        isHovered = true;
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+        clearAllHighlights();
+        n.classList.add('is-active');
+        const idx = n.getAttribute('data-index');
+        const p = svg ? svg.querySelector('#conn-path-' + idx) : null;
+        if (p) p.classList.add('is-active');
+      });
+
+      n.addEventListener('mouseleave', () => {
+        isHovered = false;
+        clearAllHighlights();
+      });
+    });
+  }
+
+  initHoverListeners();
+
+  // Initial drop launches after 400ms, then repeats every 3000ms
+  setTimeout(launchDrop, 400);
+  setInterval(launchDrop, INTERVAL_MS);
 })();

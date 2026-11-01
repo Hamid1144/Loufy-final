@@ -430,30 +430,31 @@ section{padding:100px 0}
 
 .conn-path.is-active {
   stroke: #F4B400;
-  stroke-width: 3.6;
+  stroke-width: 4.2;
   opacity: 1;
-  filter: drop-shadow(0 0 12px rgba(244, 180, 0, 0.9));
+  stroke-dasharray: none;
+  filter: drop-shadow(0 0 6px #F4B400) drop-shadow(0 0 14px rgba(244, 180, 0, 0.85));
 }
 
 @keyframes serviceImpactRipple {
   0% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(244, 180, 0, 0.7);
+    box-shadow: 0 0 0 0 rgba(244, 180, 0, 0.85);
   }
   40% {
     transform: scale(1.18);
-    box-shadow: 0 0 45px rgba(244, 180, 0, 0.65), 0 0 0 12px rgba(244, 180, 0, 0.2);
+    box-shadow: 0 0 45px rgba(244, 180, 0, 0.75), 0 0 0 14px rgba(244, 180, 0, 0.25);
     border-color: #F4B400;
   }
   100% {
     transform: scale(1.1);
-    box-shadow: 0 0 35px rgba(244, 180, 0, 0.48), 0 10px 24px rgba(24, 76, 58, 0.16);
+    box-shadow: 0 0 35px rgba(244, 180, 0, 0.52), 0 10px 24px rgba(24, 76, 58, 0.16);
     border-color: #F4B400;
   }
 }
 
 .service-tree-node.pulse-impact .service-node-circle {
-  animation: serviceImpactRipple 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: serviceImpactRipple 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes dashFlow {
@@ -503,18 +504,12 @@ section{padding:100px 0}
 }
 
 .service-tree-node:hover .service-node-circle,
+.service-tree-node.is-active .service-node-circle,
 .service-tree-node.pulse-impact .service-node-circle {
   border-color: #F4B400;
   background: #FFFFFF;
-  box-shadow: 0 0 35px rgba(244, 180, 0, 0.48), 0 10px 24px rgba(24, 76, 58, 0.16);
+  box-shadow: 0 0 38px rgba(244, 180, 0, 0.55), 0 10px 24px rgba(24, 76, 58, 0.16);
   transform: scale(1.1);
-}
-
-/* Active indicator notch above Node 3 (matching reference image) */
-
-@keyframes notchGlow {
-  0%, 100% { opacity: 0.8; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-4px); }
 }
 
 .service-node-stem {
@@ -540,6 +535,15 @@ section{padding:100px 0}
   background: #F4B400;
   position: absolute;
   bottom: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-tree-node:hover .stem-dot,
+.service-tree-node.is-active .stem-dot,
+.service-tree-node.pulse-impact .stem-dot {
+  background: #F4B400;
+  box-shadow: 0 0 10px #F4B400;
+  transform: scale(1.6);
 }
 
 .service-node-title {
@@ -555,6 +559,7 @@ section{padding:100px 0}
 }
 
 .service-tree-node:hover .service-node-title,
+.service-tree-node.is-active .service-node-title,
 .service-tree-node.pulse-impact .service-node-title {
   color: #B45309;
 }
@@ -575,33 +580,52 @@ section{padding:100px 0}
 .learn-more{color:var(--primary);font-weight:600;font-size:.85rem;display:inline-flex;align-items:center;gap:6px;transition:all 0.3s ease}
 
 /* Responsive for Tablets & Mobile */
-@media (max-width: 991px) {
+@media (max-width: 991px) and (min-width: 769px) {
+  .services-nodes-row {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+  }
+  .service-node-circle {
+    width: 72px;
+    height: 72px;
+    padding: 12px;
+  }
+  .service-node-title {
+    font-size: 0.74rem;
+    letter-spacing: 0;
+  }
+  .service-node-desc {
+    font-size: 0.70rem;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
   .services-connectors-svg {
     display: none;
   }
   .services-nodes-row {
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px 18px;
-    margin-top: 35px;
+    gap: 28px 14px;
+    margin-top: 25px;
   }
-  
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
   .services-nodes-row {
     grid-template-columns: repeat(2, 1fr);
-    gap: 28px 14px;
+    gap: 24px 12px;
   }
   .service-node-circle {
-    width: 74px;
-    height: 74px;
-    padding: 14px;
+    width: 68px;
+    height: 68px;
+    padding: 12px;
   }
   .service-node-title {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
   }
   .service-node-desc {
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     max-width: 100%;
   }
 }
@@ -4762,12 +4786,7 @@ body.edit-mode .hero-float-card {
   }
 }
 
-/* Drip drop */
-.services-tree-wrap { position: relative; }
-.svc-drop {
-  position: absolute; left: 0; top: 0; z-index: 6;
-  width: 16px; height: 16px; border-radius: 50%;
-  background: radial-gradient(circle, #FFFFFF 0%, #FFE27A 35%, #F4B400 70%);
-  box-shadow: 0 0 12px 4px rgba(244,180,0,0.85), 0 0 28px 10px rgba(244,180,0,0.45);
-  pointer-events: none; opacity: 0; will-change: transform, opacity;
+/* Services Tree Container */
+.services-tree-wrap {
+  position: relative;
 }

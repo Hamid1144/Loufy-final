@@ -506,22 +506,42 @@
 
     <!-- Radiating Dotted Connectors -->
     <svg class="services-connectors-svg" viewBox="0 0 1200 130" preserveAspectRatio="none">
-    <defs>
-      <filter id="dropGlowFilter" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
-        <feMerge>
-          <feMergeNode in="blur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    </defs>
-    <path id="conn-path-1" class="conn-path" d="M 600,0 C 600,60 100,25 100,125"/>
-    <path id="conn-path-2" class="conn-path" d="M 600,0 C 600,60 300,40 300,125"/>
-    <path id="conn-path-3" class="conn-path" d="M 600,0 C 600,55 500,65 500,125"/>
-    <path id="conn-path-4" class="conn-path" d="M 600,0 C 600,55 700,65 700,125"/>
-    <path id="conn-path-5" class="conn-path" d="M 600,0 C 600,60 900,40 900,125"/>
-    <path id="conn-path-6" class="conn-path" d="M 600,0 C 600,60 1100,25 1100,125"/>
-  </svg>
+      <defs>
+        <filter id="servicesDropGlow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur1"/>
+          <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur2"/>
+          <feMerge>
+            <feMergeNode in="blur2"/>
+            <feMergeNode in="blur1"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <radialGradient id="servicesDropGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFFFFF"/>
+          <stop offset="35%" stop-color="#FFF3B0"/>
+          <stop offset="70%" stop-color="#F4B400"/>
+          <stop offset="100%" stop-color="#D97706"/>
+        </radialGradient>
+      </defs>
+
+      <!-- 6 Branching Connector Paths from Central Hub (600,0) to Nodes -->
+      <path id="conn-path-1" class="conn-path" d="M 600,0 C 600,60 100,25 100,125"/>
+      <path id="conn-path-2" class="conn-path" d="M 600,0 C 600,60 300,40 300,125"/>
+      <path id="conn-path-3" class="conn-path" d="M 600,0 C 600,55 500,65 500,125"/>
+      <path id="conn-path-4" class="conn-path" d="M 600,0 C 600,55 700,65 700,125"/>
+      <path id="conn-path-5" class="conn-path" d="M 600,0 C 600,60 900,40 900,125"/>
+      <path id="conn-path-6" class="conn-path" d="M 600,0 C 600,60 1100,25 1100,125"/>
+
+      <!-- Animated Growing Glowing Energy Droplet -->
+      <g id="services-energy-drop" style="opacity: 0; pointer-events: none; will-change: transform, opacity;">
+        <!-- Wide radiant gold ambient aura -->
+        <circle cx="0" cy="0" r="22" fill="rgba(244, 180, 0, 0.45)" filter="url(#servicesDropGlow)"/>
+        <!-- Radiant droplet body with gold gradient -->
+        <circle cx="0" cy="0" r="11" fill="url(#servicesDropGrad)" stroke="#FFFFFF" stroke-width="1.8" filter="url(#servicesDropGlow)"/>
+        <!-- Pure white hot droplet center -->
+        <circle cx="0" cy="0" r="5" fill="#FFFFFF"/>
+      </g>
+    </svg>
 
     <!-- 6 Service Nodes in Arc -->
     <div class="services-nodes-row">
