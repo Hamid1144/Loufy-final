@@ -78,11 +78,9 @@ ul{list-style:none}
 img{max-width:100%;display:block}
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 section{padding:100px 0}
-.section-tag{display:inline-block;background:rgba(var(--primary-rgb),.1);color:var(--primary);padding:6px 20px;border-radius:30px;font-size:.85rem;font-weight:600;margin-bottom:16px;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);cursor:pointer;border:1px solid transparent}
-.section-tag:hover{transform:translateY(-3px) scale(1.03);background:var(--primary);color:var(--white);box-shadow:0 10px 20px rgba(var(--primary-rgb),0.15)}
-.pricing .section-tag:hover,
-.faq .section-tag:hover,
-.about-content .section-tag:hover{background:var(--accent) !important;color:var(--dark) !important;box-shadow:0 10px 20px rgba(var(--accent-rgb),0.25)}
+.section-tag{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,0.72);backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%);color:#B45309;font-family:'Outfit','Poppins',sans-serif;font-size:.84rem;font-weight:800;letter-spacing:2px;padding:7px 22px;border-radius:50px;margin-bottom:16px;border:1.5px solid rgba(244,180,0,0.42);box-shadow:0 4px 16px rgba(0,0,0,0.04),0 2px 6px rgba(244,180,0,0.12),inset 0 1px 1px rgba(255,255,255,0.95),inset 0 -1.5px 2px rgba(244,180,0,0.14);text-transform:uppercase;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);cursor:pointer;position:relative;z-index:2}
+.section-tag:hover{transform:translateY(-3px) scale(1.03);background:rgba(255,255,255,0.92);border-color:#F4B400;box-shadow:0 8px 25px rgba(244,180,0,0.28),inset 0 1px 1px #FFFFFF;color:#92400E}
+.about-content .section-tag{background:rgba(255,255,255,0.15);border-color:rgba(244,180,0,0.5);color:#FFE066}
 .section-title{font-size:2.6rem;font-weight:800;margin-bottom:16px;line-height:1.2}
 .section-sub{color:#666;font-size:1.05rem;max-width:560px;line-height:1.7}
 .highlight{color:var(--accent)}
@@ -1773,15 +1771,31 @@ section{padding:100px 0}
     text-align: left;
 }
 .blog-hero-category {
-    background: var(--accent);
-    color: var(--dark);
-    padding: 4px 16px;
-    border-radius: 30px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    color: #B45309;
+    font-family: 'Outfit', 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 7px 20px;
+    border-radius: 50px;
     margin-bottom: 16px;
-    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.25);
+    border: 1.5px solid rgba(244, 180, 0, 0.42);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(244, 180, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.95), inset 0 -1.5px 2px rgba(244, 180, 0, 0.14);
+    text-transform: uppercase;
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.blog-hero-category:hover {
+    transform: translateY(-2px) scale(1.03);
+    background: rgba(255, 255, 255, 0.92);
+    border-color: #F4B400;
+    box-shadow: 0 8px 25px rgba(244, 180, 0, 0.28), inset 0 1px 1px #FFFFFF;
+    color: #92400E;
 }
 .blog-hero-content h1 {
     font-size: 2.5rem;
@@ -4529,16 +4543,38 @@ body.edit-mode .hero-float-card {
 .hero-pill-badge {
   display: inline-flex;
   align-items: center;
-  background: rgba(244, 180, 0, 0.12);
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
   color: #B45309;
+  font-family: 'Outfit', 'Poppins', sans-serif;
   font-size: 0.88rem;
   font-weight: 800;
   letter-spacing: 2px;
-  padding: 8px 22px;
+  padding: 8px 24px;
   border-radius: 50px;
   margin-bottom: 18px;
-  border: 1.5px solid rgba(244, 180, 0, 0.35);
-  box-shadow: 0 3px 10px rgba(244, 180, 0, 0.12);
+  border: 1.5px solid rgba(244, 180, 0, 0.42);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04), 
+              0 2px 6px rgba(244, 180, 0, 0.12), 
+              inset 0 1px 1px rgba(255, 255, 255, 0.95), 
+              inset 0 -1.5px 2px rgba(244, 180, 0, 0.14);
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+  z-index: 2;
+}
+
+.hero-pill-badge:hover {
+  transform: translateY(-2px) scale(1.03);
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #F4B400;
+  box-shadow: 0 8px 25px rgba(244, 180, 0, 0.28), 
+              0 2px 8px rgba(0, 0, 0, 0.05),
+              inset 0 1px 1px #FFFFFF, 
+              inset 0 -1px 2px rgba(244, 180, 0, 0.2);
+  color: #92400E;
 }
 
 .hero-main-title {
@@ -5291,17 +5327,38 @@ body.edit-mode .hero-float-card {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(244, 180, 0, 0.12);
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
   color: #B45309;
+  font-family: 'Outfit', 'Poppins', sans-serif;
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 2px;
-  padding: 6px 18px;
+  padding: 7px 20px;
   border-radius: 50px;
   margin-bottom: 14px;
-  border: 1px solid rgba(244, 180, 0, 0.35);
-  box-shadow: 0 2px 8px rgba(244, 180, 0, 0.08);
+  border: 1.5px solid rgba(244, 180, 0, 0.42);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 
+              0 2px 6px rgba(244, 180, 0, 0.12), 
+              inset 0 1px 1px rgba(255, 255, 255, 0.95), 
+              inset 0 -1.5px 2px rgba(244, 180, 0, 0.14);
   text-transform: uppercase;
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+  z-index: 2;
+}
+
+.services-badge-pill:hover {
+  transform: translateY(-2px) scale(1.03);
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #F4B400;
+  box-shadow: 0 8px 25px rgba(244, 180, 0, 0.28), 
+              0 2px 8px rgba(0, 0, 0, 0.05),
+              inset 0 1px 1px #FFFFFF, 
+              inset 0 -1px 2px rgba(244, 180, 0, 0.2);
+  color: #92400E;
 }
 
 .services-section-head {
