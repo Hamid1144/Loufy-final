@@ -2795,7 +2795,7 @@ body.contact-page > section.contact {
     display: flex;
     gap: 24px;
     width: max-content;
-    animation: scroll-ltr 90s linear infinite;
+    animation: scroll-ltr 80s linear infinite;
     padding-right: 24px; /* match the gap */
 }
 
@@ -2965,7 +2965,7 @@ body.contact-page > section.contact {
     display: flex;
     gap: 24px;
     width: max-content;
-    animation: scroll-rtl 90s linear infinite;
+    animation: scroll-rtl 80s linear infinite;
     padding-right: 24px;
 }
 

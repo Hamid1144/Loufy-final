@@ -1409,7 +1409,7 @@ window.initPaperbackCoversMarquee = function() {
   
   const isMobile = window.innerWidth < 768;
   const pbTargetMin = isMobile ? 4 : 8;
-  const sampleCardsHTML = paperbackCardsHTML.slice(0, isMobile ? 6 : 10);
+  const sampleCardsHTML = paperbackCardsHTML.slice(0, isMobile ? 6 : 12);
   const singleHTMLs = [...sampleCardsHTML];
   while (singleHTMLs.length < pbTargetMin) {
     singleHTMLs.push(...sampleCardsHTML);
@@ -1506,11 +1506,12 @@ window.initFormattingMarquee = function() {
   }
   
   const isMobile = window.innerWidth < 768;
-  const targetMin = isMobile ? 5 : 8;
-  // Fill the track to ensure it spans at least the width of the screen
-  const singleHTMLs = [...formattingCardsHTML];
+  const targetMin = isMobile ? 4 : 8;
+  // Use 12 cards to exactly match paperback covers track length and synchronize marquee speed
+  const sampleCardsHTML = formattingCardsHTML.slice(0, isMobile ? 6 : 12);
+  const singleHTMLs = [...sampleCardsHTML];
   while (singleHTMLs.length < targetMin) {
-    singleHTMLs.push(...formattingCardsHTML);
+    singleHTMLs.push(...sampleCardsHTML);
   }
   
   marqueeContainer.innerHTML = `
