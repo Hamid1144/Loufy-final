@@ -5830,64 +5830,119 @@ body.edit-mode .hero-float-card {
 
 /* ── Section 5: Our 4-Step Publishing Process (Curved Wave Roadmap) ── */
 .services-process-wave {
-  padding: 90px 0;
+  padding: 95px 0 105px;
   background: #FFFFFF;
   position: relative;
+  overflow: hidden;
 }
 
 .process-wave-roadmap {
   position: relative;
-  max-width: 1040px;
-  margin: 40px auto 0;
-  padding: 40px 0 20px;
+  max-width: 1060px;
+  margin: 50px auto 0;
+  padding: 0;
+}
+
+.process-wave-svg-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .process-wave-svg {
-  position: absolute;
-  top: 50%;
-  left: 6%;
-  width: 88%;
-  height: 100px;
-  transform: translateY(-50%);
-  z-index: 1;
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
 }
 
 .process-wave-nodes {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 0;
   position: relative;
   z-index: 2;
 }
 
 .process-node-card {
   text-align: center;
-  padding: 0 10px;
+  padding: 0 16px;
+  position: relative;
 }
 
 .process-node-circle {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: #FFFFFF;
-  border: 3px solid var(--accent, #F4B400);
-  box-shadow: 0 6px 20px rgba(244, 180, 0, 0.35);
+  border: 3.5px solid #F4B400;
+  box-shadow: 0 4px 18px rgba(244, 180, 0, 0.28);
   color: var(--primary, #184C3A);
-  font-size: 1.4rem;
+  font-family: 'Outfit', 'Poppins', sans-serif;
+  font-size: 1.45rem;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px;
+  margin: 8px auto 24px;
   position: relative;
-  transition: transform 0.3s ease;
+  z-index: 2;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Synchronized Gold Arrival Pulse when the traveling droplet reaches each circle */
+@keyframes nodePulseGlow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 18px rgba(244, 180, 0, 0.28);
+    border-color: #F4B400;
+  }
+  8% {
+    transform: scale(1.15);
+    box-shadow: 0 0 28px rgba(244, 180, 0, 0.85), 0 0 0 6px rgba(244, 180, 0, 0.22);
+    border-color: #F4B400;
+    color: #B45309;
+  }
+  16% {
+    transform: scale(1);
+    box-shadow: 0 4px 18px rgba(244, 180, 0, 0.28);
+    border-color: #F4B400;
+    color: var(--primary, #184C3A);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 18px rgba(244, 180, 0, 0.28);
+    border-color: #F4B400;
+    color: var(--primary, #184C3A);
+  }
+}
+
+.process-node-card:nth-child(1) .process-node-circle {
+  animation: nodePulseGlow 3.6s infinite ease-in-out;
+  animation-delay: 0s;
+}
+.process-node-card:nth-child(2) .process-node-circle {
+  animation: nodePulseGlow 3.6s infinite ease-in-out;
+  animation-delay: 1.2s;
+}
+.process-node-card:nth-child(3) .process-node-circle {
+  animation: nodePulseGlow 3.6s infinite ease-in-out;
+  animation-delay: 2.4s;
+}
+.process-node-card:nth-child(4) .process-node-circle {
+  animation: nodePulseGlow 3.6s infinite ease-in-out;
+  animation-delay: 3.6s;
 }
 
 .process-node-card:hover .process-node-circle {
-  transform: scale(1.15);
-  background: #F4B400;
-  color: #184C3A;
+  transform: scale(1.18) !important;
+  background: #F4B400 !important;
+  color: #184C3A !important;
+  box-shadow: 0 8px 30px rgba(244, 180, 0, 0.55) !important;
 }
 
 .process-node-title {
@@ -5895,13 +5950,15 @@ body.edit-mode .hero-float-card {
   font-size: 1.15rem;
   font-weight: 800;
   color: var(--primary, #184C3A);
-  margin: 0 0 6px 0;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
 .process-node-desc {
-  font-size: 0.86rem;
-  color: #64748B;
-  line-height: 1.5;
+  font-size: 0.88rem;
+  color: #556960;
+  line-height: 1.55;
   margin: 0;
 }
 
@@ -6201,10 +6258,15 @@ body.edit-mode .hero-float-card {
   }
   .process-wave-nodes {
     grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+    gap: 36px 24px;
   }
-  .process-wave-svg {
-    display: none;
+  .process-wave-svg,
+  .process-wave-svg-wrap {
+    display: none !important;
+  }
+  .process-node-circle {
+    margin: 0 auto 16px;
+    animation: none !important;
   }
 }
 

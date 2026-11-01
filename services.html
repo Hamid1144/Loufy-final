@@ -79,7 +79,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
 <script src="admin.js?v=3.32.2" defer></script>
 <script src="live-sync.js?v=3.33.0" defer></script>
-<link rel="stylesheet" href="style.css?v=5.5.0_20261019_010">
+<link rel="stylesheet" href="style.css?v=5.5.1_roadmap_drop">
 <script>
   (function() {
     try {
@@ -532,10 +532,53 @@
       </div>
 
       <div class="process-wave-roadmap">
-        <!-- SVG Sinusoidal Line Connection -->
-        <svg class="process-wave-svg" viewBox="0 0 900 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M50 50 Q 250 -20, 450 50 T 850 50" stroke="#F4B400" stroke-width="3" stroke-dasharray="6 6" fill="transparent" />
-        </svg>
+        <!-- SVG Curved Wave Line with Animated Traveling Energy Droplet -->
+        <div class="process-wave-svg-wrap">
+          <svg class="process-wave-svg" viewBox="0 0 1000 80" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Luminous Gold Glow Filter for Traveling Droplet -->
+              <filter id="processDropGlow" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur1"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur2"/>
+                <feMerge>
+                  <feMergeNode in="blur2"/>
+                  <feMergeNode in="blur1"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- Precision Connecting Wave Line (Passes behind circle discs) -->
+            <path id="process-wave-path"
+                  d="M 125 40 Q 250 8, 375 40 T 625 40 T 875 40"
+                  stroke="#F4B400"
+                  stroke-width="3"
+                  stroke-dasharray="6 6"
+                  stroke-linecap="round"
+                  fill="none" />
+
+            <!-- Traveling Energy Droplet (Left to Right from Step 1 to Step 4) -->
+            <g>
+              <animateMotion dur="3.6s" repeatCount="indefinite" path="M 125 40 Q 250 8, 375 40 T 625 40 T 875 40" />
+              <animate attributeName="opacity" values="0; 1; 1; 1; 0" keyTimes="0; 0.08; 0.5; 0.92; 1" dur="3.6s" repeatCount="indefinite" />
+              
+              <!-- Expanding energy pulse ring -->
+              <circle r="14" fill="none" stroke="#F4B400" stroke-width="1.8" opacity="0.6">
+                <animate attributeName="r" values="8;16;8" dur="1.2s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.75;0.15;0.75" dur="1.2s" repeatCount="indefinite" />
+              </circle>
+
+              <!-- Neon outer glow aura -->
+              <circle r="8" fill="#F4B400" opacity="0.85" filter="url(#processDropGlow)" />
+
+              <!-- Brilliant warm gold body -->
+              <circle r="5.5" fill="#F4B400" />
+
+              <!-- High-intensity white center highlight -->
+              <circle r="2.5" fill="#FFFFFF" />
+            </g>
+          </svg>
+        </div>
 
         <div class="process-wave-nodes">
           <!-- Node 1 -->
