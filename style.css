@@ -5091,18 +5091,30 @@ body.edit-mode .hero-float-card {
 }
 
 
-/* ── PERFORMANCE FIXES: ELIMINATE SCROLL LAG ── */
-.covers-marquee-container,
-.paperback-covers-marquee-container,
-.formatting-marquee-container,
-.aplus-marquee-container {
-  content-visibility: auto;
-  contain-intrinsic-size: 380px;
+/* ── PERFORMANCE FIXES: ELIMINATE SCROLL LAG (CLEAN & LIGHTWEIGHT) ── */
+.covers-marquee-track,
+.paperback-covers-marquee-track,
+.formatting-marquee-track {
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-.portfolio-grid {
-  content-visibility: auto;
-  contain-intrinsic-size: 600px;
+/* Ensure marquee cards keep their exact original styling with no reveal delays */
+.covers-marquee-item.portfolio-card,
+.paperback-covers-marquee-item.portfolio-card,
+.formatting-marquee-item.portfolio-card {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Guarantee covers titles and tags remain hidden below covers (matching original style) */
+.covers-marquee-item.portfolio-card[data-cat="covers"] .portfolio-info {
+  display: none !important;
 }
 
 .covers-marquee-track,

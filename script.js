@@ -91,7 +91,7 @@ window.initSiteLogic = function () {
   // Scroll reveal with IntersectionObserver
   document.querySelectorAll(
     '.hero-content, .hero-visual, .section-tag, .section-title, .section-sub, ' +
-    '.service-card, .tool-card, .portfolio-card, .timeline-col, .timeline-item, .pricing-card, ' +
+    '.service-card, .tool-card, .portfolio-grid > .portfolio-card, .timeline-col, .timeline-item, .pricing-card, ' +
     '.testimonial-slider, .blog-card, .faq-list, .faq-item, .footer-grid > div, ' +
     '.contact-info, .about-img-wrap, .about-content'
   ).forEach(el => {
@@ -1287,7 +1287,7 @@ window.initCoversMarquee = function() {
     grid.parentNode.insertBefore(marqueeContainer, grid);
   }
   
-  const targetMin = isMobile ? 4 : 8;
+  const targetMin = isMobile ? 5 : 8;
   let html = '';
   for (let r = 0; r < rowCount; r++) {
     const rowHTMLs = rows[r];
@@ -1304,14 +1304,14 @@ window.initCoversMarquee = function() {
       <div class="covers-marquee ${rowClass}">
         <div class="covers-marquee-track">
           ${singleHTMLs.map(innerHtml => `
-            <div class="covers-marquee-item" data-cat="covers">
+            <div class="covers-marquee-item portfolio-card" data-cat="covers">
               ${innerHtml}
             </div>
           `).join('')}
         </div>
         <div class="covers-marquee-track" aria-hidden="true">
           ${singleHTMLs.map(innerHtml => `
-            <div class="covers-marquee-item" data-cat="covers">
+            <div class="covers-marquee-item portfolio-card" data-cat="covers">
               ${innerHtml}
             </div>
           `).join('')}
@@ -1418,14 +1418,14 @@ window.initPaperbackCoversMarquee = function() {
     <div class="paperback-covers-marquee row-rtl">
       <div class="paperback-covers-marquee-track">
         ${singleHTMLs.map(innerHtml => `
-          <div class="paperback-covers-marquee-item" data-cat="paperback-covers">
+          <div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">
             ${innerHtml}
           </div>
         `).join('')}
       </div>
       <div class="paperback-covers-marquee-track" aria-hidden="true">
         ${singleHTMLs.map(innerHtml => `
-          <div class="paperback-covers-marquee-item" data-cat="paperback-covers">
+          <div class="paperback-covers-marquee-item portfolio-card" data-cat="paperback-covers">
             ${innerHtml}
           </div>
         `).join('')}
@@ -1505,7 +1505,7 @@ window.initFormattingMarquee = function() {
   }
   
   const isMobile = window.innerWidth < 768;
-  const targetMin = isMobile ? 4 : 8;
+  const targetMin = isMobile ? 5 : 8;
   // Fill the track to ensure it spans at least the width of the screen
   const singleHTMLs = [...formattingCardsHTML];
   while (singleHTMLs.length < targetMin) {
@@ -1516,14 +1516,14 @@ window.initFormattingMarquee = function() {
     <div class="formatting-marquee row-ltr">
       <div class="formatting-marquee-track">
         ${singleHTMLs.map(innerHtml => `
-          <div class="formatting-marquee-item" data-cat="formatting">
+          <div class="formatting-marquee-item portfolio-card" data-cat="formatting">
             ${innerHtml}
           </div>
         `).join('')}
       </div>
       <div class="formatting-marquee-track" aria-hidden="true">
         ${singleHTMLs.map(innerHtml => `
-          <div class="formatting-marquee-item" data-cat="formatting">
+          <div class="formatting-marquee-item portfolio-card" data-cat="formatting">
             ${innerHtml}
           </div>
         `).join('')}
@@ -2645,25 +2645,3 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 
-// ── Offscreen Marquee Pause Performance Optimizer ───────────────
-(function initMarqueePerformanceOptimizer() {
-  if (typeof IntersectionObserver === 'undefined') return;
-  const portfolioSec = document.getElementById('portfolio');
-  if (!portfolioSec) return;
-
-  const marqueeObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      const isVisible = entry.isIntersecting;
-      const tracks = document.querySelectorAll(
-        '.covers-marquee-track, .paperback-covers-marquee-track, .formatting-marquee-track, .aplus-marquee-track'
-      );
-      tracks.forEach(function(track) {
-        track.style.animationPlayState = isVisible ? 'running' : 'paused';
-      });
-    });
-  }, {
-    rootMargin: '200px 0px'
-  });
-
-  marqueeObserver.observe(portfolioSec);
-})();
