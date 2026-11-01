@@ -78,9 +78,83 @@ ul{list-style:none}
 img{max-width:100%;display:block}
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 section{padding:100px 0}
-.section-tag{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,0.72);backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%);color:#B45309;font-family:'Outfit','Poppins',sans-serif;font-size:.84rem;font-weight:800;letter-spacing:2px;padding:7px 22px;border-radius:50px;margin-bottom:16px;border:1.5px solid rgba(244,180,0,0.42);box-shadow:0 4px 16px rgba(0,0,0,0.04),0 2px 6px rgba(244,180,0,0.12),inset 0 1px 1px rgba(255,255,255,0.95),inset 0 -1.5px 2px rgba(244,180,0,0.14);text-transform:uppercase;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);cursor:pointer;position:relative;z-index:2}
-.section-tag:hover{transform:translateY(-3px) scale(1.03);background:rgba(255,255,255,0.92);border-color:#F4B400;box-shadow:0 8px 25px rgba(244,180,0,0.28),inset 0 1px 1px #FFFFFF;color:#92400E}
-.about-content .section-tag{background:rgba(255,255,255,0.15);border-color:rgba(244,180,0,0.5);color:#FFE066}
+/* ══════════════════════════════════════════════════════════════════════
+   EXECUTIVE LUXURY PILL BADGE SYSTEM (All Section Badges Across Entire Site)
+   ══════════════════════════════════════════════════════════════════════ */
+.section-tag,
+.services-badge-pill,
+.blog-hero-category {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(246, 250, 248, 0.88) 100%) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1.5px solid rgba(24, 76, 58, 0.18) !important;
+  border-radius: 50px !important;
+  padding: 8px 22px !important;
+  box-shadow: 0 4px 14px rgba(24, 76, 58, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03), inset 0 1px 1px #FFFFFF, inset 0 -1px 2px rgba(24, 76, 58, 0.04) !important;
+  color: #184C3A !important;
+  font-family: 'Outfit', 'Poppins', sans-serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.8px !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  margin-bottom: 16px !important;
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+  cursor: default !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Pulsing Glowing Live Gold Indicator Dot */
+.section-tag::before,
+.services-badge-pill::before,
+.hero-pill-badge::before,
+.blog-hero-category::before {
+  content: '' !important;
+  display: inline-block !important;
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  background: #F4B400 !important;
+  box-shadow: 0 0 8px #F4B400, 0 0 0 2px rgba(244, 180, 0, 0.28) !important;
+  animation: badgeLivePulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+  flex-shrink: 0 !important;
+  margin-right: 2px !important;
+}
+
+@keyframes badgeLivePulse {
+  0%, 100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 6px #F4B400, 0 0 0 2px rgba(244, 180, 0, 0.25);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.22);
+    box-shadow: 0 0 12px #F4B400, 0 0 0 4px rgba(244, 180, 0, 0.15);
+    opacity: 1;
+  }
+}
+
+.section-tag:hover,
+.services-badge-pill:hover,
+.hero-pill-badge:hover,
+.blog-hero-category:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  background: #FFFFFF !important;
+  border-color: #F4B400 !important;
+  box-shadow: 0 8px 25px rgba(244, 180, 0, 0.26), 0 2px 6px rgba(24, 76, 58, 0.08), inset 0 1px 1px #FFFFFF !important;
+  color: #0F3528 !important;
+}
+
+.about-content .section-tag {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(244, 180, 0, 0.5) !important;
+  color: #FFE066 !important;
+}
 .section-title{font-size:2.6rem;font-weight:800;margin-bottom:16px;line-height:1.2}
 .section-sub{color:#666;font-size:1.05rem;max-width:560px;line-height:1.7}
 .highlight{color:var(--accent)}
@@ -1771,31 +1845,33 @@ section{padding:100px 0}
     text-align: left;
 }
 .blog-hero-category {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(14px) saturate(180%);
-    -webkit-backdrop-filter: blur(14px) saturate(180%);
-    color: #B45309;
-    font-family: 'Outfit', 'Poppins', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    padding: 7px 20px;
-    border-radius: 50px;
-    margin-bottom: 16px;
-    border: 1.5px solid rgba(244, 180, 0, 0.42);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(244, 180, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.95), inset 0 -1.5px 2px rgba(244, 180, 0, 0.14);
-    text-transform: uppercase;
-    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(246, 250, 248, 0.88) 100%) !important;
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    color: #184C3A !important;
+    font-family: 'Outfit', 'Poppins', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.8px !important;
+    padding: 8px 22px !important;
+    border-radius: 50px !important;
+    margin-bottom: 16px !important;
+    border: 1.5px solid rgba(24, 76, 58, 0.18) !important;
+    box-shadow: 0 4px 14px rgba(24, 76, 58, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03), inset 0 1px 1px #FFFFFF, inset 0 -1px 2px rgba(24, 76, 58, 0.04) !important;
+    text-transform: uppercase !important;
+    line-height: 1 !important;
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
 }
 .blog-hero-category:hover {
-    transform: translateY(-2px) scale(1.03);
-    background: rgba(255, 255, 255, 0.92);
-    border-color: #F4B400;
-    box-shadow: 0 8px 25px rgba(244, 180, 0, 0.28), inset 0 1px 1px #FFFFFF;
-    color: #92400E;
+    transform: translateY(-2px) scale(1.02) !important;
+    background: #FFFFFF !important;
+    border-color: #F4B400 !important;
+    box-shadow: 0 8px 25px rgba(244, 180, 0, 0.26), inset 0 1px 1px #FFFFFF !important;
+    color: #0F3528 !important;
 }
 .blog-hero-content h1 {
     font-size: 2.5rem;
@@ -4541,40 +4617,38 @@ body.edit-mode .hero-float-card {
 }
 
 .hero-pill-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(14px) saturate(180%);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
-  color: #B45309;
-  font-family: 'Outfit', 'Poppins', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 850;
-  letter-spacing: 2.5px;
-  padding: 10px 28px;
-  border-radius: 50px;
-  margin-bottom: 18px;
-  border: 1.5px solid rgba(244, 180, 0, 0.45);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04), 
-              0 2px 6px rgba(244, 180, 0, 0.14), 
-              inset 0 1px 1px rgba(255, 255, 255, 0.95), 
-              inset 0 -1.5px 2px rgba(244, 180, 0, 0.16);
-  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
-  position: relative;
-  z-index: 2;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(246, 250, 248, 0.88) 100%) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  color: #184C3A !important;
+  font-family: 'Outfit', 'Poppins', sans-serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 850 !important;
+  letter-spacing: 2.5px !important;
+  padding: 10px 28px !important;
+  border-radius: 50px !important;
+  margin-bottom: 18px !important;
+  border: 1.5px solid rgba(24, 76, 58, 0.2) !important;
+  box-shadow: 0 4px 18px rgba(24, 76, 58, 0.08), 
+              0 1px 3px rgba(0, 0, 0, 0.04), 
+              inset 0 1px 1px #FFFFFF !important;
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+  position: relative !important;
+  z-index: 2 !important;
 }
 
 .hero-pill-badge:hover {
-  transform: translateY(-2px) scale(1.03);
-  background: rgba(255, 255, 255, 0.92);
-  border-color: #F4B400;
+  transform: translateY(-2px) scale(1.02) !important;
+  background: #FFFFFF !important;
+  border-color: #F4B400 !important;
   box-shadow: 0 8px 25px rgba(244, 180, 0, 0.28), 
-              0 2px 8px rgba(0, 0, 0, 0.05),
-              inset 0 1px 1px #FFFFFF, 
-              inset 0 -1px 2px rgba(244, 180, 0, 0.2);
-  color: #92400E;
+              0 2px 8px rgba(0, 0, 0, 0.05), 
+              inset 0 1px 1px #FFFFFF !important;
+  color: #0F3528 !important;
 }
 
 .hero-main-title {
@@ -5329,41 +5403,36 @@ body.edit-mode .hero-float-card {
 }
 
 .services-badge-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(14px) saturate(180%);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
-  color: #B45309;
-  font-family: 'Outfit', 'Poppins', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  padding: 7px 20px;
-  border-radius: 50px;
-  margin-bottom: 14px;
-  border: 1.5px solid rgba(244, 180, 0, 0.42);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 
-              0 2px 6px rgba(244, 180, 0, 0.12), 
-              inset 0 1px 1px rgba(255, 255, 255, 0.95), 
-              inset 0 -1.5px 2px rgba(244, 180, 0, 0.14);
-  text-transform: uppercase;
-  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
-  position: relative;
-  z-index: 2;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(246, 250, 248, 0.88) 100%) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  color: #184C3A !important;
+  font-family: 'Outfit', 'Poppins', sans-serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.8px !important;
+  padding: 8px 22px !important;
+  border-radius: 50px !important;
+  margin-bottom: 16px !important;
+  border: 1.5px solid rgba(24, 76, 58, 0.18) !important;
+  box-shadow: 0 4px 14px rgba(24, 76, 58, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03), inset 0 1px 1px #FFFFFF, inset 0 -1px 2px rgba(24, 76, 58, 0.04) !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+  position: relative !important;
+  z-index: 2 !important;
 }
 
 .services-badge-pill:hover {
-  transform: translateY(-2px) scale(1.03);
-  background: rgba(255, 255, 255, 0.92);
-  border-color: #F4B400;
-  box-shadow: 0 8px 25px rgba(244, 180, 0, 0.28), 
-              0 2px 8px rgba(0, 0, 0, 0.05),
-              inset 0 1px 1px #FFFFFF, 
-              inset 0 -1px 2px rgba(244, 180, 0, 0.2);
-  color: #92400E;
+  transform: translateY(-2px) scale(1.02) !important;
+  background: #FFFFFF !important;
+  border-color: #F4B400 !important;
+  box-shadow: 0 8px 25px rgba(244, 180, 0, 0.26), 0 2px 6px rgba(24, 76, 58, 0.08), inset 0 1px 1px #FFFFFF !important;
+  color: #0F3528 !important;
 }
 
 .services-section-head {
