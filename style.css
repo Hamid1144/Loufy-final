@@ -157,6 +157,19 @@ section{padding:100px 0}
 }
 .section-title{font-size:2.6rem;font-weight:800;margin-bottom:16px;line-height:1.2}
 .section-sub{color:#666;font-size:1.05rem;max-width:560px;line-height:1.7}
+/* Accessibility & SEO Screen-reader Utility */
+.visually-hidden,
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
 .highlight{color:var(--accent)}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;font-family:var(--font);font-weight:600;font-size:.95rem;cursor:pointer;border:1px solid rgba(255, 255, 255, 0.15);transition:all .4s cubic-bezier(.25,.8,.25,1);position:relative;overflow:hidden;z-index:1;white-space:nowrap}
 .btn::after{content:'';position:absolute;top:0;left:-150%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0) 30%,rgba(255,255,255,0.45) 50%,rgba(255,255,255,0) 70%,transparent);transform:skewX(-25deg);z-index:2;pointer-events:none}
