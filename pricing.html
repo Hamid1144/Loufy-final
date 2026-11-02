@@ -244,6 +244,16 @@
   color: var(--white) !important;
   border-color: var(--dark) !important;
 }
+@media (max-width: 900px) {
+  .pricing-card.featured-popular,
+  .pricing-grid > .pricing-card:nth-child(2) {
+    transform: translateY(-4px) !important;
+  }
+  .pricing-card.featured-popular:hover,
+  .pricing-grid > .pricing-card:nth-child(2):hover {
+    transform: translateY(-6px) !important;
+  }
+}
 </style>
 </head>
 <body class="pricing-page">
