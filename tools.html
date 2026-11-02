@@ -917,6 +917,19 @@
       object-fit: contain;
       border-radius: 14px;
       box-shadow: 0 22px 55px rgba(13, 40, 30, 0.12);
+      transition: box-shadow 0.2s ease;
+    }
+
+    #psd-canvas.transparent-mode-active {
+      background-color: #ffffff !important;
+      background-image: 
+        linear-gradient(45deg, #d4d4d8 25%, transparent 25%), 
+        linear-gradient(-45deg, #d4d4d8 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #d4d4d8 75%), 
+        linear-gradient(-45deg, transparent 75%, #d4d4d8 75%) !important;
+      background-size: 20px 20px !important;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px !important;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15) !important;
     }
 
     /* Top Floating Control Bar (Reference 1) */
@@ -5642,20 +5655,52 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       // Universal Shadow Layer & Dynamic Shadow Modulation (works across ALL 10 mockups)
       const effShadow = shadowEnabled ? shadowOpacity : 0;
       const bounds = getPresetPrimaryBounds(config, scale);
-      if (config.layers.shadow) {
+      const shadowLayerPath = config.layers ? (config.layers.shadow || config.layers.shadows) : null;
+      if (shadowLayerPath) {
         if (effShadow > 0) {
-          const shImg = await preloadImage(config.layers.shadow);
-          if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
-          if (shImg) {
-            ctx.save();
-            ctx.globalAlpha = Math.min(1.0, effShadow * 1.15);
-            ctx.globalCompositeOperation = effectiveBgMode === 'transparent' ? 'source-over' : 'multiply';
-            ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
-            if (effShadow > 0.75) {
-              ctx.globalAlpha = (effShadow - 0.75) * 1.6;
-              ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
+          if (effectiveBgMode === 'transparent' && presetId === 'magazine_turning_spread') {
+            // magazine_turning_spread shadow is an opaque black card in Photoshop; skip in transparent mode to avoid black background
+          } else {
+            const shImg = await preloadImage(shadowLayerPath);
+            if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
+            if (shImg) {
+              ctx.save();
+              if (effectiveBgMode === 'transparent') {
+                // Isolate contact drop shadow directly beneath the book & eliminate ambient edge fog so border alpha is 0
+                const tempShCanvas = document.createElement('canvas');
+                tempShCanvas.width = renderWidth;
+                tempShCanvas.height = renderHeight;
+                const tempShCtx = tempShCanvas.getContext('2d');
+                tempShCtx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
+
+                const shImgData = tempShCtx.getImageData(0, 0, renderWidth, renderHeight);
+                const sd = shImgData.data;
+                const cutOff = (presetId === 'square_open_book' || presetId === 'square_hardcover_trio_2' || presetId === 'square_book_12') ? 22 : 12;
+
+                for (let i = 0; i < sd.length; i += 4) {
+                  const a = sd[i + 3];
+                  if (a <= cutOff) {
+                    sd[i + 3] = 0;
+                  } else {
+                    sd[i + 3] = Math.round(((a - cutOff) / (255 - cutOff)) * a);
+                  }
+                }
+                tempShCtx.putImageData(shImgData, 0, 0);
+
+                ctx.globalAlpha = Math.min(1.0, effShadow * 1.15);
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.drawImage(tempShCanvas, 0, 0);
+              } else {
+                ctx.globalAlpha = Math.min(1.0, effShadow * 1.15);
+                ctx.globalCompositeOperation = 'multiply';
+                ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
+                if (effShadow > 0.75) {
+                  ctx.globalAlpha = (effShadow - 0.75) * 1.6;
+                  ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
+                }
+              }
+              ctx.restore();
             }
-            ctx.restore();
           }
         }
       } else if (effectiveBgMode !== 'transparent') {
@@ -7361,7 +7406,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
 
       // Universal Warmth / Color Temperature Overlay (works across all 10 mockups, including grayscale backgrounds)
-      if (adjWarmth !== 0) {
+      if (adjWarmth !== 0 && effectiveBgMode !== 'transparent') {
         ctx.save();
         ctx.globalCompositeOperation = 'soft-light';
         const tempAlpha = Math.min(0.42, (Math.abs(adjWarmth) / 50) * 0.36);
@@ -7373,7 +7418,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       }
 
       // Universal Post-Processing Vignette Overlay (works across all 10 mockups)
-      if (adjVignette > 0) {
+      if (adjVignette > 0 && effectiveBgMode !== 'transparent') {
         ctx.save();
         ctx.globalCompositeOperation = 'multiply';
         const vig = ctx.createRadialGradient(renderWidth / 2, renderHeight / 2, renderWidth * 0.22, renderWidth / 2, renderHeight / 2, renderWidth * 0.75);
@@ -7387,9 +7432,9 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       // Live CSS Filters & 3D Tilt on Viewport Canvas (works across all 10 mockups)
       const canvasEl = document.getElementById('psd-canvas');
       if (canvasEl && targetCanvas === viewportCanvas) {
-        const dropAlpha = (effShadow * 0.32).toFixed(2);
+        const dropAlpha = (effectiveBgMode === 'transparent' ? 0 : (effShadow * 0.32)).toFixed(2);
         const filterStr = 'brightness(' + (100 + adjBrightness) + '%) contrast(' + adjContrast + '%) saturate(' + adjSaturation + '%) hue-rotate(' + (adjWarmth * 0.35) + 'deg)';
-        canvasEl.style.filter = filterStr + ' drop-shadow(0 20px 45px rgba(0, 0, 0, ' + dropAlpha + '))';
+        canvasEl.style.filter = filterStr + (dropAlpha > 0 ? (' drop-shadow(0 20px 45px rgba(0, 0, 0, ' + dropAlpha + '))') : '');
         if (typeof updateFloatingTransform === 'function') updateFloatingTransform();
       }
 
@@ -7463,6 +7508,10 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     presetButtons.forEach(btn => {
       btn.classList.toggle('active', btn.dataset.preset === currentPresetId);
     });
+
+    if (viewportCanvas) {
+      viewportCanvas.classList.toggle('transparent-mode-active', bgMode === 'transparent');
+    }
 
     const isSpreadOnly = (currentPresetId === 'open_book' || currentPresetId === 'square_open_book' || currentPresetId === 'open_book_6' || currentPresetId === 'open_spread' || currentPresetId === 'us_letter_brochure_02');
     const hasSpine = !isSpreadOnly;
@@ -8890,8 +8939,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       if (bg === 'custom') {
         if (customBgInput) customBgInput.click();
       } else {
-        bgMode = bg;
-        renderCurrentMockup();
+        if (typeof setAppBackground === 'function') {
+          setAppBackground(bg);
+        } else {
+          bgMode = bg;
+          renderCurrentMockup();
+        }
       }
     });
   });
@@ -8992,11 +9045,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       setTimeout(async () => {
         try {
           const exportCanvas = document.createElement('canvas');
-          const isTransparent = (bgMode === 'transparent' || exportFormat === 'png');
+          const isTransparent = (bgMode === 'transparent');
           const effectiveBg = isTransparent ? 'transparent' : bgMode;
           await renderMockupToCanvas(exportCanvas, config.width, config.height, currentPresetId, effectiveBg);
 
-          const mimeType = (exportFormat === 'jpeg' && !isTransparent) ? 'image/jpeg' : 'image/png';
+          // Transparent exports MUST ALWAYS be PNG format to prevent black canvas background!
+          const mimeType = isTransparent ? 'image/png' : ((exportFormat === 'jpeg') ? 'image/jpeg' : 'image/png');
           const ext = mimeType === 'image/jpeg' ? 'jpg' : 'png';
 
           exportCanvas.toBlob((blob) => {
@@ -9906,6 +9960,13 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   function setAppBackground(mode) {
     bgMode = mode;
     bgPresetCards.forEach(c => c.classList.toggle('active', c.dataset.bg === mode));
+    if (viewportCanvas) {
+      if (mode === 'transparent') {
+        viewportCanvas.classList.add('transparent-mode-active');
+      } else {
+        viewportCanvas.classList.remove('transparent-mode-active');
+      }
+    }
     renderCurrentMockup();
   }
 
@@ -10231,17 +10292,30 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     const config = PSD_MANIFEST[currentPresetId];
     if (!config) return;
 
-    const isTransparentRequested = (format === 'png' || format === 'transparent' || bgMode === 'transparent');
-    const effectiveExportBg = isTransparentRequested ? 'transparent' : (bgMode === 'transparent' ? 'studio' : bgMode);
+    let effectiveExportBg = bgMode;
+    let mimeType = 'image/png';
+    let ext = 'png';
+
+    if (format === 'jpeg') {
+      // User explicitly clicked "Studio JPEG (With BG)"!
+      // If user was currently in transparent mode, switch to studio backdrop for JPEG so transparent pixels never turn pitch black!
+      effectiveExportBg = (bgMode === 'transparent') ? 'studio' : bgMode;
+      mimeType = 'image/jpeg';
+      ext = 'jpg';
+    } else {
+      // PNG export (Transparent or lossless with BG)
+      if (format === 'transparent' || bgMode === 'transparent') {
+        effectiveExportBg = 'transparent';
+      }
+      mimeType = 'image/png';
+      ext = 'png';
+    }
 
     const w = targetDimension || config.width;
     const h = targetDimension ? Math.round(targetDimension * (config.height / config.width)) : config.height;
 
     const exportCanvas = document.createElement('canvas');
     await renderMockupToCanvas(exportCanvas, w, h, currentPresetId, effectiveExportBg);
-
-    const mimeType = (format === 'jpeg' && !isTransparentRequested) ? 'image/jpeg' : 'image/png';
-    const ext = mimeType === 'image/jpeg' ? 'jpg' : 'png';
 
     exportCanvas.toBlob((blob) => {
       if (!blob) return;
@@ -10259,11 +10333,11 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     item.addEventListener('click', () => {
       const format = item.dataset.format;
       if (format === '4k') {
-        triggerMockupExport('png', 4000);
+        triggerMockupExport((bgMode === 'transparent' ? 'transparent' : 'png'), 4000);
       } else if (format === 'jpeg') {
         triggerMockupExport('jpeg');
       } else {
-        triggerMockupExport('png');
+        triggerMockupExport('transparent');
       }
       if (hdrExportMenu) hdrExportMenu.style.display = 'none';
     });
