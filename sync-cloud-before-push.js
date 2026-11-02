@@ -296,6 +296,57 @@ async function main() {
 
   // 3b. Fetch latest og_images_json from Supabase and synchronize static meta tags in HTML files
   try {
+    const toOptimalOgUrl = (rawUrl) => {
+      if (!rawUrl) return 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1792352606/portfolio/hoqzk0a9ghaxafhte4wy.jpg';
+      let url = rawUrl.trim();
+      if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+        url = url.replace(/\/upload\/(?:(?:[a-z0-9_,:-]+)\/)?(v\d+\/[^.]+)\.[a-z0-9]+$/i, '/upload/w_1200,h_630,c_fill,q_auto,f_jpg/$1.jpg');
+        if (!url.includes('/upload/w_1200,h_630,c_fill,q_auto,f_jpg/')) {
+          url = url.replace(/\/upload\//, '/upload/w_1200,h_630,c_fill,q_auto,f_jpg/');
+          url = url.replace(/\.(png|webp|avif)$/i, '.jpg');
+        }
+      } else if (url.includes('images.unsplash.com')) {
+        url = url.replace(/\?(.*)$/, '?w=1200&h=630&fit=crop&q=80&fm=jpg');
+      }
+      return url;
+    };
+
+    const updateMetaInHtml = (html, rawImgUrl) => {
+      if (!rawImgUrl) return html;
+      const optimalUrl = toOptimalOgUrl(rawImgUrl);
+      let updated = html;
+
+      // Clean out any duplicate or malformed previous og:image tags
+      updated = updated.replace(/<meta\s+property=["']og:image:secure_url["'][^>]*>\s*/gi, '');
+      updated = updated.replace(/<meta\s+property=["']og:image:type["'][^>]*>\s*/gi, '');
+      updated = updated.replace(/<meta\s+property=["']og:image:width["'][^>]*>\s*/gi, '');
+      updated = updated.replace(/<meta\s+property=["']og:image:height["'][^>]*>\s*/gi, '');
+
+      const newOgBlock = `<meta property="og:image" content="${optimalUrl}">\n  <meta property="og:image:secure_url" content="${optimalUrl}">\n  <meta property="og:image:type" content="image/jpeg">\n  <meta property="og:image:width" content="1200">\n  <meta property="og:image:height" content="630">`;
+
+      if (/<meta\s+property=["']og:image["'][^>]*>/i.test(updated)) {
+        updated = updated.replace(/<meta\s+property=["']og:image["'][^>]*>/i, newOgBlock);
+      } else {
+        updated = updated.replace(/<\/head>/i, `  ${newOgBlock}\n</head>`);
+      }
+
+      // Ensure twitter:card is summary_large_image
+      if (/<meta\s+name=["']twitter:card["'][^>]*>/i.test(updated)) {
+        updated = updated.replace(/<meta\s+name=["']twitter:card["'][^>]*>/i, '<meta name="twitter:card" content="summary_large_image">');
+      } else {
+        updated = updated.replace(/<meta\s+property=["']og:image:height["'][^>]*>/i, `$& \n  <meta name="twitter:card" content="summary_large_image">`);
+      }
+
+      // Update twitter:image
+      if (/<meta\s+name=["']twitter:image["'][^>]*>/i.test(updated)) {
+        updated = updated.replace(/<meta\s+name=["']twitter:image["'][^>]*>/i, `<meta name="twitter:image" content="${optimalUrl}">`);
+      } else {
+        updated = updated.replace(/<meta\s+name=["']twitter:card["'][^>]*>/i, `$& \n  <meta name="twitter:image" content="${optimalUrl}">`);
+      }
+
+      return updated;
+    };
+
     const ogRes = await supabaseRequest('GET', '/rest/v1/site_content?id=eq.og_images_json&select=html_content');
     if (ogRes && ogRes.status === 200 && ogRes.data) {
       const parsedRows = JSON.parse(ogRes.data);
@@ -310,17 +361,8 @@ async function main() {
           'about.html': ogData.main && ogData.main.about && ogData.main.about.image,
           'contact.html': ogData.main && ogData.main.contact && ogData.main.contact.image,
           'blogs.html': ogData.main && ogData.main.blogs && ogData.main.blogs.image,
+          'blog.html': ogData.main && ogData.main.blogs && ogData.main.blogs.image,
           'tools.html': ogData.main && ogData.main.tools && ogData.main.tools.image
-        };
-
-        const updateMetaInHtml = (html, newImgUrl) => {
-          if (!newImgUrl) return html;
-          let updated = html;
-          // Robust regex matching with proper escaped \s+ and optional self-closing tag
-          updated = updated.replace(/<meta\s+property=["']og:image["']\s+content=["'][^"']*["']\s*\/?>/gi, `<meta property="og:image" content="${newImgUrl}">`);
-          updated = updated.replace(/<meta\s+property=["']og:image:secure_url["']\s+content=["'][^"']*["']\s*\/?>/gi, `<meta property="og:image:secure_url" content="${newImgUrl}">`);
-          updated = updated.replace(/<meta\s+name=["']twitter:image["']\s+content=["'][^"']*["']\s*\/?>/gi, `<meta name="twitter:image" content="${newImgUrl}">`);
-          return updated;
         };
 
         if (fileMap['index.html']) {
@@ -340,7 +382,7 @@ async function main() {
             }
           }
         }
-        console.log('[Cloud-Protect] Synchronized static OG image tags across all HTML files.');
+        console.log('[Cloud-Protect] Synchronized optimized static OG image tags across all HTML files.');
       }
     }
   } catch (ogErr) {

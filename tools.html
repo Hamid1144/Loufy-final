@@ -18,14 +18,17 @@
   <meta property="og:site_name" content="Loufy Publisher">
   <meta property="og:title" content="Free 3D Book Mockup Studio Generator | Loufy Publisher">
   <meta property="og:description" content="Create stunning 3D book mockups and paperback covers in seconds with authentic Photoshop quality, realistic lighting, and 4K transparent PNG export.">
-  <meta property="og:image" content="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp">
-
+  <meta property="og:image" content="https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.jpg">
+  <meta property="og:image:secure_url" content="https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://loufypublisher.com/tools">
   <meta name="twitter:title" content="Free 3D Book Mockup Studio Generator | Loufy Publisher">
   <meta name="twitter:description" content="Create stunning 3D book mockups and paperback covers in seconds with authentic Photoshop quality, realistic lighting, and 4K transparent PNG export.">
-  <meta name="twitter:image" content="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp">
+  <meta name="twitter:image" content="https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.jpg">
 
   <!-- JSON-LD WebApplication Schema -->
   <script type="application/ld+json">
@@ -5555,10 +5558,12 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
   }
 
   // Master Mockup Renderer
-  async function renderMockupToCanvas(targetCanvas, renderWidth, renderHeight, presetId = currentPresetId) {
+  async function renderMockupToCanvas(targetCanvas, renderWidth, renderHeight, presetId = currentPresetId, overrideBgMode = null) {
     const renderId = ++currentRenderId;
     const config = PSD_MANIFEST[presetId];
     if (!config || !targetCanvas) return;
+
+    const effectiveBgMode = overrideBgMode !== null ? overrideBgMode : bgMode;
 
     try {
       targetCanvas.width = renderWidth;
@@ -5567,7 +5572,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       const scale = renderWidth / config.width;
 
       // 1. Background
-      if (presetId === 'front_back_showcase' && bgMode === 'studio') {
+      if (presetId === 'front_back_showcase' && effectiveBgMode === 'studio') {
         const wallH = 684 * scale;
         // 1. Wall (Top portion)
         ctx.fillStyle = dualShowcaseWallColor || '#2b4a6f';
@@ -5592,7 +5597,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         floorVig.addColorStop(1, 'rgba(0, 0, 0, 0.08)');
         ctx.fillStyle = floorVig;
         ctx.fillRect(0, wallH, renderWidth, floorH);
-      } else if (bgMode === 'studio') {
+      } else if (effectiveBgMode === 'studio') {
         const bgImg = await preloadImage(config.layers.backdrop);
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
         if (bgImg) {
@@ -5601,33 +5606,33 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           ctx.fillStyle = config.defaultBg || '#ffffff';
           ctx.fillRect(0, 0, renderWidth, renderHeight);
         }
-      } else if (bgMode === 'white') {
+      } else if (effectiveBgMode === 'white') {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, renderWidth, renderHeight);
-      } else if (bgMode === 'light') {
+      } else if (effectiveBgMode === 'light') {
         const grad = ctx.createLinearGradient(0, 0, renderWidth, renderHeight);
         grad.addColorStop(0, '#ffffff');
         grad.addColorStop(1, '#e2e8f0');
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, renderWidth, renderHeight);
-      } else if (bgMode === 'dark') {
+      } else if (effectiveBgMode === 'dark') {
         ctx.fillStyle = '#1e293b';
         ctx.fillRect(0, 0, renderWidth, renderHeight);
-      } else if (bgMode === 'warm') {
+      } else if (effectiveBgMode === 'warm') {
         const grad = ctx.createRadialGradient(renderWidth/2, renderHeight/2, renderWidth*0.1, renderWidth/2, renderHeight/2, renderWidth*0.8);
         grad.addColorStop(0, '#fff5eb');
         grad.addColorStop(1, '#fed7aa');
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, renderWidth, renderHeight);
-      } else if (bgMode === 'wood') {
+      } else if (effectiveBgMode === 'wood') {
         const woodImg = await preloadImage('images/psd_mockups/backgrounds/wood_desk.jpg');
         if (woodImg) ctx.drawImage(woodImg, 0, 0, renderWidth, renderHeight);
-      } else if (bgMode === 'concrete') {
+      } else if (effectiveBgMode === 'concrete') {
         const concImg = await preloadImage('images/psd_mockups/backgrounds/concrete_stone.jpg');
         if (concImg) ctx.drawImage(concImg, 0, 0, renderWidth, renderHeight);
-      } else if (bgMode === 'custom' && customBgImg) {
+      } else if (effectiveBgMode === 'custom' && customBgImg) {
         ctx.drawImage(customBgImg, 0, 0, renderWidth, renderHeight);
-      } else if (bgMode === 'custom') {
+      } else if (effectiveBgMode === 'custom') {
         ctx.fillStyle = customBgColor || '#e2e8f0';
         ctx.fillRect(0, 0, renderWidth, renderHeight);
       } else {
@@ -5644,7 +5649,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           if (shImg) {
             ctx.save();
             ctx.globalAlpha = Math.min(1.0, effShadow * 1.15);
-            ctx.globalCompositeOperation = bgMode === 'transparent' ? 'source-over' : 'multiply';
+            ctx.globalCompositeOperation = effectiveBgMode === 'transparent' ? 'source-over' : 'multiply';
             ctx.drawImage(shImg, 0, 0, renderWidth, renderHeight);
             if (effShadow > 0.75) {
               ctx.globalAlpha = (effShadow - 0.75) * 1.6;
@@ -5653,14 +5658,14 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
             ctx.restore();
           }
         }
-      } else if (bgMode !== 'transparent') {
+      } else if (effectiveBgMode !== 'transparent') {
         // Presets with baked studio shadows (e.g. book_mockup_1, square_flatlay, open_spread) or custom backgrounds:
         // Dynamically lift shadow when effShadow < 0.70, or deepen ambient drop-shadow when effShadow > 0
         ctx.save();
         const shR = Math.max(bounds.maxX - bounds.minX, bounds.maxY - bounds.minY) * 0.72;
         const shCx = bounds.cx + (bounds.maxX - bounds.minX) * 0.04;
         const shCy = bounds.cy + (bounds.maxY - bounds.minY) * 0.06;
-        if (bgMode === 'studio' && effShadow < 0.70 && presetId !== 'open_hardcover_pixeden') {
+        if (effectiveBgMode === 'studio' && effShadow < 0.70 && presetId !== 'open_hardcover_pixeden') {
           const liftAlpha = ((0.70 - effShadow) / 0.70) * 0.65;
           const liftGrad = ctx.createRadialGradient(shCx, shCy, shR * 0.2, shCx, shCy, shR * 1.05);
           liftGrad.addColorStop(0, 'rgba(240, 240, 242, ' + liftAlpha + ')');
@@ -5670,8 +5675,8 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
           ctx.fillStyle = liftGrad;
           ctx.fillRect(0, 0, renderWidth, renderHeight);
         }
-        if (effShadow > 0 && (bgMode !== 'studio' || effShadow > 0.70)) {
-          const extraAlpha = (bgMode === 'studio') ? ((effShadow - 0.70) / 0.30) * 0.45 : (effShadow * 0.55);
+        if (effShadow > 0 && (effectiveBgMode !== 'studio' || effShadow > 0.70)) {
+          const extraAlpha = (effectiveBgMode === 'studio') ? ((effShadow - 0.70) / 0.30) * 0.45 : (effShadow * 0.55);
           const dropGrad = ctx.createRadialGradient(shCx, shCy, shR * 0.15, shCx, shCy, shR * 0.95);
           dropGrad.addColorStop(0, 'rgba(15, 23, 42, ' + extraAlpha + ')');
           dropGrad.addColorStop(0.65, 'rgba(15, 23, 42, ' + (extraAlpha * 0.45) + ')');
@@ -7042,7 +7047,7 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
         if (targetCanvas === viewportCanvas && renderId !== currentRenderId) return;
 
         // Draw Base Backdrop if in default/studio mode
-        if (bgMode === 'studio' && baseBackdropImg) {
+        if (effectiveBgMode === 'studio' && baseBackdropImg) {
           ctx.drawImage(baseBackdropImg, 0, 0, renderWidth, renderHeight);
         }
 
@@ -8987,9 +8992,11 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
       setTimeout(async () => {
         try {
           const exportCanvas = document.createElement('canvas');
-          await renderMockupToCanvas(exportCanvas, config.width, config.height, currentPresetId);
+          const isTransparent = (bgMode === 'transparent' || exportFormat === 'png');
+          const effectiveBg = isTransparent ? 'transparent' : bgMode;
+          await renderMockupToCanvas(exportCanvas, config.width, config.height, currentPresetId, effectiveBg);
 
-          const mimeType = (exportFormat === 'jpeg' && bgMode !== 'transparent') ? 'image/jpeg' : 'image/png';
+          const mimeType = (exportFormat === 'jpeg' && !isTransparent) ? 'image/jpeg' : 'image/png';
           const ext = mimeType === 'image/jpeg' ? 'jpg' : 'png';
 
           exportCanvas.toBlob((blob) => {
@@ -10224,13 +10231,16 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     const config = PSD_MANIFEST[currentPresetId];
     if (!config) return;
 
+    const isTransparentRequested = (format === 'png' || format === 'transparent' || bgMode === 'transparent');
+    const effectiveExportBg = isTransparentRequested ? 'transparent' : (bgMode === 'transparent' ? 'studio' : bgMode);
+
     const w = targetDimension || config.width;
     const h = targetDimension ? Math.round(targetDimension * (config.height / config.width)) : config.height;
 
     const exportCanvas = document.createElement('canvas');
-    await renderMockupToCanvas(exportCanvas, w, h, currentPresetId);
+    await renderMockupToCanvas(exportCanvas, w, h, currentPresetId, effectiveExportBg);
 
-    const mimeType = (format === 'jpeg' && bgMode !== 'transparent') ? 'image/jpeg' : 'image/png';
+    const mimeType = (format === 'jpeg' && !isTransparentRequested) ? 'image/jpeg' : 'image/png';
     const ext = mimeType === 'image/jpeg' ? 'jpg' : 'png';
 
     exportCanvas.toBlob((blob) => {

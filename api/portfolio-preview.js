@@ -7,6 +7,21 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 let cachedOgData = null;
 let cachedTime = 0;
 
+function toOptimalOgUrl(rawUrl) {
+  if (!rawUrl) return 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1792352137/portfolio/fctmkpmwx0gmucljreyd.jpg';
+  let url = rawUrl.trim();
+  if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+    url = url.replace(/\/upload\/(?:(?:[a-z0-9_,:-]+)\/)?(v\d+\/[^.]+)\.[a-z0-9]+$/i, '/upload/w_1200,h_630,c_fill,q_auto,f_jpg/$1.jpg');
+    if (!url.includes('/upload/w_1200,h_630,c_fill,q_auto,f_jpg/')) {
+      url = url.replace(/\/upload\//, '/upload/w_1200,h_630,c_fill,q_auto,f_jpg/');
+      url = url.replace(/\.(png|webp|avif)$/i, '.jpg');
+    }
+  } else if (url.includes('images.unsplash.com')) {
+    url = url.replace(/\?(.*)$/, '?w=1200&h=630&fit=crop&q=80&fm=jpg');
+  }
+  return url;
+}
+
 async function getOgData() {
   const now = Date.now();
   if (cachedOgData && (now - cachedTime < 60000)) {
@@ -55,7 +70,7 @@ module.exports = async (req, res) => {
   // Defaults
   let title = 'Book Cover Design & Formatting Portfolio | Loufy Publisher';
   let desc = "Explore Hamid Raza's design portfolio. Premium book covers, children's coloring books, KDP interior formatting, A+ content, and branding. View projects.";
-  let img = 'https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781206025/portfolio/img_1aa66a3171fba529fd10242f008e6a2a.webp';
+  let img = 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1792352137/portfolio/fctmkpmwx0gmucljreyd.jpg';
   let pageUrl = 'https://loufypublisher.com/portfolio';
 
   const categoryTitles = {
@@ -87,9 +102,9 @@ module.exports = async (req, res) => {
   // Check custom user configuration from Supabase og_images_json
   if (ogData) {
     if (categoryKey && ogData.categories && ogData.categories[categoryKey] && ogData.categories[categoryKey].image) {
-      img = ogData.categories[categoryKey].image;
+      img = toOptimalOgUrl(ogData.categories[categoryKey].image);
     } else if (!categoryKey && ogData.main && ogData.main.portfolio && ogData.main.portfolio.image) {
-      img = ogData.main.portfolio.image;
+      img = toOptimalOgUrl(ogData.main.portfolio.image);
     }
   }
 
@@ -120,6 +135,7 @@ module.exports = async (req, res) => {
   <meta property="og:description" content="${safeDesc}">
   <meta property="og:image" content="${safeImg}">
   <meta property="og:image:secure_url" content="${safeImg}">
+  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 

@@ -6851,67 +6851,97 @@ body.edit-mode .hero-float-card {
     max-width: 100% !important;
   }
 
-  /* Services Pricing Grid (3 Cards) */
+  /* Services Pricing Grid (3 Cards) - No Overlap, Clean & Beautiful */
   .services-pricing-grid {
     grid-template-columns: 1fr !important;
-    gap: 14px !important;
+    gap: 18px !important;
     max-width: 380px !important;
     margin: 0 auto !important;
   }
   .pricing-plan-card {
-    padding: 18px 14px !important;
-    border-radius: 14px !important;
+    padding: 22px 18px !important;
+    border-radius: 16px !important;
+    position: relative !important;
   }
   .pricing-plan-card.featured-popular {
     transform: none !important;
+    margin-top: 14px !important;
   }
   .popular-ribbon-badge {
-    font-size: 0.62rem !important;
-    padding: 3px 10px !important;
-    top: 10px !important;
-    right: 10px !important;
+    position: absolute !important;
+    top: -12px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    font-size: 0.68rem !important;
+    font-weight: 800 !important;
+    padding: 4px 16px !important;
+    border-radius: 50px !important;
+    white-space: nowrap !important;
+    z-index: 5 !important;
+    letter-spacing: 1.2px !important;
+  }
+  .pricing-card-header {
+    margin-bottom: 14px !important;
+    text-align: center !important;
+    padding-top: 6px !important;
   }
   .pricing-plan-name {
-    font-size: 1.05rem !important;
-    margin: 0 0 4px 0 !important;
+    font-size: 1.15rem !important;
+    line-height: 1.3 !important;
+    margin: 0 0 6px 0 !important;
   }
   .pricing-price-box {
-    gap: 2px !important;
-    margin: 4px 0 !important;
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    margin: 6px 0 8px 0 !important;
   }
   .pricing-currency {
-    font-size: 1.15rem !important;
+    font-size: 1.25rem !important;
+    line-height: 1 !important;
   }
   .pricing-amount {
-    font-size: 1.9rem !important;
+    font-size: 2.1rem !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
   }
   .pricing-period {
-    font-size: 0.72rem !important;
+    font-size: 0.78rem !important;
+    line-height: 1 !important;
+    margin-left: 2px !important;
   }
   .pricing-plan-desc {
-    font-size: 0.75rem !important;
-    line-height: 1.35 !important;
-    margin: 0 0 8px 0 !important;
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
+    margin: 0 0 10px 0 !important;
   }
   .pricing-features-list {
-    padding: 8px 0 !important;
-    margin: 0 0 10px 0 !important;
-    gap: 5px !important;
+    padding: 10px 0 !important;
+    margin: 0 0 14px 0 !important;
+    gap: 8px !important;
   }
   .pricing-features-list li {
-    font-size: 0.74rem !important;
-    gap: 6px !important;
-    line-height: 1.35 !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
+    gap: 8px !important;
+    padding: 2px 0 !important;
   }
   .pricing-features-list li i {
-    font-size: 0.76rem !important;
+    font-size: 0.82rem !important;
+    margin-top: 2px !important;
+    flex-shrink: 0 !important;
   }
   .btn-pricing-action {
-    padding: 8px 16px !important;
-    font-size: 0.78rem !important;
-    border-radius: 6px !important;
+    padding: 10px 18px !important;
+    font-size: 0.82rem !important;
+    border-radius: 8px !important;
     width: 100% !important;
     justify-content: center !important;
+    margin-top: auto !important;
   }
 
   /* How It Works (4 Steps - 2x2 Clean Grid on Mobile) */

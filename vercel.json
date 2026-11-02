@@ -117,7 +117,7 @@
     },
     {
       "source": "/blog/:slug",
-      "destination": "/blog?slug=:slug"
+      "destination": "/api/blog-preview?slug=:slug"
     },
     {
       "source": "/portfolio/:category/:genre",
