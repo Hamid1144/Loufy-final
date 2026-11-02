@@ -200,6 +200,14 @@ async function main() {
           continue;
         }
       }
+      if (prefix.startsWith('<section class="pricing"')) {
+        const localHasWebsites = localIndex.includes('id="websites-pricing"');
+        const cloudHasWebsites = cloudBlock && cloudBlock.inner.includes('id="websites-pricing"');
+        if (!localHasWebsites && cloudHasWebsites) {
+          // Keep local home page layout (publishing pricing only on homepage)!
+          continue;
+        }
+      }
       if (prefix.startsWith('<section class="testimonials"')) {
         const hasLocalVerticalTicker = localIndex.includes('reviews-vertical-marquee-wrap');
         const hasCloudVerticalTicker = cloudBlock && cloudBlock.inner.includes('reviews-vertical-marquee-wrap');
