@@ -109,33 +109,33 @@ section{padding:100px 0}
   z-index: 2 !important;
 }
 
-/* Pulsing Glowing Live Gold Indicator Dot */
+/* Crisp, Professional Gold Indicator Dot (No Muddy Blur) */
 .section-tag::before,
 .services-badge-pill::before,
 .hero-pill-badge::before,
 .blog-hero-category::before {
   content: '' !important;
   display: inline-block !important;
-  width: 7px !important;
-  height: 7px !important;
+  width: 8px !important;
+  height: 8px !important;
   border-radius: 50% !important;
-  background: #F4B400 !important;
-  box-shadow: 0 0 8px #F4B400, 0 0 0 2px rgba(244, 180, 0, 0.28) !important;
-  animation: badgeLivePulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+  background: #184C3A !important;
+  box-shadow: 0 0 0 3px rgba(24, 76, 58, 0.14) !important;
+  animation: badgeLivePulse 2.6s ease-in-out infinite !important;
   flex-shrink: 0 !important;
   margin-right: 2px !important;
 }
 
 @keyframes badgeLivePulse {
   0%, 100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 6px #F4B400, 0 0 0 2px rgba(244, 180, 0, 0.25);
-    opacity: 0.9;
+    transform: scale(1);
+    background: #184C3A;
+    box-shadow: 0 0 0 3px rgba(24, 76, 58, 0.14);
   }
   50% {
-    transform: scale(1.22);
-    box-shadow: 0 0 12px #F4B400, 0 0 0 4px rgba(244, 180, 0, 0.15);
-    opacity: 1;
+    transform: scale(1.08);
+    background: #F4B400;
+    box-shadow: 0 0 0 4px rgba(244, 180, 0, 0.22);
   }
 }
 
@@ -442,7 +442,7 @@ section{padding:100px 0}
   border-radius: 50%;
   position: relative;
   z-index: 2;
-  box-shadow: 0 12px 36px rgba(15, 53, 40, 0.22), 0 0 30px rgba(244, 180, 0, 0.4);
+  box-shadow: 0 12px 32px rgba(15, 53, 40, 0.2), 0 0 0 5px rgba(24, 76, 58, 0.08);
   transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.35s ease;
   cursor: pointer;
   animation: hubBreathing 5s ease-in-out infinite;
@@ -450,15 +450,15 @@ section{padding:100px 0}
 
 .services-hub-circle:hover {
   transform: scale(1.08) translateY(-4px);
-  box-shadow: 0 16px 48px rgba(15, 53, 40, 0.3), 0 0 45px rgba(244, 180, 0, 0.65);
+  box-shadow: 0 16px 40px rgba(15, 53, 40, 0.26), 0 0 0 6px rgba(244, 180, 0, 0.22);
 }
 
 @keyframes hubBreathing {
   0%, 100% {
-    box-shadow: 0 12px 36px rgba(15, 53, 40, 0.22), 0 0 24px rgba(244, 180, 0, 0.35);
+    box-shadow: 0 12px 32px rgba(15, 53, 40, 0.18), 0 0 0 4px rgba(24, 76, 58, 0.07);
   }
   50% {
-    box-shadow: 0 14px 42px rgba(15, 53, 40, 0.28), 0 0 38px rgba(244, 180, 0, 0.55);
+    box-shadow: 0 14px 36px rgba(15, 53, 40, 0.22), 0 0 0 6px rgba(24, 76, 58, 0.11);
   }
 }
 
@@ -528,12 +528,12 @@ section{padding:100px 0}
   }
   40% {
     transform: scale(1.18);
-    box-shadow: 0 0 45px rgba(244, 180, 0, 0.75), 0 0 0 14px rgba(244, 180, 0, 0.25);
+    box-shadow: 0 12px 28px rgba(15, 53, 40, 0.16), 0 0 0 6px rgba(24, 76, 58, 0.14);
     border-color: #F4B400;
   }
   100% {
     transform: scale(1.1);
-    box-shadow: 0 0 35px rgba(244, 180, 0, 0.52), 0 10px 24px rgba(24, 76, 58, 0.16);
+    box-shadow: 0 10px 24px rgba(15, 53, 40, 0.14), 0 0 0 4px rgba(24, 76, 58, 0.1);
     border-color: #F4B400;
   }
 }
@@ -593,7 +593,7 @@ section{padding:100px 0}
 .service-tree-node.pulse-impact .service-node-circle {
   border-color: #F4B400;
   background: #FFFFFF;
-  box-shadow: 0 0 38px rgba(244, 180, 0, 0.55), 0 10px 24px rgba(24, 76, 58, 0.16);
+  box-shadow: 0 10px 24px rgba(15, 53, 40, 0.14), 0 0 0 4px rgba(24, 76, 58, 0.12);
   transform: scale(1.1);
 }
 
@@ -1523,7 +1523,7 @@ section{padding:100px 0}
   background: var(--accent) !important;
   color: var(--dark) !important;
   transform: scale(1.05) translateY(-12px) !important;
-  box-shadow: 0 22px 48px rgba(244, 180, 0, 0.32) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22) !important;
 }
 .popular-badge {
   background: var(--accent);
@@ -4541,7 +4541,7 @@ body.edit-mode .hero-float-card {
   color: var(--dark) !important;
   transform: scale(1.05) translateY(-12px) !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 22px 48px rgba(244, 180, 0, 0.32) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22) !important;
   z-index: 2;
 }
 .pricing-card.featured-popular:hover,
@@ -4906,14 +4906,14 @@ body.edit-mode .hero-float-card {
   border-radius: 50px !important;
   font-weight: 800 !important;
   font-size: 1.05rem !important;
-  box-shadow: 0 8px 24px rgba(244, 180, 0, 0.38) !important;
+  box-shadow: 0 6px 18px rgba(15, 53, 40, 0.14) !important;
   border: none !important;
   transition: all 0.3s ease !important;
 }
 
 .btn-hero-cta:hover {
   transform: translateY(-2px) scale(1.02) !important;
-  box-shadow: 0 12px 28px rgba(244, 180, 0, 0.48) !important;
+  box-shadow: 0 10px 24px rgba(15, 53, 40, 0.2) !important;
   background: #E5A800 !important;
 }
 
@@ -5231,7 +5231,7 @@ body.edit-mode .hero-float-card {
   font-size: 0.98rem !important;
   padding: 14px 36px !important;
   border-radius: 50px !important;
-  box-shadow: 0 8px 24px rgba(244, 180, 0, 0.38) !important;
+  box-shadow: 0 6px 18px rgba(15, 53, 40, 0.14) !important;
   border: none !important;
   transition: all 0.3s ease !important;
   display: inline-flex;
@@ -5241,7 +5241,7 @@ body.edit-mode .hero-float-card {
 
 .btn-reviews-cta:hover {
   transform: translateY(-2px) scale(1.02) !important;
-  box-shadow: 0 12px 28px rgba(244, 180, 0, 0.48) !important;
+  box-shadow: 0 10px 24px rgba(15, 53, 40, 0.2) !important;
   background: #E5A800 !important;
 }
 
@@ -5813,7 +5813,7 @@ img.review-author-avatar,
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 6px 18px rgba(244, 180, 0, 0.35) !important;
+  box-shadow: 0 6px 16px rgba(15, 53, 40, 0.12) !important;
   border: none !important;
   transition: all 0.3s ease !important;
   margin-top: auto;
@@ -5821,7 +5821,7 @@ img.review-author-avatar,
 
 .btn-service-action:hover {
   transform: translateY(-2px) scale(1.01) !important;
-  box-shadow: 0 10px 24px rgba(244, 180, 0, 0.45) !important;
+  box-shadow: 0 10px 22px rgba(15, 53, 40, 0.18) !important;
   background: #E5A800 !important;
 }
 
@@ -6028,12 +6028,12 @@ img.review-author-avatar,
   background: linear-gradient(135deg, #F4B400 0%, #E5A800 100%) !important;
   color: #184C3A !important;
   border: none !important;
-  box-shadow: 0 8px 24px rgba(244, 180, 0, 0.4) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18) !important;
 }
 
 .featured-popular .btn-pricing-action:hover {
   transform: translateY(-2px) scale(1.02) !important;
-  box-shadow: 0 12px 30px rgba(244, 180, 0, 0.5) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24) !important;
   background: #E5A800 !important;
 }
 
@@ -6065,33 +6065,35 @@ img.review-author-avatar,
 
 .step-pin-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 18px 44px rgba(24, 76, 58, 0.1);
-  border-color: rgba(244, 180, 0, 0.45);
+  box-shadow: 0 18px 40px rgba(24, 76, 58, 0.09);
+  border-color: rgba(24, 76, 58, 0.22);
 }
 
-.step-pin-card:first-child {
-  border-color: rgba(244, 180, 0, 0.35);
+.step-pin-card.pin-glow {
+  transform: translateY(-6px);
+  border-color: #184C3A;
+  box-shadow: 0 20px 44px rgba(24, 76, 58, 0.12), 0 0 0 3px rgba(24, 76, 58, 0.08);
 }
 
 .step-pin-icon-wrap {
   width: 76px;
   height: 76px;
   border-radius: 50%;
-  background: #FFFDF5;
-  color: #B45309;
+  background: #F8FAF9;
+  color: #184C3A;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 1.7rem;
   margin-bottom: 22px;
-  border: 2px solid #FCD34D;
+  border: 1.5px solid rgba(24, 76, 58, 0.16);
   position: relative;
-  box-shadow: 0 4px 14px rgba(244, 180, 0, 0.12);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(15, 53, 40, 0.06);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .step-pin-card:hover .step-pin-icon-wrap {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 .step-number-tag {
@@ -6110,41 +6112,33 @@ img.review-author-avatar,
   align-items: center;
   justify-content: center;
   border: 2.5px solid #FFFFFF;
-  box-shadow: 0 2px 6px rgba(15, 53, 40, 0.28);
+  box-shadow: 0 2px 6px rgba(15, 53, 40, 0.2);
+  transition: all 0.5s ease;
 }
 
-/* Glowing pin for Step 4 */
+/* Professional Active Step Highlight (Shifts every 3s across Steps 01 -> 02 -> 03 -> 04) */
 .step-pin-card.pin-glow .step-pin-icon-wrap {
-  background: #F4B400;
-  color: #0F3528;
-  border: 2px solid #FDE68A;
-  box-shadow: 0 0 36px rgba(244, 180, 0, 0.75), 0 0 16px rgba(244, 180, 0, 0.5), 0 6px 20px rgba(217, 119, 6, 0.35);
-  animation: pinPulseGlow 2.8s infinite ease-in-out;
+  background: linear-gradient(135deg, #184C3A 0%, #0F3528 100%);
+  color: #F4B400;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 0 0 6px rgba(24, 76, 58, 0.12), 0 10px 24px rgba(15, 53, 40, 0.22);
+  transform: scale(1.08);
 }
 
 .step-pin-card.pin-glow .step-pin-icon-wrap i {
   display: inline-block;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
 }
 
 .step-pin-card.pin-glow:hover .step-pin-icon-wrap i {
-  transform: rotate(12deg) scale(1.1);
+  transform: rotate(10deg) scale(1.08);
 }
 
 .step-pin-card.pin-glow .step-number-tag {
   background: #F4B400;
   color: #0F3528;
   border: 2.5px solid #FFFFFF;
-  box-shadow: 0 2px 8px rgba(244, 180, 0, 0.45);
-}
-
-@keyframes pinPulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 32px rgba(244, 180, 0, 0.75), 0 0 14px rgba(244, 180, 0, 0.5), 0 6px 20px rgba(217, 119, 6, 0.35);
-  }
-  50% {
-    box-shadow: 0 0 46px rgba(244, 180, 0, 0.95), 0 0 22px rgba(245, 158, 11, 0.65), 0 8px 26px rgba(217, 119, 6, 0.45);
-  }
+  box-shadow: 0 2px 8px rgba(15, 53, 40, 0.18);
 }
 
 .step-pin-title {
@@ -6388,7 +6382,7 @@ img.review-author-avatar,
   }
   8% {
     transform: scale(1.15);
-    box-shadow: 0 0 28px rgba(244, 180, 0, 0.85), 0 0 0 6px rgba(244, 180, 0, 0.22);
+    box-shadow: 0 8px 22px rgba(15, 53, 40, 0.16), 0 0 0 5px rgba(24, 76, 58, 0.12);
     border-color: #F4B400;
     color: #B45309;
   }
@@ -6512,14 +6506,14 @@ img.review-author-avatar,
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 8px 24px rgba(244, 180, 0, 0.4) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18) !important;
   border: none !important;
   transition: all 0.3s ease !important;
 }
 
 .btn-cta-banner:hover {
   transform: translateY(-2px) scale(1.02) !important;
-  box-shadow: 0 12px 30px rgba(244, 180, 0, 0.5) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24) !important;
   background: #E5A800 !important;
 }
 
@@ -6720,7 +6714,7 @@ img.review-author-avatar,
 
 .btn-faq-contact:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 10px 24px rgba(244, 180, 0, 0.45) !important;
+  box-shadow: 0 10px 22px rgba(15, 53, 40, 0.18) !important;
 }
 
 /* ── Mobile & Tablet Responsiveness ── */

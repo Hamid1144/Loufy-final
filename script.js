@@ -2699,3 +2699,46 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   setTimeout(window.enforceReviewInitialsAndLinks, 600);
 })();
+
+// ── How It Works 3-Second Auto-Shift Highlight ──
+(function initHowItWorksCycle() {
+  function setupStepPinsCycle() {
+    var grid = document.querySelector('.how-it-works-grid');
+    if (!grid || grid.dataset.cycleAttached === 'true') return;
+    var cards = Array.from(grid.querySelectorAll('.step-pin-card'));
+    if (cards.length < 2) return;
+    grid.dataset.cycleAttached = 'true';
+
+    var activeIdx = cards.findIndex(function(c) { return c.classList.contains('pin-glow'); });
+    if (activeIdx === -1) {
+      activeIdx = 0;
+      cards[0].classList.add('pin-glow');
+    }
+
+    var isPaused = false;
+    cards.forEach(function(card, idx) {
+      card.addEventListener('mouseenter', function() {
+        isPaused = true;
+        cards.forEach(function(c) { c.classList.remove('pin-glow'); });
+        card.classList.add('pin-glow');
+        activeIdx = idx;
+      });
+      card.addEventListener('mouseleave', function() {
+        isPaused = false;
+      });
+    });
+
+    setInterval(function() {
+      if (isPaused) return;
+      cards.forEach(function(c) { c.classList.remove('pin-glow'); });
+      activeIdx = (activeIdx + 1) % cards.length;
+      if (cards[activeIdx]) cards[activeIdx].classList.add('pin-glow');
+    }, 3000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupStepPinsCycle);
+  } else {
+    setupStepPinsCycle();
+  }
+})();

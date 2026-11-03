@@ -207,6 +207,12 @@ async function main() {
           // Keep local home page layout (publishing pricing only on homepage)!
           continue;
         }
+        const localHasProSuite = localIndex.includes('Publishing Pro Suite');
+        const cloudHasProSuite = cloudBlock && cloudBlock.inner.includes('Publishing Pro Suite');
+        if (localHasProSuite && !cloudHasProSuite) {
+          // Keep updated unified Book Publishing packages!
+          continue;
+        }
       }
       if (prefix.startsWith('<section class="testimonials"')) {
         const hasLocalVerticalTicker = localIndex.includes('reviews-vertical-marquee-wrap');

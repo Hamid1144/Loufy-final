@@ -3,7 +3,8 @@
 
 (function() {
     const pageId = window.location.pathname.includes("portfolio.html") ? 'portfolio' : 'index';
-    const CACHE_KEY = 'loufy_live_snapshot_v10_' + pageId;
+    const CACHE_KEY = 'loufy_live_snapshot_v11_' + pageId;
+    try { localStorage.removeItem('loufy_live_snapshot_v10_' + pageId); } catch(e) {}
     try { localStorage.removeItem('loufy_live_snapshot_v9_' + pageId); } catch(e) {}
     try { localStorage.removeItem('loufy_live_snapshot_v8_' + pageId); } catch(e) {}
     try { localStorage.removeItem('loufy_live_snapshot_v7_' + pageId); } catch(e) {}

@@ -78,11 +78,11 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js" defer></script>
 <script src="db.js?v=3.31.0" defer></script>
-<script src="script.js?v=99.10_20261103" defer></script>
+<script src="script.js?v=99.11" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" defer></script>
-<script src="admin.js?v=99.10_20261103" defer></script>
-<script src="live-sync.js?v=99.10_001" defer></script>
-<link rel="stylesheet" href="style.css?v=99.10_20261103">
+<script src="admin.js?v=99.11" defer></script>
+<script src="live-sync.js?v=99.11" defer></script>
+<link rel="stylesheet" href="style.css?v=99.11">
 <script>
   (function() {
     try {
@@ -629,6 +629,80 @@
 }
 
 </style>
+
+<style id="permanent-yellow-pricing-css">
+/* ── PERMANENT YELLOW MIDDLE PRICING PACKAGE ── */
+.pricing-grid.active .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+.pricing-card.featured-popular,
+.pricing-grid > .pricing-card:nth-child(2) {
+  background: var(--accent) !important;
+  color: var(--dark) !important;
+  transform: scale(1.05) translateY(-12px) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22) !important;
+  z-index: 2;
+}
+.pricing-card.featured-popular:hover,
+.pricing-grid > .pricing-card:nth-child(2):hover {
+  transform: scale(1.06) translateY(-15px) !important;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28) !important;
+}
+.pricing-card.featured-popular h3,
+.pricing-card.featured-popular .price,
+.pricing-card.featured-popular .price small,
+.pricing-card.featured-popular .price-range,
+.pricing-card.featured-popular .price-range small,
+.pricing-card.featured-popular ul li,
+.pricing-card.featured-popular .pricing-card-note,
+.pricing-grid > .pricing-card:nth-child(2) h3,
+.pricing-grid > .pricing-card:nth-child(2) .price,
+.pricing-grid > .pricing-card:nth-child(2) .price small,
+.pricing-grid > .pricing-card:nth-child(2) .price-range,
+.pricing-grid > .pricing-card:nth-child(2) .price-range small,
+.pricing-grid > .pricing-card:nth-child(2) ul li,
+.pricing-grid > .pricing-card:nth-child(2) .pricing-card-note {
+  color: var(--dark) !important;
+}
+.pricing-card.featured-popular ul li,
+.pricing-grid > .pricing-card:nth-child(2) ul li {
+  border-bottom-color: rgba(0, 0, 0, 0.12) !important;
+}
+.pricing-card.featured-popular ul li::before,
+.pricing-grid > .pricing-card:nth-child(2) ul li::before {
+  color: var(--primary) !important;
+}
+.pricing-card.featured-popular .popular-badge,
+.pricing-grid > .pricing-card:nth-child(2) .popular-badge {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+}
+.pricing-card.featured-popular .btn,
+.pricing-grid > .pricing-card:nth-child(2) .btn {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+  border-color: var(--primary) !important;
+}
+.pricing-card.featured-popular .btn:hover,
+.pricing-grid > .pricing-card:nth-child(2) .btn:hover {
+  background: var(--dark) !important;
+  color: var(--white) !important;
+  border-color: var(--dark) !important;
+}
+@media (max-width: 900px) {
+  .pricing-card.featured-popular,
+  .pricing-grid > .pricing-card:nth-child(2) {
+    transform: translateY(-4px) !important;
+  }
+  .pricing-card.featured-popular:hover,
+  .pricing-grid > .pricing-card:nth-child(2):hover {
+    transform: translateY(-6px) !important;
+  }
+}
+</style>
 </head>
 <body class="services-page">
 <!-- GLOBAL LOADING SCREEN -->
@@ -772,85 +846,60 @@
   </section>
 
   <!-- ── 2. CLEAR, TRANSPARENT PRICING ── -->
-  <section class="services-pricing-wrap" id="pricing-packages">
-    <div class="container">
-      <div class="services-section-head">
-        <span class="services-badge-pill">Transparent Pricing</span>
-        <h2 class="services-section-title">Clear, Transparent <span class="highlight">Pricing</span></h2>
-        <p class="services-section-sub">Simple, honest pricing with zero hidden fees. Choose the right package for your book's publishing launch.</p>
-      </div>
+  <section class="pricing" id="pricing">
+<div class="container" bis_skin_checked="1">
+<span class="section-tag reveal">Transparent Pricing</span>
+<h2 class="section-title reveal" style="color:var(--white)" data-admin-text="true">Clear, Transparent <span class="highlight">Pricing</span></h2>
+<p class="section-sub reveal" style="color:#ccc;max-width:650px;margin:0 auto 10px;font-size:1.05rem" data-admin-text="true">
+  Simple, honest pricing with zero hidden fees. Choose the right package for your book's publishing launch.
+</p>
 
-      <div class="services-pricing-grid">
-        <!-- Pricing Card 1: Starter Package -->
-        <div class="pricing-plan-card">
-          <div class="pricing-card-header">
-            <h3 class="pricing-plan-name">Starter Package</h3>
-            <div class="pricing-price-box">
-              <span class="pricing-currency">$</span>
-              <span class="pricing-amount">99</span>
-              <span class="pricing-period">/ per book</span>
-            </div>
-            <p class="pricing-plan-desc">Essential publishing setup for debut authors and straightforward manuscripts.</p>
-          </div>
-          <ul class="pricing-features-list">
-            <li><i class="fa-solid fa-circle-check"></i> Ebook &amp; Paperback Formatting</li>
-            <li><i class="fa-solid fa-circle-check"></i> Standard Ebook Cover Design</li>
-            <li><i class="fa-solid fa-circle-check"></i> Clickable Table of Contents</li>
-            <li><i class="fa-solid fa-circle-check"></i> Up to 50,000 Manuscript Words</li>
-            <li><i class="fa-solid fa-circle-check"></i> 3 Free Revision Rounds</li>
-            <li><i class="fa-solid fa-circle-check"></i> Print-Ready PDF &amp; EPUB Files</li>
-          </ul>
-          <a href="/contact" class="btn-pricing-action">Choose Plan <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-
-        <!-- Pricing Card 2: Most Popular Package (Deep Emerald Green) -->
-        <div class="pricing-plan-card featured-popular">
-          <span class="popular-ribbon-badge">Most Popular</span>
-          <div class="pricing-card-header">
-            <h3 class="pricing-plan-name">Publishing Pro Suite</h3>
-            <div class="pricing-price-box">
-              <span class="pricing-currency">$</span>
-              <span class="pricing-amount">299</span>
-              <span class="pricing-period">/ per book</span>
-            </div>
-            <p class="pricing-plan-desc">The complete bestseller package designed to maximize author earnings and presentation.</p>
-          </div>
-          <ul class="pricing-features-list">
-            <li><i class="fa-solid fa-circle-check"></i> Full Wrap Paperback &amp; Hardcover Cover</li>
-            <li><i class="fa-solid fa-circle-check"></i> Premium Interior Layout (Kindle + Print)</li>
-            <li><i class="fa-solid fa-circle-check"></i> Custom Chapter Headers &amp; Drop Caps</li>
-            <li><i class="fa-solid fa-circle-check"></i> Amazon KDP Upload &amp; Setup Assistance</li>
-            <li><i class="fa-solid fa-circle-check"></i> 3D Photorealistic Mockup Pack</li>
-            <li><i class="fa-solid fa-circle-check"></i> Unlimited Design Revisions</li>
-            <li><i class="fa-solid fa-circle-check"></i> Priority 24/7 Author Support</li>
-          </ul>
-          <a href="/contact" class="btn-pricing-action">Get Started Now <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-
-        <!-- Pricing Card 3: Bestseller Master Package -->
-        <div class="pricing-plan-card">
-          <div class="pricing-card-header">
-            <h3 class="pricing-plan-name">Bestseller Master</h3>
-            <div class="pricing-price-box">
-              <span class="pricing-currency">$</span>
-              <span class="pricing-amount">199</span>
-              <span class="pricing-period">/ per book</span>
-            </div>
-            <p class="pricing-plan-desc">Comprehensive all-in-one package with marketing materials and launch graphics.</p>
-          </div>
-          <ul class="pricing-features-list">
-            <li><i class="fa-solid fa-circle-check"></i> Complete Cover &amp; Interior Formatting</li>
-            <li><i class="fa-solid fa-circle-check"></i> Amazon A+ Content Design (3 Modules)</li>
-            <li><i class="fa-solid fa-circle-check"></i> ACX Audiobook Cover Adaptation</li>
-            <li><i class="fa-solid fa-circle-check"></i> Backend Keyword &amp; Category Research</li>
-            <li><i class="fa-solid fa-circle-check"></i> Social Media Book Launch Kit</li>
-            <li><i class="fa-solid fa-circle-check"></i> Expedited 5-Day Delivery Window</li>
-          </ul>
-          <a href="/contact" class="btn-pricing-action">Choose Plan <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- BOOK PUBLISHING PRICING GRID -->
+<div class="pricing-grid active" id="publishing-pricing" bis_skin_checked="1">
+  <div class="pricing-card reveal" bis_skin_checked="1">
+    <h3 data-admin-text="true">Starter Package</h3>
+    <div class="price" data-admin-text="true" bis_skin_checked="1">$99<small>/per book</small></div>
+    <ul>
+      <li data-admin-text="true">Ebook &amp; Paperback Formatting</li>
+      <li data-admin-text="true">Standard Ebook Cover Design</li>
+      <li data-admin-text="true">Clickable Table of Contents</li>
+      <li data-admin-text="true">Up to 50,000 Manuscript Words</li>
+      <li data-admin-text="true">3 Free Revision Rounds</li>
+      <li data-admin-text="true">Print-Ready PDF &amp; EPUB Files</li>
+    </ul>
+    <a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="basic" class="btn" data-admin-text="true" target="_blank">Choose Plan →</a>
+  </div>
+  <div class="pricing-card featured-popular reveal" bis_skin_checked="1">
+    <span class="popular-badge"><i class="fa-solid fa-fire"></i> Most Popular</span>
+    <h3 data-admin-text="true">Publishing Pro Suite <i class="fa-solid fa-star" style="color:var(--primary)"></i></h3>
+    <div class="price" data-admin-text="true" bis_skin_checked="1">$299<small>/per book</small></div>
+    <ul>
+      <li data-admin-text="true">Full Wrap Paperback &amp; Hardcover Cover</li>
+      <li data-admin-text="true">Premium Interior Layout (Kindle + Print)</li>
+      <li data-admin-text="true">Custom Chapter Headers &amp; Drop Caps</li>
+      <li data-admin-text="true">Amazon KDP Upload &amp; Setup Assistance</li>
+      <li data-admin-text="true">3D Photorealistic Mockup Pack</li>
+      <li data-admin-text="true">Unlimited Design Revisions</li>
+      <li data-admin-text="true">Priority 24/7 Author Support</li>
+    </ul>
+    <a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="standard" class="btn" data-admin-text="true" target="_blank">Get Started Now →</a>
+  </div>
+  <div class="pricing-card reveal" bis_skin_checked="1">
+    <h3 data-admin-text="true">Bestseller Master</h3>
+    <div class="price" data-admin-text="true" bis_skin_checked="1">$199<small>/per book</small></div>
+    <ul>
+      <li data-admin-text="true">Complete Cover &amp; Interior Formatting</li>
+      <li data-admin-text="true">Amazon A+ Content Design (3 Modules)</li>
+      <li data-admin-text="true">ACX Audiobook Cover Adaptation</li>
+      <li data-admin-text="true">Backend Keyword &amp; Category Research</li>
+      <li data-admin-text="true">Social Media Book Launch Kit</li>
+      <li data-admin-text="true">Expedited 5-Day Delivery Window</li>
+    </ul>
+    <a href="https://www.fiverr.com/s/Q7kAX43" data-pricing="premium" class="btn" data-admin-text="true" target="_blank">Choose Plan →</a>
+  </div>
+</div>
+</div>
+</section>
 
   <!-- ── 3. HOW IT WORKS (STEP PINS) ── -->
   <section class="services-how-it-works" id="how-it-works">
@@ -863,7 +912,7 @@
 
       <div class="how-it-works-grid">
         <!-- Pin 1 -->
-        <div class="step-pin-card">
+        <div class="step-pin-card pin-glow">
           <div class="step-pin-icon-wrap">
             <span class="step-number-tag">01</span>
             <i class="fa-solid fa-file-arrow-up"></i>
@@ -892,8 +941,8 @@
           <p class="step-pin-desc">You review full digital proofs and request any tweaks or revisions until everything looks 100% perfect.</p>
         </div>
 
-        <!-- Pin 4 (Glow Pin) -->
-        <div class="step-pin-card pin-glow">
+        <!-- Pin 4 -->
+        <div class="step-pin-card">
           <div class="step-pin-icon-wrap">
             <span class="step-number-tag">04</span>
             <i class="fa-solid fa-rocket"></i>
