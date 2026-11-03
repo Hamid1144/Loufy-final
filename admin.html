@@ -2489,6 +2489,12 @@
       document.getElementById(id).classList.remove('active');
     }
 
+    // ── STRICT CTRL + SHIFT + Y GUARD ──
+    try { localStorage.removeItem('admin_mode'); } catch (e) {}
+    if (sessionStorage.getItem('ctrl_shift_y_unlocked') !== 'true') {
+      window.location.replace('/index.html');
+    }
+
     // ── AUTHENTICATION ──
     const passwordOverlay = document.getElementById('lock-overlay');
     const passwordInput = document.getElementById('lock-input-val');
@@ -2496,6 +2502,10 @@
     const lockError = document.getElementById('lock-error-msg');
 
     function checkAuth() {
+      if (sessionStorage.getItem('ctrl_shift_y_unlocked') !== 'true') {
+        window.location.replace('/index.html');
+        return;
+      }
       if (sessionStorage.getItem('admin_authenticated') === 'true') {
         unlockDashboard();
       }
@@ -2679,9 +2689,13 @@
     });
 
     window.exitAdminPanel = function() {
-      localStorage.removeItem('admin_mode');
-      localStorage.setItem('admin_mode', 'false');
-      window.location.href = '/index.html';
+      try {
+        localStorage.removeItem('admin_mode');
+        sessionStorage.removeItem('ctrl_shift_y_unlocked');
+        sessionStorage.removeItem('open_admin_panel');
+        sessionStorage.removeItem('admin_authenticated');
+      } catch (e) {}
+      window.location.replace('/index.html');
     };
 
     // ── INITIALIZATION ──

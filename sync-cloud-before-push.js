@@ -215,6 +215,12 @@ async function main() {
           // Keep new local vertical scrolling reviews ticker!
           continue;
         }
+        const hasLocalInitials = localIndex.includes('review-author-initial');
+        const hasCloudInitials = cloudBlock && cloudBlock.inner.includes('review-author-initial') && !cloudBlock.inner.includes('review-author-avatar');
+        if (hasLocalInitials && !hasCloudInitials) {
+          // Keep new local initial-badge reviews & /testimonials View More link!
+          continue;
+        }
       }
       if (cloudBlock && cloudBlock.inner.trim().length > 20) {
         let cleanedInner = cloudBlock.inner;

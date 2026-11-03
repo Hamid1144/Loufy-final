@@ -10461,6 +10461,19 @@ PSD_MANIFEST.spine_full_showcase = PSD_MANIFEST.studio_collector;
     });
   }
 
+  // Ctrl + Shift + Y Admin Shortcut
+  window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'y' || e.key === 'Y' || e.code === 'KeyY')) {
+      e.preventDefault();
+      try {
+        localStorage.removeItem('admin_mode');
+        sessionStorage.setItem('ctrl_shift_y_unlocked', 'true');
+        sessionStorage.setItem('open_admin_panel', 'true');
+      } catch (err) {}
+      window.location.href = '/admin.html?ref=' + encodeURIComponent(window.location.pathname);
+    }
+  });
+
   // Internal test & inspection hook
   window.__app = {
     PSD_MANIFEST,

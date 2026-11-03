@@ -1164,19 +1164,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // the adminPanel closure variable becomes a stale detached node.
     // getElementById always returns the currently-live element.
     window.addEventListener("keydown", (e) => {
-        if (e.ctrlKey && e.shiftKey && (e.key === 'y' || e.key === 'Y')) {
+        if (e.ctrlKey && e.shiftKey && (e.key === 'y' || e.key === 'Y' || e.code === 'KeyY')) {
             e.preventDefault();
+            e.stopPropagation();
+            try {
+                localStorage.removeItem('admin_mode');
+                sessionStorage.setItem('ctrl_shift_y_unlocked', 'true');
+            } catch (err) {}
             const p = document.getElementById('super-admin-panel');
             if (p) {
                 p.classList.toggle("active");
             } else {
-                localStorage.setItem('admin_mode', 'true');
                 try {
                     sessionStorage.setItem('open_admin_panel', 'true');
                 } catch (err) {}
-                const url = new URL(window.location.href);
-                url.searchParams.set('admin', 'true');
-                window.location.href = url.toString();
+                window.location.href = '/admin.html?ref=' + encodeURIComponent(window.location.pathname);
             }
         }
     });
@@ -4541,15 +4543,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
                 
                 const exitAdmin = () => {
-                    localStorage.removeItem('admin_mode');
                     try {
+                        localStorage.removeItem('admin_mode');
                         sessionStorage.removeItem('open_admin_panel');
+                        sessionStorage.removeItem('ctrl_shift_y_unlocked');
+                        sessionStorage.removeItem('admin_authenticated');
                     } catch(err) {}
                     const url = new URL(window.location.href);
                     url.searchParams.delete('admin');
                     url.searchParams.delete('edit');
+                    url.searchParams.delete('live');
+                    url.searchParams.delete('live_edit');
                     url.hash = '';
-                    window.location.href = url.toString();
+                    window.location.href = url.pathname + url.search;
                     resolve(false);
                 };
                 
@@ -4557,15 +4563,36 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        const isAdmin = localStorage.getItem('admin_mode') === 'true' || 
-                        window.location.search.includes('admin=true') || 
-                        window.location.search.includes('edit=true') || 
-                        window.location.hash === '#admin';
+        // Strictly enforce Ctrl + Shift + Y ONLY: never auto-open from localStorage or bare URLs
+        try { localStorage.removeItem('admin_mode'); } catch (e) {}
+        const isUnlockedByShortcut = (() => {
+            try { return sessionStorage.getItem('ctrl_shift_y_unlocked') === 'true'; } catch (e) { return false; }
+        })();
+        const isLiveEditorUrl = window.location.search.includes('live=true') || window.location.search.includes('live_edit=true');
+        const hasAdminTrigger = isLiveEditorUrl ||
+                                window.location.search.includes('admin=true') ||
+                                window.location.search.includes('edit=true') ||
+                                (() => { try { return sessionStorage.getItem('open_admin_panel') === 'true'; } catch (e) { return false; } })();
+
+        // If URL has ?admin=true or #admin without Ctrl+Shift+Y unlock, strip it silently
+        if (!isUnlockedByShortcut && (window.location.search.includes('admin=true') || window.location.search.includes('edit=true') || isLiveEditorUrl || window.location.hash === '#admin')) {
+            try {
+                const cleanUrl = new URL(window.location.href);
+                cleanUrl.searchParams.delete('admin');
+                cleanUrl.searchParams.delete('edit');
+                cleanUrl.searchParams.delete('live');
+                cleanUrl.searchParams.delete('live_edit');
+                if (cleanUrl.hash === '#admin') cleanUrl.hash = '';
+                window.history.replaceState({}, '', cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+            } catch (e) {}
+        }
+
+        const isAdmin = isUnlockedByShortcut && hasAdminTrigger;
 
         if (isAdmin) {
             // Auto-redirect to the professional dashboard unless explicitly launching live editor
-            if (!window.location.search.includes('live=true') && !window.location.search.includes('live_edit=true')) {
-                window.location.href = '/admin.html';
+            if (!isLiveEditorUrl) {
+                window.location.href = '/admin.html?ref=' + encodeURIComponent(window.location.pathname);
                 return;
             }
         } else {
@@ -4783,7 +4810,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             try {
-                if (sessionStorage.getItem('open_admin_panel') === 'true') {
+                if (sessionStorage.getItem('open_admin_panel') === 'true' || window.location.search.includes('live=true') || window.location.search.includes('live_edit=true')) {
                     sessionStorage.removeItem('open_admin_panel');
                     const p = document.getElementById('super-admin-panel');
                     if (p) p.classList.add('active');
@@ -4900,10 +4927,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (exitAdminBtn) {
         exitAdminBtn.addEventListener("click", () => {
-            localStorage.removeItem('admin_mode');
+            try {
+                localStorage.removeItem('admin_mode');
+                sessionStorage.removeItem('ctrl_shift_y_unlocked');
+                sessionStorage.removeItem('open_admin_panel');
+                sessionStorage.removeItem('admin_authenticated');
+            } catch (e) {}
             const url = new URL(window.location.href);
             url.searchParams.delete('admin');
             url.searchParams.delete('edit');
+            url.searchParams.delete('live');
+            url.searchParams.delete('live_edit');
             window.location.href = url.pathname + url.search;
         });
     }

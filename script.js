@@ -2646,4 +2646,56 @@ document.addEventListener('DOMContentLoaded', function() {
   setInterval(launchDrop, INTERVAL_MS);
 })();
 
+// ── Global Ctrl+Shift+Y Shortcut & Review Initial Avatar Enforcer ──
+(function() {
+  try { localStorage.removeItem('admin_mode'); } catch (e) {}
 
+  window.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'y' || e.key === 'Y' || e.code === 'KeyY')) {
+      e.preventDefault();
+      try {
+        localStorage.removeItem('admin_mode');
+        sessionStorage.setItem('ctrl_shift_y_unlocked', 'true');
+      } catch (err) {}
+      var p = document.getElementById('super-admin-panel');
+      if (p) {
+        p.classList.toggle('active');
+      } else {
+        try { sessionStorage.setItem('open_admin_panel', 'true'); } catch (err) {}
+        window.location.href = '/admin.html?ref=' + encodeURIComponent(window.location.pathname);
+      }
+    }
+  });
+
+  window.enforceReviewInitialsAndLinks = function() {
+    // Ensure Home Page "View More" button in reviews goes to /testimonials
+    document.querySelectorAll('a.btn-reviews-cta').forEach(function(btn) {
+      if (btn.getAttribute('href') !== '/testimonials') {
+        btn.setAttribute('href', '/testimonials');
+      }
+    });
+
+    // Replace any <img class="review-author-avatar"> on Home page with .review-author-initial
+    document.querySelectorAll('.review-vertical-card .review-author-meta').forEach(function(meta) {
+      meta.querySelectorAll('img').forEach(function(img) { img.remove(); });
+      var nameEl = meta.querySelector('.review-author-name');
+      var nameTxt = nameEl ? nameEl.textContent.trim() : 'A';
+      var initial = (nameTxt.charAt(0) || 'A').toUpperCase();
+      var badge = meta.querySelector('.review-author-initial');
+      if (!badge) {
+        badge = document.createElement('div');
+        badge.className = 'review-author-initial';
+        badge.setAttribute('aria-hidden', 'true');
+        meta.insertBefore(badge, meta.firstChild);
+      }
+      badge.textContent = initial;
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', window.enforceReviewInitialsAndLinks);
+  } else {
+    window.enforceReviewInitialsAndLinks();
+  }
+  setTimeout(window.enforceReviewInitialsAndLinks, 600);
+})();

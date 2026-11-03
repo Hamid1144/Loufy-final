@@ -5310,13 +5310,45 @@ body.edit-mode .hero-float-card {
   gap: 12px;
 }
 
-.review-author-avatar {
-  width: 50px;
-  height: 50px;
+img.review-author-avatar,
+.review-vertical-card img.review-author-avatar,
+.testimonial-author img {
+  display: none !important;
+}
+
+.review-author-initial {
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(244, 180, 0, 0.35);
+  background: linear-gradient(135deg, #184C3A 0%, #0F3528 100%);
+  color: #F4B400;
+  font-family: 'Outfit', 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(244, 180, 0, 0.45);
+  box-shadow: 0 4px 12px rgba(24, 76, 58, 0.16);
   flex-shrink: 0;
+  text-transform: uppercase;
+  line-height: 1;
+  user-select: none;
+}
+
+.testimonial-grid .review-author-initial {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .review-author-initial,
+  .testimonial-grid .review-author-initial {
+    width: 36px;
+    height: 36px;
+    font-size: 0.92rem;
+  }
 }
 
 .review-author-info {
