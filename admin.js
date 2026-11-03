@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="manage-subcategories-btn" class="admin-btn" style="background:#dc3545; color:#fff;"><i class="fa-solid fa-list-ul"></i> Manage Subcategories</button>
             <button id="manage-blogs-btn" class="admin-btn" style="background:#ff9f43; color:#fff;"><i class="fa-solid fa-blog"></i> Manage Blog Posts</button>
             <button id="manage-theme" class="admin-btn" style="background:#00bcd4; color:#fff;"><i class="fa-solid fa-palette"></i> Customize Theme</button>
-            <button id="manage-hero-card" class="admin-btn" style="background:#ff5722; color:#fff;"><i class="fa-solid fa-wand-magic-sparkles"></i> Edit Hero Content</button>
+            <button id="manage-hero-card" class="admin-btn" style="background:#ff5722; color:#fff;"><i class="fa-solid fa-wand-magic-sparkles"></i> Customize Hero (Layout & Content)</button>
             <button id="change-hero-bg" class="admin-btn" style="background:#7209b7;"><i class="fa-solid fa-image"></i> Change Hero Image</button>
             <button id="change-mobile-hero-bg" class="admin-btn" style="background:#8e44ad;"><i class="fa-solid fa-mobile-screen"></i> Change Mobile Hero Image</button>
             <button id="mobile-edit-mode-toggle" class="admin-btn" style="background:#28a745;"><i class="fa-solid fa-mobile"></i> Mobile Edit Mode: OFF</button>
@@ -375,283 +375,201 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div id="hero-card-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
-            <!-- Visibility & Mobile Edit Toggle -->
-            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; flex-direction:column; gap:10px;">
-                <label style="font-size:0.75rem; color:#ccc; display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600;">
-                    <input type="checkbox" id="hero-card-visible-toggle" checked style="cursor:pointer; width:16px; height:16px; accent-color:#20c997;">
-                    <i class="fa-solid fa-eye" style="color:#20c997;"></i> Show Hero Card on Page
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                <h3 style="font-size:0.85rem; color:#ff9f43; margin:0; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-wand-magic-sparkles"></i> Hero Section Editor</h3>
+                <span style="font-size:0.7rem; color:#20c997; background:rgba(32,201,151,0.12); padding:2px 8px; border-radius:12px; border:1px solid rgba(32,201,151,0.3); font-weight:600;">Live Realtime</span>
+            </div>
+            <p style="font-size:0.72rem; color:#aaa; margin-bottom:12px; line-height:1.4;">Real-time adjustments for hero text and picture positions, sizes, and live content. Sliders update the page instantly.</p>
+
+            <!-- 1. HERO TEXT (Left Column) -->
+            <div style="margin-bottom:12px; padding:12px; background:#181818; border-radius:8px; border:1px solid #2e2e2e; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #2a2a2a; padding-bottom:6px;">
+                    <label style="font-size:0.75rem; color:#20c997; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:flex; align-items:center; gap:6px; margin:0;">
+                        <i class="fa-solid fa-align-left"></i> Hero Text Layout & Size
+                    </label>
+                </div>
+                
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Horizontal Position (Left / Right)</span>
+                        <span id="hero-text-x-val" style="color:#20c997; font-weight:600;">0px</span>
+                    </div>
+                    <input type="range" id="hero-text-x-slider" min="-400" max="400" value="0" step="2" style="width:100%; accent-color:#20c997; cursor:pointer;">
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Vertical Position (Up / Down)</span>
+                        <span id="hero-text-y-val" style="color:#20c997; font-weight:600;">0px</span>
+                    </div>
+                    <input type="range" id="hero-text-y-slider" min="-300" max="300" value="0" step="2" style="width:100%; accent-color:#20c997; cursor:pointer;">
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Text Size (Bara / Chota)</span>
+                        <span id="hero-text-scale-val" style="color:#20c997; font-weight:600;">1.00x</span>
+                    </div>
+                    <input type="range" id="hero-text-scale-slider" min="60" max="160" value="100" step="2" style="width:100%; accent-color:#20c997; cursor:pointer;">
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Text Max Width</span>
+                        <span id="hero-text-width-val" style="color:#20c997; font-weight:600;">620px</span>
+                    </div>
+                    <input type="range" id="hero-text-width-slider" min="320" max="950" value="620" step="10" style="width:100%; accent-color:#20c997; cursor:pointer;">
+                </div>
+            </div>
+
+            <!-- 2. HERO PICTURE (Right Column Showcase Card) -->
+            <div style="margin-bottom:12px; padding:12px; background:#181818; border-radius:8px; border:1px solid #2e2e2e; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #2a2a2a; padding-bottom:6px;">
+                    <label style="font-size:0.75rem; color:#ff9f43; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:flex; align-items:center; gap:6px; margin:0;">
+                        <i class="fa-solid fa-image"></i> Hero Picture Layout & Size
+                    </label>
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Horizontal Position (Left / Right)</span>
+                        <span id="hero-img-x-val" style="color:#ff9f43; font-weight:600;">0px</span>
+                    </div>
+                    <input type="range" id="hero-img-x-slider" min="-400" max="400" value="0" step="2" style="width:100%; accent-color:#ff9f43; cursor:pointer;">
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Vertical Position (Up / Down)</span>
+                        <span id="hero-img-y-val" style="color:#ff9f43; font-weight:600;">0px</span>
+                    </div>
+                    <input type="range" id="hero-img-y-slider" min="-300" max="300" value="0" step="2" style="width:100%; accent-color:#ff9f43; cursor:pointer;">
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Picture Size (Bara / Chota)</span>
+                        <span id="hero-img-scale-val" style="color:#ff9f43; font-weight:600;">1.00x</span>
+                    </div>
+                    <input type="range" id="hero-img-scale-slider" min="60" max="160" value="100" step="2" style="width:100%; accent-color:#ff9f43; cursor:pointer;">
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Picture Max Width</span>
+                        <span id="hero-img-width-val" style="color:#ff9f43; font-weight:600;">600px</span>
+                    </div>
+                    <input type="range" id="hero-img-width-slider" min="250" max="900" value="600" step="10" style="width:100%; accent-color:#ff9f43; cursor:pointer;">
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Corner Radius</span>
+                        <span id="hero-img-radius-val" style="color:#ff9f43; font-weight:600;">28px</span>
+                    </div>
+                    <input type="range" id="hero-img-radius-slider" min="0" max="60" value="28" step="1" style="width:100%; accent-color:#ff9f43; cursor:pointer;">
+                </div>
+
+                <!-- Picture Change / Upload -->
+                <div style="border-top:1px solid #2a2a2a; padding-top:8px; display:flex; flex-direction:column; gap:6px;">
+                    <label style="font-size:0.7rem; color:#aaa; font-weight:600;">Hero Picture Image Source</label>
+                    <div style="display:flex; gap:6px; align-items:center;">
+                        <img id="hero-img-thumb-preview" src="" style="width:42px; height:42px; object-fit:cover; border-radius:4px; border:1px solid #444; background:#111; flex-shrink:0;">
+                        <input type="text" id="hero-img-url-input" placeholder="Image URL (Cloudinary / Web)" style="flex:1; padding:6px 8px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.72rem;">
+                    </div>
+                    <div style="display:flex; gap:6px;">
+                        <input type="file" id="hero-img-file-input" accept="image/*" style="display:none;">
+                        <button type="button" id="hero-img-upload-btn" class="admin-btn" style="margin:0; padding:6px; font-size:0.72rem; flex:1; background:#ff9f43; color:#111; font-weight:700;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload New Picture</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. HERO SECTION SPACING & GAP -->
+            <div style="margin-bottom:12px; padding:12px; background:#181818; border-radius:8px; border:1px solid #2e2e2e; display:flex; flex-direction:column; gap:10px;">
+                <label style="font-size:0.75rem; color:#38d9a9; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:flex; align-items:center; gap:6px; margin:0; border-bottom:1px solid #2a2a2a; padding-bottom:6px;">
+                    <i class="fa-solid fa-arrows-up-down-left-right"></i> Section Dimensions & Gap
                 </label>
-                <label style="font-size:0.75rem; color:#ff5722; display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600;">
-                    <input type="checkbox" id="hero-card-mobile-edit-toggle" style="cursor:pointer; width:16px; height:16px; accent-color:#ff5722;">
-                    <i class="fa-solid fa-mobile-screen"></i> Edit Mobile View Separately
+                
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Section Min Height</span>
+                        <span id="hero-sec-height-val" style="color:#38d9a9; font-weight:600;">650px</span>
+                    </div>
+                    <input type="range" id="hero-sec-height-slider" min="350" max="1100" value="650" step="10" style="width:100%; accent-color:#38d9a9; cursor:pointer;">
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Section Vertical Padding</span>
+                        <span id="hero-sec-padding-val" style="color:#38d9a9; font-weight:600;">60px</span>
+                    </div>
+                    <input type="range" id="hero-sec-padding-slider" min="10" max="200" value="60" step="5" style="width:100%; accent-color:#38d9a9; cursor:pointer;">
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:#ccc; margin-bottom:3px;">
+                        <span>Columns Gap</span>
+                        <span id="hero-sec-gap-val" style="color:#38d9a9; font-weight:600;">48px</span>
+                    </div>
+                    <input type="range" id="hero-sec-gap-slider" min="0" max="120" value="48" step="2" style="width:100%; accent-color:#38d9a9; cursor:pointer;">
+                </div>
+            </div>
+
+            <!-- 4. LIVE HERO CONTENT (Only what exists in live hero) -->
+            <div style="margin-bottom:12px; padding:12px; background:#181818; border-radius:8px; border:1px solid #2e2e2e; display:flex; flex-direction:column; gap:10px;">
+                <label style="font-size:0.75rem; color:#ffd43b; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:flex; align-items:center; gap:6px; margin:0; border-bottom:1px solid #2a2a2a; padding-bottom:6px;">
+                    <i class="fa-solid fa-pen-nib"></i> Live Hero Texts & Links
                 </label>
-            </div>
-            <p style="font-size:0.75rem; color:#aaa; margin-bottom:10px;">Customize layout and content of the hero glass card.</p>
-            
-            <!-- Positioning & Styles -->
-            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; flex-direction:column; gap:8px;">
-                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block;"><i class="fa-solid fa-sliders"></i> Layout & Style</label>
-                
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Horizontal Offset</span>
-                        <span id="hero-offset-x-val">-40px</span>
-                    </div>
-                    <input type="range" id="hero-offset-x" min="-800" max="800" value="-40" style="width:100%;">
-                </div>
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Vertical Offset</span>
-                        <span id="hero-offset-y-val">0px</span>
-                    </div>
-                    <input type="range" id="hero-offset-y" min="-400" max="400" value="0" style="width:100%;">
-                </div>
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Hero Section Height (px)</span>
-                        <span id="hero-height-val">650px</span>
-                    </div>
-                    <input type="range" id="hero-height-slider" min="300" max="1200" value="650" style="width:100%;">
-                </div>
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Hero Vertical Padding (px)</span>
-                        <span id="hero-padding-val">60px</span>
-                    </div>
-                    <input type="range" id="hero-padding-slider" min="0" max="250" value="60" style="width:100%;">
-                </div>
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Card Width (px)</span>
-                        <span id="hero-card-width-val">720px</span>
-                    </div>
-                    <input type="range" id="hero-card-width-slider" min="300" max="1000" value="720" style="width:100%;">
-                </div>
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Card Height (px/auto)</span>
-                        <span id="hero-card-height-val">auto</span>
-                    </div>
-                    <input type="range" id="hero-card-height-slider" min="150" max="1000" value="400" style="width:100%;">
-                    <label style="font-size:0.65rem; color:#aaa; display:flex; align-items:center; gap:4px; margin-top:2px; cursor:pointer;">
-                        <input type="checkbox" id="hero-card-height-auto" checked style="width:12px; height:12px; cursor:pointer;"> Use Auto Height
-                    </label>
-                </div>
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Card Padding (px)</span>
-                        <span id="hero-card-padding-val">30px</span>
-                    </div>
-                    <input type="range" id="hero-card-padding-slider" min="10" max="100" value="30" style="width:100%;">
-                </div>
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Border Radius</span>
-                        <span id="hero-card-radius-val">8px</span>
-                    </div>
-                    <input type="range" id="hero-card-radius-slider" min="0" max="50" value="8" style="width:100%;">
-                </div>
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Backdrop Blur</span>
-                        <span id="hero-card-blur-val">16px</span>
-                    </div>
-                    <input type="range" id="hero-card-blur-slider" min="0" max="40" value="16" style="width:100%;">
-                </div>
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Glass Opacity</span>
-                        <span id="hero-card-opacity-val">0.45</span>
-                    </div>
-                    <input type="range" id="hero-card-opacity-slider" min="10" max="95" value="45" style="width:100%;">
-                </div>
-                <div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#ccc; margin-bottom:2px;">
-                        <span>Video BG Zoom</span>
-                        <span id="hero-video-zoom-val">1.0x</span>
-                    </div>
-                    <input type="range" id="hero-video-zoom-slider" min="50" max="250" value="100" style="width:100%;">
-                </div>
-            </div>
 
-            <!-- Content Settings -->
-            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333; display:flex; flex-direction:column; gap:8px;">
-                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block;"><i class="fa-solid fa-pen-to-square"></i> Hero Content</label>
-                
                 <div>
-                    <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Hello There Badge</label>
-                    <input type="text" id="hero-badge-text-input" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem;">
+                    <label style="font-size:0.7rem; color:#aaa; display:block; margin-bottom:3px;">Pill Badge Text</label>
+                    <input type="text" id="live-hero-badge-input" placeholder="e.g. PROFESSIONAL" style="width:100%; padding:6px 8px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.75rem; box-sizing:border-box;">
                 </div>
-                <div>
-                    <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Main Headline (H1)</label>
-                    <textarea id="hero-title-text-input" rows="3" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem; font-family:sans-serif; resize:vertical;"></textarea>
-                </div>
-                <div>
-                    <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Description Paragraph</label>
-                    <textarea id="hero-desc-text-input" rows="3" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem; font-family:sans-serif; resize:vertical;"></textarea>
-                </div>
-                <div>
-                    <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Experience Badge</label>
-                    <input type="text" id="hero-exp-text-input" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem;">
-                </div>
-                <div>
-                    <label style="font-size:0.75rem; color:#ccc; display:block; margin-bottom:2px;">Projects Badge</label>
-                    <input type="text" id="hero-proj-text-input" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#222; color:#fff; font-size:0.75rem;">
-                </div>
-                <div style="display:flex; gap:15px; margin-top:5px; padding-top:5px; border-top:1px solid #333;">
-                    <label style="font-size:0.75rem; color:#ccc; display:flex; align-items:center; gap:6px; cursor:pointer;">
-                        <input type="checkbox" id="hero-show-exp" checked style="cursor:pointer;"> Show Experience Badge
-                    </label>
-                    <label style="font-size:0.75rem; color:#ccc; display:flex; align-items:center; gap:6px; cursor:pointer;">
-                        <input type="checkbox" id="hero-show-proj" checked style="cursor:pointer;"> Show Projects Badge
-                    </label>
-                </div>
-            </div>
 
-            <!-- Action Buttons Editor -->
-            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333;">
-                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:8px;"><i class="fa-solid fa-link"></i> Action Buttons</label>
-                <div id="hero-buttons-editor-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px;"></div>
-                <button id="hero-add-button-btn" class="admin-btn" style="width:100%; background:#28a745; font-size:0.75rem; padding:6px; margin:0;"><i class="fa-solid fa-plus"></i> Add New Button</button>
-            </div>
-
-            <!-- Skill Tags Editor -->
-            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333;">
-                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:8px;"><i class="fa-solid fa-tags"></i> Skill Tags</label>
-                <div id="hero-tags-editor-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px;"></div>
-                <button id="hero-add-tag-btn" class="admin-btn" style="width:100%; background:#28a745; font-size:0.75rem; padding:6px; margin:0;"><i class="fa-solid fa-plus"></i> Add New Tag</button>
-            </div>
-
-            <!-- Marquee Text Editor -->
-            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333;">
-                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:8px;"><i class="fa-solid fa-text-width"></i> Marquee Items</label>
-                <div id="hero-marquee-editor-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px;"></div>
-                <button id="hero-add-marquee-btn" class="admin-btn" style="width:100%; background:#28a745; font-size:0.75rem; padding:6px; margin:0;"><i class="fa-solid fa-plus"></i> Add New Marquee Item</button>
-            </div>
-
-            <!-- Floating Logo Cards Editor -->
-            <div style="margin-bottom:12px; padding:10px; background:#1a1a1a; border-radius:6px; border:1px solid #333;">
-                <label style="font-size:0.72rem; color:#ff5722; font-weight:700; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:8px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Floating Logo Cards</label>
-                <p style="font-size:0.7rem; color:#aaa; margin-bottom:8px;">Add/delete floating cards. Drag cards on the page in Edit Mode to place them.</p>
-                <div id="hero-floating-cards-list" style="display:flex; flex-direction:column; gap:6px; margin-bottom:10px;"></div>
-                
-                <!-- Inline form for adding/editing card -->
-                <div id="float-card-form" style="display:none; padding:10px; background:#222; border:1px solid #444; border-radius:6px; margin-top:10px; flex-direction:column; gap:8px;">
-                    <h4 style="font-size:0.75rem; color:#ffc107; margin:0;" id="float-card-form-title">Add New Floating Card</h4>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
                     <div>
-                        <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Card Text</label>
-                        <input type="text" id="float-card-text" style="width:100%; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
+                        <label style="font-size:0.7rem; color:#aaa; display:block; margin-bottom:3px;">Headline Accent (Gold)</label>
+                        <input type="text" id="live-hero-title-accent-input" placeholder="e.g. BOOK" style="width:100%; padding:6px 8px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.75rem; box-sizing:border-box;">
                     </div>
                     <div>
-                        <label style="font-size:0.7rem; color:#ccc; display:block; margin-bottom:2px;">Logo Image</label>
-                        <div style="display:flex; gap:6px; margin-bottom:4px;">
-                            <input type="file" id="float-card-file" accept="image/*" style="display:none;">
-                            <button type="button" id="float-card-file-btn" class="admin-btn" style="margin:0; padding:6px; font-size:0.7rem; flex:1; background:#333; color:#fff;"><i class="fa-solid fa-upload"></i> Upload</button>
-                            <input type="text" id="float-card-img-url" placeholder="or Image URL" style="flex:1.5; padding:6px; border-radius:4px; border:1px solid #555; background:#333; color:#fff; font-size:0.75rem;">
-                        </div>
-                        <div id="float-card-img-preview-container" style="display:none; align-items:center; gap:8px;">
-                            <img id="float-card-img-preview" src="" style="height:32px; max-width:60px; object-fit:contain; background:#333; padding:2px; border-radius:2px;" />
-                            <span style="font-size:0.7rem; color:#aaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:120px;" id="float-card-img-filename"></span>
-                        </div>
-                    </div>
-                    <div style="display:flex; gap:8px;">
-                        <div style="flex:1;">
-                            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
-                                <span>Left Position</span>
-                                <span id="float-card-left-val">50%</span>
-                            </div>
-                            <input type="range" id="float-card-left" min="0" max="100" value="50" style="width:100%;">
-                        </div>
-                        <div style="flex:1;">
-                            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
-                                <span>Top Position</span>
-                                <span id="float-card-top-val">50%</span>
-                            </div>
-                            <input type="range" id="float-card-top" min="0" max="100" value="50" style="width:100%;">
-                        </div>
-                    </div>
-                    <!-- Sizing and styling per card -->
-                    <div style="border-top:1px solid #444; padding-top:8px; display:flex; flex-direction:column; gap:6px;">
-                        <label style="font-size:0.65rem; color:#ff5722; font-weight:700; text-transform:uppercase; display:block;">Card Sizing & Style</label>
-                        
-                        <div style="display:flex; gap:8px; margin-bottom:4px;">
-                            <div style="flex:1;">
-                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
-                                    <span>Width (px)</span>
-                                    <span id="float-card-width-val">auto</span>
-                                </div>
-                                <input type="range" id="float-card-width-input" min="80" max="400" value="150" style="width:100%;">
-                                <label style="font-size:0.65rem; color:#aaa; display:flex; align-items:center; gap:4px; margin-top:2px; cursor:pointer;">
-                                    <input type="checkbox" id="float-card-width-auto" checked style="width:12px; height:12px; cursor:pointer;"> Auto
-                                </label>
-                            </div>
-                            <div style="flex:1;">
-                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
-                                    <span>Height (px)</span>
-                                    <span id="float-card-height-val">auto</span>
-                                </div>
-                                <input type="range" id="float-card-height-input" min="30" max="250" value="50" style="width:100%;">
-                                <label style="font-size:0.65rem; color:#aaa; display:flex; align-items:center; gap:4px; margin-top:2px; cursor:pointer;">
-                                    <input type="checkbox" id="float-card-height-auto" checked style="width:12px; height:12px; cursor:pointer;"> Auto
-                                </label>
-                            </div>
-                        </div>
-                        <div style="display:flex; gap:8px; margin-bottom:4px;">
-                            <div style="flex:1;">
-                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
-                                    <span>Padding</span>
-                                    <span id="float-card-padding-val">10px</span>
-                                </div>
-                                <input type="range" id="float-card-padding-input" min="2" max="30" value="10" style="width:100%;">
-                            </div>
-                            <div style="flex:1;">
-                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
-                                    <span>Radius</span>
-                                    <span id="float-card-radius-val">12px</span>
-                                </div>
-                                <input type="range" id="float-card-radius-input" min="0" max="40" value="12" style="width:100%;">
-                            </div>
-                        </div>
-                        <div style="display:flex; gap:8px;">
-                            <div style="flex:1;">
-                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
-                                    <span>Blur</span>
-                                    <span id="float-card-blur-val">12px</span>
-                                </div>
-                                <input type="range" id="float-card-blur-input" min="0" max="40" value="12" style="width:100%;">
-                            </div>
-                            <div style="flex:1;">
-                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
-                                    <span>Opacity</span>
-                                    <span id="float-card-opacity-val">0.45</span>
-                                </div>
-                                <input type="range" id="float-card-opacity-input" min="10" max="95" value="45" style="width:100%;">
-                            </div>
-                        </div>
-                        <div style="display:flex; gap:8px; margin-top:4px;">
-                            <div style="flex:1;">
-                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
-                                    <span>Card Scale</span>
-                                    <span id="float-card-scale-val">1x</span>
-                                </div>
-                                <input type="range" id="float-card-scale-input" min="50" max="250" value="100" style="width:100%;">
-                            </div>
-                            <div style="flex:1;">
-                                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#ccc; margin-bottom:2px;">
-                                    <span>Image Size</span>
-                                    <span id="float-card-imgsize-val">24px</span>
-                                </div>
-                                <input type="range" id="float-card-imgsize-input" min="14" max="80" value="24" style="width:100%;">
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display:flex; gap:6px; margin-top:4px;">
-                        <button type="button" id="float-card-save-btn" class="admin-btn" style="margin:0; padding:6px; font-size:0.75rem; background:#28a745; flex:1; color:#fff;">Save Card</button>
-                        <button type="button" id="float-card-cancel-btn" class="admin-btn danger" style="margin:0; padding:6px; font-size:0.75rem; flex:1; color:#fff;">Cancel</button>
+                        <label style="font-size:0.7rem; color:#aaa; display:block; margin-bottom:3px;">Headline Main (Green)</label>
+                        <input type="text" id="live-hero-title-main-input" placeholder="e.g. PUBLISHING" style="width:100%; padding:6px 8px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.75rem; box-sizing:border-box;">
                     </div>
                 </div>
-                <button id="float-card-add-btn" class="admin-btn" style="width:100%; background:#28a745; font-size:0.75rem; padding:6px; margin:0;"><i class="fa-solid fa-plus"></i> Add New Card</button>
+
+                <div>
+                    <label style="font-size:0.7rem; color:#aaa; display:block; margin-bottom:3px;">Subservices Tagline</label>
+                    <input type="text" id="live-hero-subservices-input" placeholder="FORMATTING • DESIGN • PUBLISHING • MARKETING" style="width:100%; padding:6px 8px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.75rem; box-sizing:border-box;">
+                </div>
+
+                <div>
+                    <label style="font-size:0.7rem; color:#aaa; display:block; margin-bottom:3px;">Lead Description</label>
+                    <textarea id="live-hero-desc-input" rows="3" placeholder="Description paragraph..." style="width:100%; padding:6px 8px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.75rem; font-family:sans-serif; resize:vertical; box-sizing:border-box;"></textarea>
+                </div>
+
+                <!-- CTA Button 1 -->
+                <div style="border-top:1px solid #2a2a2a; padding-top:8px;">
+                    <label style="font-size:0.7rem; color:#ffd43b; font-weight:700; display:block; margin-bottom:4px;">Primary CTA Button</label>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px;">
+                        <input type="text" id="live-hero-btn1-text" placeholder="Button Text (e.g. Get Started)" style="width:100%; padding:6px 8px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.72rem; box-sizing:border-box;">
+                        <input type="text" id="live-hero-btn1-href" placeholder="Link / Href (e.g. #contact)" style="width:100%; padding:6px 8px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.72rem; box-sizing:border-box;">
+                    </div>
+                </div>
+
+                <!-- CTA Button 2 -->
+                <div style="border-top:1px solid #2a2a2a; padding-top:8px;">
+                    <label style="font-size:0.7rem; color:#ffd43b; font-weight:700; display:block; margin-bottom:4px;">Secondary CTA Button</label>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px;">
+                        <input type="text" id="live-hero-btn2-text" placeholder="Button Text (e.g. My Portfolio)" style="width:100%; padding:6px 8px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.72rem; box-sizing:border-box;">
+                        <input type="text" id="live-hero-btn2-href" placeholder="Link / Href (e.g. portfolio.html)" style="width:100%; padding:6px 8px; border-radius:4px; border:1px solid #444; background:#111; color:#fff; font-size:0.72rem; box-sizing:border-box;">
+                    </div>
+                </div>
             </div>
+
+            <!-- 5. RESET BUTTON -->
+            <button type="button" id="reset-hero-layout-btn" class="admin-btn" style="width:100%; background:#333; color:#eee; font-size:0.75rem; padding:8px; margin:0; border:1px solid #444; cursor:pointer;">
+                <i class="fa-solid fa-rotate-left"></i> Reset Positions & Sizes to Default
+            </button>
         </div>
 
         <div id="flipbook-panel" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
@@ -1092,52 +1010,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const pickerLight = document.getElementById("theme-picker-light");
     const pickerCardBg = document.getElementById("theme-picker-card-bg");
 
-    // Hero Card Panel Elements
+    // Hero Section Editor Panel Elements
     const manageHeroCardBtn = document.getElementById("manage-hero-card");
     const heroCardPanel = document.getElementById("hero-card-panel");
-    const heroOffsetX = document.getElementById("hero-offset-x");
-    const heroOffsetY = document.getElementById("hero-offset-y");
-    const heroCardWidthSlider = document.getElementById("hero-card-width-slider");
-    const heroCardRadiusSlider = document.getElementById("hero-card-radius-slider");
-    const heroCardBlurSlider = document.getElementById("hero-card-blur-slider");
-    const heroCardOpacitySlider = document.getElementById("hero-card-opacity-slider");
 
-    const heroOffsetXVal = document.getElementById("hero-offset-x-val");
-    const heroOffsetYVal = document.getElementById("hero-offset-y-val");
-    const heroHeightSlider = document.getElementById("hero-height-slider");
-    const heroHeightVal = document.getElementById("hero-height-val");
-    const heroPaddingSlider = document.getElementById("hero-padding-slider");
-    const heroPaddingVal = document.getElementById("hero-padding-val");
-    const heroCardWidthVal = document.getElementById("hero-card-width-val");
-    const heroCardHeightSlider = document.getElementById("hero-card-height-slider");
-    const heroCardHeightVal = document.getElementById("hero-card-height-val");
-    const heroCardHeightAuto = document.getElementById("hero-card-height-auto");
-    const heroCardPaddingSlider = document.getElementById("hero-card-padding-slider");
-    const heroCardPaddingVal = document.getElementById("hero-card-padding-val");
-    const heroCardRadiusVal = document.getElementById("hero-card-radius-val");
-    const heroCardBlurVal = document.getElementById("hero-card-blur-val");
-    const heroCardOpacityVal = document.getElementById("hero-card-opacity-val");
-    const heroVideoZoomSlider = document.getElementById("hero-video-zoom-slider");
-    const heroVideoZoomVal = document.getElementById("hero-video-zoom-val");
-
-
-
-    const heroButtonsEditorList = document.getElementById("hero-buttons-editor-list");
-    const heroAddButtonBtn = document.getElementById("hero-add-button-btn");
-    const heroTagsEditorList = document.getElementById("hero-tags-editor-list");
-    const heroAddTagBtn = document.getElementById("hero-add-tag-btn");
-    
-    const heroMarqueeEditorList = document.getElementById("hero-marquee-editor-list");
-    const heroAddMarqueeBtn = document.getElementById("hero-add-marquee-btn");
-
-    const heroBadgeTextInput = document.getElementById("hero-badge-text-input");
-    const heroTitleTextInput = document.getElementById("hero-title-text-input");
-    const heroDescTextInput = document.getElementById("hero-desc-text-input");
-    const heroExpTextInput = document.getElementById("hero-exp-text-input");
-    const heroProjTextInput = document.getElementById("hero-proj-text-input");
-    const heroShowExpCheckbox = document.getElementById("hero-show-exp");
-    const heroShowProjCheckbox = document.getElementById("hero-show-proj");
-    
     // Add Portfolio Item Modal Elements
     const addItemModal = document.getElementById("admin-add-item-modal");
     const addItemCategory = document.getElementById("add-item-category");
@@ -3932,1322 +3808,645 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // ── Hero Card Settings Logic ──────────────────────────────────────────────
+    // ── Hero Section Live Editor Logic ──────────────────────────────────────────
+    function markHeroChangesUnsaved() {
+        window.hasUnsavedChanges = true;
+        const saveBtnEl = document.getElementById('save-changes');
+        if (saveBtnEl) {
+            saveBtnEl.style.boxShadow = '0 0 15px #20c997';
+        }
+    }
+
+    function parseHeroTransform(el) {
+        let x = 0, y = 0, scale = 1;
+        if (!el) return { x, y, scale };
+        const tr = el.style.transform || '';
+        if (tr && tr !== 'none') {
+            const trMatch = tr.match(/translate\(\s*(-?[\d.]+)px\s*,\s*(-?[\d.]+)px\s*\)/i);
+            if (trMatch) {
+                x = parseFloat(trMatch[1]) || 0;
+                y = parseFloat(trMatch[2]) || 0;
+            }
+            const scMatch = tr.match(/scale\(\s*(-?[\d.]+)\s*\)/i);
+            if (scMatch) {
+                scale = parseFloat(scMatch[1]) || 1;
+            }
+        }
+        return { x, y, scale };
+    }
+
     function initHeroCardPanelFromDOM() {
-        const heroContent = document.querySelector(document.body.classList.contains('admin-mobile-preview') ? '.hero-content-mobile' : '.hero-content');
-        if (!heroContent) return;
-
-        // Sync hero card visibility toggle
-        const visToggle = document.getElementById('hero-card-visible-toggle');
+        const textCol = document.querySelector('.hero-left-col');
+        const card = document.querySelector('.hero-showcase-card');
+        const img = document.getElementById('hero-showcase-img');
         const heroSection = document.querySelector('.hero');
-        if (visToggle && heroSection) {
-            visToggle.checked = !heroSection.classList.contains('hero-card-hidden');
+        const splitGrid = document.querySelector('.hero-split-grid');
+
+        // 1. Text Layout & Sizing
+        if (textCol) {
+            const parsedText = parseHeroTransform(textCol);
+            let tx = parsedText.x;
+            let ty = parsedText.y;
+            let tScale = parsedText.scale;
+
+            const varTx = textCol.style.getPropertyValue('--hero-text-x');
+            if (varTx) tx = parseFloat(varTx) || tx;
+            const varTy = textCol.style.getPropertyValue('--hero-text-y');
+            if (varTy) ty = parseFloat(varTy) || ty;
+            const varTs = textCol.style.getPropertyValue('--hero-text-scale');
+            if (varTs) tScale = parseFloat(varTs) || tScale;
+
+            const varTw = textCol.style.getPropertyValue('--hero-text-width') || textCol.style.maxWidth;
+            let tWidth = 620;
+            if (varTw) {
+                const pw = parseInt(varTw);
+                if (!isNaN(pw) && pw > 0) tWidth = pw;
+            }
+
+            const xSlider = document.getElementById('hero-text-x-slider');
+            const xVal = document.getElementById('hero-text-x-val');
+            if (xSlider && xVal) {
+                xSlider.value = tx;
+                xVal.innerText = tx + 'px';
+            }
+
+            const ySlider = document.getElementById('hero-text-y-slider');
+            const yVal = document.getElementById('hero-text-y-val');
+            if (ySlider && yVal) {
+                ySlider.value = ty;
+                yVal.innerText = ty + 'px';
+            }
+
+            const scaleSlider = document.getElementById('hero-text-scale-slider');
+            const scaleVal = document.getElementById('hero-text-scale-val');
+            if (scaleSlider && scaleVal) {
+                scaleSlider.value = Math.round(tScale * 100);
+                scaleVal.innerText = tScale.toFixed(2) + 'x';
+            }
+
+            const widthSlider = document.getElementById('hero-text-width-slider');
+            const widthVal = document.getElementById('hero-text-width-val');
+            if (widthSlider && widthVal) {
+                widthSlider.value = tWidth;
+                widthVal.innerText = tWidth + 'px';
+            }
         }
 
-        const mobileEditToggle = document.getElementById('hero-card-mobile-edit-toggle');
-        if (mobileEditToggle) {
-            mobileEditToggle.checked = document.body.classList.contains('admin-mobile-preview');
+        // 2. Picture Layout & Sizing
+        if (card) {
+            const parsedImg = parseHeroTransform(card);
+            let ix = parsedImg.x;
+            let iy = parsedImg.y;
+            let iScale = parsedImg.scale;
+
+            const varIx = card.style.getPropertyValue('--hero-img-x');
+            if (varIx) ix = parseFloat(varIx) || ix;
+            const varIy = card.style.getPropertyValue('--hero-img-y');
+            if (varIy) iy = parseFloat(varIy) || iy;
+            const varIs = card.style.getPropertyValue('--hero-img-scale');
+            if (varIs) iScale = parseFloat(varIs) || iScale;
+
+            const varIw = card.style.getPropertyValue('--hero-img-width') || card.style.maxWidth;
+            let iWidth = 600;
+            if (varIw) {
+                const pw = parseInt(varIw);
+                if (!isNaN(pw) && pw > 0) iWidth = pw;
+            }
+
+            const varIr = card.style.getPropertyValue('--hero-img-radius') || card.style.borderRadius;
+            let iRadius = 28;
+            if (varIr) {
+                const pr = parseInt(varIr);
+                if (!isNaN(pr) && pr >= 0) iRadius = pr;
+            }
+
+            const xSlider = document.getElementById('hero-img-x-slider');
+            const xVal = document.getElementById('hero-img-x-val');
+            if (xSlider && xVal) {
+                xSlider.value = ix;
+                xVal.innerText = ix + 'px';
+            }
+
+            const ySlider = document.getElementById('hero-img-y-slider');
+            const yVal = document.getElementById('hero-img-y-val');
+            if (ySlider && yVal) {
+                ySlider.value = iy;
+                yVal.innerText = iy + 'px';
+            }
+
+            const scaleSlider = document.getElementById('hero-img-scale-slider');
+            const scaleVal = document.getElementById('hero-img-scale-val');
+            if (scaleSlider && scaleVal) {
+                scaleSlider.value = Math.round(iScale * 100);
+                scaleVal.innerText = iScale.toFixed(2) + 'x';
+            }
+
+            const widthSlider = document.getElementById('hero-img-width-slider');
+            const widthVal = document.getElementById('hero-img-width-val');
+            if (widthSlider && widthVal) {
+                widthSlider.value = iWidth;
+                widthVal.innerText = iWidth + 'px';
+            }
+
+            const radiusSlider = document.getElementById('hero-img-radius-slider');
+            const radiusVal = document.getElementById('hero-img-radius-val');
+            if (radiusSlider && radiusVal) {
+                radiusSlider.value = iRadius;
+                radiusVal.innerText = iRadius + 'px';
+            }
         }
 
+        // Picture Image Source & Thumb
+        if (img) {
+            const urlInput = document.getElementById('hero-img-url-input');
+            const thumbPreview = document.getElementById('hero-img-thumb-preview');
+            if (urlInput) urlInput.value = img.src || '';
+            if (thumbPreview) thumbPreview.src = img.src || '';
+        }
 
-        let heroHeight = 650;
-        let heroPadding = 60;
+        // 3. Section Dimensions & Gap
         if (heroSection) {
-            const hStyle = heroSection.style;
-            const heightStr = hStyle.getPropertyValue('--hero-min-height');
-            if (heightStr && heightStr !== 'auto') {
-                heroHeight = parseInt(heightStr) || 650;
+            let sHeight = 650;
+            let sPadding = 60;
+
+            const varH = heroSection.style.getPropertyValue('--hero-min-height') || heroSection.style.minHeight;
+            if (varH) {
+                const ph = parseInt(varH);
+                if (!isNaN(ph) && ph > 0) sHeight = ph;
             } else {
-                const computed = window.getComputedStyle(heroSection);
-                heroHeight = parseInt(computed.minHeight || computed.height) || 650;
+                const comp = window.getComputedStyle(heroSection);
+                sHeight = parseInt(comp.minHeight || comp.height) || 650;
             }
-            const paddingStr = hStyle.getPropertyValue('--hero-padding-y');
-            if (paddingStr) {
-                heroPadding = parseInt(paddingStr) || 60;
+
+            const varP = heroSection.style.getPropertyValue('--hero-padding-y') || heroSection.style.paddingTop;
+            if (varP) {
+                const pp = parseInt(varP);
+                if (!isNaN(pp) && pp >= 0) sPadding = pp;
             } else {
-                const computed = window.getComputedStyle(heroSection);
-                heroPadding = parseInt(computed.paddingTop) || 60;
+                const comp = window.getComputedStyle(heroSection);
+                sPadding = parseInt(comp.paddingTop) || 60;
+            }
+
+            const heightSlider = document.getElementById('hero-sec-height-slider');
+            const heightVal = document.getElementById('hero-sec-height-val');
+            if (heightSlider && heightVal) {
+                heightSlider.value = sHeight;
+                heightVal.innerText = sHeight + 'px';
+            }
+
+            const paddingSlider = document.getElementById('hero-sec-padding-slider');
+            const paddingVal = document.getElementById('hero-sec-padding-val');
+            if (paddingSlider && paddingVal) {
+                paddingSlider.value = sPadding;
+                paddingVal.innerText = sPadding + 'px';
             }
         }
 
-        if (heroHeightSlider) {
-            heroHeightSlider.value = heroHeight;
-            if (heroHeightVal) heroHeightVal.innerText = heroHeight + 'px';
-        }
-        if (heroPaddingSlider) {
-            heroPaddingSlider.value = heroPadding;
-            if (heroPaddingVal) heroPaddingVal.innerText = heroPadding + 'px';
-        }
-
-        const style = heroContent.style;
-        const offsetX = parseInt(style.getPropertyValue('--hero-card-offset-x') || '-40');
-        const offsetY = parseInt(style.getPropertyValue('--hero-card-offset-y') || '0');
-        const cardWidthStr = style.getPropertyValue('--hero-card-width') || '720px';
-        const cardWidth = parseInt(cardWidthStr) || 720;
-        const cardRadius = parseInt(style.getPropertyValue('--hero-card-radius') || '8');
-        const cardBlur = parseInt(style.getPropertyValue('--hero-card-blur') || '16');
-        const cardOpacity = parseFloat(style.getPropertyValue('--hero-card-opacity') || '0.45');
-
-        if (heroOffsetX) {
-            heroOffsetX.value = offsetX;
-            heroOffsetXVal.innerText = offsetX + 'px';
-        }
-        if (heroOffsetY) {
-            heroOffsetY.value = offsetY;
-            heroOffsetYVal.innerText = offsetY + 'px';
-        }
-        if (heroCardWidthSlider) {
-            heroCardWidthSlider.value = cardWidth;
-            heroCardWidthVal.innerText = cardWidth + 'px';
-        }
-        const cardPaddingStr = style.getPropertyValue('--hero-card-padding') || '30px';
-        const cardPadding = parseInt(cardPaddingStr) || 30;
-
-        const cardHeightStr = style.getPropertyValue('--hero-card-height') || 'auto';
-        const isHeightAuto = cardHeightStr === 'auto' || !cardHeightStr;
-        const cardHeight = isHeightAuto ? 400 : (parseInt(cardHeightStr) || 400);
-
-        if (heroCardPaddingSlider) {
-            heroCardPaddingSlider.value = cardPadding;
-            heroCardPaddingVal.innerText = cardPadding + 'px';
-        }
-        if (heroCardHeightSlider) {
-            heroCardHeightSlider.value = cardHeight;
-            heroCardHeightVal.innerText = isHeightAuto ? 'auto' : cardHeight + 'px';
-            heroCardHeightSlider.disabled = isHeightAuto;
-        }
-        if (heroCardHeightAuto) {
-            heroCardHeightAuto.checked = isHeightAuto;
-        }
-        if (heroCardRadiusSlider) {
-            heroCardRadiusSlider.value = cardRadius;
-            heroCardRadiusVal.innerText = cardRadius + 'px';
-        }
-        if (heroCardBlurSlider) {
-            heroCardBlurSlider.value = cardBlur;
-            heroCardBlurVal.innerText = cardBlur + 'px';
-        }
-        if (heroCardOpacitySlider) {
-            heroCardOpacitySlider.value = Math.round(cardOpacity * 100);
-            heroCardOpacityVal.innerText = cardOpacity;
+        if (splitGrid) {
+            let sGap = 48;
+            const varG = splitGrid.style.getPropertyValue('--hero-split-gap') || splitGrid.style.gap;
+            if (varG) {
+                const pg = parseInt(varG);
+                if (!isNaN(pg) && pg >= 0) sGap = pg;
+            }
+            const gapSlider = document.getElementById('hero-sec-gap-slider');
+            const gapVal = document.getElementById('hero-sec-gap-val');
+            if (gapSlider && gapVal) {
+                gapSlider.value = sGap;
+                gapVal.innerText = sGap + 'px';
+            }
         }
 
-        const canvasEl = document.getElementById('hero-bg-canvas');
-        let videoZoom = 1.0;
-        if (canvasEl) {
-            videoZoom = parseFloat(canvasEl.getAttribute('data-zoom')) || 1.0;
-        }
-        if (heroVideoZoomSlider) {
-            heroVideoZoomSlider.value = Math.round(videoZoom * 100);
-            if (heroVideoZoomVal) heroVideoZoomVal.innerText = videoZoom.toFixed(1) + 'x';
+        // 4. Live Hero Content Texts
+        const badgeSpan = document.querySelector('.hero-pill-badge span');
+        const badgeInput = document.getElementById('live-hero-badge-input');
+        if (badgeSpan && badgeInput) {
+            badgeInput.value = badgeSpan.innerText.trim();
         }
 
-
-
-        // Update content inputs
-        const badgeEl = document.querySelector('.hero-badge');
-        if (badgeEl && heroBadgeTextInput) {
-            const clone = badgeEl.cloneNode(true);
-            const span = clone.querySelector('span');
-            if (span) span.remove();
-            heroBadgeTextInput.value = clone.innerText.trim();
-        }
-        const activeHero = document.querySelector(document.body.classList.contains('admin-mobile-preview') ? '.hero-content-mobile' : '.hero-content');
-        const titleEl = activeHero ? activeHero.querySelector('h1') : null;
-        if (titleEl && heroTitleTextInput) {
-            heroTitleTextInput.value = titleEl.innerHTML.trim();
-        }
-        const descEl = activeHero ? activeHero.querySelector('p') : null;
-        if (descEl && heroDescTextInput) {
-            heroDescTextInput.value = descEl.innerHTML.trim();
-        }
-        const expEl = document.querySelector('.float-badge.exp');
-        if (expEl && heroExpTextInput) {
-            heroExpTextInput.value = expEl.innerHTML.trim();
-        }
-        const projEl = document.querySelector('.float-badge.proj');
-        if (projEl && heroProjTextInput) {
-            heroProjTextInput.value = projEl.innerHTML.trim();
+        const titleAccent = document.querySelector('.hero-title-accent');
+        const titleAccentInput = document.getElementById('live-hero-title-accent-input');
+        if (titleAccent && titleAccentInput) {
+            titleAccentInput.value = titleAccent.innerText.trim();
         }
 
-        if (expEl && heroShowExpCheckbox) {
-            heroShowExpCheckbox.checked = expEl.style.display !== 'none';
-        }
-        if (projEl && heroShowProjCheckbox) {
-            heroShowProjCheckbox.checked = projEl.style.display !== 'none';
+        const titleMain = document.querySelector('.hero-title-main');
+        const titleMainInput = document.getElementById('live-hero-title-main-input');
+        if (titleMain && titleMainInput) {
+            titleMainInput.value = titleMain.innerText.trim();
         }
 
-        renderHeroButtonsList();
-        renderHeroTagsList();
-        renderHeroMarqueeList();
-        if (typeof initFloatingCardsPanelLogic === 'function') {
-            initFloatingCardsPanelLogic();
+        const subservices = document.querySelector('.hero-subservices');
+        const subservicesInput = document.getElementById('live-hero-subservices-input');
+        if (subservices && subservicesInput) {
+            subservicesInput.value = subservices.innerText.trim();
+        }
+
+        const leadDesc = document.querySelector('.hero-lead-desc');
+        const descInput = document.getElementById('live-hero-desc-input');
+        if (leadDesc && descInput) {
+            descInput.value = leadDesc.innerText.trim();
+        }
+
+        // Buttons
+        const btn1 = document.querySelector('.hero-cta-wrap a:first-child');
+        const btn1Text = document.getElementById('live-hero-btn1-text');
+        const btn1Href = document.getElementById('live-hero-btn1-href');
+        if (btn1) {
+            if (btn1Text) btn1Text.value = btn1.innerText.replace(/[→↗]/g, '').trim();
+            if (btn1Href) btn1Href.value = btn1.getAttribute('href') || '';
+        }
+
+        const btn2 = document.querySelector('.hero-cta-wrap a:nth-child(2)');
+        const btn2Text = document.getElementById('live-hero-btn2-text');
+        const btn2Href = document.getElementById('live-hero-btn2-href');
+        if (btn2) {
+            if (btn2Text) btn2Text.value = btn2.innerText.replace(/[→↗]/g, '').trim();
+            if (btn2Href) btn2Href.value = btn2.getAttribute('href') || '';
         }
     }
 
-    function updateHeroCardStyle(prop, val) {
-        const heroContent = document.querySelector(document.body.classList.contains('admin-mobile-preview') ? '.hero-content-mobile' : '.hero-content');
-        if (heroContent) {
-            heroContent.style.setProperty(prop, val);
-        }
-    }
-
-
-
-    if (heroOffsetX) {
-        heroOffsetX.addEventListener('input', (e) => {
-            const val = e.target.value;
-            heroOffsetXVal.innerText = val + 'px';
-            updateHeroCardStyle('--hero-card-offset-x', val + 'px');
-        });
-    }
-    if (heroOffsetY) {
-        heroOffsetY.addEventListener('input', (e) => {
-            const val = e.target.value;
-            heroOffsetYVal.innerText = val + 'px';
-            updateHeroCardStyle('--hero-card-offset-y', val + 'px');
-        });
-    }
-    if (heroCardWidthSlider) {
-        heroCardWidthSlider.addEventListener('input', (e) => {
-            const val = e.target.value;
-            heroCardWidthVal.innerText = val + 'px';
-            updateHeroCardStyle('--hero-card-width', val + 'px');
-        });
-    }
-    if (heroCardPaddingSlider) {
-        heroCardPaddingSlider.addEventListener('input', (e) => {
-            const val = e.target.value;
-            if (heroCardPaddingVal) heroCardPaddingVal.innerText = val + 'px';
-            updateHeroCardStyle('--hero-card-padding', val + 'px');
-            window.hasUnsavedChanges = true;
-            const saveBtnEl = document.getElementById('save-changes');
-            if (saveBtnEl) {
-                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
-            }
-        });
-    }
-    if (heroCardHeightSlider) {
-        heroCardHeightSlider.addEventListener('input', (e) => {
-            const val = e.target.value;
-            if (heroCardHeightVal) heroCardHeightVal.innerText = val + 'px';
-            updateHeroCardStyle('--hero-card-height', val + 'px');
-            window.hasUnsavedChanges = true;
-            const saveBtnEl = document.getElementById('save-changes');
-            if (saveBtnEl) {
-                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
-            }
-        });
-    }
-    if (heroCardHeightAuto) {
-        heroCardHeightAuto.addEventListener('change', (e) => {
-            const checked = e.target.checked;
-            if (checked) {
-                if (heroCardHeightSlider) heroCardHeightSlider.disabled = true;
-                if (heroCardHeightVal) heroCardHeightVal.innerText = 'auto';
-                updateHeroCardStyle('--hero-card-height', 'auto');
-            } else {
-                if (heroCardHeightSlider) {
-                    heroCardHeightSlider.disabled = false;
-                    const val = heroCardHeightSlider.value;
-                    if (heroCardHeightVal) heroCardHeightVal.innerText = val + 'px';
-                    updateHeroCardStyle('--hero-card-height', val + 'px');
-                }
-            }
-            window.hasUnsavedChanges = true;
-            const saveBtnEl = document.getElementById('save-changes');
-            if (saveBtnEl) {
-                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
-            }
-        });
-    }
-    if (heroCardRadiusSlider) {
-        heroCardRadiusSlider.addEventListener('input', (e) => {
-            const val = e.target.value;
-            heroCardRadiusVal.innerText = val + 'px';
-            updateHeroCardStyle('--hero-card-radius', val + 'px');
-        });
-    }
-    if (heroCardBlurSlider) {
-        heroCardBlurSlider.addEventListener('input', (e) => {
-            const val = e.target.value;
-            heroCardBlurVal.innerText = val + 'px';
-            updateHeroCardStyle('--hero-card-blur', val + 'px');
-        });
-    }
-    if (heroCardOpacitySlider) {
-        heroCardOpacitySlider.addEventListener('input', (e) => {
-            const val = e.target.value / 100;
-            heroCardOpacityVal.innerText = val;
-            updateHeroCardStyle('--hero-card-opacity', val);
-        });
-    }
-
-    if (heroHeightSlider) {
-        heroHeightSlider.addEventListener('input', (e) => {
-            const val = e.target.value;
-            if (heroHeightVal) heroHeightVal.innerText = val + 'px';
-            const heroSection = document.querySelector('.hero');
-            if (heroSection) {
-                heroSection.style.setProperty('--hero-min-height', val + 'px');
-            }
-            window.dispatchEvent(new Event('resize'));
-            window.hasUnsavedChanges = true;
-            const saveBtnEl = document.getElementById('save-changes');
-            if (saveBtnEl) {
-                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
-            }
-        });
-    }
-    if (heroPaddingSlider) {
-        heroPaddingSlider.addEventListener('input', (e) => {
-            const val = e.target.value;
-            if (heroPaddingVal) heroPaddingVal.innerText = val + 'px';
-            const heroSection = document.querySelector('.hero');
-            if (heroSection) {
-                heroSection.style.setProperty('--hero-padding-y', val + 'px');
-            }
-            window.dispatchEvent(new Event('resize'));
-            window.hasUnsavedChanges = true;
-            const saveBtnEl = document.getElementById('save-changes');
-            if (saveBtnEl) {
-                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
-            }
-        });
-    }
-    if (heroVideoZoomSlider) {
-        heroVideoZoomSlider.addEventListener('input', (e) => {
-            const zoomVal = e.target.value / 100;
-            if (heroVideoZoomVal) heroVideoZoomVal.innerText = zoomVal.toFixed(1) + 'x';
-            
-            const canvasEl = document.getElementById('hero-bg-canvas');
-            if (canvasEl) {
-                canvasEl.setAttribute('data-zoom', zoomVal);
-            }
-            const fallbackImg = document.getElementById('hero-bg-image');
-            if (fallbackImg) {
-                fallbackImg.style.transform = `scale(${zoomVal})`;
-            }
-            window.hasUnsavedChanges = true;
-            const saveBtnEl = document.getElementById('save-changes');
-            if (saveBtnEl) {
-                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
-            }
-        });
-    }
-
-    // Hero Card Visibility Toggle
-    const heroCardVisibleToggle = document.getElementById('hero-card-visible-toggle');
-    if (heroCardVisibleToggle) {
-        heroCardVisibleToggle.addEventListener('change', (e) => {
-            const heroSection = document.querySelector('.hero');
-            if (heroSection) {
-                if (e.target.checked) {
-                    heroSection.classList.remove('hero-card-hidden');
-                } else {
-                    heroSection.classList.add('hero-card-hidden');
-                }
-            }
-        });
-    }
-
-    const heroCardMobileEditToggle = document.getElementById('hero-card-mobile-edit-toggle');
-    if (heroCardMobileEditToggle) {
-        heroCardMobileEditToggle.addEventListener('change', (e) => {
-            const mobileEditModeToggle = document.getElementById("mobile-edit-mode-toggle");
-            if (mobileEditModeToggle) {
-                if (e.target.checked !== document.body.classList.contains('admin-mobile-preview')) {
-                    mobileEditModeToggle.click();
-                }
-                setTimeout(() => initHeroCardPanelFromDOM(), 50);
-            }
-        });
-    }
-
-
-    if (heroBadgeTextInput) {
-        heroBadgeTextInput.addEventListener('input', (e) => {
-            const badgeEl = document.querySelector('.hero-badge');
-            if (badgeEl) {
-                const span = badgeEl.querySelector('span');
-                badgeEl.innerHTML = '';
-                if (span) badgeEl.appendChild(span);
-                badgeEl.appendChild(document.createTextNode(' ' + e.target.value));
-            }
-        });
-    }
-    if (heroTitleTextInput) {
-        heroTitleTextInput.addEventListener('input', (e) => {
-            const activeHero = document.querySelector(document.body.classList.contains('admin-mobile-preview') ? '.hero-content-mobile' : '.hero-content');
-            const titleEl = activeHero ? activeHero.querySelector('h1') : null;
-            if (titleEl) {
-                titleEl.innerHTML = e.target.value;
-            }
-        });
-    }
-    if (heroDescTextInput) {
-        heroDescTextInput.addEventListener('input', (e) => {
-            const activeHeroDesc = document.querySelector(document.body.classList.contains('admin-mobile-preview') ? '.hero-content-mobile' : '.hero-content');
-            const descEl = activeHeroDesc ? activeHeroDesc.querySelector('p') : null;
-            if (descEl) {
-                descEl.innerHTML = e.target.value;
-            }
-        });
-    }
-    if (heroExpTextInput) {
-        heroExpTextInput.addEventListener('input', (e) => {
-            const expEl = document.querySelector('.float-badge.exp');
-            if (expEl) {
-                expEl.innerHTML = e.target.value;
-            }
-        });
-    }
-    if (heroProjTextInput) {
-        heroProjTextInput.addEventListener('input', (e) => {
-            const projEl = document.querySelector('.float-badge.proj');
-            if (projEl) {
-                projEl.innerHTML = e.target.value;
-            }
-        });
-    }
-
-    if (heroShowExpCheckbox) {
-        heroShowExpCheckbox.addEventListener('change', (e) => {
-            const expEl = document.querySelector('.float-badge.exp');
-            if (expEl) {
-                expEl.style.display = e.target.checked ? '' : 'none';
-            }
-        });
-    }
-    if (heroShowProjCheckbox) {
-        heroShowProjCheckbox.addEventListener('change', (e) => {
-            const projEl = document.querySelector('.float-badge.proj');
-            if (projEl) {
-                projEl.style.display = e.target.checked ? '' : 'none';
-            }
-        });
-    }
-
-    function renderHeroButtonsList() {
-        if (!heroButtonsEditorList) return;
-        heroButtonsEditorList.innerHTML = '';
-        
-        const heroBtnsContainer = document.querySelector('.hero-btns');
-        if (!heroBtnsContainer) {
-            heroButtonsEditorList.innerHTML = '<p style="font-size:0.75rem; color:#f44336;">.hero-btns container not found</p>';
-            return;
-        }
-
-        const buttons = heroBtnsContainer.querySelectorAll('a');
-        buttons.forEach((btn, idx) => {
-            const labelText = btn.innerText.replace(/↗|→/g, '').trim();
-            const hrefVal = btn.getAttribute('href') || '';
-            const btnClass = btn.className || '';
-
-            const itemDiv = document.createElement('div');
-            itemDiv.style.cssText = 'border:1px solid #444; padding:8px; border-radius:6px; background:#222; display:flex; flex-direction:column; gap:6px; margin-bottom:4px;';
-            itemDiv.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-size:0.72rem; color:#888; font-weight:bold;">Button #${idx + 1}</span>
-                    <button class="admin-btn danger btn-delete-hero-btn" data-index="${idx}" style="padding:2px 6px; font-size:0.7rem; margin:0;"><i class="fa-solid fa-trash"></i></button>
-                </div>
-                <input type="text" class="btn-text-input" data-index="${idx}" value="${labelText}" placeholder="Button Text" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
-                <input type="text" class="btn-href-input" data-index="${idx}" value="${hrefVal}" placeholder="Link / Href" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
-                <select class="btn-class-input" data-index="${idx}" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
-                    <option value="btn btn-primary" ${btnClass.includes('btn-primary') ? 'selected' : ''}>Primary (Dark Green)</option>
-                    <option value="btn btn-accent" ${btnClass.includes('btn-accent') ? 'selected' : ''}>Accent (Gold)</option>
-                    <option value="btn btn-outline" ${btnClass.includes('btn-outline') ? 'selected' : ''}>Outline</option>
-                </select>
-            `;
-            heroButtonsEditorList.appendChild(itemDiv);
-        });
-
-        // Add event listeners
-        heroButtonsEditorList.querySelectorAll('.btn-text-input').forEach(input => {
-            input.addEventListener('input', (e) => {
-                const idx = parseInt(e.target.dataset.index);
-                const val = e.target.value;
-                const targetBtn = heroBtnsContainer.querySelectorAll('a')[idx];
-                if (targetBtn) {
-                    const arrow = targetBtn.querySelector('.btn-arrow') ? targetBtn.querySelector('.btn-arrow').outerHTML : '';
-                    targetBtn.innerHTML = val + (arrow ? ' ' + arrow : '');
-                }
-            });
-        });
-
-        heroButtonsEditorList.querySelectorAll('.btn-href-input').forEach(input => {
-            input.addEventListener('input', (e) => {
-                const idx = parseInt(e.target.dataset.index);
-                const val = e.target.value;
-                const targetBtn = heroBtnsContainer.querySelectorAll('a')[idx];
-                if (targetBtn) {
-                    targetBtn.setAttribute('href', val);
-                }
-            });
-        });
-
-        heroButtonsEditorList.querySelectorAll('.btn-class-input').forEach(select => {
-            select.addEventListener('change', (e) => {
-                const idx = parseInt(e.target.dataset.index);
-                const val = e.target.value;
-                const targetBtn = heroBtnsContainer.querySelectorAll('a')[idx];
-                if (targetBtn) {
-                    targetBtn.className = val + ' editable-container';
-                }
-            });
-        });
-
-        heroButtonsEditorList.querySelectorAll('.btn-delete-hero-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const idx = parseInt(e.currentTarget.dataset.index);
-                const targetBtn = heroBtnsContainer.querySelectorAll('a')[idx];
-                if (targetBtn) {
-                    targetBtn.remove();
-                    renderHeroButtonsList();
-                }
-            });
-        });
-    }
-
-    if (heroAddButtonBtn) {
-        heroAddButtonBtn.addEventListener('click', () => {
-            const heroBtnsContainer = document.querySelector('.hero-btns');
-            if (!heroBtnsContainer) {
-                window.showToast("Hero buttons container not found.", "error");
-                return;
-            }
-            
-            const newBtn = document.createElement('a');
-            newBtn.setAttribute('href', '#contact');
-            newBtn.className = 'btn btn-primary editable-container';
-            newBtn.setAttribute('data-admin-text', 'true');
-            newBtn.innerHTML = 'New Button <span class="btn-arrow">→</span>';
-            
-            heroBtnsContainer.appendChild(newBtn);
-            
-            renderHeroButtonsList();
-            
-            if (isEditMode) {
-                setupEditableElements();
-                document.querySelectorAll('[data-admin-text="true"]').forEach(el => el.setAttribute("contenteditable", "true"));
-            }
-        });
-    }
-
-    function renderHeroTagsList() {
-        if (!heroTagsEditorList) return;
-        heroTagsEditorList.innerHTML = '';
-
-        const skillTagsContainer = document.querySelector('.skill-tags');
-        if (!skillTagsContainer) {
-            heroTagsEditorList.innerHTML = '<p style="font-size:0.75rem; color:#f44336;">.skill-tags container not found</p>';
-            return;
-        }
-
-        const tags = skillTagsContainer.querySelectorAll('.skill-tag');
-        tags.forEach((tag, idx) => {
-            const iconEl = tag.querySelector('i');
-            const iconClass = iconEl ? iconEl.className : '';
-            const labelText = tag.innerText.trim();
-
-            const itemDiv = document.createElement('div');
-            itemDiv.style.cssText = 'border:1px solid #444; padding:8px; border-radius:6px; background:#222; display:flex; flex-direction:column; gap:6px; margin-bottom:4px;';
-            itemDiv.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-size:0.72rem; color:#888; font-weight:bold;">Tag #${idx + 1}</span>
-                    <button class="admin-btn danger btn-delete-hero-tag" data-index="${idx}" style="padding:2px 6px; font-size:0.7rem; margin:0;"><i class="fa-solid fa-trash"></i></button>
-                </div>
-                <input type="text" class="tag-text-input" data-index="${idx}" value="${labelText}" placeholder="Tag Text" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
-                <input type="text" class="tag-icon-input" data-index="${idx}" value="${iconClass}" placeholder="Icon CSS e.g. fa-solid fa-star" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
-            `;
-            heroTagsEditorList.appendChild(itemDiv);
-        });
-
-        // Add event listeners
-        heroTagsEditorList.querySelectorAll('.tag-text-input').forEach(input => {
-            input.addEventListener('input', (e) => {
-                const idx = parseInt(e.target.dataset.index);
-                const val = e.target.value;
-                const targetTag = skillTagsContainer.querySelectorAll('.skill-tag')[idx];
-                if (targetTag) {
-                    const iconHTML = targetTag.querySelector('i') ? targetTag.querySelector('i').outerHTML : '';
-                    targetTag.innerHTML = iconHTML + ' ' + val;
-                }
-            });
-        });
-
-        heroTagsEditorList.querySelectorAll('.tag-icon-input').forEach(input => {
-            input.addEventListener('input', (e) => {
-                const idx = parseInt(e.target.dataset.index);
-                const val = e.target.value;
-                const targetTag = skillTagsContainer.querySelectorAll('.skill-tag')[idx];
-                if (targetTag) {
-                    const iconEl = targetTag.querySelector('i');
-                    if (iconEl) {
-                        iconEl.className = val;
-                    } else if (val) {
-                        const newIcon = document.createElement('i');
-                        newIcon.className = val;
-                        targetTag.insertBefore(newIcon, targetTag.firstChild);
-                    }
-                }
-            });
-        });
-
-        heroTagsEditorList.querySelectorAll('.btn-delete-hero-tag').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const idx = parseInt(e.currentTarget.dataset.index);
-                const targetTag = skillTagsContainer.querySelectorAll('.skill-tag')[idx];
-                if (targetTag) {
-                    targetTag.remove();
-                    renderHeroTagsList();
-                }
-            });
-        });
-    }
-
-    if (heroAddTagBtn) {
-        heroAddTagBtn.addEventListener('click', () => {
-            const skillTagsContainer = document.querySelector('.skill-tags');
-            if (!skillTagsContainer) {
-                window.showToast("Skill tags container not found.", "error");
-                return;
-            }
-
-            const newTag = document.createElement('span');
-            newTag.className = 'skill-tag editable-container';
-            newTag.setAttribute('data-admin-text', 'true');
-            newTag.innerHTML = '<i class="fa-solid fa-circle-check"></i> New Skill';
-
-            skillTagsContainer.appendChild(newTag);
-
-            renderHeroTagsList();
-
-            if (isEditMode) {
-                setupEditableElements();
-                document.querySelectorAll('[data-admin-text="true"]').forEach(el => el.setAttribute("contenteditable", "true"));
-            }
-        });
-    }
-
-    function getMarqueeData() {
-        const firstTrack = document.querySelector('.marquee-track');
-        if (!firstTrack) return [];
-        const items = Array.from(firstTrack.querySelectorAll('span'));
-        const halfCount = Math.floor(items.length / 2) || items.length;
-        return items.slice(0, halfCount).map(el => el.innerText.trim());
-    }
-
-    function renderMarqueeDOM(dataArray) {
-        const firstTrack = document.querySelector('.marquee-track');
-        if (!firstTrack) return;
-        firstTrack.innerHTML = '';
-        // Duplicate data array for seamless loop
-        const fullArray = [...dataArray, ...dataArray];
-        fullArray.forEach(text => {
-            const span = document.createElement('span');
-            span.setAttribute('data-admin-text', 'true');
-            if (isEditMode) span.setAttribute("contenteditable", "true");
-            span.innerText = text;
-            firstTrack.appendChild(span);
-        });
-    }
-
-    function renderHeroMarqueeList() {
-        if (!heroMarqueeEditorList) return;
-        heroMarqueeEditorList.innerHTML = '';
-
-        const dataArray = getMarqueeData();
-        if (dataArray.length === 0) {
-            heroMarqueeEditorList.innerHTML = '<p style="font-size:0.75rem; color:#f44336;">.marquee-track not found or empty</p>';
-            return;
-        }
-
-        dataArray.forEach((text, idx) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.style.cssText = 'border:1px solid #444; padding:8px; border-radius:6px; background:#222; display:flex; flex-direction:column; gap:6px; margin-bottom:4px;';
-            itemDiv.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-size:0.72rem; color:#888; font-weight:bold;">Marquee Item #${idx + 1}</span>
-                    <button class="admin-btn danger btn-delete-hero-marquee" data-index="${idx}" style="padding:2px 6px; font-size:0.7rem; margin:0;"><i class="fa-solid fa-trash"></i></button>
-                </div>
-                <input type="text" class="marquee-text-input" data-index="${idx}" value="${text}" placeholder="Item Text" style="padding:4px; font-size:0.75rem; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
-            `;
-            heroMarqueeEditorList.appendChild(itemDiv);
-        });
-
-        heroMarqueeEditorList.querySelectorAll('.marquee-text-input').forEach(input => {
-            input.addEventListener('input', (e) => {
-                const idx = parseInt(e.target.dataset.index);
-                const val = e.target.value;
-                const currentData = getMarqueeData();
-                currentData[idx] = val;
-                renderMarqueeDOM(currentData);
-            });
-        });
-
-        heroMarqueeEditorList.querySelectorAll('.btn-delete-hero-marquee').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const idx = parseInt(e.currentTarget.dataset.index);
-                const currentData = getMarqueeData();
-                currentData.splice(idx, 1);
-                renderMarqueeDOM(currentData);
-                renderHeroMarqueeList();
-            });
-        });
-    }
-
-    if (heroAddMarqueeBtn) {
-        heroAddMarqueeBtn.addEventListener('click', () => {
-            const currentData = getMarqueeData();
-            currentData.push('New Marquee Item');
-            renderMarqueeDOM(currentData);
-            renderHeroMarqueeList();
-        });
-    }
-
-    // Drag-and-drop repositioning logic for hero float cards and main card in edit mode
-    let activeDragCard = null;
-    let activeDragMainCard = null;
-    let dragStartX = 0, dragStartY = 0;
-    let initialLeftPercent = 0, initialTopPercent = 0;
-    let initialOffsetX = 0, initialOffsetY = 0;
-
-    document.addEventListener('mousedown', (e) => {
-        if (!isEditMode) return;
-
-        // Skip if clicked inside any admin panel/modals/forms
-        if (e.target.closest('#super-admin-panel') || 
-            e.target.closest('#admin-crop-modal') || 
-            e.target.closest('#admin-add-item-modal') || 
-            e.target.closest('#admin-text-toolbar') || 
-            e.target.closest('#admin-blog-modal') || 
-            e.target.closest('#admin-hero-bg-modal') ||
-            e.target.closest('#float-card-form')) {
-            return;
-        }
-
-        // 1. Check for floating card first
-        const floatCard = e.target.closest('.hero-float-card');
-        if (floatCard) {
-            activeDragCard = floatCard;
-            dragStartX = e.clientX;
-            dragStartY = e.clientY;
-
-            const parent = floatCard.offsetParent || document.querySelector('.hero');
-            const parentWidth = parent.clientWidth || window.innerWidth;
-            const parentHeight = parent.clientHeight || window.innerHeight;
-
-            const styleLeft = floatCard.style.left;
-            const styleTop = floatCard.style.top;
-
-            if (styleLeft && styleLeft.endsWith('%')) {
-                initialLeftPercent = parseFloat(styleLeft);
-            } else {
-                initialLeftPercent = (floatCard.offsetLeft / parentWidth) * 100;
-            }
-
-            if (styleTop && styleTop.endsWith('%')) {
-                initialTopPercent = parseFloat(styleTop);
-            } else {
-                initialTopPercent = (floatCard.offsetTop / parentHeight) * 100;
-            }
-
-            floatCard.style.right = 'auto';
-            floatCard.style.bottom = 'auto';
-            floatCard.style.left = initialLeftPercent + '%';
-            floatCard.style.top = initialTopPercent + '%';
-            floatCard.style.cursor = 'grabbing';
-
-            e.preventDefault();
-            return;
-        }
-
-        // 2. Check for main hero card
-        const heroContent = e.target.closest('.hero-content') || e.target.closest('.hero-content-mobile');
-        if (heroContent) {
-            // Avoid dragging if clicking on links, buttons, inputs, edit/delete buttons, or anything clickable
-            if (e.target.closest('a') || 
-                e.target.closest('button') || 
-                e.target.closest('input') || 
-                e.target.closest('textarea') || 
-                e.target.closest('select') || 
-                e.target.closest('.admin-element-toolbar') ||
-                e.target.closest('[contenteditable="true"]')) {
-                return;
-            }
-
-            activeDragMainCard = heroContent;
-            dragStartX = e.clientX;
-            dragStartY = e.clientY;
-
-            const style = heroContent.style;
-            initialOffsetX = parseInt(style.getPropertyValue('--hero-card-offset-x') || '-40');
-            initialOffsetY = parseInt(style.getPropertyValue('--hero-card-offset-y') || '0');
-
-            heroContent.style.cursor = 'grabbing';
-            e.preventDefault();
-        }
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        if (activeDragCard) {
-            const parent = activeDragCard.offsetParent || document.querySelector('.hero');
-            const parentWidth = parent.clientWidth || window.innerWidth;
-            const parentHeight = parent.clientHeight || window.innerHeight;
-
-            const dx = e.clientX - dragStartX;
-            const dy = e.clientY - dragStartY;
-
-            const deltaLeftPercent = (dx / parentWidth) * 100;
-            const deltaTopPercent = (dy / parentHeight) * 100;
-
-            let newLeft = initialLeftPercent + deltaLeftPercent;
-            let newTop = initialTopPercent + deltaTopPercent;
-
-            // Keep inside bounds (0% to 95%)
-            newLeft = Math.max(0, Math.min(95, newLeft));
-            newTop = Math.max(0, Math.min(95, newTop));
-
-            activeDragCard.style.left = newLeft.toFixed(2) + '%';
-            activeDragCard.style.top = newTop.toFixed(2) + '%';
-            return;
-        }
-
-        if (activeDragMainCard) {
-            const dx = e.clientX - dragStartX;
-            const dy = e.clientY - dragStartY;
-
-            const newOffsetX = initialOffsetX + dx;
-            const newOffsetY = initialOffsetY + dy;
-
-            // Restrict to slider bounds
-            const boundedX = Math.max(-800, Math.min(800, newOffsetX));
-            const boundedY = Math.max(-400, Math.min(400, newOffsetY));
-
-            activeDragMainCard.style.setProperty('--hero-card-offset-x', boundedX + 'px');
-            activeDragMainCard.style.setProperty('--hero-card-offset-y', boundedY + 'px');
-
-            if (heroOffsetX) {
-                heroOffsetX.value = boundedX;
-                heroOffsetXVal.innerText = boundedX + 'px';
-            }
-            if (heroOffsetY) {
-                heroOffsetY.value = boundedY;
-                heroOffsetYVal.innerText = boundedY + 'px';
-            }
-
-            window.hasUnsavedChanges = true;
-            const saveBtnEl = document.getElementById('save-changes');
-            if (saveBtnEl) {
-                saveBtnEl.style.boxShadow = '0 0 15px #20c997';
-            }
-        }
-    });
-
-    document.addEventListener('mouseup', () => {
-        if (activeDragCard) {
-            activeDragCard.style.cursor = '';
-            activeDragCard = null;
-        }
-        if (activeDragMainCard) {
-            activeDragMainCard.style.cursor = '';
-            activeDragMainCard = null;
-        }
-    });
-
-    function initFloatingCardsPanelLogic() {
-        const floatCardsList = document.getElementById('hero-floating-cards-list');
-        const floatCardForm = document.getElementById('float-card-form');
-        const floatCardText = document.getElementById('float-card-text');
-        const floatCardFile = document.getElementById('float-card-file');
-        const floatCardFileBtn = document.getElementById('float-card-file-btn');
-        const floatCardImgUrl = document.getElementById('float-card-img-url');
-        const floatCardImgPreview = document.getElementById('float-card-img-preview');
-        const floatCardImgPreviewContainer = document.getElementById('float-card-img-preview-container');
-        const floatCardImgFilename = document.getElementById('float-card-img-filename');
-        const floatCardSaveBtn = document.getElementById('float-card-save-btn');
-        const floatCardCancelBtn = document.getElementById('float-card-cancel-btn');
-        const floatCardAddBtn = document.getElementById('float-card-add-btn');
-        const floatCardLeft = document.getElementById('float-card-left');
-        const floatCardLeftVal = document.getElementById('float-card-left-val');
-        const floatCardTop = document.getElementById('float-card-top');
-        const floatCardTopVal = document.getElementById('float-card-top-val');
-        const floatCardWidthInput = document.getElementById('float-card-width-input');
-        const floatCardWidthVal = document.getElementById('float-card-width-val');
-        const floatCardWidthAuto = document.getElementById('float-card-width-auto');
-        const floatCardHeightInput = document.getElementById('float-card-height-input');
-        const floatCardHeightVal = document.getElementById('float-card-height-val');
-        const floatCardHeightAuto = document.getElementById('float-card-height-auto');
-        const floatCardPaddingInput = document.getElementById('float-card-padding-input');
-        const floatCardPaddingVal = document.getElementById('float-card-padding-val');
-        const floatCardRadiusInput = document.getElementById('float-card-radius-input');
-        const floatCardRadiusVal = document.getElementById('float-card-radius-val');
-        const floatCardBlurInput = document.getElementById('float-card-blur-input');
-        const floatCardBlurVal = document.getElementById('float-card-blur-val');
-        const floatCardOpacityInput = document.getElementById('float-card-opacity-input');
-        const floatCardOpacityVal = document.getElementById('float-card-opacity-val');
-        const floatCardScaleInput = document.getElementById('float-card-scale-input');
-        const floatCardScaleVal = document.getElementById('float-card-scale-val');
-        const floatCardImgsizeInput = document.getElementById('float-card-imgsize-input');
-        const floatCardImgsizeVal = document.getElementById('float-card-imgsize-val');
-
-        if (!floatCardsList) return;
-
-        const getHeroFloatingCardsContainer = () => window.activeFloatingContainer || document.getElementById('hero-floating-cards');
-        if (!getHeroFloatingCardsContainer()) return;
-
-        const renderList = () => {
-            floatCardsList.innerHTML = '';
-            const cards = getHeroFloatingCardsContainer().querySelectorAll('.hero-float-card');
-            
-            if (cards.length === 0) {
-                floatCardsList.innerHTML = '<p style="font-size:0.75rem; color:#888; text-align:center; padding:10px; margin:0;">No floating cards found.</p>';
-            }
-
-            cards.forEach((card, index) => {
-                let cardId = card.getAttribute('data-card-id');
-                if (!cardId) {
-                    cardId = 'card_' + Date.now() + '_' + index;
-                    card.setAttribute('data-card-id', cardId);
-                }
-
-                const imgEl = card.querySelector('img');
-                const textEl = card.querySelector('span');
-                const imgUrl = imgEl ? imgEl.src : '';
-                const labelText = textEl ? textEl.innerText : '';
-                
-                const styleLeft = card.style.left || '';
-                const styleTop = card.style.top || '';
-                const currentLeft = styleLeft ? parseFloat(styleLeft) : 50;
-                const currentTop = styleTop ? parseFloat(styleTop) : 50;
-
-                const itemDiv = document.createElement('div');
-                itemDiv.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:8px; background:#222; border-radius:6px; border:1px solid #444; margin-bottom:4px;';
-                itemDiv.innerHTML = `
-                    <div style="display:flex; align-items:center; gap:8px; overflow:hidden; flex:1;">
-                        ${imgUrl ? `<img src="${imgUrl}" style="height:24px; max-width:40px; object-fit:contain; background:#333; padding:2px; border-radius:3px;" onerror="this.style.display='none'">` : '<div style="width:24px; height:24px; background:#333; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:0.6rem; color:#888;"><i class="fa-solid fa-image"></i></div>'}
-                        <span style="font-size:0.75rem; color:#fff; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${labelText || '(No label)'}</span>
-                    </div>
-                    <div style="display:flex; gap:4px;">
-                        <button type="button" class="btn-edit-float-card admin-btn" data-id="${cardId}" style="padding:4px 8px; font-size:0.7rem; margin:0; background:#ffc107; color:#111;"><i class="fa-solid fa-pencil"></i></button>
-                        <button type="button" class="btn-delete-float-card admin-btn danger" data-id="${cardId}" style="padding:4px 8px; font-size:0.7rem; margin:0;"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                `;
-                
-                itemDiv.querySelector('.btn-edit-float-card').addEventListener('click', () => {
-                    floatCardForm.style.display = 'flex';
-                    floatCardAddBtn.style.display = 'none';
-                    floatCardForm.dataset.mode = 'edit';
-                    floatCardForm.dataset.targetId = cardId;
-                    document.getElementById('float-card-form-title').innerText = 'Edit Floating Card';
-                    
-                    floatCardText.value = labelText;
-                    floatCardImgUrl.value = imgUrl;
-                    floatCardLeft.value = Math.round(currentLeft);
-                    floatCardTop.value = Math.round(currentTop);
-                    if (floatCardLeftVal) floatCardLeftVal.innerText = Math.round(currentLeft) + '%';
-                    if (floatCardTopVal) floatCardTopVal.innerText = Math.round(currentTop) + '%';
-
-                    const cardStyle = card.style;
-                    
-                    // Width
-                    const cWidth = cardStyle.getPropertyValue('--hero-float-card-width') || 'auto';
-                    const isWAuto = cWidth === 'auto' || !cWidth;
-                    const wVal = isWAuto ? 150 : (parseInt(cWidth) || 150);
-                    if (floatCardWidthInput) {
-                        floatCardWidthInput.value = wVal;
-                        floatCardWidthInput.disabled = isWAuto;
-                    }
-                    if (floatCardWidthVal) floatCardWidthVal.innerText = isWAuto ? 'auto' : wVal + 'px';
-                    if (floatCardWidthAuto) floatCardWidthAuto.checked = isWAuto;
-
-                    // Height
-                    const cHeight = cardStyle.getPropertyValue('--hero-float-card-height') || 'auto';
-                    const isHAuto = cHeight === 'auto' || !cHeight;
-                    const hVal = isHAuto ? 50 : (parseInt(cHeight) || 50);
-                    if (floatCardHeightInput) {
-                        floatCardHeightInput.value = hVal;
-                        floatCardHeightInput.disabled = isHAuto;
-                    }
-                    if (floatCardHeightVal) floatCardHeightVal.innerText = isHAuto ? 'auto' : hVal + 'px';
-                    if (floatCardHeightAuto) floatCardHeightAuto.checked = isHAuto;
-                    
-                    // Padding
-                    const cPadding = cardStyle.getPropertyValue('--hero-float-card-padding') || '10px 16px';
-                    const pVal = parseInt(cPadding) || 10;
-                    if (floatCardPaddingInput) floatCardPaddingInput.value = pVal;
-                    if (floatCardPaddingVal) floatCardPaddingVal.innerText = pVal + 'px';
-                    
-                    // Radius
-                    const cRadius = cardStyle.getPropertyValue('--hero-float-card-radius') || '12px';
-                    const rVal = parseInt(cRadius) || 12;
-                    if (floatCardRadiusInput) floatCardRadiusInput.value = rVal;
-                    if (floatCardRadiusVal) floatCardRadiusVal.innerText = rVal + 'px';
-                    
-                    // Blur
-                    const cBlur = cardStyle.getPropertyValue('--hero-float-card-blur') || '12px';
-                    const bVal = parseInt(cBlur) || 12;
-                    if (floatCardBlurInput) floatCardBlurInput.value = bVal;
-                    if (floatCardBlurVal) floatCardBlurVal.innerText = bVal + 'px';
-                    
-                    // Opacity
-                    const cOpacity = cardStyle.getPropertyValue('--hero-float-card-opacity') || '0.45';
-                    const oVal = parseFloat(cOpacity) || 0.45;
-                    if (floatCardOpacityInput) floatCardOpacityInput.value = Math.round(oVal * 100);
-                    if (floatCardOpacityVal) floatCardOpacityVal.innerText = oVal;
-                    
-                    // Scale
-                    const cScale = cardStyle.getPropertyValue('--hero-float-card-scale') || '1';
-                    const scaleVal = Math.round(parseFloat(cScale) * 100) || 100;
-                    if (floatCardScaleInput) floatCardScaleInput.value = scaleVal;
-                    if (floatCardScaleVal) floatCardScaleVal.innerText = (scaleVal / 100) + 'x';
-                    
-                    // Image Size
-                    const cImgSize = cardStyle.getPropertyValue('--hero-float-card-img-size') || '24px';
-                    const imgSizeVal = parseInt(cImgSize) || 24;
-                    if (floatCardImgsizeInput) floatCardImgsizeInput.value = imgSizeVal;
-                    if (floatCardImgsizeVal) floatCardImgsizeVal.innerText = imgSizeVal + 'px';
-                    
-                    if (imgUrl) {
-                        floatCardImgPreview.src = imgUrl;
-                        floatCardImgPreviewContainer.style.display = 'flex';
-                        floatCardImgFilename.innerText = 'Logo Image';
-                    } else {
-                        floatCardImgPreviewContainer.style.display = 'none';
-                    }
-                });
-
-                itemDiv.querySelector('.btn-delete-float-card').addEventListener('click', () => {
-                    if (confirm(`Are you sure you want to delete "${labelText || 'this card'}"?`)) {
-                        card.remove();
-                        renderList();
-                        window.showToast('Floating card deleted locally. Save to Cloud to persist.', 'info');
-                    }
-                });
-
-                floatCardsList.appendChild(itemDiv);
-            });
+    // Attach Hero Editor Listeners
+    function setupHeroLiveEditorEvents() {
+        const textCol = () => document.querySelector('.hero-left-col');
+        const card = () => document.querySelector('.hero-showcase-card');
+        const img = () => document.getElementById('hero-showcase-img');
+        const heroSection = () => document.querySelector('.hero');
+        const splitGrid = () => document.querySelector('.hero-split-grid');
+
+        // Apply Text Changes
+        const applyText = () => {
+            const el = textCol();
+            if (!el) return;
+            const x = parseInt(document.getElementById('hero-text-x-slider')?.value || 0);
+            const y = parseInt(document.getElementById('hero-text-y-slider')?.value || 0);
+            const scale = (parseInt(document.getElementById('hero-text-scale-slider')?.value || 100)) / 100;
+            const width = parseInt(document.getElementById('hero-text-width-slider')?.value || 620);
+
+            el.style.setProperty('--hero-text-x', x + 'px');
+            el.style.setProperty('--hero-text-y', y + 'px');
+            el.style.setProperty('--hero-text-scale', scale);
+            el.style.setProperty('--hero-text-width', width + 'px');
+            el.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + scale + ')';
+            el.style.transformOrigin = 'left center';
+            el.style.maxWidth = width + 'px';
+            markHeroChangesUnsaved();
         };
 
-        if (floatCardFile && floatCardFileBtn) {
-            floatCardFileBtn.onclick = () => floatCardFile.click();
-            floatCardFile.onchange = (e) => {
+        // Text Sliders Listeners
+        const textX = document.getElementById('hero-text-x-slider');
+        const textXVal = document.getElementById('hero-text-x-val');
+        if (textX) {
+            textX.addEventListener('input', (e) => {
+                if (textXVal) textXVal.innerText = e.target.value + 'px';
+                applyText();
+            });
+        }
+
+        const textY = document.getElementById('hero-text-y-slider');
+        const textYVal = document.getElementById('hero-text-y-val');
+        if (textY) {
+            textY.addEventListener('input', (e) => {
+                if (textYVal) textYVal.innerText = e.target.value + 'px';
+                applyText();
+            });
+        }
+
+        const textScale = document.getElementById('hero-text-scale-slider');
+        const textScaleVal = document.getElementById('hero-text-scale-val');
+        if (textScale) {
+            textScale.addEventListener('input', (e) => {
+                if (textScaleVal) textScaleVal.innerText = (e.target.value / 100).toFixed(2) + 'x';
+                applyText();
+            });
+        }
+
+        const textWidth = document.getElementById('hero-text-width-slider');
+        const textWidthVal = document.getElementById('hero-text-width-val');
+        if (textWidth) {
+            textWidth.addEventListener('input', (e) => {
+                if (textWidthVal) textWidthVal.innerText = e.target.value + 'px';
+                applyText();
+            });
+        }
+
+        // Apply Picture Changes
+        const applyPicture = () => {
+            const el = card();
+            if (!el) return;
+            const x = parseInt(document.getElementById('hero-img-x-slider')?.value || 0);
+            const y = parseInt(document.getElementById('hero-img-y-slider')?.value || 0);
+            const scale = (parseInt(document.getElementById('hero-img-scale-slider')?.value || 100)) / 100;
+            const width = parseInt(document.getElementById('hero-img-width-slider')?.value || 600);
+            const radius = parseInt(document.getElementById('hero-img-radius-slider')?.value || 28);
+
+            el.style.setProperty('--hero-img-x', x + 'px');
+            el.style.setProperty('--hero-img-y', y + 'px');
+            el.style.setProperty('--hero-img-scale', scale);
+            el.style.setProperty('--hero-img-width', width + 'px');
+            el.style.setProperty('--hero-img-radius', radius + 'px');
+            el.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + scale + ')';
+            el.style.transformOrigin = 'center center';
+            el.style.maxWidth = width + 'px';
+            el.style.borderRadius = radius + 'px';
+
+            const imgEl = el.querySelector('#hero-showcase-img');
+            if (imgEl) {
+                imgEl.style.borderRadius = radius + 'px';
+            }
+            markHeroChangesUnsaved();
+        };
+
+        // Picture Sliders Listeners
+        const imgX = document.getElementById('hero-img-x-slider');
+        const imgXVal = document.getElementById('hero-img-x-val');
+        if (imgX) {
+            imgX.addEventListener('input', (e) => {
+                if (imgXVal) imgXVal.innerText = e.target.value + 'px';
+                applyPicture();
+            });
+        }
+
+        const imgY = document.getElementById('hero-img-y-slider');
+        const imgYVal = document.getElementById('hero-img-y-val');
+        if (imgY) {
+            imgY.addEventListener('input', (e) => {
+                if (imgYVal) imgYVal.innerText = e.target.value + 'px';
+                applyPicture();
+            });
+        }
+
+        const imgScale = document.getElementById('hero-img-scale-slider');
+        const imgScaleVal = document.getElementById('hero-img-scale-val');
+        if (imgScale) {
+            imgScale.addEventListener('input', (e) => {
+                if (imgScaleVal) imgScaleVal.innerText = (e.target.value / 100).toFixed(2) + 'x';
+                applyPicture();
+            });
+        }
+
+        const imgWidth = document.getElementById('hero-img-width-slider');
+        const imgWidthVal = document.getElementById('hero-img-width-val');
+        if (imgWidth) {
+            imgWidth.addEventListener('input', (e) => {
+                if (imgWidthVal) imgWidthVal.innerText = e.target.value + 'px';
+                applyPicture();
+            });
+        }
+
+        const imgRadius = document.getElementById('hero-img-radius-slider');
+        const imgRadiusVal = document.getElementById('hero-img-radius-val');
+        if (imgRadius) {
+            imgRadius.addEventListener('input', (e) => {
+                if (imgRadiusVal) imgRadiusVal.innerText = e.target.value + 'px';
+                applyPicture();
+            });
+        }
+
+        // Hero Picture Image URL & Upload
+        const imgUrlInput = document.getElementById('hero-img-url-input');
+        const thumbPreview = document.getElementById('hero-img-thumb-preview');
+        if (imgUrlInput) {
+            imgUrlInput.addEventListener('input', (e) => {
+                const val = e.target.value.trim();
+                const targetImg = img();
+                if (targetImg && val) {
+                    targetImg.src = val;
+                }
+                if (thumbPreview && val) {
+                    thumbPreview.src = val;
+                }
+                markHeroChangesUnsaved();
+            });
+        }
+
+        const fileInput = document.getElementById('hero-img-file-input');
+        const uploadBtn = document.getElementById('hero-img-upload-btn');
+        if (uploadBtn && fileInput) {
+            uploadBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', async (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
-                
+
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = () => {
-                    floatCardImgPreview.src = reader.result;
-                    floatCardImgPreviewContainer.style.display = 'flex';
-                    floatCardImgFilename.innerText = file.name;
-                    floatCardImgUrl.value = 'base64_pending';
-                    floatCardFile.dataset.base64 = reader.result;
+                reader.onload = async () => {
+                    const base64 = reader.result;
+                    const targetImg = img();
+                    if (targetImg) targetImg.src = base64;
+                    if (thumbPreview) thumbPreview.src = base64;
+
+                    const originalBtnText = uploadBtn.innerHTML;
+                    uploadBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
+                    uploadBtn.disabled = true;
+
+                    try {
+                        window.showToast('Uploading hero image to Cloudinary...', 'info');
+                        const uploadedUrl = await uploadToCloudinary(base64);
+                        if (targetImg) targetImg.src = uploadedUrl;
+                        if (thumbPreview) thumbPreview.src = uploadedUrl;
+                        if (imgUrlInput) imgUrlInput.value = uploadedUrl;
+                        window.showToast('Hero image uploaded and updated successfully.', 'success');
+                        markHeroChangesUnsaved();
+                    } catch (err) {
+                        console.error('Cloudinary upload error:', err);
+                        window.showToast('Failed to upload image: ' + err.message, 'error');
+                    } finally {
+                        uploadBtn.innerHTML = originalBtnText;
+                        uploadBtn.disabled = false;
+                        fileInput.value = '';
+                    }
                 };
-            };
+            });
         }
 
-        if (floatCardCancelBtn) {
-            floatCardCancelBtn.onclick = () => {
-                floatCardForm.style.display = 'none';
-                floatCardAddBtn.style.display = 'block';
-                floatCardText.value = '';
-                floatCardImgUrl.value = '';
-                floatCardFile.value = '';
-                floatCardFile.dataset.base64 = '';
-                floatCardImgPreviewContainer.style.display = 'none';
-                floatCardLeft.value = '50';
-                if (floatCardLeftVal) floatCardLeftVal.innerText = '50%';
-                floatCardTop.value = '50';
-                if (floatCardTopVal) floatCardTopVal.innerText = '50%';
-                
-                if (floatCardWidthInput) {
-                    floatCardWidthInput.value = '150';
-                    floatCardWidthInput.disabled = true;
+        // Section Height, Padding, Gap
+        const secHeight = document.getElementById('hero-sec-height-slider');
+        const secHeightVal = document.getElementById('hero-sec-height-val');
+        if (secHeight) {
+            secHeight.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (secHeightVal) secHeightVal.innerText = val + 'px';
+                const el = heroSection();
+                if (el) {
+                    el.style.setProperty('--hero-min-height', val + 'px');
+                    el.style.minHeight = val + 'px';
                 }
-                if (floatCardWidthVal) floatCardWidthVal.innerText = 'auto';
-                if (floatCardWidthAuto) floatCardWidthAuto.checked = true;
-                
-                if (floatCardHeightInput) {
-                    floatCardHeightInput.value = '50';
-                    floatCardHeightInput.disabled = true;
-                }
-                if (floatCardHeightVal) floatCardHeightVal.innerText = 'auto';
-                if (floatCardHeightAuto) floatCardHeightAuto.checked = true;
-                
-                if (floatCardPaddingInput) floatCardPaddingInput.value = '10';
-                if (floatCardPaddingVal) floatCardPaddingVal.innerText = '10px';
-                
-                if (floatCardRadiusInput) floatCardRadiusInput.value = '12';
-                if (floatCardRadiusVal) floatCardRadiusVal.innerText = '12px';
-                
-                if (floatCardBlurInput) floatCardBlurInput.value = '12';
-                if (floatCardBlurVal) floatCardBlurVal.innerText = '12px';
-                
-                if (floatCardOpacityInput) floatCardOpacityInput.value = '45';
-                if (floatCardOpacityVal) floatCardOpacityVal.innerText = '0.45';
-                if (floatCardScaleInput) floatCardScaleInput.value = '100';
-                if (floatCardScaleVal) floatCardScaleVal.innerText = '1x';
-                if (floatCardImgsizeInput) floatCardImgsizeInput.value = '24';
-                if (floatCardImgsizeVal) floatCardImgsizeVal.innerText = '24px';
-            };
+                markHeroChangesUnsaved();
+            });
         }
 
-        if (floatCardSaveBtn) {
-            floatCardSaveBtn.onclick = async () => {
-                const text = floatCardText.value.trim();
-                let imgUrl = floatCardImgUrl.value.trim();
-                const mode = floatCardForm.dataset.mode || 'add';
-                const targetId = floatCardForm.dataset.targetId;
-                const leftVal = floatCardLeft.value || '50';
-                const topVal = floatCardTop.value || '50';
-
-                if (!text && !imgUrl && floatCardImgUrl.value !== 'base64_pending') {
-                    window.showToast('Please enter text or choose an image.', 'warning');
-                    return;
+        const secPadding = document.getElementById('hero-sec-padding-slider');
+        const secPaddingVal = document.getElementById('hero-sec-padding-val');
+        if (secPadding) {
+            secPadding.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (secPaddingVal) secPaddingVal.innerText = val + 'px';
+                const el = heroSection();
+                if (el) {
+                    el.style.setProperty('--hero-padding-y', val + 'px');
+                    el.style.paddingTop = val + 'px';
+                    el.style.paddingBottom = val + 'px';
                 }
-
-                const originalBtnText = floatCardSaveBtn.innerText;
-                floatCardSaveBtn.innerText = 'Saving...';
-                floatCardSaveBtn.disabled = true;
-
-                try {
-                    if (imgUrl === 'base64_pending' && floatCardFile.dataset.base64) {
-                        window.showToast('Uploading logo to Cloudinary...', 'info');
-                        const uploadedUrl = await uploadToCloudinary(floatCardFile.dataset.base64);
-                        imgUrl = uploadedUrl;
-                    }
-
-                    const isWAuto = floatCardWidthAuto ? floatCardWidthAuto.checked : true;
-                    const wVal = isWAuto ? 'auto' : (floatCardWidthInput.value + 'px');
-
-                    const isHAuto = floatCardHeightAuto ? floatCardHeightAuto.checked : true;
-                    const hVal = isHAuto ? 'auto' : (floatCardHeightInput.value + 'px');
-
-                    const pVal = floatCardPaddingInput ? (parseInt(floatCardPaddingInput.value) || 10) : 10;
-                    const rVal = floatCardRadiusInput ? (parseInt(floatCardRadiusInput.value) || 12) : 12;
-                    const bVal = floatCardBlurInput ? (parseInt(floatCardBlurInput.value) || 12) : 12;
-                    const oVal = floatCardOpacityInput ? (parseFloat(floatCardOpacityInput.value / 100) || 0.45) : 0.45;
-                    const scaleVal = floatCardScaleInput ? (parseFloat(floatCardScaleInput.value) / 100 || 1) : 1;
-                    const imgSizeVal = floatCardImgsizeInput ? (parseInt(floatCardImgsizeInput.value) || 24) : 24;
-
-                    if (mode === 'add') {
-                        const newId = 'card_' + Date.now();
-                        const delay = (getHeroFloatingCardsContainer().querySelectorAll('.hero-float-card').length * 1.5) + 's';
-                        
-                        const newCard = document.createElement('div');
-                        newCard.className = 'hero-float-card';
-                        newCard.setAttribute('data-card-id', newId);
-                        newCard.style.cssText = `left: ${leftVal}%; top: ${topVal}%; animation-delay: ${delay};`;
-                        newCard.style.setProperty('--hero-float-card-width', wVal);
-                        newCard.style.setProperty('--hero-float-card-height', hVal);
-                        newCard.style.setProperty('--hero-float-card-padding', pVal + 'px ' + Math.round(pVal * 1.6) + 'px');
-                        newCard.style.setProperty('--hero-float-card-radius', rVal + 'px');
-                        newCard.style.setProperty('--hero-float-card-blur', bVal + 'px');
-                        newCard.style.setProperty('--hero-float-card-opacity', oVal);
-                        newCard.style.setProperty('--hero-float-card-scale', scaleVal);
-                        newCard.style.setProperty('--hero-float-card-img-size', imgSizeVal + 'px');
-                        
-                        let cardHTML = '';
-                        if (imgUrl) {
-                            cardHTML += `<img src="${imgUrl}" alt="${text || 'Logo'}" onerror="this.style.display='none'">`;
-                        }
-                        if (text) {
-                            cardHTML += `<span>${text}</span>`;
-                        }
-                        
-                        newCard.innerHTML = cardHTML;
-                        getHeroFloatingCardsContainer().appendChild(newCard);
-                        window.showToast('Card added. Enable Edit Mode and drag it to position!', 'success');
-                    } else {
-                        const card = getHeroFloatingCardsContainer().querySelector(`[data-card-id="${targetId}"]`);
-                        if (card) {
-                            let cardHTML = '';
-                            if (imgUrl) {
-                                cardHTML += `<img src="${imgUrl}" alt="${text || 'Logo'}" onerror="this.style.display='none'">`;
-                            }
-                            if (text) {
-                                cardHTML += `<span>${text}</span>`;
-                            }
-                            card.innerHTML = cardHTML;
-                            card.style.left = leftVal + '%';
-                            card.style.top = topVal + '%';
-                            card.style.setProperty('--hero-float-card-width', wVal);
-                            card.style.setProperty('--hero-float-card-height', hVal);
-                            card.style.setProperty('--hero-float-card-padding', pVal + 'px ' + Math.round(pVal * 1.6) + 'px');
-                            card.style.setProperty('--hero-float-card-radius', rVal + 'px');
-                            card.style.setProperty('--hero-float-card-blur', bVal + 'px');
-                            card.style.setProperty('--hero-float-card-opacity', oVal);
-                            card.style.setProperty('--hero-float-card-scale', scaleVal);
-                            card.style.setProperty('--hero-float-card-img-size', imgSizeVal + 'px');
-                            window.showToast('Card updated successfully.', 'success');
-                        }
-                    }
-
-                    floatCardCancelBtn.click();
-                    renderList();
-                } catch (err) {
-                    console.error(err);
-                    window.showToast('Failed to save card: ' + err.message, 'error');
-                } finally {
-                    floatCardSaveBtn.innerText = originalBtnText;
-                    floatCardSaveBtn.disabled = false;
-                }
-            };
+                markHeroChangesUnsaved();
+            });
         }
 
-        if (floatCardAddBtn) {
-            floatCardAddBtn.onclick = () => {
-                floatCardForm.style.display = 'flex';
-                floatCardAddBtn.style.display = 'none';
-                floatCardForm.dataset.mode = 'add';
-                document.getElementById('float-card-form-title').innerText = 'Add New Floating Card';
-                
-                floatCardText.value = '';
-                floatCardImgUrl.value = '';
-                floatCardFile.value = '';
-                floatCardFile.dataset.base64 = '';
-                floatCardImgPreviewContainer.style.display = 'none';
-                floatCardLeft.value = '50';
-                if (floatCardLeftVal) floatCardLeftVal.innerText = '50%';
-                floatCardTop.value = '50';
-                if (floatCardTopVal) floatCardTopVal.innerText = '50%';
-                
-                if (floatCardWidthInput) {
-                    floatCardWidthInput.value = '150';
-                    floatCardWidthInput.disabled = true;
+        const secGap = document.getElementById('hero-sec-gap-slider');
+        const secGapVal = document.getElementById('hero-sec-gap-val');
+        if (secGap) {
+            secGap.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (secGapVal) secGapVal.innerText = val + 'px';
+                const el = splitGrid();
+                if (el) {
+                    el.style.setProperty('--hero-split-gap', val + 'px');
+                    el.style.gap = val + 'px';
                 }
-                if (floatCardWidthVal) floatCardWidthVal.innerText = 'auto';
-                if (floatCardWidthAuto) floatCardWidthAuto.checked = true;
-                
-                if (floatCardHeightInput) {
-                    floatCardHeightInput.value = '50';
-                    floatCardHeightInput.disabled = true;
-                }
-                if (floatCardHeightVal) floatCardHeightVal.innerText = 'auto';
-                if (floatCardHeightAuto) floatCardHeightAuto.checked = true;
-                
-                if (floatCardPaddingInput) floatCardPaddingInput.value = '10';
-                if (floatCardPaddingVal) floatCardPaddingVal.innerText = '10px';
-                
-                if (floatCardRadiusInput) floatCardRadiusInput.value = '12';
-                if (floatCardRadiusVal) floatCardRadiusVal.innerText = '12px';
-                
-                if (floatCardBlurInput) floatCardBlurInput.value = '12';
-                if (floatCardBlurVal) floatCardBlurVal.innerText = '12px';
-                
-                if (floatCardOpacityInput) floatCardOpacityInput.value = '45';
-                if (floatCardOpacityVal) floatCardOpacityVal.innerText = '0.45';
-                if (floatCardScaleInput) floatCardScaleInput.value = '100';
-                if (floatCardScaleVal) floatCardScaleVal.innerText = '1x';
-                if (floatCardImgsizeInput) floatCardImgsizeInput.value = '24';
-                if (floatCardImgsizeVal) floatCardImgsizeVal.innerText = '24px';
-            };
+                markHeroChangesUnsaved();
+            });
         }
 
-        const updateLiveCardStyle = (prop, val) => {
-            const mode = floatCardForm.dataset.mode || 'add';
-            const targetId = floatCardForm.dataset.targetId;
-            if (mode === 'edit' && targetId) {
-                const card = getHeroFloatingCardsContainer().querySelector(`[data-card-id="${targetId}"]`);
-                if (card) {
-                    card.style.setProperty(prop, val);
-                }
-            }
+        // Live Hero Content Inputs
+        const liveBadge = document.getElementById('live-hero-badge-input');
+        if (liveBadge) {
+            liveBadge.addEventListener('input', (e) => {
+                const span = document.querySelector('.hero-pill-badge span');
+                if (span) span.innerText = e.target.value;
+                markHeroChangesUnsaved();
+            });
+        }
+
+        const liveTitleAccent = document.getElementById('live-hero-title-accent-input');
+        if (liveTitleAccent) {
+            liveTitleAccent.addEventListener('input', (e) => {
+                const el = document.querySelector('.hero-title-accent');
+                if (el) el.innerText = e.target.value;
+                markHeroChangesUnsaved();
+            });
+        }
+
+        const liveTitleMain = document.getElementById('live-hero-title-main-input');
+        if (liveTitleMain) {
+            liveTitleMain.addEventListener('input', (e) => {
+                const el = document.querySelector('.hero-title-main');
+                if (el) el.innerText = e.target.value;
+                markHeroChangesUnsaved();
+            });
+        }
+
+        const liveSubservices = document.getElementById('live-hero-subservices-input');
+        if (liveSubservices) {
+            liveSubservices.addEventListener('input', (e) => {
+                const el = document.querySelector('.hero-subservices');
+                if (el) el.innerText = e.target.value;
+                markHeroChangesUnsaved();
+            });
+        }
+
+        const liveDesc = document.getElementById('live-hero-desc-input');
+        if (liveDesc) {
+            liveDesc.addEventListener('input', (e) => {
+                const el = document.querySelector('.hero-lead-desc');
+                if (el) el.innerText = e.target.value;
+                markHeroChangesUnsaved();
+            });
+        }
+
+        // CTA Buttons
+        const btn1Text = document.getElementById('live-hero-btn1-text');
+        const btn1Href = document.getElementById('live-hero-btn1-href');
+        const updateBtn1 = () => {
+            const btn = document.querySelector('.hero-cta-wrap a:first-child');
+            if (!btn) return;
+            const txt = btn1Text ? btn1Text.value.trim() : 'Get Started';
+            const href = btn1Href ? btn1Href.value.trim() : '#contact';
+            btn.innerHTML = txt + ' <span class="btn-arrow">→</span>';
+            btn.setAttribute('href', href);
+            markHeroChangesUnsaved();
         };
+        if (btn1Text) btn1Text.addEventListener('input', updateBtn1);
+        if (btn1Href) btn1Href.addEventListener('input', updateBtn1);
 
-        if (floatCardLeft) {
-            floatCardLeft.addEventListener('input', (e) => {
-                const val = e.target.value;
-                if (floatCardLeftVal) floatCardLeftVal.innerText = val + '%';
-                updateLiveCardStyle('left', val + '%');
-            });
-        }
-        if (floatCardTop) {
-            floatCardTop.addEventListener('input', (e) => {
-                const val = e.target.value;
-                if (floatCardTopVal) floatCardTopVal.innerText = val + '%';
-                updateLiveCardStyle('top', val + '%');
-            });
-        }
+        const btn2Text = document.getElementById('live-hero-btn2-text');
+        const btn2Href = document.getElementById('live-hero-btn2-href');
+        const updateBtn2 = () => {
+            const btn = document.querySelector('.hero-cta-wrap a:nth-child(2)');
+            if (!btn) return;
+            const txt = btn2Text ? btn2Text.value.trim() : 'My Portfolio';
+            const href = btn2Href ? btn2Href.value.trim() : 'portfolio.html';
+            btn.innerHTML = txt + ' <span class="btn-arrow">↗</span>';
+            btn.setAttribute('href', href);
+            markHeroChangesUnsaved();
+        };
+        if (btn2Text) btn2Text.addEventListener('input', updateBtn2);
+        if (btn2Href) btn2Href.addEventListener('input', updateBtn2);
 
-        if (floatCardWidthInput) {
-            floatCardWidthInput.addEventListener('input', (e) => {
-                const val = e.target.value;
-                if (floatCardWidthVal) floatCardWidthVal.innerText = val + 'px';
-                updateLiveCardStyle('--hero-float-card-width', val + 'px');
-            });
-        }
-        if (floatCardWidthAuto) {
-            floatCardWidthAuto.addEventListener('change', (e) => {
-                const checked = e.target.checked;
-                if (floatCardWidthInput) floatCardWidthInput.disabled = checked;
-                if (floatCardWidthVal) floatCardWidthVal.innerText = checked ? 'auto' : floatCardWidthInput.value + 'px';
-                updateLiveCardStyle('--hero-float-card-width', checked ? 'auto' : floatCardWidthInput.value + 'px');
-            });
-        }
+        // Reset Button
+        const resetBtn = document.getElementById('reset-hero-layout-btn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                // Reset Text
+                const textXEl = document.getElementById('hero-text-x-slider');
+                const textYEl = document.getElementById('hero-text-y-slider');
+                const textScEl = document.getElementById('hero-text-scale-slider');
+                const textWEl = document.getElementById('hero-text-width-slider');
+                if (textXEl) textXEl.value = 0;
+                if (textYEl) textYEl.value = 0;
+                if (textScEl) textScEl.value = 100;
+                if (textWEl) textWEl.value = 620;
+                document.getElementById('hero-text-x-val').innerText = '0px';
+                document.getElementById('hero-text-y-val').innerText = '0px';
+                document.getElementById('hero-text-scale-val').innerText = '1.00x';
+                document.getElementById('hero-text-width-val').innerText = '620px';
+                applyText();
 
-        if (floatCardHeightInput) {
-            floatCardHeightInput.addEventListener('input', (e) => {
-                const val = e.target.value;
-                if (floatCardHeightVal) floatCardHeightVal.innerText = val + 'px';
-                updateLiveCardStyle('--hero-float-card-height', val + 'px');
-            });
-        }
-        if (floatCardHeightAuto) {
-            floatCardHeightAuto.addEventListener('change', (e) => {
-                const checked = e.target.checked;
-                if (floatCardHeightInput) floatCardHeightInput.disabled = checked;
-                if (floatCardHeightVal) floatCardHeightVal.innerText = checked ? 'auto' : floatCardHeightInput.value + 'px';
-                updateLiveCardStyle('--hero-float-card-height', checked ? 'auto' : floatCardHeightInput.value + 'px');
-            });
-        }
+                // Reset Picture
+                const imgXEl = document.getElementById('hero-img-x-slider');
+                const imgYEl = document.getElementById('hero-img-y-slider');
+                const imgScEl = document.getElementById('hero-img-scale-slider');
+                const imgWEl = document.getElementById('hero-img-width-slider');
+                const imgREl = document.getElementById('hero-img-radius-slider');
+                if (imgXEl) imgXEl.value = 0;
+                if (imgYEl) imgYEl.value = 0;
+                if (imgScEl) imgScEl.value = 100;
+                if (imgWEl) imgWEl.value = 600;
+                if (imgREl) imgREl.value = 28;
+                document.getElementById('hero-img-x-val').innerText = '0px';
+                document.getElementById('hero-img-y-val').innerText = '0px';
+                document.getElementById('hero-img-scale-val').innerText = '1.00x';
+                document.getElementById('hero-img-width-val').innerText = '600px';
+                document.getElementById('hero-img-radius-val').innerText = '28px';
+                applyPicture();
 
-        if (floatCardPaddingInput) {
-            floatCardPaddingInput.addEventListener('input', (e) => {
-                const val = parseInt(e.target.value) || 10;
-                if (floatCardPaddingVal) floatCardPaddingVal.innerText = val + 'px';
-                updateLiveCardStyle('--hero-float-card-padding', val + 'px ' + Math.round(val * 1.6) + 'px');
-            });
-        }
-        if (floatCardRadiusInput) {
-            floatCardRadiusInput.addEventListener('input', (e) => {
-                const val = parseInt(e.target.value) || 12;
-                if (floatCardRadiusVal) floatCardRadiusVal.innerText = val + 'px';
-                updateLiveCardStyle('--hero-float-card-radius', val + 'px');
-            });
-        }
-        if (floatCardBlurInput) {
-            floatCardBlurInput.addEventListener('input', (e) => {
-                const val = parseInt(e.target.value) || 12;
-                if (floatCardBlurVal) floatCardBlurVal.innerText = val + 'px';
-                updateLiveCardStyle('--hero-float-card-blur', val + 'px');
-            });
-        }
-        if (floatCardOpacityInput) {
-            floatCardOpacityInput.addEventListener('input', (e) => {
-                const val = e.target.value / 100;
-                if (floatCardOpacityVal) floatCardOpacityVal.innerText = val;
-                updateLiveCardStyle('--hero-float-card-opacity', val);
-            });
-        }
-        if (floatCardScaleInput) {
-            floatCardScaleInput.addEventListener('input', (e) => {
-                const val = e.target.value / 100;
-                if (floatCardScaleVal) floatCardScaleVal.innerText = val + 'x';
-                updateLiveCardStyle('--hero-float-card-scale', val);
-            });
-        }
-        if (floatCardImgsizeInput) {
-            floatCardImgsizeInput.addEventListener('input', (e) => {
-                const val = e.target.value;
-                if (floatCardImgsizeVal) floatCardImgsizeVal.innerText = val + 'px';
-                updateLiveCardStyle('--hero-float-card-img-size', val + 'px');
-            });
-        }
+                // Reset Section
+                const secHEl = document.getElementById('hero-sec-height-slider');
+                const secPEl = document.getElementById('hero-sec-padding-slider');
+                const secGEl = document.getElementById('hero-sec-gap-slider');
+                if (secHEl) secHEl.value = 650;
+                if (secPEl) secPEl.value = 60;
+                if (secGEl) secGEl.value = 48;
+                document.getElementById('hero-sec-height-val').innerText = '650px';
+                document.getElementById('hero-sec-padding-val').innerText = '60px';
+                document.getElementById('hero-sec-gap-val').innerText = '48px';
+                const hEl = heroSection();
+                if (hEl) {
+                    hEl.style.setProperty('--hero-min-height', '650px');
+                    hEl.style.setProperty('--hero-padding-y', '60px');
+                    hEl.style.minHeight = '650px';
+                    hEl.style.paddingTop = '60px';
+                    hEl.style.paddingBottom = '60px';
+                }
+                const gEl = splitGrid();
+                if (gEl) {
+                    gEl.style.setProperty('--hero-split-gap', '48px');
+                    gEl.style.gap = '48px';
+                }
 
-        renderList();
+                markHeroChangesUnsaved();
+                window.showToast('Hero layout reset to default.', 'info');
+            });
+        }
     }
 
     if (manageHeroCardBtn) {
@@ -5266,6 +4465,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }
+
+    // Call once to bind listeners on admin init
+    setTimeout(() => {
+        setupHeroLiveEditorEvents();
+    }, 100);
 
     async function loadSavedContent() {
         const hideLoader = () => {
