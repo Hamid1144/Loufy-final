@@ -4089,9 +4089,14 @@ document.addEventListener("DOMContentLoaded", () => {
             el.style.setProperty('--hero-text-y', y + 'px');
             el.style.setProperty('--hero-text-scale', scale);
             el.style.setProperty('--hero-text-width', width + 'px');
-            el.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + scale + ')';
-            el.style.transformOrigin = 'left center';
-            el.style.maxWidth = width + 'px';
+            if (window.innerWidth > 991) {
+                el.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + scale + ')';
+                el.style.transformOrigin = 'left center';
+                el.style.maxWidth = width + 'px';
+            } else {
+                el.style.transform = 'none';
+                el.style.maxWidth = '100%';
+            }
             markHeroChangesUnsaved();
         };
 
@@ -4147,9 +4152,13 @@ document.addEventListener("DOMContentLoaded", () => {
             el.style.setProperty('--hero-img-scale', scale);
             el.style.setProperty('--hero-img-width', width + 'px');
             el.style.setProperty('--hero-img-radius', radius + 'px');
-            el.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + scale + ')';
-            el.style.transformOrigin = 'center center';
-            el.style.maxWidth = width + 'px';
+            if (window.innerWidth > 991) {
+                el.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + scale + ')';
+                el.style.transformOrigin = 'center center';
+                el.style.maxWidth = width + 'px';
+            } else {
+                el.style.transform = 'none';
+            }
             el.style.borderRadius = radius + 'px';
 
             const imgEl = el.querySelector('#hero-showcase-img');
