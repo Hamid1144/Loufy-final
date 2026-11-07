@@ -7,7 +7,12 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const DEFAULTS = {
   covers: {
     title: 'Book Cover Design Portfolio | Loufy Publisher by Hamid Raza',
-    description: 'Explore bestselling eBook and print book cover designs created by Hamid Raza at Loufy Publisher. Custom typography, genre art, and KDP-ready covers.',
+    description: 'Explore bestselling eBook and print book cover designs created by Hamid Raza at Loufy Publisher. Custom typography, genre art, and KDP covers. View samples!',
+    image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1792352137/portfolio/fctmkpmwx0gmucljreyd.jpg'
+  },
+  'book-covers': {
+    title: 'Book Cover Design Portfolio | Loufy Publisher by Hamid Raza',
+    description: 'Explore bestselling eBook and print book cover designs created by Hamid Raza at Loufy Publisher. Custom typography, genre art, and KDP covers. View samples!',
     image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1792352137/portfolio/fctmkpmwx0gmucljreyd.jpg'
   },
   'paperback-covers': {
@@ -17,17 +22,17 @@ const DEFAULTS = {
   },
   children: {
     title: 'Children Book Illustration & Layout Portfolio | Loufy',
-    description: 'Discover magical children picture books, activity books, and coloring book interiors illustrated and formatted by Hamid Raza at Loufy Publisher.',
+    description: 'Discover magical children picture books, activity books, and coloring book interiors illustrated and formatted by Hamid Raza. Explore our samples today!',
     image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1783828258/portfolio/b7npef6h4q920d3669r5.jpg'
   },
   formatting: {
     title: 'Amazon KDP Interior Book Formatting Portfolio | Loufy',
-    description: 'Browse interactive flipbook samples of print-ready PDF and reflowable Kindle EPUB book interiors formatted by Hamid Raza. View our layouts today!',
+    description: 'Browse interactive flipbook samples of print-ready PDF and reflowable Kindle EPUB book interiors formatted by Hamid Raza. View our book layouts today!',
     image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1783553142/portfolio/qxwvlirtqkmemdx4uxod.jpg'
   },
   'a-plus': {
     title: 'Amazon A+ Content & Book Marketing Portfolio | Loufy',
-    description: 'High-converting Amazon KDP A+ Content modules, comparison charts, and 3D promotional graphics designed to boost your book sales on Amazon.',
+    description: 'High-converting Amazon KDP A+ Content modules, comparison charts, and 3D promotional graphics designed by Hamid Raza to boost your book sales on Amazon.',
     image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1783828499/portfolio/q0qelhs2gx53ve7wiq55.jpg'
   },
   websites: {

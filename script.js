@@ -579,7 +579,7 @@ window.initSiteLogic = function () {
           t.scrollIntoView({ behavior: 'smooth' });
         }
       } else {
-        window.location.href = 'index.html' + targetId;
+        window.location.href = '/' + targetId;
       }
       // Close mobile menu and reset hamburger state
       document.querySelector('.nav-links')?.classList.remove('open');

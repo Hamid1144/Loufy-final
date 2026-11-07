@@ -328,7 +328,7 @@ async function main() {
   localPortfolio = localPortfolio
     .replace(/live-sync\.js\?v=[0-9_]+/g, 'live-sync.js?v=20261103_001');
 
-  localIndex = replaceGridInner(localIndex, mergedGridHtml).replace(/href=["']portfolio\.html["']/gi, 'href="/portfolio"');
+  localIndex = replaceGridInner(localIndex, mergedGridHtml).replace(/href=["']portfolio\.html["']/gi, 'href="/portfolio"').replace(/<a href="\/portfolio\/covers" id="service-modal-portfolio-btn"/g, '<a href="/portfolio" id="service-modal-portfolio-btn"');
   localPortfolio = replaceGridInner(localPortfolio, mergedGridHtml);
 
   // 3b. Fetch latest og_images_json from Supabase and synchronize static meta tags in HTML files
