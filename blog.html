@@ -29,17 +29,17 @@
       oldConsoleError.apply(console, arguments);
     };
   </script>
-  <!-- SEO & Meta Tags will be dynamically injected by JS -->
+  <!-- SEO & Meta Tags will be dynamically injected by JS / SSR -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog | Loufy Publisher</title>
-  <link rel="canonical" href="https://loufypublisher.com/blog">
-  <meta name="description" content="Read expert tips, guides and tutorials about book cover design, KDP formatting, self-publishing, Amazon A+ content, and children's book illustration by Loufy Publisher.">
+  <title>Self-Publishing & KDP Formatting Guide | Loufy Publisher</title>
+  <link rel="canonical" href="https://loufypublisher.com/blogs">
+  <meta name="description" content="Read expert guides on Amazon KDP formatting, custom book cover design, paperback layouts, and self-publishing by Hamid Raza. Explore our tutorials now!">
   <meta property="og:site_name" content="Loufy Publisher">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://loufypublisher.com/blog">
-  <meta property="og:title" content="Loufy Publisher Blog | Self-Publishing & KDP Expert Insights">
-  <meta property="og:description" content="Read expert tips, guides and tutorials about book cover design, KDP formatting, self-publishing, Amazon A+ content, and children's book illustration by Loufy Publisher.">
+  <meta property="og:url" content="https://loufypublisher.com/blogs">
+  <meta property="og:title" content="Self-Publishing & KDP Formatting Guide | Loufy Publisher">
+  <meta property="og:description" content="Read expert guides on Amazon KDP formatting, custom book cover design, paperback layouts, and self-publishing by Hamid Raza. Explore our tutorials now!">
   <meta property="og:image" content="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=1200&h=630&fit=crop&q=80&fm=jpg">
   <meta property="og:image:secure_url" content="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=1200&h=630&fit=crop&q=80&fm=jpg">
   <meta property="og:image:type" content="image/jpeg">
@@ -128,7 +128,7 @@
 <!-- GLOBAL LOADING SCREEN -->
 <div id="global-loader" class="global-loader">
   <div class="loader-spinner"></div>
-  <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Logo" class="loader-logo">
+  <img src="https://res.cloudinary.com/dtr3yvjac/image/upload/f_auto,q_auto/v1781714238/portfolio/logo.png" alt="Loufy Publisher Logo" class="loader-logo">
 </div>
 
   <!-- NAVBAR -->
@@ -157,12 +157,12 @@
   <header class="blog-hero" id="blog-hero-header">
     <div class="container">
       <div class="blog-hero-content">
-        <span class="blog-hero-category" id="post-hero-category">Category</span>
-        <h1 id="post-hero-title">Loading Article...</h1>
+        <span class="blog-hero-category" id="post-hero-category">Self-Publishing Guide</span>
+        <h1 id="post-hero-title">Self-Publishing, Book Cover Design &amp; Amazon KDP Formatting Guide</h1>
         <div class="blog-hero-meta">
-          <span><i class="fa-regular fa-user"></i> <span id="post-hero-author">Author</span></span>
-          <span><i class="fa-regular fa-calendar-days"></i> <span id="post-hero-date">Date</span></span>
-          <span><i class="fa-regular fa-clock"></i> <span id="post-hero-read-time">X</span> min read</span>
+          <span><i class="fa-regular fa-user"></i> <span id="post-hero-author">Hamid Raza</span></span>
+          <span><i class="fa-regular fa-calendar-days"></i> <span id="post-hero-date">November 2026</span></span>
+          <span><i class="fa-regular fa-clock"></i> <span id="post-hero-read-time">8</span> min read</span>
         </div>
       </div>
     </div>
@@ -207,7 +207,7 @@
           
           <!-- FAQ Section -->
           <div class="blog-faq-section" id="post-faq-wrapper" style="display:none;">
-            <h3>Frequently Asked Questions</h3>
+            <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:20px;">Frequently Asked Questions</h2>
             <div class="blog-faq-list" id="post-faq-list">
               <!-- FAQs will be generated dynamically -->
             </div>
@@ -215,11 +215,11 @@
 
           <!-- Navigation: Prev & Next Articles -->
           <div class="blog-nav-row" id="post-nav-navigation" style="display:none;">
-            <a href="#" class="blog-nav-btn prev" id="blog-nav-prev-btn">
+            <a href="/blogs" class="blog-nav-btn prev" id="blog-nav-prev-btn">
               <span class="nav-label">← Previous Article</span>
               <span class="nav-title" id="blog-nav-prev-title">Article Title</span>
             </a>
-            <a href="#" class="blog-nav-btn next" id="blog-nav-next-btn">
+            <a href="/blogs" class="blog-nav-btn next" id="blog-nav-next-btn">
               <span class="nav-label">Next Article →</span>
               <span class="nav-title" id="blog-nav-next-title">Article Title</span>
             </a>
@@ -228,7 +228,7 @@
           <!-- Call to Action Banner -->
           <div class="blog-cta-banner">
             <div class="blog-cta-content">
-              <h3>Need Bestselling Designs or Pro KDP Formatting?</h3>
+              <h2 style="font-size:1.55rem;font-weight:800;margin-bottom:12px;">Need Bestselling Designs or Pro KDP Formatting?</h2>
               <p>Work with Hamid Raza (Loufy Publisher) to launch premium book covers, coloring books, and interior layouts that stand out and sell. High quality files, fast turnaround.</p>
               <a href="/contact" class="btn btn-primary">Get Free Consultation <i class="fa-solid fa-arrow-right"></i></a>
             </div>
@@ -339,7 +339,7 @@
         postBodyEl.innerHTML = `
           <div style="text-align:center; padding: 60px 0;">
             <i class="fa-solid fa-triangle-exclamation" style="font-size:4rem; color:#F4B400; margin-bottom:20px;"></i>
-            <h2>Oops! The requested article does not exist.</h2>
+            <div style="font-size:1.5rem;font-weight:700;margin-bottom:12px;">Oops! The requested article does not exist.</div>
             <p style="color:#666; margin-bottom:30px;">It may have been moved or deleted. Please check the homepage to read other articles.</p>
             <a href="/blogs" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:8px;">Back to Blog <i class="fa-solid fa-arrow-left"></i></a>
           </div>
@@ -347,12 +347,67 @@
       };
 
       if (!slug) {
-        showError();
+        window.location.replace('/blogs');
         return;
       }
 
-      // Helper to fetch blogs from Supabase JS client or direct REST fallback with local /blogs.json fallback
+      // If already server-side rendered by /api/blog-preview, bind interactive listeners and skip redundant overwrite
+      if (document.body.getAttribute('data-ssr-slug') === slug) {
+        hideGlobalLoader();
+        const tocList = document.getElementById("toc-list");
+        if (tocList) {
+          tocList.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              const targetId = link.getAttribute('href');
+              const targetEl = document.querySelector(targetId);
+              if (targetEl) {
+                const y = targetEl.getBoundingClientRect().top + window.pageYOffset - 100;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+              }
+            });
+          });
+        }
+        const faqList = document.getElementById("post-faq-list");
+        if (faqList) {
+          faqList.querySelectorAll('.faq-item').forEach(item => {
+            const q = item.querySelector('.faq-q');
+            const a = item.querySelector('.faq-a');
+            const icon = item.querySelector('.icon');
+            if (q && a && icon) {
+              q.addEventListener('click', () => {
+                const isOpen = a.style.maxHeight !== '0px' && a.style.maxHeight !== '';
+                faqList.querySelectorAll('.faq-a').forEach(ans => ans.style.maxHeight = '0px');
+                faqList.querySelectorAll('.icon').forEach(ic => ic.innerText = '+');
+                faqList.querySelectorAll('.faq-item').forEach(it => it.classList.remove('active'));
+                if (!isOpen) {
+                  a.style.maxHeight = a.scrollHeight + 'px';
+                  icon.innerText = '-';
+                  item.classList.add('active');
+                }
+              });
+            }
+          });
+        }
+        const shareUrl = encodeURIComponent(window.location.href);
+        const shareTitle = encodeURIComponent(postTitleEl ? postTitleEl.innerText : document.title);
+        document.getElementById("share-facebook")?.setAttribute('href', `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`);
+        document.getElementById("share-twitter")?.setAttribute('href', `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`);
+        document.getElementById("share-linkedin")?.setAttribute('href', `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`);
+        document.getElementById("share-whatsapp")?.setAttribute('href', `https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`);
+        return;
+      }
+
+      // Helper to fetch blogs from local /blogs.json first + Supabase fallback
       const fetchBlogsData = async () => {
+        try {
+          const localRes = await fetch('/blogs.json');
+          if (localRes.ok) {
+            const localPosts = await localRes.json();
+            if (localPosts && localPosts.length > 0) return localPosts;
+          }
+        } catch (e) {}
+
         if (window.supabaseClient) {
           try {
             const { data, error } = await window.supabaseClient
@@ -375,15 +430,6 @@
           if (json && json[0] && json[0].html_content) {
             const posts = JSON.parse(json[0].html_content);
             if (posts && posts.length > 0) return posts;
-          }
-        } catch (e) {}
-
-        // Local static JSON fallback
-        try {
-          const localRes = await fetch('/blogs.json');
-          if (localRes.ok) {
-            const localPosts = await localRes.json();
-            if (localPosts && localPosts.length > 0) return localPosts;
           }
         } catch (e) {}
 

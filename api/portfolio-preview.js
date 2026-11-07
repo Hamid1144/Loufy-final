@@ -1,61 +1,44 @@
-const https = require('https');
+const fs = require('fs');
+const path = require('path');
 
 const SUPABASE_URL = 'https://pgictinimttptsxbvngg.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnaWN0aW5pbXR0cHRzeGJ2bmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MjE5NjAsImV4cCI6MjA5MjE5Nzk2MH0.XTQQ9CUQTxJ93ndn93cHzwTjjc1vVWBLcKpWczqnkpc';
 
-// Cache in memory across warm serverless invocations (60s TTL)
-let cachedOgData = null;
-let cachedTime = 0;
-
-function toOptimalOgUrl(rawUrl) {
-  if (!rawUrl) return 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1792352137/portfolio/fctmkpmwx0gmucljreyd.jpg';
-  let url = rawUrl.trim();
-  if (url.includes('cloudinary.com') && url.includes('/upload/')) {
-    url = url.replace(/\/upload\/(?:(?:[a-z0-9_,:-]+)\/)?(v\d+\/[^.]+)\.[a-z0-9]+$/i, '/upload/w_1200,h_630,c_fill,q_auto,f_jpg/$1.jpg');
-    if (!url.includes('/upload/w_1200,h_630,c_fill,q_auto,f_jpg/')) {
-      url = url.replace(/\/upload\//, '/upload/w_1200,h_630,c_fill,q_auto,f_jpg/');
-      url = url.replace(/\.(png|webp|avif)$/i, '.jpg');
-    }
-  } else if (url.includes('images.unsplash.com')) {
-    url = url.replace(/\?(.*)$/, '?w=1200&h=630&fit=crop&q=80&fm=jpg');
+const DEFAULTS = {
+  covers: {
+    title: 'Book Cover Design Portfolio | Loufy Publisher by Hamid Raza',
+    description: 'Explore bestselling eBook and print book cover designs created by Hamid Raza at Loufy Publisher. Custom typography, genre art, and KDP-ready covers.',
+    image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1792352137/portfolio/fctmkpmwx0gmucljreyd.jpg'
+  },
+  'paperback-covers': {
+    title: 'Paperback & Full-Wrap Cover Portfolio | Loufy Publisher',
+    description: 'View full-wrap paperback and hardcover print covers with precision spine widths, back cover blurbs, and barcode placement for Amazon KDP & IngramSpark.',
+    image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1789681515/portfolio/k02863e76xux116c2c3z.jpg'
+  },
+  children: {
+    title: 'Children Book Illustration & Layout Portfolio | Loufy',
+    description: 'Discover magical children picture books, activity books, and coloring book interiors illustrated and formatted by Hamid Raza at Loufy Publisher.',
+    image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1783828258/portfolio/b7npef6h4q920d3669r5.jpg'
+  },
+  formatting: {
+    title: 'Amazon KDP Interior Book Formatting Portfolio | Loufy',
+    description: 'Browse interactive flipbook samples of print-ready PDF and reflowable Kindle EPUB book interiors formatted by Hamid Raza. View our layouts today!',
+    image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1783553142/portfolio/qxwvlirtqkmemdx4uxod.jpg'
+  },
+  'a-plus': {
+    title: 'Amazon A+ Content & Book Marketing Portfolio | Loufy',
+    description: 'High-converting Amazon KDP A+ Content modules, comparison charts, and 3D promotional graphics designed to boost your book sales on Amazon.',
+    image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1783828499/portfolio/q0qelhs2gx53ve7wiq55.jpg'
+  },
+  websites: {
+    title: 'Author Websites & Web Design Portfolio | Loufy Publisher',
+    description: 'Explore modern, fast-loading custom websites built for authors, publishers, and creative brands by Hamid Raza at Loufy Publisher. View live demos!',
+    image: 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1789569869/portfolio/wavbrytzs6vo4hp7jtvw.jpg'
   }
-  return url;
-}
-
-async function getOgData() {
-  const now = Date.now();
-  if (cachedOgData && (now - cachedTime < 60000)) {
-    return cachedOgData;
-  }
-  return new Promise((resolve) => {
-    const url = new URL(SUPABASE_URL + '/rest/v1/site_content?id=eq.og_images_json&select=html_content');
-    https.get(url, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY
-      }
-    }, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        try {
-          const parsed = JSON.parse(data);
-          if (parsed && parsed[0] && parsed[0].html_content) {
-            cachedOgData = JSON.parse(parsed[0].html_content);
-            cachedTime = now;
-            resolve(cachedOgData);
-            return;
-          }
-        } catch (e) {}
-        resolve(null);
-      });
-    }).on('error', () => resolve(null));
-  });
-}
+};
 
 function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
+  return String(str || '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -63,102 +46,93 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
+function toOptimalOgImageUrl(rawUrl, fallbackUrl) {
+  const fallback = fallbackUrl || 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1792352137/portfolio/fctmkpmwx0gmucljreyd.jpg';
+  if (!rawUrl || typeof rawUrl !== 'string') return fallback;
+  let url = rawUrl.trim();
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    url = 'https://loufypublisher.com' + (url.startsWith('/') ? '' : '/') + url;
+  }
+  if (url.includes('res.cloudinary.com') && url.includes('/upload/')) {
+    url = url.replace(/\/upload\/(?:f_auto,q_auto\/)?/, '/upload/w_1200,h_630,c_fill,q_auto,f_jpg/');
+    url = url.replace(/\.(webp|png|avif)(\?.*)?$/i, '.jpg$2');
+  } else if (url.includes('images.unsplash.com')) {
+    const base = url.split('?')[0];
+    url = `${base}?w=1200&h=630&fit=crop&q=80&fm=jpg`;
+  }
+  return url;
+}
+
 module.exports = async (req, res) => {
-  const ogData = await getOgData();
-  const categoryKey = (req.query && req.query.category) ? String(req.query.category).toLowerCase().trim() : '';
-
-  // Defaults
-  let title = 'Book Cover Design & Formatting Portfolio | Loufy Publisher';
-  let desc = "Explore Hamid Raza's design portfolio. Premium book covers, children's coloring books, KDP interior formatting, A+ content, and branding. View projects.";
-  let img = 'https://res.cloudinary.com/dtr3yvjac/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/v1792352137/portfolio/fctmkpmwx0gmucljreyd.jpg';
-  let pageUrl = 'https://loufypublisher.com/portfolio';
-
-  const categoryTitles = {
-    'covers': 'Book Cover Design Portfolio | Loufy Publisher',
-    'paperback-covers': 'Paperback Book Covers Portfolio | Loufy Publisher',
-    'children': 'Children Books & Illustration Portfolio | Loufy Publisher',
-    'formatting': 'KDP Interior Formatting & Layout Portfolio | Loufy Publisher',
-    'websites': 'Websites I Created Portfolio | Loufy Publisher',
-    'a-plus-content': 'Amazon A+ Content Design Portfolio | Loufy Publisher',
-    'logo-branding': 'Logo & Author Branding Portfolio | Loufy Publisher'
-  };
-
-  const categoryDescriptions = {
-    'covers': 'Browse premium custom book covers designed by Hamid Raza for Kindle, Amazon KDP, and IngramSpark across all genres.',
-    'paperback-covers': 'Full wrap paperback and hardcover book cover designs formatted perfectly for Amazon KDP and print-on-demand publishers.',
-    'children': 'Playful, vibrant children book covers, interior formatting, and coloring books created by Hamid Raza (Loufy Publisher).',
-    'formatting': 'Professional KDP paperback and eBook interior formatting with pristine typography, drop caps, and chapter styling.',
-    'websites': 'Custom high-converting author websites, e-commerce stores, and business websites designed & coded by Hamid Raza.',
-    'a-plus-content': 'High-converting Amazon A+ Content layouts and brand story banners that boost book sales and page conversions.',
-    'logo-branding': 'Distinctive logos, typography marks, and author brand identity design by Loufy Publisher.'
-  };
-
-  if (categoryKey && categoryTitles[categoryKey]) {
-    title = categoryTitles[categoryKey];
-    desc = categoryDescriptions[categoryKey] || desc;
-    pageUrl = `https://loufypublisher.com/portfolio/${categoryKey}`;
-  }
-
-  // Check custom user configuration from Supabase og_images_json
-  if (ogData) {
-    if (categoryKey && ogData.categories && ogData.categories[categoryKey] && ogData.categories[categoryKey].image) {
-      img = toOptimalOgUrl(ogData.categories[categoryKey].image);
-    } else if (!categoryKey && ogData.main && ogData.main.portfolio && ogData.main.portfolio.image) {
-      img = toOptimalOgUrl(ogData.main.portfolio.image);
-    }
-  }
-
-  // Ensure absolute HTTPS URL for crawler
-  if (img.startsWith('/')) {
-    img = 'https://loufypublisher.com' + img;
-  }
-
-  const safeTitle = escapeHtml(title);
-  const safeDesc = escapeHtml(desc);
-  const safeImg = escapeHtml(img);
-  const safeUrl = escapeHtml(pageUrl);
-  const destinationUrl = categoryKey ? `/portfolio.html?category=${encodeURIComponent(categoryKey)}` : '/portfolio.html';
-
-  const html = `<!DOCTYPE html>
+  const category = (req.query.category || 'covers').toLowerCase().trim();
+  if (!DEFAULTS[category]) {
+    // Unknown portfolio sub-category: return 404
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+    return res.status(404).send(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>${safeTitle}</title>
-  <meta name="description" content="${safeDesc}">
-  <link rel="canonical" href="${safeUrl}">
-
-  <!-- Open Graph / Facebook / WhatsApp -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="${safeUrl}">
-  <meta property="og:site_name" content="Loufy Publisher">
-  <meta property="og:title" content="${safeTitle}">
-  <meta property="og:description" content="${safeDesc}">
-  <meta property="og:image" content="${safeImg}">
-  <meta property="og:image:secure_url" content="${safeImg}">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-
-  <!-- Twitter / X -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="${safeUrl}">
-  <meta name="twitter:title" content="${safeTitle}">
-  <meta name="twitter:description" content="${safeDesc}">
-  <meta name="twitter:image" content="${safeImg}">
-
-  <!-- Fast Meta Refresh & Instant JS Redirect for real users -->
-  <meta http-equiv="refresh" content="0;url=${destinationUrl}">
-  <script>window.location.replace('${destinationUrl}');</script>
+  <meta name="robots" content="noindex, nofollow">
+  <title>404 — Portfolio Category Not Found | Loufy Publisher</title>
+  <link rel="stylesheet" href="/style.css?v=99.13">
 </head>
-<body style="background:#0F3528;color:#FFFFFF;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
-  <div style="text-align:center;">
-    <p>Opening portfolio...</p>
-    <a href="${destinationUrl}" style="color:#F4B400;text-decoration:none;">Click here if not redirected</a>
-  </div>
+<body style="font-family:'Poppins',sans-serif;text-align:center;padding:100px 20px;">
+  <h1>404 — Portfolio Category Not Found</h1>
+  <p style="margin:16px 0 28px;"><a href="/portfolio" class="btn btn-primary">View Full Portfolio</a></p>
 </body>
-</html>`;
+</html>`);
+  }
+
+  let meta = { ...DEFAULTS[category] };
+
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/site_content?id=eq.og_images_json&select=html_content`,
+      {
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`
+        }
+      }
+    );
+    if (response.ok) {
+      const rows = await response.json();
+      if (rows && rows[0] && rows[0].html_content) {
+        const ogConfig = JSON.parse(rows[0].html_content);
+        if (ogConfig && ogConfig.portfolio && ogConfig.portfolio[category]) {
+          const custom = ogConfig.portfolio[category];
+          if (custom.title) meta.title = custom.title;
+          if (custom.description) meta.description = custom.description;
+          if (custom.image) meta.image = custom.image;
+        }
+      }
+    }
+  } catch (err) {}
+
+  const ogImage = toOptimalOgImageUrl(meta.image, DEFAULTS[category].image);
+  // Intentional canonical pointing to the main /portfolio hub so category filter views don't compete as duplicate pages
+  const canonicalUrl = 'https://loufypublisher.com/portfolio';
+  const shareUrl = `https://loufypublisher.com/portfolio/${encodeURIComponent(category)}`;
+
+  const templatePath = path.join(process.cwd(), 'portfolio.html');
+  let html = fs.readFileSync(templatePath, 'utf8');
+
+  html = html
+    .replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(meta.title)}</title>`)
+    .replace(/<link\s+rel=["']canonical["'][^>]*>/i, `<link rel="canonical" href="${escapeHtml(canonicalUrl)}">`)
+    .replace(/<meta\s+name=["']description["'][^>]*>/i, `<meta name="description" content="${escapeHtml(meta.description)}">`)
+    .replace(/<meta\s+property=["']og:url["'][^>]*>/i, `<meta property="og:url" content="${escapeHtml(shareUrl)}">`)
+    .replace(/<meta\s+property=["']og:title["'][^>]*>/i, `<meta property="og:title" content="${escapeHtml(meta.title)}">`)
+    .replace(/<meta\s+property=["']og:description["'][^>]*>/i, `<meta property="og:description" content="${escapeHtml(meta.description)}">`)
+    .replace(/<meta\s+property=["']og:image["'][^>]*>/i, `<meta property="og:image" content="${escapeHtml(ogImage)}">`)
+    .replace(/<meta\s+property=["']og:image:secure_url["'][^>]*>/i, `<meta property="og:image:secure_url" content="${escapeHtml(ogImage)}">`)
+    .replace(/<meta\s+name=["']twitter:url["'][^>]*>/i, `<meta name="twitter:url" content="${escapeHtml(shareUrl)}">`)
+    .replace(/<meta\s+name=["']twitter:title["'][^>]*>/i, `<meta name="twitter:title" content="${escapeHtml(meta.title)}">`)
+    .replace(/<meta\s+name=["']twitter:description["'][^>]*>/i, `<meta name="twitter:description" content="${escapeHtml(meta.description)}">`)
+    .replace(/<meta\s+name=["']twitter:image["'][^>]*>/i, `<meta name="twitter:image" content="${escapeHtml(ogImage)}">`);
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=120');
-  res.status(200).send(html);
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300, stale-while-revalidate=600');
+  return res.status(200).send(html);
 };

@@ -172,8 +172,19 @@ async function main() {
           // Keep new local animated wave footer!
           continue;
         }
+        const hasLocalSeoNav = localIndex.includes('footer-seo-nav');
+        const hasCloudSeoNav = cloudBlock && cloudBlock.inner.includes('footer-seo-nav');
+        if (hasLocalSeoNav && !hasCloudSeoNav) {
+          // Keep new local SEO footer navigation links!
+          continue;
+        }
       }
       if (prefix.startsWith('<section class="hero"')) {
+        const hasLocalH1 = localIndex.includes('<h1 class="hero-main-headline"');
+        const hasCloudH1 = cloudBlock && cloudBlock.inner.includes('<h1 class="hero-main-headline"');
+        if (hasLocalH1 && !hasCloudH1) {
+          continue;
+        }
         const hasLocalMarquee = localIndex.includes('hero-platforms-marquee-wrap');
         const hasCloudMarquee = cloudBlock && cloudBlock.inner.includes('hero-platforms-marquee-wrap');
         if (hasLocalMarquee && !hasCloudMarquee) {
@@ -297,7 +308,12 @@ async function main() {
   console.log(`[Cloud-Protect] Merged union total cards: ${mergedCards.length} (has beckerperfektkuechen.de: ${mergedCards.some(c => c.includes('beckerperfektkuechen.de'))})`);
 
   const mergedGridHtml = mergedCards.map(c => {
+    const h3M = c.match(/<h3[^>]*>([\s\S]*?)<\/h3>/i);
+    const cardTitle = h3M ? h3M[1].replace(/<[^>]+>/g, '').trim() : 'Book Cover Design';
     return c
+      .replace(/<img([^>]*?)\balt=""([^>]*?)>/gi, `<img$1alt="${cardTitle} Preview"$2>`)
+      .replace(/<img(?![^>]*\balt=)([^>]*?)>/gi, `<img alt="${cardTitle} Preview"$1>`)
+      .replace(/href=["']portfolio\.html["']/gi, 'href="/portfolio"')
       .replace(/<img(?![^>]*loading=)([^>]*?)>/gi, '<img loading="lazy" decoding="async"$1>')
       .replace(/loading=["']lazy["'](?![^>]*decoding=)/gi, 'loading="lazy" decoding="async"');
   }).join('\n\n');
@@ -312,7 +328,7 @@ async function main() {
   localPortfolio = localPortfolio
     .replace(/live-sync\.js\?v=[0-9_]+/g, 'live-sync.js?v=20261103_001');
 
-  localIndex = replaceGridInner(localIndex, mergedGridHtml);
+  localIndex = replaceGridInner(localIndex, mergedGridHtml).replace(/href=["']portfolio\.html["']/gi, 'href="/portfolio"');
   localPortfolio = replaceGridInner(localPortfolio, mergedGridHtml);
 
   // 3b. Fetch latest og_images_json from Supabase and synchronize static meta tags in HTML files
@@ -435,6 +451,16 @@ async function main() {
     updated_at: new Date().toISOString()
   });
   console.log(`[Cloud-Protect] Synced merged HTML back to Supabase -> index: HTTP ${upIndex.status}, portfolio: HTTP ${upPort.status}`);
+  try {
+    const blogsRaw = fs.readFileSync(path.join(__dirname, 'blogs.json'), 'utf8');
+    const upBlogs = await supabaseRequest('PATCH', '/rest/v1/site_content?id=eq.blogs_json', {
+      html_content: blogsRaw,
+      updated_at: new Date().toISOString()
+    });
+    console.log(`[Cloud-Protect] Synced normalized blogs.json to Supabase -> HTTP ${upBlogs.status}`);
+  } catch (bErr) {
+    console.warn('[Cloud-Protect] blogs_json sync warning:', bErr.message);
+  }
 }
 
 main().catch(err => {

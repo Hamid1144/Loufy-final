@@ -104,6 +104,44 @@
       ],
       "destination": "https://loufypublisher.com/$1",
       "permanent": true
+    },
+    {
+      "source": "/blog/bestselling-book-interior-fonts-layout",
+      "destination": "/blog/book-interior-formatting-for-kdp",
+      "permanent": true
+    },
+    {
+      "source": "/blog/hardcover-formatting-margin-spine-calculations",
+      "destination": "/blog/kdp-paperback-cover-size-guide",
+      "permanent": true
+    },
+    {
+      "source": "/blog/cost-of-self-publishing-launch-budget",
+      "destination": "/blog/how-much-does-a-book-cover-design-cost",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "has": [
+        {
+          "type": "query",
+          "key": "slug",
+          "value": "(?<slug>.*)"
+        }
+      ],
+      "destination": "/blog/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "missing": [
+        {
+          "type": "query",
+          "key": "slug"
+        }
+      ],
+      "destination": "/blogs",
+      "permanent": true
     }
   ],
   "rewrites": [
