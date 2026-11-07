@@ -180,6 +180,15 @@ async function main() {
           // Keep new local modern hero layout with platform marquee!
           continue;
         }
+        if (hasLocalMarquee && hasCloudMarquee) {
+          const localMarqueeMatch = localIndex.match(/<div class="hero-platforms-marquee-wrap">[\s\S]*?<\/div>\s*<\/div>/);
+          if (localMarqueeMatch) {
+            cloudBlock.inner = cloudBlock.inner.replace(
+              /<div class="hero-platforms-marquee-wrap">[\s\S]*?<\/div>\s*<\/div>/,
+              localMarqueeMatch[0]
+            );
+          }
+        }
       }
       if (prefix.startsWith('<section class="services"')) {
         const hasLocalDrop = localIndex.includes('services-energy-drop');
