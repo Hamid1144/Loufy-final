@@ -7384,3 +7384,217 @@ img.review-author-avatar,
 .formatting-marquee-item.portfolio-card[data-cat="formatting"] .portfolio-info {
     display: none !important;
 }
+
+
+/* ── EDITORIAL & RESOURCE KNOWLEDGE BASE (BRANDED & CLEAN) ── */
+.editorial-knowledge-section {
+  padding: 80px 0;
+  background: #fbfdfc;
+  border-top: 1px solid rgba(24, 76, 58, 0.08);
+  position: relative;
+  color: #1e293b;
+}
+
+.editorial-knowledge-section .section-header {
+  text-align: center;
+  max-width: 840px;
+  margin: 0 auto 48px;
+}
+
+.editorial-knowledge-section .section-header .section-tag {
+  margin-bottom: 14px;
+}
+
+.editorial-knowledge-section .section-header .section-title {
+  font-size: clamp(2rem, 3.2vw, 2.5rem);
+  font-weight: 800;
+  color: #0f3528;
+  margin-bottom: 16px;
+  line-height: 1.25;
+}
+
+.editorial-knowledge-section .section-header .section-desc {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #4a5568;
+}
+
+.editorial-knowledge-section .section-header .section-desc a {
+  color: #184C3A;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.editorial-knowledge-section .section-header .section-desc a:hover {
+  color: #f4b400;
+}
+
+.editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+.editorial-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(24, 76, 58, 0.09);
+  padding: 32px 28px;
+  box-shadow: 0 10px 30px rgba(24, 76, 58, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.editorial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(24, 76, 58, 0.1);
+  border-color: rgba(244, 180, 0, 0.45);
+}
+
+.editorial-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(24, 76, 58, 0.08);
+}
+
+.editorial-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(24, 76, 58, 0.08);
+  color: #184C3A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.editorial-card:hover .editorial-card-icon {
+  background: #f4b400;
+  color: #111111;
+  transform: scale(1.05);
+}
+
+.editorial-card-title {
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #0f3528;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.editorial-card-body {
+  font-size: 0.95rem;
+  line-height: 1.72;
+  color: #4a5568;
+  flex-grow: 1;
+}
+
+.editorial-card-body p {
+  margin-bottom: 14px;
+}
+
+.editorial-card-body p:last-child {
+  margin-bottom: 0;
+}
+
+.editorial-card-body a {
+  color: #184C3A;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.editorial-card-body a:hover {
+  color: #f4b400;
+}
+
+.editorial-card-body ul {
+  padding-left: 20px;
+  margin: 0 0 14px;
+}
+
+.editorial-card-body li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+/* List variant inside editorial cards (for blogs.html topic hubs) */
+.editorial-links-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editorial-link-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(24, 76, 58, 0.02);
+  border: 1px solid rgba(24, 76, 58, 0.05);
+  transition: all 0.25s ease;
+}
+
+.editorial-link-item:hover {
+  background: #ffffff;
+  border-color: rgba(244, 180, 0, 0.5);
+  box-shadow: 0 6px 18px rgba(24, 76, 58, 0.08);
+  transform: translateX(4px);
+}
+
+.editorial-link-item a {
+  color: #0f3528 !important;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none !important;
+  line-height: 1.45;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.editorial-link-item a i {
+  font-size: 0.72rem;
+  color: #f4b400;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.editorial-link-item:hover a {
+  color: #184C3A !important;
+}
+
+.editorial-link-item:hover a i {
+  transform: translateX(3px);
+  color: #184C3A;
+}
+
+.editorial-link-meta {
+  font-size: 0.8rem;
+  color: #718096;
+  padding-left: 17px;
+}
+
+@media (max-width: 768px) {
+  .editorial-knowledge-section {
+    padding: 50px 0;
+  }
+  .editorial-card {
+    padding: 24px 20px;
+  }
+}
