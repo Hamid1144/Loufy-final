@@ -206,6 +206,12 @@ module.exports = async (req, res) => {
         url: 'https://loufypublisher.com/favicon.png'
       }
     },
+    isPartOf: {
+      '@type': 'WebSite',
+      '@id': 'https://loufypublisher.com/#website',
+      name: 'Loufy Publisher',
+      url: 'https://loufypublisher.com/'
+    },
     description: seoDesc,
     mainEntityOfPage: {
       '@type': 'WebPage',
@@ -213,7 +219,32 @@ module.exports = async (req, res) => {
     }
   };
 
-  let schemasHtml = `<script type="application/ld+json">${JSON.stringify(blogPostingSchema)}</script>`;
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Loufy Publisher',
+        item: 'https://loufypublisher.com/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://loufypublisher.com/blogs'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.title,
+        item: canonicalUrl
+      }
+    ]
+  };
+
+  let schemasHtml = `<script type="application/ld+json">${JSON.stringify(blogPostingSchema)}</script>\n  <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`;
   if (faqs.length > 0) {
     const faqSchema = {
       '@context': 'https://schema.org',
