@@ -2973,11 +2973,11 @@ body.contact-page > section.contact {
     animation-play-state: paused;
 }
 
-/* 4 paperback covers visible at a time on desktop */
+/* Paperback covers matched exactly to formatting cards size */
 .paperback-covers-marquee-item {
-    width: calc((100vw - 96px) / 4) !important;
-    min-width: 280px !important;
-    max-width: 460px !important;
+    width: calc((100vw - 72px) / 3) !important;
+    min-width: 360px !important;
+    max-width: 620px !important;
     flex-shrink: 0 !important;
     margin: 0;
     transition: transform .35s ease, box-shadow .35s ease;
@@ -3005,7 +3005,7 @@ body.contact-page > section.contact {
 
 @media (max-width: 1024px) {
     .paperback-covers-marquee-item {
-        width: clamp(280px, 45vw, 380px) !important;
+        width: clamp(340px, 48vw, 450px) !important;
         min-width: unset !important;
         max-width: unset !important;
     }
@@ -3013,7 +3013,7 @@ body.contact-page > section.contact {
 
 @media (max-width: 768px) {
     .paperback-covers-marquee-item {
-        width: clamp(260px, 75vw, 320px) !important;
+        width: clamp(280px, 80vw, 360px) !important;
         min-width: unset !important;
         max-width: unset !important;
     }
@@ -3024,7 +3024,7 @@ body.contact-page > section.contact {
 
 @media (max-width: 480px) {
     .paperback-covers-marquee-item {
-        width: 280px !important;
+        width: 300px !important;
     }
 }
 
