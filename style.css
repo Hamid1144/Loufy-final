@@ -2772,11 +2772,11 @@ body.contact-page > section.contact {
     margin-left: -50vw;
     margin-right: -50vw;
     overflow: hidden;
-    padding: 20px 0;
+    padding: 10px 0 20px;
     display: flex;
     flex-direction: column;
     background: transparent;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .formatting-marquee {
@@ -2798,17 +2798,20 @@ body.contact-page > section.contact {
     animation-play-state: paused;
 }
 
+/* 3 formatting cards visible at a time on desktop */
 .formatting-marquee-item {
-    width: 850px !important;
+    width: calc((100vw - 72px) / 3) !important;
+    min-width: 360px !important;
+    max-width: 620px !important;
     flex-shrink: 0 !important;
     margin: 0;
     transition: transform .35s ease, box-shadow .35s ease;
 }
 
 .formatting-marquee-item .portfolio-thumb {
-    aspect-ratio: unset !important;
-    height: 510px !important;
-    min-height: 510px !important;
+    aspect-ratio: 16 / 10 !important;
+    height: auto !important;
+    min-height: unset !important;
     width: 100% !important;
     background: #ffffff !important;
 }
@@ -2825,26 +2828,28 @@ body.contact-page > section.contact {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
 }
 
+@media (max-width: 1024px) {
+    .formatting-marquee-item {
+        width: clamp(340px, 48vw, 450px) !important;
+        min-width: unset !important;
+        max-width: unset !important;
+    }
+}
+
 @media (max-width: 768px) {
     .formatting-marquee-item {
-        width: 580px !important;
-    }
-    .formatting-marquee-item .portfolio-thumb {
-        height: 350px !important;
-        min-height: 350px !important;
+        width: clamp(280px, 80vw, 360px) !important;
+        min-width: unset !important;
+        max-width: unset !important;
     }
     .formatting-marquee-container {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 }
 
 @media (max-width: 480px) {
     .formatting-marquee-item {
-        width: 380px !important;
-    }
-    .formatting-marquee-item .portfolio-thumb {
-        height: 230px !important;
-        min-height: 230px !important;
+        width: 300px !important;
     }
 }
 
@@ -2942,11 +2947,11 @@ body.contact-page > section.contact {
     margin-left: -50vw;
     margin-right: -50vw;
     overflow: hidden;
-    padding: 20px 0;
+    padding: 10px 0 20px;
     display: flex;
     flex-direction: column;
     background: transparent;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .paperback-covers-marquee {
@@ -2968,17 +2973,20 @@ body.contact-page > section.contact {
     animation-play-state: paused;
 }
 
+/* 4 paperback covers visible at a time on desktop */
 .paperback-covers-marquee-item {
-    width: 850px !important;
+    width: calc((100vw - 96px) / 4) !important;
+    min-width: 280px !important;
+    max-width: 460px !important;
     flex-shrink: 0 !important;
     margin: 0;
     transition: transform .35s ease, box-shadow .35s ease;
 }
 
 .paperback-covers-marquee-item .portfolio-thumb {
-    aspect-ratio: unset !important;
-    height: 510px !important;
-    min-height: 510px !important;
+    aspect-ratio: 16 / 10 !important;
+    height: auto !important;
+    min-height: unset !important;
     width: 100% !important;
     background: #ffffff !important;
 }
@@ -2995,26 +3003,28 @@ body.contact-page > section.contact {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
 }
 
+@media (max-width: 1024px) {
+    .paperback-covers-marquee-item {
+        width: clamp(280px, 45vw, 380px) !important;
+        min-width: unset !important;
+        max-width: unset !important;
+    }
+}
+
 @media (max-width: 768px) {
     .paperback-covers-marquee-item {
-        width: 580px !important;
-    }
-    .paperback-covers-marquee-item .portfolio-thumb {
-        height: 350px !important;
-        min-height: 350px !important;
+        width: clamp(260px, 75vw, 320px) !important;
+        min-width: unset !important;
+        max-width: unset !important;
     }
     .paperback-covers-marquee-container {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 }
 
 @media (max-width: 480px) {
     .paperback-covers-marquee-item {
-        width: 380px !important;
-    }
-    .paperback-covers-marquee-item .portfolio-thumb {
-        height: 230px !important;
-        min-height: 230px !important;
+        width: 280px !important;
     }
 }
 
@@ -7341,4 +7351,36 @@ img.review-author-avatar,
   .pricing-amount {
     font-size: 1.7rem !important;
   }
+}
+
+
+/* ── Divided Portfolio Showcase Subsections ── */
+.portfolio-showcase-section {
+    width: 100%;
+    margin-top: 55px;
+    position: relative;
+}
+.portfolio-showcase-section:first-of-type {
+    margin-top: 10px;
+}
+.portfolio-showcase-section .showcase-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+.portfolio-showcase-section .showcase-header .section-tag {
+    margin-bottom: 12px;
+}
+.portfolio-showcase-section .showcase-header .section-title {
+    font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+.portfolio-showcase-section .showcase-header .section-sub {
+    margin: 0 auto;
+    max-width: 620px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+.formatting-marquee-item.portfolio-card[data-cat="formatting"] .portfolio-info {
+    display: none !important;
 }

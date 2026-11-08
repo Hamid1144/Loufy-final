@@ -1281,10 +1281,17 @@ window.initCoversMarquee = function() {
   });
   
   let marqueeContainer = document.querySelector('.covers-marquee-container');
+  const mountCovers = document.querySelector('.covers-marquee-mount');
   if (!marqueeContainer) {
     marqueeContainer = document.createElement('div');
     marqueeContainer.className = 'covers-marquee-container';
-    grid.parentNode.insertBefore(marqueeContainer, grid);
+    if (mountCovers) {
+      mountCovers.appendChild(marqueeContainer);
+    } else {
+      grid.parentNode.insertBefore(marqueeContainer, grid);
+    }
+  } else if (mountCovers && marqueeContainer.parentNode !== mountCovers) {
+    mountCovers.appendChild(marqueeContainer);
   }
   
   const targetMin = isMobile ? 5 : 8;
@@ -1342,16 +1349,20 @@ window.initCoversMarquee = function() {
   }
   if (activeFilter) {
     const cat = activeFilter.dataset.cat;
+    const showcaseCovers = document.getElementById('showcase-covers');
     if (isEdit) {
       marqueeContainer.style.display = 'none';
+      if (showcaseCovers) showcaseCovers.style.display = 'none';
       document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="covers"]').forEach(card => {
         card.style.display = 'block';
       });
     } else {
       if (cat === 'all' || cat === 'covers') {
         marqueeContainer.style.display = 'flex';
+        if (showcaseCovers) showcaseCovers.style.display = 'block';
       } else {
         marqueeContainer.style.display = 'none';
+        if (showcaseCovers) showcaseCovers.style.display = 'none';
       }
     }
     if (grid) {
@@ -1394,22 +1405,27 @@ window.initPaperbackCoversMarquee = function() {
   if (!paperbackCardsHTML.length) return;
   
   let marqueeContainer = document.querySelector('.paperback-covers-marquee-container');
+  const mountPb = document.querySelector('.paperback-covers-marquee-mount');
   if (!marqueeContainer) {
     marqueeContainer = document.createElement('div');
     marqueeContainer.className = 'paperback-covers-marquee-container';
-    
-    // Insert after covers marquee container if it exists, otherwise before the grid
-    const coversMarquee = document.querySelector('.covers-marquee-container');
-    if (coversMarquee) {
-      coversMarquee.parentNode.insertBefore(marqueeContainer, coversMarquee.nextSibling);
+    if (mountPb) {
+      mountPb.appendChild(marqueeContainer);
     } else {
-      grid.parentNode.insertBefore(marqueeContainer, grid);
+      const coversMarquee = document.querySelector('.covers-marquee-container');
+      if (coversMarquee) {
+        coversMarquee.parentNode.insertBefore(marqueeContainer, coversMarquee.nextSibling);
+      } else {
+        grid.parentNode.insertBefore(marqueeContainer, grid);
+      }
     }
+  } else if (mountPb && marqueeContainer.parentNode !== mountPb) {
+    mountPb.appendChild(marqueeContainer);
   }
   
   const isMobile = window.innerWidth < 768;
-  const pbTargetMin = isMobile ? 4 : 8;
-  const sampleCardsHTML = paperbackCardsHTML.slice(0, isMobile ? 6 : 12);
+  const pbTargetMin = isMobile ? 6 : 16;
+  const sampleCardsHTML = paperbackCardsHTML.slice(0, isMobile ? 8 : 20);
   const singleHTMLs = [...sampleCardsHTML];
   while (singleHTMLs.length < pbTargetMin) {
     singleHTMLs.push(...sampleCardsHTML);
@@ -1454,16 +1470,20 @@ window.initPaperbackCoversMarquee = function() {
   }
   if (activeFilter) {
     const cat = activeFilter.dataset.cat;
+    const showcasePb = document.getElementById('showcase-paperback-covers');
     if (isEdit) {
       marqueeContainer.style.display = 'none';
+      if (showcasePb) showcasePb.style.display = 'none';
       document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="paperback-covers"]').forEach(card => {
         card.style.display = 'block';
       });
     } else {
       if (cat === 'all' || cat === 'paperback-covers') {
         marqueeContainer.style.display = 'flex';
+        if (showcasePb) showcasePb.style.display = 'block';
       } else {
         marqueeContainer.style.display = 'none';
+        if (showcasePb) showcasePb.style.display = 'none';
       }
     }
   }
@@ -1489,26 +1509,30 @@ window.initFormattingMarquee = function() {
   if (!formattingCardsHTML.length) return;
   
   let marqueeContainer = document.querySelector('.formatting-marquee-container');
+  const mountFmt = document.querySelector('.formatting-marquee-mount');
   if (!marqueeContainer) {
     marqueeContainer = document.createElement('div');
     marqueeContainer.className = 'formatting-marquee-container';
-    
-    // Insert after covers marquee container if it exists, otherwise before the grid
-    const paperbackMarquee = document.querySelector('.paperback-covers-marquee-container');
-    const coversMarquee = document.querySelector('.covers-marquee-container');
-    if (paperbackMarquee) {
-      paperbackMarquee.parentNode.insertBefore(marqueeContainer, paperbackMarquee.nextSibling);
-    } else if (coversMarquee) {
-      coversMarquee.parentNode.insertBefore(marqueeContainer, coversMarquee.nextSibling);
+    if (mountFmt) {
+      mountFmt.appendChild(marqueeContainer);
     } else {
-      grid.parentNode.insertBefore(marqueeContainer, grid);
+      const paperbackMarquee = document.querySelector('.paperback-covers-marquee-container');
+      const coversMarquee = document.querySelector('.covers-marquee-container');
+      if (paperbackMarquee) {
+        paperbackMarquee.parentNode.insertBefore(marqueeContainer, paperbackMarquee.nextSibling);
+      } else if (coversMarquee) {
+        coversMarquee.parentNode.insertBefore(marqueeContainer, coversMarquee.nextSibling);
+      } else {
+        grid.parentNode.insertBefore(marqueeContainer, grid);
+      }
     }
+  } else if (mountFmt && marqueeContainer.parentNode !== mountFmt) {
+    mountFmt.appendChild(marqueeContainer);
   }
   
   const isMobile = window.innerWidth < 768;
-  const targetMin = isMobile ? 4 : 8;
-  // Use 12 cards to exactly match paperback covers track length and synchronize marquee speed
-  const sampleCardsHTML = formattingCardsHTML.slice(0, isMobile ? 6 : 12);
+  const targetMin = isMobile ? 6 : 12;
+  const sampleCardsHTML = formattingCardsHTML.slice(0, isMobile ? 8 : 16);
   const singleHTMLs = [...sampleCardsHTML];
   while (singleHTMLs.length < targetMin) {
     singleHTMLs.push(...sampleCardsHTML);
@@ -1553,16 +1577,20 @@ window.initFormattingMarquee = function() {
   }
   if (activeFilter) {
     const cat = activeFilter.dataset.cat;
+    const showcaseFmt = document.getElementById('showcase-formatting');
     if (isEdit) {
       marqueeContainer.style.display = 'none';
+      if (showcaseFmt) showcaseFmt.style.display = 'none';
       document.querySelectorAll('.portfolio-grid .portfolio-card[data-cat="formatting"]').forEach(card => {
         card.style.display = 'block';
       });
     } else {
       if (cat === 'all' || cat === 'formatting') {
         marqueeContainer.style.display = 'flex';
+        if (showcaseFmt) showcaseFmt.style.display = 'block';
       } else {
         marqueeContainer.style.display = 'none';
+        if (showcaseFmt) showcaseFmt.style.display = 'none';
       }
     }
   }
