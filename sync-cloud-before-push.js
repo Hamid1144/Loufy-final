@@ -179,6 +179,13 @@ async function main() {
           continue;
         }
       }
+      if (prefix.startsWith('<section class="about"')) {
+        if (cloudBlock && cloudBlock.inner) {
+          cloudBlock.inner = cloudBlock.inner
+            .replace(/<div class="num"[^>]*>\s*500\+\s*<\/div>/g, '<div class="num" data-admin-text="true">2500+</div>')
+            .replace(/<div class="num"[^>]*>\s*300\+\s*<\/div>/g, '<div class="num" data-admin-text="true">1500+</div>');
+        }
+      }
       if (prefix.startsWith('<section class="hero"')) {
         const hasLocalH1 = localIndex.includes('<h1 class="hero-main-headline"');
         const hasCloudH1 = cloudBlock && cloudBlock.inner.includes('<h1 class="hero-main-headline"');
