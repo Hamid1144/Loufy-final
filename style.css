@@ -79,82 +79,79 @@ img{max-width:100%;display:block}
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 section{padding:100px 0}
 /* ══════════════════════════════════════════════════════════════════════
-   EXECUTIVE LUXURY PILL BADGE SYSTEM (All Section Badges Across Entire Site)
+   SIGNATURE YELLOW ACCENT PILL SYSTEM (Matching Portfolio Accent Button)
    ══════════════════════════════════════════════════════════════════════ */
 .section-tag,
 .services-badge-pill,
-.blog-hero-category {
+.hero-pill-badge,
+.blog-hero-category,
+.about-content .section-tag {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(246, 250, 248, 0.88) 100%) !important;
-  backdrop-filter: blur(16px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-  border: 1.5px solid rgba(24, 76, 58, 0.18) !important;
-  border-radius: 50px !important;
-  padding: 8px 22px !important;
-  box-shadow: 0 4px 14px rgba(24, 76, 58, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03), inset 0 1px 1px #FFFFFF, inset 0 -1px 2px rgba(24, 76, 58, 0.04) !important;
-  color: #184C3A !important;
+  background: linear-gradient(135deg, #FFC72C 0%, #F4B400 50%, #E5A900 100%) !important;
+  color: #111111 !important;
   font-family: 'Outfit', 'Poppins', sans-serif !important;
-  font-size: 0.82rem !important;
+  font-size: 0.84rem !important;
   font-weight: 800 !important;
-  letter-spacing: 1.8px !important;
+  letter-spacing: 1.4px !important;
   text-transform: uppercase !important;
   line-height: 1 !important;
+  padding: 8px 24px !important;
+  border-radius: 50px !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 6px 18px rgba(244, 180, 0, 0.38), 
+              0 2px 4px rgba(0, 0, 0, 0.06), 
+              inset 0 1px 2px rgba(255, 255, 255, 0.55), 
+              inset 0 -1px 2px rgba(0, 0, 0, 0.12) !important;
   margin-bottom: 16px !important;
   transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
   cursor: default !important;
   position: relative !important;
   z-index: 2 !important;
+  text-shadow: none !important;
 }
 
-/* Crisp, Professional Gold Indicator Dot (No Muddy Blur) */
+.hero-pill-badge {
+  font-size: 0.92rem !important;
+  padding: 10px 28px !important;
+  letter-spacing: 2px !important;
+  margin-bottom: 18px !important;
+}
+
+.section-tag span,
+.services-badge-pill span,
+.hero-pill-badge span,
+.blog-hero-category span {
+  color: #111111 !important;
+  font-weight: 800 !important;
+  letter-spacing: inherit !important;
+}
+
+/* Hide dot to match the clean solid yellow button aesthetic in image 2 */
 .section-tag::before,
 .services-badge-pill::before,
 .hero-pill-badge::before,
 .blog-hero-category::before {
-  content: '' !important;
-  display: inline-block !important;
-  width: 8px !important;
-  height: 8px !important;
-  border-radius: 50% !important;
-  background: #184C3A !important;
-  box-shadow: 0 0 0 3px rgba(24, 76, 58, 0.14) !important;
-  animation: badgeLivePulse 2.6s ease-in-out infinite !important;
-  flex-shrink: 0 !important;
-  margin-right: 2px !important;
-}
-
-@keyframes badgeLivePulse {
-  0%, 100% {
-    transform: scale(1);
-    background: #184C3A;
-    box-shadow: 0 0 0 3px rgba(24, 76, 58, 0.14);
-  }
-  50% {
-    transform: scale(1.08);
-    background: #F4B400;
-    box-shadow: 0 0 0 4px rgba(244, 180, 0, 0.22);
-  }
+  display: none !important;
+  content: none !important;
 }
 
 .section-tag:hover,
 .services-badge-pill:hover,
 .hero-pill-badge:hover,
-.blog-hero-category:hover {
+.blog-hero-category:hover,
+.about-content .section-tag:hover {
   transform: translateY(-2px) scale(1.02) !important;
-  background: #FFFFFF !important;
-  border-color: #F4B400 !important;
-  box-shadow: 0 8px 25px rgba(244, 180, 0, 0.26), 0 2px 6px rgba(24, 76, 58, 0.08), inset 0 1px 1px #FFFFFF !important;
-  color: #0F3528 !important;
+  background: linear-gradient(135deg, #FFD24D 0%, #F4B400 50%, #E0A000 100%) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 10px 28px rgba(244, 180, 0, 0.52), 
+              0 3px 6px rgba(0, 0, 0, 0.08), 
+              inset 0 1px 2px rgba(255, 255, 255, 0.75) !important;
+  color: #111111 !important;
 }
 
-.about-content .section-tag {
-  background: rgba(255, 255, 255, 0.15) !important;
-  border-color: rgba(244, 180, 0, 0.5) !important;
-  color: #FFE066 !important;
-}
 .section-title{font-size:2.6rem;font-weight:800;margin-bottom:16px;line-height:1.2}
 .section-sub{color:#666;font-size:1.05rem;max-width:560px;line-height:1.7}
 /* Accessibility & SEO Screen-reader Utility */
@@ -4820,35 +4817,46 @@ body.edit-mode .hero-float-card {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 10px !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(246, 250, 248, 0.88) 100%) !important;
-  backdrop-filter: blur(16px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  color: #184C3A !important;
+  gap: 8px !important;
+  background: linear-gradient(135deg, #FFC72C 0%, #F4B400 50%, #E5A900 100%) !important;
+  color: #111111 !important;
   font-family: 'Outfit', 'Poppins', sans-serif !important;
-  font-size: 1.05rem !important;
+  font-size: 0.95rem !important;
   font-weight: 850 !important;
-  letter-spacing: 2.5px !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
   padding: 10px 28px !important;
   border-radius: 50px !important;
   margin-bottom: 18px !important;
-  border: 1.5px solid rgba(24, 76, 58, 0.2) !important;
-  box-shadow: 0 4px 18px rgba(24, 76, 58, 0.08), 
-              0 1px 3px rgba(0, 0, 0, 0.04), 
-              inset 0 1px 1px #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 6px 18px rgba(244, 180, 0, 0.38), 
+              0 2px 4px rgba(0, 0, 0, 0.06), 
+              inset 0 1px 2px rgba(255, 255, 255, 0.55), 
+              inset 0 -1px 2px rgba(0, 0, 0, 0.12) !important;
   transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
   position: relative !important;
   z-index: 2 !important;
 }
 
+.hero-pill-badge span {
+  color: #111111 !important;
+  font-weight: 850 !important;
+}
+
+.hero-pill-badge::before {
+  display: none !important;
+  content: none !important;
+}
+
 .hero-pill-badge:hover {
   transform: translateY(-2px) scale(1.02) !important;
-  background: #FFFFFF !important;
-  border-color: #F4B400 !important;
-  box-shadow: 0 8px 25px rgba(244, 180, 0, 0.28), 
-              0 2px 8px rgba(0, 0, 0, 0.05), 
-              inset 0 1px 1px #FFFFFF !important;
-  color: #0F3528 !important;
+  background: linear-gradient(135deg, #FFD24D 0%, #F4B400 50%, #E0A000 100%) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 10px 28px rgba(244, 180, 0, 0.52), 
+              0 3px 6px rgba(0, 0, 0, 0.08), 
+              inset 0 1px 2px rgba(255, 255, 255, 0.75) !important;
+  color: #111111 !important;
 }
 
 .hero-main-title {
