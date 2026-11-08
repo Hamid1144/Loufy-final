@@ -7598,3 +7598,75 @@ img.review-author-avatar,
     padding: 24px 20px;
   }
 }
+
+
+/* Feature items inside editorial cards (Used across contact, about, pricing, testimonials, portfolio) */
+.editorial-feature-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editorial-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(24, 76, 58, 0.02);
+  border: 1px solid rgba(24, 76, 58, 0.06);
+  transition: all 0.25s ease;
+}
+
+.editorial-feature-item:hover {
+  background: #ffffff;
+  border-color: rgba(244, 180, 0, 0.45);
+  box-shadow: 0 6px 18px rgba(24, 76, 58, 0.06);
+  transform: translateX(3px);
+}
+
+.editorial-feature-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(244, 180, 0, 0.15);
+  color: #d99b1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.editorial-feature-item:hover .editorial-feature-icon {
+  background: #f4b400;
+  color: #111111;
+}
+
+.editorial-feature-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #4a5568;
+}
+
+.editorial-feature-text strong {
+  color: #0f3528;
+  font-weight: 700;
+}
+
+.editorial-card-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #184C3A;
+  background: rgba(24, 76, 58, 0.08);
+  padding: 3px 10px;
+  border-radius: 50px;
+  margin-top: 4px;
+}
